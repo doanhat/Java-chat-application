@@ -1,4 +1,5 @@
 package commun.Communication.Client;
+import commun.Data.Channel;
 
 public interface IDataToCommunication
 {
@@ -9,10 +10,9 @@ public interface IDataToCommunication
     void userConnexion();
 
     /**
-     * Transfert au serveur la demande de suppresion d'un objet
+     * Transfert au serveur la demande de suppresion d'un channel
      *
      * @param objectId [ID] ID de l'objet à supprimer
      **/
-    // TODO verify class ID
-    //void delete(ID objectId);
+    void delete(Channel channel);
 }

@@ -36,7 +36,7 @@ public interface IIHMChannelToCommunication
      * Envoie d'un message au serveur
      *
      * @param msg Nouveau messsage a envoyer
-     * @param channel Channel sur lequel le message est envoyeChannel sur lequel ont veut envoyer le message
+     * @param channel Channel sur lequel ont veut envoyer le message
      * @param reponse Message auquel le nouveau message repond sinon null
      **/
     void sendMessage(Message msg, Channel channel, Message reponse);
