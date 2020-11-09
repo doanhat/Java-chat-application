@@ -1,4 +1,4 @@
-package commun.Communication.Client;
+package commun.interfaces.client;
 import commun.Data.Channel;
 
 public interface IDataToCommunication

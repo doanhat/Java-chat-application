@@ -1,4 +1,4 @@
-package commun.Communication.Server;
+package commun.interfaces.server;
 
 public interface IServerDataToCommunication
 {
