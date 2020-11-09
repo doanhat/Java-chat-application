@@ -1,5 +1,8 @@
 package common.interfaces.client;
 
+import java.util.List;
+import common.sharedData.Channel;
+
 /**
  * Interface fournie par le module IHMMain pour le module Data
  */

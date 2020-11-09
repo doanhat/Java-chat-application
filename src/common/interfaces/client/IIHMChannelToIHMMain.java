@@ -1,5 +1,7 @@
 package common.interfaces.client;
 
+import common.sharedData.Channel;
+
 /**
  * Cette classe offre les méthodes nécessaire par IHMChannel vis à vis de IHMMain
  */

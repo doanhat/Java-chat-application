@@ -1,4 +1,7 @@
 package common.interfaces.client;
+
+import common.sharedData.Channel;
+
 /**
  * Les actions de redirection entre l'application et les channels
  * @author Emna
