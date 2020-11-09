@@ -13,7 +13,7 @@ public interface IIHMChannelToCommunication
      * @param receiver [UserLite] Utilisateur qui doit recevoir l'invitation
      * @param message [Message] Message d'invitation
      **/
-    void sendInvite( UserLite sender, UserLite receiver, Message message);
+    void sendInvite(UserLite sender, UserLite receiver, Message message);
 
     /**
      * Demande l'envoie d'un message de nomination d'administrateur au serveur
