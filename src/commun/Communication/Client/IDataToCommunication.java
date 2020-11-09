@@ -12,7 +12,7 @@ public interface IDataToCommunication
     /**
      * Transfert au serveur la demande de suppresion d'un channel
      *
-     * @param objectId [ID] ID de l'objet à supprimer
+     * @param channel [ID] ID de l'objet à supprimer
      **/
     void delete(Channel channel);
 }
