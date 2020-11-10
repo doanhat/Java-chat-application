@@ -1,4 +1,4 @@
-package Communication.common;
+package Communication.client;
 
 public abstract class CommunicationController {
 }
