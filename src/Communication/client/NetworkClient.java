@@ -1,21 +1,21 @@
 package Communication.client;
 
 import Communication.common.NetworkMessage;
-import Communication.server.NetworkServerReader;
-import Communication.server.NetworkServerWriter;
+import Communication.common.NetworkReader;
+import Communication.common.NetworkWriter;
 
 import java.io.IOException;
 import java.net.Socket;
 
 public class NetworkClient {
-    private CommunicationController refToCommControler;
+    private CommunicationClientController refToCommControler;
     private Socket comm;
     private String ip;
     private int port;
-    private NetworkClientReader reader;
-    private NetworkClientWriter writer;
+    private NetworkReader reader;
+    private NetworkWriter writer;
 
-    public NetworkClient(CommunicationController ref) {
+    public NetworkClient(CommunicationClientController ref) {
         refToCommControler = ref;
     }
 
@@ -31,12 +31,16 @@ public class NetworkClient {
         this.ip = ip;
         this.port = port;
         comm = new Socket(ip, port);
-        reader = new NetworkClientReader(refToCommControler, comm);
-        writer = new NetworkClientWriter(comm);
+        System.out.println("Connection à " + ip + ":" + port);
+        reader = new NetworkReader(refToCommControler, comm);
+        writer = new NetworkWriter(comm);
+        reader.start();
+        writer.start();
     }
 
-    public void sendMessage(NetworkMessage message){
+    public void sendMessage(NetworkMessage message) {
         try {
+            writer.notifyFileMessage();
             writer.sendMessage(message);
         } catch (IOException e) {
             e.printStackTrace();

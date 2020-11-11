@@ -1,21 +1,17 @@
-package Communication.client;
+package Communication.common;
 
-import Communication.common.NetworkMessage;
-import sun.nio.ch.Net;
-
-import java.io.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.util.List;
 
-public class NetworkClientReader implements Runnable {
-
+public class NetworkReader extends Thread {
     private CommunicationController refToControler;
     private Socket client;
-    private Boolean running;
     private ObjectInputStream dis;
     private List<NetworkMessage> fileMessage;
 
-    public NetworkClientReader(CommunicationController ref, Socket client) throws IOException {
+    public NetworkReader(CommunicationController ref, Socket client) throws IOException {
         this.refToControler = ref;
         this.client = client;
         this.dis = new ObjectInputStream(client.getInputStream());

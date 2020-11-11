@@ -24,14 +24,19 @@ public class NetworkServer {
             Thread acceptor = new Thread() {
                 @Override
                 public void run() {
-                    try {
-                        Socket client = comm.accept();
-                        connexion.put(client.getInetAddress().getAddress().toString(), new AID(refToCommServerController, client));
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    while (true) {
+                        try {
+                            Socket client = comm.accept();
+                            connexion.put(client.getInetAddress().getAddress().toString(), new AID(refToCommServerController, client));
+                            System.out.println("Nouveau client");
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             };
+            acceptor.start();
+            System.out.println("Serveur en écoute sur le port " + port);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -1,8 +1,7 @@
 package Communication.common;
 
-import Communication.client.CommunicationController;
+import java.io.Serializable;
 
-public abstract class NetworkMessage
-{
+public abstract class NetworkMessage implements Serializable {
     public abstract void handle(CommunicationController controller);
 }

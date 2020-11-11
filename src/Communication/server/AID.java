@@ -1,9 +1,8 @@
 package Communication.server;
 
-import Communication.client.CommunicationController;
-import Communication.client.NetworkClientReader;
-import Communication.client.NetworkClientWriter;
 import Communication.common.NetworkMessage;
+import Communication.common.NetworkReader;
+import Communication.common.NetworkWriter;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -14,17 +13,20 @@ public class AID {
     private CommunicationServerController refToCommControler;
     private String ip;
     private UUID id;
-    private NetworkServerReader reader;
-    private NetworkServerWriter writer;
+    private NetworkReader reader;
+    private NetworkWriter writer;
 
     public AID(CommunicationServerController ref, Socket comm) {
         refToCommControler = ref;
         try {
-            reader = new NetworkServerReader(refToCommControler, comm);
-            writer = new NetworkServerWriter(comm);
+            writer = new NetworkWriter(comm);
+            reader = new NetworkReader(refToCommControler, comm);
+            writer.start();
+            reader.start();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     public void setIp(String ip) {
@@ -32,8 +34,9 @@ public class AID {
     }
 
 
-    public void sendMessage(NetworkMessage message){
+    public void sendMessage(NetworkMessage message) {
         try {
+            writer.notifyFileMessage();
             writer.sendMessage(message);
         } catch (IOException e) {
             e.printStackTrace();
