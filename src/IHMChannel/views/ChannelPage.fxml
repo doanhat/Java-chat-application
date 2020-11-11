@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.text.Text?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="IHMChannel.controllers.ChannelController">
+    <VBox fx:id="channelPage">
+        <HBox fx:id="menuBar">
+            <Button fx:id="back" text="back"/>
+            <VBox>
+                <Text fx:id="channelName"/>
+                <Text fx:id="channelDescription"/>
+            </VBox>
+            <Button fx:id="seeMembersBtn" onAction="#seeMembers"/>
+            <Button fx:id="addMemberBtn" onAction="#addUserToChannel"/>
+            <Button fx:id="leaveChannelBtn" onAction="#leaveChannel"/>
+        </HBox>
+
+        <BorderPane fx:id="pageToDisplay"/>
+        <!--
+        MOVED TO ChannelMessages.fxml
+        <ListView fx:id="listMessages">
+
+        </ListView>
+
+        <HBox>
+            <ImageView fx:id="profilePic"/>
+            <TextArea fx:id="typedText"/>
+            <Button fx:id="sendBtn" onAction="#sendMessage"/>
+        </HBox>
+        -->
+    </VBox>
+</AnchorPane>
