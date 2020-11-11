@@ -22,7 +22,7 @@ public class MessageDisplay {
      */
     public MessageDisplay(Message msg) throws IOException {
         FXMLLoader fxmlLoader =
-                new FXMLLoader(getClass().getResource("views/Message.fxml"));
+                new FXMLLoader(getClass().getResource("views/MessageControl.fxml"));
         root = fxmlLoader.load();
         messageController = fxmlLoader.getController();
         messageController.setMessageToDisplay(msg);

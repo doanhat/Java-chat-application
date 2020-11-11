@@ -1,6 +1,6 @@
 package IHMChannel;
 
-import IHMChannel.controllers.ChannelMembersController;
+import IHMChannel.controllers.ChannelMembers;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
@@ -11,7 +11,7 @@ import java.io.IOException;
  */
 public class ChannelMembersDisplay {
     public Parent root= null;
-    public ChannelMembersController membersController;
+    public ChannelMembers membersController;
 
     public ChannelMembersDisplay() throws IOException {
         FXMLLoader fxmlLoader =
