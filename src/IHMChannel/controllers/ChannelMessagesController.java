@@ -18,7 +18,7 @@ import java.io.IOException;
 /**
  * Contrôleur de la vue "ChannelMessages" dans laquelle on retrouve l'affichage et la saisie de messages d'un channel
  */
-public class ChannelMessages {
+public class ChannelMessagesController {
     UserLite connectedUser; //tmp
 
     @FXML
@@ -33,7 +33,7 @@ public class ChannelMessages {
     //Liste de HBox (= contrôle message)
     ObservableList<HBox> messagesToDisplay = FXCollections.observableArrayList();
 
-    public ChannelMessages(){
+    public ChannelMessagesController(){
         connectedUser = new UserLite();
         connectedUser.setNickName("Léa");
     }

@@ -5,7 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
-public class MemberControl {
+public class MemberController {
     UserLite userToDisplay;
     @FXML
     ImageView profilePic;
