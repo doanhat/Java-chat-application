@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Text?>
 <HBox xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="IHMChannel.controllers.MemberControl">
+            fx:controller="IHMChannel.controllers.MemberController">
         <ImageView fx:id="profilePic"/>
         <ImageView fx:id="connectedIcon"/>
         <Text fx:id="username"/>

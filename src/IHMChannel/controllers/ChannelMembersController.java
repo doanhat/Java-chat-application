@@ -13,14 +13,14 @@ import java.io.IOException;
 /**
  * Contrôleur de la vue "ChannelMembers" qui contient la liste des membres d'un channel et les options d'affichage de cette liste
  */
-public class ChannelMembers {
+public class ChannelMembersController {
     @FXML
     ListView membersList;
     ObservableList<HBox> membersToDisplay = FXCollections.observableArrayList();
 
     //TODO gérer les radio buttons /!\ listener
 
-    public ChannelMembers(){
+    public ChannelMembersController(){
 
     }
 

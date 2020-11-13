@@ -1,6 +1,6 @@
 package IHMChannel;
 
-import IHMChannel.controllers.ChannelMessages;
+import IHMChannel.controllers.ChannelMessagesController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
@@ -12,7 +12,7 @@ import java.io.IOException;
 public class ChannelMessagesDisplay {
 
     public Parent root= null;
-    public ChannelMessages controller;
+    public ChannelMessagesController controller;
 
     public ChannelMessagesDisplay() throws IOException {
         FXMLLoader fxmlLoader =
