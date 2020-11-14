@@ -1,6 +1,9 @@
 package IHMChannel.controllers;
 
 import IHMChannel.MemberDisplay;
+import IHMChannel.MessageDisplay;
+import common.sharedData.Channel;
+import common.sharedData.Message;
 import common.sharedData.UserLite;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,6 +20,7 @@ public class ChannelMembersController {
     @FXML
     ListView membersList;
     ObservableList<HBox> membersToDisplay = FXCollections.observableArrayList();
+    Channel channel;
 
     //TODO gérer les radio buttons /!\ listener
 
@@ -25,26 +29,27 @@ public class ChannelMembersController {
     }
 
     public void initialize() throws IOException {
-        //Membres
-        UserLite tmpUser = new UserLite();
-        tmpUser.setNickName("Léa");
-        HBox tmp = (HBox) new MemberDisplay(tmpUser).root;
-        membersToDisplay.add(tmp);
-        tmpUser.setNickName("Aida");
-        tmp = (HBox) new MemberDisplay(tmpUser).root;
-        membersToDisplay.add(tmp);
-        tmpUser.setNickName("Lucas");
-        tmp = (HBox) new MemberDisplay(tmpUser).root;
-        membersToDisplay.add(tmp);
-        tmpUser.setNickName("Vladimir");
-        tmp = (HBox) new MemberDisplay(tmpUser).root;
-        membersToDisplay.add(tmp);
-        tmpUser.setNickName("Jérôme");
-        tmp = (HBox) new MemberDisplay(tmpUser).root;
-        membersToDisplay.add(tmp);
-        tmpUser.setNickName("Van-Triet");
-        tmp = (HBox) new MemberDisplay(tmpUser).root;
-        membersToDisplay.add(tmp);
+    }
+
+    public void setChannel(Channel channel){
+        this.channel = channel;
+        try {
+            displayMessagesList();
+        } catch (IOException e) {
+            System.out.println("Erreur lors de l'affichage des membres du channel");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Initialise l'affichage de la liste des membres (acceptedPerson) contenus dans l'attribut channel de la classe
+     */
+    private void displayMessagesList() throws IOException {
+        membersToDisplay.removeAll(); //réinitialisation
+        for (UserLite usr : this.channel.getAcceptedPersons()){
+            membersToDisplay.add((HBox) new MemberDisplay(usr).root);
+        }
         membersList.setItems(membersToDisplay);
     }
+
 }

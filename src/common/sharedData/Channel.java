@@ -17,13 +17,10 @@ public abstract class Channel implements Serializable {
 	private UserLite creator;
 	private String description;
 	private Visibility visibility;
-	private List<UserLite> administrators;
-	private List<UserLite> acceptedPersons;
+	private ObservableList<UserLite> administrators;
+	private ObservableList<UserLite> acceptedPersons;
 	private Map<UserLite, String> nickNames;
 	private List<Kick> kicked;
-	//private List<Message> messages;
-
-	//MODIF : Liste observable pour JavaFX :
 	private ObservableList<Message> messages;
 	
 	public Channel(int id, String name, UserLite creator, String description, Visibility visibility) {
@@ -32,15 +29,13 @@ public abstract class Channel implements Serializable {
 		this.creator = creator;
 		this.description = description;
 		this.visibility = visibility;
-		this.administrators = new ArrayList<UserLite>();
+		this.administrators = FXCollections.observableArrayList(new ArrayList<UserLite>());
 		this.administrators.add(creator);
-		this.acceptedPersons = new ArrayList<UserLite>();
+		this.acceptedPersons = FXCollections.observableArrayList(new ArrayList<UserLite>());
 		this.acceptedPersons.add(creator);
 		this.nickNames = new HashMap<UserLite, String>();
 		this.nickNames.put(creator, creator.getNickName());
 		this.kicked = new ArrayList<Kick>();
-		//this.messages = new ArrayList<Message>();
-		// JavaFX observable list :
 		this.messages = FXCollections.observableArrayList(new ArrayList<Message>());
 	}
 	
@@ -84,20 +79,20 @@ public abstract class Channel implements Serializable {
 		this.visibility = visibility;
 	}
 	
-	public List<UserLite> getAdministrators() {
+	public ObservableList<UserLite> getAdministrators() {
 		return administrators;
 	}
 	
 	public void setAdministrators(List<UserLite> administrators) {
-		this.administrators = administrators;
+		this.administrators = FXCollections.observableArrayList(administrators);
 	}
 	
-	public List<UserLite> getAcceptedPersons() {
+	public ObservableList<UserLite> getAcceptedPersons() {
 		return acceptedPersons;
 	}
 	
 	public void setAcceptedPersons(List<UserLite> acceptedPersons) {
-		this.acceptedPersons = acceptedPersons;
+		this.acceptedPersons = FXCollections.observableArrayList(acceptedPersons);
 	}
 	
 	public Map<UserLite, String> getNickNames() {

@@ -53,9 +53,9 @@ public class ChannelController {
         channelName.setText(channel.getName());
         channelDescription.setText(channel.getDescription());
 
-        //TODO ici, on fera la màj de l'interface partie channel.
-        // Quand on voudra changer le channel affiché, un appel de setChannel pourra changer complétement l'affichage pour un autre channel
+        //On transmet aux 2 "sous-vues" le channel à afficher et chacune fait le traitement nécessaire
         channelMessagesDisplay.getController().setChannel(channel);
+        channelMembersDisplay.getController().setChannel(channel);
 
     }
 

@@ -11,12 +11,16 @@ import java.io.IOException;
  */
 public class ChannelMembersDisplay {
     public Parent root= null;
-    public ChannelMembersController membersController;
+    public ChannelMembersController controller;
+
+    public ChannelMembersController getController(){
+        return this.controller;
+    }
 
     public ChannelMembersDisplay() throws IOException {
         FXMLLoader fxmlLoader =
                 new FXMLLoader(getClass().getResource("views/ChannelMembers.fxml"));
         root = fxmlLoader.load();
-        membersController = fxmlLoader.getController();
+        controller = fxmlLoader.getController();
     }
 }

@@ -38,17 +38,30 @@ public class MainChannel extends Application {
      * Crée un channel et lui ajoute une liste de messages
      */
     private void initTestData(){
-        channelToDisplay = new OwnedChannel(1,"LO23",new UserLite(),"channel pour l'UV LO23", Visibility.PUBLIC);
+        //Utilisateurs
+        List<UserLite>listMembers = new ArrayList<>();
         UserLite usr1 = new UserLite();
         usr1.setNickName("toto");
+        listMembers.add(usr1);
         UserLite usr2 = new UserLite();
         usr2.setNickName("titi");
+        listMembers.add(usr2);
+        UserLite usr3 = new UserLite();
+        usr3.setNickName("tata");
+        listMembers.add(usr3);
+        UserLite usr4 = new UserLite();
+        usr4.setNickName("toutou");
+        listMembers.add(usr4);
 
+        //Messages
         List<Message> listMessages = new ArrayList<Message>();
         listMessages.add(new Message(1,"Salut, vous allez bien ?",usr1));
         listMessages.add(new Message(2,"Oui super et toi ?",usr2));
         listMessages.add(new Message(3,"T'as avancé le projet LO23 ?",usr1));
 
+        channelToDisplay = new OwnedChannel(1,"LO23",usr1,"channel pour l'UV LO23", Visibility.PUBLIC);
         channelToDisplay.setMessages(listMessages);
+        channelToDisplay.setAcceptedPersons(listMembers);
+
     }
 }
