@@ -16,7 +16,7 @@
         <Text fx:id="username"/>
         <ImageView fx:id="authorizationIcon"/>
         <Text fx:id="isThatYouText"/>
-        <ToggleButton fx:id="toggleAdminBtn" onAction="#toggleAdmin"/>
+        <ToggleButton fx:id="toggleAdminBtn" text="admin" onAction="#toggleAdmin"/>
         <Button fx:id="banBtn" text="ban"/>
 
 </HBox>

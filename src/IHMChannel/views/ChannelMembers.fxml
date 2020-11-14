@@ -14,7 +14,7 @@
             <fx:define>
                 <ToggleGroup fx:id="modeAffichage" />
             </fx:define>
-            <RadioButton fx:id="alphaBtn" text="alphabétique" toggleGroup="$modeAffichage"/>
+            <RadioButton fx:id="alphaBtn" text="alphabétique" toggleGroup="$modeAffichage" />
             <RadioButton fx:id="autorBtn" text="autorisations" toggleGroup="$modeAffichage"/>
             <RadioButton fx:id="onlineBtn" text="utilisateurs connectés" toggleGroup="$modeAffichage"/>
         </HBox>
