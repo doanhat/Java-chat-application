@@ -1,7 +1,6 @@
 package Communication.client;
 
 import Communication.common.CommunicationController;
-import Communication.common.NetworkMessageTest;
 
 import java.io.IOException;
 

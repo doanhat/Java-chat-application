@@ -4,7 +4,7 @@ import Communication.common.CommunicationController;
 
 public class CommunicationServerController extends CommunicationController {
 
-    private NetworkServer server;
+    private final NetworkServer server;
 
     public CommunicationServerController(){
         server = new NetworkServer(this, 8080);

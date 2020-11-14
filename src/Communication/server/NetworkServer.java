@@ -10,8 +10,8 @@ import java.util.Map;
 public class NetworkServer {
     private final CommunicationServerController refToCommServerController;
     private ServerSocket comm;
-    private int port; // Config
-    private Map<String, NetworkUser> connexion;
+    private final int port; // Config
+    private final Map<String, NetworkUser> connexion;
 
     public NetworkServer(CommunicationServerController ref, int port) {
         this.refToCommServerController = ref;
