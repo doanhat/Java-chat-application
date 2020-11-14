@@ -1,6 +1,7 @@
 package IHMChannel.controllers;
 
 import IHMChannel.MessageDisplay;
+import common.sharedData.Channel;
 import common.sharedData.Message;
 import common.sharedData.UserLite;
 import javafx.collections.FXCollections;
@@ -20,6 +21,7 @@ import java.io.IOException;
  */
 public class ChannelMessagesController {
     UserLite connectedUser; //tmp
+    Channel channel;
 
     @FXML
     ListView listMessages;
@@ -32,6 +34,19 @@ public class ChannelMessagesController {
 
     //Liste de HBox (= contrôle message)
     ObservableList<HBox> messagesToDisplay = FXCollections.observableArrayList();
+
+    public void setChannel(Channel channel){
+        this.channel = channel;
+        System.out.println(channel);
+        try{
+            displayMessagesList();
+        }
+        catch (Exception e){
+            System.out.println("Problème lors de l'affichage des messages");
+        }
+
+
+    }
 
     public ChannelMessagesController(){
         connectedUser = new UserLite();
@@ -46,12 +61,14 @@ public class ChannelMessagesController {
         sendIcon.setFitWidth(15);
         sendBtn.setGraphic(sendIcon);
 
+        /*
         //Messages
         HBox tmp = (HBox) new MessageDisplay(new Message(1,"Salut",connectedUser)).root;
         HBox tmp2 = (HBox) new MessageDisplay(new Message(2,"Comment ça va ?",connectedUser)).root;
         messagesToDisplay.add(tmp);
         messagesToDisplay.add(tmp2);
         listMessages.setItems(messagesToDisplay);
+         */
     }
 
     /**
@@ -59,9 +76,30 @@ public class ChannelMessagesController {
      */
     public void sendMessage() throws IOException {
 
+        //TODO
+        /*
         if(!typedText.getText().isEmpty()){
             messagesToDisplay.add((HBox)new MessageDisplay(new Message(1,typedText.getText(),connectedUser)).root);
             typedText.setText("");
         }
+         */
+    }
+
+    /**
+     * Initialise l'affichage de la liste des messages contenus dans l'attribut channel de la classe
+     */
+    private void displayMessagesList() throws IOException {
+        //TODO :
+        //Réinitialiser la liste actuelle de HBox (listMessages)
+        //Balayer la liste de messages du channel :
+            // Pour chaque message, on créé une HBox (MessageDisplay) et on l'ajoute à la liste
+        //listMessages.setItems
+
+        messagesToDisplay.removeAll(); //réinitialisation
+        for (Message msg : this.channel.getMessages()){
+            messagesToDisplay.add((HBox) new MessageDisplay(msg).root);
+        }
+        listMessages.setItems(messagesToDisplay);
+
     }
 }
