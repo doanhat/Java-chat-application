@@ -5,6 +5,7 @@ import common.sharedData.Channel;
 import common.sharedData.Message;
 import common.sharedData.UserLite;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -15,11 +16,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
 import java.io.IOException;
+import common.interfaces.client.IIHMChannelToCommunication;
 
 /**
  * Contrôleur de la vue "ChannelMessages" dans laquelle on retrouve l'affichage et la saisie de messages d'un channel
  */
-public class ChannelMessagesController {
+public class ChannelMessagesController{
     UserLite connectedUser; //tmp
     Channel channel;
 
@@ -31,9 +33,13 @@ public class ChannelMessagesController {
     TextArea typedText;
     @FXML
     Button sendBtn;
+    @FXML
+    Button testReception; //utilisé pour test uniquement
 
     //Liste de HBox (= contrôle message)
     ObservableList<HBox> messagesToDisplay = FXCollections.observableArrayList();
+
+    ListChangeListener<Message> messageListListener;
 
     public void setChannel(Channel channel){
         this.channel = channel;
@@ -44,8 +50,7 @@ public class ChannelMessagesController {
         catch (Exception e){
             System.out.println("Problème lors de l'affichage des messages");
         }
-
-
+        this.channel.getMessages().addListener(messageListListener);
     }
 
     public ChannelMessagesController(){
@@ -61,45 +66,54 @@ public class ChannelMessagesController {
         sendIcon.setFitWidth(15);
         sendBtn.setGraphic(sendIcon);
 
-        /*
-        //Messages
-        HBox tmp = (HBox) new MessageDisplay(new Message(1,"Salut",connectedUser)).root;
-        HBox tmp2 = (HBox) new MessageDisplay(new Message(2,"Comment ça va ?",connectedUser)).root;
-        messagesToDisplay.add(tmp);
-        messagesToDisplay.add(tmp2);
-        listMessages.setItems(messagesToDisplay);
-         */
+        // Définition listener sur la liste de messages
+        messageListListener = changed -> {
+            changed.next();
+            if(changed.wasAdded()){
+                for(Message msgAdded : changed.getAddedSubList()){
+                    try {
+                        messagesToDisplay.add((HBox) new MessageDisplay(msgAdded).root);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
     }
 
     /**
      * Méthode déclenchée au clic sur le bouton d'envoi de message.
      */
     public void sendMessage() throws IOException {
-
-        //TODO
-        /*
         if(!typedText.getText().isEmpty()){
-            messagesToDisplay.add((HBox)new MessageDisplay(new Message(1,typedText.getText(),connectedUser)).root);
+            //ATTENTION l'id du message est écrit en dur, on ne sait pas comment il est généré pour le moment.
+            // Ne paraît pas logique qu'il soit généré par IHM Channel, donc penser à un constructeur sans id
+            Message newMsg = new Message(0,typedText.getText(),connectedUser);
+            //TODO appel interface
+            //messagesToDisplay.add((HBox)new MessageDisplay(new Message(1,typedText.getText(),connectedUser)).root);
             typedText.setText("");
         }
-         */
+    }
+
+    /**
+     * Méthode de test déclenchée à l'appui sur le bouton "test réception"
+     * Génère l'ajout d'un message dans la liste de messages du channel.
+     */
+    public void receiveMessage(){
+        Message newMsg = new Message(99,"Salut, je suis un message reçu via le bouton de test",connectedUser);
+        this.channel.addMessage(newMsg);
     }
 
     /**
      * Initialise l'affichage de la liste des messages contenus dans l'attribut channel de la classe
      */
     private void displayMessagesList() throws IOException {
-        //TODO :
-        //Réinitialiser la liste actuelle de HBox (listMessages)
-        //Balayer la liste de messages du channel :
-            // Pour chaque message, on créé une HBox (MessageDisplay) et on l'ajoute à la liste
-        //listMessages.setItems
-
         messagesToDisplay.removeAll(); //réinitialisation
         for (Message msg : this.channel.getMessages()){
             messagesToDisplay.add((HBox) new MessageDisplay(msg).root);
         }
         listMessages.setItems(messagesToDisplay);
-
     }
+
+
 }

@@ -116,7 +116,7 @@ public abstract class Channel implements Serializable {
 		this.kicked = kicked;
 	}
 	
-	public List<Message> getMessages() {
+	public ObservableList<Message> getMessages() {
 		return messages;
 	}
 	

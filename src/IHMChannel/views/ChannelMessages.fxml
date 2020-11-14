@@ -16,6 +16,7 @@
             <ImageView fx:id="profilePic"/>
             <TextArea fx:id="typedText"/>
             <Button fx:id="sendBtn" onAction="#sendMessage"/>
+            <Button fx:id="testReception" text="test reception" onAction="#receiveMessage"/>
         </HBox>
     </VBox>
 </AnchorPane>
