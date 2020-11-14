@@ -6,24 +6,24 @@ import java.net.Socket;
 import java.util.List;
 
 public class NetworkReader extends Thread {
-    private CommunicationController refToControler;
-    private Socket client;
-    private ObjectInputStream dis;
-    private List<NetworkMessage> fileMessage;
+    private final CommunicationController refToController;
+    private final Socket comm;
+    private final ObjectInputStream ois;
+    //private List<NetworkMessage> messagesQueue;
 
     public NetworkReader(CommunicationController ref, Socket client) throws IOException {
-        this.refToControler = ref;
-        this.client = client;
-        this.dis = new ObjectInputStream(client.getInputStream());
+        this.refToController = ref;
+        this.comm = client;
+        this.ois = new ObjectInputStream(client.getInputStream());
     }
 
     @Override
     public void run() {
         while (true) {
             try {
-                NetworkMessage message = (NetworkMessage) dis.readObject();
-                message.handle(refToControler);
-                //fileMessage.add(message)
+                NetworkMessage message = (NetworkMessage) ois.readObject();
+                message.handle(refToController);
+                //messagesQueue.add(message)
             } catch (IOException|ClassNotFoundException e) {
                 e.printStackTrace();
             }
@@ -32,5 +32,11 @@ public class NetworkReader extends Thread {
 
     public NetworkMessage readMessage() {
         return null;
+    }
+
+    public void close() throws IOException {
+        if(!comm.isClosed()) {
+            comm.close();
+        }
     }
 }

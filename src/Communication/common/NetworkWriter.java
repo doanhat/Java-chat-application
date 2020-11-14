@@ -9,52 +9,45 @@ import java.util.List;
 
 public class NetworkWriter extends Thread {
 
-    private Socket comm;
-    private ObjectOutputStream dos;
-    private List<NetworkMessage> fileMessage;
+    private final Socket comm;
+    private final ObjectOutputStream oos;
+    private final List<NetworkMessage> messagesQueue;
 
     public NetworkWriter(Socket comm) throws IOException {
         this.comm = comm;
-        this.dos = new ObjectOutputStream(comm.getOutputStream());
-        fileMessage = Collections.synchronizedList(new ArrayList<>());
+        this.oos = new ObjectOutputStream(comm.getOutputStream());
+        messagesQueue = Collections.synchronizedList(new ArrayList<>());
     }
 
-    public void sendMessage(NetworkMessage message) throws IOException {
-        synchronized (fileMessage) {
-            fileMessage.add(message);
-            dos.writeObject(message);
+    public void sendMessage(NetworkMessage message) {
+        synchronized (messagesQueue) {
+            messagesQueue.add(message);
+            messagesQueue.notifyAll();
         }
     }
 
     @Override
     public void run() {
         while (true) {
-            synchronized (fileMessage) {
-                if (!fileMessage.isEmpty()) {
-                    try {
-                        NetworkMessage msg = fileMessage.remove(0);
-                        dos.writeObject(msg);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    try {
-                        fileMessage.wait();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+            try {
+                synchronized (messagesQueue) {
+                    if (!messagesQueue.isEmpty()) {
+                        NetworkMessage msg = messagesQueue.remove(0);
+                        oos.writeObject(msg);
+                    } else {
+                        messagesQueue.wait();
                     }
                 }
+            } catch (IOException | InterruptedException e) {
+                e.printStackTrace();
             }
         }
     }
 
-    public void notifyFileMessage() {
-        synchronized (fileMessage) {
-            fileMessage.notify();
+    public void close() throws IOException {
+        if(!comm.isClosed()) {
+            comm.close();
         }
     }
 
-    public List<NetworkMessage> getFileMessage() {
-        return fileMessage;
-    }
 }

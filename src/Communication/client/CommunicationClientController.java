@@ -1,14 +1,13 @@
 package Communication.client;
 
 import Communication.common.CommunicationController;
-import Communication.common.NetworkMessage;
 import Communication.common.NetworkMessageTest;
 
 import java.io.IOException;
 
 public class CommunicationClientController extends CommunicationController {
 
-    private NetworkClient client;
+    private final NetworkClient client;
 
     public CommunicationClientController() {
         client = new NetworkClient(this);

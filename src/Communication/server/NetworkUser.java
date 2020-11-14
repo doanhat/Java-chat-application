@@ -8,38 +8,26 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.UUID;
 
-public class AID {
+public class NetworkUser {
 
-    private CommunicationServerController refToCommControler;
-    private String ip;
+    private final CommunicationServerController refToCommController;
     private UUID id;
     private NetworkReader reader;
     private NetworkWriter writer;
 
-    public AID(CommunicationServerController ref, Socket comm) {
-        refToCommControler = ref;
+    public NetworkUser(CommunicationServerController ref, Socket comm) {
+        refToCommController = ref;
         try {
             writer = new NetworkWriter(comm);
-            reader = new NetworkReader(refToCommControler, comm);
+            reader = new NetworkReader(refToCommController, comm);
             writer.start();
             reader.start();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
-
-    public void setIp(String ip) {
-        this.ip = ip;
-    }
-
 
     public void sendMessage(NetworkMessage message) {
-        try {
-            writer.notifyFileMessage();
-            writer.sendMessage(message);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        writer.sendMessage(message);
     }
 }
