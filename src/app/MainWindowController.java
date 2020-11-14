@@ -7,14 +7,16 @@ import java.util.ResourceBundle;
 
 import IHMMain.ConnectionController;
 import IHMMain.IHMMainWindowController;
+import IHMTools.*;
 import javafx.fxml.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
-public class MainWindowController implements Initializable{
+public class MainWindowController implements Initializable {
 
     @FXML
     private AnchorPane root;
@@ -31,13 +33,14 @@ public class MainWindowController implements Initializable{
             ConnectionController connectionController = fxmlLoader.getController(); //On récupère la classe controller liée au fxml
             connectionController.setMainWindowController(this); //On donne au controller fils une référence de son controller parent
             this.root.getChildren().addAll(parent); //On ajoute le noeud parent (fxml) au noeud racine de cette vue
+            IHMTools.fitSizeToParent((Region) root, (Region) parent);
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
     }
 
     @FXML
-    public void loadIHMMainWindow(){
+    public void loadIHMMainWindow() {
         this.root.getChildren().clear(); //On efface les noeuds fils de la racine
         //On charge la vue IHMMainWindow
         try {
@@ -47,10 +50,10 @@ public class MainWindowController implements Initializable{
             IHMMainWindowController ihmMainWindowController = fxmlLoader.getController(); //On récupère la classe controller liée au fxml
             ihmMainWindowController.setMainWindowController(this); //On donne au controller fils une référence de son controller parent
             this.root.getChildren().addAll(parent); //On ajoute le noeud parent (fxml) au noeud racine de cette vue
+            IHMTools.fitSizeToParent((Region) root, (Region) parent);
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
     }
-
 
 }
