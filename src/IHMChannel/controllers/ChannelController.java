@@ -3,6 +3,7 @@ package IHMChannel.controllers;
 import IHMChannel.ChannelMembersDisplay;
 import IHMChannel.ChannelMessagesDisplay;
 import common.sharedData.Channel;
+import common.sharedData.Message;
 import common.sharedData.UserLite;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -137,5 +138,15 @@ public class ChannelController {
      */
     public void leaveChannel(){
 
+    }
+
+    /**
+     * Méthode de test déclenchée à l'appui sur le bouton "test réception"
+     * Génère l'ajout d'un message dans la liste de messages du channel.
+     * /!\ Bindée au bouton "back" pour test
+     */
+    public void receiveMessage(){
+        Message newMsg = new Message(99,"Salut, je suis un message reçu via le bouton de test",connectedUser);
+        this.channel.addMessage(newMsg);
     }
 }
