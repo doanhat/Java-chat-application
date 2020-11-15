@@ -1,7 +1,5 @@
 package common.sharedData;
 
-import java.beans.Visibility;
-
 public class SharedChannel extends Channel {
 
 	public SharedChannel(int id, String name, UserLite creator,

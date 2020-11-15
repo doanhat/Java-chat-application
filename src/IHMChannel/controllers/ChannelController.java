@@ -3,6 +3,7 @@ package IHMChannel.controllers;
 import IHMChannel.ChannelMembersDisplay;
 import IHMChannel.ChannelMessagesDisplay;
 import common.sharedData.Channel;
+import common.sharedData.Message;
 import common.sharedData.UserLite;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -40,8 +41,22 @@ public class ChannelController {
     ChannelMembersDisplay channelMembersDisplay;
     Boolean seeMessages = true;
 
+    /**
+     * Setter du channel
+     * Met à jour l'attribut channel du contrôleur (= celui qu'affiche la page)
+     * Met à jour le nom et la description du channel sur l'interface.
+     * @param channel
+     */
     public void setChannel(Channel channel) {
+        System.out.println("ChannelController.setChannel : "+channel);
         this.channel = channel;
+        channelName.setText(channel.getName());
+        channelDescription.setText(channel.getDescription());
+
+        //TODO ici, on fera la màj de l'interface partie channel.
+        // Quand on voudra changer le channel affiché, un appel de setChannel pourra changer complétement l'affichage pour un autre channel
+        channelMessagesDisplay.getController().setChannel(channel);
+
     }
 
     /**
@@ -49,6 +64,8 @@ public class ChannelController {
      * On y fait l'initialisation des données (et non pas de l'affichage)
      */
     public ChannelController(){
+        //tmp
+        // permet d'avoir un utilisateur temporaire pour l'affichage des messages
         connectedUser = new UserLite();
         connectedUser.setNickName("Léa");
     }
@@ -61,10 +78,6 @@ public class ChannelController {
         Cette méthode contient aussi les LISTENERS
         */
 
-        // TODO récupération dynamique des données d'après l'objet Channel lié
-        channelName.setText("Nom du Channel");
-        channelDescription.setText("Description du channel");
-
         iconsInit();
 
         //Affichage de la partie "messages"
@@ -73,7 +86,6 @@ public class ChannelController {
 
         //Chargement de la liste des utilisateurs
         channelMembersDisplay = new ChannelMembersDisplay();
-
     }
 
     private void iconsInit(){
@@ -98,8 +110,6 @@ public class ChannelController {
         exitIcon.setFitWidth(15);
         leaveChannelBtn.setGraphic(exitIcon);
     }
-
-
 
     /**
      * Méthode déclenchée au clic sur le bouton "voir les membres"
@@ -128,5 +138,15 @@ public class ChannelController {
      */
     public void leaveChannel(){
 
+    }
+
+    /**
+     * Méthode de test déclenchée à l'appui sur le bouton "test réception"
+     * Génère l'ajout d'un message dans la liste de messages du channel.
+     * /!\ Bindée au bouton "back" pour test
+     */
+    public void receiveMessage(){
+        Message newMsg = new Message(99,"Salut, je suis un message reçu via le bouton de test",connectedUser);
+        this.channel.addMessage(newMsg);
     }
 }

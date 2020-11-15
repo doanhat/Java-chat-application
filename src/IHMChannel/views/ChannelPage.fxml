@@ -13,7 +13,7 @@
             fx:controller="IHMChannel.controllers.ChannelController">
     <VBox fx:id="channelPage">
         <HBox fx:id="menuBar">
-            <Button fx:id="back" text="back"/>
+            <Button fx:id="back" text="back" onAction="#receiveMessage"/>
             <VBox>
                 <Text fx:id="channelName"/>
                 <Text fx:id="channelDescription"/>
