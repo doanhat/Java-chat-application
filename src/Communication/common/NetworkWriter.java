@@ -9,21 +9,23 @@ import java.util.List;
 
 public class NetworkWriter extends Thread
 {
-    private final Socket socket;
-    private final ObjectOutputStream oos;
-    private final List<NetworkMessage> messagesQueue;
+    // TODO: remove socket
+    //private final Socket socket;
+    //private final ObjectOutputStream oos;
+    private final List<DeliveryPacket> messagesQueue;
 
-    public NetworkWriter(Socket socket) throws IOException
+    public NetworkWriter()
     {
-        this.socket         = socket;
-        this.oos            = new ObjectOutputStream(this.socket.getOutputStream());
-        this.messagesQueue  = Collections.synchronizedList(new ArrayList<>());
+        //socket         = clientSocket;
+        //oos            = new ObjectOutputStream(socket.getOutputStream());
+        messagesQueue = Collections.synchronizedList(new ArrayList<>());
     }
 
-    public void sendMessage(NetworkMessage message)
+    public void sendMessage(DeliveryPacket packet)
     {
-        synchronized (messagesQueue) {
-            messagesQueue.add(message);
+        synchronized (messagesQueue)
+        {
+            messagesQueue.add(packet);
             messagesQueue.notifyAll();
         }
     }
@@ -39,8 +41,8 @@ public class NetworkWriter extends Thread
                 {
                     if (!messagesQueue.isEmpty())
                     {
-                        NetworkMessage msg = messagesQueue.remove(0);
-                        oos.writeObject(msg);
+                        DeliveryPacket packet = messagesQueue.remove(0);
+                        packet.send();
                     }
                     else {
                         messagesQueue.wait();
@@ -53,7 +55,7 @@ public class NetworkWriter extends Thread
             }
         }
     }
-
+/*
     public void close() throws IOException
     {
         if(!socket.isClosed())
@@ -61,5 +63,21 @@ public class NetworkWriter extends Thread
             socket.close();
         }
     }
+*/
+    public static class DeliveryPacket
+    {
+        private ObjectOutputStream receiver;
+        private NetworkMessage     message;
 
+        public DeliveryPacket(ObjectOutputStream receiver, NetworkMessage message)
+        {
+            this.receiver = receiver;
+            this.message  = message;
+        }
+
+        public void send() throws IOException
+        {
+            receiver.writeObject(message);
+        }
+    }
 }

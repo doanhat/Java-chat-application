@@ -11,16 +11,13 @@ public class NetworkUser
     private final CommunicationServerController commController;
     private UUID id;
     private NetworkReader reader;
-    private NetworkWriter writer;
 
     public NetworkUser(CommunicationServerController commController, Socket comm) {
         this.commController = commController;
 
         try
         {
-            this.writer = new NetworkWriter(comm);
             this.reader = new NetworkReader(commController, comm);
-            this.writer.start();
             this.reader.start();
         }
         catch (IOException e)
@@ -28,9 +25,10 @@ public class NetworkUser
             e.printStackTrace();
         }
     }
-
+/*
     public void sendMessage(NetworkMessage message)
     {
         writer.sendMessage(message);
     }
+ */
 }

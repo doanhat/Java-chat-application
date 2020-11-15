@@ -17,7 +17,7 @@ public class CommunicationClientController extends CommunicationController
     {
         try
         {
-            client.connexion(ip, port);
+            client.connect(ip, port);
             System.out.println("Connexion au server...");
         }
         catch (IOException e)

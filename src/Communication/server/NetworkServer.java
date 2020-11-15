@@ -10,33 +10,34 @@ import java.util.Map;
 public class NetworkServer
 {
     private final CommunicationServerController commController;
-    private ServerSocket comm;
+    private ServerSocket serverSocket;
     // TODO chose port to config
     private final int port;
-    private final Map<String, NetworkUser> connexion;
+    // TODO: move this to DF management
+    private final Map<String, NetworkUser> connection;
 
     public NetworkServer(CommunicationServerController commController, int port)
     {
         this.commController = commController;
-        this.port = port;
-        this.connexion = new HashMap<>();
+        this.port           = port;
+        this.connection     = new HashMap<>();
     }
 
     public void start()
     {
         try
         {
-            comm = new ServerSocket(port);
+            serverSocket = new ServerSocket(port);
 
             Thread acceptor = new Thread(() -> {
                 while (true)
                 {
                     try
                     {
-                        Socket client = comm.accept();
+                        Socket clientSocket = serverSocket.accept();
 
-                        connexion.put( Arrays.toString(client.getInetAddress().getAddress()),
-                                       new NetworkUser(commController, client) );
+                        connection.put( Arrays.toString(clientSocket.getInetAddress().getAddress()),
+                                        new NetworkUser(commController, clientSocket) );
 
                         System.out.println("Nouveau client");
                     }
@@ -59,9 +60,9 @@ public class NetworkServer
 
     public void close() throws IOException
     {
-        if (!comm.isClosed())
+        if (!serverSocket.isClosed())
         {
-            comm.close();
+            serverSocket.close();
         }
     }
 }

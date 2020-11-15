@@ -5,11 +5,14 @@ import Communication.common.NetworkReader;
 import Communication.common.NetworkWriter;
 
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class NetworkClient {
+public class NetworkClient
+{
     private final CommunicationClientController commController;
     private Socket socket;
+    private ObjectOutputStream socketOut;
     private NetworkReader reader;
     private NetworkWriter writer;
 
@@ -18,23 +21,26 @@ public class NetworkClient {
         this.commController = commController;
     }
 
-    public void connexion(String ip, int port) throws IOException
+    public void connect(String ip, int port) throws IOException
     {
         socket = new Socket(ip, port);
         System.out.println("Connection à " + ip + ":" + port);
+        socketOut = new ObjectOutputStream(socket.getOutputStream());
+
         reader = new NetworkReader(commController, socket);
-        writer = new NetworkWriter(socket);
+        writer = new NetworkWriter();
         reader.start();
         writer.start();
     }
 
-    public void sendMessage(NetworkMessage message) {
-        writer.sendMessage(message);
+    public void sendMessage(NetworkMessage message)
+    {
+        writer.sendMessage(new NetworkWriter.DeliveryPacket(socketOut, message));
     }
 
-    public void close() throws IOException {
+    public void close() throws IOException
+    {
         reader.close();
-        writer.close();
         socket.close();
     }
 }

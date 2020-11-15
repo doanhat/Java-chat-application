@@ -12,11 +12,11 @@ public class NetworkReader extends Thread
     private final ObjectInputStream ois;
     //private List<NetworkMessage> messagesQueue;
 
-    public NetworkReader(CommunicationController commController, Socket client) throws IOException
+    public NetworkReader(CommunicationController commController, Socket clientSocket) throws IOException
     {
         this.commController = commController;
-        this.socket = client;
-        this.ois = new ObjectInputStream(client.getInputStream());
+        this.socket = clientSocket;
+        this.ois = new ObjectInputStream(socket.getInputStream());
     }
 
     @Override
@@ -26,7 +26,8 @@ public class NetworkReader extends Thread
         {
             try
             {
-                NetworkMessage message = (NetworkMessage) ois.readObject();
+                NetworkMessage message = readMessage();
+                // TODO Dispatch message to TaskManager(thread pool manager)
                 message.handle(commController);
                 //messagesQueue.add(message)
             }
@@ -37,9 +38,9 @@ public class NetworkReader extends Thread
         }
     }
 
-    public NetworkMessage readMessage()
+    private NetworkMessage readMessage() throws IOException, ClassNotFoundException
     {
-        return null;
+        return (NetworkMessage) ois.readObject();
     }
 
     public void close() throws IOException
