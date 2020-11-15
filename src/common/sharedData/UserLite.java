@@ -1,17 +1,17 @@
 package common.sharedData;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 public class UserLite implements Serializable {
 
-	private int id;
+	private UUID id;
 	private String nickName;
 	private String avatar;
-	
-	public int getId() {
+	public UUID getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 	public String getNickName() {
@@ -26,6 +26,4 @@ public class UserLite implements Serializable {
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
 	}
-	
-	
 }

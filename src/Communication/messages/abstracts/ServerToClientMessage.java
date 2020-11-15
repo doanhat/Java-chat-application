@@ -2,7 +2,6 @@ package Communication.messages.abstracts;
 
 import Communication.client.CommunicationClientController;
 import Communication.common.CommunicationController;
-import Communication.messages.abstracts.NetworkMessage;
 
 public abstract class ServerToClientMessage extends NetworkMessage
 {
