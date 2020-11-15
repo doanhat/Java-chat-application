@@ -8,12 +8,12 @@ import static java.util.concurrent.Executors.newCachedThreadPool;
 public class TaskManager
 {
     private ExecutorService pool;
-    private List<Task> tasks;
+    private List<Task> cyclicTasks;
 
     public TaskManager()
     {
-        pool  = newCachedThreadPool();
-        tasks = new ArrayList<>();
+        pool        = newCachedThreadPool();
+        cyclicTasks = new ArrayList<>();
     }
 
     /**
@@ -22,7 +22,7 @@ public class TaskManager
      */
     public void appendTask(Task task)
     {
-        tasks.add(task);
+        cyclicTasks.add(task);
         pool.execute(task);
     }
 
@@ -39,7 +39,7 @@ public class TaskManager
     {
         pool.shutdown();
 
-        for (Task t: tasks)
+        for (Task t: cyclicTasks)
         {
             t.stop();
         }
