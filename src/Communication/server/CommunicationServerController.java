@@ -2,6 +2,8 @@ package Communication.server;
 
 import Communication.common.CommunicationController;
 
+import java.io.IOException;
+
 public class CommunicationServerController extends CommunicationController
 {
 
@@ -9,11 +11,27 @@ public class CommunicationServerController extends CommunicationController
 
     public CommunicationServerController()
     {
+        super();
+
         server = new NetworkServer(this, 8080);
     }
 
     public void start()
     {
         server.start();
+    }
+
+    public void stop()
+    {
+        taskManager.shutdown();
+
+        try
+        {
+            server.close();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 }

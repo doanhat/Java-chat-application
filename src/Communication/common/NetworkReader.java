@@ -5,7 +5,7 @@ import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.util.List;
 
-public class NetworkReader extends Thread
+public class NetworkReader extends Task
 {
     private final CommunicationController commController;
     private final ObjectInputStream socketIn;
@@ -20,7 +20,7 @@ public class NetworkReader extends Thread
     @Override
     public void run()
     {
-        while (true)
+        while (!cancel)
         {
             try
             {

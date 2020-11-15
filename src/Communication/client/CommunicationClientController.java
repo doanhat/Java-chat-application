@@ -10,6 +10,8 @@ public class CommunicationClientController extends CommunicationController
 
     public CommunicationClientController()
     {
+        super();
+
         client = new NetworkClient(this);
     }
 
@@ -26,4 +28,17 @@ public class CommunicationClientController extends CommunicationController
         }
     }
 
+    public void stop()
+    {
+        taskManager.shutdown();
+
+        try
+        {
+            client.close();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
 }

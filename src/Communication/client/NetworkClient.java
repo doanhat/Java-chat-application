@@ -1,5 +1,6 @@
 package Communication.client;
 
+import Communication.common.CommunicationController;
 import Communication.common.NetworkMessage;
 import Communication.common.NetworkReader;
 import Communication.common.NetworkWriter;
@@ -31,9 +32,9 @@ public class NetworkClient
         reader = new NetworkReader(commController, new ObjectInputStream(socket.getInputStream()));
         writer = new NetworkWriter();
 
-        // TODO: dispatch reader, writer to thread pool
-        reader.start();
-        writer.start();
+        // Dispatch reader, writer to thread pool
+        commController.taskManager.appendTask(reader);
+        commController.taskManager.appendTask(writer);
     }
 
     public void sendMessage(NetworkMessage message)

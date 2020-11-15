@@ -25,12 +25,11 @@ public class NetworkUser
         try
         {
             this.socketOut  = new ObjectOutputStream(this.socket.getOutputStream());
-
-            // TODO: dispatch reader to thread pool
             this.reader     = new NetworkReader(commController,
                                                 new ObjectInputStream(this.socket.getInputStream()));
 
-            this.reader.start();
+            // dispatch reader to thread pool
+            commController.taskManager.appendTask(this.reader);
         }
         catch (IOException e)
         {

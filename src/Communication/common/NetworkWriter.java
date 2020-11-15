@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class NetworkWriter extends Thread
+public class NetworkWriter extends Task
 {
     private final List<DeliveryPacket> messagesQueue;
 
@@ -28,7 +28,7 @@ public class NetworkWriter extends Thread
     @Override
     public void run()
     {
-        while (true)
+        while (!cancel)
         {
             try
             {
@@ -48,6 +48,28 @@ public class NetworkWriter extends Thread
             {
                 e.printStackTrace();
             }
+        }
+
+        cleanup();
+    }
+
+    @Override
+    public void stop()
+    {
+        cancel = true;
+
+        synchronized (messagesQueue)
+        {
+            messagesQueue.notifyAll();
+        }
+    }
+
+    @Override
+    public void cleanup()
+    {
+        synchronized (messagesQueue)
+        {
+            messagesQueue.clear();
         }
     }
 

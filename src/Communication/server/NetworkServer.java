@@ -2,6 +2,8 @@ package Communication.server;
 
 import Communication.common.NetworkWriter;
 import Communication.common.Parameters;
+import Communication.common.Task;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -31,29 +33,8 @@ public class NetworkServer
             serverSocket = new ServerSocket(Parameters.PORT);
             msgSender    = new NetworkWriter();
 
-            // TODO move acceptor, msgSender thread to thread pool
-            Thread acceptor = new Thread(() -> {
-                while (true)
-                {
-                    try
-                    {
-                        Socket clientSocket = serverSocket.accept();
-
-                        // TODO Use DF to manage connections
-                        connections.put( Arrays.toString(clientSocket.getInetAddress().getAddress()),
-                                         new NetworkUser(commController, clientSocket) );
-
-                        System.out.println("Nouveau client");
-                    }
-                    catch (IOException e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
-            });
-
-            acceptor.start();
-            msgSender.start();
+            commController.taskManager.appendTask(new ClientAcceptor(this));
+            commController.taskManager.appendTask(msgSender);
 
             System.out.println("Serveur en écoute sur le port " + Parameters.PORT);
         }
@@ -68,11 +49,51 @@ public class NetworkServer
         msgSender.sendMessage(packet);
     }
 
+    public void addNetworkUser(Socket clientSocket)
+    {
+        if (clientSocket != null)
+        {
+            connections.put( Arrays.toString(clientSocket.getInetAddress().getAddress()),
+                             new NetworkUser(commController, clientSocket) );
+        }
+    }
+
     public void close() throws IOException
     {
         if (!serverSocket.isClosed())
         {
             serverSocket.close();
+        }
+    }
+
+    private static class ClientAcceptor extends Task
+    {
+        private NetworkServer networkServer;
+
+        public ClientAcceptor(NetworkServer networkServer)
+        {
+            this.networkServer = networkServer;
+        }
+
+        @Override
+        public void run()
+        {
+            while (!cancel)
+            {
+                try
+                {
+                    Socket clientSocket = networkServer.serverSocket.accept();
+
+                    // TODO Use DF to manage connections
+                    networkServer.addNetworkUser(clientSocket);
+
+                    System.out.println("Nouveau client");
+                }
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }
