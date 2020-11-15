@@ -1,7 +1,6 @@
 package Communication.client;
 
-import Communication.common.CommunicationController;
-import Communication.common.NetworkMessage;
+import Communication.messages.abstracts.NetworkMessage;
 import Communication.common.NetworkReader;
 import Communication.common.NetworkWriter;
 

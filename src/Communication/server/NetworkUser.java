@@ -1,6 +1,7 @@
 package Communication.server;
 
 import Communication.common.*;
+import Communication.messages.abstracts.NetworkMessage;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

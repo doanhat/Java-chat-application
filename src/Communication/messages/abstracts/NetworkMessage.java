@@ -1,10 +1,12 @@
-package Communication.common;
+package Communication.messages.abstracts;
+
+import Communication.common.CommunicationController;
 
 import java.io.Serializable;
 
 public abstract class NetworkMessage implements Serializable
 {
-    public abstract void handle(CommunicationController controller);
+    public abstract void handle(CommunicationController commController);
 
     public static class Handler implements Runnable
     {

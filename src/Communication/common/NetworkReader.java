@@ -1,9 +1,9 @@
 package Communication.common;
 
+import Communication.messages.abstracts.NetworkMessage;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.net.Socket;
-import java.util.List;
 
 public class NetworkReader extends Task
 {

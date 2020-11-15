@@ -1,8 +1,9 @@
 package Communication.common;
 
+import Communication.messages.abstracts.NetworkMessage;
+
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -76,7 +77,7 @@ public class NetworkWriter extends Task
     public static class DeliveryPacket
     {
         private ObjectOutputStream receiver;
-        private NetworkMessage     message;
+        private NetworkMessage message;
 
         public DeliveryPacket(ObjectOutputStream receiver, NetworkMessage message)
         {
