@@ -13,7 +13,7 @@ public class CommunicationServerController extends CommunicationController
     {
         super();
 
-        server = new NetworkServer(this, 8080);
+        server = new NetworkServer(this);
     }
 
     public void start()

@@ -14,16 +14,14 @@ import java.util.Map;
 public class NetworkServer
 {
     private final CommunicationServerController commController;
+    private DirectoryFacilitator directoryFacilitator;
     private ServerSocket serverSocket;
     private NetworkWriter msgSender;
 
-    // TODO: move this to DF management
-    private final Map<String, NetworkUser> connections;
-
-    public NetworkServer(CommunicationServerController commController, int port)
+    public NetworkServer(CommunicationServerController commController)
     {
         this.commController = commController;
-        this.connections    = new HashMap<>();
+        this.directoryFacilitator = new DirectoryFacilitatorImpl(commController);
     }
 
     public void start()
@@ -47,15 +45,6 @@ public class NetworkServer
     public void sendMessage(NetworkWriter.DeliveryPacket packet)
     {
         msgSender.sendMessage(packet);
-    }
-
-    public void addNetworkUser(Socket clientSocket)
-    {
-        if (clientSocket != null)
-        {
-            connections.put( Arrays.toString(clientSocket.getInetAddress().getAddress()),
-                             new NetworkUser(commController, clientSocket) );
-        }
     }
 
     public void close() throws IOException
@@ -84,8 +73,7 @@ public class NetworkServer
                 {
                     Socket clientSocket = networkServer.serverSocket.accept();
 
-                    // TODO Use DF to manage connections
-                    networkServer.addNetworkUser(clientSocket);
+                    networkServer.directoryFacilitator.registerClient(clientSocket);
                 }
                 catch (IOException e)
                 {
