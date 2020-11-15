@@ -1,5 +1,7 @@
 package Communication.server;
 
+import Communication.common.NetworkWriter;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -13,14 +15,16 @@ public class NetworkServer
     private ServerSocket serverSocket;
     // TODO chose port to config
     private final int port;
+    private NetworkWriter msgSender;
+
     // TODO: move this to DF management
-    private final Map<String, NetworkUser> connection;
+    private final Map<String, NetworkUser> connections;
 
     public NetworkServer(CommunicationServerController commController, int port)
     {
         this.commController = commController;
         this.port           = port;
-        this.connection     = new HashMap<>();
+        this.connections    = new HashMap<>();
     }
 
     public void start()
@@ -28,7 +32,9 @@ public class NetworkServer
         try
         {
             serverSocket = new ServerSocket(port);
+            msgSender    = new NetworkWriter();
 
+            // TODO move acceptor, msgSender thread to thread pool
             Thread acceptor = new Thread(() -> {
                 while (true)
                 {
@@ -36,8 +42,9 @@ public class NetworkServer
                     {
                         Socket clientSocket = serverSocket.accept();
 
-                        connection.put( Arrays.toString(clientSocket.getInetAddress().getAddress()),
-                                        new NetworkUser(commController, clientSocket) );
+                        // TODO Use DF to manage connections
+                        connections.put( Arrays.toString(clientSocket.getInetAddress().getAddress()),
+                                         new NetworkUser(commController, clientSocket) );
 
                         System.out.println("Nouveau client");
                     }
@@ -49,6 +56,7 @@ public class NetworkServer
             });
 
             acceptor.start();
+            msgSender.start();
 
             System.out.println("Serveur en écoute sur le port " + port);
         }
@@ -56,6 +64,11 @@ public class NetworkServer
         {
             e.printStackTrace();
         }
+    }
+
+    public void sendMessage(NetworkWriter.DeliveryPacket packet)
+    {
+        msgSender.sendMessage(packet);
     }
 
     public void close() throws IOException

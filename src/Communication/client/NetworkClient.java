@@ -6,6 +6,7 @@ import Communication.common.NetworkWriter;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.io.ObjectInputStream;
 import java.net.Socket;
 
 public class NetworkClient
@@ -24,11 +25,13 @@ public class NetworkClient
     public void connect(String ip, int port) throws IOException
     {
         socket = new Socket(ip, port);
-        System.out.println("Connection à " + ip + ":" + port);
+        System.out.println("Connexion à " + ip + ":" + port);
         socketOut = new ObjectOutputStream(socket.getOutputStream());
 
-        reader = new NetworkReader(commController, socket);
+        reader = new NetworkReader(commController, new ObjectInputStream(socket.getInputStream()));
         writer = new NetworkWriter();
+
+        // TODO: dispatch reader, writer to thread pool
         reader.start();
         writer.start();
     }
@@ -40,7 +43,6 @@ public class NetworkClient
 
     public void close() throws IOException
     {
-        reader.close();
         socket.close();
     }
 }

@@ -8,15 +8,13 @@ import java.util.List;
 public class NetworkReader extends Thread
 {
     private final CommunicationController commController;
-    private final Socket socket;
-    private final ObjectInputStream ois;
+    private final ObjectInputStream socketIn;
     //private List<NetworkMessage> messagesQueue;
 
-    public NetworkReader(CommunicationController commController, Socket clientSocket) throws IOException
+    public NetworkReader(CommunicationController commController, ObjectInputStream socketIn) throws IOException
     {
         this.commController = commController;
-        this.socket = clientSocket;
-        this.ois = new ObjectInputStream(socket.getInputStream());
+        this.socketIn = socketIn;
     }
 
     @Override
@@ -40,14 +38,6 @@ public class NetworkReader extends Thread
 
     private NetworkMessage readMessage() throws IOException, ClassNotFoundException
     {
-        return (NetworkMessage) ois.readObject();
-    }
-
-    public void close() throws IOException
-    {
-        if(!socket.isClosed())
-        {
-            socket.close();
-        }
+        return (NetworkMessage) socketIn.readObject();
     }
 }

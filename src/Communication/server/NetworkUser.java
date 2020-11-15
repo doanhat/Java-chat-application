@@ -3,21 +3,32 @@ package Communication.server;
 import Communication.common.*;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.UUID;
 
 public class NetworkUser
 {
     private final CommunicationServerController commController;
+    // TODO: get UUID from incoming client
     private UUID id;
+    private Socket socket;
+    private ObjectOutputStream socketOut;
     private NetworkReader reader;
 
-    public NetworkUser(CommunicationServerController commController, Socket comm) {
+    public NetworkUser(CommunicationServerController commController, Socket socket)
+    {
         this.commController = commController;
+        this.socket         = socket;
 
         try
         {
-            this.reader = new NetworkReader(commController, comm);
+            this.socketOut  = new ObjectOutputStream(this.socket.getOutputStream());
+            // TODO: dispatch reader to thread pool
+            this.reader     = new NetworkReader(commController,
+                                                new ObjectInputStream(this.socket.getInputStream()));
+
             this.reader.start();
         }
         catch (IOException e)
@@ -25,10 +36,10 @@ public class NetworkUser
             e.printStackTrace();
         }
     }
-/*
-    public void sendMessage(NetworkMessage message)
+
+    public NetworkWriter.DeliveryPacket preparePacket(NetworkMessage message)
     {
-        writer.sendMessage(message);
+        return new NetworkWriter.DeliveryPacket(socketOut, message);
     }
- */
+
 }
