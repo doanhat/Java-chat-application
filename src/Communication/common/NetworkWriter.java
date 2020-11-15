@@ -7,19 +7,21 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class NetworkWriter extends Thread {
-
-    private final Socket comm;
+public class NetworkWriter extends Thread
+{
+    private final Socket socket;
     private final ObjectOutputStream oos;
     private final List<NetworkMessage> messagesQueue;
 
-    public NetworkWriter(Socket comm) throws IOException {
-        this.comm = comm;
-        this.oos = new ObjectOutputStream(comm.getOutputStream());
-        messagesQueue = Collections.synchronizedList(new ArrayList<>());
+    public NetworkWriter(Socket socket) throws IOException
+    {
+        this.socket         = socket;
+        this.oos            = new ObjectOutputStream(this.socket.getOutputStream());
+        this.messagesQueue  = Collections.synchronizedList(new ArrayList<>());
     }
 
-    public void sendMessage(NetworkMessage message) {
+    public void sendMessage(NetworkMessage message)
+    {
         synchronized (messagesQueue) {
             messagesQueue.add(message);
             messagesQueue.notifyAll();
@@ -27,26 +29,36 @@ public class NetworkWriter extends Thread {
     }
 
     @Override
-    public void run() {
-        while (true) {
-            try {
-                synchronized (messagesQueue) {
-                    if (!messagesQueue.isEmpty()) {
+    public void run()
+    {
+        while (true)
+        {
+            try
+            {
+                synchronized (messagesQueue)
+                {
+                    if (!messagesQueue.isEmpty())
+                    {
                         NetworkMessage msg = messagesQueue.remove(0);
                         oos.writeObject(msg);
-                    } else {
+                    }
+                    else {
                         messagesQueue.wait();
                     }
                 }
-            } catch (IOException | InterruptedException e) {
+            }
+            catch (IOException | InterruptedException e)
+            {
                 e.printStackTrace();
             }
         }
     }
 
-    public void close() throws IOException {
-        if(!comm.isClosed()) {
-            comm.close();
+    public void close() throws IOException
+    {
+        if(!socket.isClosed())
+        {
+            socket.close();
         }
     }
 

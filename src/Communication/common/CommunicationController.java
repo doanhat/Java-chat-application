@@ -1,4 +1,5 @@
 package Communication.common;
 
-public abstract class  CommunicationController {
+public abstract class  CommunicationController
+{
 }

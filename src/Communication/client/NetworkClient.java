@@ -8,20 +8,22 @@ import java.io.IOException;
 import java.net.Socket;
 
 public class NetworkClient {
-    private final CommunicationClientController refToCommController;
-    private Socket comm;
+    private final CommunicationClientController commController;
+    private Socket socket;
     private NetworkReader reader;
     private NetworkWriter writer;
 
-    public NetworkClient(CommunicationClientController ref) {
-        refToCommController = ref;
+    public NetworkClient(CommunicationClientController commController)
+    {
+        this.commController = commController;
     }
 
-    public void connexion(String ip, int port) throws IOException {
-        comm = new Socket(ip, port);
+    public void connexion(String ip, int port) throws IOException
+    {
+        socket = new Socket(ip, port);
         System.out.println("Connection à " + ip + ":" + port);
-        reader = new NetworkReader(refToCommController, comm);
-        writer = new NetworkWriter(comm);
+        reader = new NetworkReader(commController, socket);
+        writer = new NetworkWriter(socket);
         reader.start();
         writer.start();
     }
@@ -33,6 +35,6 @@ public class NetworkClient {
     public void close() throws IOException {
         reader.close();
         writer.close();
-        comm.close();
+        socket.close();
     }
 }
