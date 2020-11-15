@@ -25,6 +25,7 @@ public class NetworkUser
         try
         {
             this.socketOut  = new ObjectOutputStream(this.socket.getOutputStream());
+
             // TODO: dispatch reader to thread pool
             this.reader     = new NetworkReader(commController,
                                                 new ObjectInputStream(this.socket.getInputStream()));
@@ -42,4 +43,8 @@ public class NetworkUser
         return new NetworkWriter.DeliveryPacket(socketOut, message);
     }
 
+    public void stop() throws IOException
+    {
+        socket.close();
+    }
 }

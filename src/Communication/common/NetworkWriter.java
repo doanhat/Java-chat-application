@@ -9,15 +9,10 @@ import java.util.List;
 
 public class NetworkWriter extends Thread
 {
-    // TODO: remove socket
-    //private final Socket socket;
-    //private final ObjectOutputStream oos;
     private final List<DeliveryPacket> messagesQueue;
 
     public NetworkWriter()
     {
-        //socket         = clientSocket;
-        //oos            = new ObjectOutputStream(socket.getOutputStream());
         messagesQueue = Collections.synchronizedList(new ArrayList<>());
     }
 
@@ -55,15 +50,7 @@ public class NetworkWriter extends Thread
             }
         }
     }
-/*
-    public void close() throws IOException
-    {
-        if(!socket.isClosed())
-        {
-            socket.close();
-        }
-    }
-*/
+
     public static class DeliveryPacket
     {
         private ObjectOutputStream receiver;

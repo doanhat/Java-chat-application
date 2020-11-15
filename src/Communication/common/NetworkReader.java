@@ -14,7 +14,7 @@ public class NetworkReader extends Thread
     public NetworkReader(CommunicationController commController, ObjectInputStream socketIn) throws IOException
     {
         this.commController = commController;
-        this.socketIn = socketIn;
+        this.socketIn       = socketIn;
     }
 
     @Override
