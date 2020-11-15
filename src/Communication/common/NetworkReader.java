@@ -25,8 +25,9 @@ public class NetworkReader extends Task
             try
             {
                 NetworkMessage message = readMessage();
-                // TODO Dispatch message to TaskManager(thread pool manager)
-                message.handle(commController);
+
+                // Dispatch message to TaskManager
+                commController.taskManager.appendTask(new NetworkMessage.Handler(message, commController));
                 //messagesQueue.add(message)
             }
             catch (IOException|ClassNotFoundException e)

@@ -16,10 +16,23 @@ public class TaskManager
         tasks = new ArrayList<>();
     }
 
+    /**
+     * Executer action cyclique au thread pool
+     * @param task
+     */
     public void appendTask(Task task)
     {
         tasks.add(task);
         pool.execute(task);
+    }
+
+    /**
+     * Executer action one-shot au thread pool
+     * @param oneShot
+     */
+    public void appendTask(Runnable oneShot)
+    {
+        pool.execute(oneShot);
     }
 
     public void shutdown()
