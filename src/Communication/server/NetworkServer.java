@@ -86,8 +86,6 @@ public class NetworkServer
 
                     // TODO Use DF to manage connections
                     networkServer.addNetworkUser(clientSocket);
-
-                    System.out.println("Nouveau client");
                 }
                 catch (IOException e)
                 {

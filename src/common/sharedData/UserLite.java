@@ -8,6 +8,7 @@ public class UserLite implements Serializable {
 	private UUID id;
 	private String nickName;
 	private String avatar;
+
 	public UUID getId() {
 		return id;
 	}

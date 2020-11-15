@@ -37,7 +37,7 @@ public class NetworkReader extends Task
         }
     }
 
-    private NetworkMessage readMessage() throws IOException, ClassNotFoundException
+    public NetworkMessage readMessage() throws IOException, ClassNotFoundException
     {
         return (NetworkMessage) socketIn.readObject();
     }
