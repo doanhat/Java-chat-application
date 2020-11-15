@@ -1,7 +1,7 @@
 package Communication.server;
 
 import Communication.common.NetworkWriter;
-
+import Communication.common.Parameters;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -13,8 +13,6 @@ public class NetworkServer
 {
     private final CommunicationServerController commController;
     private ServerSocket serverSocket;
-    // TODO chose port to config
-    private final int port;
     private NetworkWriter msgSender;
 
     // TODO: move this to DF management
@@ -23,7 +21,6 @@ public class NetworkServer
     public NetworkServer(CommunicationServerController commController, int port)
     {
         this.commController = commController;
-        this.port           = port;
         this.connections    = new HashMap<>();
     }
 
@@ -31,7 +28,7 @@ public class NetworkServer
     {
         try
         {
-            serverSocket = new ServerSocket(port);
+            serverSocket = new ServerSocket(Parameters.PORT);
             msgSender    = new NetworkWriter();
 
             // TODO move acceptor, msgSender thread to thread pool
@@ -58,7 +55,7 @@ public class NetworkServer
             acceptor.start();
             msgSender.start();
 
-            System.out.println("Serveur en écoute sur le port " + port);
+            System.out.println("Serveur en écoute sur le port " + Parameters.PORT);
         }
         catch (IOException e)
         {
