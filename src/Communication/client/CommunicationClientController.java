@@ -1,6 +1,7 @@
 package Communication.client;
 
 import Communication.common.CommunicationController;
+import Communication.messages.client_to_server.UserConnectionMessage;
 import common.interfaces.client.ICommunicationToData;
 import common.sharedData.Channel;
 import common.sharedData.UserLite;
@@ -19,9 +20,11 @@ public class CommunicationClientController extends CommunicationController {
         dataClient = dataIface;
     }
 
-    public void start(String ip, int port) {
+    public void start(String ip, int port, UserLite user) {
         try {
             client.connect(ip, port);
+            client.sendMessage(new UserConnectionMessage(user));
+
             System.out.println("Connexion au server...");
         }
         catch (IOException e) {
