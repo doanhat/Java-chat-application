@@ -1,24 +1,25 @@
 package Data.client;
 
-import common.sharedData.Channel;
-import common.sharedData.Message;
-import common.sharedData.User;
+import common.sharedData.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class ChannelController {
-    private DataClientController dataController;
-
-    public ChannelController() {
-        dataController = new DataClientController();
-    }
     /**
      * Get all channels
      *
      * @return List<Channel>
      */
     public List<Channel> getChannels() {
-        return null;
+        List<Channel> channels = new ArrayList<Channel>();
+
+        // TODO : Get real data
+        for(int i = 1 ; i < 5 ; i++) {
+            channels.add(new SharedChannel(UUID.randomUUID(), "channel n°" + i, null, "Description du channel n°"+i, i%2 == 0 ? Visibility.PUBLIC : Visibility.PRIVATE));
+        }
+        return channels;
     }
 
     /**

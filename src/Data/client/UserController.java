@@ -4,7 +4,9 @@ import common.sharedData.Channel;
 import common.sharedData.User;
 import common.sharedData.UserLite;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class UserController {
     public UserController() {
@@ -74,6 +76,12 @@ public class UserController {
      * @return List<UserLite> connected users
      */
     public List<UserLite> getConnectedUsers() {
-        return null;
+        List<UserLite> users = new ArrayList<UserLite>();
+
+        // TODO : get real data
+        for (int i = 1 ; i <= 5 ; i++) {
+            users.add(new UserLite(UUID.randomUUID(), "user " + i, "avatar"));
+        }
+        return users;
     }
 }
