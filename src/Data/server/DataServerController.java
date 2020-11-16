@@ -2,7 +2,7 @@ package Data.server;
 
 import common.interfaces.server.IServerCommunicationToData;
 
-public class DataController {
+public class DataServerController {
     private ChannelsListController channelsListController;
     private UserListController userListController;
     private IServerCommunicationToData iServerCommunicationToData;
