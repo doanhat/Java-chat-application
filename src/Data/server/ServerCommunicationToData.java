@@ -9,7 +9,11 @@ import java.util.List;
 
 public class ServerCommunicationToData implements IServerCommunicationToData {
 
-    // Retourne la liste des channels d'un utilisateur lors de connexion
+    @Override
+    public List<Channel> requestChannelSuppression(Channel ch, UserLite user) {
+        return null;
+    }
+
     @Override
     public List<Channel> requestUserChannelList(UserLite user) {
         return null;
@@ -113,11 +117,6 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     @Override
     public void updateNickname(Channel ch, UserLite user, String newNickname) {
 
-    }
-
-    @Override
-    public List<Channel> requestChannelSuppression(Channel ch, UserLite user) {
-        return null;
     }
 
     @Override
