@@ -14,7 +14,7 @@ public class IHMMainToData implements IIHMMainToData {
         dataController = new DataClientController();
     }
 
-    
+
     /**
      * Gets connected users.
      *
