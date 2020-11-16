@@ -114,7 +114,7 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
     }
 
-    
+
     @Override
     public void sendChannelInvitation(UserLite sender, UserLite receiver, String message) {
 
