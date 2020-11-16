@@ -1,67 +1,72 @@
 package Communication.server;
 
+import Communication.common.NetworkWriter;
+import Communication.common.Parameters;
+import Communication.common.CyclicTask;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
-public class NetworkServer
-{
+public class NetworkServer {
+
     private final CommunicationServerController commController;
-    private ServerSocket comm;
-    // TODO chose port to config
-    private final int port;
-    private final Map<String, NetworkUser> connexion;
+    private final DirectoryFacilitator directoryFacilitator;
+    private ServerSocket serverSocket;
+    private NetworkWriter msgSender;
 
-    public NetworkServer(CommunicationServerController commController, int port)
-    {
-        this.commController = commController;
-        this.port = port;
-        this.connexion = new HashMap<>();
+    public NetworkServer(CommunicationServerController commController) {
+        this.commController         = commController;
+        this.directoryFacilitator   = new DirectoryFacilitatorImpl(commController);
     }
 
-    public void start()
-    {
-        try
-        {
-            comm = new ServerSocket(port);
+    public void start() {
+        try {
+            serverSocket = new ServerSocket(Parameters.PORT);
+            msgSender    = new NetworkWriter();
 
-            Thread acceptor = new Thread(() -> {
-                while (true)
-                {
-                    try
-                    {
-                        Socket client = comm.accept();
+            commController.taskManager.appendCyclicTask(new ClientAcceptor(this));
+            commController.taskManager.appendCyclicTask(msgSender);
 
-                        connexion.put( Arrays.toString(client.getInetAddress().getAddress()),
-                                       new NetworkUser(commController, client) );
-
-                        System.out.println("Nouveau client");
-                    }
-                    catch (IOException e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
-            });
-
-            acceptor.start();
-
-            System.out.println("Serveur en écoute sur le port " + port);
+            System.out.println("Serveur en écoute sur le port " + Parameters.PORT);
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void close() throws IOException
-    {
-        if (!comm.isClosed())
-        {
-            comm.close();
+    public void close() throws IOException {
+        if (!serverSocket.isClosed()) {
+            serverSocket.close();
+        }
+    }
+
+    public void sendMessage(NetworkWriter.DeliveryPacket packet) {
+        msgSender.sendMessage(packet);
+    }
+
+    public DirectoryFacilitator directory() {
+        return directoryFacilitator;
+    }
+
+    private static class ClientAcceptor extends CyclicTask {
+
+        private NetworkServer networkServer;
+
+        public ClientAcceptor(NetworkServer networkServer) {
+            this.networkServer = networkServer;
+        }
+
+        @Override
+        protected void action() {
+            try {
+                Socket clientSocket = networkServer.serverSocket.accept();
+
+                networkServer.directoryFacilitator.registerClient(clientSocket);
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

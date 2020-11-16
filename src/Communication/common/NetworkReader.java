@@ -1,52 +1,36 @@
 package Communication.common;
 
+import Communication.messages.abstracts.NetworkMessage;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.net.Socket;
-import java.util.List;
 
-public class NetworkReader extends Thread
-{
+public class NetworkReader extends CyclicTask {
+
     private final CommunicationController commController;
-    private final Socket socket;
-    private final ObjectInputStream ois;
+    private final ObjectInputStream socketIn;
     //private List<NetworkMessage> messagesQueue;
 
-    public NetworkReader(CommunicationController commController, Socket client) throws IOException
-    {
+    public NetworkReader(CommunicationController commController, ObjectInputStream socketIn) throws IOException {
         this.commController = commController;
-        this.socket = client;
-        this.ois = new ObjectInputStream(client.getInputStream());
+        this.socketIn = socketIn;
+    }
+
+    public NetworkMessage readMessage() throws IOException, ClassNotFoundException {
+        return (NetworkMessage) socketIn.readObject();
     }
 
     @Override
-    public void run()
-    {
-        while (true)
-        {
-            try
-            {
-                NetworkMessage message = (NetworkMessage) ois.readObject();
-                message.handle(commController);
-                //messagesQueue.add(message)
-            }
-            catch (IOException|ClassNotFoundException e)
-            {
-                e.printStackTrace();
-            }
+    protected void action() {
+        try {
+            NetworkMessage message = readMessage();
+
+            // Dispatch message à TaskManager
+            commController.taskManager.appendTask(new NetworkMessage.Handler(message, commController));
+            //messagesQueue.add(message)
         }
-    }
-
-    public NetworkMessage readMessage()
-    {
-        return null;
-    }
-
-    public void close() throws IOException
-    {
-        if(!socket.isClosed())
-        {
-            socket.close();
+        catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
 }
