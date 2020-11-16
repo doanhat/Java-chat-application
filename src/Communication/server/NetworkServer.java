@@ -50,6 +50,7 @@ public class NetworkServer {
     }
 
     private static class ClientAcceptor extends CyclicTask {
+
         private NetworkServer networkServer;
 
         public ClientAcceptor(NetworkServer networkServer) {

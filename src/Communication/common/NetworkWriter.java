@@ -24,6 +24,15 @@ public class NetworkWriter extends CyclicTask {
     }
 
     @Override
+    public void stop() {
+        cancel = true;
+
+        synchronized (messagesQueue) {
+            messagesQueue.notifyAll();
+        }
+    }
+
+    @Override
     protected void action() {
         try {
             synchronized (messagesQueue) {
@@ -37,15 +46,6 @@ public class NetworkWriter extends CyclicTask {
         }
         catch (IOException | InterruptedException e) {
             e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void stop() {
-        cancel = true;
-
-        synchronized (messagesQueue) {
-            messagesQueue.notifyAll();
         }
     }
 

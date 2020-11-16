@@ -1,6 +1,7 @@
 package Communication.client;
 
 import Communication.common.CommunicationController;
+import Communication.messages.abstracts.NetworkMessage;
 import Communication.messages.client_to_server.UserConnectionMessage;
 import common.interfaces.client.ICommunicationToData;
 import common.sharedData.Channel;
@@ -41,6 +42,10 @@ public class CommunicationClientController extends CommunicationController {
         catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void sendMessage(NetworkMessage message) {
+        client.sendMessage(message);
     }
 
     public void notifyUserConnected(UserLite newUser) {
