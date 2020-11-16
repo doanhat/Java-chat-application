@@ -13,10 +13,6 @@ public interface IServerCommunicationToData {
     List<Channel> requestAddChannel(Channel ch, UserLite user);
 
     /* Channels section */
-
-    /* Channels section */
-    List<Channel> requestChannelSuppression(Channel ch, UserLite user);
-    List<Channel> requestAddChannel(Channel ch, UserLite user);
     void updateChannel(Channel ch);
     void requestAddUser(Channel ch, UserLite user);
     void addAdmin(Channel ch, UserLite user);
