@@ -1,5 +1,6 @@
-package common.interfaces.client;
+package Data.client;
 
+import common.interfaces.client.ICommunicationToData;
 import common.sharedData.Channel;
 import common.sharedData.Message;
 import common.sharedData.User;
@@ -7,16 +8,16 @@ import common.sharedData.UserLite;
 
 import java.util.List;
 
-/**
- * The interface Communication to data.
- */
-public interface ICommunicationToData {
+public class CommunicationToData implements ICommunicationToData {
     /**
      * Add visible channel.
      *
      * @param channel the channel
      */
-    void addVisibleChannel(Channel channel);
+    @Override
+    public void addVisibleChannel(Channel channel) {
+
+    }
 
     /**
      * User added to channel.
@@ -24,7 +25,10 @@ public interface ICommunicationToData {
      * @param user    the user
      * @param channel the channel
      */
-    void userAddedToChannel(UserLite user, Channel channel);
+    @Override
+    public void userAddedToChannel(UserLite user, Channel channel) {
+
+    }
 
     /**
      * Save new admin into history.
@@ -32,7 +36,10 @@ public interface ICommunicationToData {
      * @param user    the user
      * @param channel the channel
      */
-    void saveNewAdminIntoHistory(UserLite user, Channel channel);
+    @Override
+    public void saveNewAdminIntoHistory(UserLite user, Channel channel) {
+
+    }
 
     /**
      * New admin.
@@ -40,7 +47,10 @@ public interface ICommunicationToData {
      * @param user    the user
      * @param channel the channel
      */
-    void newAdmin(UserLite user, Channel channel);
+    @Override
+    public void newAdmin(UserLite user, Channel channel) {
+
+    }
 
     /**
      * Remove channel from list.
@@ -49,7 +59,10 @@ public interface ICommunicationToData {
      * @param duration    the duration
      * @param explanation the explanation
      */
-    void removeChannelFromList(Channel channel, int duration, String explanation);
+    @Override
+    public void removeChannelFromList(Channel channel, int duration, String explanation) {
+
+    }
 
     /**
      * Ban user into history.
@@ -58,7 +71,10 @@ public interface ICommunicationToData {
      * @param channel  the channel
      * @param duration the duration
      */
-    void banUserIntoHistory(UserLite user, Channel channel, int duration);
+    @Override
+    public void banUserIntoHistory(UserLite user, Channel channel, int duration) {
+
+    }
 
     /**
      * Delete user from channel.
@@ -68,7 +84,10 @@ public interface ICommunicationToData {
      * @param duration    the duration
      * @param explanation the explanation
      */
-    void deleteUserFromChannel(UserLite user, Channel channel, int duration, String explanation);
+    @Override
+    public void deleteUserFromChannel(UserLite user, Channel channel, int duration, String explanation) {
+
+    }
 
     /**
      * Gets history.
@@ -76,7 +95,10 @@ public interface ICommunicationToData {
      * @param channel the channel
      * @return history
      */
-    List<Message> getHistory(Channel channel);
+    @Override
+    public List<Message> getHistory(Channel channel) {
+        return null;
+    }
 
     /**
      * Save message into history.
@@ -85,7 +107,10 @@ public interface ICommunicationToData {
      * @param channel  the channel
      * @param response the response
      */
-    void saveMessageIntoHistory(Message message, Channel channel, Message response);
+    @Override
+    public void saveMessageIntoHistory(Message message, Channel channel, Message response) {
+
+    }
 
     /**
      * Receive message.
@@ -94,7 +119,10 @@ public interface ICommunicationToData {
      * @param channel  the channel
      * @param response the response
      */
-    void receiveMessage(Message message, Channel channel, Message response);
+    @Override
+    public void receiveMessage(Message message, Channel channel, Message response) {
+
+    }
 
     /**
      * Save edition into history.
@@ -103,7 +131,10 @@ public interface ICommunicationToData {
      * @param newMessage the new message
      * @param channel    the channel
      */
-    void saveEditionIntoHistory(Message oldMessage, Message newMessage, Channel channel);
+    @Override
+    public void saveEditionIntoHistory(Message oldMessage, Message newMessage, Channel channel) {
+
+    }
 
     /**
      * Edit message.
@@ -112,7 +143,10 @@ public interface ICommunicationToData {
      * @param newMessage the new message
      * @param channel    the channel
      */
-    void editMessage (Message message, Message newMessage, Channel channel);
+    @Override
+    public void editMessage(Message message, Message newMessage, Channel channel) {
+
+    }
 
     /**
      * Save like into history.
@@ -121,7 +155,10 @@ public interface ICommunicationToData {
      * @param message the message
      * @param user    the user
      */
-    void saveLikeIntoHistory(Channel channel, Message message, UserLite user);
+    @Override
+    public void saveLikeIntoHistory(Channel channel, Message message, UserLite user) {
+
+    }
 
     /**
      * Like message.
@@ -130,7 +167,10 @@ public interface ICommunicationToData {
      * @param message the message
      * @param user    the user
      */
-    void likeMessage(Channel channel, Message message, UserLite user);
+    @Override
+    public void likeMessage(Channel channel, Message message, UserLite user) {
+
+    }
 
     /**
      * Save deletion into history.
@@ -139,7 +179,10 @@ public interface ICommunicationToData {
      * @param newMessage the new message
      * @param channel    the channel
      */
-    void saveDeletionIntoHistory(Message oldMessage, Message newMessage, Channel channel);
+    @Override
+    public void saveDeletionIntoHistory(Message oldMessage, Message newMessage, Channel channel) {
+
+    }
 
     /**
      * Delete message.
@@ -148,14 +191,20 @@ public interface ICommunicationToData {
      * @param channel          the channel
      * @param deletedByCreator the deleted by creator
      */
-    void deleteMessage(Message message, Channel channel, boolean deletedByCreator);
+    @Override
+    public void deleteMessage(Message message, Channel channel, boolean deletedByCreator) {
+
+    }
 
     /**
      * Gets user.
      *
      * @return the user
      */
-    UserLite getUser();
+    @Override
+    public UserLite getUser() {
+        return null;
+    }
 
     /**
      * Update nickname.
@@ -164,7 +213,10 @@ public interface ICommunicationToData {
      * @param channel     the channel
      * @param newNickname the new nickname
      */
-    void updateNickname(UserLite user,Channel channel, String newNickname);
+    @Override
+    public void updateNickname(UserLite user, Channel channel, String newNickname) {
+
+    }
 
     /**
      * Save nickname into history.
@@ -173,7 +225,10 @@ public interface ICommunicationToData {
      * @param channel     the channel
      * @param newNickname the new nickname
      */
-    void saveNicknameIntoHistory(UserLite user,Channel channel, String newNickname);
+    @Override
+    public void saveNicknameIntoHistory(UserLite user, Channel channel, String newNickname) {
+
+    }
 
     /**
      * Add user to channel.
@@ -181,20 +236,28 @@ public interface ICommunicationToData {
      * @param user    the user
      * @param channel the channel
      */
-    void addUserToChannel(UserLite user, Channel channel);
+    @Override
+    public void addUserToChannel(UserLite user, Channel channel) {
+
+    }
 
     /**
      * Disconnect user.
      *
      * @param user the user
      */
-    void disconnectUser(UserLite user);
+    @Override
+    public void disconnectUser(UserLite user) {
+
+    }
 
     /**
      * New connection user.
      *
      * @param user the user
      */
-    void newConnectionUser(User user);
-}
+    @Override
+    public void newConnectionUser(User user) {
 
+    }
+}
