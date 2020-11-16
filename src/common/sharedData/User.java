@@ -1,6 +1,7 @@
 package common.sharedData;
 
 import java.util.Date;
+import java.util.UUID;
 
 public class User extends UserLite {
 	
