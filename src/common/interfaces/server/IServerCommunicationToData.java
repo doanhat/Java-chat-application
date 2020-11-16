@@ -7,7 +7,7 @@ import common.sharedData.UserLite;
 import java.util.List;
 
 public interface IServerCommunicationToData {
-
+    
     List<Channel> requestUserChannelList(UserLite user);
     List<Channel> requestChannelRemoval(Channel ch, UserLite user);
     List<Channel> requestAddChannel(Channel ch, UserLite user);
