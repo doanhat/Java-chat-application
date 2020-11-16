@@ -9,24 +9,20 @@ import java.util.List;
 
 public class ServerCommunicationToData implements IServerCommunicationToData {
 
+
     @Override
-    public List<Channel> requestUserChannelList(UserLite user) {
+    public List<Channel> requestChannelRemoval(Channel channel, UserLite user) {
         return null;
     }
 
     @Override
-    public List<Channel> requestChannelRemoval(Channel ch, UserLite user) {
+    public List<Channel> requestChannelCreation(Channel channel, Boolean typeOwner, Boolean typePublic, UserLite user) {
         return null;
     }
 
     @Override
-    public List<Channel> requestAddChannel(Channel ch, UserLite user) {
+    public List<UserLite> updateChannel(Channel channel) {
         return null;
-    }
-
-    @Override
-    public void updateChannel(Channel ch) {
-
     }
 
     @Override
@@ -35,7 +31,7 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     }
 
     @Override
-    public void addAdmin(Channel ch, UserLite user) {
+    public void saveNewAdminIntoHistory(Channel ch, UserLite user) {
 
     }
 
@@ -50,48 +46,38 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     }
 
     @Override
-    public void postMessage(Channel ch, Message ms, UserLite user) {
+    public void saveMessageIntoHistory(Channel ch, Message ms, Message response) {
 
     }
 
     @Override
-    public void editMessage(Channel channel, Message ms, Message newMessage) {
+    public void editMessage(Channel ch, Message ms) {
 
     }
 
     @Override
-    public void saveMessageLike(Channel ch, Message ms, UserLite user) {
+    public void saveLikeIntoHistory(Channel ch, Message ms, UserLite user) {
 
     }
 
     @Override
-    public void removeMessage(Channel ch, Message ms, UserLite user) {
+    public void saveRemovalMessageIntoHistory(Channel ch, Message ms, Boolean deletedByCreator) {
 
     }
 
     @Override
-    public List<Message> getChannelMessages(Channel ch, UserLite user) {
+    public List<Message> getHistory(Channel ch) {
         return null;
     }
 
     @Override
-    public List<Channel> getVisibleChannels(Channel ch, UserLite user) {
+    public List<Channel> getVisibleChannels(UserLite user) {
         return null;
     }
 
     @Override
-    public Channel requestChannelCreation(Channel ch, boolean owner, boolean publicity, UserLite user) {
+    public Channel createPublicSharedChannel(String name, UserLite creator, String description) {
         return null;
-    }
-
-    @Override
-    public void leaveChannel(Channel ch, UserLite user) {
-
-    }
-
-    @Override
-    public void channelSubscriptionRequest(Channel ch, UserLite user) {
-
     }
 
     @Override
@@ -119,4 +105,23 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
     }
 
+    @Override
+    public List<Message> joinChannel(Channel ch, UserLite user) {
+        return null;
+    }
+
+    @Override
+    public void leaveChannel(Channel ch, UserLite user) {
+
+    }
+
+    @Override
+    public Object getUserAddress(UserLite user) {
+        return null;
+    }
+
+    @Override
+    public Boolean checkAuthorization(Channel ch, UserLite user) {
+        return null;
+    }
 }
