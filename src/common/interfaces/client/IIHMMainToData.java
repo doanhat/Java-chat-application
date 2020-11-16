@@ -26,12 +26,13 @@ public interface IIHMMainToData {
     /**
      * Create channel.
      *
-     * @param channel  the channel
+     * @param name  the channel name
+     * @param description  the channel description
      * @param isShared the is shared
      * @param isPublic the is public
      * @param owner    the owner
      */
-    void createChannel(Channel channel, Boolean isShared, Boolean isPublic, UserLite owner);
+    void createChannel(String name, String description, Boolean isShared, Boolean isPublic, UserLite owner);
 
     /**
      * Edit profile.

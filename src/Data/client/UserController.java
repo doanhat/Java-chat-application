@@ -2,6 +2,9 @@ package Data.client;
 
 import common.sharedData.Channel;
 import common.sharedData.User;
+import common.sharedData.UserLite;
+
+import java.util.List;
 
 public class UserController {
     public UserController() {
@@ -63,5 +66,14 @@ public class UserController {
      */
     public void newConnectionUser(User user) {
 
+    }
+
+    /**
+     * Get all connected users
+     *
+     * @return List<UserLite> connected users
+     */
+    public List<UserLite> getConnectedUsers() {
+        return null;
     }
 }

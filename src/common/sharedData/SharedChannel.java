@@ -1,11 +1,11 @@
 package common.sharedData;
 
-import java.beans.Visibility;
+import java.rmi.server.UID;
 
 public class SharedChannel extends Channel {
 
-	public SharedChannel(int id, String name, UserLite creator,
-			String description, Visibility visibility) {
+	public SharedChannel(UID id, String name, UserLite creator,
+						 String description, Visibility visibility) {
 		super(id, name, creator, description, visibility);
 	}
 

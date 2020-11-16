@@ -11,6 +11,15 @@ public class ChannelController {
     }
 
     /**
+     * Get all channels
+     *
+     * @return List<Channel>
+     */
+    public List<Channel> getChannels() {
+        return null;
+    }
+
+    /**
      * Add visible channel.
      *
      * @param channel the channel

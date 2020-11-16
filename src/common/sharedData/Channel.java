@@ -1,7 +1,7 @@
 package common.sharedData;
 
-import java.beans.Visibility;
 import java.io.Serializable;
+import java.rmi.server.UID;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -10,7 +10,7 @@ import java.util.Map;
 
 public abstract class Channel implements Serializable {
 
-	private int id;
+	private UID id;
 	private String name;
 	private UserLite creator;
 	private String description;
@@ -21,7 +21,7 @@ public abstract class Channel implements Serializable {
 	private List<Kick> kicked;
 	private List<Message> messages;
 	
-	public Channel(int id, String name, UserLite creator, String description, Visibility visibility) {
+	public Channel(UID id, String name, UserLite creator, String description, Visibility visibility) {
 		this.id = id;
 		this.name = name;
 		this.creator = creator;
@@ -37,11 +37,11 @@ public abstract class Channel implements Serializable {
 		this.messages = new ArrayList<Message>();
 	}
 	
-	public int getId() {
+	public UID getId() {
 		return id;
 	}
 	
-	public void setId(int id) {
+	public void setId(UID id) {
 		this.id = id;
 	}
 	
