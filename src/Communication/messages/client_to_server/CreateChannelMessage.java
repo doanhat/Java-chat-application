@@ -2,7 +2,7 @@ package Communication.messages.client_to_server;
 
 import Communication.messages.abstracts.ClientToServerMessage;
 import Communication.messages.abstracts.NetworkMessage;
-import Communication.messages.server_to_client.AcceptationMessage;
+import Communication.messages.server_to_client.NewVisibleChannelMessage;
 import Communication.messages.server_to_client.ValidateCreationChannelMessage;
 import Communication.server.CommunicationServerController;
 import common.sharedData.Channel;
@@ -35,12 +35,9 @@ public class CreateChannelMessage extends ClientToServerMessage {
 
         if (newChannel != null)
         {
-            // return acceptation message to requester
-            commController.sendMessage(sender.getId(), new ValidateCreationChannelMessage());
-
             if (newChannel.getVisibility() == Visibility.PUBLIC) {
-                // TODO init ChannelVisibleMessage
-                NetworkMessage newChannelNotification = null;
+                // TODO verify ChannelVisibleMessage
+                NetworkMessage newChannelNotification = new NewVisibleChannelMessage(newChannel);
 
                 List<UserLite> onlineUsers = commController.onlineUsers();
 
@@ -49,6 +46,8 @@ public class CreateChannelMessage extends ClientToServerMessage {
                 }
             }
 
+            // return acceptation message to requester
+            commController.sendMessage(sender.getId(), new ValidateCreationChannelMessage());
         }
     }
 }
