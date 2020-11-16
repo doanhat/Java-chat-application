@@ -61,4 +61,5 @@ public class CommunicationClientController extends CommunicationController {
     public void notifyVisibleChannel(Channel channel) {
         dataClient.addVisibleChannel(channel);
     }
+
 }
