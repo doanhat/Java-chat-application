@@ -1,17 +1,25 @@
 package Communication.server;
 
 import Communication.common.CommunicationController;
+import Communication.messages.abstracts.NetworkMessage;
+import common.interfaces.server.IServerCommunicationToData;
+import common.sharedData.Channel;
+import common.sharedData.UserLite;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.UUID;
 
 public class CommunicationServerController extends CommunicationController {
 
     private final NetworkServer server;
+    private final IServerCommunicationToData dataServer;
 
-    public CommunicationServerController() {
+    public CommunicationServerController(IServerCommunicationToData dataIface) {
         super();
 
         server = new NetworkServer(this);
+        dataServer = dataIface;
     }
 
     public void start() {
@@ -27,5 +35,17 @@ public class CommunicationServerController extends CommunicationController {
         catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<Channel> getUserChannels(UserLite user) {
+        return dataServer.requestUserChannelList(user);
+    }
+
+    public List<UserLite> onlineUsers() {
+        return server.directory().onlineUsers();
+    }
+
+    public void sendMessage(UUID receiver, NetworkMessage message) {
+        server.sendMessage(server.directory().getAgent(receiver).preparePacket(message));
     }
 }

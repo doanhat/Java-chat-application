@@ -11,7 +11,7 @@ import java.net.Socket;
 public class NetworkServer {
 
     private final CommunicationServerController commController;
-    private DirectoryFacilitator directoryFacilitator;
+    private final DirectoryFacilitator directoryFacilitator;
     private ServerSocket serverSocket;
     private NetworkWriter msgSender;
 
@@ -35,14 +35,18 @@ public class NetworkServer {
         }
     }
 
-    public void sendMessage(NetworkWriter.DeliveryPacket packet) {
-        msgSender.sendMessage(packet);
-    }
-
     public void close() throws IOException {
         if (!serverSocket.isClosed()) {
             serverSocket.close();
         }
+    }
+
+    public void sendMessage(NetworkWriter.DeliveryPacket packet) {
+        msgSender.sendMessage(packet);
+    }
+
+    public DirectoryFacilitator directory() {
+        return directoryFacilitator;
     }
 
     private static class ClientAcceptor extends CyclicTask {

@@ -1,10 +1,9 @@
 package Communication.server;
 
+import common.sharedData.UserLite;
+
 import java.net.Socket;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class DirectoryFacilitatorImpl implements DirectoryFacilitator {
 
@@ -28,11 +27,24 @@ public class DirectoryFacilitatorImpl implements DirectoryFacilitator {
         }
     }
 
+    @Override
     public void deregisterClient(UUID clientID) {
         connections.remove(clientID);
     }
 
+    @Override
     public NetworkUser getAgent(UUID clientID) {
         return connections.get(clientID);
+    }
+
+    @Override
+    public List<UserLite> onlineUsers() {
+        List<UserLite> userList = new ArrayList<>();
+
+        for (NetworkUser user: connections.values()) {
+            userList.add(user.userInfo());
+        }
+
+        return userList;
     }
 }

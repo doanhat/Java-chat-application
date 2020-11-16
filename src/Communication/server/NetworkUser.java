@@ -3,6 +3,7 @@ package Communication.server;
 import Communication.common.*;
 import Communication.messages.abstracts.NetworkMessage;
 import Communication.messages.client_to_server.UserConnectionMessage;
+import common.sharedData.UserLite;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -13,7 +14,7 @@ import java.util.UUID;
 public class NetworkUser {
 
     private final CommunicationServerController commController;
-    private UUID id;
+    private UserLite userInfo;
     private Socket socket;
     private ObjectOutputStream socketOut;
     private NetworkReader reader;
@@ -31,12 +32,12 @@ public class NetworkUser {
             UserConnectionMessage connectionMessage = (UserConnectionMessage) this.reader.readMessage();
 
             if (connectionMessage != null) {
-                this.id = connectionMessage.getUuid();
-                System.out.println("Nouveau client - UUID: " + this.id);
+                this.userInfo = connectionMessage.getUser();
+                System.out.println("Nouveau client - UUID: " + this.userInfo.getId());
                 commController.taskManager.appendTask(new NetworkMessage.Handler(connectionMessage, commController));
             }
             else {
-                System.out.println("Echec dans la recuperation UUID du nouveau client: " + this.id);
+                System.out.println("Echec dans la recuperation UUID du nouveau client");
             }
 
             // dispatch reader to thread pool after connection procedure
@@ -48,7 +49,11 @@ public class NetworkUser {
     }
 
     public UUID uuid() {
-        return id;
+        return userInfo.getId();
+    }
+
+    public UserLite userInfo() {
+        return userInfo;
     }
 
     public NetworkWriter.DeliveryPacket preparePacket(NetworkMessage message) {
