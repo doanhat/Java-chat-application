@@ -17,9 +17,9 @@ public class IHMChannelController {
 
 
         // Initialisation des interfaces
-        interfaceForCommunication = new CommunicationToIHMChannel();
-        interfaceForData = new DataToIHMChannel();
-        interfaceForIHMMain = new IHMMainToIHMChannel();
+        interfaceForCommunication = new CommunicationToIHMChannel(this);
+        interfaceForData = new DataToIHMChannel(this);
+        interfaceForIHMMain = new IHMMainToIHMChannel(this);
 
     }
 
