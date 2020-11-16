@@ -15,7 +15,10 @@ public class UserLite implements Serializable {
 		this.avatar = avatar;
 	}
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> Ajout des constructeurs pour User et UserLite
 	public UUID getId() {
 		return id;
 	}
