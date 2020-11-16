@@ -1,9 +1,15 @@
 package Communication.messages.client_to_server;
 
 import Communication.messages.abstracts.ClientToServerMessage;
+import Communication.messages.abstracts.NetworkMessage;
+import Communication.messages.server_to_client.AcceptationMessage;
+import Communication.messages.server_to_client.ValidateCreationChannelMessage;
 import Communication.server.CommunicationServerController;
 import common.sharedData.Channel;
 import common.sharedData.UserLite;
+import common.sharedData.Visibility;
+
+import java.util.List;
 
 public class CreateChannelMessage extends ClientToServerMessage {
 
@@ -25,6 +31,24 @@ public class CreateChannelMessage extends ClientToServerMessage {
 
     @Override
     protected void handle(CommunicationServerController commController) {
-        commController.requestCreateChannel(channel, proprietaryChannel, publicChannel, sender);
+        Channel newChannel = commController.requestCreateChannel(channel, proprietaryChannel, publicChannel, sender);
+
+        if (newChannel != null)
+        {
+            // return acceptation message to requester
+            commController.sendMessage(sender.getId(), new ValidateCreationChannelMessage());
+/*
+            if (newChannel.getVisibility() == Visibility.PUBLIC) {
+                // TODO init ChannelVisibleMessage
+                NetworkMessage newChannelNotification = null;
+
+                List<UserLite> onlineUsers = commController.onlineUsers();
+
+                for (UserLite otherUser: onlineUsers) {
+                    commController.sendMessage(otherUser.getId(), newChannelNotification);
+                }
+            }
+*/
+        }
     }
 }
