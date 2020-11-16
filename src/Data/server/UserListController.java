@@ -1,4 +1,4 @@
-package common.interfaces.server;
+package Data.server;
 
 import common.sharedData.UserLite;
 
