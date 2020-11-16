@@ -1,8 +1,9 @@
 package Communication.messages.client_to_server;
 
+import common.sharedData.UserLite;
+
 import Communication.messages.abstracts.ClientToServerMessage;
 import Communication.server.CommunicationServerController;
-import common.sharedData.UserLite;
 
 import java.util.UUID;
 
