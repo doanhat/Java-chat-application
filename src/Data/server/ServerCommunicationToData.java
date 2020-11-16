@@ -115,14 +115,6 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     }
 
     @Override
-<<<<<<< HEAD
-=======
-    public List<Channel> requestChannelSuppression(Channel ch, UserLite user) {
-        return null;
-    }
-
-    @Override
->>>>>>> Update in Data interface (server) structure
     public void sendChannelInvitation(UserLite sender, UserLite receiver, String message) {
 
     }
