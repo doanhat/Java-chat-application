@@ -1,17 +1,14 @@
 package IHMChannel;
 
-import IHMMain.IHMMainPage;
 import IHMMain.IHMMainWindowController;
-import IHMTools.IHMTools;
+import common.IHMTools.IHMTools;
 import app.MainWindowController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.layout.Region;
-import javafx.scene.layout.RowConstraints;
 import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
@@ -19,14 +16,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.BorderPane;
 import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
-import javafx.scene.layout.VBox;
-
-
-
-
 
 
 public class IHMChannelWindowController implements Initializable{

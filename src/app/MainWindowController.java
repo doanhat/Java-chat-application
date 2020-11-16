@@ -1,20 +1,17 @@
 package app;
 
-import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import IHMMain.ConnectionController;
 import IHMMain.IHMMainWindowController;
-import IHMTools.*;
+import common.IHMTools.*;
 import javafx.fxml.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
-import javafx.stage.Stage;
 
 public class MainWindowController implements Initializable {
 

@@ -1,10 +1,6 @@
 package IHMChannel;
-import IHMChannel.IHMChannelListMemberController;
-import IHMTools.IHMTools;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
 
 import java.io.IOException;
 

@@ -1,7 +1,7 @@
 package IHMChannel;
 
 import IHMMain.UserListViewController;
-import IHMTools.IHMTools;
+import common.IHMTools.IHMTools;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -9,15 +9,12 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import IHMMain.IHMMainWindowController;
 import app.MainWindowController;
-import app.MainWindowController;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import IHMMain.IHMMainPage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import IHMChannel.ChannelMembersDisplay;
-import IHMChannel.ChannelMessagesDisplay;
 
 public class IHMChannelPageController implements Initializable {
     @FXML

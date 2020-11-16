@@ -1,6 +1,5 @@
 package IHMChannel;
 
-import IHMTools.IHMTools;
 import common.interfaces.client.IIHMMainToIHMChannel;
 import common.sharedData.Channel;
 import javafx.fxml.FXMLLoader;

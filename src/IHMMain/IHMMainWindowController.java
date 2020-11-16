@@ -1,15 +1,12 @@
 package IHMMain;
 
-import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import IHMChannel.IHMChannelWindowController;
-import IHMChannel.IHMChannelPageController;
 import IHMChannel.IHMMainToIHMChannel;
 import app.MainWindowController;
-import IHMTools.*;
+import common.IHMTools.*;
 import javafx.fxml.*;
 import javafx.scene.Parent;
 import javafx.scene.layout.Region;

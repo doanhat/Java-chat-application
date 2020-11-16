@@ -1,4 +1,4 @@
-package IHMTools;
+package common.IHMTools;
 
 import javafx.scene.layout.Region;
 
