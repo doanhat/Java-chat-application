@@ -35,4 +35,5 @@ public interface IServerCommunicationToData {
     void updateNickname(Channel ch, UserLite user, String newNickname);
     void sendChannelInvitation(UserLite sender, UserLite receiver, String message);
 
+
 }
