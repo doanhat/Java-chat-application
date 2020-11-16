@@ -11,7 +11,9 @@ public interface DirectoryFacilitator {
 
     public void deregisterClient(UUID clientID);
 
-    public NetworkUser getAgent(UUID clientID);
+    public NetworkUser getConnection(UUID clientID);
 
     public List<UserLite> onlineUsers();
+
+    public List<NetworkUser> getConnections(List<UUID> uuids);
 }

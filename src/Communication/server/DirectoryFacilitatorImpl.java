@@ -33,7 +33,7 @@ public class DirectoryFacilitatorImpl implements DirectoryFacilitator {
     }
 
     @Override
-    public NetworkUser getAgent(UUID clientID) {
+    public NetworkUser getConnection(UUID clientID) {
         return connections.get(clientID);
     }
 
@@ -46,5 +46,20 @@ public class DirectoryFacilitatorImpl implements DirectoryFacilitator {
         }
 
         return userList;
+    }
+
+    @Override
+    public List<NetworkUser> getConnections(List<UUID> uuids) {
+        List<NetworkUser> connections = new ArrayList<>();
+
+        for (UUID id: uuids) {
+            NetworkUser user = getConnection(id);
+
+            if (user != null) {
+                connections.add(user);
+            }
+        }
+
+        return connections;
     }
 }

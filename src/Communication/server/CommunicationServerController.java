@@ -46,6 +46,6 @@ public class CommunicationServerController extends CommunicationController {
     }
 
     public void sendMessage(UUID receiver, NetworkMessage message) {
-        server.sendMessage(server.directory().getAgent(receiver).preparePacket(message));
+        server.sendMessage(server.directory().getConnection(receiver).preparePacket(message));
     }
 }

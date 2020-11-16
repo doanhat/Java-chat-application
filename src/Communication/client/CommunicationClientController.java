@@ -41,7 +41,8 @@ public class CommunicationClientController extends CommunicationController {
     }
 
     public void notifyUserConnected(UserLite newUser) {
-        //dataClient.newConnectionUser();
+        // TODO verify ICommunicationToData User interfaces
+        //dataClient.newConnectionUser(newUser);
     }
 
     public void notifyVisibleChannel(Channel channel) {
