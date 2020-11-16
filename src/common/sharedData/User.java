@@ -8,7 +8,14 @@ public class User extends UserLite {
 	private String lastName;
 	private String firstName;
 	private Date birthDate;
-	
+
+	public User(String password, String lastName, String firstName, Date birthDate) {
+		this.password = password;
+		this.lastName = lastName;
+		this.firstName = firstName;
+		this.birthDate = birthDate;
+	}
+
 	public String getPassword() {
 		return password;
 	}
