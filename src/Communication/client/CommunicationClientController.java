@@ -4,6 +4,7 @@ import Communication.common.CommunicationController;
 import Communication.messages.client_to_server.UserConnectionMessage;
 import common.interfaces.client.ICommunicationToData;
 import common.sharedData.Channel;
+import common.sharedData.User;
 import common.sharedData.UserLite;
 
 import java.io.IOException;
@@ -46,6 +47,10 @@ public class CommunicationClientController extends CommunicationController {
     public void notifyUserConnected(UserLite newUser) {
         // TODO verify ICommunicationToData User interfaces
         //dataClient.newConnectionUser(newUser);
+    }
+
+    public void notifyUserDisconnected(User user) {
+        dataClient.disconnectUser(user);
     }
 
     public void notifyVisibleChannel(Channel channel) {
