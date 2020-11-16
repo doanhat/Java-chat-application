@@ -23,6 +23,7 @@ public class UserConnectionMessage extends ClientToServerMessage
     @Override
     protected void handle(CommunicationServerController commController)
     {
-        // TODO
+        // TODO get list of publicChannels and Online users and send back to user
+        // TODO: broadcast new user info to all online users
     }
 }

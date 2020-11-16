@@ -32,8 +32,8 @@ public class NetworkClient
         writer = new NetworkWriter();
 
         // Dispatch reader, writer to thread pool
-        commController.taskManager.appendTask(reader);
-        commController.taskManager.appendTask(writer);
+        commController.taskManager.appendCyclicTask(reader);
+        commController.taskManager.appendCyclicTask(writer);
     }
 
     public void sendMessage(NetworkMessage message)

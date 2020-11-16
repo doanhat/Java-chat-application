@@ -8,7 +8,7 @@ import static java.util.concurrent.Executors.newCachedThreadPool;
 public class TaskManager
 {
     private ExecutorService pool;
-    private List<Task> cyclicTasks;
+    private List<CyclicTask> cyclicTasks;
 
     public TaskManager()
     {
@@ -20,7 +20,7 @@ public class TaskManager
      * Executer action cyclique au thread pool
      * @param task
      */
-    public void appendTask(Task task)
+    public void appendCyclicTask(CyclicTask task)
     {
         cyclicTasks.add(task);
         pool.execute(task);
@@ -39,7 +39,7 @@ public class TaskManager
     {
         pool.shutdown();
 
-        for (Task t: cyclicTasks)
+        for (CyclicTask t: cyclicTasks)
         {
             t.stop();
         }

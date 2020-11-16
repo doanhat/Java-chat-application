@@ -44,7 +44,7 @@ public class NetworkUser
             }
 
             // dispatch reader to thread pool after connection procedure
-            commController.taskManager.appendTask(this.reader);
+            commController.taskManager.appendCyclicTask(this.reader);
         }
         catch (IOException | ClassNotFoundException e)
         {

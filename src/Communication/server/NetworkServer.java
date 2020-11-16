@@ -2,14 +2,11 @@ package Communication.server;
 
 import Communication.common.NetworkWriter;
 import Communication.common.Parameters;
-import Communication.common.Task;
+import Communication.common.CyclicTask;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 public class NetworkServer
 {
@@ -31,8 +28,8 @@ public class NetworkServer
             serverSocket = new ServerSocket(Parameters.PORT);
             msgSender    = new NetworkWriter();
 
-            commController.taskManager.appendTask(new ClientAcceptor(this));
-            commController.taskManager.appendTask(msgSender);
+            commController.taskManager.appendCyclicTask(new ClientAcceptor(this));
+            commController.taskManager.appendCyclicTask(msgSender);
 
             System.out.println("Serveur en écoute sur le port " + Parameters.PORT);
         }
@@ -55,7 +52,7 @@ public class NetworkServer
         }
     }
 
-    private static class ClientAcceptor extends Task
+    private static class ClientAcceptor extends CyclicTask
     {
         private NetworkServer networkServer;
 
@@ -65,20 +62,17 @@ public class NetworkServer
         }
 
         @Override
-        public void run()
+        protected void action()
         {
-            while (!cancel)
+            try
             {
-                try
-                {
-                    Socket clientSocket = networkServer.serverSocket.accept();
+                Socket clientSocket = networkServer.serverSocket.accept();
 
-                    networkServer.directoryFacilitator.registerClient(clientSocket);
-                }
-                catch (IOException e)
-                {
-                    e.printStackTrace();
-                }
+                networkServer.directoryFacilitator.registerClient(clientSocket);
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
             }
         }
     }

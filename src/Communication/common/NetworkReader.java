@@ -5,7 +5,7 @@ import Communication.messages.abstracts.NetworkMessage;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
-public class NetworkReader extends Task
+public class NetworkReader extends CyclicTask
 {
     private final CommunicationController commController;
     private final ObjectInputStream socketIn;
@@ -18,22 +18,19 @@ public class NetworkReader extends Task
     }
 
     @Override
-    public void run()
+    protected void action()
     {
-        while (!cancel)
+        try
         {
-            try
-            {
-                NetworkMessage message = readMessage();
+            NetworkMessage message = readMessage();
 
-                // Dispatch message to TaskManager
-                commController.taskManager.appendTask(new NetworkMessage.Handler(message, commController));
-                //messagesQueue.add(message)
-            }
-            catch (IOException|ClassNotFoundException e)
-            {
-                e.printStackTrace();
-            }
+            // Dispatch message to TaskManager
+            commController.taskManager.appendTask(new NetworkMessage.Handler(message, commController));
+            //messagesQueue.add(message)
+        }
+        catch (IOException|ClassNotFoundException e)
+        {
+            e.printStackTrace();
         }
     }
 

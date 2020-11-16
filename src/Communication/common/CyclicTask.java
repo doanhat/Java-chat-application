@@ -1,9 +1,20 @@
 package Communication.common;
 
-public abstract class Task implements Runnable
+public abstract class CyclicTask implements Runnable
 {
     // NOTE: use cancel flag to stop run() function
     protected boolean cancel = false;
+
+    @Override
+    public void run()
+    {
+        while (!cancel)
+        {
+            action();
+        }
+
+        cleanup();
+    }
 
     public void stop()
     {
@@ -15,7 +26,9 @@ public abstract class Task implements Runnable
         return (!cancel);
     }
 
-    public void cleanup()
+    protected abstract void action();
+
+    protected void cleanup()
     {
     }
 }
