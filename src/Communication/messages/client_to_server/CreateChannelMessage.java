@@ -37,7 +37,7 @@ public class CreateChannelMessage extends ClientToServerMessage {
         {
             // return acceptation message to requester
             commController.sendMessage(sender.getId(), new ValidateCreationChannelMessage());
-/*
+
             if (newChannel.getVisibility() == Visibility.PUBLIC) {
                 // TODO init ChannelVisibleMessage
                 NetworkMessage newChannelNotification = null;
@@ -48,7 +48,7 @@ public class CreateChannelMessage extends ClientToServerMessage {
                     commController.sendMessage(otherUser.getId(), newChannelNotification);
                 }
             }
-*/
+
         }
     }
 }
