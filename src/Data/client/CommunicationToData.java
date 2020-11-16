@@ -16,6 +16,7 @@ public class CommunicationToData implements ICommunicationToData {
         dataController = new DataClientController();
     }
 
+
     /**
      * Add visible channel.
      *
