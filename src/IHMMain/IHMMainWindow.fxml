@@ -19,7 +19,7 @@
             <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <StackPane style="-fx-background-color: lightgreen;">
+            <StackPane fx:id="stackMenu" style="-fx-background-color: lightgreen;">
                <children>
                   <GridPane>
                      <columnConstraints>

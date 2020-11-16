@@ -6,6 +6,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import IHMChannel.IHMChannelWindowController;
+import IHMChannel.IHMChannelPageController;
 import app.MainWindowController;
 import IHMTools.*;
 import javafx.fxml.*;
@@ -16,6 +17,8 @@ import javafx.scene.layout.StackPane;
 public class IHMMainWindowController implements Initializable{
 
     private MainWindowController mainWindowController;
+    @FXML
+    private StackPane stackMenu;
 
     @FXML
     private StackPane mainArea;
@@ -43,6 +46,16 @@ public class IHMMainWindowController implements Initializable{
             ihmChannelWindowController.setIhmMainWindowController(this); //On donne au controller fils une référence de son controller parent
             this.mainArea.getChildren().addAll(parent); //On ajoute le noeud parent (fxml) au noeud racine de cette vue
             IHMTools.fitSizeToParent((Region)this.mainArea,(Region)parent);
+
+            FXMLLoader fxmlLoader_page = new
+                    FXMLLoader(getClass().getResource("../IHMChannel/IHMChannelPage.fxml"));
+            Parent parent_page = fxmlLoader_page.load(); //On recupère le noeud racine du fxml chargé
+            IHMChannelPageController ihmChannelPageController = fxmlLoader_page.getController(); //On récupère la classe controller liée au fxml
+            ihmChannelPageController.setMainWindowController(this.mainWindowController); //On donne au controller fils une référence de son controller grand-parent
+            ihmChannelPageController.setIhmMainWindowController(this); //On donne au controller fils une référence de son controller parent
+            this.stackMenu.getChildren().clear();
+            this.stackMenu.getChildren().addAll(parent_page); //On ajoute le noeud parent (fxml) au noeud racine de cette vue
+            IHMTools.fitSizeToParent((Region)this.stackMenu,(Region)parent_page);
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
@@ -63,6 +76,10 @@ public class IHMMainWindowController implements Initializable{
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
+    }
+
+    public StackPane getMainArea() {
+        return this.mainArea;
     }
 
 }
