@@ -1,6 +1,7 @@
 package common.interfaces.client;
 
 import common.sharedData.Channel;
+import javafx.scene.layout.Region;
 
 /**
  * Interface fournie par le module IHMChannel pour le module IHMMain
@@ -17,4 +18,10 @@ public interface IIHMMainToIHMChannel {
      * @param channel [Channel] Channel que l'on souhaite rejoindre.
      */
     public void askToJoin(Channel channel);
+
+    /**
+     * Retourne le noeud de la vue de IHMChannel
+     * @return
+     */
+    public Region getIHMChannelWindow();
 }
