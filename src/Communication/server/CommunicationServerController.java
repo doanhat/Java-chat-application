@@ -2,6 +2,7 @@ package Communication.server;
 
 import Communication.common.CommunicationController;
 import Communication.messages.abstracts.NetworkMessage;
+import Communication.messages.server_to_client.UserDisconnectedMessage;
 import common.interfaces.server.IServerCommunicationToData;
 import common.sharedData.Channel;
 import common.sharedData.UserLite;
@@ -13,13 +14,12 @@ import java.util.UUID;
 public class CommunicationServerController extends CommunicationController {
 
     private final NetworkServer server;
-    private final IServerCommunicationToData dataServer;
+    private IServerCommunicationToData dataServer;
 
-    public CommunicationServerController(IServerCommunicationToData dataIface) {
+    public CommunicationServerController() {
         super();
 
         server = new NetworkServer(this);
-        dataServer = dataIface;
     }
 
     public void start() {
@@ -37,6 +37,10 @@ public class CommunicationServerController extends CommunicationController {
         }
     }
 
+    public void setIServerCommunicationToData(IServerCommunicationToData iServerCommunicationToDataImpl) {
+        this.dataServer = iServerCommunicationToDataImpl;
+    }
+
     public List<Channel> getUserChannels(UserLite user) {
         return dataServer.requestUserChannelList(user);
     }
@@ -47,5 +51,19 @@ public class CommunicationServerController extends CommunicationController {
 
     public void sendMessage(UUID receiver, NetworkMessage message) {
         server.sendMessage(server.directory().getConnection(receiver).preparePacket(message));
+    }
+
+    private void sendBroadcast(NetworkMessage message) {
+        for(NetworkUser usr : server.directory().getConnections()){
+            usr.preparePacket(message);
+        }
+    }
+
+    @Override
+    protected void disconnect(UUID user) {
+        UserLite usrlite = server.directory().getConnection(user).getUserInfo();
+
+        server.directory().deregisterClient(user);
+        sendBroadcast(new UserDisconnectedMessage(usrlite));
     }
 }

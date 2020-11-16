@@ -76,4 +76,9 @@ public class DirectoryFacilitatorImpl implements DirectoryFacilitator {
 
         return connections;
     }
+
+    @Override
+    public List<NetworkUser> getConnections() {
+        return (List<NetworkUser>) connections.values();
+    }
 }

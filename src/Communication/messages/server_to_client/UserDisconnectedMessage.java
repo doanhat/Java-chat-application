@@ -3,12 +3,13 @@ package Communication.messages.server_to_client;
 import Communication.client.CommunicationClientController;
 import Communication.messages.abstracts.ServerToClientMessage;
 import common.sharedData.User;
+import common.sharedData.UserLite;
 
 public class UserDisconnectedMessage extends ServerToClientMessage {
 
-    private User user;
+    private UserLite user;
 
-    public UserDisconnectedMessage(User user)
+    public UserDisconnectedMessage(UserLite user)
     {
         this.user = user;
     }

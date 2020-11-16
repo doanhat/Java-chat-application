@@ -22,7 +22,7 @@ public class TaskManager {
      */
     public void appendCyclicTask(CyclicTask task) {
         cyclicTasks.add(task);
-        pool.execute(task);
+        pool.submit(task);
     }
 
     /**

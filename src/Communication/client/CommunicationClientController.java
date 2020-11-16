@@ -9,17 +9,17 @@ import common.sharedData.User;
 import common.sharedData.UserLite;
 
 import java.io.IOException;
+import java.util.UUID;
 
 public class CommunicationClientController extends CommunicationController {
 
     private final NetworkClient client;
-    private final ICommunicationToData dataClient;
+    private ICommunicationToData dataClient;
 
-    public CommunicationClientController(ICommunicationToData dataIface) {
+    public CommunicationClientController() {
         super();
 
         client = new NetworkClient(this);
-        dataClient = dataIface;
     }
 
     public void start(String ip, int port, UserLite user) {
@@ -45,6 +45,10 @@ public class CommunicationClientController extends CommunicationController {
         }
     }
 
+    public void setICommunicationData(ICommunicationToData iCommunicationDataImpl) {
+        dataClient = iCommunicationDataImpl;
+    }
+
     public void sendMessage(NetworkMessage message) {
         client.sendMessage(message);
     }
@@ -54,11 +58,23 @@ public class CommunicationClientController extends CommunicationController {
         //dataClient.newConnectionUser(newUser);
     }
 
-    public void notifyUserDisconnected(User user) {
-        dataClient.disconnectUser(user);
+    public void notifyUserDisconnected(UserLite user) {
+        // TODO Change ICommunicationToData User to Userlite interfaces
+        //dataClient.disconnectUser(user);
     }
 
     public void notifyVisibleChannel(Channel channel) {
         dataClient.addVisibleChannel(channel);
+    }
+
+    @Override
+    protected void disconnect(UUID user) {
+        System.out.println("A IHM Main : je suis plus co");
+        // TODO ICommunicationToIHMMain
+        try {
+            client.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

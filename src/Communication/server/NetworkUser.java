@@ -64,4 +64,8 @@ public class NetworkUser {
         reader.stop();
         socket.close();
     }
+
+    public UserLite getUserInfo() {
+        return userInfo;
+    }
 }
