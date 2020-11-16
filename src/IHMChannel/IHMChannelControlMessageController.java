@@ -9,7 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import org.jetbrains.annotations.NotNull;
 import javafx.event.ActionEvent;
 
 import java.net.URL;
