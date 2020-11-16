@@ -37,6 +37,10 @@ public class CommunicationServerController extends CommunicationController {
         }
     }
 
+    public void sendMessage(UUID receiver, NetworkMessage message) {
+        server.sendMessage(server.directory().getConnection(receiver).preparePacket(message));
+    }
+
     public List<Channel> getUserChannels(UserLite user) {
         return dataServer.requestUserChannelList(user);
     }
@@ -45,7 +49,7 @@ public class CommunicationServerController extends CommunicationController {
         return server.directory().onlineUsers();
     }
 
-    public void sendMessage(UUID receiver, NetworkMessage message) {
-        server.sendMessage(server.directory().getConnection(receiver).preparePacket(message));
+    public void requestCreateChannel(Channel channel, boolean proprietary, boolean publicChannel, UserLite requester) {
+        // TODO request Data to add missing interface
     }
 }
