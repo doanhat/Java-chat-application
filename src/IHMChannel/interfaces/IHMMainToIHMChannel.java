@@ -11,6 +11,7 @@ public class IHMMainToIHMChannel implements IIHMMainToIHMChannel {
      */
     @Override
     public void openChannel(Channel channel) {
+
         throw new UnsupportedOperationException("Not implemented yet");
     }
 

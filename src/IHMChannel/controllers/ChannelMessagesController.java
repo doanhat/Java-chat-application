@@ -41,7 +41,7 @@ public class ChannelMessagesController{
 
     ListChangeListener<Message> messageListListener;
 
-    public void setChannel(Channel channel){
+    public void setCurrentChannel(Channel channel){
         this.channel = channel;
         System.out.println(channel);
         try{

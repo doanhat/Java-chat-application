@@ -5,6 +5,8 @@ import IHMChannel.interfaces.DataToIHMChannel;
 import IHMChannel.interfaces.IHMMainToIHMChannel;
 import common.interfaces.client.*;
 
+import java.util.HashMap;
+
 /**
  * Controller principal de IHMChannel
  */
