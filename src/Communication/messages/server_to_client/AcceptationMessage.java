@@ -20,6 +20,12 @@ public class AcceptationMessage extends ServerToClientMessage {
 
     @Override
     protected void handle(CommunicationClientController commController) {
-        // TODO give user lists and channel list to other modules
+        for (UserLite user: usersList) {
+            commController.notifyUserConnected(user);
+        }
+
+        for (Channel channel: channelsList) {
+            commController.notifyVisibleChannel(channel);
+        }
     }
 }
