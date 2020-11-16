@@ -4,10 +4,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 public class Message implements Serializable {
 	
-	private int id;
+	private UUID id;
 	private Date date;
 	private String message;
 	private boolean edited;
@@ -18,7 +19,7 @@ public class Message implements Serializable {
 	private Message parentMessage;
 	private List<Message> answers;
 	
-	public Message(int id, String message, UserLite author) {
+	public Message(UUID id, String message, UserLite author) {
 		this.id = id;
 		this.message = message;
 		this.author = author;
@@ -27,11 +28,11 @@ public class Message implements Serializable {
 		this.likes = new ArrayList<UserLite>();
 	}
 	
-	public int getId() {
+	public UUID getId() {
 		return id;
 	}
 	
-	public void setId(int id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 	
