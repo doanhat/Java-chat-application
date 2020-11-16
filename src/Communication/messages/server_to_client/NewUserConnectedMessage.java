@@ -6,14 +6,16 @@ import common.sharedData.UserLite;
 
 public class NewUserConnectedMessage extends ServerToClientMessage {
 
+    private UserLite newUser;
+
     public NewUserConnectedMessage(UserLite newUser)
     {
-        // TODO: implementer constructeur
+        this.newUser = newUser;
     }
 
     @Override
     protected void handle(CommunicationClientController commController)
     {
-        // TODO: implementer handler méthode
+        commController.notifyUserConnected(newUser);
     }
 }
