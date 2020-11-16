@@ -3,11 +3,9 @@ package Communication.messages.abstracts;
 import Communication.client.CommunicationClientController;
 import Communication.common.CommunicationController;
 
-public abstract class ServerToClientMessage extends NetworkMessage
-{
+public abstract class ServerToClientMessage extends NetworkMessage {
     @Override
-    public void handle(CommunicationController communicationController)
-    {
+    public void handle(CommunicationController communicationController) {
         handle((CommunicationClientController) communicationController);
     }
 

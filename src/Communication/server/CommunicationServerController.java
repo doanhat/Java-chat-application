@@ -4,33 +4,27 @@ import Communication.common.CommunicationController;
 
 import java.io.IOException;
 
-public class CommunicationServerController extends CommunicationController
-{
+public class CommunicationServerController extends CommunicationController {
 
     private final NetworkServer server;
 
-    public CommunicationServerController()
-    {
+    public CommunicationServerController() {
         super();
 
         server = new NetworkServer(this);
     }
 
-    public void start()
-    {
+    public void start() {
         server.start();
     }
 
-    public void stop()
-    {
+    public void stop() {
         taskManager.shutdown();
 
-        try
-        {
+        try {
             server.close();
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             e.printStackTrace();
         }
     }

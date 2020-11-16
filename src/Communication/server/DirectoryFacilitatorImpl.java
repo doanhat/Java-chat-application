@@ -6,39 +6,33 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class DirectoryFacilitatorImpl implements DirectoryFacilitator
-{
+public class DirectoryFacilitatorImpl implements DirectoryFacilitator {
+
     private final CommunicationServerController commController;
     private final Map<UUID, NetworkUser> connections;
 
-    public DirectoryFacilitatorImpl(CommunicationServerController commController)
-    {
+    public DirectoryFacilitatorImpl(CommunicationServerController commController) {
         this.commController = commController;
-        this.connections    = new HashMap<>();
+        this.connections = new HashMap<>();
     }
 
     @Override
-    public void registerClient(Socket clientSocket)
-    {
-        if (clientSocket != null)
-        {
+    public void registerClient(Socket clientSocket) {
+        if (clientSocket != null) {
             NetworkUser client = new NetworkUser(commController, clientSocket);
 
             connections.put(client.uuid(), client);
         }
-        else
-        {
+        else {
             System.out.println("DirectoryFacilitator.registerClients : Socket est NULL");
         }
     }
 
-    public void deregisterClient(UUID clientID)
-    {
+    public void deregisterClient(UUID clientID) {
         connections.remove(clientID);
     }
 
-    public NetworkUser getAgent(UUID clientID)
-    {
+    public NetworkUser getAgent(UUID clientID) {
         return connections.get(clientID);
     }
 }

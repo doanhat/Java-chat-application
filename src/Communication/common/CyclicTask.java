@@ -1,34 +1,27 @@
 package Communication.common;
 
-public abstract class CyclicTask implements Runnable
-{
-    // NOTE: use cancel flag to stop run() function
+public abstract class CyclicTask implements Runnable {
     protected boolean cancel = false;
 
     @Override
-    public void run()
-    {
-        while (!cancel)
-        {
+    public void run() {
+        while (!cancel) {
             action();
         }
 
         cleanup();
     }
 
-    public void stop()
-    {
+    public void stop() {
         cancel = true;
     }
 
-    public boolean isActive()
-    {
+    public boolean isActive() {
         return (!cancel);
     }
 
     protected abstract void action();
 
-    protected void cleanup()
-    {
+    protected void cleanup() {
     }
 }

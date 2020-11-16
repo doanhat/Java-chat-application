@@ -8,23 +8,20 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class NetworkServer
-{
+public class NetworkServer {
+
     private final CommunicationServerController commController;
     private DirectoryFacilitator directoryFacilitator;
     private ServerSocket serverSocket;
     private NetworkWriter msgSender;
 
-    public NetworkServer(CommunicationServerController commController)
-    {
-        this.commController = commController;
-        this.directoryFacilitator = new DirectoryFacilitatorImpl(commController);
+    public NetworkServer(CommunicationServerController commController) {
+        this.commController         = commController;
+        this.directoryFacilitator   = new DirectoryFacilitatorImpl(commController);
     }
 
-    public void start()
-    {
-        try
-        {
+    public void start() {
+        try {
             serverSocket = new ServerSocket(Parameters.PORT);
             msgSender    = new NetworkWriter();
 
@@ -33,45 +30,36 @@ public class NetworkServer
 
             System.out.println("Serveur en écoute sur le port " + Parameters.PORT);
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void sendMessage(NetworkWriter.DeliveryPacket packet)
-    {
+    public void sendMessage(NetworkWriter.DeliveryPacket packet) {
         msgSender.sendMessage(packet);
     }
 
-    public void close() throws IOException
-    {
-        if (!serverSocket.isClosed())
-        {
+    public void close() throws IOException {
+        if (!serverSocket.isClosed()) {
             serverSocket.close();
         }
     }
 
-    private static class ClientAcceptor extends CyclicTask
-    {
+    private static class ClientAcceptor extends CyclicTask {
         private NetworkServer networkServer;
 
-        public ClientAcceptor(NetworkServer networkServer)
-        {
+        public ClientAcceptor(NetworkServer networkServer) {
             this.networkServer = networkServer;
         }
 
         @Override
-        protected void action()
-        {
-            try
-            {
+        protected void action() {
+            try {
                 Socket clientSocket = networkServer.serverSocket.accept();
 
                 networkServer.directoryFacilitator.registerClient(clientSocket);
             }
-            catch (IOException e)
-            {
+            catch (IOException e) {
                 e.printStackTrace();
             }
         }

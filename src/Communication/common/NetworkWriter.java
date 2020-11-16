@@ -8,80 +8,67 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class NetworkWriter extends CyclicTask
-{
+public class NetworkWriter extends CyclicTask {
+
     private final List<DeliveryPacket> messagesQueue;
 
-    public NetworkWriter()
-    {
+    public NetworkWriter() {
         messagesQueue = Collections.synchronizedList(new ArrayList<>());
     }
 
-    public void sendMessage(DeliveryPacket packet)
-    {
-        synchronized (messagesQueue)
-        {
+    public void sendMessage(DeliveryPacket packet) {
+        synchronized (messagesQueue) {
             messagesQueue.add(packet);
             messagesQueue.notifyAll();
         }
     }
 
     @Override
-    protected void action()
-    {
-        try
-        {
-            synchronized (messagesQueue)
-            {
-                if (!messagesQueue.isEmpty())
-                {
+    protected void action() {
+        try {
+            synchronized (messagesQueue) {
+                if (!messagesQueue.isEmpty()) {
                     DeliveryPacket packet = messagesQueue.remove(0);
                     packet.send();
-                }
-                else {
+                } else {
                     messagesQueue.wait();
                 }
             }
         }
-        catch (IOException | InterruptedException e)
-        {
+        catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void stop()
-    {
+    public void stop() {
         cancel = true;
 
-        synchronized (messagesQueue)
-        {
+        synchronized (messagesQueue) {
             messagesQueue.notifyAll();
         }
     }
 
     @Override
-    protected void cleanup()
-    {
-        synchronized (messagesQueue)
-        {
+    protected void cleanup() {
+        synchronized (messagesQueue) {
             messagesQueue.clear();
         }
     }
 
-    public static class DeliveryPacket
-    {
+    /**
+     * Classe embarqué encapsule message et recepteur
+     */
+    public static class DeliveryPacket {
         private ObjectOutputStream receiver;
         private NetworkMessage message;
 
-        public DeliveryPacket(ObjectOutputStream receiver, NetworkMessage message)
-        {
+        public DeliveryPacket(ObjectOutputStream receiver, NetworkMessage message) {
             this.receiver = receiver;
-            this.message  = message;
+            this.message = message;
         }
 
-        public void send() throws IOException
-        {
+        public void send() throws IOException {
             receiver.writeObject(message);
         }
     }
