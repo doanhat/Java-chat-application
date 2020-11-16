@@ -7,9 +7,11 @@ import common.sharedData.User;
 import java.util.List;
 
 public class ChannelController {
-    public ChannelController() {
-    }
+    private DataClientController dataController;
 
+    public ChannelController() {
+        dataController = new DataClientController();
+    }
     /**
      * Get all channels
      *
