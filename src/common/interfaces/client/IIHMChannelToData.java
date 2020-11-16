@@ -1,8 +1,8 @@
-package Common.Interfaces.Client;
+package common.interfaces.client;
 
-import Common.Data.Channel;
-import Common.Data.Message;
-import Common.Data.User;
+import common.sharedData.Channel;
+import common.sharedData.Message;
+import common.sharedData.User;
 
 import java.util.List;
 
