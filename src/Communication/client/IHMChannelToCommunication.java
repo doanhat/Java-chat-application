@@ -53,10 +53,11 @@ public class IHMChannelToCommunication implements IIHMChannelToCommunication {
      *
      * @param msg Nouveau messsage a envoyer
      * @param channel Channel sur lequel ont veut envoyer le message
-     * @param reponse Message auquel le nouveau message repond sinon null
+     * @param response Message auquel le nouveau message repond sinon null
      **/
-    public void sendMessage(Message msg, Channel channel, Message reponse){
+    public void sendMessage(Message msg, Channel channel, Message response){
         //TODO V1
+        //this.commController.sendMessage(new SendMessageMessage(msg, channel, response));
     }
 
     /**

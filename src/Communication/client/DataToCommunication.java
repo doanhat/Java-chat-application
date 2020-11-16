@@ -3,6 +3,7 @@ package Communication.client;
 import common.interfaces.client.IDataToCommunication;
 import common.sharedData.Channel;
 import common.sharedData.UserLite;
+import Communication.common.Parameters;
 
 public class DataToCommunication implements IDataToCommunication {
 
@@ -18,7 +19,7 @@ public class DataToCommunication implements IDataToCommunication {
      **/
     @Override
     public void userConnect(UserLite user){
-        this.commController.start("127.0.0.1", 17777, user); //TODO V1
+        this.commController.start(Parameters.SERVER_IP, Parameters.PORT, user); //TODO V1
     }
 
     /**
