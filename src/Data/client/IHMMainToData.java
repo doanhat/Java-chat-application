@@ -8,7 +8,6 @@ import common.sharedData.UserLite;
 import java.util.List;
 
 public class IHMMainToData implements IIHMMainToData {
-
     private DataClientController dataController;
 
     public IHMMainToData() {
