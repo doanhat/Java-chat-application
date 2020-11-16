@@ -14,6 +14,9 @@ public interface IServerCommunicationToData {
 
     /* Channels section */
 
+    /* Channels section */
+    List<Channel> requestChannelSuppression(Channel ch, UserLite user);
+    List<Channel> requestAddChannel(Channel ch, UserLite user);
     void updateChannel(Channel ch);
     void requestAddUser(Channel ch, UserLite user);
     void addAdmin(Channel ch, UserLite user);
@@ -35,6 +38,5 @@ public interface IServerCommunicationToData {
     List<UserLite> getConnectedUsers();
     void updateNickname(Channel ch, UserLite user, String newNickname);
     void sendChannelInvitation(UserLite sender, UserLite receiver, String message);
-
 
 }
