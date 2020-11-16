@@ -1,5 +1,6 @@
 package IHMChannel.interfaces;
 
+import IHMChannel.IHMChannelController;
 import common.interfaces.client.ICommunicationToIHMChannel;
 import common.sharedData.Channel;
 import common.sharedData.Message;
@@ -8,6 +9,11 @@ import common.sharedData.User;
 import java.util.List;
 
 public class CommunicationToIHMChannel implements ICommunicationToIHMChannel {
+
+    public CommunicationToIHMChannel(IHMChannelController controller){
+        this.controller = controller;
+    }
+
     /**
      * Méthode permettant de changer le nickname d'un utilisateur
      *
@@ -28,4 +34,7 @@ public class CommunicationToIHMChannel implements ICommunicationToIHMChannel {
     public void displayHistory(Channel channel, List<Message> history) {
         throw new UnsupportedOperationException("Not implemented yet");
     }
+
+    private IHMChannelController controller;
+
 }
