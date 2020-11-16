@@ -1,4 +1,6 @@
-package common.interfaces.server;
+package Data.server;
+
+import common.interfaces.server.IServerCommunicationToData;
 
 public class DataController {
     private ChannelsListController channelsListController;
