@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface IServerCommunicationToData {
 
+    public List<Channel> requestUserChannelList(UserLite user);
     public List<Channel> requestChannelSuppression(Channel ch, UserLite user);
     public List<Channel> requestAddChannel(Channel ch, UserLite user);
     public List<UserLite> disconnectUser(UserLite user);
