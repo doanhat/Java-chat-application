@@ -14,6 +14,7 @@ public class UserLite implements Serializable {
 		this.nickName = nickName;
 		this.avatar = avatar;
 	}
+	
 
 
 
