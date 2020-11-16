@@ -113,8 +113,7 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     public void updateNickname(Channel ch, UserLite user, String newNickname) {
 
     }
-
-
+    
     @Override
     public void sendChannelInvitation(UserLite sender, UserLite receiver, String message) {
 
