@@ -2,6 +2,7 @@ package IHMChannel.interfaces;
 
 import common.interfaces.client.IIHMMainToIHMChannel;
 import common.sharedData.Channel;
+import javafx.scene.layout.Region;
 
 public class IHMMainToIHMChannel implements IIHMMainToIHMChannel {
     /**
@@ -22,5 +23,15 @@ public class IHMMainToIHMChannel implements IIHMMainToIHMChannel {
     @Override
     public void askToJoin(Channel channel) {
         throw new UnsupportedOperationException("Not implemented yet");
+    }
+
+    /**
+     * Génère puis Retourne le noeud de la vue de IHMChannel
+     *
+     * @return
+     */
+    @Override
+    public Region getIHMChannelWindow() {
+        return null;
     }
 }
