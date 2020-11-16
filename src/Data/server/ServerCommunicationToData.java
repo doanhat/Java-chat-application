@@ -123,5 +123,4 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     public void sendChannelInvitation(UserLite sender, UserLite receiver, String message) {
 
     }
-
 }
