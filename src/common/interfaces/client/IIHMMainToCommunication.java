@@ -6,15 +6,6 @@ import java.util.*;
 public interface IIHMMainToCommunication
 {
     /**
-     * Retourne la liste des utilisateurs connectés à l'application
-     **/
-    List<UserLite> getConnectedUsers();
-    /**
-     * Retourne la liste des canaux visibles
-     **/
-    List<Channel> getChannels();
-
-    /**
      * Demande la creation d'un nouveau channel au serveur
      *
      * @param channel [Channel] Objet channel a crée sur le serveur
