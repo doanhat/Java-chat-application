@@ -61,6 +61,7 @@ public class NetworkUser {
     }
 
     public void stop() throws IOException {
+        reader.stop();
         socket.close();
     }
 }

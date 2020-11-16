@@ -2,6 +2,7 @@ package Communication.server;
 
 import common.sharedData.UserLite;
 
+import java.io.IOException;
 import java.net.Socket;
 import java.util.Map;
 import java.util.HashMap;
@@ -33,7 +34,16 @@ public class DirectoryFacilitatorImpl implements DirectoryFacilitator {
 
     @Override
     public void deregisterClient(UUID clientID) {
-        connections.remove(clientID);
+        NetworkUser user = connections.remove(clientID);
+
+        if (user != null) {
+            try {
+                user.stop();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override

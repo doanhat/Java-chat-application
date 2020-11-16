@@ -39,6 +39,8 @@ public class NetworkClient {
     }
 
     public void close() throws IOException {
+        reader.stop();
+        writer.stop();
         socket.close();
     }
 }
