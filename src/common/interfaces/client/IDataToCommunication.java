@@ -1,14 +1,13 @@
 package common.interfaces.client;
 import common.sharedData.Channel;
-import common.sharedData.UserLite;
 
 public interface IDataToCommunication
 {
     /**
-     * Connection utilisateur local
+     * Connection d'un utilisateur
      *
      **/
-    void userConnect(UserLite user);
+    void userConnexion();
 
     /**
      * Transfert au serveur la demande de suppresion d'un channel

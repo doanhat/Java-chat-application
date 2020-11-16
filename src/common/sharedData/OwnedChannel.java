@@ -1,5 +1,7 @@
 package common.sharedData;
 
+import java.beans.Visibility;
+
 public class OwnedChannel extends Channel {
 
 	public OwnedChannel(int id, String name, UserLite creator,
