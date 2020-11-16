@@ -115,6 +115,11 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     }
 
     @Override
+    public List<Channel> requestChannelSuppression(Channel ch, UserLite user) {
+        return null;
+    }
+
+    @Override
     public void sendChannelInvitation(UserLite sender, UserLite receiver, String message) {
 
     }
