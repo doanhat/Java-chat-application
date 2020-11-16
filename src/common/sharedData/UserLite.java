@@ -15,8 +15,6 @@ public class UserLite implements Serializable {
 		this.avatar = avatar;
 	}
 
-
-
 	public UUID getId() {
 		return id;
 	}
