@@ -5,16 +5,24 @@ import IHMChannel.ChannelMessagesDisplay;
 import common.sharedData.Channel;
 import common.sharedData.Message;
 import common.sharedData.UserLite;
+import javafx.beans.InvalidationListener;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableSet;
+import javafx.collections.SetChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -25,7 +33,7 @@ import java.util.Iterator;
 public class ChannelPageController {
     int currentChannel; //channel à afficher dans l'interface
     UserLite connectedUser; //tmp
-    ObservableSet<Channel> openedChannels;
+    ObservableSet<Channel> openedChannels; //channel auxquels l'utilisateur est connecté
     HashMap<Integer, ChannelController > channelMap;
     
 
@@ -45,6 +53,8 @@ public class ChannelPageController {
     @FXML
     BorderPane pageToDisplay;
 
+    @FXML
+    TabPane tabs;
 
     /**
      * Setter du channel
@@ -54,11 +64,19 @@ public class ChannelPageController {
      */
 
 
-    public void addOpennedChannel(Channel channel) throws IOException {
+    public void addOpenedChannel(Channel channel) throws IOException {
         openedChannels.add(channel);
+
+        //Création du nouvel onglet pour le channel ajouté
+
         FXMLLoader fxmlLoader =
-                new FXMLLoader(getClass().getResource("views/Channel.fxml"));
-        fxmlLoader.load();
+                new FXMLLoader(getClass().getResource("/IHMChannel/views/Channel.fxml"));
+        Parent root = fxmlLoader.load();
+        Tab tab = new Tab(channel.getName());
+        tabs.getTabs().add(tab);
+        tab.setContent((Node) root);
+        //tab1.setGraphic(root);
+
         ChannelController ctrl = fxmlLoader.getController();
         ctrl.setChannel(channel);
         channelMap.put(channel.getId(), ctrl);
@@ -73,6 +91,10 @@ public class ChannelPageController {
         // permet d'avoir un utilisateur temporaire pour l'affichage des messages
         connectedUser = new UserLite();
         connectedUser.setNickName("Léa");
+
+        //initialisation de oppenedChannel
+        openedChannels = FXCollections.observableSet();
+        channelMap = new HashMap<Integer, ChannelController>();
     }
     /**
      * Automatically called by FXML Loader
@@ -82,10 +104,12 @@ public class ChannelPageController {
         Par exemple, le chargement des messages du channel, l'affichage de la photo de profil de l'utilisateur connecté près de la zone de message,...
         Cette méthode contient aussi les LISTENERS
         */
-
         iconsInit();
 
+
     }
+
+
 
     private void iconsInit(){
         //Liste membres

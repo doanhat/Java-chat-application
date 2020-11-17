@@ -25,6 +25,7 @@ public class MainChannel extends Application {
         initTestData();
         primaryStage.setTitle("Channel");
         primaryStage.setScene(new Scene(new ChannelPageDisplay(channelToDisplay).root));
+        primaryStage.setMaximized(true);
         primaryStage.show();
     }
 
