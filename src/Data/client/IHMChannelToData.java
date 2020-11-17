@@ -1,6 +1,9 @@
 package Data.client;
 
 import common.interfaces.client.IIHMChannelToData;
+import common.sharedData.UserLite;
+
+import java.util.UUID;
 
 public class IHMChannelToData implements IIHMChannelToData {
 
@@ -8,5 +11,16 @@ public class IHMChannelToData implements IIHMChannelToData {
 
     public IHMChannelToData() {
         dataController = new DataClientController();
+    }
+
+    /**
+     * Gets user.
+     *
+     * @param id the id
+     * @return the user
+     */
+    @Override
+    public UserLite getUser(UUID id) {
+        return null;
     }
 }
