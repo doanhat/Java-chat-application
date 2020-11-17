@@ -160,12 +160,11 @@ public interface ICommunicationToData {
     void deleteMessage(Message message, Channel channel, boolean deletedByCreator);
 
     /**
-     * Gets user.
+     * Gets list users.
      *
      * @return the user
      */
-
-    User getUsers();
+    List<UserLite> getUsers();
 
     /**
      * Update nickname.
