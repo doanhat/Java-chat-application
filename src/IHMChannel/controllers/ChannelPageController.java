@@ -2,6 +2,7 @@ package IHMChannel.controllers;
 
 import IHMChannel.ChannelMembersDisplay;
 import IHMChannel.ChannelMessagesDisplay;
+import IHMChannel.IHMChannelController;
 import common.sharedData.Channel;
 import common.sharedData.Message;
 import common.sharedData.UserLite;
@@ -35,7 +36,7 @@ public class ChannelPageController {
     UserLite connectedUser; //tmp
     ObservableSet<Channel> openedChannels; //channel auxquels l'utilisateur est connecté
     HashMap<Integer, ChannelController > channelMap;
-    
+    private IHMChannelController ihmChannelController;
 
     @FXML
     Button back;
@@ -72,13 +73,16 @@ public class ChannelPageController {
         FXMLLoader fxmlLoader =
                 new FXMLLoader(getClass().getResource("/IHMChannel/views/Channel.fxml"));
         Parent root = fxmlLoader.load();
+
+        ChannelController ctrl = fxmlLoader.getController();
+        ctrl.setChannel(channel);
+        ctrl.setIhmChannelController(ihmChannelController);
         Tab tab = new Tab(channel.getName());
         tabs.getTabs().add(tab);
         tab.setContent((Node) root);
         //tab1.setGraphic(root);
 
-        ChannelController ctrl = fxmlLoader.getController();
-        ctrl.setChannel(channel);
+
         channelMap.put(channel.getId(), ctrl);
     }
 
@@ -104,7 +108,7 @@ public class ChannelPageController {
         Par exemple, le chargement des messages du channel, l'affichage de la photo de profil de l'utilisateur connecté près de la zone de message,...
         Cette méthode contient aussi les LISTENERS
         */
-        iconsInit();
+        //iconsInit();
 
 
     }
@@ -167,4 +171,11 @@ public class ChannelPageController {
     }
 
 
+    public IHMChannelController getIhmChannelController() {
+        return ihmChannelController;
+    }
+
+    public void setIhmChannelController(IHMChannelController ihmChannelController) {
+        this.ihmChannelController = ihmChannelController;
+    }
 }

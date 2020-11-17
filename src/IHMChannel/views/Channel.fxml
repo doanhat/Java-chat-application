@@ -14,16 +14,16 @@
 
     <VBox fx:id="channelPage">
         <HBox fx:id="menuBar">
-            <Button fx:id="back" text="back" onAction="#receiveMessage"/>
+            <Button fx:id="back" text="back"/>
             <VBox>
                 <Text fx:id="channelName"/>
                 <Text fx:id="channelDescription"/>
             </VBox>
             <Button fx:id="seeMembersBtn" onAction="#seeMembers"/>
-
             <Button fx:id="addMemberBtn" onAction="#addUserToChannel"/>
-
+            <Button fx:id="leaveChannelBtn" onAction="#leaveChannel"/>
         </HBox>
+
 
         <BorderPane fx:id="pageToDisplay"/>
         <!--
