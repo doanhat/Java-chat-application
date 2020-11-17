@@ -84,6 +84,17 @@ public class CommunicationToData implements ICommunicationToData {
     }
 
     /**
+     * Cancel ban of user into history.
+     *
+     * @param user    the user
+     * @param channel the channel
+     */
+    @Override
+    public void cancelBanOfUserIntoHistory(User user, Channel channel) {
+
+    }
+
+    /**
      * Delete user from channel.
      *
      * @param user        the user
@@ -204,12 +215,11 @@ public class CommunicationToData implements ICommunicationToData {
     }
 
     /**
-     * Gets user.
-     *
-     * @return the user
+     * Return list User
+     * @return
      */
     @Override
-    public UserLite getUser() {
+    public List<UserLite> getUsers() {
         return null;
     }
 
