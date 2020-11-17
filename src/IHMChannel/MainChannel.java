@@ -1,5 +1,6 @@
 package IHMChannel;
 
+import IHMChannel.controllers.ChannelPageController;
 import common.sharedData.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -17,14 +18,19 @@ import java.util.List;
  */
 public class MainChannel extends Application {
     Channel channelToDisplay;
+    IHMChannelController ihmChannelController;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
         //Parent root = FXMLLoader.load(getClass().getResource("views/ChannelPage.fxml"));
         //Data init
         initTestData();
+        // Pour la suite, c'est dans IHMChannelController que se fera les lignes suivantes
+        ihmChannelController = new IHMChannelController();
+        ChannelPageDisplay channelPageDisplay = new ChannelPageDisplay(channelToDisplay, ihmChannelController);
         primaryStage.setTitle("Channel");
-        primaryStage.setScene(new Scene(new ChannelPageDisplay(channelToDisplay).root));
+        primaryStage.setScene(new Scene(channelPageDisplay.root));
+        primaryStage.setMaximized(true);
         primaryStage.show();
     }
 

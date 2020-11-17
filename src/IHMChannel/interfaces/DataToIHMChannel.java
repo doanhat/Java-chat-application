@@ -1,11 +1,16 @@
 package IHMChannel.interfaces;
 
+import IHMChannel.IHMChannelController;
 import common.interfaces.client.IDataToIHMChannel;
 import common.sharedData.Channel;
 import common.sharedData.Message;
 import common.sharedData.User;
 
 public class DataToIHMChannel implements IDataToIHMChannel{
+
+    public DataToIHMChannel(IHMChannelController controller){
+        this.controller = controller;
+    }
 
     /**
      * Permet de traiter la suppression du channel actuellement ouvert sur l'interface.
@@ -111,4 +116,6 @@ public class DataToIHMChannel implements IDataToIHMChannel{
     public void deleteMessage(Message message, Channel channel, boolean deletedByCreator) {
         throw new UnsupportedOperationException("Not implemented yet");
     }
+
+    private IHMChannelController controller;
 }
