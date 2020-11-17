@@ -12,8 +12,8 @@ public class CommunicationToData implements ICommunicationToData {
 
     private DataClientController dataController;
 
-    public CommunicationToData() {
-        dataController = new DataClientController();
+    public CommunicationToData(DataClientController dataClientController) {
+        this.dataController = dataClientController;
     }
 
     /**
@@ -139,7 +139,8 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void receiveMessage(Message message, Channel channel, Message response) {
-
+        MessageController messageController = dataController.getMessageController();
+        messageController.receiveMessage(message,channel,response);
     }
 
     /**

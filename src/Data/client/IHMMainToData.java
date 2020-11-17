@@ -13,8 +13,8 @@ public class IHMMainToData implements IIHMMainToData {
 
     private DataClientController dataController;
 
-    public IHMMainToData() {
-        dataController = new DataClientController();
+    public IHMMainToData(DataClientController dataClientController) {
+        this.dataController = dataClientController;
     }
 
 

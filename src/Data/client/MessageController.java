@@ -1,11 +1,24 @@
 package Data.client;
 
+import common.interfaces.client.IDataToCommunication;
+import common.interfaces.client.IDataToIHMChannel;
+import common.interfaces.client.IDataToIHMMain;
 import common.sharedData.Channel;
 import common.sharedData.Message;
 import common.sharedData.User;
 
 public class MessageController {
-    public MessageController() {
+
+    private final IDataToCommunication comClient;
+    private final IDataToIHMChannel channelClient;
+    private final IDataToIHMMain mainClient;
+    public MessageController(
+            IDataToCommunication comInterface,
+            IDataToIHMChannel channelInterface,
+            IDataToIHMMain mainInterface) {
+        this.comClient = comInterface;
+        this.channelClient = channelInterface;
+        this.mainClient = mainInterface;
     }
 
     public void saveMessageIntoHistory(Message message, Channel channel, Message response) {
@@ -20,7 +33,11 @@ public class MessageController {
      * @param response the response
      */
     public void receiveMessage(Message message, Channel channel, Message response) {
-
+        try {
+            channelClient.receiveMessage(message, channel, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
