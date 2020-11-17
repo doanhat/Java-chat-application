@@ -5,6 +5,7 @@ import common.sharedData.Message;
 import common.sharedData.User;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * The interface Communication to data.
@@ -58,6 +59,14 @@ public interface ICommunicationToData {
      * @param duration the duration
      */
     void banUserIntoHistory(User user, Channel channel, int duration);
+
+    /**
+     * Cancel ban of user into history.
+     *
+     * @param user    the user
+     * @param channel the channel
+     */
+    void cancelBanOfUserIntoHistory(User user, Channel channel);
 
     /**
      * Delete user from channel.
@@ -154,7 +163,7 @@ public interface ICommunicationToData {
      *
      * @return the user
      */
-    User getUser();
+    User getUsers();
 
     /**
      * Update nickname.
