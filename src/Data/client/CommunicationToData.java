@@ -219,7 +219,7 @@ public class CommunicationToData implements ICommunicationToData {
      * @return
      */
     @Override
-    public User getUsers() {
+    public List<UserLite> getUsers() {
         return null;
     }
 
