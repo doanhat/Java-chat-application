@@ -3,6 +3,7 @@ package common.interfaces.client;
 import common.sharedData.Channel;
 import common.sharedData.Message;
 import common.sharedData.User;
+import common.sharedData.UserLite;
 
 import java.util.List;
 import java.util.UUID;
@@ -159,11 +160,11 @@ public interface ICommunicationToData {
     void deleteMessage(Message message, Channel channel, boolean deletedByCreator);
 
     /**
-     * Gets user.
+     * Gets list users.
      *
      * @return the user
      */
-    User getUsers();
+    List<UserLite> getUsers();
 
     /**
      * Update nickname.
