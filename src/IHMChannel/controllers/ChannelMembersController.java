@@ -33,7 +33,7 @@ public class ChannelMembersController {
     /**
      * Initialise l'affichage de la liste des membres (acceptedPerson) contenus dans l'attribut channel de la classe
      */
-    private void displayMessagesList() throws IOException {
+    private void initMembersList() throws IOException {
         membersToDisplay.removeAll(); //réinitialisation
         for (UserLite usr : this.channel.getAcceptedPersons()){
             membersToDisplay.add((HBox) new MemberDisplay(usr).root);
@@ -49,7 +49,7 @@ public class ChannelMembersController {
     public void setChannel(Channel channel){
         this.channel = channel;
         try {
-            displayMessagesList();
+            initMembersList();
         } catch (IOException e) {
             System.out.println("Erreur lors de l'affichage des membres du channel");
             e.printStackTrace();
