@@ -29,15 +29,9 @@ public class UserConnectionMessage extends ClientToServerMessage {
         List<Channel> userChannels = commController.getUserChannels(user);
         List<UserLite> onlineUsers = commController.onlineUsers();
 
-        NetworkMessage acceptation = new AcceptationMessage(userChannels, onlineUsers);
-
-        commController.sendMessage(user.getId(), acceptation);
+        commController.sendMessage(user.getId(), new AcceptationMessage(userChannels, onlineUsers));
 
         // broadcast nouveau client info aux autres clients
-        NetworkMessage newUserNotification = new NewUserConnectedMessage(user);
-
-        for (UserLite otherUser: onlineUsers) {
-            commController.sendMessage(otherUser.getId(), newUserNotification);
-        }
+        commController.sendBroadcast(new NewUserConnectedMessage(user));
     }
 }

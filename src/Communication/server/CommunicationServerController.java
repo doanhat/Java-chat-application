@@ -2,6 +2,7 @@ package Communication.server;
 
 import Communication.common.CommunicationController;
 import Communication.messages.abstracts.NetworkMessage;
+import Communication.messages.server_to_client.UserDisconnectedMessage;
 import common.interfaces.server.IServerCommunicationToData;
 import common.sharedData.Channel;
 import common.sharedData.UserLite;
@@ -13,13 +14,12 @@ import java.util.UUID;
 public class CommunicationServerController extends CommunicationController {
 
     private final NetworkServer server;
-    private final IServerCommunicationToData dataServer;
+    private IServerCommunicationToData dataServer;
 
-    public CommunicationServerController(IServerCommunicationToData dataIface) {
+    public CommunicationServerController() {
         super();
 
         server = new NetworkServer(this);
-        dataServer = dataIface;
     }
 
     public void start() {
@@ -37,12 +37,12 @@ public class CommunicationServerController extends CommunicationController {
         }
     }
 
-    public void sendMessage(UUID receiver, NetworkMessage message) {
-        server.sendMessage(server.directory().getConnection(receiver).preparePacket(message));
+    public void setupInterfaces(IServerCommunicationToData dataIface) {
+        this.dataServer = dataIface;
     }
 
     public List<Channel> getUserChannels(UserLite user) {
-        return dataServer.requestUserChannelList(user);
+        return dataServer.getVisibleChannels(user);
     }
 
     public List<UserLite> onlineUsers() {
@@ -53,5 +53,27 @@ public class CommunicationServerController extends CommunicationController {
         // TODO request Data to add missing interface
 
         return null;
+    }
+
+    public void sendMessage(UUID receiver, NetworkMessage message) {
+        server.sendMessage(server.directory().getConnection(receiver).preparePacket(message));
+    }
+
+    /**
+     * Broadcast messages aux tous les clients enligne
+     * @param message
+     */
+    public void sendBroadcast(NetworkMessage message) {
+        for(NetworkUser usr : server.directory().getAllConnections()){
+            server.sendMessage(usr.preparePacket(message));
+        }
+    }
+
+    @Override
+    protected void disconnect(UUID user) {
+        UserLite usrlite = server.directory().getConnection(user).getUserInfo();
+
+        server.directory().deregisterClient(user);
+        sendBroadcast(new UserDisconnectedMessage(usrlite));
     }
 }
