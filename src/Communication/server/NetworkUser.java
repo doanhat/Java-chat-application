@@ -43,8 +43,16 @@ public class NetworkUser {
             // dispatch reader to thread pool after connection procedure
             commController.taskManager.appendCyclicTask(this.reader);
         }
-        catch (IOException | ClassNotFoundException e) {
+        catch (ClassNotFoundException e) {
             e.printStackTrace();
+        }
+        catch (IOException e) {
+            try {
+                this.stop();
+            }
+            catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
         }
     }
 
@@ -61,7 +69,10 @@ public class NetworkUser {
     }
 
     public void stop() throws IOException {
-        reader.stop();
         socket.close();
+    }
+
+    public UserLite getUserInfo() {
+        return userInfo;
     }
 }
