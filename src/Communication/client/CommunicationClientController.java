@@ -30,7 +30,7 @@ public class CommunicationClientController extends CommunicationController {
             System.out.println("Connexion au server...");
         }
         catch (IOException e) {
-            e.printStackTrace();
+            disconnect(null);
         }
     }
 
