@@ -49,7 +49,8 @@ public class NetworkUser {
         catch (IOException e) {
             try {
                 this.stop();
-            } catch (IOException ioException) {
+            }
+            catch (IOException ioException) {
                 ioException.printStackTrace();
             }
         }
@@ -69,7 +70,6 @@ public class NetworkUser {
 
     public void stop() throws IOException {
         socket.close();
-        reader.stop();
     }
 
     public UserLite getUserInfo() {

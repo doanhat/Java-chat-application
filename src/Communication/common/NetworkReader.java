@@ -6,11 +6,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.UUID;
 
-public class NetworkReader extends CyclicTask {
+public class NetworkReader implements Runnable {
 
     private final CommunicationController commController;
     private final ObjectInputStream socketIn;
-    //private List<NetworkMessage> messagesQueue;
     private UUID user;
 
     public NetworkReader(CommunicationController commController, ObjectInputStream socketIn) {
@@ -24,20 +23,21 @@ public class NetworkReader extends CyclicTask {
     }
 
     @Override
-    protected void action() {
-        try {
-            NetworkMessage message = readMessage();
+    public void run() {
+        while (true) {
+            try {
+                NetworkMessage message = readMessage();
 
-            // Dispatch message à TaskManager
-            commController.taskManager.appendTask(new NetworkMessage.Handler(message, commController));
-            //messagesQueue.add(message)
-        }
-        catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        catch (IOException e) {
-            this.stop();
-            commController.disconnect(this.user);
+                // Dispatch message à TaskManager
+                commController.taskManager.appendTask(new NetworkMessage.Handler(message, commController));
+            }
+            catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            catch (IOException e) {
+                commController.disconnect(this.user);
+                break;
+            }
         }
     }
 }

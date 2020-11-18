@@ -37,8 +37,8 @@ public class CommunicationServerController extends CommunicationController {
         }
     }
 
-    public void setIServerCommunicationToData(IServerCommunicationToData iServerCommunicationToDataImpl) {
-        this.dataServer = iServerCommunicationToDataImpl;
+    public void setupInterfaces(IServerCommunicationToData dataIface) {
+        this.dataServer = dataIface;
     }
 
     public List<Channel> getUserChannels(UserLite user) {
@@ -53,9 +53,13 @@ public class CommunicationServerController extends CommunicationController {
         server.sendMessage(server.directory().getConnection(receiver).preparePacket(message));
     }
 
-    private void sendBroadcast(NetworkMessage message) {
-        for(NetworkUser usr : server.directory().getConnections()){
-            usr.preparePacket(message);
+    /**
+     * Broadcast messages aux tous les clients enligne
+     * @param message
+     */
+    public void sendBroadcast(NetworkMessage message) {
+        for(NetworkUser usr : server.directory().getAllConnections()){
+            server.sendMessage(usr.preparePacket(message));
         }
     }
 

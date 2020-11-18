@@ -4,6 +4,7 @@ import Communication.common.CommunicationController;
 import Communication.messages.abstracts.NetworkMessage;
 import Communication.messages.client_to_server.UserConnectionMessage;
 import common.interfaces.client.ICommunicationToData;
+import common.interfaces.client.ICommunicationToIHMChannel;
 import common.sharedData.Channel;
 import common.sharedData.User;
 import common.sharedData.UserLite;
@@ -15,11 +16,31 @@ public class CommunicationClientController extends CommunicationController {
 
     private final NetworkClient client;
     private ICommunicationToData dataClient;
+    private ICommunicationToIHMChannel channelClient;
 
     public CommunicationClientController() {
         super();
 
         client = new NetworkClient(this);
+    }
+
+    public boolean setupInterfaces(ICommunicationToData dataIface, ICommunicationToIHMChannel channelIface) {
+        if (dataIface == null || channelIface == null) {
+            return false;
+        }
+
+        setICommunicationData(dataIface);
+        setICommunicationToIHMChannel(channelIface);
+
+        return true;
+    }
+
+    public void setICommunicationData(ICommunicationToData dataIface) {
+        dataClient = dataIface;
+    }
+
+    public void setICommunicationToIHMChannel(ICommunicationToIHMChannel channelIface) {
+        channelClient = channelIface;
     }
 
     public void start(String ip, int port, UserLite user) {
@@ -45,21 +66,17 @@ public class CommunicationClientController extends CommunicationController {
         }
     }
 
-    public void setICommunicationData(ICommunicationToData iCommunicationDataImpl) {
-        dataClient = iCommunicationDataImpl;
-    }
-
     public void sendMessage(NetworkMessage message) {
         client.sendMessage(message);
     }
 
     public void notifyUserConnected(UserLite newUser) {
-        // TODO verify ICommunicationToData User interfaces
+        // TODO wait for ICommunicationToData to change User interfaces to UserLite
         //dataClient.newConnectionUser(newUser);
     }
 
     public void notifyUserDisconnected(UserLite user) {
-        // TODO Change ICommunicationToData User to Userlite interfaces
+        // TODO wait for ICommunicationToData to change User interfaces to UserLite
         //dataClient.disconnectUser(user);
     }
 
@@ -69,8 +86,8 @@ public class CommunicationClientController extends CommunicationController {
 
     @Override
     protected void disconnect(UUID user) {
-        System.out.println("A IHM Main : je suis plus co");
-        // TODO ICommunicationToIHMMain
+        System.out.println("A IHM Main : je suis plus connecté");
+        // TODO notify ICommunicationToIHMMain
         try {
             client.close();
         } catch (IOException e) {
