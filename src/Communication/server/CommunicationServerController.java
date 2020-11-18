@@ -42,7 +42,7 @@ public class CommunicationServerController extends CommunicationController {
     }
 
     public List<Channel> getUserChannels(UserLite user) {
-        return dataServer.requestUserChannelList(user);
+        return dataServer.getVisibleChannels(user);
     }
 
     public List<UserLite> onlineUsers() {
