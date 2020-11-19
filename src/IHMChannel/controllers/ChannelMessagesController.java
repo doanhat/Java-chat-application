@@ -25,6 +25,7 @@ public class ChannelMessagesController{
     UserLite connectedUser; //tmp
     Channel channel;
     private IHMChannelController ihmChannelController;
+    private Message parentMessage = null;
 
     @FXML
     ListView listMessages;
@@ -89,7 +90,7 @@ public class ChannelMessagesController{
             //ATTENTION l'id du message est écrit en dur, on ne sait pas comment il est généré pour le moment.
             // Ne paraît pas logique qu'il soit généré par IHM Channel, donc penser à un constructeur sans id
             Message newMsg = new Message(0,typedText.getText(),connectedUser);
-            //TODO appel interface
+            ihmChannelController.getInterfaceToCommunication().sendMessage(newMsg, channel, parentMessage);
             //messagesToDisplay.add((HBox)new MessageDisplay(new Message(1,typedText.getText(),connectedUser)).root);
             typedText.setText("");
         }
@@ -127,5 +128,13 @@ public class ChannelMessagesController{
 
     public void setIhmChannelController(IHMChannelController ihmChannelController) {
         this.ihmChannelController = ihmChannelController;
+    }
+
+    public Message getParentMessage() {
+        return parentMessage;
+    }
+
+    public void setParentMessage(Message parentMessage) {
+        this.parentMessage = parentMessage;
     }
 }
