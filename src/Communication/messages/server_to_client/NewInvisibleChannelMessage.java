@@ -6,14 +6,15 @@ import common.sharedData.Channel;
 import common.sharedData.UserLite;
 import common.sharedData.Visibility;
 
-import java.io.Serializable;
 import java.util.List;
 
-public class NewVisibleChannelMessage extends ServerToClientMessage {
+public class NewInvisibleChannelMessage extends ServerToClientMessage {
     private Channel channel;
+    private List<UserLite> users;
 
-    public NewVisibleChannelMessage(Channel channel){
+    public NewInvisibleChannelMessage(Channel channel){
         this.channel = channel;
+        this.users = channel.getAcceptedPersons();
     }
 
     public Channel getChannel() {
@@ -24,11 +25,18 @@ public class NewVisibleChannelMessage extends ServerToClientMessage {
         this.channel = channel;
     }
 
+    public List<UserLite> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<UserLite> users) {
+        this.users = users;
+    }
 
     @Override
     protected void handle(CommunicationClientController commClientController) {
-        if (channel.getVisibility() == Visibility.PUBLIC) {
-            commClientController.notifyVisibleChannel(channel);
+        if (channel.getVisibility() == Visibility.PRIVATE) {
+            //TODO : faire la méthode dans l'interface ICommunicationToData
         }
 
     }
