@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.UUID;
 
 /**
  * Contrôleur de la partie Channel de l'interface.
@@ -95,7 +96,7 @@ public class ChannelPageController {
     public ChannelPageController(){
         //tmp
         // permet d'avoir un utilisateur temporaire pour l'affichage des messages
-        connectedUser = new UserLite();
+        connectedUser = new UserLite(UUID.randomUUID(), "newUser", null);
         connectedUser.setNickName("Léa");
 
         //initialisation de oppenedChannel

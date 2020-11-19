@@ -6,15 +6,21 @@ import IHMChannel.interfaces.CommunicationToIHMChannel;
 import IHMChannel.interfaces.DataToIHMChannel;
 import IHMChannel.interfaces.IHMMainToIHMChannel;
 import common.interfaces.client.*;
-import common.sharedData.Channel;
+import common.sharedData.*;
+import javafx.scene.Parent;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * Controller principal de IHMChannel
  */
 public class IHMChannelController {
     private ChannelPageController channelPageController;
+    private Parent root;
     /**
      * Constructeur
      */
@@ -25,6 +31,28 @@ public class IHMChannelController {
         interfaceForCommunication = new CommunicationToIHMChannel(this);
         interfaceForData = new DataToIHMChannel(this);
         interfaceForIHMMain = new IHMMainToIHMChannel(this);
+        // TODO: récupérer le channel depuis l'appel de getChannelWindow()
+        try{
+            OwnedChannel newOwnedChannel = new OwnedChannel(1,"LO23",new UserLite(UUID.randomUUID(), "Aïda", null),"channel pour l'UV LO23", Visibility.PUBLIC);
+
+            UserLite usr1 = new UserLite(UUID.randomUUID(), "Aïda", null);
+            usr1.setNickName("toto");
+            UserLite usr2 = new UserLite(UUID.randomUUID(), "Léa", null);
+            usr2.setNickName("titi");
+
+            List<Message> listMessages = new ArrayList<Message>();
+            listMessages.add(new Message(1,"Salut, vous allez bien ?",usr1));
+            listMessages.add(new Message(2,"Oui super et toi ?",usr2));
+            listMessages.add(new Message(3,"T'as avancé le projet LO23 ?",usr1));
+
+            newOwnedChannel.setMessages(listMessages);
+            ChannelPageDisplay channelPageDisplay = new ChannelPageDisplay(newOwnedChannel, this);
+            channelPageDisplay.getChannelPageController().getChannelController(newOwnedChannel.getId()).setChannel(newOwnedChannel);
+
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+
 
     }
 
@@ -121,4 +149,28 @@ public class IHMChannelController {
         this.channelPageController = channelPageController;
     }
 
+    public Channel initTestData() throws IOException {
+        OwnedChannel newOwnedChannel = new OwnedChannel(1,"LO23",new UserLite(UUID.randomUUID(), "Aïda", null),"channel pour l'UV LO23", Visibility.PUBLIC);
+
+        UserLite usr1 = new UserLite(UUID.randomUUID(), "Aïda", null);
+        usr1.setNickName("toto");
+        UserLite usr2 = new UserLite(UUID.randomUUID(), "Léa", null);
+        usr2.setNickName("titi");
+
+        List<Message> listMessages = new ArrayList<Message>();
+        listMessages.add(new Message(1,"Salut, vous allez bien ?",usr1));
+        listMessages.add(new Message(2,"Oui super et toi ?",usr2));
+        listMessages.add(new Message(3,"T'as avancé le projet LO23 ?",usr1));
+
+
+        return newOwnedChannel;
+    }
+
+    public Parent getRoot() {
+        return this.root;
+    }
+
+    public void setRoot(Parent root) {
+        this.root = root;
+    }
 }

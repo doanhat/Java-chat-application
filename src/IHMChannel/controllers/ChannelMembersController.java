@@ -13,6 +13,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 
 import java.io.IOException;
+import java.util.UUID;
 
 /**
  * Contrôleur de la vue "ChannelMembers" qui contient la liste des membres d'un channel et les options d'affichage de cette liste
@@ -68,7 +69,7 @@ public class ChannelMembersController {
 
     public void initialize() throws IOException {
         //Membres
-        UserLite tmpUser = new UserLite();
+        UserLite tmpUser = new UserLite(UUID.randomUUID(), "Léa", null);
         tmpUser.setNickName("Léa");
         HBox tmp = (HBox) new MemberDisplay(tmpUser).root;
         membersToDisplay.add(tmp);

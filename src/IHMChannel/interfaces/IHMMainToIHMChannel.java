@@ -1,13 +1,19 @@
 package IHMChannel.interfaces;
 
+import IHMChannel.ChannelPageDisplay;
 import IHMChannel.IHMChannelController;
 import common.interfaces.client.IIHMMainToIHMChannel;
 import common.sharedData.Channel;
+import javafx.scene.Scene;
 import javafx.scene.layout.Region;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class IHMMainToIHMChannel implements IIHMMainToIHMChannel {
 
     public IHMMainToIHMChannel(IHMChannelController controller){
+
         this.controller = controller;
     }
 
@@ -39,7 +45,15 @@ public class IHMMainToIHMChannel implements IIHMMainToIHMChannel {
      */
     @Override
     public Region getIHMChannelWindow() {
-        return null;
+        //Parent root = FXMLLoader.load(getClass().getResource("views/ChannelPage.fxml"));
+        //Data init
+        Channel channel = null;
+        ChannelPageDisplay channelPageDisplay = null;
+
+            controller = new IHMChannelController(); //passer ici le channel
+
+
+        return (Region)controller.getRoot();
     }
 
     private IHMChannelController controller;

@@ -17,6 +17,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
 import java.io.IOException;
+import java.util.UUID;
 
 /**
  * Contrôleur de la vue "ChannelMessages" dans laquelle on retrouve l'affichage et la saisie de messages d'un channel
@@ -39,9 +40,14 @@ public class ChannelMessagesController{
     Button testReception; //utilisé pour test uniquement
 
     //Liste de HBox (= contrôle message)
-    ObservableList<HBox> messagesToDisplay = FXCollections.observableArrayList();
+    private ObservableList<HBox> messagesToDisplay = FXCollections.observableArrayList();
+    private ObservableList<Message> observableMessages;
 
     ListChangeListener<Message> messageListListener;
+
+    public void addMessageToObservableList(Message message){
+        observableMessages.add(message);
+    }
 
     public void setCurrentChannel(Channel channel){
         this.channel = channel;
@@ -52,12 +58,15 @@ public class ChannelMessagesController{
         catch (Exception e){
             System.out.println("Problème lors de l'affichage des messages");
         }
-        this.channel.getMessages().addListener(messageListListener);
+
+        //setMessagesToDisplay();
+        observableMessages = FXCollections.observableArrayList(this.channel.getMessages());
+        observableMessages.addListener(messageListListener);
     }
 
     public ChannelMessagesController(){
-        connectedUser = new UserLite();
-        connectedUser.setNickName("Léa");
+        connectedUser = new UserLite(UUID.randomUUID(), "Léa", null);
+
     }
     public void initialize() throws IOException {
         //Icone envoyer
@@ -73,7 +82,7 @@ public class ChannelMessagesController{
             if(changed.wasAdded()){
                 for(Message msgAdded : changed.getAddedSubList()){
                     try {
-                        messagesToDisplay.add((HBox) new MessageDisplay(msgAdded).root);
+                        getMessagesToDisplay().add((HBox) new MessageDisplay(msgAdded).root);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -103,8 +112,9 @@ public class ChannelMessagesController{
     public void receiveMessage(){
         // cet appel est juste pour les test
         System.out.println("hello");
+       //Message message = new Message(2, "message reçu test", connectedUser);
          getIhmChannelController().getInterfaceForData().receiveMessage(new Message(2, "message reçu test", connectedUser),
-                          ihmChannelController.getChannelPageController().getChannelController(channel.getId()).getCurrentChannel(), null);
+                          this.channel, null);
 
         //Message newMsg = new Message(99,"Salut, je suis un message reçu via le bouton de test",connectedUser);
         //this.channel.addMessage(newMsg);
@@ -114,11 +124,11 @@ public class ChannelMessagesController{
      * Initialise l'affichage de la liste des messages contenus dans l'attribut channel de la classe
      */
     private void displayMessagesList() throws IOException {
-        messagesToDisplay.removeAll(); //réinitialisation
+        getMessagesToDisplay().removeAll(); //réinitialisation
         for (Message msg : this.channel.getMessages()){
-            messagesToDisplay.add((HBox) new MessageDisplay(msg).root);
+            getMessagesToDisplay().add((HBox) new MessageDisplay(msg).root);
         }
-        listMessages.setItems(messagesToDisplay);
+        listMessages.setItems(getMessagesToDisplay());
     }
 
 
@@ -136,5 +146,20 @@ public class ChannelMessagesController{
 
     public void setParentMessage(Message parentMessage) {
         this.parentMessage = parentMessage;
+    }
+
+    public ObservableList<HBox> getMessagesToDisplay() {
+        return messagesToDisplay;
+    }
+
+    public void setMessagesToDisplay() {
+        messagesToDisplay = FXCollections.observableArrayList();
+        this.channel.getMessages().forEach(message -> {
+            try {
+                this.messagesToDisplay.add((HBox) new MessageDisplay(message).root);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 }

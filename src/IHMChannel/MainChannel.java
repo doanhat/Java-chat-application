@@ -11,6 +11,7 @@ import common.sharedData.Visibility;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Cette classe est utilisée pour lancer uniquement la partie "channel" de l'interface, notamment pendant le développement.
@@ -44,10 +45,10 @@ public class MainChannel extends Application {
      * Crée un channel et lui ajoute une liste de messages
      */
     private void initTestData(){
-        channelToDisplay = new OwnedChannel(1,"LO23",new UserLite(),"channel pour l'UV LO23", Visibility.PUBLIC);
-        UserLite usr1 = new UserLite();
+        channelToDisplay = new OwnedChannel(1,"LO23",new UserLite(UUID.randomUUID(), "Léa", null),"channel pour l'UV LO23", Visibility.PUBLIC);
+        UserLite usr1 = new UserLite(UUID.randomUUID(), "Aïda", null);
         usr1.setNickName("toto");
-        UserLite usr2 = new UserLite();
+        UserLite usr2 = new UserLite(UUID.randomUUID(), "Vlad", null);
         usr2.setNickName("titi");
 
         List<Message> listMessages = new ArrayList<Message>();

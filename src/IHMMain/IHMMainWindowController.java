@@ -4,7 +4,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import IHMChannel.IHMMainToIHMChannel;
+import IHMChannel.IHMChannelController;
+import IHMChannel.interfaces.IHMMainToIHMChannel;
 import app.MainWindowController;
 import common.IHMTools.*;
 import javafx.fxml.*;
@@ -17,6 +18,8 @@ public class IHMMainWindowController implements Initializable{
     private MainWindowController mainWindowController;
 
     private IHMMainToIHMChannel ihmMainToIHMChannel;
+
+    private IHMChannelController ihmChannelController;
 
     @FXML
     private StackPane stackMenu;
@@ -31,14 +34,15 @@ public class IHMMainWindowController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //Mettez ici le code qui s'execute avant l'apparition de la vue
-        ihmMainToIHMChannel = new IHMMainToIHMChannel();
+        ihmChannelController = new IHMChannelController();
+        ihmMainToIHMChannel = new IHMMainToIHMChannel(ihmChannelController);
         loadUserListView();
     }
 
     @FXML
     public void loadIHMChannelWindow(){
         this.mainArea.getChildren().clear(); //On efface les noeuds fils
-        //On charge la vue IHMMainWindow
+        //On charge la vue IHMMainWindow ==> ???
         Region ihmChannelNode = ihmMainToIHMChannel.getIHMChannelWindow();
         this.mainArea.getChildren().addAll(ihmChannelNode); //On ajoute le noeud parent (fxml) au noeud racine de cette vue
         IHMTools.fitSizeToParent((Region)this.mainArea,ihmChannelNode);
@@ -65,4 +69,11 @@ public class IHMMainWindowController implements Initializable{
         return this.mainArea;
     }
 
+    public IHMChannelController getIhmChannelController() {
+        return ihmChannelController;
+    }
+
+    public void setIhmChannelController(IHMChannelController ihmChannelController) {
+        this.ihmChannelController = ihmChannelController;
+    }
 }

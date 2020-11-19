@@ -81,6 +81,7 @@ public class ChannelController {
     public void receiveMessage(Message receivedMessage, Message responseTo) {
 
         currentChannel.addMessage(receivedMessage);
+        channelMessagesDisplay.getController().addMessageToObservableList(receivedMessage);
     }
 
     public void seeMembers() {
