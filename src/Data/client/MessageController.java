@@ -23,13 +23,7 @@ public class MessageController extends Controller{
      * @param channel  the channel
      * @param response the response
      */
-    public void receiveMessage(Message message, Channel channel, Message response) {
-        try {
-            channelClient.receiveMessage(message, channel, response);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    public void receiveMessage(Message message, Channel channel, Message response) {}
 
     /**
      * Save edition into history.

@@ -1,6 +1,5 @@
 package Data.client;
 
-import Data.resourceHandle.FileHandle;
 import common.interfaces.client.IDataToCommunication;
 import common.interfaces.client.IDataToIHMChannel;
 import common.interfaces.client.IDataToIHMMain;
@@ -15,18 +14,6 @@ import java.util.Map;
 public class UserController extends Controller {
     public UserController(IDataToCommunication comClient, IDataToIHMChannel channelClient, IDataToIHMMain mainClient) {
         super(comClient, channelClient, mainClient);
-    }
-
-    public boolean verificationAccount(String nickName, String password){
-        List<User> listUserLogin = new FileHandle().readJSON("users.json",User.class);
-        for (User user : listUserLogin){
-            if (user.getNickName().equals(nickName) & user.getPassword().equals(password)){
-                UserLite userLite = new UserLite(user.getId(),user.getNickName(),user.getAvatar());
-                this.comClient.userConnect(userLite);
-            }
-
-        }
-        return true;
     }
 
     /**
