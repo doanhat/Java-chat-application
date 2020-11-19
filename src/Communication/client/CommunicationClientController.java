@@ -5,6 +5,7 @@ import Communication.messages.abstracts.NetworkMessage;
 import Communication.messages.client_to_server.UserConnectionMessage;
 import common.interfaces.client.ICommunicationToData;
 import common.interfaces.client.ICommunicationToIHMChannel;
+import common.interfaces.client.ICommunicationToIHMMain;
 import common.sharedData.Channel;
 import common.sharedData.User;
 import common.sharedData.UserLite;
@@ -16,6 +17,7 @@ public class CommunicationClientController extends CommunicationController {
 
     private final NetworkClient client;
     private ICommunicationToData dataClient;
+    private ICommunicationToIHMMain mainClient;
     private ICommunicationToIHMChannel channelClient;
 
     public CommunicationClientController() {
@@ -24,12 +26,15 @@ public class CommunicationClientController extends CommunicationController {
         client = new NetworkClient(this);
     }
 
-    public boolean setupInterfaces(ICommunicationToData dataIface, ICommunicationToIHMChannel channelIface) {
-        if (dataIface == null || channelIface == null) {
+    public boolean setupInterfaces(ICommunicationToData dataIface,
+                                   ICommunicationToIHMMain mainIface,
+                                   ICommunicationToIHMChannel channelIface) {
+        if (dataIface == null || mainIface == null || channelIface == null) {
             return false;
         }
 
         setICommunicationData(dataIface);
+        setICommunicationToIHMMain(mainIface);
         setICommunicationToIHMChannel(channelIface);
 
         return true;
@@ -37,6 +42,10 @@ public class CommunicationClientController extends CommunicationController {
 
     public void setICommunicationData(ICommunicationToData dataIface) {
         dataClient = dataIface;
+    }
+
+    public void setICommunicationToIHMMain(ICommunicationToIHMMain mainIface) {
+        mainClient = mainIface;
     }
 
     public void setICommunicationToIHMChannel(ICommunicationToIHMChannel channelIface) {
@@ -88,6 +97,7 @@ public class CommunicationClientController extends CommunicationController {
     protected void disconnect(UUID user) {
         System.out.println("A IHM Main : je suis plus connecté");
         // TODO notify ICommunicationToIHMMain
+
         try {
             client.close();
         } catch (IOException e) {
