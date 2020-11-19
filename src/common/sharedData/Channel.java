@@ -111,10 +111,7 @@ public abstract class Channel implements Serializable {
 	public List<Message> getMessages() {
 		return messages;
 	}
-	
-	public void setMessages(ObservableList<Message> messages) {
-		this.messages = messages;
-	}
+
 	public void setMessages(List<Message> messages) {
 		this.messages = messages;
 	}
