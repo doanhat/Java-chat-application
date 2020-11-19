@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Interface que IHM Channel fournit à Communication
  */
-interface ICommunicationToIHMChannel {
+public interface ICommunicationToIHMChannel {
 
     /**
      * Méthode permettant de changer le nickname d'un utilisateur
