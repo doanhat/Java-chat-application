@@ -27,4 +27,8 @@ public class ChannelMessagesDisplay {
         controller = fxmlLoader.getController();
     }
 
+    public void configureMessageController(IHMChannelController ihmChannelController){
+        controller.setIhmChannelController(ihmChannelController);
+    }
+
 }

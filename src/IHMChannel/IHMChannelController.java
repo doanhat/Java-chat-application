@@ -1,10 +1,12 @@
 package IHMChannel;
 
+import IHMChannel.controllers.ChannelController;
 import IHMChannel.controllers.ChannelPageController;
 import IHMChannel.interfaces.CommunicationToIHMChannel;
 import IHMChannel.interfaces.DataToIHMChannel;
 import IHMChannel.interfaces.IHMMainToIHMChannel;
 import common.interfaces.client.*;
+import common.sharedData.Channel;
 
 import java.util.HashMap;
 
@@ -118,4 +120,5 @@ public class IHMChannelController {
     public void setChannelPageController(ChannelPageController channelPageController) {
         this.channelPageController = channelPageController;
     }
+
 }

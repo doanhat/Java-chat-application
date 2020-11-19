@@ -15,7 +15,7 @@ import javafx.scene.text.Text;
 import java.io.IOException;
 
 public class ChannelController {
-    Channel currentChannel; //channel à afficher dans l'interface
+    private Channel currentChannel; //channel à afficher dans l'interface
     private IHMChannelController ihmChannelController;
 
     @FXML
@@ -51,6 +51,10 @@ public class ChannelController {
 
     }
 
+    public void configureMessageDisplay(IHMChannelController ihmChannelController){
+        channelMessagesDisplay.configureMessageController(ihmChannelController);
+    }
+
     private void iconsInit(){
         //Liste membres
         Image usersImage = new Image("IHMChannel/icons/users-solid.png");
@@ -74,9 +78,9 @@ public class ChannelController {
         leaveChannelBtn.setGraphic(exitIcon);
     }
 
-    public void receiveMessage() {
-        Message newMsg = new Message(99,"Salut, je suis un message reçu via le bouton de test", ihmChannelController.getChannelPageController().connectedUser);
-        currentChannel.addMessage(newMsg);
+    public void receiveMessage(Message receivedMessage, Message responseTo) {
+
+        currentChannel.addMessage(receivedMessage);
     }
 
     public void seeMembers() {
@@ -97,7 +101,7 @@ public class ChannelController {
 
     public void setChannel(Channel channel) {
         System.out.println("ChannelController.setChannel : "+channel);
-        this.currentChannel = channel;
+        this.setCurrentChannel(channel);
         channelName.setText(channel.getName());
         channelDescription.setText(channel.getDescription());
 
@@ -125,5 +129,13 @@ public class ChannelController {
 
     public void setIhmChannelController(IHMChannelController ihmChannelController) {
         this.ihmChannelController = ihmChannelController;
+    }
+
+    public Channel getCurrentChannel() {
+        return currentChannel;
+    }
+
+    public void setCurrentChannel(Channel currentChannel) {
+        this.currentChannel = currentChannel;
     }
 }
