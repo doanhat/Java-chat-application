@@ -18,6 +18,10 @@ public class User extends UserLite {
 		this.birthDate = birthDate;
 	}
 
+	public User() {
+		super();
+	}
+
 	public String getPassword() {
 		return password;
 	}
