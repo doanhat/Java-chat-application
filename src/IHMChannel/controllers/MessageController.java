@@ -94,7 +94,9 @@ public class MessageController {
      * Méthode appelée au clic sur le bouton de réponse
      */
     public void answerMessage(){
-        System.out.println("réponse au message "+this.content.getText());
+        // TODO: préparer l'edit de la réponse : dire à ChannelMessageController d'afficher le message parent au dessus de la barre de saisie
+        // getChannelMessagesController.setParentMessage(messageToDisplay);
+        // getChannelMessagesController.setResponseView();
     }
 
     /**
