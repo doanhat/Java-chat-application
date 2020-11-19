@@ -12,8 +12,8 @@ public class CommunicationToData implements ICommunicationToData {
 
     private DataClientController dataController;
 
-    public CommunicationToData() {
-        dataController = new DataClientController();
+    public CommunicationToData(DataClientController dataClientController) {
+        this.dataController = dataClientController;
     }
 
     /**
@@ -138,9 +138,7 @@ public class CommunicationToData implements ICommunicationToData {
      * @param response the response
      */
     @Override
-    public void receiveMessage(Message message, Channel channel, Message response) {
-
-    }
+    public void receiveMessage(Message message, Channel channel, Message response) {}
 
     /**
      * Save edition into history.
@@ -220,6 +218,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public List<UserLite> getUsers() {
+
         return null;
     }
 

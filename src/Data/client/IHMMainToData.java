@@ -13,8 +13,8 @@ public class IHMMainToData implements IIHMMainToData {
 
     private DataClientController dataController;
 
-    public IHMMainToData() {
-        dataController = new DataClientController();
+    public IHMMainToData(DataClientController dataClientController) {
+        this.dataController = dataClientController;
     }
 
 
@@ -87,9 +87,7 @@ public class IHMMainToData implements IIHMMainToData {
      * @param password the password
      */
     @Override
-    public void localAuthentification(String nickName, String password) {
-
-    }
+    public void localAuthentification(String nickName, String password) {}
 
     /**
      * Create account.
