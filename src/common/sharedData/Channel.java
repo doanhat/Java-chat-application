@@ -1,8 +1,5 @@
 package common.sharedData;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,10 +18,7 @@ public abstract class Channel implements Serializable {
 	private List<UserLite> acceptedPersons;
 	private Map<UserLite, String> nickNames;
 	private List<Kick> kicked;
-	//private List<Message> messages;
-
-	//MODIF : Liste observable pour JavaFX :
-	private ObservableList<Message> messages;
+	private List<Message> messages;
 	
 	public Channel(int id, String name, UserLite creator, String description, Visibility visibility) {
 		this.id = id;
@@ -39,9 +33,7 @@ public abstract class Channel implements Serializable {
 		this.nickNames = new HashMap<UserLite, String>();
 		this.nickNames.put(creator, creator.getNickName());
 		this.kicked = new ArrayList<Kick>();
-		//this.messages = new ArrayList<Message>();
-		// JavaFX observable list :
-		this.messages = FXCollections.observableArrayList(new ArrayList<Message>());
+		this.messages = new ArrayList<Message>();
 	}
 	
 	public int getId() {
@@ -116,7 +108,7 @@ public abstract class Channel implements Serializable {
 		this.kicked = kicked;
 	}
 	
-	public ObservableList<Message> getMessages() {
+	public List<Message> getMessages() {
 		return messages;
 	}
 	
@@ -124,7 +116,7 @@ public abstract class Channel implements Serializable {
 		this.messages = messages;
 	}
 	public void setMessages(List<Message> messages) {
-		this.messages = FXCollections.observableArrayList(messages);
+		this.messages = messages;
 	}
 	
 	public void addMessage(Message m) {
