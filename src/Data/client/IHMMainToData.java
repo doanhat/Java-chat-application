@@ -88,7 +88,7 @@ public class IHMMainToData implements IIHMMainToData {
      */
     @Override
     public void localAuthentification(String nickName, String password) {
-
+        UserController userController = dataController.getUserController();
     }
 
     /**

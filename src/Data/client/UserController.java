@@ -1,11 +1,20 @@
 package Data.client;
 
+import common.interfaces.client.IDataToCommunication;
+import common.interfaces.client.IDataToIHMChannel;
+import common.interfaces.client.IDataToIHMMain;
 import common.sharedData.Channel;
 import common.sharedData.User;
 
-public class UserController {
-    public UserController() {
+public class UserController extends Controller{
+    public UserController(IDataToCommunication comClient, IDataToIHMChannel channelClient, IDataToIHMMain mainClient) {
+        super(comClient, channelClient, mainClient);
     }
+
+    public static boolean verificationAccount(String nickName,String password){
+        return true;
+    }
+
     /**
      * Gets user.
      *

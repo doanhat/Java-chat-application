@@ -7,18 +7,9 @@ import common.sharedData.Channel;
 import common.sharedData.Message;
 import common.sharedData.User;
 
-public class MessageController {
-
-    private final IDataToCommunication comClient;
-    private final IDataToIHMChannel channelClient;
-    private final IDataToIHMMain mainClient;
-    public MessageController(
-            IDataToCommunication comInterface,
-            IDataToIHMChannel channelInterface,
-            IDataToIHMMain mainInterface) {
-        this.comClient = comInterface;
-        this.channelClient = channelInterface;
-        this.mainClient = mainInterface;
+public class MessageController extends Controller{
+    public MessageController(IDataToCommunication comClient, IDataToIHMChannel channelClient, IDataToIHMMain mainClient) {
+        super(comClient, channelClient, mainClient);
     }
 
     public void saveMessageIntoHistory(Message message, Channel channel, Message response) {

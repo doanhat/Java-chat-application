@@ -13,8 +13,8 @@ public class DataClientController {
             IDataToCommunication comInterface,
             IDataToIHMChannel channelInterface,
             IDataToIHMMain mainInterface) {
-        this.channelCtrl = new ChannelController();
-        this.userCtrl = new UserController();
+        this.channelCtrl = new ChannelController(comInterface,channelInterface,mainInterface);
+        this.userCtrl = new UserController(comInterface,channelInterface,mainInterface);
         this.messageCtrl = new MessageController(comInterface,channelInterface,mainInterface);
     }
 

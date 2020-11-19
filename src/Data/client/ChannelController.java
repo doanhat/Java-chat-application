@@ -1,13 +1,17 @@
 package Data.client;
 
+import common.interfaces.client.IDataToCommunication;
+import common.interfaces.client.IDataToIHMChannel;
+import common.interfaces.client.IDataToIHMMain;
 import common.sharedData.Channel;
 import common.sharedData.Message;
 import common.sharedData.User;
 
 import java.util.List;
 
-public class ChannelController {
-    public ChannelController() {
+public class ChannelController extends Controller{
+    public ChannelController(IDataToCommunication comClient, IDataToIHMChannel channelClient, IDataToIHMMain mainClient) {
+        super(comClient, channelClient, mainClient);
     }
 
     /**
