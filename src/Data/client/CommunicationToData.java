@@ -221,6 +221,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public List<UserLite> getUsers() {
+
         return null;
     }
 
