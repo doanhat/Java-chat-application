@@ -7,8 +7,6 @@ import java.util.List;
 
 public interface IServerCommunicationToData {
 
-    /** Channels section */
-
     /**
      * Méthode pour faire la suppression d'un channel
      *
@@ -126,8 +124,6 @@ public interface IServerCommunicationToData {
      * */
     Channel createPublicSharedChannel(String name, UserLite creator, String description);
 
-    /** Users section */
-
     /**
      * Méthode pour faire la déconnexion d'un utilisateur
      *
@@ -170,7 +166,7 @@ public interface IServerCommunicationToData {
      * @param channel le channel auquel l'utilisateur va s'abonner
      * @param user l'utilisateur qui va s'abonner au channel
      * */
-    List<Message> joinChannel(Channel channel, UserLite user);
+    List<UserLite> joinChannel(Channel channel, UserLite user);
 
     /**
      * Méthode pour se désabonner d'un channel
