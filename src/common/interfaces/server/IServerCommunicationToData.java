@@ -7,7 +7,17 @@ import java.util.List;
 
 public interface IServerCommunicationToData {
 
-    /** Channels section */
+    /**
+     * NOTE: Suggestion de Comm: ajouter une méthode: 'Channel getChannel(int channelID)' pour retrouver un channel selon son ID
+     */
+
+    /**
+     * NOTE: Suggestion de Comm: utiliser seulement channelID pour diminuer la taille du paquet réseau,
+     * ou une classe supplémentaire qui contient seulement les méta-données d'un channel
+     * (un objet channel peut contient un objet de méta-données, et les contenues comme les message, user info, ...)
+     *
+     * Et cette méthode devrait retouner un boolean indiqué si le channel est bien supprimé
+     */
 
     /**
      * NOTE: Suggestion de Comm: ajouter une méthode: 'Channel getChannel(int channelID)' pour retrouver un channel selon son ID
@@ -155,8 +165,6 @@ public interface IServerCommunicationToData {
      * */
     Channel createPublicSharedChannel(String name, UserLite creator, String description);
 
-    /** Users section */
-
     /**
      * Méthode pour faire la déconnexion d'un utilisateur
      *
@@ -199,7 +207,7 @@ public interface IServerCommunicationToData {
      * @param channel le channel auquel l'utilisateur va s'abonner
      * @param user l'utilisateur qui va s'abonner au channel
      * */
-    List<Message> joinChannel(Channel channel, UserLite user);
+    List<UserLite> joinChannel(Channel channel, UserLite user);
 
     /**
      * Méthode pour se désabonner d'un channel

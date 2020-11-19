@@ -9,6 +9,13 @@ import java.util.List;
 
 public class ServerCommunicationToData implements IServerCommunicationToData {
 
+    private UserListController userListController;
+    private ChannelsListController channelsListController;
+
+    public ServerCommunicationToData(UserListController userListController, ChannelsListController channelsListController) {
+        this.userListController = userListController;
+        this.channelsListController = channelsListController;
+    }
 
     @Override
     public List<Channel> requestChannelRemoval(Channel channel, UserLite user) {
@@ -82,17 +89,17 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
     @Override
     public List<UserLite> disconnectUser(UserLite user) {
-        return null;
+        return userListController.removeConnectedUser(user);
     }
 
     @Override
     public List<UserLite> newConnection(UserLite user) {
-        return null;
+        return userListController.addConnectedUser(user);
     }
 
     @Override
     public List<UserLite> getConnectedUsers() {
-        return null;
+        return userListController.getConnectedUsers();
     }
 
     @Override
@@ -106,7 +113,7 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     }
 
     @Override
-    public List<Message> joinChannel(Channel ch, UserLite user) {
+    public List<UserLite> joinChannel(Channel ch, UserLite user) {
         return null;
     }
 
