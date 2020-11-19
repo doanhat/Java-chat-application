@@ -1,12 +1,15 @@
 package IHMChannel.interfaces;
 
 import IHMChannel.IHMChannelController;
+import IHMChannel.controllers.ChannelController;
 import common.interfaces.client.IDataToIHMChannel;
 import common.sharedData.Channel;
 import common.sharedData.Message;
 import common.sharedData.User;
 
 public class DataToIHMChannel implements IDataToIHMChannel{
+
+    private IHMChannelController controller;
 
     public DataToIHMChannel(IHMChannelController controller){
         this.controller = controller;
@@ -70,7 +73,8 @@ public class DataToIHMChannel implements IDataToIHMChannel{
     }
 
     /**
-     * Permet la réception d'un message sur un channel.
+     * Permet la réception d'un message sur un channel. Sert aussi à la réception de messages qui sont des réponses
+     * à d'autres.
      *
      * @param message    message reçu
      * @param channel    channel sur lequel le message a été reçu
@@ -78,7 +82,10 @@ public class DataToIHMChannel implements IDataToIHMChannel{
      */
     @Override
     public void receiveMessage(Message message, Channel channel, Message responseTo) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        //get channelctrl depuis ihmctrl
+        ChannelController channelController = controller.getChannelPageController().getChannelController(channel.getId());
+        //appeler channelctrl.receiveMessage()
+        channelController.receiveMessage(message, responseTo);
     }
 
     /**
@@ -117,5 +124,4 @@ public class DataToIHMChannel implements IDataToIHMChannel{
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
-    private IHMChannelController controller;
 }

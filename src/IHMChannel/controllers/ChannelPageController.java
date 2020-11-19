@@ -77,6 +77,8 @@ public class ChannelPageController {
         ChannelController ctrl = fxmlLoader.getController();
         ctrl.setChannel(channel);
         ctrl.setIhmChannelController(ihmChannelController);
+        ctrl.getIhmChannelController().setChannelPageController(this);
+        ctrl.configureMessageDisplay(ihmChannelController);
         Tab tab = new Tab(channel.getName());
         tabs.getTabs().add(tab);
         tab.setContent((Node) root);
@@ -164,10 +166,9 @@ public class ChannelPageController {
     /**
      * Méthode de test déclenchée à l'appui sur le bouton "test réception"
      * Génère l'ajout d'un message dans la liste de messages du channel.
-     * /!\ Bindée au bouton "back" pour test
      */
     public void receiveMessage(){
-        channelMap.get(currentChannel).receiveMessage();
+        //channelMap.get(currentChannel).receiveMessage();
     }
 
 
@@ -177,5 +178,10 @@ public class ChannelPageController {
 
     public void setIhmChannelController(IHMChannelController ihmChannelController) {
         this.ihmChannelController = ihmChannelController;
+    }
+
+    public ChannelController getChannelController(int channelId){
+        ChannelController channelController = channelMap.get(channelId);
+        return channelController;
     }
 }
