@@ -138,10 +138,7 @@ public class CommunicationToData implements ICommunicationToData {
      * @param response the response
      */
     @Override
-    public void receiveMessage(Message message, Channel channel, Message response) {
-        MessageController messageController = dataController.getMessageController();
-        messageController.receiveMessage(message,channel,response);
-    }
+    public void receiveMessage(Message message, Channel channel, Message response) {}
 
     /**
      * Save edition into history.
