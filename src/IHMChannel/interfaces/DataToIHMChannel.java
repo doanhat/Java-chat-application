@@ -7,10 +7,17 @@ import common.sharedData.Channel;
 import common.sharedData.Message;
 import common.sharedData.User;
 
+/**
+ * Implémentation de l'interface de IHM-Channel vers Data
+ */
 public class DataToIHMChannel implements IDataToIHMChannel{
 
     private IHMChannelController controller;
 
+    /**
+     * Constructeur
+     * @param controller référence au contrôleur principal de IHM-Channel
+     */
     public DataToIHMChannel(IHMChannelController controller){
         this.controller = controller;
     }
@@ -27,7 +34,7 @@ public class DataToIHMChannel implements IDataToIHMChannel{
     /**
      * Permet d'ajouter un administrateur pour un channel.
      *
-     * @param user    user qui devient admin
+     * @param user user qui devient admin
      * @param channel channel pour lequel on a ajouté un admin
      */
     @Override
@@ -82,9 +89,9 @@ public class DataToIHMChannel implements IDataToIHMChannel{
      */
     @Override
     public void receiveMessage(Message message, Channel channel, Message responseTo) {
-        //get channelctrl depuis ihmctrl
+        //récupération du contrôleur de views/Channel.fxml relié à channel via ihmChannelController
         ChannelController channelController = controller.getChannelPageController().getChannelController(channel.getId());
-        //appeler channelctrl.receiveMessage()
+        //mise à jour de l'IHM suite à la réception de message
         channelController.receiveMessage(message, responseTo);
     }
 
