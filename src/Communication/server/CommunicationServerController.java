@@ -5,6 +5,7 @@ import Communication.messages.abstracts.NetworkMessage;
 import Communication.messages.server_to_client.UserDisconnectedMessage;
 import common.interfaces.server.IServerCommunicationToData;
 import common.sharedData.Channel;
+import common.sharedData.Message;
 import common.sharedData.UserLite;
 
 import java.io.IOException;
@@ -67,6 +68,12 @@ public class CommunicationServerController extends CommunicationController {
         for(NetworkUser usr : server.directory().getAllConnections()){
             server.sendMessage(usr.preparePacket(message));
         }
+    }
+    public void requestJoinSharedChannel(Channel channel, UserLite user){
+        dataServer.requestAddUser(channel, user);
+    }
+    public List<Message> requestJoinOwnedChannel(Channel channel, UserLite user){
+        return dataServer.joinChannel(channel, user);
     }
 
     @Override
