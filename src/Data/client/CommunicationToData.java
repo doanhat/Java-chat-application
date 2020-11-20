@@ -9,11 +9,10 @@ import common.sharedData.UserLite;
 import java.util.List;
 
 public class CommunicationToData implements ICommunicationToData {
-
     private DataClientController dataController;
 
-    public CommunicationToData() {
-        dataController = new DataClientController();
+    public CommunicationToData(DataClientController dataClientController) {
+        this.dataController = dataClientController;
     }
 
     /**

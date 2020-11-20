@@ -1,11 +1,21 @@
 package Data.client;
 
+import common.interfaces.client.IDataToCommunication;
+import common.interfaces.client.IDataToIHMChannel;
+import common.interfaces.client.IDataToIHMMain;
 import common.sharedData.Channel;
 import common.sharedData.User;
+import common.sharedData.UserLite;
 
-public class UserController {
-    public UserController() {
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+public class UserController extends Controller {
+    public UserController(IDataToCommunication comClient, IDataToIHMChannel channelClient, IDataToIHMMain mainClient) {
+        super(comClient, channelClient, mainClient);
     }
+
     /**
      * Gets user.
      *
@@ -63,5 +73,20 @@ public class UserController {
      */
     public void newConnectionUser(User user) {
 
+    }
+
+    /**
+     * Get all connected users
+     *
+     * @return List<UserLite> connected users
+     */
+    public List<UserLite> getConnectedUsers() {
+        List<UserLite> users = new ArrayList<UserLite>();
+
+        // TODO : get real data
+        for (int i = 1 ; i <= 5 ; i++) {
+            users.add(new UserLite(UUID.randomUUID(), "user " + i, "avatar"));
+        }
+        return users;
     }
 }

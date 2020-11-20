@@ -4,6 +4,7 @@ import common.sharedData.Channel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class ChannelsListController {
     private List<Channel> channels;
@@ -16,7 +17,7 @@ public class ChannelsListController {
         return null;
     }
 
-    public Channel searchChannelById(int id) {
+    public Channel searchChannelById(UUID id) {
         for(Channel ch : channels){
             if (ch.getId()==id)
                 return ch;

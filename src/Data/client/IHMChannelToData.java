@@ -9,8 +9,8 @@ public class IHMChannelToData implements IIHMChannelToData {
 
     private DataClientController dataController;
 
-    public IHMChannelToData() {
-        dataController = new DataClientController();
+    public IHMChannelToData(DataClientController dataClientController) {
+        this.dataController = dataClientController;
     }
 
     /**
