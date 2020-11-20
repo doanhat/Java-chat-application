@@ -23,7 +23,7 @@ public class ChannelController {
     UserLite connectedUser; //tmp
 
     @FXML
-    Button back;
+    Button homeBtn;
     @FXML
     Text channelName;
     @FXML
@@ -89,6 +89,13 @@ public class ChannelController {
     }
 
     private void iconsInit(){
+        //Button Home
+        Image homeImage = new Image("IHMChannel/icons/home-solid.png");
+        ImageView homeIcon = new ImageView(homeImage);
+        homeIcon.setFitHeight(15);
+        homeIcon.setFitWidth(15);
+        homeBtn.setGraphic(homeIcon);
+        
         //Liste membres
         Image usersImage = new Image("IHMChannel/icons/users-solid.png");
         ImageView usersIcon = new ImageView(usersImage);
