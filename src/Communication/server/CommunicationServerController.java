@@ -3,6 +3,7 @@ package Communication.server;
 import Communication.common.CommunicationController;
 import Communication.messages.abstracts.NetworkMessage;
 import Communication.messages.server_to_client.UserDisconnectedMessage;
+import common.interfaces.client.ICommunicationToData;
 import common.interfaces.server.IServerCommunicationToData;
 import common.sharedData.Channel;
 import common.sharedData.Message;
@@ -16,6 +17,7 @@ public class CommunicationServerController extends CommunicationController {
 
     private final NetworkServer server;
     private IServerCommunicationToData dataServer;
+    private ICommunicationToData data;
 
     public CommunicationServerController() {
         super();
@@ -38,8 +40,9 @@ public class CommunicationServerController extends CommunicationController {
         }
     }
 
-    public void setupInterfaces(IServerCommunicationToData dataIface) {
-        this.dataServer = dataIface;
+    public void setupInterfaces(IServerCommunicationToData dataServerIface, ICommunicationToData dataIface) {
+        this.dataServer = dataServerIface;
+        this.data = dataIface;
     }
 
     public List<Channel> getUserChannels(UserLite user) {
@@ -82,5 +85,9 @@ public class CommunicationServerController extends CommunicationController {
 
         server.directory().deregisterClient(user);
         sendBroadcast(new UserDisconnectedMessage(usrlite));
+    }
+
+    public void requestSendMessage (Message msg, Channel channel, Message response) {
+        data.saveMessageIntoHistory(msg, channel, response);
     }
 }

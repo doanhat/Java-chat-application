@@ -5,6 +5,7 @@ import Communication.messages.abstracts.NetworkMessage;
 import Communication.messages.client_to_server.UserConnectionMessage;
 import common.interfaces.client.ICommunicationToData;
 import common.sharedData.Channel;
+import common.sharedData.Message;
 import common.sharedData.User;
 import common.sharedData.UserLite;
 
@@ -19,7 +20,7 @@ public class CommunicationClientController extends CommunicationController {
     public CommunicationClientController(ICommunicationToData dataIface) {
         super();
 
-        client = new NestworkClient(this);
+        client = new NetworkClient(this);
         dataClient = dataIface;
     }
 
@@ -63,6 +64,9 @@ public class CommunicationClientController extends CommunicationController {
         dataClient.addVisibleChannel(channel);
     }
 
+    public void notifyReceiveMessage (Message msg, Channel channel, Message response) {
+        dataClient.receiveMessage(msg, channel, response);
+    }
 
     @Override
     protected void disconnect(UUID user) {
