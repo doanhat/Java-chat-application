@@ -1,15 +1,11 @@
 package common.sharedData;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public abstract class Channel implements Serializable {
 
-	private int id;
+	private UUID id;
 	private String name;
 	private UserLite creator;
 	private String description;
@@ -20,7 +16,7 @@ public abstract class Channel implements Serializable {
 	private List<Kick> kicked;
 	private List<Message> messages;
 	
-	public Channel(int id, String name, UserLite creator, String description, Visibility visibility) {
+	public Channel(UUID id, String name, UserLite creator, String description, Visibility visibility) {
 		this.id = id;
 		this.name = name;
 		this.creator = creator;
@@ -36,11 +32,11 @@ public abstract class Channel implements Serializable {
 		this.messages = new ArrayList<Message>();
 	}
 	
-	public int getId() {
+	public UUID getId() {
 		return id;
 	}
 	
-	public void setId(int id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 	

@@ -76,6 +76,7 @@ public interface ICommunicationToData {
      */
     void cancelBanOfUserIntoHistory(User user, Channel channel);
 
+
     /**
      * Delete user from channel.
      *

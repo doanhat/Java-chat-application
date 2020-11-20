@@ -8,7 +8,6 @@ import common.sharedData.UserLite;
 import java.util.List;
 
 public class ServerCommunicationToData implements IServerCommunicationToData {
-
     private UserListController userListController;
     private ChannelsListController channelsListController;
 
@@ -32,6 +31,7 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
         return null;
     }
 
+
     @Override
     public void requestAddUser(Channel ch, UserLite user) {
 
@@ -54,18 +54,19 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
     @Override
     public void saveMessageIntoHistory(Channel ch, Message ms, Message response) {
-
     }
+
 
     @Override
-    public void editMessage(Channel ch, Message ms) {
+    public void editMessage(Channel channel, Message ms) {
 
     }
+
 
     @Override
     public void saveLikeIntoHistory(Channel ch, Message ms, UserLite user) {
-
     }
+
 
     @Override
     public void saveRemovalMessageIntoHistory(Channel ch, Message ms, Boolean deletedByCreator) {
@@ -76,6 +77,7 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     public List<Message> getHistory(Channel ch) {
         return null;
     }
+
 
     @Override
     public List<Channel> getVisibleChannels(UserLite user) {

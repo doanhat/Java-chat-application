@@ -1,13 +1,11 @@
 package Data.client;
 
 import common.interfaces.client.IIHMMainToData;
-import common.sharedData.Channel;
-import common.sharedData.User;
-import common.sharedData.UserLite;
-import common.sharedData.Visibility;
+import common.sharedData.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 public class IHMMainToData implements IIHMMainToData {
 
@@ -17,7 +15,6 @@ public class IHMMainToData implements IIHMMainToData {
         this.dataController = dataClientController;
     }
 
-
     /**
      * Gets connected users.
      *
@@ -25,7 +22,7 @@ public class IHMMainToData implements IIHMMainToData {
      */
     @Override
     public List<UserLite> getConnectedUsers() {
-        return null;
+        return this.dataController.getUserController().getConnectedUsers();
     }
 
     /**
@@ -35,20 +32,27 @@ public class IHMMainToData implements IIHMMainToData {
      */
     @Override
     public List<Channel> getChannels() {
-        return null;
+        return this.dataController.getChannelController().getChannels();
     }
 
     /**
      * Create channel.
      *
-     * @param channel  the channel
+     * @param name  the channel name
      * @param isShared the is shared
      * @param isPublic the is public
      * @param owner    the owner
      */
     @Override
-    public void createChannel(Channel channel, Boolean isShared, Boolean isPublic, UserLite owner) {
-
+    public void createChannel(String name, String description, Boolean isShared, Boolean isPublic, UserLite owner) {
+        Channel channel;
+        UUID id = UUID.randomUUID();
+        if(isShared) {
+            channel = new SharedChannel(id, name, owner, description, isPublic ? Visibility.PUBLIC : Visibility.PRIVATE);
+        } else {
+            channel = new OwnedChannel(id, name, owner, description, isPublic ? Visibility.PUBLIC : Visibility.PRIVATE);
+        }
+        this.dataController.getChannelController().addVisibleChannel(channel);
     }
 
     /**
@@ -67,6 +71,7 @@ public class IHMMainToData implements IIHMMainToData {
     /**
      * Edit profile.
      *
+     * @param user    the user
      * @param nickName  the nick name
      * @param avatar    the avatar
      * @param password  the password
@@ -106,5 +111,4 @@ public class IHMMainToData implements IIHMMainToData {
     public void createAccount(String nickName, String avatar, String password, String lastName, String firstName, Date birthDate) {
 
     }
-
 }
