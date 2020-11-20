@@ -14,7 +14,7 @@ import java.util.List;
 public class FileHandle<T> {
     private String path;
 
-    public List<T> readJSON(String fileName, Class<T> tClass){
+    public List<T> readJSONFromFile(String fileName, Class<T> tClass){
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         CollectionType listType = mapper.getTypeFactory().constructCollectionType(ArrayList.class, tClass);
@@ -26,6 +26,15 @@ public class FileHandle<T> {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void writeJSONToFile(String fileName, Object object){
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            mapper.writeValue(Paths.get(path).toFile(), object);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public FileHandle(String resourcePath) {
