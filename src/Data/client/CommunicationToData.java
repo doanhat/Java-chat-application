@@ -11,8 +11,8 @@ import java.util.List;
 public class CommunicationToData implements ICommunicationToData {
     private DataClientController dataController;
 
-    public CommunicationToData() {
-        dataController = new DataClientController();
+    public CommunicationToData(DataClientController dataClientController) {
+        this.dataController = dataClientController;
     }
 
     /**
@@ -79,6 +79,17 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void banUserIntoHistory(UserLite user, Channel channel, int duration) {
+
+    }
+
+    /**
+     * Cancel ban of user into history.
+     *
+     * @param user    the user
+     * @param channel the channel
+     */
+    @Override
+    public void cancelBanOfUserIntoHistory(User user, Channel channel) {
 
     }
 
@@ -208,7 +219,7 @@ public class CommunicationToData implements ICommunicationToData {
      * @return the user
      */
     @Override
-    public UserLite getUser() {
+    public List<UserLite> getUsers() {
         return null;
     }
 

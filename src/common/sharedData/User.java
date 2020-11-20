@@ -1,6 +1,7 @@
 package common.sharedData;
 
 import java.util.Date;
+import java.util.UUID;
 
 public class User extends UserLite {
 	
@@ -15,6 +16,10 @@ public class User extends UserLite {
 		this.lastName = lastName;
 		this.firstName = firstName;
 		this.birthDate = birthDate;
+	}
+
+	public User() {
+		super();
 	}
 
 	public String getPassword() {

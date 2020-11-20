@@ -2,7 +2,9 @@ package common.interfaces.client;
 import common.sharedData.Channel;
 import common.sharedData.User;
 import common.sharedData.UserLite;
+import common.sharedData.Visibility;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -35,11 +37,45 @@ public interface IIHMMainToData {
     void createChannel(String name, String description, Boolean isShared, Boolean isPublic, UserLite owner);
 
     /**
+     * Search channel.
+     *
+     * @param name        the name
+     * @param creator     the creator
+     * @param description the description
+     * @param visibility  the visibility
+     */
+    List<Channel> searchChannel(String name, UserLite creator, String description, Visibility visibility);
+
+    /**
      * Edit profile.
      *
-     * @param options the options
-     * @param user    the user
+     * @param nickName  the nick name
+     * @param avatar    the avatar
+     * @param password  the password
+     * @param lastName  the last name
+     * @param firstName the first name
+     * @param birthDate the birth date
+     * @param user      the user
      */
-    void editProfile(String[] options, User user);
+    void editProfile(String nickName, String avatar, String password, String lastName, String firstName, Date birthDate, User user);
 
+    /**
+     * Local authentification.
+     *
+     * @param nickName   the pseudo
+     * @param password the password
+     */
+    void localAuthentification(String nickName, String password);
+
+    /**
+     * Create account.
+     *
+     * @param nickName  the nick name
+     * @param avatar    the avatar
+     * @param password  the password
+     * @param lastName  the last name
+     * @param firstName the first name
+     * @param birthDate the birth date
+     */
+    void createAccount(String nickName, String avatar, String password, String lastName, String firstName, Date birthDate);
 }

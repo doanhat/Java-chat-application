@@ -8,31 +8,29 @@ import common.sharedData.UserLite;
 import java.util.List;
 
 public class ServerCommunicationToData implements IServerCommunicationToData {
+    private UserListController userListController;
+    private ChannelsListController channelsListController;
+
+    public ServerCommunicationToData(UserListController userListController, ChannelsListController channelsListController) {
+        this.userListController = userListController;
+        this.channelsListController = channelsListController;
+    }
 
     @Override
-    public List<Channel> requestChannelSuppression(Channel ch, UserLite user) {
+    public List<Channel> requestChannelRemoval(Channel channel, UserLite user) {
         return null;
     }
 
     @Override
-    public List<Channel> requestUserChannelList(UserLite user) {
+    public List<Channel> requestChannelCreation(Channel channel, Boolean typeOwner, Boolean typePublic, UserLite user) {
         return null;
     }
 
     @Override
-    public List<Channel> requestChannelRemoval(Channel ch, UserLite user) {
+    public List<UserLite> updateChannel(Channel channel) {
         return null;
     }
 
-    @Override
-    public List<Channel> requestAddChannel(Channel ch, UserLite user) {
-        return null;
-    }
-
-    @Override
-    public void updateChannel(Channel ch) {
-
-    }
 
     @Override
     public void requestAddUser(Channel ch, UserLite user) {
@@ -40,7 +38,7 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     }
 
     @Override
-    public void addAdmin(Channel ch, UserLite user) {
+    public void saveNewAdminIntoHistory(Channel ch, UserLite user) {
 
     }
 
@@ -55,63 +53,55 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     }
 
     @Override
-    public void postMessage(Channel ch, Message ms, UserLite user) {
+    public void saveMessageIntoHistory(Channel ch, Message ms, Message response) {
+    }
+
+
+    @Override
+    public void editMessage(Channel channel, Message ms) {
+
+    }
+
+
+    @Override
+    public void saveLikeIntoHistory(Channel ch, Message ms, UserLite user) {
+    }
+
+
+    @Override
+    public void saveRemovalMessageIntoHistory(Channel ch, Message ms, Boolean deletedByCreator) {
 
     }
 
     @Override
-    public void editMessage(Channel channel, Message ms, Message newMessage) {
-
+    public List<Message> getHistory(Channel ch) {
+        return null;
     }
 
-    @Override
-    public void saveMessageLike(Channel ch, Message ms, UserLite user) {
-
-    }
 
     @Override
-    public void removeMessage(Channel ch, Message ms, UserLite user) {
-
-    }
-
-    @Override
-    public List<Message> getChannelMessages(Channel ch, UserLite user) {
+    public List<Channel> getVisibleChannels(UserLite user) {
         return null;
     }
 
     @Override
-    public List<Channel> getVisibleChannels(Channel ch, UserLite user) {
+    public Channel createPublicSharedChannel(String name, UserLite creator, String description) {
         return null;
-    }
-
-    @Override
-    public Channel requestChannelCreation(Channel ch, boolean owner, boolean publicity, UserLite user) {
-        return null;
-    }
-
-    @Override
-    public void leaveChannel(Channel ch, UserLite user) {
-
-    }
-
-    @Override
-    public void channelSubscriptionRequest(Channel ch, UserLite user) {
-
     }
 
     @Override
     public List<UserLite> disconnectUser(UserLite user) {
-        return null;
+        return userListController.removeConnectedUser(user);
     }
 
     @Override
     public List<UserLite> newConnection(UserLite user) {
-        return null;
+        return userListController.addConnectedUser(user);
     }
 
     @Override
     public List<UserLite> getConnectedUsers() {
-        return null;
+        return userListController.getConnectedUsers();
     }
 
     @Override
@@ -122,5 +112,25 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     @Override
     public void sendChannelInvitation(UserLite sender, UserLite receiver, String message) {
 
+    }
+
+    @Override
+    public List<UserLite> joinChannel(Channel ch, UserLite user) {
+        return null;
+    }
+
+    @Override
+    public void leaveChannel(Channel ch, UserLite user) {
+
+    }
+
+    @Override
+    public Object getUserAddress(UserLite user) {
+        return null;
+    }
+
+    @Override
+    public Boolean checkAuthorization(Channel ch, UserLite user) {
+        return null;
     }
 }

@@ -1,6 +1,5 @@
 package common.sharedData;
 
-
 import java.util.UUID;
 
 public class SharedChannel extends Channel {
