@@ -7,8 +7,6 @@ import com.fasterxml.jackson.databind.type.CollectionType;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 public class FileHandle<T> {
@@ -18,7 +16,7 @@ public class FileHandle<T> {
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         CollectionType listType = mapper.getTypeFactory().constructCollectionType(ArrayList.class, tClass);
-        String path = System.getProperty("user.dir") + "/projet-lo23a20d1/resource/" + fileName;
+        String path = System.getProperty("user.dir") + "/projet-lo23a20d1/resource/" + fileName + ".json";
         try {
             List<T> ts = mapper.readValue(Paths.get(path).toFile(), listType);
             return ts;
@@ -30,6 +28,7 @@ public class FileHandle<T> {
 
     public void writeJSONToFile(String fileName, Object object){
         ObjectMapper mapper = new ObjectMapper();
+        String path = System.getProperty("user.dir") + "/projet-lo23a20d1/resource/" + fileName + ".json";
         try {
             mapper.writeValue(Paths.get(path).toFile(), object);
         } catch (IOException e) {

@@ -1,5 +1,9 @@
 package common.sharedData;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
@@ -8,14 +12,29 @@ public class User extends UserLite {
 	private String password;
 	private String lastName;
 	private String firstName;
+
+	@JsonFormat
+		(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
 	private Date birthDate;
 
+	// Ce constructor accepte un birthDay du format java.util.Date
 	public User(UUID id, String nickName, String avatar, String password, String lastName, String firstName, Date birthDate) {
 		super(id, nickName, avatar);
 		this.password = password;
 		this.lastName = lastName;
 		this.firstName = firstName;
 		this.birthDate = birthDate;
+	}
+
+	// Ce constructor accepte un birthDay du format String "dd-MM-yyyy", ex "04-05-1998"
+	public User(UUID id, String nickName, String avatar, String password, String lastName, String firstName, String birthDate) throws ParseException {
+		super(id, nickName, avatar);
+		this.password = password;
+		this.lastName = lastName;
+		this.firstName = firstName;
+
+		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+		this.birthDate = df.parse(birthDate);
 	}
 
 	public User() {
@@ -47,7 +66,9 @@ public class User extends UserLite {
 		this.birthDate = birthDate;
 	}
 	
-	
+	public UserLite getUserLite(){
+		return new UserLite(this.getId(),this.getNickName(),this.getAvatar());
+	}
 	
 
 }
