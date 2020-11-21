@@ -69,7 +69,7 @@ public class ChannelMembersController {
 
     public void initialize() throws IOException {
         //Membres
-        UserLite tmpUser = new UserLite(UUID.randomUUID(), "Léa", null);
+        UserLite tmpUser = new UserLite("Léa", null);
         tmpUser.setNickName("Léa");
         HBox tmp = (HBox) new MemberDisplay(tmpUser).root;
         membersToDisplay.add(tmp);

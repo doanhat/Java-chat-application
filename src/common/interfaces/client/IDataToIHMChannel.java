@@ -74,4 +74,6 @@ public interface IDataToIHMChannel {
      * @param deletedByCreator booléen indiquant si la suppression a été faite par le propriétaire du message
      */
     void deleteMessage(Message message, Channel channel, boolean deletedByCreator);
+
+    // TODO: add Channel getChannel(UUID id)
 }
