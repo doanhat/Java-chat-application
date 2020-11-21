@@ -1,9 +1,7 @@
 package Data.server;
 
 import common.interfaces.server.IServerCommunicationToData;
-import common.sharedData.Channel;
-import common.sharedData.Message;
-import common.sharedData.UserLite;
+import common.sharedData.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -86,8 +84,16 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     }
 
     @Override
-    public Channel createPublicSharedChannel(String name, UserLite creator, String description) {
-        return null;
+    public SharedChannel createPublicSharedChannel(String name, UserLite creator, String description) {
+        // TODO ID creation
+        // TODO new constructor for sharedChannel?
+        SharedChannel sChannel = new SharedChannel();
+        Visibility channelVisibility = Visibility.PUBLIC;
+        sChannel.setName(name);
+        sChannel.setCreator(creator);
+        sChannel.setDescription(description);
+        sChannel.setVisibility(channelVisibility);
+        return sChannel;
     }
 
     @Override
@@ -122,6 +128,11 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     @Override
     public void sendChannelInvitation(UserLite sender, UserLite receiver, String message) {
 
+    }
+
+    @Override
+    public List<Message> getChannelMessages(UUID channelID) {
+        return channelsListController.getChannelMessages(channelID);
     }
 
     @Override

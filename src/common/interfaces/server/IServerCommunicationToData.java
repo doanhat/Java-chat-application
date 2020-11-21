@@ -2,6 +2,7 @@ package common.interfaces.server;
 
 import common.sharedData.Channel;
 import common.sharedData.Message;
+import common.sharedData.SharedChannel;
 import common.sharedData.UserLite;
 import java.util.List;
 import java.util.UUID;
@@ -152,7 +153,7 @@ public interface IServerCommunicationToData {
      * @param creator l'utilisateur créateur du channel
      * @param description la description du channel
      * */
-    Channel createPublicSharedChannel(String name, UserLite creator, String description);
+    SharedChannel createPublicSharedChannel(String name, UserLite creator, String description);
 
     /**
      * Méthode pour faire la déconnexion d'un utilisateur
@@ -190,6 +191,13 @@ public interface IServerCommunicationToData {
      * @param message le message d'invitation
      * */
     void sendChannelInvitation(UserLite sender, UserLite receiver, String message);
+
+    /**
+     *  Méthode pour renvoyer la liste des messages d'un channel
+     *
+     * @param channelID l'identifiant du channel concerné
+     * */
+    List<Message> getChannelMessages(UUID channelID);
 
     /**
      * Méthode pour s'abonner à un channel

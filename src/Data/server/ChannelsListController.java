@@ -1,6 +1,7 @@
 package Data.server;
 
 import common.sharedData.Channel;
+import common.sharedData.Message;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,10 @@ public class ChannelsListController {
                 return ch;
         }
         return null;
+    }
+
+    public List<Message> getChannelMessages(UUID channelID){
+        return searchChannelById(channelID).getMessages();
     }
 
     public List<Channel> searchChannelByDesc(String description) {
