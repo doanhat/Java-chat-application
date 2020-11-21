@@ -89,7 +89,7 @@ public class CommunicationServerController extends CommunicationController {
     }
 
     @Override
-    protected void disconnect(UUID user) {
+    public void disconnect(UUID user) {
         UserLite userlite = server.directory().getConnection(user).getUserInfo();
 
         server.directory().deregisterClient(user);

@@ -91,18 +91,21 @@ public class CommunicationClientController extends CommunicationController {
     }
 
     public void notifyUserConnected(UserLite newUser) {
+        // TODO INTEGRATION: verify with Data to see whether Data client keep User lists
         mainClient.addConnectedUser(newUser);
     }
 
     public void notifyUserDisconnected(UserLite user) {
-        dataClient.disconnectUser(user);
+        mainClient.removeConnectedUser(user);
     }
 
     public void notifyVisibleChannel(Channel channel) {
-        // TODO request data addVisibleChannel receive Channel as parameter
+        // TODO INTEGRATION request data addVisibleChannel receive Channel as parameter
         //dataClient.addVisibleChannel(channel);
-        // TODO Verify workflow between Comm, Data, Main to avoid redundance
+        // TODO INTEGRATION Verify workflow between Comm, Data, Main to avoid redundancy
         mainClient.channelAdded(channel);
+
+        // TODO handle propriety Channel
     }
 
     public void notifyReceiveMessage (Message msg, UUID channelID, Message response) {
@@ -110,9 +113,8 @@ public class CommunicationClientController extends CommunicationController {
     }
 
     @Override
-    protected void disconnect(UUID user) {
+    public void disconnect(UUID user) {
         System.out.println("A IHM Main : je suis plus connecté");
-        // TODO notify ICommunicationToIHMMain
 
         try {
             client.close();
