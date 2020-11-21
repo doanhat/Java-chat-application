@@ -2,6 +2,8 @@ package common.interfaces.client;
 import common.sharedData.Channel;
 import common.sharedData.UserLite;
 
+import java.util.UUID;
+
 public interface IDataToCommunication
 {
     /**
@@ -13,7 +15,7 @@ public interface IDataToCommunication
     /**
      * Transfert au serveur la demande de suppresion d'un channel
      *
-     * @param channel [ID] ID de l'objet à supprimer
+     * @param channelID ID de l'objet à supprimer
      **/
-    void delete(Channel channel);
+    void delete(UUID channelID);
 }

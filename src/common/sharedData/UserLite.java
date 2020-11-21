@@ -9,10 +9,13 @@ public class UserLite implements Serializable {
 	private String nickName;
 	private String avatar;
 
-	public UserLite(UUID id, String nickName, String avatar) {
-		this.id = id;
+	public UserLite(String nickName, String avatar) {
+		this.id = UUID.randomUUID();
 		this.nickName = nickName;
 		this.avatar = avatar;
+	}
+
+	public UserLite() {
 	}
 
 	public UUID getId() {
@@ -33,6 +36,6 @@ public class UserLite implements Serializable {
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
 	}
-	
-	
+
+
 }

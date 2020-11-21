@@ -1,11 +1,15 @@
 package Data.client;
 
+import common.interfaces.client.IDataToCommunication;
+import common.interfaces.client.IDataToIHMChannel;
+import common.interfaces.client.IDataToIHMMain;
 import common.sharedData.Channel;
 import common.sharedData.Message;
 import common.sharedData.User;
 
-public class MessageController {
-    public MessageController() {
+public class MessageController extends Controller{
+    public MessageController(IDataToCommunication comClient, IDataToIHMChannel channelClient, IDataToIHMMain mainClient) {
+        super(comClient, channelClient, mainClient);
     }
 
     public void saveMessageIntoHistory(Message message, Channel channel, Message response) {
@@ -19,9 +23,7 @@ public class MessageController {
      * @param channel  the channel
      * @param response the response
      */
-    public void receiveMessage(Message message, Channel channel, Message response) {
-
-    }
+    public void receiveMessage(Message message, Channel channel, Message response) {}
 
     /**
      * Save edition into history.
