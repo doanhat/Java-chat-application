@@ -101,7 +101,7 @@ public class CommunicationClientController extends CommunicationController {
     public void notifyChannelCreated(Channel channel) {
         mainClient.channelCreated(channel);
 
-        // TODO INTEGRATION verify with Data if new created Channel is control by Data Client
+        // TODO INTEGRATION verify with Data if new created Channel is control by Data Client and fill missing sequence diagram
         //dataClient.addVisibleChannel(channel);
     }
 

@@ -35,8 +35,8 @@ public class CreateChannelMessage extends ClientToServerMessage {
         // Request Accepted
         if (newChannel != null)
         {
+            // broadcast public channel to all users
             if (newChannel.getVisibility() == Visibility.PUBLIC) {
-                // TODO verify ChannelVisibleMessage
                 NetworkMessage newChannelNotification = new NewVisibleChannelMessage(newChannel);
 
                 commController.sendBroadcast(newChannelNotification);
