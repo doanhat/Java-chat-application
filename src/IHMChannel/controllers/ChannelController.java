@@ -5,8 +5,13 @@ import IHMChannel.ChannelMessagesDisplay;
 import IHMChannel.IHMChannelController;
 import common.sharedData.Channel;
 import common.sharedData.Message;
+import javafx.event.ActionEvent;
+import javafx.geometry.Bounds;
+import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -21,7 +26,7 @@ public class ChannelController {
     @FXML
     BorderPane pageToDisplay;
     @FXML
-    Text channelName;
+    Label channelName;
     @FXML
     Text channelDescription;
 
@@ -34,11 +39,25 @@ public class ChannelController {
     @FXML
     Button leaveChannelBtn;
 
+    @FXML
+    ContextMenu channelContextMenu;
+
+    @FXML
+    Button contextMenuBtn;
+
     ChannelMessagesDisplay channelMessagesDisplay;
 
     ChannelMembersDisplay channelMembersDisplay;
 
     Boolean seeMessages = true;
+
+    public Channel getCurrentChannel() {
+        return currentChannel;
+    }
+    public void setCurrentChannel(Channel currentChannel) {
+        this.currentChannel = currentChannel;
+    }
+
 
     public void initialize() throws IOException {
         iconsInit();
@@ -109,8 +128,6 @@ public class ChannelController {
         //On transmet aux 2 "sous-vues" le channel à afficher et chacune fait le traitement nécessaire
         channelMessagesDisplay.getController().setCurrentChannel(channel);
         //channelMembersDisplay.getController().setCurrentChannel(channel);
-
-
     }
 
 
@@ -132,11 +149,51 @@ public class ChannelController {
         this.ihmChannelController = ihmChannelController;
     }
 
-    public Channel getCurrentChannel() {
-        return currentChannel;
+
+
+    /**
+     * Clic sur le bouton "v" pour faire apparaître le menu contextuel du channel
+     * Récupère la position du bouton par rapport à l'écran pour positionner correctement le menu
+     */
+    public void openChannelContextMenu() {
+        //Pour obtenir la posiiton du bouton par rapport à l'écran.
+        //On veut que le menu contextuel soit correctement positionné par rapport au bouton : haut gauche du menu au bas gauche du bouton
+        Bounds screenBounds = contextMenuBtn.localToScreen(contextMenuBtn.getBoundsInLocal());
+        channelContextMenu.show(contextMenuBtn,screenBounds.getMinX(),screenBounds.getMaxY());
     }
 
-    public void setCurrentChannel(Channel currentChannel) {
-        this.currentChannel = currentChannel;
+    /**
+     * Clic sur "Modifier les infos du channel" depuis le menu contextuel
+     */
+    public void modifyChannel() {
+        //TODO implémenter la méthode
+    }
+
+    /**
+     * Clic sur "Changer les droits" depuis le menu contextuel
+     */
+    public void changeRights() {
+        //TODO implémenter la méthode
+    }
+
+    /**
+     * Clic sur "Kicker un utilisateur" depuis le menu contextuel
+     */
+    public void kickMember() {
+        //TODO implémenter la méthode
+    }
+
+    /**
+     * Clic sur "Liste des utilisateurs kickés" depuis le menu contextuel
+     */
+    public void seeKickedMembers() {
+        //TODO implémenter la méthode
+    }
+
+    /**
+     * Clic sur "supprimer channel" depuis le menu contextuel
+     */
+    public void deleteChannel() {
+        //TODO implémenter la méthode
     }
 }

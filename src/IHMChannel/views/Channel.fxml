@@ -16,7 +16,24 @@
         <HBox fx:id="menuBar">
             <Button fx:id="back" text="back"/>
             <VBox>
-                <Text fx:id="channelName"/>
+                <HBox>
+                    <Label fx:id="channelName">
+                        <contextMenu>
+                            <ContextMenu fx:id="channelContextMenu">
+                                <items>
+                                    <MenuItem text="Modifier les infos du channel" onAction="#modifyChannel"/>
+                                    <MenuItem text="Voir la liste des utilisateurs" onAction="#seeMembers"/>
+                                    <MenuItem text="Changer les droits" onAction="#changeRights"/>
+                                    <MenuItem text="Kicker un utilisateur" onAction="#kickMember"/>
+                                    <MenuItem text="Liste des utilisateurs kickés" onAction="#seeKickedMembers"/>
+                                    <MenuItem text="Supprimer channel" onAction="#deleteChannel"/>
+                                </items>
+                            </ContextMenu>
+                        </contextMenu>
+                    </Label>
+                    <Button fx:id="contextMenuBtn" text="v" onAction="#openChannelContextMenu"/>
+                </HBox>
+
                 <Text fx:id="channelDescription"/>
             </VBox>
             <Button fx:id="seeMembersBtn" onAction="#seeMembers"/>
