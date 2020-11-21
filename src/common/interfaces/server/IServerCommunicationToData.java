@@ -10,12 +10,32 @@ public interface IServerCommunicationToData {
     /** Channels section */
 
     /**
+     * NOTE: Suggestion de Comm: ajouter une méthode: 'Channel getChannel(int channelID)' pour retrouver un channel selon son ID
+     */
+
+    /**
+     * NOTE: Suggestion de Comm: utiliser seulement channelID pour diminuer la taille du paquet réseau,
+     * ou une classe supplémentaire qui contient seulement les méta-données d'un channel
+     * (un objet channel peut contient un objet de méta-données, et les contenues comme les message, user info, ...)
+     *
+     * Et cette méthode devrait retouner un boolean indiqué si le channel est bien supprimé
+     */
+
+    /**
      * Méthode pour faire la suppression d'un channel
      *
      * @param channel le channel à être supprime
      * @param user l'utilisateur qui fait la demande de suppression
      * */
     List<Channel> requestChannelRemoval(Channel channel, UserLite user);
+
+    /**
+     * NOTE: Suggestion de Comm: utiliser seulement channelID pour diminuer la taille du paquet réseau,
+     * ou une classe supplémentaire qui contient seulement les méta-données d'un channel
+     * (un objet channel peut contient un objet de méta-données, et les contenues comme les message, user info, ...)
+     *
+     * Et cette méthode devrait retouner l'objet channel créé ou un objet null si le channel n'est pas créé
+     */
 
     /**
      * Méthode pour ajouter un channel à la liste des channels actifs du serveur
@@ -28,11 +48,20 @@ public interface IServerCommunicationToData {
     List<Channel> requestChannelCreation(Channel channel, Boolean typeOwner, Boolean typePublic, UserLite user);
 
     /**
+     * NOTE: Suggestion de Comm: utiliser une classe supplémentaire qui contient seulement les méta-données d'un channel
+     * car c'est innécessaire d'envoyer tous les messages et utilisateurs d'un channel pour modifier seulement les parametres
+     */
+
+    /**
      * Méthode pour mettre à jour les informations d'un channel dans la liste des channels
      *
      * @param channel le channel concerné avec les modifications déjà faites
      * */
     List<UserLite> updateChannel(Channel channel);
+
+    /**
+     * NOTE: Suggestion de Comm: utiliser channelID et retouner un boolean pour indiqué succès ou échec
+     */
 
     /**
      * Méthode pour ajouter un utilisateur à la liste des utilisateurs abonnés d'un channel
@@ -100,7 +129,6 @@ public interface IServerCommunicationToData {
      *
      * @param channel le channel dans lequel est posté le message concerné
      * @param ms le message qui sera retiré du channel
-     * @param user ??????????????????????????????????????????????????????????????????????????????????
      * */
     void saveRemovalMessageIntoHistory(Channel channel, Message ms, Boolean deletedByCreator);
 
@@ -134,6 +162,7 @@ public interface IServerCommunicationToData {
      *
      * @param user l'utilisateur qui va se déconnecter
      * */
+
     List<UserLite> disconnectUser(UserLite user);
 
     /**
