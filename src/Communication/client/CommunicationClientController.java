@@ -4,7 +4,6 @@ import Communication.common.CommunicationController;
 import Communication.messages.abstracts.NetworkMessage;
 import Communication.messages.client_to_server.UserConnectionMessage;
 import common.interfaces.client.ICommunicationToData;
-
 import common.interfaces.client.ICommunicationToIHMChannel;
 import common.interfaces.client.ICommunicationToIHMMain;
 import common.sharedData.Channel;
@@ -22,7 +21,7 @@ public class CommunicationClientController extends CommunicationController {
     private ICommunicationToIHMMain mainClient;
     private ICommunicationToIHMChannel channelClient;
 
-    public CommunicationClientController(ICommunicationToData dataIface) {
+    public CommunicationClientController() {
         super();
 
         client = new NetworkClient(this);
@@ -62,7 +61,7 @@ public class CommunicationClientController extends CommunicationController {
             System.out.println("Connexion au server...");
         }
         catch (IOException e) {
-            e.printStackTrace();
+            disconnect(null);
         }
     }
 
@@ -91,11 +90,12 @@ public class CommunicationClientController extends CommunicationController {
     }
 
     public void notifyVisibleChannel(Channel channel) {
-        dataClient.addVisibleChannel(channel);
+        // TODO notify data addVisibleChannel receive Channel as parameter
+        //dataClient.addVisibleChannel(channel);
     }
 
-    public void notifyReceiveMessage (Message msg, Channel channel, Message response) {
-        dataClient.receiveMessage(msg, channel, response);
+    public void notifyReceiveMessage (Message msg, UUID channelID, Message response) {
+        dataClient.receiveMessage(msg, channelID, response);
     }
 
     @Override

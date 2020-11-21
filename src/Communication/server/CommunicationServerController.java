@@ -45,6 +45,14 @@ public class CommunicationServerController extends CommunicationController {
         this.data = dataIface;
     }
 
+    public void sendMessage(UUID receiver, NetworkMessage message) {
+        server.sendMessage(server.directory().getConnection(receiver).preparePacket(message));
+    }
+
+    public void setupInterfaces(IServerCommunicationToData dataIface) {
+        this.dataServer = dataIface;
+    }
+
     public List<Channel> getUserChannels(UserLite user) {
         return dataServer.getVisibleChannels(user);
     }
@@ -59,10 +67,6 @@ public class CommunicationServerController extends CommunicationController {
         return null;
     }
 
-    public void sendMessage(UUID receiver, NetworkMessage message) {
-        server.sendMessage(server.directory().getConnection(receiver).preparePacket(message));
-    }
-
     /**
      * Broadcast messages aux tous les clients enligne
      * @param message
@@ -72,22 +76,27 @@ public class CommunicationServerController extends CommunicationController {
             server.sendMessage(usr.preparePacket(message));
         }
     }
+
     public void requestJoinSharedChannel(Channel channel, UserLite user){
         dataServer.requestAddUser(channel, user);
     }
+
     public List<Message> requestJoinOwnedChannel(Channel channel, UserLite user){
-        return dataServer.joinChannel(channel, user);
+        // TODO: verify return type with data
+        //return dataServer.joinChannel(channel, user);
+
+        return null;
     }
 
     @Override
     protected void disconnect(UUID user) {
-        UserLite usrlite = server.directory().getConnection(user).getUserInfo();
+        UserLite userlite = server.directory().getConnection(user).getUserInfo();
 
         server.directory().deregisterClient(user);
-        sendBroadcast(new UserDisconnectedMessage(usrlite));
+        sendBroadcast(new UserDisconnectedMessage(userlite));
     }
 
     public void requestSendMessage (Message msg, Channel channel, Message response) {
-        data.saveMessageIntoHistory(msg, channel, response);
+        data.saveMessageIntoHistory(msg, channel.getId(), response);
     }
 }

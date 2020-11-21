@@ -84,3 +84,9 @@ nb-configuration.xml
 
 # OS X #
 .DS_Store
+
+# resource folder
+resource/*
+src/app/MainDataTest.java
+src/app/MainDataTest
+

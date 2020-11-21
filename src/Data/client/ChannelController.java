@@ -1,15 +1,32 @@
 package Data.client;
 
-import common.sharedData.Channel;
-import common.sharedData.Message;
-import common.sharedData.User;
+import common.interfaces.client.IDataToCommunication;
+import common.interfaces.client.IDataToIHMChannel;
+import common.interfaces.client.IDataToIHMMain;
+import common.sharedData.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
-public class ChannelController {
-    public ChannelController() {
+public class ChannelController extends Controller{
+    public ChannelController(IDataToCommunication comClient, IDataToIHMChannel channelClient, IDataToIHMMain mainClient) {
+        super(comClient, channelClient, mainClient);
     }
+    /**
+     * Get all channels
+     *
+     * @return List<Channel>
+     */
+    public List<Channel> getChannels() {
+        List<Channel> channels = new ArrayList<Channel>();
 
+        // TODO : Get real data
+        for (int i = 1; i < 5; i++) {
+            channels.add(new SharedChannel("channel n°" + i, null, "Description du channel n°" + i, i % 2 == 0 ? Visibility.PUBLIC : Visibility.PRIVATE));
+        }
+        return channels;
+    }
     /**
      * Add visible channel.
      *

@@ -5,20 +5,22 @@ import Communication.messages.abstracts.ServerToClientMessage;
 import common.sharedData.Channel;
 import common.sharedData.Message;
 
+import java.util.UUID;
+
 public class ReceiveMessageMessage extends ServerToClientMessage {
 
     private Message message;
-    private Channel channel;
+    private UUID    channelID;
     private Message response;
 
-    public ReceiveMessageMessage(Message message, Channel channel, Message response) {
-        this.message = message;
-        this.channel = channel;
-        this.response = response;
+    public ReceiveMessageMessage(Message message, UUID channelID, Message response) {
+        this.message    = message;
+        this.channelID  = channelID;
+        this.response   = response;
     }
 
     @Override
     protected void handle(CommunicationClientController commController) {
-        commController.notifyReceiveMessage(message, channel, response);
+        commController.notifyReceiveMessage(message, channelID, response);
     }
 }
