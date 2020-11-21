@@ -13,6 +13,13 @@ import java.util.UUID;
  */
 public interface ICommunicationToData {
     /**
+     * NOTE: Suggestion de Comm: utiliser seulement channelID pour diminuer la taille du paquet réseau,
+     * ou une classe supplémentaire qui contient seulement les méta-données d'un channel
+     * (un objet channel peut contient un objet de méta-données, et les contenues comme les message, user info, ...)
+     */
+
+    // TODO: remplacer User par UserLite pour référence utilisateur distant
+    /**
      * Add visible channel.
      *
      * @param channel the channel

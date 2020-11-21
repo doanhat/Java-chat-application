@@ -15,5 +15,7 @@ public interface DirectoryFacilitator {
 
     public List<UserLite> onlineUsers();
 
+    public List<NetworkUser> getAllConnections();
+
     public List<NetworkUser> getConnections(List<UUID> uuids);
 }

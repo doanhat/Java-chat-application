@@ -2,7 +2,6 @@ package Communication.server;
 
 import Communication.common.NetworkWriter;
 import Communication.common.Parameters;
-import Communication.common.CyclicTask;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -49,7 +48,7 @@ public class NetworkServer {
         return directoryFacilitator;
     }
 
-    private static class ClientAcceptor extends CyclicTask {
+    private static class ClientAcceptor implements Runnable {
 
         private NetworkServer networkServer;
 
@@ -58,14 +57,16 @@ public class NetworkServer {
         }
 
         @Override
-        protected void action() {
-            try {
-                Socket clientSocket = networkServer.serverSocket.accept();
+        public void run() {
+            while (true) {
+                try {
+                    Socket clientSocket = networkServer.serverSocket.accept();
 
-                networkServer.directoryFacilitator.registerClient(clientSocket);
-            }
-            catch (IOException e) {
-                e.printStackTrace();
+                    networkServer.directoryFacilitator.registerClient(clientSocket);
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
