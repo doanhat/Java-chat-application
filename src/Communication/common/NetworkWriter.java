@@ -38,7 +38,7 @@ public class NetworkWriter implements Runnable {
                 }
             }
             catch (IOException | InterruptedException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
             }
         }
     }
