@@ -19,11 +19,10 @@ public class UserController extends Controller {
     }
 
     public boolean verificationAccount(String nickName, String password){
-        List<User> listUserLogin = new FileHandle().readJSONFromFile("users.json",User.class);
+        List<User> listUserLogin = new FileHandle().readJSONFileToList("users",User.class);
         for (User user : listUserLogin){
             if (user.getNickName().equals(nickName) & user.getPassword().equals(password)){
-                UserLite userLite = new UserLite(user.getId(),user.getNickName(),user.getAvatar());
-                this.comClient.userConnect(userLite);
+                this.comClient.userConnect(user.getUserLite());
             }
 
         }

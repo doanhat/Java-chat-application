@@ -1,12 +1,14 @@
 package common.sharedData;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
+@JsonIgnoreProperties({"userLite"})
 public class User extends UserLite {
 	
 	private String password;

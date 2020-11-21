@@ -9,7 +9,9 @@ import java.util.List;
 import java.util.UUID;
 
 public class Message implements Serializable {
-	
+	public Message() {
+	}
+
 	private UUID id;
 	@JsonFormat
 		(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")

@@ -9,4 +9,7 @@ public class OwnedChannel extends Channel {
 		super(id, name, creator, description, visibility);
 	}
 
+	public OwnedChannel() {
+		super();
+	}
 }

@@ -9,4 +9,7 @@ public class SharedChannel extends Channel {
 		super(id, name, creator, description, visibility);
 	}
 
+	public SharedChannel() {
+		super();
+	}
 }

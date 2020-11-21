@@ -1,19 +1,14 @@
 package app;
 
 import Data.resourceHandle.FileHandle;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationConfig;
 import common.sharedData.*;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
-import java.util.UUID;
+import java.nio.file.Paths;
+import java.util.*;
 
 public class MainDataTest extends Application {
 
@@ -29,7 +24,6 @@ public class MainDataTest extends Application {
                 "first1",
                 "06-03-1999"
         );
-
         UserLite user1Lite = user1.getUserLite();
 
         User user2 = new User(
@@ -43,7 +37,7 @@ public class MainDataTest extends Application {
         );
 
         UserLite user2Lite = user2.getUserLite();
-
+        List<User> listUser = Arrays.asList(user1,user2);
         OwnedChannel ownedChannel = new OwnedChannel(
                 UUID.randomUUID(),
                 "chan1",
@@ -51,7 +45,7 @@ public class MainDataTest extends Application {
                 "desc",
                 Visibility.PRIVATE
         );
-        ownedChannel.addUser(user2);
+        ownedChannel.addUser(user2Lite);
 
         Message msg1 = new Message(
                 UUID.randomUUID(),
@@ -60,29 +54,26 @@ public class MainDataTest extends Application {
         );
         Message msg2 = new Message(
                 UUID.randomUUID(),
-                "Yoooooo!",
+                "Allez!",
                 user2Lite
         );
 
         ownedChannel.addMessage(msg1);
         ownedChannel.addMessage(msg2);
-
         ObjectMapper mapper = new ObjectMapper();
         FileHandle handler = new FileHandle();
         handler.writeJSONToFile("channel",ownedChannel);
-    }
+        handler.writeJSONToFile("users",listUser);
+        List<User> listUserRead = handler.readJSONFileToList("users",User.class);
+        /*for (User user : listUserRead){
+            System.out.println(new ObjectMapper().writeValueAsString(user));
+        }*/
 
-    public class Event {
-        public String name;
+        OwnedChannel channelRead = (OwnedChannel) handler.readJSONFileToObject("channel",OwnedChannel.class);
 
-        @JsonFormat
-            (shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
-        public Date eventDate;
-
-        public Event(String party, Date date) {
-            this.name = party;
-            this.eventDate = date;
-        }
+        //String path = System.getProperty("user.dir") + "/projet-lo23a20d1/resource/channel.json";
+        //OwnedChannel channelRead = mapper.readValue(Paths.get(path).toFile(), OwnedChannel.class);
+        System.out.println(channelRead.getMessages().get(0).getMessage());
     }
 
     public static void main(String[] args) {

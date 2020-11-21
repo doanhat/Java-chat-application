@@ -1,9 +1,15 @@
 package common.sharedData;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import java.io.Serializable;
 import java.util.*;
 
 public abstract class Channel implements Serializable {
+	public Channel() {
+	}
 
 	private UUID id;
 	private String name;
@@ -12,10 +18,10 @@ public abstract class Channel implements Serializable {
 	private Visibility visibility;
 	private List<UserLite> administrators;
 	private List<UserLite> acceptedPersons;
-	private Map<UserLite, String> nickNames;
+	private Map<String, String> nickNames;
 	private List<Kick> kicked;
 	private List<Message> messages;
-	
+
 	public Channel(UUID id, String name, UserLite creator, String description, Visibility visibility) {
 		this.id = id;
 		this.name = name;
@@ -26,12 +32,12 @@ public abstract class Channel implements Serializable {
 		this.administrators.add(creator);
 		this.acceptedPersons = new ArrayList<UserLite>();
 		this.acceptedPersons.add(creator);
-		this.nickNames = new HashMap<UserLite, String>();
-		this.nickNames.put(creator, creator.getNickName());
+		this.nickNames = new HashMap<String, String>();
+		this.nickNames.put(creator.getId().toString(), creator.getNickName());
 		this.kicked = new ArrayList<Kick>();
 		this.messages = new ArrayList<Message>();
 	}
-	
+
 	public UUID getId() {
 		return id;
 	}
@@ -88,14 +94,14 @@ public abstract class Channel implements Serializable {
 		this.acceptedPersons = acceptedPersons;
 	}
 	
-	public Map<UserLite, String> getNickNames() {
+	public Map<String, String> getNickNames() {
 		return nickNames;
 	}
 	
-	public void setNickNames(Map<UserLite, String> nickNames) {
+	public void setNickNames(Map<String, String> nickNames) {
 		this.nickNames = nickNames;
 	}
-	
+
 	public List<Kick> getKicked() {
 		return kicked;
 	}
