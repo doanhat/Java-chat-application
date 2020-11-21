@@ -3,8 +3,10 @@ package Communication.server;
 import Communication.common.CommunicationController;
 import Communication.messages.abstracts.NetworkMessage;
 import Communication.messages.server_to_client.UserDisconnectedMessage;
+import common.interfaces.client.ICommunicationToData;
 import common.interfaces.server.IServerCommunicationToData;
 import common.sharedData.Channel;
+import common.sharedData.Message;
 import common.sharedData.UserLite;
 
 import java.io.IOException;
@@ -15,6 +17,7 @@ public class CommunicationServerController extends CommunicationController {
 
     private final NetworkServer server;
     private IServerCommunicationToData dataServer;
+    private ICommunicationToData data;
 
     public CommunicationServerController() {
         super();
@@ -37,10 +40,15 @@ public class CommunicationServerController extends CommunicationController {
         }
     }
 
+    public void setupInterfaces(IServerCommunicationToData dataServerIface, ICommunicationToData dataIface) {
+        this.dataServer = dataServerIface;
+        this.data = dataIface;
+    }
+
     public void sendMessage(UUID receiver, NetworkMessage message) {
         server.sendMessage(server.directory().getConnection(receiver).preparePacket(message));
     }
-    
+
     public void setupInterfaces(IServerCommunicationToData dataIface) {
         this.dataServer = dataIface;
     }
@@ -68,12 +76,22 @@ public class CommunicationServerController extends CommunicationController {
             server.sendMessage(usr.preparePacket(message));
         }
     }
+    public void requestJoinSharedChannel(Channel channel, UserLite user){
+        dataServer.requestAddUser(channel, user);
+    }
+    public List<Message> requestJoinOwnedChannel(Channel channel, UserLite user){
+        return dataServer.joinChannel(channel, user);
+    }
 
     @Override
     protected void disconnect(UUID user) {
-        UserLite usrlite = server.directory().getConnection(user).getUserInfo();
+        UserLite userlite = server.directory().getConnection(user).getUserInfo();
 
         server.directory().deregisterClient(user);
-        sendBroadcast(new UserDisconnectedMessage(usrlite));
+        sendBroadcast(new UserDisconnectedMessage(userlite));
+    }
+
+    public void requestSendMessage (Message msg, Channel channel, Message response) {
+        data.saveMessageIntoHistory(msg, channel, response);
     }
 }

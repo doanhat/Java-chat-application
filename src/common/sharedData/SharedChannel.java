@@ -1,5 +1,6 @@
 package common.sharedData;
 
+
 public class SharedChannel extends Channel {
 
 	public SharedChannel(int id, String name, UserLite creator,
