@@ -16,6 +16,13 @@ public class IHMMainToCommunication implements IIHMMainToCommunication {
     }
 
     /**
+     * Déconnecter application
+     */
+    public void disconnect() {
+        commController.disconnect(null);
+    }
+
+    /**
      * Demande la creation d'un nouveau channel au serveur
      *
      * @param channel [Channel] Objet channel a crée sur le serveur
