@@ -7,6 +7,7 @@ import common.interfaces.client.ICommunicationToData;
 import common.interfaces.client.ICommunicationToIHMChannel;
 import common.interfaces.client.ICommunicationToIHMMain;
 import common.sharedData.Channel;
+import common.sharedData.Message;
 import common.sharedData.User;
 import common.sharedData.UserLite;
 
@@ -80,17 +81,20 @@ public class CommunicationClientController extends CommunicationController {
     }
 
     public void notifyUserConnected(UserLite newUser) {
-        // TODO wait for ICommunicationToData to change User interfaces to UserLite
+        // TODO verify ICommunicationToData User interfaces
         //dataClient.newConnectionUser(newUser);
     }
 
-    public void notifyUserDisconnected(UserLite user) {
-        // TODO wait for ICommunicationToData to change User interfaces to UserLite
-        //dataClient.disconnectUser(user);
+    public void notifyUserDisconnected(User user) {
+        dataClient.disconnectUser(user);
     }
 
     public void notifyVisibleChannel(Channel channel) {
         dataClient.addVisibleChannel(channel);
+    }
+
+    public void notifyReceiveMessage (Message msg, Channel channel, Message response) {
+        dataClient.receiveMessage(msg, channel, response);
     }
 
     @Override

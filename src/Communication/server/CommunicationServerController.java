@@ -3,8 +3,10 @@ package Communication.server;
 import Communication.common.CommunicationController;
 import Communication.messages.abstracts.NetworkMessage;
 import Communication.messages.server_to_client.UserDisconnectedMessage;
+import common.interfaces.client.ICommunicationToData;
 import common.interfaces.server.IServerCommunicationToData;
 import common.sharedData.Channel;
+import common.sharedData.Message;
 import common.sharedData.UserLite;
 
 import java.io.IOException;
@@ -15,6 +17,7 @@ public class CommunicationServerController extends CommunicationController {
 
     private final NetworkServer server;
     private IServerCommunicationToData dataServer;
+    private ICommunicationToData data;
 
     public CommunicationServerController() {
         super();
@@ -37,8 +40,9 @@ public class CommunicationServerController extends CommunicationController {
         }
     }
 
-    public void setupInterfaces(IServerCommunicationToData dataIface) {
-        this.dataServer = dataIface;
+    public void setupInterfaces(IServerCommunicationToData dataServerIface, ICommunicationToData dataIface) {
+        this.dataServer = dataServerIface;
+        this.data = dataIface;
     }
 
     public List<Channel> getUserChannels(UserLite user) {
@@ -47,6 +51,12 @@ public class CommunicationServerController extends CommunicationController {
 
     public List<UserLite> onlineUsers() {
         return server.directory().onlineUsers();
+    }
+
+    public Channel requestCreateChannel(Channel channel, boolean proprietary, boolean publicChannel, UserLite requester) {
+        // TODO request Data to add missing interface
+
+        return null;
     }
 
     public void sendMessage(UUID receiver, NetworkMessage message) {
@@ -62,6 +72,12 @@ public class CommunicationServerController extends CommunicationController {
             server.sendMessage(usr.preparePacket(message));
         }
     }
+    public void requestJoinSharedChannel(Channel channel, UserLite user){
+        dataServer.requestAddUser(channel, user);
+    }
+    public List<Message> requestJoinOwnedChannel(Channel channel, UserLite user){
+        return dataServer.joinChannel(channel, user);
+    }
 
     @Override
     protected void disconnect(UUID user) {
@@ -69,5 +85,9 @@ public class CommunicationServerController extends CommunicationController {
 
         server.directory().deregisterClient(user);
         sendBroadcast(new UserDisconnectedMessage(usrlite));
+    }
+
+    public void requestSendMessage (Message msg, Channel channel, Message response) {
+        data.saveMessageIntoHistory(msg, channel, response);
     }
 }

@@ -15,8 +15,7 @@ public class UserDisconnectedMessage extends ServerToClientMessage {
     }
 
     @Override
-    protected void handle(CommunicationClientController commController)
-    {
+    protected void handle(CommunicationClientController commController) {
         commController.notifyUserDisconnected(user);
     }
 }
