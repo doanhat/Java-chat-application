@@ -86,7 +86,7 @@ public class CommunicationClientController extends CommunicationController {
         //dataClient.newConnectionUser(newUser);
     }
 
-    public void notifyUserDisconnected(User user) {
+    public void notifyUserDisconnected(UserLite user) {
         dataClient.disconnectUser(user);
     }
 
