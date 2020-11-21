@@ -82,6 +82,12 @@ public class CommunicationClientController extends CommunicationController {
     }
 
     public void notifyConnectionSuccess(List<UserLite> users, List<Channel> channels) {
+        if (mainClient == null)
+        {
+            System.err.println("notifyConnectionSuccess: IHMMain Iface est null");
+            return;
+        }
+
         mainClient.connectionAccepted();
         mainClient.setConnectedUsers(users);
 
@@ -91,14 +97,32 @@ public class CommunicationClientController extends CommunicationController {
     }
 
     public void notifyUserConnected(UserLite newUser) {
+        if (mainClient == null)
+        {
+            System.err.println("notifyUserConnected: IHMMain Iface est null");
+            return;
+        }
+
         mainClient.addConnectedUser(newUser);
     }
 
     public void notifyUserDisconnected(UserLite user) {
+        if (mainClient == null)
+        {
+            System.err.println("notifyUserDisconnected: IHMMain Iface est null");
+            return;
+        }
+
         mainClient.removeConnectedUser(user);
     }
 
     public void notifyChannelCreated(Channel channel) {
+        if (mainClient == null)
+        {
+            System.err.println("notifyChannelCreated: IHMMain Iface est null");
+            return;
+        }
+
         mainClient.channelCreated(channel);
 
         // TODO INTEGRATION verify with Data if new created Channel is control by Data Client and fill missing sequence diagram
@@ -106,6 +130,12 @@ public class CommunicationClientController extends CommunicationController {
     }
 
     public void notifyVisibleChannel(Channel channel) {
+        if (mainClient == null)
+        {
+            System.err.println("notifyVisibleChannel: IHMMain Iface est null");
+            return;
+        }
+
         // TODO INTEGRATION request data addVisibleChannel receive Channel as parameter
         //dataClient.addVisibleChannel(channel);
         // TODO INTEGRATION Verify workflow between Comm, Data, Main to avoid redundancy
@@ -115,12 +145,18 @@ public class CommunicationClientController extends CommunicationController {
     }
 
     public void notifyReceiveMessage (Message msg, UUID channelID, Message response) {
+        if (dataClient == null)
+        {
+            System.err.println("notifyReceiveMessage: Data Iface est null");
+            return;
+        }
+
         dataClient.receiveMessage(msg, channelID, response);
     }
 
     @Override
     public void disconnect(UUID user) {
-        System.out.println("A IHM Main : je suis plus connecté");
+        System.err.println("A IHM Main : je suis plus connecté");
 
         try {
             client.close();

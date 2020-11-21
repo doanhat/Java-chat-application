@@ -81,6 +81,12 @@ public class CommunicationServerController extends CommunicationController {
     }
 
     public void requestJoinSharedChannel(Channel channel, UserLite user){
+        if (dataServer == null)
+        {
+            System.err.println("requestJoinSharedChannel: Data Iface est null");
+            return;
+        }
+
         dataServer.requestAddUser(channel, user);
     }
 
