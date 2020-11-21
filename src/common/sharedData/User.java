@@ -69,7 +69,7 @@ public class User extends UserLite {
 	}
 
 	public UserLite getUserLite(){
-		return new UserLite(this.getId(),this.getNickName(),this.getAvatar());
+		return (UserLite) this;
 	}
 
 
