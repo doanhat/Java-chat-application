@@ -10,13 +10,14 @@ import java.util.UUID;
 
 @JsonIgnoreProperties({"userLite"})
 public class User extends UserLite {
-	
+
 	private String password;
 	private String lastName;
 	private String firstName;
 
 	@JsonFormat
 		(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+
 	private Date birthDate;
 
 	// Ce constructor accepte un birthDay du format java.util.Date
@@ -67,10 +68,9 @@ public class User extends UserLite {
 	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
 	}
-	
+
 	public UserLite getUserLite(){
 		return new UserLite(this.getId(),this.getNickName(),this.getAvatar());
 	}
-	
 
 }
