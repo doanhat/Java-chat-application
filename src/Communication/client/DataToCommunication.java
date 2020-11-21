@@ -5,6 +5,8 @@ import common.sharedData.Channel;
 import common.sharedData.UserLite;
 import Communication.common.Parameters;
 
+import java.util.UUID;
+
 public class DataToCommunication implements IDataToCommunication {
 
     private CommunicationClientController commController;
@@ -25,10 +27,10 @@ public class DataToCommunication implements IDataToCommunication {
     /**
      * Transfert au serveur la demande de suppresion d'un channel
      *
-     * @param channel [ID] ID de l'objet à supprimer
+     * @param channelID ID de l'objet à supprimer
      **/
     @Override
-    public void delete(Channel channel){
+    public void delete(UUID channelID){
 
     }
 }

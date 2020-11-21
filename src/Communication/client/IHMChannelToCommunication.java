@@ -58,7 +58,7 @@ public class IHMChannelToCommunication implements IIHMChannelToCommunication {
      **/
     public void sendMessage(Message msg, Channel channel, Message response){
         //TODO V1
-        this.commController.sendMessage(new SendMessageMessage(msg, channel, response));
+        this.commController.sendMessage(new SendMessageMessage(msg, channel.getId(), response));
     }
 
     /**

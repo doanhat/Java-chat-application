@@ -90,11 +90,12 @@ public class CommunicationClientController extends CommunicationController {
     }
 
     public void notifyVisibleChannel(Channel channel) {
-        dataClient.addVisibleChannel(channel);
+        // TODO notify data addVisibleChannel receive Channel as parameter
+        //dataClient.addVisibleChannel(channel);
     }
 
-    public void notifyReceiveMessage (Message msg, Channel channel, Message response) {
-        dataClient.receiveMessage(msg, channel, response);
+    public void notifyReceiveMessage (Message msg, UUID channelID, Message response) {
+        dataClient.receiveMessage(msg, channelID, response);
     }
 
     @Override

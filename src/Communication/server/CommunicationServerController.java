@@ -76,11 +76,16 @@ public class CommunicationServerController extends CommunicationController {
             server.sendMessage(usr.preparePacket(message));
         }
     }
+
     public void requestJoinSharedChannel(Channel channel, UserLite user){
         dataServer.requestAddUser(channel, user);
     }
+
     public List<Message> requestJoinOwnedChannel(Channel channel, UserLite user){
-        return dataServer.joinChannel(channel, user);
+        // TODO: verify return type with data
+        //return dataServer.joinChannel(channel, user);
+
+        return null;
     }
 
     @Override
@@ -92,6 +97,6 @@ public class CommunicationServerController extends CommunicationController {
     }
 
     public void requestSendMessage (Message msg, Channel channel, Message response) {
-        data.saveMessageIntoHistory(msg, channel, response);
+        data.saveMessageIntoHistory(msg, channel.getId(), response);
     }
 }
