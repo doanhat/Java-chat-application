@@ -69,6 +69,8 @@ public class MainDataTest extends Application {
             System.out.println(new ObjectMapper().writeValueAsString(user));
         }*/
 
+
+        
         OwnedChannel channelRead = (OwnedChannel) handler.readJSONFileToObject("channel",OwnedChannel.class);
 
         //String path = System.getProperty("user.dir") + "/projet-lo23a20d1/resource/channel.json";
