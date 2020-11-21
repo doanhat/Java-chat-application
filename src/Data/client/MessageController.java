@@ -7,6 +7,8 @@ import common.sharedData.Channel;
 import common.sharedData.Message;
 import common.sharedData.User;
 
+import java.util.UUID;
+
 public class MessageController extends Controller{
     public MessageController(IDataToCommunication comClient, IDataToIHMChannel channelClient, IDataToIHMMain mainClient) {
         super(comClient, channelClient, mainClient);
@@ -18,12 +20,13 @@ public class MessageController extends Controller{
 
     /**
      * Receive message.
-     *
-     * @param message  the message
-     * @param channel  the channel
+     *  @param message  the message
+     * @param channelId  the channel
      * @param response the response
      */
-    public void receiveMessage(Message message, Channel channel, Message response) {}
+    public void receiveMessage(Message message, UUID channelId, Message response) {
+        channelClient.receiveMessage(message,channelId,response);
+    }
 
     /**
      * Save edition into history.

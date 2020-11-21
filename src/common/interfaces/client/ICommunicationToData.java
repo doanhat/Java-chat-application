@@ -200,18 +200,5 @@ public interface ICommunicationToData {
      */
     void addUserToChannel(UserLite user, UUID channelId);
 
-    /**
-     * Disconnect user.
-     *
-     * @param user the user
-     */
-    void disconnectUser(UserLite user);
-
-    /**
-     * New connection user.
-     *
-     * @param user the user
-     */
-    void newConnectionUser(User user);
 }
 

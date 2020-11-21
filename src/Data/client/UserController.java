@@ -62,12 +62,11 @@ public class UserController extends Controller {
 
     /**
      * Add user to channel.
-     *
-     * @param user    the user
-     * @param channel the channel
+     *  @param user    the user
+     * @param channelId the channel
      */
-    public void addUserToChannel(User user, Channel channel) {
-
+    public void addUserToChannel(UserLite user, UUID channelId) {
+        channelClient.userBanCancelledNotification(user,channelId);
     }
 
     /**

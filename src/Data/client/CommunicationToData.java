@@ -1,6 +1,7 @@
 package Data.client;
 
 import Data.resourceHandle.FileHandle;
+import Data.server.UserListController;
 import common.interfaces.client.ICommunicationToData;
 import common.sharedData.*;
 
@@ -23,7 +24,6 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void addVisibleChannel(UUID channelId) {
-
     }
 
     /**
@@ -167,7 +167,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void receiveMessage(Message message, UUID channelId, Message response) {
-
+        dataController.getMessageController().receiveMessage(message,channelId,response);
     }
 
     /**
@@ -249,7 +249,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public List<UserLite> getUsers() {
-        return null;
+        return new UserListController().getConnectedUsers();
     }
 
     /**
@@ -284,7 +284,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void addUserToChannel(UserLite user, UUID channelId) {
-
+        dataController.getUserController().addUserToChannel(user,channelId);
     }
 
     /**
