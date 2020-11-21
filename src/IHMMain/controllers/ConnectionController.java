@@ -1,4 +1,4 @@
-package IHMMain;
+package IHMMain.controllers;
 
 import app.MainWindowController;
 import javafx.event.ActionEvent;
