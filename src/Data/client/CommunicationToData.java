@@ -1,16 +1,16 @@
 package Data.client;
 
+import Data.resourceHandle.FileHandle;
 import common.interfaces.client.ICommunicationToData;
-import common.sharedData.Channel;
-import common.sharedData.Message;
-import common.sharedData.User;
-import common.sharedData.UserLite;
+import common.sharedData.*;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class CommunicationToData implements ICommunicationToData {
-    private DataClientController dataController;
+    private final DataClientController dataController;
 
     public CommunicationToData(DataClientController dataClientController) {
         this.dataController = dataClientController;
@@ -29,7 +29,7 @@ public class CommunicationToData implements ICommunicationToData {
     /**
      * User added to channel.
      *
-     * @param user    the user
+     * @param user      the user
      * @param channelId the channel
      */
     @Override
@@ -40,7 +40,7 @@ public class CommunicationToData implements ICommunicationToData {
     /**
      * Save new admin into history.
      *
-     * @param user    the user
+     * @param user      the user
      * @param channelId the channel
      */
     @Override
@@ -51,7 +51,7 @@ public class CommunicationToData implements ICommunicationToData {
     /**
      * New admin.
      *
-     * @param user    the user
+     * @param user      the user
      * @param channelId the channel
      */
     @Override
@@ -62,7 +62,7 @@ public class CommunicationToData implements ICommunicationToData {
     /**
      * Remove channel from list.
      *
-     * @param channelId     the channel
+     * @param channelId   the channel
      * @param duration    the duration
      * @param explanation the explanation
      */
@@ -74,9 +74,9 @@ public class CommunicationToData implements ICommunicationToData {
     /**
      * Ban user into history.
      *
-     * @param user     the user
-     * @param channelId  the channel
-     * @param duration the duration
+     * @param user      the user
+     * @param channelId the channel
+     * @param duration  the duration
      */
     @Override
     public void banUserIntoHistory(UserLite user, UUID channelId, int duration) {
@@ -86,7 +86,7 @@ public class CommunicationToData implements ICommunicationToData {
     /**
      * Cancel ban of user into history.
      *
-     * @param user    the user
+     * @param user      the user
      * @param channelId the channel
      */
     @Override
@@ -98,7 +98,7 @@ public class CommunicationToData implements ICommunicationToData {
      * Delete user from channel.
      *
      * @param user        the user
-     * @param channelId     the channel
+     * @param channelId   the channel
      * @param duration    the duration
      * @param explanation the explanation
      */
@@ -121,21 +121,49 @@ public class CommunicationToData implements ICommunicationToData {
     /**
      * Save message into history.
      *
-     * @param message  the message
-     * @param channelId  the channel
-     * @param response the response
+     * @param message   the message
+     * @param channelId the channel
+     * @param response  the response
      */
     @Override
     public void saveMessageIntoHistory(Message message, UUID channelId, Message response) {
-
+        if (message.getId().toString().equals("")) {
+            message.setId(UUID.randomUUID());
+        }
+        int responseAdded = 0;
+        FileHandle fileHandler = new FileHandle();
+        List<OwnedChannel> listOwnedChannel = fileHandler.readJSONFileToList("ownedChannel", OwnedChannel.class);
+        if (!listOwnedChannel.isEmpty()) {
+            for (OwnedChannel oCh : listOwnedChannel) {
+                if (oCh.getId().toString().equals(channelId.toString())) {
+                    List<Message> listMsg = oCh.getMessages();
+                    //listMsg.add(message);
+                    if (listMsg.isEmpty()){
+                        listMsg.add(message);
+                    } else {
+                        for (Message msg : listMsg) {
+                            if (msg.getId().toString().equals(response.getId().toString())) {
+                                msg.addAnswers(message);
+                                responseAdded++;
+                            }
+                        }
+                        if (responseAdded == 0){
+                            listMsg.add(message);
+                        }
+                    }
+                }
+            }
+        }
+        fileHandler.writeJSONToFile("ownedChannel",listOwnedChannel);
     }
+
 
     /**
      * Receive message.
      *
-     * @param message  the message
-     * @param channelId  the channel
-     * @param response the response
+     * @param message   the message
+     * @param channelId the channel
+     * @param response  the response
      */
     @Override
     public void receiveMessage(Message message, UUID channelId, Message response) {
@@ -147,7 +175,7 @@ public class CommunicationToData implements ICommunicationToData {
      *
      * @param oldMessage the old message
      * @param newMessage the new message
-     * @param channelId    the channel
+     * @param channelId  the channel
      */
     @Override
     public void saveEditionIntoHistory(Message oldMessage, Message newMessage, UUID channelId) {
@@ -159,7 +187,7 @@ public class CommunicationToData implements ICommunicationToData {
      *
      * @param message    the message
      * @param newMessage the new message
-     * @param channelId    the channel
+     * @param channelId  the channel
      */
     @Override
     public void editMessage(Message message, Message newMessage, UUID channelId) {
@@ -170,8 +198,8 @@ public class CommunicationToData implements ICommunicationToData {
      * Save like into history.
      *
      * @param channelId the channel
-     * @param message the message
-     * @param user    the user
+     * @param message   the message
+     * @param user      the user
      */
     @Override
     public void saveLikeIntoHistory(UUID channelId, Message message, UserLite user) {
@@ -182,8 +210,8 @@ public class CommunicationToData implements ICommunicationToData {
      * Like message.
      *
      * @param channelId the channel
-     * @param message the message
-     * @param user    the user
+     * @param message   the message
+     * @param user      the user
      */
     @Override
     public void likeMessage(UUID channelId, Message message, UserLite user) {
@@ -195,7 +223,7 @@ public class CommunicationToData implements ICommunicationToData {
      *
      * @param oldMessage the old message
      * @param newMessage the new message
-     * @param channelId    the channel
+     * @param channelId  the channel
      */
     @Override
     public void saveDeletionIntoHistory(Message oldMessage, Message newMessage, UUID channelId) {
@@ -206,7 +234,7 @@ public class CommunicationToData implements ICommunicationToData {
      * Delete message.
      *
      * @param message          the message
-     * @param channelId          the channel
+     * @param channelId        the channel
      * @param deletedByCreator the deleted by creator
      */
     @Override
@@ -216,6 +244,7 @@ public class CommunicationToData implements ICommunicationToData {
 
     /**
      * Return list User
+     *
      * @return
      */
     @Override
@@ -227,7 +256,7 @@ public class CommunicationToData implements ICommunicationToData {
      * Update nickname.
      *
      * @param user        the user
-     * @param channelId     the channel
+     * @param channelId   the channel
      * @param newNickname the new nickname
      */
     @Override
@@ -239,7 +268,7 @@ public class CommunicationToData implements ICommunicationToData {
      * Save nickname into history.
      *
      * @param user        the user
-     * @param channelId     the channel
+     * @param channelId   the channel
      * @param newNickname the new nickname
      */
     @Override
@@ -250,7 +279,7 @@ public class CommunicationToData implements ICommunicationToData {
     /**
      * Add user to channel.
      *
-     * @param user    the user
+     * @param user      the user
      * @param channelId the channel
      */
     @Override
