@@ -15,6 +15,12 @@ public class UserLite implements Serializable {
 		this.avatar = avatar;
 	}
 
+	public UserLite(String nickName, String avatar) {
+		this.id = UUID.randomUUID();
+		this.nickName = nickName;
+		this.avatar = avatar;
+	}
+
 	public UserLite() {
 	}
 
@@ -36,6 +42,6 @@ public class UserLite implements Serializable {
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
 	}
-	
-	
+
+
 }

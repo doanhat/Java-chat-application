@@ -1,9 +1,5 @@
 package common.sharedData;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 import java.io.Serializable;
 import java.util.*;
 
@@ -24,6 +20,22 @@ public abstract class Channel implements Serializable {
 
 	public Channel(UUID id, String name, UserLite creator, String description, Visibility visibility) {
 		this.id = id;
+		this.name = name;
+		this.creator = creator;
+		this.description = description;
+		this.visibility = visibility;
+		this.administrators = new ArrayList<UserLite>();
+		this.administrators.add(creator);
+		this.acceptedPersons = new ArrayList<UserLite>();
+		this.acceptedPersons.add(creator);
+		this.nickNames = new HashMap<String, String>();
+		this.nickNames.put(creator.getId().toString(), creator.getNickName());
+		this.kicked = new ArrayList<Kick>();
+		this.messages = new ArrayList<Message>();
+	}
+
+	public Channel(String name, UserLite creator, String description, Visibility visibility) {
+		this.id = UUID.randomUUID();
 		this.name = name;
 		this.creator = creator;
 		this.description = description;
