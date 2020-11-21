@@ -4,6 +4,7 @@ import common.sharedData.Channel;
 import common.sharedData.Message;
 import common.sharedData.UserLite;
 import java.util.List;
+import java.util.UUID;
 
 public interface IServerCommunicationToData {
     /**
@@ -156,15 +157,16 @@ public interface IServerCommunicationToData {
     /**
      * Méthode pour faire la déconnexion d'un utilisateur
      *
-     * @param user l'utilisateur qui va se déconnecter
+     * @param userID l'identifiant de l'utilisateur qui va se déconnecter
      * */
 
-    List<UserLite> disconnectUser(UserLite user);
+    void disconnectUser(UUID userID);
+
 
     /**
      * Méthode pour faire la connexion d'un utilisateur
      * */
-    List<UserLite> newConnection(UserLite user);
+    void newConnection(UserLite user);
 
     /**
      * Méthode pour retourner la liste des utilisateurs connectés

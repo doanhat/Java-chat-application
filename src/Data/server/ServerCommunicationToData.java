@@ -6,6 +6,7 @@ import common.sharedData.Message;
 import common.sharedData.UserLite;
 
 import java.util.List;
+import java.util.UUID;
 
 public class ServerCommunicationToData implements IServerCommunicationToData {
     private UserListController userListController;
@@ -90,13 +91,22 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     }
 
     @Override
-    public List<UserLite> disconnectUser(UserLite user) {
-        return userListController.removeConnectedUser(user);
+    public void disconnectUser(UUID userID) {
+        if(userID!=null){
+            if(userListController.userIsConnected(userID)){
+                userListController.removeConnectedUser(userID);
+            }
+        }
     }
 
+
     @Override
-    public List<UserLite> newConnection(UserLite user) {
-        return userListController.addConnectedUser(user);
+    public void newConnection(UserLite user) {
+        if(user.getId()!=null){
+            if(!userListController.userIsConnected(user.getId())){
+                userListController.addConnectedUser(user);
+            }
+        }
     }
 
     @Override
