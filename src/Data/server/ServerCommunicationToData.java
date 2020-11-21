@@ -53,6 +53,8 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
     @Override
     public void saveMessageIntoHistory(Channel ch, Message ms, Message response) {
+        ms.addAnswers(response);
+        ch.addMessage(ms);
     }
 
 
