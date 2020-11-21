@@ -3,6 +3,7 @@ package Communication.client;
 import common.interfaces.client.IIHMMainToCommunication;
 import common.sharedData.Channel;
 import common.sharedData.UserLite;
+import Communication.messages.client_to_server.CreateChannelMessage;
 
 import java.util.List;
 
@@ -23,6 +24,6 @@ public class IHMMainToCommunication implements IIHMMainToCommunication {
      * @param owner [UserLite] Information sur le proprietaire du channel si c'est un channel privé
      **/
     public void createChannel(Channel channel, Boolean isShared, Boolean isPublic, UserLite owner){
-        //this.commController.sendMessage(new createChannelMessage(channel, owner));//TODO V1
+        this.commController.sendMessage(new CreateChannelMessage(owner, channel, isShared, isPublic));//TODO V1 /!\ probleme isShared alors que ChannelMessage attend l'inverse
     }
 }

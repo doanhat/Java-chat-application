@@ -4,6 +4,7 @@ import common.interfaces.client.IIHMChannelToCommunication;
 import common.sharedData.Channel;
 import common.sharedData.Message;
 import common.sharedData.UserLite;
+import Communication.messages.client_to_server.SendMessageMessage;
 
 import java.util.List;
 
@@ -57,7 +58,7 @@ public class IHMChannelToCommunication implements IIHMChannelToCommunication {
      **/
     public void sendMessage(Message msg, Channel channel, Message response){
         //TODO V1
-        //this.commController.sendMessage(new SendMessageMessage(msg, channel, response));
+        this.commController.sendMessage(new SendMessageMessage(msg, channel, response));
     }
 
     /**
