@@ -9,12 +9,6 @@ public class UserLite implements Serializable {
 	private String nickName;
 	private String avatar;
 
-	public UserLite(UUID id, String nickName, String avatar) {
-		this.id = id;
-		this.nickName = nickName;
-		this.avatar = avatar;
-	}
-
 	public UserLite(String nickName, String avatar) {
 		this.id = UUID.randomUUID();
 		this.nickName = nickName;
