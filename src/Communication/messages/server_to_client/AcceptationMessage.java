@@ -10,22 +10,16 @@ import java.util.List;
 
 public class AcceptationMessage extends ServerToClientMessage {
 
-    private List<Channel> channelsList;
-    private List<UserLite> usersList;
+    private List<Channel>   channelsList;
+    private List<UserLite>  usersList;
 
     public AcceptationMessage(List<Channel> channelsList, List<UserLite> usersList) {
         this.channelsList = channelsList;
-        this.usersList = usersList;
+        this.usersList    = usersList;
     }
 
     @Override
     protected void handle(CommunicationClientController commController) {
-        for (UserLite user: usersList) {
-            commController.notifyUserConnected(user);
-        }
-
-        for (Channel channel: channelsList) {
-            commController.notifyVisibleChannel(channel);
-        }
+        commController.notifyConnectionSuccess(usersList, channelsList);
     }
 }

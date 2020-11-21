@@ -12,6 +12,7 @@ import common.sharedData.User;
 import common.sharedData.UserLite;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 public class CommunicationClientController extends CommunicationController {
@@ -80,9 +81,17 @@ public class CommunicationClientController extends CommunicationController {
         client.sendMessage(message);
     }
 
+    public void notifyConnectionSuccess(List<UserLite> users, List<Channel> channels) {
+        mainClient.connectionAccepted();
+        mainClient.setConnectedUsers(users);
+
+        for (Channel channel: channels) {
+            notifyVisibleChannel(channel);
+        }
+    }
+
     public void notifyUserConnected(UserLite newUser) {
-        // TODO verify ICommunicationToData User interfaces
-        //dataClient.newConnectionUser(newUser);
+        mainClient.addConnectedUser(newUser);
     }
 
     public void notifyUserDisconnected(UserLite user) {
@@ -90,8 +99,10 @@ public class CommunicationClientController extends CommunicationController {
     }
 
     public void notifyVisibleChannel(Channel channel) {
-        // TODO notify data addVisibleChannel receive Channel as parameter
+        // TODO request data addVisibleChannel receive Channel as parameter
         //dataClient.addVisibleChannel(channel);
+        // TODO Verify workflow between Comm, Data, Main to avoid redundance
+        mainClient.channelAdded(channel);
     }
 
     public void notifyReceiveMessage (Message msg, UUID channelID, Message response) {
