@@ -3,7 +3,6 @@ package Data.resourceHandle;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
-import common.sharedData.OwnedChannel;
 
 import java.io.IOException;
 import java.nio.file.Paths;
