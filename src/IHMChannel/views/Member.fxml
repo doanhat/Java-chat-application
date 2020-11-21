@@ -8,15 +8,18 @@
 
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.text.Text?>
+<?import java.net.URL?>
 <HBox xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="IHMChannel.controllers.MemberController">
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="IHMChannel.controllers.MemberController">
         <ImageView fx:id="profilePic"/>
         <ImageView fx:id="connectedIcon"/>
         <Text fx:id="username"/>
         <ImageView fx:id="authorizationIcon"/>
         <Text fx:id="isThatYouText"/>
-        <ToggleButton fx:id="toggleAdminBtn" onAction="#toggleAdmin"/>
-        <Button fx:id="banBtn" text="ban"/>
-
+        <ToggleButton id="toggleAdminBtn" fx:id="toggleAdminBtn" onAction="#toggleAdmin" styleClass="btn, secondary-btn, toggle-btn" alignment="CENTER_RIGHT"/>
+        <Button id="banBtn"  fx:id="banBtn" text="ban" styleClass="btn, primary-btn" alignment="CENTER_RIGHT"/>
+        <stylesheets>
+                <URL value="@../css/style.css" />
+        </stylesheets>
 </HBox>
