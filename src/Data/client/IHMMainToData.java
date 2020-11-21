@@ -1,4 +1,6 @@
-package common.interfaces.client;
+package Data.client;
+
+import common.interfaces.client.IIHMMainToData;
 import common.sharedData.Channel;
 import common.sharedData.User;
 import common.sharedData.UserLite;
@@ -7,23 +9,34 @@ import common.sharedData.Visibility;
 import java.util.Date;
 import java.util.List;
 
-/**
- * The interface Iihm main to data.
- */
-public interface IIHMMainToData {
+public class IHMMainToData implements IIHMMainToData {
+
+    private DataClientController dataController;
+
+    public IHMMainToData() {
+        dataController = new DataClientController();
+    }
+
+
     /**
      * Gets connected users.
      *
      * @return the connected users
      */
-    List<UserLite> getConnectedUsers();
+    @Override
+    public List<UserLite> getConnectedUsers() {
+        return null;
+    }
 
     /**
      * Gets channels.
      *
      * @return the channels
      */
-    List<Channel> getChannels();
+    @Override
+    public List<Channel> getChannels() {
+        return null;
+    }
 
     /**
      * Create channel.
@@ -33,7 +46,10 @@ public interface IIHMMainToData {
      * @param isPublic the is public
      * @param owner    the owner
      */
-    void createChannel(Channel channel, Boolean isShared, Boolean isPublic, UserLite owner);
+    @Override
+    public void createChannel(Channel channel, Boolean isShared, Boolean isPublic, UserLite owner) {
+
+    }
 
     /**
      * Search channel.
@@ -43,7 +59,10 @@ public interface IIHMMainToData {
      * @param description the description
      * @param visibility  the visibility
      */
-    List<Channel> searchChannel(String name, UserLite creator, String description, Visibility visibility);
+    @Override
+    public List<Channel> searchChannel(String name, UserLite creator, String description, Visibility visibility) {
+        return null;
+    }
 
     /**
      * Edit profile.
@@ -56,15 +75,21 @@ public interface IIHMMainToData {
      * @param birthDate the birth date
      * @param user      the user
      */
-    void editProfile(String nickName, String avatar, String password, String lastName, String firstName, Date birthDate, User user);
+    @Override
+    public void editProfile(String nickName, String avatar, String password, String lastName, String firstName, Date birthDate, User user) {
+
+    }
 
     /**
      * Local authentification.
      *
-     * @param nickName   the pseudo
+     * @param nickName the pseudo
      * @param password the password
      */
-    void localAuthentification(String nickName, String password);
+    @Override
+    public void localAuthentification(String nickName, String password) {
+
+    }
 
     /**
      * Create account.
@@ -76,5 +101,9 @@ public interface IIHMMainToData {
      * @param firstName the first name
      * @param birthDate the birth date
      */
-    void createAccount(String nickName, String avatar, String password, String lastName, String firstName, Date birthDate);
+    @Override
+    public void createAccount(String nickName, String avatar, String password, String lastName, String firstName, Date birthDate) {
+
+    }
+
 }
