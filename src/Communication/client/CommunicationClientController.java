@@ -91,12 +91,18 @@ public class CommunicationClientController extends CommunicationController {
     }
 
     public void notifyUserConnected(UserLite newUser) {
-        // TODO INTEGRATION: verify with Data to see whether Data client keep User lists
         mainClient.addConnectedUser(newUser);
     }
 
     public void notifyUserDisconnected(UserLite user) {
         mainClient.removeConnectedUser(user);
+    }
+
+    public void notifyChannelCreated(Channel channel) {
+        mainClient.channelCreated(channel);
+
+        // TODO INTEGRATION verify with Data if new created Channel is control by Data Client
+        //dataClient.addVisibleChannel(channel);
     }
 
     public void notifyVisibleChannel(Channel channel) {

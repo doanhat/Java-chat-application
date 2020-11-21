@@ -61,9 +61,12 @@ public class CommunicationServerController extends CommunicationController {
         return server.directory().onlineUsers();
     }
 
-    public Channel requestCreateChannel(Channel channel, boolean proprietary, boolean publicChannel, UserLite requester) {
-        // TODO request Data to add missing interface
-
+    public Channel requestCreateChannel(Channel channel,
+                                        boolean proprietary,
+                                        boolean publicChannel,
+                                        UserLite requester) {
+        // TODO INTEGRATION request Data to fix return type to Channel
+        // return requestChannelCreation(channel, proprietary, publicChannel, requester);
         return null;
     }
 
