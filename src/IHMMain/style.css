@@ -1,0 +1,63 @@
+
+.channel-list-header {
+    -fx-background-color: #b9e6ff;
+    -fx-padding: 4;
+}
+
+.channel-list-header .label {
+    -fx-text-fill: #03254f;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+
+.channel-add-btn {
+    -icon-paint: #03254f;
+    -fx-background-color: -icon-paint;
+    -size: 16;
+    -fx-min-height: -size;
+    -fx-min-width: -size;
+    -fx-max-height: -size;
+    -fx-max-width: -size;
+    -fx-shape: "M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z";
+}
+
+.list-view-channel {
+    -fx-background-color: #03254f;
+}
+
+/* Remove padding of list-cell */
+.list-view-channel .list-cell {
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+/* Empty list cell use ListView background */
+.list-view-channel .list-cell {
+    -fx-background-color: transparent;
+}
+
+.list-view-channel .list-cell > .list-cell-channel {
+    -fx-background-color: transparent;
+    -fx-border-style: hidden hidden solid hidden;
+    -fx-border-with: 5;
+    -fx-border-color: #ffffff;
+}
+
+.list-view-channel .channel-cell-content {
+    -fx-padding: 0 7;
+}
+
+.list-view-channel .channel-cell-title {
+    -fx-font-size: 14px;
+}
+
+.list-view-channel .list-cell > .list-cell-channel .label {
+    -fx-text-fill: #ffffff;
+}
+
+.list-view-channel .list-cell:selected > .list-cell-channel {
+    -fx-background-color: #ffffff;
+}
+
+.list-view-channel .list-cell:selected > .list-cell-channel .label {
+    -fx-text-fill: #03254f;
+}
