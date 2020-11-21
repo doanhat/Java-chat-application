@@ -23,7 +23,7 @@ public class ChannelController extends Controller{
 
         // TODO : Get real data
         for (int i = 1; i < 5; i++) {
-            channels.add(new SharedChannel(UUID.randomUUID(), "channel n°" + i, null, "Description du channel n°" + i, i % 2 == 0 ? Visibility.PUBLIC : Visibility.PRIVATE));
+            channels.add(new SharedChannel("channel n°" + i, null, "Description du channel n°" + i, i % 2 == 0 ? Visibility.PUBLIC : Visibility.PRIVATE));
         }
         return channels;
     }

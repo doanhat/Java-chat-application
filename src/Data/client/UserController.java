@@ -98,7 +98,7 @@ public class UserController extends Controller {
 
         // TODO : get real data
         for (int i = 1 ; i <= 5 ; i++) {
-            users.add(new UserLite(UUID.randomUUID(), "user " + i, "avatar"));
+            users.add(new UserLite("user " + i, "avatar"));
         }
         return users;
     }
