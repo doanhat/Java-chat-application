@@ -18,6 +18,13 @@ public class ChannelController {
     private Channel currentChannel; //channel à afficher dans l'interface
     private IHMChannelController ihmChannelController;
 
+
+    /*
+       ** @author : Triet
+     */
+    private ChannelPageController channelPageController;
+
+
     @FXML
     BorderPane pageToDisplay;
     @FXML

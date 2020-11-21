@@ -13,6 +13,9 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -69,25 +72,39 @@ public class ChannelMembersController {
 
     public void initialize() throws IOException {
         //Membres
-        UserLite tmpUser = new UserLite(UUID.randomUUID(), "Léa", null);
-        tmpUser.setNickName("Léa");
-        HBox tmp = (HBox) new MemberDisplay(tmpUser).root;
-        membersToDisplay.add(tmp);
-        tmpUser.setNickName("Aida");
-        tmp = (HBox) new MemberDisplay(tmpUser).root;
-        membersToDisplay.add(tmp);
-        tmpUser.setNickName("Lucas");
-        tmp = (HBox) new MemberDisplay(tmpUser).root;
-        membersToDisplay.add(tmp);
-        tmpUser.setNickName("Vladimir");
-        tmp = (HBox) new MemberDisplay(tmpUser).root;
-        membersToDisplay.add(tmp);
-        tmpUser.setNickName("Jérôme");
-        tmp = (HBox) new MemberDisplay(tmpUser).root;
-        membersToDisplay.add(tmp);
-        tmpUser.setNickName("Van-Triet");
-        tmp = (HBox) new MemberDisplay(tmpUser).root;
-        membersToDisplay.add(tmp);
+        List<String> nickName = new ArrayList<>();
+        nickName.add("Léa");
+        nickName.add("Aida");
+        nickName.add("Lucas");
+        nickName.add("Vladimir");
+        nickName.add("Jérôme");
+        nickName.add("Van-Triet");
+        nickName.add("Benjamin");
+        nickName.add("Stéphane");
+
+        for (int i = 0; i < 6; i++) {
+            int d = new Random().nextInt(nickName.size());
+            UserLite tmpUser = new UserLite(UUID.randomUUID(), nickName.get(d), null);
+            tmpUser.setNickName(nickName.get(d));
+            nickName.remove(d);
+            HBox tmp = (HBox) new MemberDisplay(tmpUser).root;
+            membersToDisplay.add(tmp);
+        }
+//        tmpUser.setNickName("Aida");
+//        tmp = (HBox) new MemberDisplay(tmpUser).root;
+//        membersToDisplay.add(tmp);
+//        tmpUser.setNickName("Lucas");
+//        tmp = (HBox) new MemberDisplay(tmpUser).root;
+//        membersToDisplay.add(tmp);
+//        tmpUser.setNickName("Vladimir");
+//        tmp = (HBox) new MemberDisplay(tmpUser).root;
+//        membersToDisplay.add(tmp);
+//        tmpUser.setNickName("Jérôme");
+//        tmp = (HBox) new MemberDisplay(tmpUser).root;
+//        membersToDisplay.add(tmp);
+//        tmpUser.setNickName("Van-Triet");
+//        tmp = (HBox) new MemberDisplay(tmpUser).root;
+//        membersToDisplay.add(tmp);
         membersList.setItems(membersToDisplay);
     }
 }
