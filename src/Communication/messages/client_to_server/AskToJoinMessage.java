@@ -6,10 +6,8 @@ import Communication.messages.server_to_client.AcceptJoinChannelMessage;
 import Communication.messages.server_to_client.NewUserJoinChannelMessage;
 import Communication.server.CommunicationServerController;
 import common.sharedData.Channel;
-import common.sharedData.Message;
 import common.sharedData.UserLite;
 
-import java.util.List;
 import java.util.UUID;
 
 public class AskToJoinMessage extends ClientToServerMessage {
