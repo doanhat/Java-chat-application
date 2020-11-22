@@ -1,9 +1,6 @@
 package Data.client;
 
 import common.interfaces.client.IIHMMainToData;
-package Data.client;
-
-import common.interfaces.client.IIHMMainToData;
 import common.sharedData.*;
 
 import java.util.Date;
