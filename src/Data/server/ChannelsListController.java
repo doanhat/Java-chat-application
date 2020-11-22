@@ -10,11 +10,11 @@ import java.util.UUID;
 
 public class ChannelsListController {
     private List<Channel> channels;
-    FileHandle fileHandle;
+    private FileHandle fileHandle;
 
     public ChannelsListController() {
         this.channels = new ArrayList<>();
-        this.fileHandle= new FileHandle();
+        this.fileHandle = new FileHandle();
     }
 
     public List<Channel> searchChannelByName(String nom) {
@@ -56,13 +56,39 @@ public class ChannelsListController {
         return this.channels;
     }
 
-    public void writeJSONChannelData(Channel channel){
-        fileHandle.writeJSONToFile("channels/"+channel.getId().toString(),channel);
+    public void writeChannelDataToJSON(Channel channel){
+        this.fileHandle.writeJSONToFile("channels/"+channel.getId().toString(),channel);
     }
 
-    public Channel readJSONChanneData(UUID idChannel){
-        Channel ch = null;
-        ch = (Channel) fileHandle.readJSONFileToObject("channels/"+ch.getId().toString(),Channel.class);
+    public Channel readJSONToChannelData(UUID idChannel){
+        Channel ch = (Channel) this.fileHandle.readJSONFileToObject("channels/" + idChannel, Channel.class);
         return ch;
+    }
+
+    /**
+     * Enregistre un message et son parent dans l'historique d'un channel.
+     *
+     * @param channelId L'ID du channel.
+     * @param message   Le message à enregistrer.
+     * @param parent  Le parent du message, s'il existe.
+     */
+    public void writeMessageInChannel(UUID channelId, Message message, Message parent){
+        Channel channel = this.readJSONToChannelData(channelId);
+
+        if (channel != null) {
+            List<Message> messages = channel.getMessages();
+            messages.add(message);
+
+            if (parent != null) {
+                for (Message msg : messages) {
+                    if (msg.getId().equals(parent.getId())) {
+                        msg.addAnswers(message);
+                        break;
+                    }
+                }
+            }
+
+            this.writeChannelDataToJSON(channel);
+        }
     }
 }
