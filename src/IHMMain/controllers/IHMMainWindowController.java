@@ -6,6 +6,9 @@ import java.util.ResourceBundle;
 
 import Communication.IHMMainToCommunication;
 import IHMChannel.IHMMainToIHMChannel;
+import IHMMain.CreationChannelPopupController;
+import IHMMain.IHMMainController;
+import IHMMain.implementations.CommunicationToIHMMain;
 import app.MainWindowController;
 import common.IHMTools.*;
 import common.sharedData.Channel;
@@ -18,6 +21,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.*;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MultipleSelectionModel;
 import javafx.scene.layout.Region;
@@ -171,14 +175,13 @@ public class IHMMainWindowController implements Initializable{
         }
     }
 
-    public void createChannel(Channel newChannel){
+    public void createChannel(Channel newChannel) throws IOException {
         /* --------- Debug -----------
         System.out.println(newChannel.getId());
         System.out.println(newChannel.getName());
         System.out.println(newChannel.getDescription());
         System.out.println(newChannel.getCreator().getNickName());
         */
-
         ihmMainToCommunication.createChannel(newChannel, newChannel instanceof SharedChannel, newChannel.getVisibility() == Visibility.PUBLIC, newChannel.getCreator());
     }
 

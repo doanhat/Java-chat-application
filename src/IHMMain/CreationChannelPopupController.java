@@ -74,7 +74,11 @@ public class CreationChannelPopupController {
                 newChannel = new OwnedChannel(channelID, channelName.getText(), testUser, channelDescription.getText(), channelVisibility);
             }
 
-            parentController.createChannel(newChannel);
+            try {
+                parentController.createChannel(newChannel);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
             Stage stage = (Stage) ap.getScene().getWindow();
             stage.close();
