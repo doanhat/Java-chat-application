@@ -1,5 +1,6 @@
 package Data.server;
 
+import Data.resourceHandle.FileHandle;
 import common.sharedData.Channel;
 import common.sharedData.Message;
 
@@ -9,9 +10,11 @@ import java.util.UUID;
 
 public class ChannelsListController {
     private List<Channel> channels;
+    FileHandle fileHandle;
 
     public ChannelsListController() {
         this.channels = new ArrayList<>();
+        this.fileHandle= new FileHandle();
     }
 
     public List<Channel> searchChannelByName(String nom) {
@@ -51,5 +54,15 @@ public class ChannelsListController {
 
     public List<Channel> getChannels() {
         return this.channels;
+    }
+
+    public void writeJSONChannelData(Channel channel){
+        fileHandle.writeJSONToFile("channels/"+channel.getId().toString(),channel);
+    }
+
+    public Channel readJSONChanneData(UUID idChannel){
+        Channel ch = null;
+        ch = (Channel) fileHandle.readJSONFileToObject("channels/"+ch.getId().toString(),Channel.class);
+        return ch;
     }
 }
