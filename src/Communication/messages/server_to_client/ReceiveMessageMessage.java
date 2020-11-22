@@ -9,9 +9,9 @@ import java.util.UUID;
 
 public class ReceiveMessageMessage extends ServerToClientMessage {
 
-    private Message message;
-    private UUID    channelID;
-    private Message response;
+    private final Message message;
+    private final UUID    channelID;
+    private final Message response;
 
     public ReceiveMessageMessage(Message message, UUID channelID, Message response) {
         this.message    = message;

@@ -155,6 +155,12 @@ public class CommunicationClientController extends CommunicationController {
     }
 
     public void saveMessage(Message msg, UUID channelID, Message response) {
+        if (dataClient == null)
+        {
+            System.err.println("saveMessage: Data Iface est null");
+            return;
+        }
+
         dataClient.saveMessageIntoHistory(msg, channelID, response);
     }
 
