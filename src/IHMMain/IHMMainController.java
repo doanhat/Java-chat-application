@@ -3,6 +3,9 @@ package IHMMain;
 import Communication.IHMMainToCommunication;
 import Data.client.IHMMainToData;
 import IHMChannel.IHMMainToIHMChannel;
+import IHMMain.implementations.CommunicationToIHMMain;
+import IHMMain.implementations.DataToIHMMain;
+import IHMMain.implementations.IHMChannelToIHMMain;
 import app.MainWindowController;
 import common.sharedData.UserLite;
 

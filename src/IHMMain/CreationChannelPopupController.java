@@ -1,6 +1,7 @@
 package IHMMain;
 
 
+import IHMMain.controllers.IHMMainWindowController;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import common.sharedData.*;
 import javafx.fxml.FXML;

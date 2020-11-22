@@ -1,4 +1,4 @@
-package IHMMain;
+package IHMMain.implementations;
 
 import common.interfaces.client.IIHMChannelToIHMMain;
 import common.sharedData.Channel;

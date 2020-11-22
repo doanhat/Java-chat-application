@@ -6,7 +6,10 @@ import java.util.ResourceBundle;
 
 import Communication.IHMMainToCommunication;
 import IHMChannel.IHMMainToIHMChannel;
+import IHMMain.CreationChannelPopupController;
+import IHMMain.IHMMainController;
 import IHMMain.controllers.UserListViewController;
+import IHMMain.implementations.CommunicationToIHMMain;
 import app.MainWindowController;
 import common.IHMTools.*;
 import common.interfaces.client.IIHMMainToCommunication;
