@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class NetworkWriter implements Runnable {
+public class NetworkWriter extends CyclicTask {
 
     private final List<DeliveryPacket> messagesQueue;
 
@@ -24,22 +24,36 @@ public class NetworkWriter implements Runnable {
     }
 
     @Override
-    public void run() {
-        while (true) {
-            try {
-                synchronized (messagesQueue) {
-                    if (!messagesQueue.isEmpty()) {
-                        DeliveryPacket packet = messagesQueue.remove(0);
-                        packet.send();
-                    }
-                    else {
-                        messagesQueue.wait();
-                    }
+    public void action() {
+        try {
+            synchronized (messagesQueue) {
+                if (!messagesQueue.isEmpty()) {
+                    DeliveryPacket packet = messagesQueue.remove(0);
+                    packet.send();
+                }
+                else {
+                    messagesQueue.wait();
                 }
             }
-            catch (IOException | InterruptedException e) {
-                //e.printStackTrace();
-            }
+        }
+        catch (IOException | InterruptedException e) {
+            //e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void stop() {
+        cancel = true;
+
+        synchronized (messagesQueue) {
+            messagesQueue.notifyAll();
+        }
+    }
+
+    @Override
+    protected void cleanup() {
+        synchronized (messagesQueue) {
+            messagesQueue.clear();
         }
     }
 

@@ -11,7 +11,7 @@ import static java.util.concurrent.Executors.newCachedThreadPool;
 public class TaskManager {
 
     private ExecutorService pool;
-    private List<Future<?>> cyclicTasks;
+    private List<CyclicTask> cyclicTasks;
 
     public TaskManager() {
         pool = newCachedThreadPool();
@@ -23,8 +23,9 @@ public class TaskManager {
      *
      * @param task
      */
-    public void appendCyclicTask(Runnable task) {
-        cyclicTasks.add(pool.submit(task));
+    public void appendCyclicTask(CyclicTask task) {
+        cyclicTasks.add(task);
+        pool.execute(task);
     }
 
     /**
@@ -33,26 +34,17 @@ public class TaskManager {
      * @param oneShot
      */
     public void appendTask(Runnable oneShot) {
-        pool.submit(oneShot);
+        pool.execute(oneShot);
     }
 
     public void shutdown() {
         System.err.println("Task manager s'arrete, annuler " + cyclicTasks.size() + " taches !");
 
-        for (Future<?> t : cyclicTasks) {
-            t.cancel(true);
+        for (CyclicTask t : cyclicTasks) {
+            t.stop();
         }
 
-        try {
-            pool.awaitTermination(10, TimeUnit.SECONDS);
-        }
-        catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        for (Future<?> t : cyclicTasks) {
-            System.err.println("Task is canceled " + t.isDone());
-        }
+        pool.shutdownNow();
 
         System.err.println("Pool is terminated " + pool.isTerminated());
     }

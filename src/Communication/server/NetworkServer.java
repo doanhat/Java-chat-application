@@ -1,5 +1,6 @@
 package Communication.server;
 
+import Communication.common.CyclicTask;
 import Communication.common.NetworkWriter;
 import Communication.common.Parameters;
 
@@ -50,27 +51,24 @@ public class NetworkServer {
         return directoryFacilitator;
     }
 
-    private static class ClientAcceptor implements Runnable {
+    private static class ClientAcceptor extends CyclicTask {
 
         private NetworkServer networkServer;
-        private Boolean running = true;
 
         public ClientAcceptor(NetworkServer networkServer) {
             this.networkServer = networkServer;
         }
 
         @Override
-        public void run() {
-            while (running) {
-                try {
-                    Socket clientSocket = networkServer.serverSocket.accept();
+        public void action() {
+            try {
+                Socket clientSocket = networkServer.serverSocket.accept();
 
-                    networkServer.directoryFacilitator.registerClient(clientSocket);
-                }
-                catch (IOException e) {
-                    //e.printStackTrace();
-                    running = false;
-                }
+                networkServer.directoryFacilitator.registerClient(clientSocket);
+            }
+            catch (IOException e) {
+                //e.printStackTrace();
+                cancel = true;
             }
         }
     }
