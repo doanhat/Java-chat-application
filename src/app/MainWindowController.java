@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 
 import IHMMain.controllers.ConnectionController;
 import IHMMain.controllers.IHMMainWindowController;
+import IHMMain.IHMMainController;
 import common.IHMTools.*;
 import javafx.fxml.*;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +18,8 @@ public class MainWindowController implements Initializable {
 
     @FXML
     private AnchorPane root;
+
+    private IHMMainController ihmMainController;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -51,6 +54,14 @@ public class MainWindowController implements Initializable {
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
+    }
+
+    public IHMMainController getIhmMainController() {
+        return ihmMainController;
+    }
+
+    public void setIhmMainController(IHMMainController ihmMainController) {
+        this.ihmMainController = ihmMainController;
     }
 
 }
