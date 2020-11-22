@@ -286,5 +286,5 @@ public class CommunicationToData implements ICommunicationToData {
     public void addUserToChannel(UserLite user, UUID channelId) {
         dataController.getUserController().addUserToChannel(user,channelId);
     }
-    
+
 }

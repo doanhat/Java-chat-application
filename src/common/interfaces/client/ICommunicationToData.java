@@ -18,7 +18,6 @@ public interface ICommunicationToData {
      * (un objet channel peut contient un objet de méta-données, et les contenues comme les message, user info, ...)
      */
 
-    // TODO: remplacer User par UserLite pour référence utilisateur distant
     /**
      * Add visible channel.
      *

@@ -1,9 +1,5 @@
 package common.sharedData;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 import java.io.Serializable;
 import java.util.*;
 
@@ -22,8 +18,8 @@ public abstract class Channel implements Serializable {
 	private List<Kick> kicked;
 	private List<Message> messages;
 
-	public Channel(UUID id, String name, UserLite creator, String description, Visibility visibility) {
-		this.id = id;
+	public Channel(String name, UserLite creator, String description, Visibility visibility) {
+		this.id = UUID.randomUUID();
 		this.name = name;
 		this.creator = creator;
 		this.description = description;
@@ -41,63 +37,63 @@ public abstract class Channel implements Serializable {
 	public UUID getId() {
 		return id;
 	}
-	
+
 	public void setId(UUID id) {
 		this.id = id;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public UserLite getCreator() {
 		return creator;
 	}
-	
+
 	public void setCreator(UserLite creator) {
 		this.creator = creator;
 	}
-	
+
 	public String getDescription() {
 		return description;
 	}
-	
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+
 	public Visibility getVisibility() {
 		return visibility;
 	}
-	
+
 	public void setVisibility(Visibility visibility) {
 		this.visibility = visibility;
 	}
-	
+
 	public List<UserLite> getAdministrators() {
 		return administrators;
 	}
-	
+
 	public void setAdministrators(List<UserLite> administrators) {
 		this.administrators = administrators;
 	}
-	
+
 	public List<UserLite> getAcceptedPersons() {
 		return acceptedPersons;
 	}
-	
+
 	public void setAcceptedPersons(List<UserLite> acceptedPersons) {
 		this.acceptedPersons = acceptedPersons;
 	}
-	
+
 	public Map<String, String> getNickNames() {
 		return nickNames;
 	}
-	
+
 	public void setNickNames(Map<String, String> nickNames) {
 		this.nickNames = nickNames;
 	}
@@ -105,31 +101,31 @@ public abstract class Channel implements Serializable {
 	public List<Kick> getKicked() {
 		return kicked;
 	}
-	
+
 	public void setKicked(List<Kick> kicked) {
 		this.kicked = kicked;
 	}
-	
+
 	public List<Message> getMessages() {
 		return messages;
 	}
-	
+
 	public void setMessages(List<Message> messages) {
 		this.messages = messages;
 	}
-	
+
 	public void addMessage(Message m) {
 		this.messages.add(m);
 	}
-	
+
 	public void addAdmin(UserLite user) {
 		this.administrators.add(user);
 	}
-	
+
 	public void addUser(UserLite user) {
 		this.acceptedPersons.add(user);
 	}
-	
+
 	public void kickPermanentUser(UserLite user, String reason) {
 		this.kicked.add(new Kick(user, this, reason, true));
 	}
@@ -137,5 +133,5 @@ public abstract class Channel implements Serializable {
 	public void kickUser(UserLite user, String reason, Date end) {
 		this.kicked.add(new Kick(user, this, reason, end));
 	}
-	
+
 }

@@ -1,11 +1,10 @@
 package Data.server;
 
 import common.interfaces.server.IServerCommunicationToData;
-import common.sharedData.Channel;
-import common.sharedData.Message;
-import common.sharedData.UserLite;
+import common.sharedData.*;
 
 import java.util.List;
+import java.util.UUID;
 
 public class ServerCommunicationToData implements IServerCommunicationToData {
     private UserListController userListController;
@@ -85,18 +84,35 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     }
 
     @Override
-    public Channel createPublicSharedChannel(String name, UserLite creator, String description) {
-        return null;
+    public SharedChannel createPublicSharedChannel(String name, UserLite creator, String description) {
+        // TODO ID creation
+        // TODO new constructor for sharedChannel?
+        SharedChannel sChannel = new SharedChannel();
+        Visibility channelVisibility = Visibility.PUBLIC;
+        sChannel.setName(name);
+        sChannel.setCreator(creator);
+        sChannel.setDescription(description);
+        sChannel.setVisibility(channelVisibility);
+        return sChannel;
     }
 
     @Override
-    public List<UserLite> disconnectUser(UserLite user) {
-        return userListController.removeConnectedUser(user);
+    public void disconnectUser(UUID userID) {
+        if(userID!=null){
+            if(userListController.userIsConnected(userID)){
+                userListController.removeConnectedUser(userID);
+            }
+        }
     }
 
+
     @Override
-    public List<UserLite> newConnection(UserLite user) {
-        return userListController.addConnectedUser(user);
+    public void newConnection(UserLite user) {
+        if(user.getId()!=null){
+            if(!userListController.userIsConnected(user.getId())){
+                userListController.addConnectedUser(user);
+            }
+        }
     }
 
     @Override
@@ -112,6 +128,11 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     @Override
     public void sendChannelInvitation(UserLite sender, UserLite receiver, String message) {
 
+    }
+
+    @Override
+    public List<Message> getChannelMessages(UUID channelID) {
+        return channelsListController.getChannelMessages(channelID);
     }
 
     @Override
