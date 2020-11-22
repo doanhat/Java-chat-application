@@ -40,8 +40,8 @@ public interface DirectoryFacilitator {
 
     /**
      * Cherche la liste des NetworkUser selon User Id
-     * @param uuids IDs des Clients
+     * @param users liste de clients
      * @return
      */
-    List<NetworkUser> getConnections(List<UUID> uuids);
+    List<NetworkUser> getConnections(List<UserLite> users);
 }

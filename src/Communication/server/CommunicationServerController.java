@@ -102,6 +102,17 @@ public class CommunicationServerController extends CommunicationController {
         }
     }
 
+    /**
+     * Multicast messages aux tous les clients
+     * @param receivers liste de recepteurs
+     * @param message message réseau
+     */
+    public void sendMulticast(List<UserLite> receivers, NetworkMessage message) {
+        for(NetworkUser usr : server.directory().getConnections(receivers)){
+            server.sendMessage(usr.preparePacket(message));
+        }
+    }
+
     /* -------------------------------------- Connection Request handling --------------------------------------------*/
 
     /**

@@ -21,20 +21,17 @@ public class AskToJoinMessage extends ClientToServerMessage {
     }
 
     @Override
-    protected void handle(CommunicationServerController commServerController) {
-        Channel channel = commServerController.getChannel(channelID);
+    protected void handle(CommunicationServerController commController) {
+        Channel channel = commController.getChannel(channelID);
 
-        if (channel != null && commServerController.requestJoinChannel(channel, sender))
+        if (channel != null && commController.requestJoinChannel(channel, sender))
         {
             // send Acceptation back to sender
-            commServerController.sendMessage(sender.getId(), new AcceptJoinChannelMessage(sender, channelID));
+            commController.sendMessage(sender.getId(), new AcceptJoinChannelMessage(sender, channelID));
 
             // notify other user new User has joined channel
-            NetworkMessage notification = new NewUserJoinChannelMessage(sender, channelID);
-
-            for (UserLite user: channel.getAcceptedPersons()) {
-                commServerController.sendMessage(user.getId(), notification);
-            }
+            commController.sendMulticast(channel.getAcceptedPersons(),
+                                         new NewUserJoinChannelMessage(sender, channelID));
         }
     }
 }

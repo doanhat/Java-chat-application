@@ -63,11 +63,11 @@ public class DirectoryFacilitatorImpl implements DirectoryFacilitator {
     }
 
     @Override
-    public List<NetworkUser> getConnections(List<UUID> uuids) {
+    public List<NetworkUser> getConnections(List<UserLite> users) {
         List<NetworkUser> connections = new ArrayList<>();
 
-        for (UUID id: uuids) {
-            NetworkUser user = getConnection(id);
+        for (UserLite usr: users) {
+            NetworkUser user = getConnection(usr.getId());
 
             if (user != null) {
                 connections.add(user);
