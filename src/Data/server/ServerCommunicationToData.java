@@ -1,14 +1,19 @@
 package Data.server;
 
 import common.interfaces.server.IServerCommunicationToData;
-import common.sharedData.Channel;
-import common.sharedData.Message;
-import common.sharedData.UserLite;
+import common.sharedData.*;
 
 import java.util.List;
+import java.util.UUID;
 
 public class ServerCommunicationToData implements IServerCommunicationToData {
+    private UserListController userListController;
+    private ChannelsListController channelsListController;
 
+    public ServerCommunicationToData(UserListController userListController, ChannelsListController channelsListController) {
+        this.userListController = userListController;
+        this.channelsListController = channelsListController;
+    }
 
     @Override
     public List<Channel> requestChannelRemoval(Channel channel, UserLite user) {
@@ -24,6 +29,7 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     public List<UserLite> updateChannel(Channel channel) {
         return null;
     }
+
 
     @Override
     public void requestAddUser(Channel ch, UserLite user) {
@@ -47,18 +53,19 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
     @Override
     public void saveMessageIntoHistory(Channel ch, Message ms, Message response) {
-
     }
+
 
     @Override
-    public void editMessage(Channel ch, Message ms) {
+    public void editMessage(Channel channel, Message ms) {
 
     }
+
 
     @Override
     public void saveLikeIntoHistory(Channel ch, Message ms, UserLite user) {
-
     }
+
 
     @Override
     public void saveRemovalMessageIntoHistory(Channel ch, Message ms, Boolean deletedByCreator) {
@@ -70,29 +77,47 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
         return null;
     }
 
+
     @Override
     public List<Channel> getVisibleChannels(UserLite user) {
         return null;
     }
 
     @Override
-    public Channel createPublicSharedChannel(String name, UserLite creator, String description) {
-        return null;
+    public SharedChannel createPublicSharedChannel(String name, UserLite creator, String description) {
+        // TODO ID creation
+        // TODO new constructor for sharedChannel?
+        SharedChannel sChannel = new SharedChannel();
+        Visibility channelVisibility = Visibility.PUBLIC;
+        sChannel.setName(name);
+        sChannel.setCreator(creator);
+        sChannel.setDescription(description);
+        sChannel.setVisibility(channelVisibility);
+        return sChannel;
     }
 
     @Override
-    public List<UserLite> disconnectUser(UserLite user) {
-        return null;
+    public void disconnectUser(UUID userID) {
+        if(userID!=null){
+            if(userListController.userIsConnected(userID)){
+                userListController.removeConnectedUser(userID);
+            }
+        }
     }
 
+
     @Override
-    public List<UserLite> newConnection(UserLite user) {
-        return null;
+    public void newConnection(UserLite user) {
+        if(user.getId()!=null){
+            if(!userListController.userIsConnected(user.getId())){
+                userListController.addConnectedUser(user);
+            }
+        }
     }
 
     @Override
     public List<UserLite> getConnectedUsers() {
-        return null;
+        return userListController.getConnectedUsers();
     }
 
     @Override
@@ -106,7 +131,12 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     }
 
     @Override
-    public List<Message> joinChannel(Channel ch, UserLite user) {
+    public List<Message> getChannelMessages(UUID channelID) {
+        return channelsListController.getChannelMessages(channelID);
+    }
+
+    @Override
+    public List<UserLite> joinChannel(Channel ch, UserLite user) {
         return null;
     }
 

@@ -7,7 +7,7 @@ import common.sharedData.UserLite;
 import common.sharedData.Visibility;
 
 import java.util.List;
-
+// TODO: verify with delete channel and kick user
 public class NewInvisibleChannelMessage extends ServerToClientMessage {
     private Channel channel;
     private List<UserLite> users;

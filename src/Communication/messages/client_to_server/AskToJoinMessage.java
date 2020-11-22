@@ -1,61 +1,40 @@
 package Communication.messages.client_to_server;
 
 import Communication.messages.abstracts.ClientToServerMessage;
+import Communication.messages.abstracts.NetworkMessage;
+import Communication.messages.server_to_client.AcceptJoinChannelMessage;
+import Communication.messages.server_to_client.NewUserJoinChannelMessage;
 import Communication.server.CommunicationServerController;
 import common.sharedData.Channel;
-import common.sharedData.Message;
 import common.sharedData.UserLite;
 
-import java.util.List;
+import java.util.UUID;
 
 public class AskToJoinMessage extends ClientToServerMessage {
 
-    private UserLite sender;
-    private Channel channel;
-    private boolean proprietaryChannel;
-    private boolean publicChannel;
-    private List<Message> messageList;
+    private final UserLite sender;
+    private final UUID channelID;
 
-    public Channel getChannel() {
-        return channel;
-    }
-
-    public void setChannel(Channel channel) {
-        this.channel = channel;
-    }
-
-    public UserLite getSender() {
-        return sender;
-    }
-
-    public void setSender(UserLite sender) {
-        this.sender = sender;
-    }
-
-    public void setProprietaryChannel(boolean proprietaryChannel) {
-        this.proprietaryChannel = proprietaryChannel;
-    }
-
-    public void setPublicChannel(boolean publicChannel) {
-        this.publicChannel = publicChannel;
-    }
-
-    public boolean isPublicChannel() {
-        return publicChannel;
-    }
-
-    public boolean isProprietaryChannel() {
-        return proprietaryChannel;
+    public AskToJoinMessage(UUID channelID, UserLite requester) {
+        this.sender = requester;
+        this.channelID = channelID;
     }
 
     @Override
-    protected void handle(CommunicationServerController commClientController) {
-        if (isProprietaryChannel() == false){
-            commClientController.requestJoinSharedChannel(channel, sender);
-        }else{
-            messageList = commClientController.requestJoinOwnedChannel(channel, sender);
+    protected void handle(CommunicationServerController commServerController) {
+        Channel channel = commServerController.getChannel(channelID);
 
+        if (channel != null && commServerController.requestJoinChannel(channel, sender))
+        {
+            // send Acceptation back to sender
+            commServerController.sendMessage(sender.getId(), new AcceptJoinChannelMessage(sender, channelID));
+
+            // notify other user new User has joined channel
+            NetworkMessage notification = new NewUserJoinChannelMessage(sender, channelID);
+
+            for (UserLite user: channel.getAcceptedPersons()) {
+                commServerController.sendMessage(user.getId(), notification);
+            }
         }
-
     }
 }

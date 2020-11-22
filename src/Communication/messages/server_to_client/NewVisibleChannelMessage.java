@@ -10,26 +10,15 @@ import java.io.Serializable;
 import java.util.List;
 
 public class NewVisibleChannelMessage extends ServerToClientMessage {
-    private Channel channel;
+
+    private final Channel channel;
 
     public NewVisibleChannelMessage(Channel channel){
         this.channel = channel;
     }
 
-    public Channel getChannel() {
-        return this.channel;
-    }
-
-    public void setChannel(Channel channel) {
-        this.channel = channel;
-    }
-
-
     @Override
     protected void handle(CommunicationClientController commClientController) {
-        if (channel.getVisibility() == Visibility.PUBLIC) {
-            commClientController.notifyVisibleChannel(channel);
-        }
-
+        commClientController.notifyVisibleChannel(channel);
     }
 }

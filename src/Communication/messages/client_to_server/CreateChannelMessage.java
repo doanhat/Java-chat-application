@@ -14,11 +14,10 @@ import java.util.List;
 public class CreateChannelMessage extends ClientToServerMessage {
 
     private UserLite sender;
-    private Channel channel;
-    private boolean proprietaryChannel;
-    private boolean publicChannel;
+    private Channel  channel;
+    private boolean  proprietaryChannel;
+    private boolean  publicChannel;
 
-    // TODO: verify with DATA to agree on the organization of data structure
     public CreateChannelMessage(UserLite sender,
                                 Channel channel,
                                 boolean proprietary,
@@ -33,21 +32,18 @@ public class CreateChannelMessage extends ClientToServerMessage {
     protected void handle(CommunicationServerController commController) {
         Channel newChannel = commController.requestCreateChannel(channel, proprietaryChannel, publicChannel, sender);
 
+        // Request Accepted
         if (newChannel != null)
         {
+            // broadcast public channel to all users
             if (newChannel.getVisibility() == Visibility.PUBLIC) {
-                // TODO verify ChannelVisibleMessage
                 NetworkMessage newChannelNotification = new NewVisibleChannelMessage(newChannel);
 
-                List<UserLite> onlineUsers = commController.onlineUsers();
-
-                for (UserLite otherUser: onlineUsers) {
-                    commController.sendMessage(otherUser.getId(), newChannelNotification);
-                }
+                commController.sendBroadcast(newChannelNotification);
             }
 
             // return acceptation message to requester
-            commController.sendMessage(sender.getId(), new ValidateCreationChannelMessage());
+            commController.sendMessage(sender.getId(), new ValidateCreationChannelMessage(newChannel));
         }
     }
 }
