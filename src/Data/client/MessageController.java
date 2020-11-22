@@ -1,12 +1,15 @@
 package Data.client;
 
+import Data.resourceHandle.FileHandle;
 import common.interfaces.client.IDataToCommunication;
 import common.interfaces.client.IDataToIHMChannel;
 import common.interfaces.client.IDataToIHMMain;
 import common.sharedData.Channel;
 import common.sharedData.Message;
+import common.sharedData.OwnedChannel;
 import common.sharedData.User;
 
+import java.util.List;
 import java.util.UUID;
 
 public class MessageController extends Controller{
@@ -14,8 +17,35 @@ public class MessageController extends Controller{
         super(comClient, channelClient, mainClient);
     }
 
-    public void saveMessageIntoHistory(Message message, Channel channel, Message response) {
-
+    public void saveMessageIntoHistory(Message message, UUID channelId, Message response) {
+        if (message.getId().toString().equals("")) {
+            message.setId(UUID.randomUUID());
+        }
+        int responseAdded = 0;
+        FileHandle fileHandler = new FileHandle();
+        List<OwnedChannel> listOwnedChannel = fileHandler.readJSONFileToList("ownedChannels", OwnedChannel.class);
+        if (!listOwnedChannel.isEmpty()) {
+            for (OwnedChannel oCh : listOwnedChannel) {
+                if (oCh.getId().toString().equals(channelId.toString())) {
+                    List<Message> listMsg = oCh.getMessages();
+                    //listMsg.add(message);
+                    if (listMsg.isEmpty()){
+                        listMsg.add(message);
+                    } else {
+                        for (Message msg : listMsg) {
+                            if (msg.getId().toString().equals(response.getId().toString())) {
+                                msg.addAnswers(message);
+                                responseAdded++;
+                            }
+                        }
+                        if (responseAdded == 0){
+                            listMsg.add(message);
+                        }
+                    }
+                }
+            }
+        }
+        fileHandler.writeJSONToFile("ownedChannels",listOwnedChannel);
     }
 
     /**

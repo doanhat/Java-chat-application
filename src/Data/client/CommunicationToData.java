@@ -127,34 +127,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void saveMessageIntoHistory(Message message, UUID channelId, Message response) {
-        if (message.getId().toString().equals("")) {
-            message.setId(UUID.randomUUID());
-        }
-        int responseAdded = 0;
-        FileHandle fileHandler = new FileHandle();
-        List<OwnedChannel> listOwnedChannel = fileHandler.readJSONFileToList("ownedChannel", OwnedChannel.class);
-        if (!listOwnedChannel.isEmpty()) {
-            for (OwnedChannel oCh : listOwnedChannel) {
-                if (oCh.getId().toString().equals(channelId.toString())) {
-                    List<Message> listMsg = oCh.getMessages();
-                    //listMsg.add(message);
-                    if (listMsg.isEmpty()){
-                        listMsg.add(message);
-                    } else {
-                        for (Message msg : listMsg) {
-                            if (msg.getId().toString().equals(response.getId().toString())) {
-                                msg.addAnswers(message);
-                                responseAdded++;
-                            }
-                        }
-                        if (responseAdded == 0){
-                            listMsg.add(message);
-                        }
-                    }
-                }
-            }
-        }
-        fileHandler.writeJSONToFile("ownedChannel",listOwnedChannel);
+        dataController.getMessageController().saveMessageIntoHistory(message,channelId,response);
     }
 
 
