@@ -17,7 +17,6 @@ public class CommunicationServerController extends CommunicationController {
 
     private final NetworkServer server;
     private IServerCommunicationToData dataServer;
-    private ICommunicationToData data;
 
     public CommunicationServerController() {
         super();
@@ -25,10 +24,28 @@ public class CommunicationServerController extends CommunicationController {
         server = new NetworkServer(this);
     }
 
+    /* -------------------------------------------- Setup interfaces -------------------------------------------------*/
+
+    /**
+     * Installer les interfaces de Data Serveur
+     * @param dataServerIface
+     */
+    public void setupInterfaces(IServerCommunicationToData dataServerIface) {
+        this.dataServer = dataServerIface;
+    }
+
+    /* ---------------------------------------------- Core functionalities -------------------------------------------*/
+
+    /**
+     * Démarrer Communication Server
+     */
     public void start() {
         server.start();
     }
 
+    /**
+     * Arreter Communication Server
+     */
     public void stop() {
         taskManager.shutdown();
 
@@ -40,11 +57,23 @@ public class CommunicationServerController extends CommunicationController {
         }
     }
 
-    public void setupInterfaces(IServerCommunicationToData dataServerIface, ICommunicationToData dataIface) {
-        this.dataServer = dataServerIface;
-        this.data = dataIface;
+    /**
+     * Deconnecter un client
+     * @param user
+     */
+    @Override
+    public void disconnect(UUID user) {
+        UserLite userlite = server.directory().getConnection(user).getUserInfo();
+
+        server.directory().deregisterClient(user);
+        sendBroadcast(new UserDisconnectedMessage(userlite));
     }
 
+    /**
+     * Envoyer un message réseau à un client
+     * @param receiverID ID du client
+     * @param message message réseau
+     */
     public void sendMessage(UUID receiverID, NetworkMessage message) {
         NetworkUser receiver = server.directory().getConnection(receiverID);
 
@@ -53,23 +82,55 @@ public class CommunicationServerController extends CommunicationController {
         }
     }
 
-    public void setupInterfaces(IServerCommunicationToData dataIface) {
-        this.dataServer = dataIface;
+    /**
+     * Liste des clients en-ligne
+     * @return
+     */
+    public List<UserLite> onlineUsers() {
+        return server.directory().onlineUsers();
     }
 
+    /**
+     * Broadcast messages aux tous les clients en-ligne
+     * @param message
+     */
+    public void sendBroadcast(NetworkMessage message) {
+        for(NetworkUser usr : server.directory().getAllConnections()){
+            server.sendMessage(usr.preparePacket(message));
+        }
+    }
+
+    /* -------------------------------------- Connection Request handling --------------------------------------------*/
+
+    /**
+     * Liste des channels visible à un utilisateur
+     * @param user
+     * @return
+     */
     public List<Channel> getUserChannels(UserLite user) {
         return dataServer.getVisibleChannels(user);
     }
 
+    /**
+     * Cherche un channel selon son ID
+     * @param channelID UUID du channel
+     * @return
+     */
     public Channel getChannel(UUID channelID) {
         // TODO INTEGRATION request Data to add a Channel getChannel(UUID channelID) methode
         return null;  // dataServer.getChannel(channelID);
     }
 
-    public List<UserLite> onlineUsers() {
-        return server.directory().onlineUsers();
-    }
+    /* -------------------------------------- Channel action Request handling ----------------------------------------*/
 
+    /**
+     * Demande Data server à ajouter un nouveau channel
+     * @param channel
+     * @param proprietary
+     * @param publicChannel
+     * @param requester
+     * @return
+     */
     public Channel requestCreateChannel(Channel channel,
                                         boolean proprietary,
                                         boolean publicChannel,
@@ -80,15 +141,11 @@ public class CommunicationServerController extends CommunicationController {
     }
 
     /**
-     * Broadcast messages aux tous les clients enligne
-     * @param message
+     * Demande Data server à rejoindre un utilisateur à un channel
+     * @param channel
+     * @param user
+     * @return
      */
-    public void sendBroadcast(NetworkMessage message) {
-        for(NetworkUser usr : server.directory().getAllConnections()){
-            server.sendMessage(usr.preparePacket(message));
-        }
-    }
-
     public boolean requestJoinChannel(Channel channel, UserLite user){
         if (dataServer == null)
         {
@@ -103,22 +160,35 @@ public class CommunicationServerController extends CommunicationController {
         return true;
     }
 
+    /**
+     * Demande Data server à rejoindre un utilisateur à un channel proprietaire
+     * @param channel
+     * @param user
+     * @return
+     */
     public List<Message> requestJoinOwnedChannel(Channel channel, UserLite user){
         // TODO: verify return type with data
+        // TODO V2
         //return dataServer.joinChannel(channel, user);
 
         return null;
     }
 
-    @Override
-    public void disconnect(UUID user) {
-        UserLite userlite = server.directory().getConnection(user).getUserInfo();
+    /* ----------------------------------------- Chat action handling ------------------------------------------------*/
 
-        server.directory().deregisterClient(user);
-        sendBroadcast(new UserDisconnectedMessage(userlite));
-    }
-
+    /**
+     * Demande Data server à enregistrer un message
+     * @param msg
+     * @param channel
+     * @param response
+     */
     public void saveMessage (Message msg, Channel channel, Message response) {
-        data.saveMessageIntoHistory(msg, channel.getId(), response);
+        if (dataServer == null)
+        {
+            System.err.println("saveMessage: Data Iface est null");
+            return;
+        }
+
+        dataServer.saveMessageIntoHistory(channel, msg, response);
     }
 }
