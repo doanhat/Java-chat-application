@@ -55,6 +55,8 @@ public class CommunicationServerController extends CommunicationController {
         catch (IOException e) {
             e.printStackTrace();
         }
+
+        System.err.println("Communication Server s'arrete!");
     }
 
     /**

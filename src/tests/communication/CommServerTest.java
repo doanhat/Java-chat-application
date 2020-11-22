@@ -9,9 +9,6 @@ public class CommServerTest {
         CommunicationServerController commServer = new CommunicationServerController();
 
         commServer.start();
-
-        while(true) {
-
-        }
+        commServer.stop();
     }
 }

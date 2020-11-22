@@ -27,7 +27,7 @@ public class NetworkServer {
             commController.taskManager.appendCyclicTask(new ClientAcceptor(this));
             commController.taskManager.appendCyclicTask(msgSender);
 
-            System.out.println("Serveur en écoute sur le port " + Parameters.PORT);
+            System.err.println("Serveur en écoute sur le port " + Parameters.PORT);
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -37,6 +37,8 @@ public class NetworkServer {
     public void close() throws IOException {
         if (!serverSocket.isClosed()) {
             serverSocket.close();
+
+            System.err.println("Serveur socket fermé");
         }
     }
 
