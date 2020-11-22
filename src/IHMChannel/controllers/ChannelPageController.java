@@ -89,6 +89,9 @@ public class ChannelPageController {
         ctrl.configureMessageDisplay(ihmChannelController);
         Tab tab = new Tab(channel.getName());
         tab.setId(channel.getName());
+        tab.setOnClosed((event->{
+            this.openedChannels.remove(channel);
+        }));
         tabs.getTabs().add(tab);
         tab.setContent((Node) root);
         tabs.getSelectionModel().select(tab);
