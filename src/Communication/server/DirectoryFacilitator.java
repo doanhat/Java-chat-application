@@ -10,14 +10,16 @@ public interface DirectoryFacilitator {
     /**
      * Register nouveau client au Annuaire
      * @param clientSocket socket du client
+     * @return
      */
-    void registerClient(Socket clientSocket);
+    boolean registerClient(Socket clientSocket);
 
     /**
      * Deregister nouveau client au Annuaire
      * @param clientID ID du client
+     * @return
      */
-    void deregisterClient(UUID clientID);
+    boolean deregisterClient(UUID clientID);
 
     /**
      * Cherche NetworkUser selon clientID

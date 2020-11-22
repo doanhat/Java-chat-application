@@ -10,6 +10,7 @@ import common.sharedData.Message;
 import common.sharedData.UserLite;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -67,8 +68,14 @@ public class CommunicationServerController extends CommunicationController {
     public void disconnect(UUID user) {
         UserLite userlite = server.directory().getConnection(user).getUserInfo();
 
-        server.directory().deregisterClient(user);
-        sendBroadcast(new UserDisconnectedMessage(userlite));
+        if (server.directory().deregisterClient(user)) {
+            System.err.println("Serveur déconnecte client " + userlite.getId());
+
+            sendBroadcast(new UserDisconnectedMessage(userlite));
+        }
+        else {
+            System.err.println("Serveur echoue de déconnecte client " + userlite.getId());
+        }
     }
 
     /**
@@ -124,7 +131,7 @@ public class CommunicationServerController extends CommunicationController {
         if (dataServer == null)
         {
             System.err.println("getUserChannels: Data Iface est null");
-            return null;
+            return new ArrayList<>();
         }
 
         return dataServer.getVisibleChannels(user);

@@ -10,12 +10,16 @@ public class NetworkReader extends CyclicTask {
 
     private final CommunicationController commController;
     private final ObjectInputStream socketIn;
-    private UUID user;
+    private UUID userID;
 
     public NetworkReader(CommunicationController commController, ObjectInputStream socketIn) {
         this.commController = commController;
-        this.socketIn = socketIn;
-        this.user = null;
+        this.socketIn       = socketIn;
+        this.userID         = null;
+    }
+
+    public void setUserID(UUID userID) {
+        this.userID = userID;
     }
 
     public NetworkMessage readMessage() throws IOException, ClassNotFoundException {
@@ -34,7 +38,9 @@ public class NetworkReader extends CyclicTask {
             e.printStackTrace();
         }
         catch (IOException e) {
-            commController.disconnect(this.user);
+            System.err.println("Client déconnecté");
+
+            commController.disconnect(userID);
         }
     }
 }

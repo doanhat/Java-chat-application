@@ -22,7 +22,7 @@ public class NetworkClient {
 
     public void connect(String ip, int port) throws IOException {
         socket = new Socket(ip, port);
-        System.out.println("Connexion à " + ip + ":" + port);
+        System.err.println("Connexion à " + ip + ":" + port);
 
         socketOut = new ObjectOutputStream(socket.getOutputStream());
 

@@ -40,7 +40,7 @@ public class CommunicationClientController extends CommunicationController {
             client.connect(ip, port);
             client.sendMessage(new UserConnectionMessage(user));
 
-            System.out.println("Connexion au server...");
+            System.err.println("Connexion au server...");
         }
         catch (IOException e) {
             disconnect(null);

@@ -20,37 +20,64 @@ public class DirectoryFacilitatorImpl implements DirectoryFacilitator {
         this.connections = new HashMap<>();
     }
 
+    /**
+     * Register nouveau client au Annuaire
+     * @param clientSocket socket du client
+     */
     @Override
-    public void registerClient(Socket clientSocket) {
+    public boolean registerClient(Socket clientSocket) {
         if (clientSocket != null) {
             NetworkUser client = new NetworkUser(commController, clientSocket);
 
             connections.put(client.uuid(), client);
+
+            System.err.println("DirectoryFacilitator register nouveau client avec ID: " + client.uuid());
+
+            return true;
         }
         else {
-            System.out.println("DirectoryFacilitator.registerClients : Socket est NULL");
+            System.err.println("DirectoryFacilitator.registerClients : Socket est NULL");
         }
+
+        return false;
     }
 
+    /**
+     * Deregister nouveau client au Annuaire
+     * @param clientID ID du client
+     */
     @Override
-    public void deregisterClient(UUID clientID) {
+    public boolean deregisterClient(UUID clientID) {
         NetworkUser user = connections.remove(clientID);
 
         if (user != null) {
             try {
                 user.stop();
+
+                return true;
             }
             catch (IOException e) {
                 e.printStackTrace();
             }
         }
+
+        return false;
     }
 
+    /**
+     * Cherche NetworkUser selon clientID
+     * @param clientID ID du client
+     * @return
+     */
     @Override
     public NetworkUser getConnection(UUID clientID) {
         return connections.get(clientID);
     }
 
+    /**
+     * Retourne la liste des clients en-lignes
+     * @return
+     */
     @Override
     public List<UserLite> onlineUsers() {
         List<UserLite> userList = new ArrayList<>();
@@ -62,6 +89,20 @@ public class DirectoryFacilitatorImpl implements DirectoryFacilitator {
         return userList;
     }
 
+    /**
+     * Retourne la liste des NetworkUser de tous les clients en-lignes
+     * @return
+     */
+    @Override
+    public List<NetworkUser> getAllConnections() {
+        return new ArrayList<NetworkUser>(connections.values());
+    }
+
+    /**
+     * Cherche la liste des NetworkUser selon User Id
+     * @param users liste de clients
+     * @return
+     */
     @Override
     public List<NetworkUser> getConnections(List<UserLite> users) {
         List<NetworkUser> connections = new ArrayList<>();
@@ -75,10 +116,5 @@ public class DirectoryFacilitatorImpl implements DirectoryFacilitator {
         }
 
         return connections;
-    }
-
-    @Override
-    public List<NetworkUser> getAllConnections() {
-        return new ArrayList<NetworkUser>(connections.values());
     }
 }

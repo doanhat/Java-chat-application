@@ -33,14 +33,17 @@ public class NetworkUser {
 
             if (connectionMessage != null) {
                 this.userInfo = connectionMessage.getUser();
-                System.out.println("Nouveau client - UUID: " + this.userInfo.getId());
+                this.reader.setUserID(this.userInfo.getId());
+
                 commController.taskManager.appendTask(new NetworkMessage.Handler(connectionMessage, commController));
             }
             else {
-                System.out.println("Echec dans la recuperation UUID du nouveau client");
+                System.err.println("Echec dans la recuperation UUID du nouveau client");
             }
 
             // dispatch reader to thread pool after connection procedure
+            System.err.println("Demarrer Socket reader pour client " + uuid());
+
             commController.taskManager.appendCyclicTask(this.reader);
         }
         catch (ClassNotFoundException e) {
