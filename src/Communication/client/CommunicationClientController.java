@@ -27,53 +27,6 @@ public class CommunicationClientController extends CommunicationController {
         client = new NetworkClient(this);
     }
 
-    /* -------------------------------------------- Setup interfaces -------------------------------------------------*/
-
-    /**
-     * Installer les interfaces de Data, IHM Main et IHM Channel
-     * @param dataIface
-     * @param mainIface
-     * @param channelIface
-     * @return
-     */
-    public boolean setupInterfaces(ICommunicationToData dataIface,
-                                   ICommunicationToIHMMain mainIface,
-                                   ICommunicationToIHMChannel channelIface) {
-        if (dataIface == null || mainIface == null || channelIface == null) {
-            return false;
-        }
-
-        setICommunicationData(dataIface);
-        setICommunicationToIHMMain(mainIface);
-        setICommunicationToIHMChannel(channelIface);
-
-        return true;
-    }
-
-    /**
-     * Installer l'interfaces de Data
-     * @param dataIface
-     */
-    public void setICommunicationData(ICommunicationToData dataIface) {
-        dataClient = dataIface;
-    }
-
-    /**
-     * Installer l'interfaces de IHM Main
-     * @param mainIface
-     */
-    public void setICommunicationToIHMMain(ICommunicationToIHMMain mainIface) {
-        mainClient = mainIface;
-    }
-
-    /**
-     * Installer l'interfaces de IHM Channel
-     * @param channelIface
-     */
-    public void setICommunicationToIHMChannel(ICommunicationToIHMChannel channelIface) {
-        channelClient = channelIface;
-    }
-
     /* ---------------------------------------------- Core functionalities -------------------------------------------*/
 
     /**
@@ -124,6 +77,53 @@ public class CommunicationClientController extends CommunicationController {
      */
     public void sendMessage(NetworkMessage message) {
         client.sendMessage(message);
+    }
+
+    /* -------------------------------------------- Setup interfaces -------------------------------------------------*/
+
+    /**
+     * Installer les interfaces de Data, IHM Main et IHM Channel
+     * @param dataIface
+     * @param mainIface
+     * @param channelIface
+     * @return
+     */
+    public boolean setupInterfaces(ICommunicationToData dataIface,
+                                   ICommunicationToIHMMain mainIface,
+                                   ICommunicationToIHMChannel channelIface) {
+        if (dataIface == null || mainIface == null || channelIface == null) {
+            return false;
+        }
+
+        setICommunicationData(dataIface);
+        setICommunicationToIHMMain(mainIface);
+        setICommunicationToIHMChannel(channelIface);
+
+        return true;
+    }
+
+    /**
+     * Installer l'interfaces de Data
+     * @param dataIface
+     */
+    public void setICommunicationData(ICommunicationToData dataIface) {
+        dataClient = dataIface;
+    }
+
+    /**
+     * Installer l'interfaces de IHM Main
+     * @param mainIface
+     */
+    public void setICommunicationToIHMMain(ICommunicationToIHMMain mainIface) {
+        mainClient = mainIface;
+    }
+
+    /**
+     * Installer l'interfaces de IHM Channel
+     * @param channelIface
+     */
+    public void setICommunicationToIHMChannel(ICommunicationToIHMChannel channelIface) {
+        channelClient = channelIface;
     }
 
     /* ------------------------------------- Connection Notifications handling ---------------------------------------*/
