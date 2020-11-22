@@ -10,8 +10,8 @@ import static java.util.concurrent.Executors.newCachedThreadPool;
 
 public class TaskManager {
 
-    private ExecutorService pool;
-    private List<CyclicTask> cyclicTasks;
+    private final ExecutorService pool;
+    private final List<CyclicTask> cyclicTasks;
 
     public TaskManager() {
         pool = newCachedThreadPool();
@@ -37,6 +37,9 @@ public class TaskManager {
         pool.execute(oneShot);
     }
 
+    /**
+     * Terminate all thread and shutdown thread pool
+     */
     public void shutdown() {
         System.err.println("Task manager s'arrete, annuler " + cyclicTasks.size() + " taches !");
 
@@ -45,7 +48,5 @@ public class TaskManager {
         }
 
         pool.shutdownNow();
-
-        System.err.println("Pool is terminated " + pool.isTerminated());
     }
 }
