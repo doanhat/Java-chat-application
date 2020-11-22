@@ -164,6 +164,26 @@ public class CommunicationClientController extends CommunicationController {
         dataClient.saveMessageIntoHistory(msg, channelID, response);
     }
 
+    public void notifyAcceptedToJoinChannel (UserLite user, UUID channelID) {
+        if (dataClient == null)
+        {
+            System.err.println("notifyAcceptedToJoinChannel: Data Iface est null");
+            return;
+        }
+        // TODO INTEGRATION verify with data what is the difference between userAddedToChannel and addUserToChannel
+        dataClient.userAddedToChannel(user, channelID);
+    }
+
+    public void notifyNewUserAddedToJoinChannel (UserLite user, UUID channelID) {
+        if (dataClient == null)
+        {
+            System.err.println("notifyNewUserAddedToJoinChannel: Data Iface est null");
+            return;
+        }
+
+        dataClient.addUserToChannel(user, channelID);
+    }
+
     @Override
     public void disconnect(UUID user) {
         System.err.println("A IHM Main : je suis plus connecté");

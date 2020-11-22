@@ -85,14 +85,18 @@ public class CommunicationServerController extends CommunicationController {
         }
     }
 
-    public void requestJoinSharedChannel(Channel channel, UserLite user){
+    public boolean requestJoinChannel(Channel channel, UserLite user){
         if (dataServer == null)
         {
             System.err.println("requestJoinSharedChannel: Data Iface est null");
-            return;
+            return false;
         }
 
+        // TODO INTEGRATION verify with Data what are the differences between requestAddUser and joinChannel
+        // TODO INTEGRATION verify with Data return a boolean in requestAddUser and joinChannel for confirmation
         dataServer.requestAddUser(channel, user);
+
+        return true;
     }
 
     public List<Message> requestJoinOwnedChannel(Channel channel, UserLite user){
