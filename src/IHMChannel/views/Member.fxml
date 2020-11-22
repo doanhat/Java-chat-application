@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.text.Text?>
 <?import java.net.URL?>
-<HBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="IHMChannel.controllers.MemberController">
-        <ImageView fx:id="profilePic"/>
-        <ImageView fx:id="connectedIcon"/>
-        <Text fx:id="username"/>
-        <ImageView fx:id="authorizationIcon"/>
-        <Text fx:id="isThatYouText"/>
-        <ToggleButton id="toggleAdminBtn" fx:id="toggleAdminBtn" onAction="#toggleAdmin" styleClass="btn, secondary-btn, toggle-btn" alignment="CENTER_RIGHT"/>
-        <Button id="banBtn"  fx:id="banBtn" text="ban" styleClass="btn, primary-btn" alignment="CENTER_RIGHT"/>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Text?>
+
+<?import IHMChannel.switchButton.ToggleSwitch?>
+
+<HBox alignment="CENTER_LEFT" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IHMChannel.controllers.MemberController">
+        <ImageView fx:id="profilePic" />
+        <ImageView fx:id="connectedIcon" />
+        <Text fx:id="username" text="abc"/>
+        <ImageView fx:id="authorizationIcon" />
+        <Text fx:id="isThatYouText" />
+        <Pane HBox.hgrow="ALWAYS" />
+        <ToggleSwitch fx:id="toggleAdminBtn" styleClass="btn, toggle-btn"/>
+        <Button fx:id="banBtn" onAction="#banUser" />
         <stylesheets>
                 <URL value="@../css/style.css" />
         </stylesheets>

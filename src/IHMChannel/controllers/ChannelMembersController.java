@@ -88,6 +88,10 @@ public class ChannelMembersController {
             tmpUser.setNickName(nickName.get(d));
             nickName.remove(d);
             HBox tmp = (HBox) new MemberDisplay(tmpUser).root;
+            tmp.setMaxWidth(membersList.getMaxWidth());
+            tmp.setMinWidth(membersList.getMinWidth());
+            tmp.setMaxHeight(membersList.getMaxHeight());
+            tmp.setMinHeight(membersList.getMinHeight());
             membersToDisplay.add(tmp);
         }
 //        tmpUser.setNickName("Aida");

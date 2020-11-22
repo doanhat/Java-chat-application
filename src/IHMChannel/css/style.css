@@ -68,12 +68,17 @@
 
 .btn-radio {
     -fx-color: #ffffff;
+    display: none;
+    position: absolute;
+    width: 100%;
+    appearance: none;
 }
+
 
 .btn-radio:selected {
-    -fx-color: #90807a;
+    -fx-color: #90807A;
+    -fx-background-insets: 0;
 }
-
 
 .toggle-btn {
   position: relative;
@@ -196,3 +201,30 @@ TextField {
     -fx-margin: 5px;
 }
 
+.list-cell:filled:selected:focused, .list-cell:filled:selected {
+    /* 3:, 4: */
+    -fx-background-color: white;
+}
+.list-cell:odd { -fx-background-color: white; /* 1 */ }
+.list-cell:even { -fx-background-color: white; /* for information */ }
+
+#banBtn {
+    -fx-background-color: transparent;
+    -fx-alignment: CENTER_RIGHT;
+}
+#toggleAdminBtn {
+    -fx-alignment: CENTER_RIGHT;
+}
+
+#channelMember {
+    position: absolute;
+    -fx-background-color: #ffffff;
+    -fx-padding: 10px;
+    width: 100%;
+    align-items: center;
+    align-content: center;
+}
+
+#username {
+    -fx-background-color: #ff00ff;
+}
