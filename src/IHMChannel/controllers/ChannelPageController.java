@@ -73,6 +73,7 @@ public class ChannelPageController {
 
 
     public void addOpenedChannel(Channel channel) throws IOException {
+        iconsInit();
         openedChannels.add(channel);
 
         //Création du nouvel onglet pour le channel ajouté
@@ -127,34 +128,41 @@ public class ChannelPageController {
 
 
     private void iconsInit(){
-        //Liste membres
-        Image usersImage = new Image("IHMChannel/icons/users-solid.png");
+        //Accueil
+        Image usersImage = new Image("IHMChannel/icons/home.png");
         ImageView usersIcon = new ImageView(usersImage);
         usersIcon.setFitHeight(15);
         usersIcon.setFitWidth(15);
-        seeMembersBtn.setGraphic(usersIcon);
+        back.setGraphic(usersIcon);
 
-        //Ajout membre
-        Image addUserImage = new Image("IHMChannel/icons/user-plus-solid.png");
-        ImageView addUserIcon = new ImageView(addUserImage);
-        addUserIcon.setFitHeight(15);
-        addUserIcon.setFitWidth(15);
-        addMemberBtn.setGraphic(addUserIcon);
-
-        //Quitter
-        Image exitImage = new Image("IHMChannel/icons/exit.png");
-        ImageView exitIcon = new ImageView(exitImage);
-        exitIcon.setFitHeight(15);
-        exitIcon.setFitWidth(15);
-        leaveChannelBtn.setGraphic(exitIcon);
+//        //Liste membres
+//        Image usersImage = new Image("IHMChannel/icons/users-solid.png");
+//        ImageView usersIcon = new ImageView(usersImage);
+//        usersIcon.setFitHeight(15);
+//        usersIcon.setFitWidth(15);
+//        seeMembersBtn.setGraphic(usersIcon);
+//
+//        //Ajout membre
+//        Image addUserImage = new Image("IHMChannel/icons/user-plus-solid.png");
+//        ImageView addUserIcon = new ImageView(addUserImage);
+//        addUserIcon.setFitHeight(15);
+//        addUserIcon.setFitWidth(15);
+//        addMemberBtn.setGraphic(addUserIcon);
+//
+//        //Quitter
+//        Image exitImage = new Image("IHMChannel/icons/exit.png");
+//        ImageView exitIcon = new ImageView(exitImage);
+//        exitIcon.setFitHeight(15);
+//        exitIcon.setFitWidth(15);
+//        leaveChannelBtn.setGraphic(exitIcon);
     }
 
     /**
      * Méthode déclenchée au clic sur le bouton "voir les membres"
      */
-//    public void seeMembers(){
+    public void seeMembers(){
 //        channelMap.get(currentChannel).seeMembers();
-//    }
+    }
 
     /**
      * Méthode déclenchée au clic sur le bouton "ajouter un membre"
@@ -212,7 +220,7 @@ public class ChannelPageController {
                 maxid = c.getId();
             }
         }
-        System.out.println(count);
+//        System.out.println(count);
         if (count == 0) {
             Channel c = new OwnedChannel(maxid + 1, channelName, new UserLite(UUID.randomUUID(), "Léa", null), "channel pour l'UV " + channelName, Visibility.PUBLIC);
             this.addOpenedChannel(c);

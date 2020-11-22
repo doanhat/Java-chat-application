@@ -108,7 +108,7 @@ public class ChannelController {
 
 
     public void setChannel(Channel channel) {
-        System.out.println("ChannelController.setChannel : "+channel);
+//        System.out.println("ChannelController.setChannel : "+channel);
         this.setCurrentChannel(channel);
         channelName.setText(channel.getName());
         channelDescription.setText(channel.getDescription());
