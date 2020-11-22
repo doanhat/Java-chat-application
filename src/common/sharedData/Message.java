@@ -123,7 +123,7 @@ public class Message implements Serializable {
 
 	public void addAnswers(Message answer) {
 		this.answers.add(answer);
-		answer.parentMessageId = this.id;
+		answer.setParentMessageId(this.id);
 	}
 
 	public int countLikes() {
