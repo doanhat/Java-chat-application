@@ -108,7 +108,7 @@ public class Message implements Serializable {
 	public UUID getParentMessageId() {
 		return parentMessageId;
 	}
-	
+
 	public void setParentMessageId(UUID parentMessageId) {
 		this.parentMessageId = parentMessageId;
 	}
@@ -124,6 +124,7 @@ public class Message implements Serializable {
 	public void addAnswers(Message answer) {
 		this.answers.add(answer);
 		answer.setParentMessageId(this.getId());
+
 	}
 
 	public int countLikes() {
