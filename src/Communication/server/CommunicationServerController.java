@@ -62,19 +62,27 @@ public class CommunicationServerController extends CommunicationController {
 
     /**
      * Deconnecter un client
-     * @param user
+     * @param userID ID du client a deconnecter
      */
     @Override
-    public void disconnect(UUID user) {
-        UserLite userlite = server.directory().getConnection(user).getUserInfo();
+    public void disconnect(UUID userID) {
+        NetworkUser user = server.directory().getConnection(userID);
 
-        if (server.directory().deregisterClient(user)) {
-            System.err.println("Serveur déconnecte client " + userlite.getId());
+        if (user != null)
+        {
+            UserLite userInfo = user.getUserInfo();
 
-            sendBroadcast(new UserDisconnectedMessage(userlite), userlite);
+            if (server.directory().deregisterClient(userID)) {
+                System.err.println("Serveur déconnecte client " + userID);
+
+                sendBroadcast(new UserDisconnectedMessage(userInfo), userInfo);
+            }
+            else {
+                System.err.println("Serveur echoue de déconnecte client " + userID);
+            }
         }
         else {
-            System.err.println("Serveur echoue de déconnecte client " + userlite.getId());
+            System.err.println("Serveur echoue de déconnecte client " + userID + ", NetworkUser est null");
         }
     }
 

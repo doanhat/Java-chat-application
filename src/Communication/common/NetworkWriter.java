@@ -37,7 +37,7 @@ public class NetworkWriter extends CyclicTask {
             }
         }
         catch (IOException | InterruptedException e) {
-            //e.printStackTrace();
+            e.printStackTrace();
         }
     }
 

@@ -38,9 +38,10 @@ public class NetworkReader extends CyclicTask {
             e.printStackTrace();
         }
         catch (IOException e) {
-            System.err.println("Client déconnecté");
+            e.printStackTrace();
 
             commController.disconnect(userID);
+            cancel = true;
         }
     }
 }
