@@ -43,6 +43,8 @@ public class CommunicationClientController extends CommunicationController {
             System.err.println("Connexion au server...");
         }
         catch (IOException e) {
+            System.err.println("Echec de connexion au server!");
+
             disconnect(null);
         }
     }
@@ -134,6 +136,8 @@ public class CommunicationClientController extends CommunicationController {
      * @param channels
      */
     public void notifyConnectionSuccess(List<UserLite> users, List<Channel> channels) {
+        System.err.println("Connecté au servueur");
+
         if (mainClient == null)
         {
             System.err.println("notifyConnectionSuccess: IHMMain Iface est null");

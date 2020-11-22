@@ -1,6 +1,7 @@
 package Communication.server;
 
 import Communication.common.CommunicationController;
+import Communication.common.NetworkWriter;
 import Communication.messages.abstracts.NetworkMessage;
 import Communication.messages.server_to_client.UserDisconnectedMessage;
 import common.interfaces.client.ICommunicationToData;
@@ -97,6 +98,17 @@ public class CommunicationServerController extends CommunicationController {
         if (receiver != null) {
             server.sendMessage(receiver.preparePacket(message));
         }
+        else {
+            System.err.println("CommunicationServerController.sendMessage: receiver est null");
+        }
+    }
+
+    /**
+     * Envoyer un pacquet réseau
+     * @param packet
+     */
+    public void sendMessage(NetworkWriter.DeliveryPacket packet) {
+        server.sendMessage(packet);
     }
 
     /**

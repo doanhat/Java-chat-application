@@ -39,6 +39,8 @@ public class NetworkClient {
     }
 
     public void close() throws IOException {
-        socket.close();
+        if (socket != null && !socket.isClosed()) {
+            socket.close();
+        }
     }
 }

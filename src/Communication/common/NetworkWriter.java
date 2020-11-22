@@ -43,7 +43,7 @@ public class NetworkWriter extends CyclicTask {
 
     @Override
     public void stop() {
-        cancel = true;
+        super.stop();
 
         synchronized (messagesQueue) {
             messagesQueue.notifyAll();
@@ -70,6 +70,8 @@ public class NetworkWriter extends CyclicTask {
         }
 
         public void send() throws IOException {
+            System.err.println("Send message " + message.getClass());
+
             receiver.writeObject(message);
         }
     }

@@ -1,11 +1,17 @@
 package Communication.common;
 
 public abstract class CyclicTask implements Runnable {
-    protected boolean cancel = false;
+    protected Boolean cancel = false;
 
     @Override
     public void run() {
-        while (!cancel) {
+        while (true) {
+            synchronized (cancel) {
+                if (cancel) {
+                    break;
+                }
+            }
+
             action();
         }
 
@@ -13,7 +19,9 @@ public abstract class CyclicTask implements Runnable {
     }
 
     public void stop() {
-        cancel = true;
+        synchronized (cancel) {
+            cancel = true;
+        }
     }
 
     public boolean isActive() {

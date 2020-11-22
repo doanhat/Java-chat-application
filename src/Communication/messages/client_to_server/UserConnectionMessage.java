@@ -26,14 +26,6 @@ public class UserConnectionMessage extends ClientToServerMessage {
 
     @Override
     protected void handle(CommunicationServerController commController) {
-        List<Channel> userChannels = commController.getUserChannels(user);
-        List<UserLite> onlineUsers = commController.onlineUsers();
-
-        System.err.println("Accepte connection du client " + user.getId());
-
-        commController.sendMessage(user.getId(), new AcceptationMessage(userChannels, onlineUsers));
-
-        // broadcast nouveau client info aux autres clients
-        commController.sendBroadcast(new NewUserConnectedMessage(user), user);
+        // Handle Connection in NetworkUser constructor to avoid synchronization with DF
     }
 }

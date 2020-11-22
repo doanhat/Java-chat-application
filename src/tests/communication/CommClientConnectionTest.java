@@ -2,8 +2,6 @@ package tests.communication;
 
 import Communication.client.CommunicationClientController;
 import Communication.common.Parameters;
-import Communication.server.CommunicationServerController;
-import common.sharedData.User;
 import common.sharedData.UserLite;
 
 import java.util.Scanner;
@@ -30,6 +28,6 @@ public class CommClientConnectionTest {
             e.printStackTrace();
         }
 
-        commClient.stop();
+        //commClient.stop();
     }
 }

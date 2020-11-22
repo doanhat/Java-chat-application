@@ -3,12 +3,16 @@ package Communication.server;
 import Communication.common.*;
 import Communication.messages.abstracts.NetworkMessage;
 import Communication.messages.client_to_server.UserConnectionMessage;
+import Communication.messages.server_to_client.AcceptationMessage;
+import Communication.messages.server_to_client.NewUserConnectedMessage;
+import common.sharedData.Channel;
 import common.sharedData.UserLite;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.List;
 import java.util.UUID;
 
 public class NetworkUser {
@@ -35,10 +39,19 @@ public class NetworkUser {
                 this.userInfo = connectionMessage.getUser();
                 this.reader.setUserID(this.userInfo.getId());
 
-                commController.taskManager.appendTask(new NetworkMessage.Handler(connectionMessage, commController));
+                System.err.println("Accepte connection du client " + uuid());
+
+                List<Channel> userChannels = commController.getUserChannels(this.userInfo);
+                List<UserLite> onlineUsers = commController.onlineUsers();
+
+                commController.sendMessage(preparePacket(new AcceptationMessage(userChannels, onlineUsers)));
+
+                commController.sendBroadcast(new NewUserConnectedMessage(this.userInfo), this.userInfo);
             }
             else {
                 System.err.println("Echec dans la recuperation UUID du nouveau client");
+
+                return;
             }
 
             // dispatch reader to thread pool after connection procedure

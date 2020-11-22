@@ -2,6 +2,7 @@ package Communication.common;
 
 import Communication.messages.abstracts.NetworkMessage;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.UUID;
@@ -36,6 +37,9 @@ public class NetworkReader extends CyclicTask {
         }
         catch (ClassNotFoundException e) {
             e.printStackTrace();
+        }
+        catch(EOFException e) {
+            //eof - no error in this case
         }
         catch (IOException e) {
             e.printStackTrace();
