@@ -90,15 +90,6 @@ public class DirectoryFacilitatorImpl implements DirectoryFacilitator {
     }
 
     /**
-     * Retourne la liste des NetworkUser de tous les clients en-lignes
-     * @return
-     */
-    @Override
-    public List<NetworkUser> getAllConnections() {
-        return new ArrayList<NetworkUser>(connections.values());
-    }
-
-    /**
      * Cherche la liste des NetworkUser selon User Id
      * @param users liste de clients
      * @return

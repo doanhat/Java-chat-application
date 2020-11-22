@@ -71,7 +71,7 @@ public class CommunicationServerController extends CommunicationController {
         if (server.directory().deregisterClient(user)) {
             System.err.println("Serveur déconnecte client " + userlite.getId());
 
-            sendBroadcast(new UserDisconnectedMessage(userlite));
+            sendBroadcast(new UserDisconnectedMessage(userlite), userlite);
         }
         else {
             System.err.println("Serveur echoue de déconnecte client " + userlite.getId());
@@ -102,10 +102,15 @@ public class CommunicationServerController extends CommunicationController {
     /**
      * Broadcast messages aux tous les clients en-ligne
      * @param message
+     * @param excludedUser utilisateur exclu qui ne recevra le message pour éviter renvoie de message à l'émetteur
      */
-    public void sendBroadcast(NetworkMessage message) {
-        for(NetworkUser usr : server.directory().getAllConnections()){
-            server.sendMessage(usr.preparePacket(message));
+    public void sendBroadcast(NetworkMessage message, UserLite excludedUser) {
+        List<UserLite> users = server.directory().onlineUsers();
+
+        for(NetworkUser usr : server.directory().getConnections(users)) {
+            if (usr.uuid() != excludedUser.getId()) {
+                server.sendMessage(usr.preparePacket(message));
+            }
         }
     }
 
@@ -113,10 +118,13 @@ public class CommunicationServerController extends CommunicationController {
      * Multicast messages aux tous les clients
      * @param receivers liste de recepteurs
      * @param message message réseau
+     * @param excludedUser utilisateur exclu qui ne recevra le message pour éviter renvoie de message à l'émetteur
      */
-    public void sendMulticast(List<UserLite> receivers, NetworkMessage message) {
-        for(NetworkUser usr : server.directory().getConnections(receivers)){
-            server.sendMessage(usr.preparePacket(message));
+    public void sendMulticast(List<UserLite> receivers, NetworkMessage message, UserLite excludedUser) {
+        for(NetworkUser usr : server.directory().getConnections(receivers)) {
+            if (usr.uuid() != excludedUser.getId()) {
+                server.sendMessage(usr.preparePacket(message));
+            }
         }
     }
 

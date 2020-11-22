@@ -29,9 +29,10 @@ public class AskToJoinMessage extends ClientToServerMessage {
             // send Acceptation back to sender
             commController.sendMessage(sender.getId(), new AcceptJoinChannelMessage(sender, channelID));
 
-            // notify other user new User has joined channel
+            // notify other users new User has joined channel
             commController.sendMulticast(channel.getAcceptedPersons(),
-                                         new NewUserJoinChannelMessage(sender, channelID));
+                                         new NewUserJoinChannelMessage(sender, channelID),
+                                         sender);
         }
     }
 }

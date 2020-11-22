@@ -35,12 +35,6 @@ public interface DirectoryFacilitator {
     List<UserLite> onlineUsers();
 
     /**
-     * Retourne la liste des NetworkUser de tous les clients en-lignes
-     * @return
-     */
-    List<NetworkUser> getAllConnections();
-
-    /**
      * Cherche la liste des NetworkUser selon User Id
      * @param users liste de clients
      * @return

@@ -35,11 +35,11 @@ public class CreateChannelMessage extends ClientToServerMessage {
         // Request Accepted
         if (newChannel != null)
         {
-            // broadcast public channel to all users
+            // broadcast public channel to other users
             if (newChannel.getVisibility() == Visibility.PUBLIC) {
                 NetworkMessage newChannelNotification = new NewVisibleChannelMessage(newChannel);
 
-                commController.sendBroadcast(newChannelNotification);
+                commController.sendBroadcast(newChannelNotification, sender);
             }
 
             // return acceptation message to requester

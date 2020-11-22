@@ -34,6 +34,6 @@ public class UserConnectionMessage extends ClientToServerMessage {
         commController.sendMessage(user.getId(), new AcceptationMessage(userChannels, onlineUsers));
 
         // broadcast nouveau client info aux autres clients
-        commController.sendBroadcast(new NewUserConnectedMessage(user));
+        commController.sendBroadcast(new NewUserConnectedMessage(user), user);
     }
 }
