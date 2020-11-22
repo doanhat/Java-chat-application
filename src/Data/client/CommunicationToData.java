@@ -286,24 +286,5 @@ public class CommunicationToData implements ICommunicationToData {
     public void addUserToChannel(UserLite user, UUID channelId) {
         dataController.getUserController().addUserToChannel(user,channelId);
     }
-
-    /**
-     * Disconnect user.
-     *
-     * @param user the user
-     */
-    @Override
-    public void disconnectUser(UserLite user) {
-
-    }
-
-    /**
-     * New connection user.
-     *
-     * @param user the user
-     */
-    @Override
-    public void newConnectionUser(User user) {
-
-    }
+    
 }
