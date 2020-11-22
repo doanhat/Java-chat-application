@@ -7,15 +7,41 @@ import java.util.List;
 import java.util.UUID;
 
 public interface DirectoryFacilitator {
-    public void registerClient(Socket clientSocket);
+    /**
+     * Register nouveau client au Annuaire
+     * @param clientSocket socket du client
+     */
+    void registerClient(Socket clientSocket);
 
-    public void deregisterClient(UUID clientID);
+    /**
+     * Deregister nouveau client au Annuaire
+     * @param clientID ID du client
+     */
+    void deregisterClient(UUID clientID);
 
-    public NetworkUser getConnection(UUID clientID);
+    /**
+     * Cherche NetworkUser selon clientID
+     * @param clientID ID du client
+     * @return
+     */
+    NetworkUser getConnection(UUID clientID);
 
-    public List<UserLite> onlineUsers();
+    /**
+     * Retourne la liste des clients en-lignes
+     * @return
+     */
+    List<UserLite> onlineUsers();
 
-    public List<NetworkUser> getAllConnections();
+    /**
+     * Retourne la liste des NetworkUser de tous les clients en-lignes
+     * @return
+     */
+    List<NetworkUser> getAllConnections();
 
-    public List<NetworkUser> getConnections(List<UUID> uuids);
+    /**
+     * Cherche la liste des NetworkUser selon User Id
+     * @param uuids IDs des Clients
+     * @return
+     */
+    List<NetworkUser> getConnections(List<UUID> uuids);
 }

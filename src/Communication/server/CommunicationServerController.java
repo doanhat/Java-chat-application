@@ -110,6 +110,12 @@ public class CommunicationServerController extends CommunicationController {
      * @return
      */
     public List<Channel> getUserChannels(UserLite user) {
+        if (dataServer == null)
+        {
+            System.err.println("getUserChannels: Data Iface est null");
+            return null;
+        }
+
         return dataServer.getVisibleChannels(user);
     }
 
@@ -119,6 +125,12 @@ public class CommunicationServerController extends CommunicationController {
      * @return
      */
     public Channel getChannel(UUID channelID) {
+        if (dataServer == null)
+        {
+            System.err.println("getChannel: Data Iface est null");
+            return null;
+        }
+
         // TODO INTEGRATION request Data to add a Channel getChannel(UUID channelID) methode
         return null;  // dataServer.getChannel(channelID);
     }
@@ -137,6 +149,11 @@ public class CommunicationServerController extends CommunicationController {
                                         boolean proprietary,
                                         boolean publicChannel,
                                         UserLite requester) {
+        if (dataServer == null)
+        {
+            System.err.println("requestCreateChannel: Data Iface est null");
+            return null;
+        }
         // TODO INTEGRATION request Data to fix return type to Channel
         // return requestChannelCreation(channel, proprietary, publicChannel, requester);
         return null;
@@ -169,6 +186,11 @@ public class CommunicationServerController extends CommunicationController {
      * @return
      */
     public List<Message> requestJoinOwnedChannel(Channel channel, UserLite user){
+        if (dataServer == null)
+        {
+            System.err.println("requestJoinOwnedChannel: Data Iface est null");
+            return null;
+        }
         // TODO: verify return type with data
         // TODO V2
         //return dataServer.joinChannel(channel, user);
