@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IHMMain.IHMMainWindowController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IHMMain.IHMMainWindowController">
    <children>
       <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <columnConstraints>
@@ -23,14 +23,14 @@
                <children>
                   <GridPane>
                      <columnConstraints>
-                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="20.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="187.0" minWidth="10.0" percentWidth="20.0" prefWidth="141.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="509.0" minWidth="10.0" prefWidth="459.0" />
                      </columnConstraints>
                      <rowConstraints>
                         <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <Label text="Ici sera la barre de navigation" GridPane.columnIndex="1" />
+                        <Label prefHeight="17.0" prefWidth="183.0" text="Ici sera la barre de navigation" GridPane.columnIndex="1" />
                         <Button mnemonicParsing="false" onAction="#loadUserListView" text="&lt;" />
                      </children>
                   </GridPane>
@@ -50,11 +50,13 @@
                       <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                     </columnConstraints>
                     <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="175.0" minHeight="10.0" prefHeight="37.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="312.0" minHeight="10.0" prefHeight="34.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="312.0" minHeight="10.0" prefHeight="294.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
                         <Button mnemonicParsing="false" onAction="#loadIHMChannelWindow" text="Sélectionner un canal" />
+                        <Button fx:id="createChannelButton" mnemonicParsing="false" onAction="#loadCreationChannelPopup" text="Créer un channel" GridPane.rowIndex="1" />
                      </children>
                   </GridPane>
                   <StackPane fx:id="mainArea" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: lightgrey;" GridPane.columnIndex="1" />
