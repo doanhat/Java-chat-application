@@ -1,4 +1,4 @@
-package commun.Data;
+package common.sharedData;
 
 public enum Visibility {
 	PUBLIC,

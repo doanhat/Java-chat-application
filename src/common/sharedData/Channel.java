@@ -1,6 +1,5 @@
-package commun.Data;
+package common.sharedData;
 
-import java.beans.Visibility;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;

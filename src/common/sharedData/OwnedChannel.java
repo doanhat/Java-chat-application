@@ -1,6 +1,4 @@
-package commun.Data;
-
-import java.beans.Visibility;
+package common.sharedData;
 
 public class OwnedChannel extends Channel {
 

@@ -1,4 +1,4 @@
-package commun.Data;
+package common.sharedData;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -26,7 +26,15 @@ public class Message implements Serializable {
 		this.date = new Date();
 		this.likes = new ArrayList<UserLite>();
 	}
-	
+
+	public Message(String message, UserLite author) {
+		this.answers = new ArrayList<Message>();
+		this.date = new Date();
+		this.likes = new ArrayList<UserLite>();
+		this.message = message;
+		this.author = author;
+	}
+
 	public int getId() {
 		return id;
 	}
