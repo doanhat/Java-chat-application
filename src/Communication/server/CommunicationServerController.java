@@ -45,8 +45,12 @@ public class CommunicationServerController extends CommunicationController {
         this.data = dataIface;
     }
 
-    public void sendMessage(UUID receiver, NetworkMessage message) {
-        server.sendMessage(server.directory().getConnection(receiver).preparePacket(message));
+    public void sendMessage(UUID receiverID, NetworkMessage message) {
+        NetworkUser receiver = server.directory().getConnection(receiverID);
+
+        if (receiver != null) {
+            server.sendMessage(receiver.preparePacket(message));
+        }
     }
 
     public void setupInterfaces(IServerCommunicationToData dataIface) {

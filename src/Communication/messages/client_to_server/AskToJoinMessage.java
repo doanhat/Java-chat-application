@@ -1,6 +1,9 @@
 package Communication.messages.client_to_server;
 
 import Communication.messages.abstracts.ClientToServerMessage;
+import Communication.messages.abstracts.NetworkMessage;
+import Communication.messages.server_to_client.AcceptJoinChannelMessage;
+import Communication.messages.server_to_client.NewUserJoinChannelMessage;
 import Communication.server.CommunicationServerController;
 import common.sharedData.Channel;
 import common.sharedData.Message;
@@ -20,15 +23,20 @@ public class AskToJoinMessage extends ClientToServerMessage {
     }
 
     @Override
-    protected void handle(CommunicationServerController commClientController) {
-        Channel channel = commClientController.getChannel(channelID);
+    protected void handle(CommunicationServerController commServerController) {
+        Channel channel = commServerController.getChannel(channelID);
 
-        if (channel != null && commClientController.requestJoinChannel(channel, sender))
+        if (channel != null && commServerController.requestJoinChannel(channel, sender))
         {
-            // TODO send Acceptation back to sender
+            // send Acceptation back to sender
+            commServerController.sendMessage(sender.getId(), new AcceptJoinChannelMessage(sender, channelID));
 
-            // TODO Notify other user new User has joined channel
+            // notify other user new User has joined channel
+            NetworkMessage notification = new NewUserJoinChannelMessage(sender, channelID);
+
+            for (UserLite user: channel.getAcceptedPersons()) {
+                commServerController.sendMessage(user.getId(), notification);
+            }
         }
-
     }
 }
