@@ -57,6 +57,11 @@ public class CommunicationServerController extends CommunicationController {
         return dataServer.getVisibleChannels(user);
     }
 
+    public Channel getChannel(UUID channelID) {
+        // TODO INTEGRATION request Data to add a Channel getChannel(UUID channelID) methode
+        return null;  // dataServer.getChannel(channelID);
+    }
+
     public List<UserLite> onlineUsers() {
         return server.directory().onlineUsers();
     }
@@ -105,7 +110,7 @@ public class CommunicationServerController extends CommunicationController {
         sendBroadcast(new UserDisconnectedMessage(userlite));
     }
 
-    public void requestSendMessage (Message msg, Channel channel, Message response) {
+    public void saveMessage (Message msg, Channel channel, Message response) {
         data.saveMessageIntoHistory(msg, channel.getId(), response);
     }
 }

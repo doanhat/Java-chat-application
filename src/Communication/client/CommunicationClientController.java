@@ -154,6 +154,10 @@ public class CommunicationClientController extends CommunicationController {
         dataClient.receiveMessage(msg, channelID, response);
     }
 
+    public void saveMessage(Message msg, UUID channelID, Message response) {
+        dataClient.saveMessageIntoHistory(msg, channelID, response);
+    }
+
     @Override
     public void disconnect(UUID user) {
         System.err.println("A IHM Main : je suis plus connecté");
