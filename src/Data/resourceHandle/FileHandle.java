@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileHandle<T> {
-    ObjectMapper mapper = new ObjectMapper();;
+    ObjectMapper mapper = new ObjectMapper();
     private String path;
 
     public FileHandle() {

@@ -21,8 +21,8 @@ public class User extends UserLite {
 	private Date birthDate;
 
 	// Ce constructor accepte un birthDay du format java.util.Date
-	public User(UUID id, String nickName, String avatar, String password, String lastName, String firstName, Date birthDate) {
-		super(id, nickName, avatar);
+	public User(String nickName, String avatar, String password, String lastName, String firstName, Date birthDate) {
+		super(nickName, avatar);
 		this.password = password;
 		this.lastName = lastName;
 		this.firstName = firstName;
@@ -30,8 +30,8 @@ public class User extends UserLite {
 	}
 
 	// Ce constructor accepte un birthDay du format String "dd-MM-yyyy", ex "04-05-1998"
-	public User(UUID id, String nickName, String avatar, String password, String lastName, String firstName, String birthDate) throws ParseException {
-		super(id, nickName, avatar);
+	public User(String nickName, String avatar, String password, String lastName, String firstName, String birthDate) throws ParseException {
+		super(nickName, avatar);
 		this.password = password;
 		this.lastName = lastName;
 		this.firstName = firstName;
@@ -70,7 +70,7 @@ public class User extends UserLite {
 	}
 
 	public UserLite getUserLite(){
-		return new UserLite(this.getId(),this.getNickName(),this.getAvatar());
+		return (UserLite) this;
 	}
 
 }

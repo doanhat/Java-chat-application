@@ -46,11 +46,10 @@ public class IHMMainToData implements IIHMMainToData {
     @Override
     public void createChannel(String name, String description, Boolean isShared, Boolean isPublic, UserLite owner) {
         Channel channel;
-        UUID id = UUID.randomUUID();
         if(isShared) {
-            channel = new SharedChannel(id, name, owner, description, isPublic ? Visibility.PUBLIC : Visibility.PRIVATE);
+            channel = new SharedChannel(name, owner, description, isPublic ? Visibility.PUBLIC : Visibility.PRIVATE);
         } else {
-            channel = new OwnedChannel(id, name, owner, description, isPublic ? Visibility.PUBLIC : Visibility.PRIVATE);
+            channel = new OwnedChannel(name, owner, description, isPublic ? Visibility.PUBLIC : Visibility.PRIVATE);
         }
         this.dataController.getChannelController().addVisibleChannel(channel);
     }

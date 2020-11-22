@@ -4,9 +4,9 @@ import java.util.UUID;
 
 public class OwnedChannel extends Channel {
 
-	public OwnedChannel(UUID id, String name, UserLite creator,
+	public OwnedChannel(String name, UserLite creator,
 						String description, Visibility visibility) {
-		super(id, name, creator, description, visibility);
+		super(name, creator, description, visibility);
 	}
 
 	public OwnedChannel() {
