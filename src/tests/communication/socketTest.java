@@ -25,9 +25,7 @@ public class socketTest {
     public void init() throws InterruptedException {
         client = new CommunicationClientController();
         server = new CommunicationServerController();
-
-        uuid = UUID.randomUUID();
-        usr = new UserLite(uuid, "test", "dernier maitre de l'air");
+        usr = new UserLite("test", "dernier maitre de l'air");
 
         server.start();
         client.start("localhost", 8080, usr);
@@ -38,7 +36,7 @@ public class socketTest {
     public void connectionTest(){
         List<UserLite> usrs = server.onlineUsers();
         assertEquals(1, usrs.size());
-        assertEquals(uuid, usrs.get(0).getId());
+        assertEquals(usr.getId(), usrs.get(0).getId());
     }
 
     @Test
