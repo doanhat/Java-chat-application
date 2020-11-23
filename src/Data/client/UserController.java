@@ -66,7 +66,7 @@ public class UserController extends Controller {
      * @param channelId the channel
      */
     public void addUserToChannel(UserLite user, UUID channelId) {
-        //channelClient.userBanCancelledNotification(user,channelId);
+        //channelClient.userBanCancelledNotification(user,channelClient.getChannel(channelId));
     }
 
 
