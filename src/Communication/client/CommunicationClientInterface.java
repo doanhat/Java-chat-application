@@ -4,9 +4,7 @@ import Communication.common.Parameters;
 import Communication.messages.client_to_server.AskToJoinMessage;
 import Communication.messages.client_to_server.CreateChannelMessage;
 import Communication.messages.client_to_server.SendMessageMessage;
-import common.interfaces.client.IDataToCommunication;
-import common.interfaces.client.IIHMChannelToCommunication;
-import common.interfaces.client.IIHMMainToCommunication;
+import common.interfaces.client.*;
 import common.sharedData.Channel;
 import common.sharedData.Message;
 import common.sharedData.UserLite;
@@ -15,15 +13,42 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class CommunicationClientInterfaceImpl implements IDataToCommunication,
-                                                         IIHMMainToCommunication,
-                                                         IIHMChannelToCommunication {
+public class CommunicationClientInterface implements IDataToCommunication,
+                                                     IIHMMainToCommunication,
+                                                     IIHMChannelToCommunication {
+
+    private static CommunicationClientInterface instance = null;
 
     private final CommunicationClientController commController;
     private UserLite localUser;
 
-    public CommunicationClientInterfaceImpl(CommunicationClientController commController) {
-        this.commController = commController;
+    private CommunicationClientInterface() {
+        this.commController = new CommunicationClientController();
+    }
+
+    /**
+     * Recuperer singleton de CommunicationClientInterface
+     * @return
+     */
+    public static CommunicationClientInterface instance() {
+        if (instance == null) {
+            instance = new CommunicationClientInterface();
+        }
+
+        return instance;
+    }
+
+    /**
+     * Installer les interfaces de Data, IHM Main et IHM Channel
+     * @param dataIface interface de Data
+     * @param mainIface interface de IHM Main
+     * @param channelIface interface de IHM Channel
+     * @return
+     */
+    public boolean setupInterfaces(ICommunicationToData dataIface,
+                                   ICommunicationToIHMMain mainIface,
+                                   ICommunicationToIHMChannel channelIface) {
+        return instance().commController.setupInterfaces(dataIface, mainIface, channelIface);
     }
 
     /* ---------------------------- IDataToCommunication interface implementations -----------------------------------*/

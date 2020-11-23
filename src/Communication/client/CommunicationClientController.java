@@ -19,11 +19,9 @@ public class CommunicationClientController extends CommunicationController {
     private ICommunicationToData dataClient;
     private ICommunicationToIHMMain mainClient;
     private ICommunicationToIHMChannel channelClient;
-    private CommunicationClientInterfaceImpl ifcImpl;
 
     public CommunicationClientController() {
         super();
-        ifcImpl = new CommunicationClientInterfaceImpl(this);
         client = new NetworkClient(this);
     }
 
@@ -107,9 +105,9 @@ public class CommunicationClientController extends CommunicationController {
         return true;
     }
 
-    public IDataToCommunication getIDataToCommunication(){ return this.ifcImpl; }
-    public IIHMMainToCommunication getIHMMainToCommunication(){ return this.ifcImpl; }
-    public IIHMChannelToCommunication getIHMChannelToCommunication(){ return this.ifcImpl; }
+    //public IDataToCommunication getIDataToCommunication(){ return this.ifcImpl; }
+    //public IIHMMainToCommunication getIHMMainToCommunication(){ return this.ifcImpl; }
+    //public IIHMChannelToCommunication getIHMChannelToCommunication(){ return this.ifcImpl; }
 
     /**
      * Installer l'interfaces de Data
