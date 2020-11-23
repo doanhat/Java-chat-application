@@ -1,6 +1,5 @@
 package IHMMain.controllers;
 
-import Data.client.IHMMainToData;
 import app.MainWindowController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -49,10 +48,13 @@ public class ConnectionController implements Initializable{
 
     private MainWindowController mainWindowController;
 
-    IHMMainToData ihmMainToDataImpl = new IHMMainToData();
-
     public void setMainWindowController(MainWindowController mainWindowController) {
         this.mainWindowController = mainWindowController;
+    }
+
+    private IHMMainController ihmMainController;
+    public void setIhmMainController(IHMMainController ihmMainController) {
+        this.ihmMainController = ihmMainController;
     }
 
     @Override
@@ -84,12 +86,13 @@ public class ConnectionController implements Initializable{
             errors.append("Veuillez saisir un identifiant\n");
         }
         if (password.isEmpty()) {
-            errors.append("Veuillez saisir un mot de passe\n");
+            errors.append("Veuillez saisir un mot de passe\n"); 
         }
         if (checkMandatoryFields(errors)) {
-            ihmMainToDataImpl.localAuthentification(
+            // TODO uncomment when integration is done
+            /*ihmMainController.getIHMMainToData().localAuthentification(
                     userConnectionIDTextField.getText().trim(),
-                    password);
+                    password);*/
             // Manque vérification de la connexion : localAuthentification() devrait renvoyer une valeur booléenne à tester avant d'afficher IHMMainWindow
             mainWindowController.loadIHMMainWindow();
         }
@@ -113,7 +116,7 @@ public class ConnectionController implements Initializable{
             errors.append("Veuillez saisir un mot de passe\n");
         }
         if (checkMandatoryFields(errors)) {
-            ihmMainToDataImpl.createAccount(
+            ihmMainController.getIHMMainToData().createAccount(
                     userSubscriptionIDTextField.getText().trim(),
                     chooseFileTextField.getText(),
                     password,

@@ -1,6 +1,7 @@
 package IHMMain.controllers;
 
-import Communication.IHMMainToCommunication;
+import Communication.client.CommunicationClientInterfaceImpl;
+import common.interfaces.client.*;
 import Data.client.IHMMainToData;
 import IHMChannel.IHMMainToIHMChannel;
 import IHMMain.implementations.CommunicationToIHMMain;
@@ -13,13 +14,13 @@ import java.util.List;
 
 public class IHMMainController {
 
-    private CommunicationToIHMMain communicationToIHMMain;
+    private ICommunicationToIHMMain communicationToIHMMain;
 
-    private DataToIHMMain dataToIHMMain;
+    private IDataToIHMMain dataToIHMMain;
 
-    private IHMChannelToIHMMain ihmChannelToIHMMain;
+    private IIHMChannelToIHMMain ihmChannelToIHMMain;
 
-    private IHMMainToCommunication ihmMainToCommunication;
+    private IIHMMainToCommunication ihmMainToCommunication;
 
     private IHMMainToIHMChannel ihmMainToIHMChannel;
 
@@ -36,28 +37,49 @@ public class IHMMainController {
     }
 
 
-    public CommunicationToIHMMain getCommunicationToIHMMain() {
+    public ICommunicationToIHMMain getCommunicationToIHMMain() {
         return communicationToIHMMain;
     }
 
-    public DataToIHMMain getDataToIHMMain() {
+    public IDataToIHMMain getDataToIHMMain() {
         return dataToIHMMain;
     }
 
-    public IHMChannelToIHMMain getIhmChannelToIHMMain() {
+    public IIHMChannelToIHMMain getIhmChannelToIHMMain() {
         return ihmChannelToIHMMain;
     }
 
-    public void setIhmMainToCommunication(IHMMainToCommunication ihmMainToCommunication) {
+    public void setIhmMainToCommunication(IIHMMainToCommunication ihmMainToCommunication) {
         this.ihmMainToCommunication = ihmMainToCommunication;
+    }
+    public IIHMMainToCommunication getIIHMMainToCommunication() {
+        // TODO remove if where integration is done
+        if (ihmMainToCommunication == null) {
+            ihmMainToCommunication = new CommunicationClientInterfaceImpl(null);
+        }
+        return ihmMainToCommunication;
     }
 
     public void setIhmMainToIHMChannel(IHMMainToIHMChannel ihmMainToIHMChannel) {
         this.ihmMainToIHMChannel = ihmMainToIHMChannel;
     }
+    public IHMMainToIHMChannel getIHMMainToIHMChannel() {
+        // TODO remove if where integration is done
+        if (ihmMainToIHMChannel == null) {
+            ihmMainToIHMChannel = new IHMMainToIHMChannel();
+        }
+        return ihmMainToIHMChannel;
+    }
 
     public void setIhmMainToData(IHMMainToData ihmMainToData) {
         this.ihmMainToData = ihmMainToData;
+    }
+    public IHMMainToData getIHMMainToData() {
+        // TODO remove if where integration is done
+        if (ihmMainToData == null) {
+            ihmMainToData = new IHMMainToData(null);
+        }
+        return ihmMainToData;
     }
 
     public MainWindowController getMainWindowController() {

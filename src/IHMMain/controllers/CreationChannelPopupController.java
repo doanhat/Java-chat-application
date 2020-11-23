@@ -65,13 +65,13 @@ public class CreationChannelPopupController {
 
             //L'ID est actuellement généré par l'app client qui request la création de channel, à changer : l'ID devrait être généré côté serveur, je pense
             int channelID = new Random().nextInt();
-            UserLite testUser = new UserLite(UUID.randomUUID(), "Jean Valjean", "");
+            UserLite testUser = new UserLite("Jean Valjean", "");
             Visibility channelVisibility = isPublic ? Visibility.PUBLIC : Visibility.PRIVATE;
 
             if(isShared){
-                newChannel = new SharedChannel(channelID, channelName.getText(), testUser, channelDescription.getText(), channelVisibility);
+                newChannel = new SharedChannel(channelName.getText(), testUser, channelDescription.getText(), channelVisibility);
             } else {
-                newChannel = new OwnedChannel(channelID, channelName.getText(), testUser, channelDescription.getText(), channelVisibility);
+                newChannel = new OwnedChannel(channelName.getText(), testUser, channelDescription.getText(), channelVisibility);
             }
 
             try {

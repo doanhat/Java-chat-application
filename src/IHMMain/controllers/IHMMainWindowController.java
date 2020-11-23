@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import Communication.IHMMainToCommunication;
 import IHMChannel.IHMMainToIHMChannel;
 import IHMMain.implementations.CommunicationToIHMMain;
 import app.MainWindowController;
@@ -33,12 +32,6 @@ public class IHMMainWindowController implements Initializable{
 
     private MainWindowController mainWindowController;
 
-    private IHMMainToIHMChannel ihmMainToIHMChannel;
-
-    private IHMMainToCommunication ihmMainToCommunication;
-
-    private CommunicationToIHMMain communicationToIHMMain;
-
     private ObservableList<Channel> channelsObservableList = FXCollections.observableArrayList();
 
     @FXML
@@ -64,18 +57,15 @@ public class IHMMainWindowController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //Mettez ici le code qui s'execute avant l'apparition de la vue
-        ihmMainToIHMChannel = new IHMMainToIHMChannel();
-        ihmMainToCommunication = new IHMMainToCommunication();
-        communicationToIHMMain = new CommunicationToIHMMain();
-        communicationToIHMMain.setIhmMainWindowController(this);
         loadUserListView();
 
         // TODO get by interface
+        UserLite testUser = new UserLite("Jean Valjean", "");
         channelsObservableList.setAll(
-                new SharedChannel(0, "chan0", new UserLite(), "channel 0", Visibility.PRIVATE),
-                new SharedChannel(1, "chan1", new UserLite(), "channel 1", Visibility.PRIVATE),
-                new SharedChannel(2, "chan2", new UserLite(), "channel 3", Visibility.PUBLIC),
-                new SharedChannel(3, "chan3", new UserLite(), "channel 3", Visibility.PUBLIC)
+                new SharedChannel("chan0", testUser, "channel 0", Visibility.PRIVATE),
+                new SharedChannel("chan1", testUser, "channel 1", Visibility.PRIVATE),
+                new SharedChannel("chan2", testUser, "channel 3", Visibility.PUBLIC),
+                new SharedChannel("chan3", testUser, "channel 3", Visibility.PUBLIC)
         );
 
         /**
@@ -142,7 +132,7 @@ public class IHMMainWindowController implements Initializable{
     public void loadIHMChannelWindow(Channel channel){
         this.mainArea.getChildren().clear(); //On efface les noeuds fils
         //On charge la vue IHMMainWindow
-        Region ihmChannelNode = ihmMainToIHMChannel.getIHMChannelWindow();
+        Region ihmChannelNode = ihmMainController.getIHMMainToIHMChannel().getIHMChannelWindow();
         // Region ihmChannelNode = ihmMainToIHMChannel.getIHMChannelWindow(channel); // TODO lors du merge avec IHM-Channel, utiliser cette ligne plutot que celle au dessus
         this.mainArea.getChildren().addAll(ihmChannelNode); //On ajoute le noeud parent (fxml) au noeud racine de cette vue
         IHMTools.fitSizeToParent((Region)this.mainArea,ihmChannelNode);
@@ -179,8 +169,7 @@ public class IHMMainWindowController implements Initializable{
         System.out.println(newChannel.getDescription());
         System.out.println(newChannel.getCreator().getNickName());
         */
-        ihmMainToCommunication.createChannel(newChannel, newChannel instanceof SharedChannel, newChannel.getVisibility() == Visibility.PUBLIC, newChannel.getCreator());
-        int nb = channelsObservableList.size();
+        ihmMainController.getIIHMMainToCommunication().createChannel(newChannel, newChannel instanceof SharedChannel, newChannel.getVisibility() == Visibility.PUBLIC, newChannel.getCreator());
         channelsObservableList.add(newChannel);
     }
 
@@ -210,7 +199,7 @@ public class IHMMainWindowController implements Initializable{
     public void createPrivateChannel() {
         int nb = channelsObservableList.size();
         channelsObservableList.add(
-                new SharedChannel(nb, "chan"+String.valueOf(nb), new UserLite(), "channel "+String.valueOf(nb), Visibility.PRIVATE)
+                new SharedChannel("chan"+String.valueOf(nb), new UserLite(), "channel "+String.valueOf(nb), Visibility.PRIVATE)
         );
     }
 
@@ -218,7 +207,7 @@ public class IHMMainWindowController implements Initializable{
     public void createPublicChannel() {
         int nb = channelsObservableList.size();
         channelsObservableList.add(
-                new SharedChannel(nb, "chan"+String.valueOf(nb), new UserLite(), "channel "+String.valueOf(nb), Visibility.PUBLIC)
+                new SharedChannel("chan"+String.valueOf(nb), new UserLite(), "channel "+String.valueOf(nb), Visibility.PUBLIC)
         );
     }
 
