@@ -1,14 +1,14 @@
 package Data.client;
 
-import Data.resourceHandle.FileHandle;
 import Data.server.UserListController;
 import common.interfaces.client.ICommunicationToData;
-import common.sharedData.*;
+import common.sharedData.Channel;
+import common.sharedData.Message;
+import common.sharedData.User;
+import common.sharedData.UserLite;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 public class CommunicationToData implements ICommunicationToData {
     private final DataClientController dataController;
@@ -24,7 +24,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void addVisibleChannel(Channel channel) {
-        dataController.getChannelController().addVisibleChannel(channel);
+        dataController.getChannelController().mainClient.addChannelToList(channel);
     }
 
     /**
