@@ -30,8 +30,8 @@ public class MainChannel extends Application {
         ihmChannelController = new IHMChannelController();
         ChannelPageDisplay channelPageDisplay = new ChannelPageDisplay(channelToDisplay, ihmChannelController);
         primaryStage.setTitle("Channel");
-        primaryStage.setMaximized(true);
         primaryStage.setScene(new Scene(channelPageDisplay.root));
+        primaryStage.setMaximized(true);
         primaryStage.show();
     }
 

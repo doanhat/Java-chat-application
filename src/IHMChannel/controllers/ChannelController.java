@@ -14,26 +14,16 @@ import javafx.scene.text.Text;
 
 import java.io.IOException;
 
-/**
- * Contrôleur de la vue views/Channel.fxml
- */
 public class ChannelController {
     private Channel currentChannel; //channel à afficher dans l'interface
     private IHMChannelController ihmChannelController;
 
-<<<<<<< HEAD
 
     /*
        ** @author : Triet
      */
     private ChannelPageController channelPageController;
 
-=======
-    ChannelMessagesDisplay channelMessagesDisplay;
-    ChannelMembersDisplay channelMembersDisplay;
-
-    Boolean seeMessages = true;
->>>>>>> integration_POC_et_CSS
 
     @FXML
     BorderPane pageToDisplay;
@@ -51,37 +41,11 @@ public class ChannelController {
     @FXML
     Button leaveChannelBtn;
 
-    /**
-     * Getter du contrôleur principal de IHM-Channel
-     * @return le contrôleur principal de IHM-Channel
-     */
-    public IHMChannelController getIhmChannelController() {
-        return ihmChannelController;
-    }
+    ChannelMessagesDisplay channelMessagesDisplay;
 
-    /**
-     * Setter du contrôleur principal de IHM-Channel
-     * @param ihmChannelController le contrôleur principal de IHM-Channel
-     */
-    public void setIhmChannelController(IHMChannelController ihmChannelController) {
-        this.ihmChannelController = ihmChannelController;
-    }
+    ChannelMembersDisplay channelMembersDisplay;
 
-    /**
-     * Getter de l'objet Channel lié à l'interface gérée par ce contrôleur
-     * @return objet Channel lié à l'interface gérée par ce contrôleur
-     */
-    public Channel getCurrentChannel() {
-        return currentChannel;
-    }
-
-    /**
-     * Setter de l'objet Channel lié à l'interface gérée par ce contrôleur
-     * @param currentChannel objet Channel lié à l'interface gérée par ce contrôleur
-     */
-    public void setCurrentChannel(Channel currentChannel) {
-        this.currentChannel = currentChannel;
-    }
+    Boolean seeMessages = true;
 
     public void initialize() throws IOException {
         iconsInit();
@@ -94,13 +58,8 @@ public class ChannelController {
 
     }
 
-    /**
-     * Permet de configurer l'instance de MessageDisplay une fois son constructeur appelé.
-     * En pratique : faire descendre la référence à IHMChannelController vers le contrôleur de la vue views/ChannelMessages.fxml
-     * @param ihmChannelController
-     */
-    public void configureChannelMessageDisplay(IHMChannelController ihmChannelController){
-        channelMessagesDisplay.configureChannelMessageController(ihmChannelController);
+    public void configureMessageDisplay(IHMChannelController ihmChannelController){
+        channelMessagesDisplay.configureMessageController(ihmChannelController);
     }
 
     private void iconsInit(){
@@ -126,21 +85,12 @@ public class ChannelController {
         leaveChannelBtn.setGraphic(exitIcon);
     }
 
-    /**
-     * Traitement de la réception d'un nouveau message signalé par Data.
-     * Est appelé dans interfaces/DataToIHMChannel.
-     * @param receivedMessage
-     * @param responseTo
-     */
     public void receiveMessage(Message receivedMessage, Message responseTo) {
+
         currentChannel.addMessage(receivedMessage);
         channelMessagesDisplay.getController().addMessageToObservableList(receivedMessage);
     }
 
-    /**
-     * Appelée lorsque l'on clique sur le bouton seeMembersBtn.
-     * Active/Désactive l'affichage de la liste des membres.
-     */
     public void seeMembers() {
         if(seeMessages){
             pageToDisplay.setCenter(channelMembersDisplay.root);
@@ -152,25 +102,11 @@ public class ChannelController {
         }
     }
 
-    /**
-     * Appelée lorsque l'on clique sur le bouton addMemberBtn.
-     */
     public void addUserToChannel() {
     }
 
-    /**
-     * Méthode déclenchée au clic sur le bouton "quitter le channel".
-     * TODO: la déclencher aussi lorsque l'on ferme l'onglet de ce channel.
-     */
-    public void leaveChannel(){
-      /*  openedChannels.remove(channelMap.get(currentChannel));
-        channelMap.remove(currentChannel)*/
-    }
 
-    /**
-     * Permet de configurer le channel relié à la vue contrôlée par cette classe et de faire les affichages nécessaires.
-     * @param channel
-     */
+
     public void setChannel(Channel channel) {
 //        System.out.println("ChannelController.setChannel : "+channel);
         this.setCurrentChannel(channel);
@@ -186,6 +122,28 @@ public class ChannelController {
 
 
 
+    /**
+     * Méthode déclenchée au clic sur le bouton "quitter le channel"
+     */
+    public void leaveChannel(){
+      /*  openedChannels.remove(channelMap.get(currentChannel));
+        channelMap.remove(currentChannel)*/
+    }
 
 
+    public IHMChannelController getIhmChannelController() {
+        return ihmChannelController;
+    }
+
+    public void setIhmChannelController(IHMChannelController ihmChannelController) {
+        this.ihmChannelController = ihmChannelController;
+    }
+
+    public Channel getCurrentChannel() {
+        return currentChannel;
+    }
+
+    public void setCurrentChannel(Channel currentChannel) {
+        this.currentChannel = currentChannel;
+    }
 }
