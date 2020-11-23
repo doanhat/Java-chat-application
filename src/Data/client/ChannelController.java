@@ -35,7 +35,7 @@ public class ChannelController extends Controller{
     public void addVisibleChannel(Channel channel) {
         List<Channel> channels = getChannels();
         channels.add(channel);
-        this.mainClient.updateListChannel(channels);
+        this.mainClient.addChannelToList(channel);
     }
 
     /**
