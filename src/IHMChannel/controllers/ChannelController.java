@@ -6,6 +6,7 @@ import IHMChannel.IHMChannelController;
 import common.sharedData.Channel;
 import common.sharedData.Message;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Label;
@@ -17,6 +18,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
+import javafx.stage.Popup;
 
 import java.io.IOException;
 
@@ -126,8 +128,23 @@ public class ChannelController {
 
     /**
      * Méthode déclenchée au clic sur le bouton "ajouter un membre"
+     * Affiche la pop-up de sélection d'utilisateur
      */
     public void addUserToChannel() {
+        //Affiche le FXML "AddMember" dans une pop-up
+        //En JavaFX, pop-up = fenêtre transparente sans aucun style.
+
+        Popup popup = new Popup();
+        try{
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../views/AddMember.fxml"));
+            popup.getContent().add(fxmlLoader.load());
+            popup.setAutoHide(true); //disparaît si on clique ailleurs
+            popup.show(addMemberBtn.getScene().getWindow());
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
 
