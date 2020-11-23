@@ -6,7 +6,7 @@ import common.sharedData.UserLite;
 
 public class NewUserConnectedMessage extends ServerToClientMessage {
 
-    private UserLite newUser;
+    private final UserLite newUser;
 
     public NewUserConnectedMessage(UserLite newUser)
     {

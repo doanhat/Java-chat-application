@@ -14,10 +14,10 @@ import java.util.List;
 
 public class CreateChannelMessage extends ClientToServerMessage {
 
-    private UserLite sender;
-    private Channel  channel;
-    private boolean  proprietaryChannel;
-    private boolean  publicChannel;
+    private final UserLite sender;
+    private final Channel  channel;
+    private final boolean  proprietaryChannel;
+    private final boolean  publicChannel;
 
     public CreateChannelMessage(UserLite sender,
                                 Channel channel,
@@ -33,9 +33,9 @@ public class CreateChannelMessage extends ClientToServerMessage {
     protected void handle(CommunicationServerController commController) {
         Channel newChannel = commController.requestCreateChannel(channel, proprietaryChannel, publicChannel, sender);
 
-        // Request Accepted
         if (newChannel != null)
         {
+            // Request Accepted
             System.err.println("Serveur accepte la creation du channel" + channel.getId());
 
             // broadcast public channel to other users
@@ -49,6 +49,7 @@ public class CreateChannelMessage extends ClientToServerMessage {
             commController.sendMessage(sender.getId(), new ValidateCreationChannelMessage(newChannel));
         }
         else {
+            // Request Refused
             System.err.println("Serveur réfuse la creation du channel" + channel.getId());
 
             commController.sendMessage(sender.getId(), new RefuseCreationChannelMessage(channel));

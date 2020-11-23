@@ -14,7 +14,7 @@ import java.util.UUID;
 
 public class UserConnectionMessage extends ClientToServerMessage {
 
-    private UserLite user;
+    private final UserLite user;
 
     public UserConnectionMessage(UserLite user) {
         this.user = user;

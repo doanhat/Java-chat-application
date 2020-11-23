@@ -10,8 +10,8 @@ import java.util.List;
 
 public class AcceptationMessage extends ServerToClientMessage {
 
-    private List<Channel>   channelsList;
-    private List<UserLite>  usersList;
+    private final List<Channel>   channelsList;
+    private final List<UserLite>  usersList;
 
     public AcceptationMessage(List<Channel> channelsList, List<UserLite> usersList) {
         this.channelsList = channelsList;

@@ -7,7 +7,7 @@ import common.sharedData.UserLite;
 
 public class UserDisconnectedMessage extends ServerToClientMessage {
 
-    private UserLite user;
+    private final UserLite user;
 
     public UserDisconnectedMessage(UserLite user)
     {
