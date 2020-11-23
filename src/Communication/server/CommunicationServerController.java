@@ -259,7 +259,7 @@ public class CommunicationServerController extends CommunicationController {
 
         // TODO INTEGRATION verify with Data what are the differences between requestAddUser and joinChannel
         // TODO INTEGRATION request Data return a boolean in requestAddUser and joinChannel for confirmation
-        dataServer.requestAddUser(channel, user);
+        dataServer.joinChannel(channel, user);
 
         return true;
     }
