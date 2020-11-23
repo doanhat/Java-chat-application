@@ -205,10 +205,9 @@ public class ChannelPageController {
     }
 
     @FXML
-    void creatCanal() throws IOException {
+    void createChannel() throws IOException {
         String channelName = canalText.getText();
         int count = 0;
-        int maxid = 0;
         Channel selectChannel;
         for (Channel c : openedChannels) {
             if (c.getName().equals(channelName)) {
@@ -217,15 +216,8 @@ public class ChannelPageController {
                 break;
             }
         }
-
-        for (Channel c : openedChannels) {
-            if (c.getId() > maxid) {
-                maxid = c.getId();
-            }
-        }
-//        System.out.println(count);
         if (count == 0) {
-            Channel c = new OwnedChannel(maxid + 1, channelName, new UserLite(UUID.randomUUID(), "Léa", null), "channel pour l'UV " + channelName, Visibility.PUBLIC);
+            Channel c = new OwnedChannel(channelName, new UserLite("Léa", null), "channel pour l'UV " + channelName, Visibility.PUBLIC);
             this.addOpenedChannel(c);
         }
         else {

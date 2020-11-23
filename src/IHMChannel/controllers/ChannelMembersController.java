@@ -84,7 +84,7 @@ public class ChannelMembersController {
 
         for (int i = 0; i < 6; i++) {
             int d = new Random().nextInt(nickName.size());
-            UserLite tmpUser = new UserLite(UUID.randomUUID(), nickName.get(d), null);
+            UserLite tmpUser = new UserLite();
             tmpUser.setNickName(nickName.get(d));
             nickName.remove(d);
             HBox tmp = (HBox) new MemberDisplay(tmpUser).root;
