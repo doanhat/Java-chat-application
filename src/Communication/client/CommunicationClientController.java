@@ -4,9 +4,7 @@ import Communication.common.CommunicationController;
 import Communication.messages.abstracts.NetworkMessage;
 import Communication.messages.client_to_server.UserConnectionMessage;
 import Communication.messages.client_to_server.UserDisconnectionMessage;
-import common.interfaces.client.ICommunicationToData;
-import common.interfaces.client.ICommunicationToIHMChannel;
-import common.interfaces.client.ICommunicationToIHMMain;
+import common.interfaces.client.*;
 import common.sharedData.Channel;
 import common.sharedData.Message;
 import common.sharedData.UserLite;
@@ -21,10 +19,11 @@ public class CommunicationClientController extends CommunicationController {
     private ICommunicationToData dataClient;
     private ICommunicationToIHMMain mainClient;
     private ICommunicationToIHMChannel channelClient;
+    private CommunicationClientInterfaceImpl ifcImpl;
 
     public CommunicationClientController() {
         super();
-
+        ifcImpl = new CommunicationClientInterfaceImpl(this);
         client = new NetworkClient(this);
     }
 
@@ -107,6 +106,10 @@ public class CommunicationClientController extends CommunicationController {
 
         return true;
     }
+
+    public IDataToCommunication getIDataToCommunication(){ return this.ifcImpl; }
+    public IIHMMainToCommunication getIHMMainToCommunication(){ return this.ifcImpl; }
+    public IIHMChannelToCommunication getIHMChannelToCommunication(){ return this.ifcImpl; }
 
     /**
      * Installer l'interfaces de Data
