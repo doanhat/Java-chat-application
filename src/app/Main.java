@@ -1,7 +1,6 @@
 package app;
 
-import IHMMain.IHMMainController;
-import IHMMain.controllers.IHMMainWindowController;
+import IHMMain.controllers.IHMMainController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

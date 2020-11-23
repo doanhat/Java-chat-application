@@ -11,7 +11,7 @@ import IHMMain.controllers.IHMMainWindowController;
 import app.MainWindowController;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
-import IHMMain.IHMMainPage;
+import IHMMain.controllers.IHMMainPage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -62,7 +62,7 @@ public class IHMChannelPageController implements Initializable {
         //On charge la vue UserListView
         try {
             FXMLLoader fxmlLoader = new
-                    FXMLLoader(getClass().getResource("../IHMMain/IHMMainPage.fxml"));
+                    FXMLLoader(getClass().getResource("../IHMMain/views/IHMMainPage.fxml"));
             Parent parent = fxmlLoader.load(); //On recupère le noeud racine du fxml chargé
             IHMMainPage ihmMainPage = fxmlLoader.getController(); //On récupère la classe controller liée au fxml
             ihmMainPage.setMainWindowController(this.mainWindowController); //On donne au controller fils une référence de son controller grand-parent
@@ -94,7 +94,7 @@ public class IHMChannelPageController implements Initializable {
         //On charge la vue UserListView
         try {
             FXMLLoader fxmlLoader = new
-                    FXMLLoader(getClass().getResource("../IHMMain/IHMMainPage.fxml"));
+                    FXMLLoader(getClass().getResource("../IHMMain/views/IHMMainPage.fxml"));
             Parent parent = fxmlLoader.load(); //On recupère le noeud racine du fxml chargé
             IHMMainPage ihmMainPage = fxmlLoader.getController(); //On récupère la classe controller liée au fxml
             ihmMainPage.setMainWindowController(this.mainWindowController); //On donne au controller fils une référence de son controller grand-parent

@@ -1,4 +1,4 @@
-package IHMMain;
+package IHMMain.controllers;
 
 import Communication.IHMMainToCommunication;
 import Data.client.IHMMainToData;

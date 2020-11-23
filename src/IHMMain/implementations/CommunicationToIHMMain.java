@@ -1,6 +1,6 @@
 package IHMMain.implementations;
 
-import IHMMain.IHMMainController;
+import IHMMain.controllers.IHMMainController;
 import IHMMain.controllers.IHMMainWindowController;
 import common.interfaces.client.ICommunicationToIHMMain;
 import common.sharedData.Channel;

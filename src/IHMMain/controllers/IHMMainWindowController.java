@@ -6,8 +6,6 @@ import java.util.ResourceBundle;
 
 import Communication.IHMMainToCommunication;
 import IHMChannel.IHMMainToIHMChannel;
-import IHMMain.CreationChannelPopupController;
-import IHMMain.IHMMainController;
 import IHMMain.implementations.CommunicationToIHMMain;
 import app.MainWindowController;
 import common.IHMTools.*;
@@ -27,7 +25,6 @@ import javafx.scene.control.MultipleSelectionModel;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
-import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 
 public class IHMMainWindowController implements Initializable{
@@ -155,7 +152,7 @@ public class IHMMainWindowController implements Initializable{
     public void loadCreationChannelPopup() throws IOException {
         Parent root;
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../IHMMain/CreationChannelPopup.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../views/CreationChannelPopup.fxml"));
             root = fxmlLoader.load();
 
             CreationChannelPopupController creationController = fxmlLoader.getController();
@@ -183,6 +180,8 @@ public class IHMMainWindowController implements Initializable{
         System.out.println(newChannel.getCreator().getNickName());
         */
         ihmMainToCommunication.createChannel(newChannel, newChannel instanceof SharedChannel, newChannel.getVisibility() == Visibility.PUBLIC, newChannel.getCreator());
+        int nb = channelsObservableList.size();
+        channelsObservableList.add(newChannel);
     }
 
     @FXML
