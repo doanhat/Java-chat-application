@@ -275,6 +275,7 @@ public class CommunicationClientController extends CommunicationController {
             return;
         }
 
+        // TODO INTEGRATION verify with data what is the difference between userAddedToChannel and addUserToChannel
         dataClient.addUserToChannel(user, channelID);
     }
 
