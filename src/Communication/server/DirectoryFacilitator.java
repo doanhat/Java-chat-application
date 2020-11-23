@@ -40,4 +40,9 @@ public interface DirectoryFacilitator {
      * @return
      */
     List<NetworkUser> getConnections(List<UserLite> users);
+
+    /**
+     * Purge la liste de NetworkUser et ferme tous les sockets clients
+     */
+    void clear();
 }
