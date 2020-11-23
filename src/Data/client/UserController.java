@@ -69,23 +69,6 @@ public class UserController extends Controller {
         //channelClient.userBanCancelledNotification(user,channelId);
     }
 
-    /**
-     * Disconnect user.
-     *
-     * @param user the user
-     */
-    public void disconnectUser(User user) {
-
-    }
-
-    /**
-     * New connection user.
-     *
-     * @param user the user
-     */
-    public void newConnectionUser(User user) {
-
-    }
 
     /**
      * Get all connected users
