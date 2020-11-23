@@ -9,6 +9,8 @@ import IHMMain.implementations.DataToIHMMain;
 import IHMMain.implementations.IHMChannelToIHMMain;
 import app.MainWindowController;
 import common.sharedData.UserLite;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.util.List;
 
@@ -28,14 +30,13 @@ public class IHMMainController {
 
     private MainWindowController mainWindowController;
 
-    private List<UserLite> connectedUsers;
+    private ObservableList<UserLite> connectedUsers = FXCollections.observableArrayList();
 
     public IHMMainController(){
         communicationToIHMMain = new CommunicationToIHMMain();
         dataToIHMMain = new DataToIHMMain();
         ihmChannelToIHMMain = new IHMChannelToIHMMain();
     }
-
 
     public ICommunicationToIHMMain getCommunicationToIHMMain() {
         return communicationToIHMMain;
@@ -90,12 +91,8 @@ public class IHMMainController {
         this.mainWindowController = mainWindowController;
     }
 
-    public List<UserLite> getConnectedUsers() {
+    public ObservableList<UserLite> getConnectedUsers() {
         return connectedUsers;
-    }
-
-    public void setConnectedUsers(List<UserLite> connectedUsers) {
-        this.connectedUsers = connectedUsers;
     }
 
 }

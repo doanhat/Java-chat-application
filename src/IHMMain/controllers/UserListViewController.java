@@ -17,38 +17,20 @@ public class UserListViewController implements Initializable{
 
     private MainWindowController mainWindowController;
 
-    private ObservableList<UserLite> connectedUsersObservableList = FXCollections.observableArrayList();
+    private ObservableList<UserLite> connectedUsersObservableList;
 
     @FXML
     private ListView<UserLite> connectedUsersListView;
 
     public void setMainWindowController(MainWindowController mainWindowController) {
         this.mainWindowController = mainWindowController;
+        connectedUsersObservableList = mainWindowController.getIhmMainController().getConnectedUsers();
+        connectedUsersListView.setItems(connectedUsersObservableList);
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //Mettez ici le code qui s'execute avant l'apparition de la vue
 
-        connectedUsersObservableList.setAll(
-                new UserLite(null, "Charles", null),
-                new UserLite(null, "Jean", null),
-                new UserLite(null, "Louis", null)
-        );
-
-        connectedUsersListView.setItems(connectedUsersObservableList);
     }
-
-    public void setConnectedUsersList(List<UserLite> list){
-        connectedUsersObservableList.setAll(list);
-    }
-
-    public void addUserToConnectedUsersList(UserLite user){
-        connectedUsersObservableList.add(user);
-    }
-
-    public void removeUserFromConnectedUsersList(UserLite user){
-        connectedUsersObservableList.remove(user);
-    }
-
 }

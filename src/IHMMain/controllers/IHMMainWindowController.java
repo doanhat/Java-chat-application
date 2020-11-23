@@ -228,5 +228,4 @@ public class IHMMainWindowController implements Initializable{
         this.ihmMainController = ihmMainController;
     }
 
-
 }

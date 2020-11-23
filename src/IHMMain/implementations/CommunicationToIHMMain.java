@@ -21,7 +21,7 @@ public class CommunicationToIHMMain implements ICommunicationToIHMMain {
 
     @Override
     public void setConnectedUsers(List<UserLite> users) {
-        ihmMainController.setConnectedUsers(users);
+        ihmMainController.getConnectedUsers().setAll(users);
     }
 
     @Override
