@@ -46,15 +46,26 @@ public class MainChannel extends Application {
      */
     private void initTestData(){
         channelToDisplay = new OwnedChannel(1,"LO23",new UserLite(UUID.randomUUID(), "Léa", null),"channel pour l'UV LO23", Visibility.PUBLIC);
-        UserLite usr1 = new UserLite(UUID.randomUUID(), "Aïda", null);
-        usr1.setNickName("toto");
-        UserLite usr2 = new UserLite(UUID.randomUUID(), "Vlad", null);
-        usr2.setNickName("titi");
+        UserLite user1 = new UserLite(UUID.randomUUID(), "Aïda", null);
+        UserLite user2 = new UserLite(UUID.randomUUID(), "Aida", null);
+        UserLite user3 = new UserLite(UUID.randomUUID(), "Lucas", null);
+        UserLite user4 = new UserLite(UUID.randomUUID(), "Vladimir", null);
+        UserLite user5 = new UserLite(UUID.randomUUID(), "Jérôme", null);
+        UserLite user6 = new UserLite(UUID.randomUUID(), "Van-Triet", null);
+
+        channelToDisplay.addUser(user2);
+        channelToDisplay.addUser(user3);
+        channelToDisplay.addUser(user4);
+        channelToDisplay.addUser(user5);
+        channelToDisplay.addUser(user6);
+
+        channelToDisplay.addAdmin(user3);
+        channelToDisplay.addAdmin(user4);
 
         List<Message> listMessages = new ArrayList<Message>();
-        listMessages.add(new Message(1,"Salut, vous allez bien ?",usr1));
-        listMessages.add(new Message(2,"Oui super et toi ?",usr2));
-        listMessages.add(new Message(3,"T'as avancé le projet LO23 ?",usr1));
+        listMessages.add(new Message(1,"Salut, vous allez bien ?",user1));
+        listMessages.add(new Message(2,"Oui super et toi ?",user2));
+        listMessages.add(new Message(3,"T'as avancé le projet LO23 ?",user1));
 
         channelToDisplay.setMessages(listMessages);
     }

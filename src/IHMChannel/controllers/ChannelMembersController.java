@@ -10,6 +10,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
 import java.io.IOException;
@@ -23,17 +24,16 @@ public class ChannelMembersController {
     ListView<HBox> membersList;
     @FXML
     ToggleGroup viewMode;
-
-
-    ArrayList<UserLite> channelMembers;
-
-    ObservableList<HBox> membersToDisplay = FXCollections.observableArrayList();
+    @FXML
+    GridPane members;
 
     Channel channel;
 
+    ObservableList<UserLite> channelMembers ;
+    ObservableList<UserLite> adminMembers;
+    UserLite creator;
 
-    ListChangeListener<UserLite> membersListListener;
-    ListChangeListener<UserLite> adminsListListener;
+    ObservableList<HBox> membersToDisplay;
 
     /**
      * Initialise la liste des membres (acceptedPerson) contenus dans l'attribut channel de la classe
@@ -43,6 +43,11 @@ public class ChannelMembersController {
         for (UserLite usr : this.channel.getAcceptedPersons()){
             channelMembers.add(usr);
         }
+        adminMembers.removeAll(adminMembers);
+        for (UserLite usr : this.channel.getAdministrators()){
+            adminMembers.add(usr);
+        }
+        creator = this.channel.getCreator();
     }
 
     /**
@@ -65,44 +70,34 @@ public class ChannelMembersController {
      */
     public void setCurrentChannel(Channel channel) throws IOException {
         this.channel = channel;
-
-        // A remettre pour utiliser les users du channel // Pour le moment, on utilise les données brutes en exemples.
-        //initMembersList();
-        //displayMembers();
+        initMembersList();
+        displayMembers();
     }
 
 
     public ChannelMembersController(){
-        channelMembers = new ArrayList<UserLite>();
     }
 
     public void initialize() throws IOException {
-        //Membres
-
-        UserLite user1 = new UserLite(UUID.randomUUID(), "Léa", null);
-        channelMembers.add(user1);
-        UserLite user2 = new UserLite(UUID.randomUUID(), "Aida", null);
-        channelMembers.add(user2);
-        UserLite user3 = new UserLite(UUID.randomUUID(), "Lucas", null);
-        channelMembers.add(user3);
-        UserLite user4 = new UserLite(UUID.randomUUID(), "Vladimir", null);
-        channelMembers.add(user4);
-        UserLite user5 = new UserLite(UUID.randomUUID(), "Jérôme", null);
-        channelMembers.add(user5);
-        UserLite user6 = new UserLite(UUID.randomUUID(), "Van-Triet", null);
-        channelMembers.add(user6);
-
-        displayMembers();
+        channelMembers = FXCollections.observableArrayList();
+        adminMembers = FXCollections.observableArrayList();
+        membersToDisplay = FXCollections.observableArrayList();
     }
 
     public void alphabeticSort() throws IOException {
         channelMembers.sort(Comparator.comparing(UserLite::getNickName));
-        channelMembers.forEach(user -> System.out.println(user.getNickName()));
+        //channelMembers.forEach(user -> System.out.println(user.getNickName()));
         displayMembers();
     }
 
 
     public void adminSort() {
+        adminMembers.forEach(user -> System.out.println(user.getNickName()));
+
+        channelMembers.forEach(user ->{
+            if(!adminMembers.contains(user))
+            System.out.println(user.getNickName());
+        });
 
     }
 

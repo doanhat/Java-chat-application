@@ -40,6 +40,7 @@ public class MemberController {
      * Méthode d'initialisation des icônes du contrôle, appelée à l'initialisation
      */
     private void iconsInit(){
+
         // Utilisateur en ligne
         Image connectedImage = new Image("IHMChannel/icons/circle-solid.png");
         connectedIcon.setImage(connectedImage);

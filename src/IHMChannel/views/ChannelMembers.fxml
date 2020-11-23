@@ -15,11 +15,14 @@
                 <ToggleGroup fx:id="viewMode" />
             </fx:define>
             <RadioButton fx:id="alphaBtn" text="alphabétique" toggleGroup="$viewMode" onAction="#alphabeticSort"/>
-            <RadioButton fx:id="autor" text="autorisations" toggleGroup="$viewMode" onAction="#adminSort"/>
+            <RadioButton fx:id="adminBtn" text="autorisations" toggleGroup="$viewMode" onAction="#adminSort"/>
             <RadioButton fx:id="onlineBtn" text="utilisateurs connectés" toggleGroup="$viewMode" onAction="#onlineUserSort"/>
         </HBox>
-        <ListView fx:id="membersList"/>
-        <ListView fx:id="adminList"/>
+        <BorderPane fx:id="pageToDisplay"/>
+        <GridPane fx:id="members">
+            <Label text="Liste des membres"/>
+            <ListView fx:id="membersList"/>
+        </GridPane>
     </VBox>
 
 
