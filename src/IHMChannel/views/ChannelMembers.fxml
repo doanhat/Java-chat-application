@@ -19,6 +19,7 @@
             <RadioButton fx:id="onlineBtn" text="utilisateurs connectés" toggleGroup="$viewMode" onAction="#onlineUserSort"/>
         </HBox>
         <ListView fx:id="membersList"/>
+        <ListView fx:id="adminList"/>
     </VBox>
 
 
