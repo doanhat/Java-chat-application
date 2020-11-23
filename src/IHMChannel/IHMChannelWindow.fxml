@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.StackPane?>
 
 <?import javafx.scene.layout.BorderPane?>
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IHMChannel.IHMChannelWindowController">
+<StackPane maxHeight="Infinity" maxWidth="Infinity" minHeight="Infinity" minWidth="Infinity" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IHMChannel.IHMChannelWindowController">
    <children>
        <BorderPane fx:id="channelPageToDisplay"></BorderPane>
    </children>

@@ -7,6 +7,7 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.scene.image.ImageView?>
+<?import java.net.URL?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="IHMChannel.controllers.ChannelMessagesController">
@@ -15,8 +16,11 @@
         <HBox>
             <ImageView fx:id="profilePic"/>
             <TextArea fx:id="typedText"/>
-            <Button fx:id="sendBtn" onAction="#sendMessage"/>
-            <Button fx:id="testReception" text="test reception" onAction="#receiveMessage"/>
+            <Button fx:id="sendBtn" onAction="#sendMessage" styleClass="btn secondary-btn"/>
+            <Button fx:id="testReception" text="test reception" onAction="#receiveMessage" styleClass="btn secondary-btn"/>
         </HBox>
     </VBox>
+    <stylesheets>
+        <URL value="file:src/common/IHMCommon/common.css"/>
+    </stylesheets>
 </AnchorPane>
