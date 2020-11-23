@@ -35,6 +35,8 @@ public class ChannelController extends Controller{
     public void addVisibleChannel(Channel channel) {
         List<Channel> channels = getChannels();
         channels.add(channel);
+        this.mainClient.updateListChannel(channels);
+        this.comClient.
     }
 
     /**
@@ -45,14 +47,13 @@ public class ChannelController extends Controller{
      */
     public void userAddedToChannel(UserLite user, UUID channelID) {
         List<Channel> channels = getChannels();
-        Channel channel = null;
         for (Channel c : channels) {
             if(c.getId() == channelID) {
-                channel = c;
+                c.addUser(user);
                 break;
             }
         }
-        channel.addUser(user);
+        this.mainClient.updateListChannel(channels);
     }
 
     /**
