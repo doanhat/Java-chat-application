@@ -35,10 +35,18 @@ public class ChannelPageDisplay {
 
     }
 
+    /**
+     * Getter de la référence au contrôleur de la vue views/ChannelPage.fxml
+     * @return la référence au contrôleur de la vue views/ChannelPage.fxml
+     */
     public ChannelPageController getChannelPageController() {
         return channelPageController;
     }
 
+    /**
+     * Setter de la référence au contrôleur de la vue views/ChannelPage.fxml
+     * @param channelPageController la référence au contrôleur de la vue views/ChannelPage.fxml
+     */
     public void setChannelPageController(ChannelPageController channelPageController) {
         this.channelPageController = channelPageController;
     }

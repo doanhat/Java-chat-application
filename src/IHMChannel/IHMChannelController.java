@@ -21,18 +21,27 @@ import java.util.UUID;
 public class IHMChannelController {
     private ChannelPageController channelPageController;
     private Parent root;
+    // interfaces à appeler
+    private IIHMChannelToData interfaceToData;
+    private IIHMChannelToCommunication interfaceToCommunication;
+    private IIHMChannelToIHMMain interfaceToIHMMain;
+    // interfaces à implémenter
+    private IHMMainToIHMChannel interfaceForIHMMain;
+    private CommunicationToIHMChannel interfaceForCommunication;
+    private DataToIHMChannel interfaceForData;
+
     /**
      * Constructeur
      */
     public IHMChannelController() {
 
-
         // Initialisation des interfaces
         interfaceForCommunication = new CommunicationToIHMChannel(this);
         interfaceForData = new DataToIHMChannel(this);
         interfaceForIHMMain = new IHMMainToIHMChannel(this);
-        // TODO: récupérer le channel depuis l'appel de getChannelWindow()
+
         try{
+            // TODO: récupérer le channel depuis l'appel de getChannelWindow() et y faire le traitement lignes 58 et 59
             OwnedChannel newOwnedChannel = new OwnedChannel(1,"LO23",new UserLite(UUID.randomUUID(), "Aïda", null),"channel pour l'UV LO23", Visibility.PUBLIC);
 
             UserLite usr1 = new UserLite(UUID.randomUUID(), "Aïda", null);
@@ -44,8 +53,8 @@ public class IHMChannelController {
             listMessages.add(new Message(1,"Salut, vous allez bien ?",usr1));
             listMessages.add(new Message(2,"Oui super et toi ?",usr2));
             listMessages.add(new Message(3,"T'as avancé le projet LO23 ?",usr1));
-
             newOwnedChannel.setMessages(listMessages);
+
             ChannelPageDisplay channelPageDisplay = new ChannelPageDisplay(newOwnedChannel, this);
             channelPageDisplay.getChannelPageController().getChannelController(newOwnedChannel.getId()).setChannel(newOwnedChannel);
 
@@ -81,7 +90,7 @@ public class IHMChannelController {
     }
 
     /**
-     * Setter de l'interface vers communication
+     * Setter de l'interface vers Communication
      * @param interfaceToCommunication Interface vers Communication
      */
     public void setInterfaceToCommunication(IIHMChannelToCommunication interfaceToCommunication) {
@@ -128,48 +137,34 @@ public class IHMChannelController {
         return interfaceForData;
     }
 
-    private IIHMChannelToData interfaceToData;
-
-    private IIHMChannelToCommunication interfaceToCommunication;
-
-    private IIHMChannelToIHMMain interfaceToIHMMain;
-
-    private IHMMainToIHMChannel interfaceForIHMMain;
-
-    private CommunicationToIHMChannel interfaceForCommunication;
-
-    private DataToIHMChannel interfaceForData;
-
-
+    /**
+     * Getter du controller de views/ChannelPage.fxml
+     * @return le controller de views/ChannelPage.fxml
+     */
     public ChannelPageController getChannelPageController() {
         return channelPageController;
     }
 
+    /**
+     * Setter du controller de views/ChannelPage.fxml
+     * @param channelPageController reférence vers le controller de views/ChannelPage.fxml
+     */
     public void setChannelPageController(ChannelPageController channelPageController) {
         this.channelPageController = channelPageController;
     }
 
-    public Channel initTestData() throws IOException {
-        OwnedChannel newOwnedChannel = new OwnedChannel(1,"LO23",new UserLite(UUID.randomUUID(), "Aïda", null),"channel pour l'UV LO23", Visibility.PUBLIC);
-
-        UserLite usr1 = new UserLite(UUID.randomUUID(), "Aïda", null);
-        usr1.setNickName("toto");
-        UserLite usr2 = new UserLite(UUID.randomUUID(), "Léa", null);
-        usr2.setNickName("titi");
-
-        List<Message> listMessages = new ArrayList<Message>();
-        listMessages.add(new Message(1,"Salut, vous allez bien ?",usr1));
-        listMessages.add(new Message(2,"Oui super et toi ?",usr2));
-        listMessages.add(new Message(3,"T'as avancé le projet LO23 ?",usr1));
-
-
-        return newOwnedChannel;
-    }
-
+    /**
+     * Getter du parent root de views/ChannelPage.fxml
+     * @return parent de views/ChannelPage.fxml
+     */
     public Parent getRoot() {
         return this.root;
     }
 
+    /**
+     * Setter du parent root de views/ChannelPage.fxml
+     * @param root parent de views/ChannelPage.fxml
+     */
     public void setRoot(Parent root) {
         this.root = root;
     }

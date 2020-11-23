@@ -7,18 +7,22 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.Button?>
+<?import java.net.URL?>
 <HBox fx:controller="IHMChannel.controllers.MessageController"
       xmlns:fx="http://javafx.com/fxml" alignment="center">
     <ImageView fx:id="profilePic" />
     <VBox fx:id="main">
-        <Text fx:id="author"/>
+        <Text fx:id="author" styleClass="user-name"/>
         <TextArea fx:id="content"/>
     </VBox>
     <HBox fx:id="details"> <!-- infos et actions message -->
         <Text fx:id="time"/>
-        <Button fx:id="like" onAction="#likeMessage"/>
-        <Button fx:id="answer" onAction="#answerMessage"/>
-        <Button fx:id="edit" onAction="#editMessage"/>
-        <Button fx:id="delete" onAction="#deleteMessage"/>
+        <Button fx:id="like" onAction="#likeMessage" styleClass="btn, secondary-btn"/>
+        <Button fx:id="answer" onAction="#answerMessage" styleClass="btn, secondary-btn"/>
+        <Button fx:id="edit" onAction="#editMessage" styleClass="btn, secondary-btn"/>
+        <Button fx:id="delete" onAction="#deleteMessage" styleClass="btn, secondary-btn"/>
     </HBox>
+    <stylesheets>
+        <URL value="file:src/common/IHMCommon/common.css"/>
+    </stylesheets>
 </HBox>

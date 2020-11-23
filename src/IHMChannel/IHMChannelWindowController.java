@@ -26,22 +26,50 @@ public class IHMChannelWindowController implements Initializable{
 
     private MainWindowController mainWindowController;
     private IHMMainWindowController ihmMainWindowController;
-    @FXML
-    private BorderPane channelPageToDisplay;
 
     public ObservableList<VBox> messagesToDisplay = FXCollections.observableArrayList();
 
+    @FXML
+    private BorderPane channelPageToDisplay;
 
+    /**
+     * Setter de la référence au contrôleur de app/MainWindow.fxml
+     * @param mainWindowController
+     */
     public void setMainWindowController(MainWindowController mainWindowController) {
         this.mainWindowController = mainWindowController;
     }
 
+    /**
+     * Setter de la référence au contrôleur de IHMMain/IHMMainWindow.fxml
+     * @param ihmMainWindowController
+     */
     public void setIhmMainWindowController(IHMMainWindowController ihmMainWindowController) {
         this.ihmMainWindowController = ihmMainWindowController;
     }
 
+    /**
+     * Getter de la référence au contrôleur de IHMMain/IHMMainWindow.fxml
+     * @return ihmMainWindowController
+     */
     public IHMMainWindowController getIhmMainWindowController(){
         return this.ihmMainWindowController;
+    }
+
+    /**
+     * Getter de l'élément BorderPane où sera affiché la vue views/ChannelPage.fxml
+     * @return
+     */
+    public BorderPane getChannelPageToDisplay() {
+        return channelPageToDisplay;
+    }
+
+    /**
+     * Setter de la référence à l'instance de ChannelPageDisplay qui gère les vues de IHM-Channel
+     * @param channelPageToDisplay
+     */
+    public void setChannelPageToDisplay(BorderPane channelPageToDisplay) {
+        this.channelPageToDisplay = channelPageToDisplay;
     }
 
     @Override
@@ -49,11 +77,5 @@ public class IHMChannelWindowController implements Initializable{
         //Mettez ici le code qui s'execute avant l'apparition de la vue
     }
 
-    public BorderPane getChannelPageToDisplay() {
-        return channelPageToDisplay;
-    }
 
-    public void setChannelPageToDisplay(BorderPane channelPageToDisplay) {
-        this.channelPageToDisplay = channelPageToDisplay;
-    }
 }

@@ -3,6 +3,7 @@
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
+<?import java.net.URL?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -10,19 +11,30 @@
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="IHMChannel.controllers.ChannelController"
-            prefHeight="400.0" prefWidth="600.0">
+            maxHeight="Infinity" maxWidth="Infinity" minHeight="Infinity" minWidth="Infinity">
 
     <VBox fx:id="channelPage">
+<<<<<<< HEAD
         <HBox fx:id="menuBar" alignment="CENTER_LEFT" style="-fx-background-color: #B9E6FF">
             <!--La barre à retourner vers Main -->
+=======
+        <HBox fx:id="menuBar">
+            <Button fx:id="back" text="back" styleClass="btn, secondary-btn"/>
+>>>>>>> integration_POC_et_CSS
             <VBox>
-                <Text fx:id="channelName"/>
-                <Text fx:id="channelDescription"/>
+                <Text fx:id="channelName" styleClass="secondary-title" />
+                <Text fx:id="channelDescription" styleClass="channel-description"/>
             </VBox>
+<<<<<<< HEAD
             <Pane HBox.hgrow="ALWAYS" />
             <Button fx:id="seeMembersBtn" onAction="#seeMembers" style="-fx-background-color: transparent;"/>
             <Button fx:id="addMemberBtn" onAction="#addUserToChannel" style="-fx-background-color: transparent;"/>
             <Button fx:id="leaveChannelBtn" onAction="#leaveChannel" style="-fx-background-color: transparent;"/>
+=======
+            <Button fx:id="seeMembersBtn" onAction="#seeMembers" styleClass="btn, secondary-btn" alignment="TOP_LEFT"/>
+            <Button fx:id="addMemberBtn" onAction="#addUserToChannel" styleClass="btn, secondary-btn" alignment="TOP_LEFT"/>
+            <Button fx:id="leaveChannelBtn" onAction="#leaveChannel" styleClass="btn, secondary-btn" alignment="TOP_LEFT"/>
+>>>>>>> integration_POC_et_CSS
         </HBox>
 
 
@@ -40,5 +52,7 @@
         </HBox>
         -->
     </VBox>
-
+    <stylesheets>
+        <URL value="file:src/common/IHMCommon/common.css"/>
+    </stylesheets>
 </AnchorPane>

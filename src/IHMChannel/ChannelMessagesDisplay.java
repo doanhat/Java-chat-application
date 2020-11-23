@@ -20,6 +20,10 @@ public class ChannelMessagesDisplay {
         return this.controller;
     }
 
+    /**
+     * Constructeur
+     * @throws IOException
+     */
     public ChannelMessagesDisplay() throws IOException {
         FXMLLoader fxmlLoader =
                 new FXMLLoader(getClass().getResource("views/ChannelMessages.fxml"));
@@ -27,7 +31,11 @@ public class ChannelMessagesDisplay {
         controller = fxmlLoader.getController();
     }
 
-    public void configureMessageController(IHMChannelController ihmChannelController){
+    /**
+     * Permet de transmettre la référence au contrôleur principal de IHM-Channel au contrôleur de la vue views/ChannelMessages.fxml
+     * @param ihmChannelController
+     */
+    public void configureChannelMessageController(IHMChannelController ihmChannelController){
         controller.setIhmChannelController(ihmChannelController);
     }
 
