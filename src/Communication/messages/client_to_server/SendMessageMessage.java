@@ -32,16 +32,15 @@ public class SendMessageMessage extends ClientToServerMessage {
             commController.saveMessage(message, channel, response);
 
             commController.sendMulticast(channel.getAcceptedPersons(),
-                                         new TellOwnerToSaveMessage(message, channelID, response),
+                                         new ReceiveMessageMessage(message, channelID, response),
                                          message.getAuthor());
         }
-
-        /**
-         * TODO INTEGRATION Verify with Data if this is an if else situation where TellOwnerToSaveMessage
-         * can replace ReceiveMessageMessage in case of shared Channel
-         */
-        commController.sendMulticast(channel.getAcceptedPersons(),
-                                     new ReceiveMessageMessage(message, channelID, response),
-                                     message.getAuthor());
+        else {
+            /**
+             * TODO INTEGRATION Verify with Data if this is an if else situation where TellOwnerToSaveMessage
+             * can replace ReceiveMessageMessage in case of shared Channel
+             */
+            commController.sendMessage(channel.getCreator().getId(), new TellOwnerToSaveMessage(message, channelID, response));
+        }
     }
 }
