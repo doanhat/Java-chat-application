@@ -33,17 +33,27 @@ public class ChannelController extends Controller{
      * @param channel the channel
      */
     public void addVisibleChannel(Channel channel) {
-
+        /*List<Channel> channels = getChannels();
+        channels.add(channel);*/
+        mainClient.addChannelToList(channel);
     }
 
     /**
      * User added to channel.
      *
      * @param user    the user
-     * @param channel the channel
+     * @param channelID the channel
      */
-    public void userAddedToChannel(User user, Channel channel) {
-
+    public void userAddedToChannel(UserLite user, UUID channelID) {
+        List<Channel> channels = getChannels();
+        Channel channel = null;
+        for (Channel c : channels) {
+            if(c.getId() == channelID) {
+                channel = c;
+                break;
+            }
+        }
+        channel.addUser(user);
     }
 
     /**
