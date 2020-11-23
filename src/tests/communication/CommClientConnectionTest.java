@@ -21,13 +21,14 @@ public class CommClientConnectionTest {
 
         commClient.start(Parameters.SERVER_IP, Parameters.PORT, localUser);
 
-        try {
-            Thread.sleep(5000);
-        }
-        catch (InterruptedException e) {
-            e.printStackTrace();
+        while (true) {
+            System.out.print("Disconnect: ");
+
+            if("exit".equals(reader.nextLine())) {
+                break;
+            }
         }
 
-        //commClient.stop();
+        commClient.disconnect(localUser.getId());
     }
 }

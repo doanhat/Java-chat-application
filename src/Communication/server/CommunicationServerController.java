@@ -83,7 +83,7 @@ public class CommunicationServerController extends CommunicationController {
             }
         }
         else {
-            System.err.println("Serveur echoue de déconnecte client " + userID + ", NetworkUser est null");
+            System.err.println("Serveur echoue de déconnecte client " + userID + ", user n'est pas registré");
         }
     }
 
