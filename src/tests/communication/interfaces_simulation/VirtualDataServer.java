@@ -22,12 +22,24 @@ public class VirtualDataServer implements IServerCommunicationToData {
 
     @Override
     public List<Channel> requestChannelRemoval(Channel channel, UserLite user) {
+        if (channel == null || user == null) {
+            return null;
+        }
+
+        Channel correctChannel = channels.get(channel.getId());
+
+        if (correctChannel != null && correctChannel.getCreator().getId() == user.getId()) {
+            channels.remove(correctChannel.getId());
+
+            return new ArrayList<>(channels.values());
+        }
+
         return null;
     }
 
     @Override
     public List<Channel> requestChannelCreation(Channel channel, Boolean typeOwner, Boolean typePublic, UserLite user) {
-        if (channel != null) {
+        if (channel != null && user != null) {
             channels.put(channel.getId(), channel);
 
             if (! mapUserChannels.containsKey(user)) {
@@ -118,7 +130,7 @@ public class VirtualDataServer implements IServerCommunicationToData {
 
         List<Channel> visibleChannels = new ArrayList<>();
 
-        if (visibleChannels == null) {
+        if (visibleChannelIDs == null) {
             return visibleChannels;
         }
 

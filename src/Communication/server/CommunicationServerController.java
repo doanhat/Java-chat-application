@@ -200,9 +200,48 @@ public class CommunicationServerController extends CommunicationController {
             System.err.println("requestCreateChannel: Data Iface est null");
             return null;
         }
-        // TODO INTEGRATION request Data to fix return type to Channel
-        // return requestChannelCreation(channel, proprietary, publicChannel, requester);
+
+        // TODO INTEGRATION request Data to fix return type to Channel in order to return only created channel or null
+        //  to avoid exposing data and decrease run time complexity
+        List<Channel> allChannels = dataServer.requestChannelCreation(channel, proprietary, publicChannel, requester);
+
+        if (allChannels != null) {
+            for (Channel c: allChannels) {
+                if (c.getId() == channel.getId()) {
+                    return c;
+                }
+            }
+        }
+
         return null;
+    }
+
+    /**
+     * Demande Data server à supprimer un channel
+     * @param channel
+     * @param requester
+     * @return
+     */
+    public boolean requestDeleteChannel(Channel channel, UserLite requester) {
+        if (dataServer == null)
+        {
+            System.err.println("requestDeleteChannel: Data Iface est null");
+            return false;
+        }
+
+        // TODO INTEGRATION request Data to fix return type to Channel in order to return only boolean
+        //  to avoid exposing data and decrease run time complexity
+        List<Channel> allChannels = dataServer.requestChannelRemoval(channel, requester);
+
+        if (allChannels != null) {
+            for (Channel c: allChannels) {
+                if (c.getId() == channel.getId()) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     /**

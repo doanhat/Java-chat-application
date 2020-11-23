@@ -14,6 +14,8 @@ public class RefuseCreationChannelMessage extends ServerToClientMessage {
 
     @Override
     protected void handle(CommunicationClientController commController) {
+        System.err.println("Creation channel" + refusedChannel.getId() + " est refusé");
+
         commController.notifyCreationChannelRefused(refusedChannel);
     }
 }

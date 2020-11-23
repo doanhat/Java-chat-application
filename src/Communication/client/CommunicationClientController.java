@@ -136,7 +136,7 @@ public class CommunicationClientController extends CommunicationController {
      * @param channels
      */
     public void notifyConnectionSuccess(List<UserLite> users, List<Channel> channels) {
-        System.err.println("Connecté au servueur");
+        System.err.println("Connecté au serveur");
 
         if (mainClient == null)
         {
