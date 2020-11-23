@@ -21,7 +21,7 @@ public class VirtualCommunicationToData implements ICommunicationToData {
 
         Channel newChannel = new SharedChannel("channel", localUser, "test", Visibility.PUBLIC);
         newChannel.setId(channelId);
-        
+
         channels.put(channelId, newChannel);
     }
 
