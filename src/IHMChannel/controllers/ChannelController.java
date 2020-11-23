@@ -7,6 +7,7 @@ import common.sharedData.Channel;
 import common.sharedData.Message;
 import javafx.event.ActionEvent;
 import javafx.geometry.Bounds;
+import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.fxml.FXML;
@@ -30,6 +31,7 @@ public class ChannelController {
     @FXML
     Text channelDescription;
 
+    //Boutons barre supérieure
     @FXML
     Button back;
     @FXML
@@ -39,11 +41,14 @@ public class ChannelController {
     @FXML
     Button leaveChannelBtn;
 
+    //Menu contextuel
     @FXML
     ContextMenu channelContextMenu;
-
+    @FXML
+    CheckMenuItem seeMembersMenuCheck;
     @FXML
     Button contextMenuBtn;
+
 
     ChannelMessagesDisplay channelMessagesDisplay;
 
@@ -110,10 +115,12 @@ public class ChannelController {
         if(seeMessages){
             pageToDisplay.setCenter(channelMembersDisplay.root);
             seeMessages=false;
+            seeMembersMenuCheck.setSelected(true);
         }
         else{
             pageToDisplay.setCenter(channelMessagesDisplay.root);
             seeMessages=true;
+            seeMembersMenuCheck.setSelected(false);
         }
     }
 

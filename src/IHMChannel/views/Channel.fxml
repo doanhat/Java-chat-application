@@ -22,7 +22,7 @@
                             <ContextMenu fx:id="channelContextMenu">
                                 <items>
                                     <MenuItem text="Modifier les infos du channel" onAction="#modifyChannel"/>
-                                    <MenuItem text="Voir la liste des utilisateurs" onAction="#seeMembers"/>
+                                    <CheckMenuItem fx:id="seeMembersMenuCheck" text="Voir la liste des utilisateurs" onAction="#seeMembers"/>
                                     <MenuItem text="Changer les droits" onAction="#changeRights"/>
                                     <MenuItem text="Kicker un utilisateur" onAction="#kickMember"/>
                                     <MenuItem text="Liste des utilisateurs kickés" onAction="#seeKickedMembers"/>
