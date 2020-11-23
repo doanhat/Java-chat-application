@@ -65,6 +65,6 @@ public class Kick {
 	}
 	
 	public boolean isStillKicked() {
-		return permanentKick || (endKick != null && new Date().before(endKick));
+		return (permanentKick || (endKick != null && (new Date().before(endKick))));
 	}
 }
