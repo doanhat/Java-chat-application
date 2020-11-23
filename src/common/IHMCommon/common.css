@@ -224,3 +224,7 @@ TextField {
   -fx-padding: 10px;
   -fx-margin: 5px;
 }
+
+.icon-btn {
+  -fx-background-color: transparent;
+}
