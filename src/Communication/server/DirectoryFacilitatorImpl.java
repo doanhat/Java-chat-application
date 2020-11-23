@@ -114,17 +114,30 @@ public class DirectoryFacilitatorImpl implements DirectoryFacilitator {
      */
     @Override
     public void clear() {
-        for (NetworkUser user: connections.values()) {
+        for (NetworkUser user : connections.values()) {
             if (user != null) {
                 try {
                     user.stop();
-                }
-                catch (IOException e) {
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         }
 
         connections.clear();
+    }
+
+    /**
+     * Recevoir l'impulsion d'un client
+     * @param clientID ID du client
+     * @param nbSequence numero de séquence actuel du client
+     */
+    @Override
+    public void receivePulse(UUID clientID, int nbSequence) {
+        NetworkUser user = getConnection(clientID);
+
+        if (user != null) {
+            user.updateNbSequence(nbSequence);
+        }
     }
 }

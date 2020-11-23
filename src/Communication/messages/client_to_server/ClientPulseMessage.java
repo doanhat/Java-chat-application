@@ -7,9 +7,11 @@ import common.sharedData.UserLite;
 public class ClientPulseMessage extends ClientToServerMessage {
 
     private final UserLite user;
+    private int nbSequence;
 
-    public ClientPulseMessage(UserLite user) {
+    public ClientPulseMessage(UserLite user, int nbSequence) {
         this.user = user;
+        this.nbSequence = nbSequence;
     }
 
     public UserLite getUser() {

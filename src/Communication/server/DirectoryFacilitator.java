@@ -45,4 +45,10 @@ public interface DirectoryFacilitator {
      * Purge la liste de NetworkUser et ferme tous les sockets clients
      */
     void clear();
+    /**
+     * Recevoir l'impulsion d'un client
+     * @param clientID ID du client
+     * @param nbSequence numero de séquence actuel du client
+     */
+    void receivePulse(UUID clientID, int nbSequence);
 }
