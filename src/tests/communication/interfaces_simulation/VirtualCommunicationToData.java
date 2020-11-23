@@ -18,7 +18,7 @@ public class VirtualCommunicationToData implements ICommunicationToData {
     }
 
     @Override
-    public void addVisibleChannel(UUID channelId) {
+    public void addVisibleChannel(UUID channelId) { //TO-DO : Remplacer l'UUID par l'objet Channel
         System.err.println("New visible channel " + channelId);
 
         Channel newChannel = new SharedChannel("channel", localUser, "test", Visibility.PUBLIC);
