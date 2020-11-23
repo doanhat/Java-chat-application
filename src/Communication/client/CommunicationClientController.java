@@ -3,6 +3,7 @@ package Communication.client;
 import Communication.common.CommunicationController;
 import Communication.messages.abstracts.NetworkMessage;
 import Communication.messages.client_to_server.UserConnectionMessage;
+import Communication.messages.client_to_server.UserDisconnectionMessage;
 import common.interfaces.client.ICommunicationToData;
 import common.interfaces.client.ICommunicationToIHMChannel;
 import common.interfaces.client.ICommunicationToIHMMain;
@@ -69,7 +70,10 @@ public class CommunicationClientController extends CommunicationController {
      */
     @Override
     public void disconnect(UUID user) {
+        sendMessage(new UserDisconnectionMessage(user));
+
         System.err.println("Communication Controller déconnecté");
+
         stop();
     }
 
