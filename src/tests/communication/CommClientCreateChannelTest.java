@@ -7,7 +7,7 @@ import common.interfaces.client.ICommunicationToData;
 import common.interfaces.client.ICommunicationToIHMChannel;
 import common.interfaces.client.ICommunicationToIHMMain;
 import common.sharedData.Channel;
-import common.sharedData.SharedChannel;
+import common.sharedData.ChannelType;
 import common.sharedData.UserLite;
 import common.sharedData.Visibility;
 import tests.communication.interfaces_simulation.VirtualCommunicationToData;
@@ -55,7 +55,7 @@ public class CommClientCreateChannelTest {
         }
 
         // Create channel
-        Channel channel = new SharedChannel("Test Channel", localUser, "Test", Visibility.PUBLIC);
+        Channel channel = new Channel("Test Channel", localUser, "Test", Visibility.PUBLIC, ChannelType.SHARED);
 
         commInterface.createChannel(channel, true, true, localUser);
 

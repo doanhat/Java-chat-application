@@ -69,9 +69,9 @@ public class CreationChannelPopupController {
             Visibility channelVisibility = isPublic ? Visibility.PUBLIC : Visibility.PRIVATE;
 
             if(isShared){
-                newChannel = new SharedChannel(channelName.getText(), testUser, channelDescription.getText(), channelVisibility);
+                newChannel = new Channel(channelName.getText(), testUser, channelDescription.getText(), channelVisibility,ChannelType.SHARED);
             } else {
-                newChannel = new OwnedChannel(channelName.getText(), testUser, channelDescription.getText(), channelVisibility);
+                newChannel = new Channel(channelName.getText(), testUser, channelDescription.getText(), channelVisibility,ChannelType.OWNED);
             }
 
             try {

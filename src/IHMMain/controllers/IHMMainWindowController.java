@@ -8,7 +8,6 @@ import IHMMain.IHMMainController;
 import app.MainWindowController;
 import common.IHMTools.*;
 import common.sharedData.Channel;
-import common.sharedData.SharedChannel;
 import common.sharedData.Visibility;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -173,7 +172,7 @@ public class IHMMainWindowController implements Initializable{
         System.out.println(newChannel.getCreator().getNickName());
         */
         // TODO see with Communication if they add the channel or if it's our job
-        ihmMainController.getIIHMMainToCommunication().createChannel(newChannel, newChannel instanceof SharedChannel, newChannel.getVisibility() == Visibility.PUBLIC, newChannel.getCreator());
+        ihmMainController.getIIHMMainToCommunication().createChannel(newChannel, newChannel instanceof Channel, newChannel.getVisibility() == Visibility.PUBLIC, newChannel.getCreator());
         ihmMainController.getVisibleChannels().add(newChannel);
     }
 

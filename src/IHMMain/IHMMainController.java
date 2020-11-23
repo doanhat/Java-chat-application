@@ -9,7 +9,7 @@ import IHMMain.implementations.DataToIHMMain;
 import IHMMain.implementations.IHMChannelToIHMMain;
 import app.MainWindowController;
 import common.sharedData.Channel;
-import common.sharedData.SharedChannel;
+import common.sharedData.ChannelType;
 import common.sharedData.UserLite;
 import common.sharedData.Visibility;
 import javafx.collections.FXCollections;
@@ -53,10 +53,10 @@ public class IHMMainController {
         // TODO (data test) get by interface
         UserLite testUser = new UserLite("Jean Valjean", "");
         visibleChannels.setAll(
-                new SharedChannel("chan0", testUser, "channel 0", Visibility.PRIVATE),
-                new SharedChannel("chan1", testUser, "channel 1", Visibility.PRIVATE),
-                new SharedChannel("chan2", testUser, "channel 3", Visibility.PUBLIC),
-                new SharedChannel("chan3", testUser, "channel 3", Visibility.PUBLIC)
+                new Channel("chan0", testUser, "channel 0", Visibility.PRIVATE, ChannelType.SHARED),
+                new Channel("chan1", testUser, "channel 1", Visibility.PRIVATE,ChannelType.SHARED),
+                new Channel("chan2", testUser, "channel 3", Visibility.PUBLIC,ChannelType.SHARED),
+                new Channel("chan3", testUser, "channel 3", Visibility.PUBLIC,ChannelType.SHARED)
         );
     }
 
