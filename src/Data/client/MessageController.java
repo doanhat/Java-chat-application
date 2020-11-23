@@ -6,7 +6,6 @@ import common.interfaces.client.IDataToIHMChannel;
 import common.interfaces.client.IDataToIHMMain;
 import common.sharedData.Channel;
 import common.sharedData.Message;
-import common.sharedData.OwnedChannel;
 import common.sharedData.User;
 
 import java.util.List;
@@ -23,9 +22,9 @@ public class MessageController extends Controller{
         }
         int responseAdded = 0;
         FileHandle fileHandler = new FileHandle();
-        List<OwnedChannel> listOwnedChannel = fileHandler.readJSONFileToList("ownedChannels", OwnedChannel.class);
+        List<Channel> listOwnedChannel = fileHandler.readJSONFileToList("ownedChannels", Channel.class);
         if (!listOwnedChannel.isEmpty()) {
-            for (OwnedChannel oCh : listOwnedChannel) {
+            for (Channel oCh : listOwnedChannel) {
                 if (oCh.getId().toString().equals(channelId.toString())) {
                     List<Message> listMsg = oCh.getMessages();
                     //listMsg.add(message);

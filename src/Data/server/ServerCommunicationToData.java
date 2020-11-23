@@ -85,16 +85,17 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     }
 
     @Override
-    public SharedChannel createPublicSharedChannel(String name, UserLite creator, String description) {
-        // TODO ID creation
-        // TODO new constructor for sharedChannel?
-        SharedChannel sChannel = new SharedChannel();
+    public Channel createPublicSharedChannel(String name, UserLite creator, String description) {
         Visibility channelVisibility = Visibility.PUBLIC;
-        sChannel.setName(name);
-        sChannel.setCreator(creator);
-        sChannel.setDescription(description);
-        sChannel.setVisibility(channelVisibility);
-        return sChannel;
+        ChannelType type = ChannelType.SHARED;
+        return new Channel(name,creator,description,channelVisibility,type);
+    }
+
+    @Override
+    public Channel createPrivateSharedChannel(String name, UserLite creator, String description) {
+        Visibility channelVisibility = Visibility.PRIVATE;
+        ChannelType type = ChannelType.SHARED;
+        return new Channel(name,creator,description,channelVisibility,type);
     }
 
     @Override

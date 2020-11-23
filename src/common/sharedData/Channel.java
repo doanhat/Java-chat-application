@@ -3,7 +3,7 @@ package common.sharedData;
 import java.io.Serializable;
 import java.util.*;
 
-public abstract class Channel implements Serializable {
+public class Channel implements Serializable {
 	public Channel() {
 	}
 
@@ -12,18 +12,20 @@ public abstract class Channel implements Serializable {
 	private UserLite creator;
 	private String description;
 	private Visibility visibility;
+	private ChannelType type;
 	private List<UserLite> administrators;
 	private List<UserLite> acceptedPersons;
 	private Map<String, String> nickNames;
 	private List<Kick> kicked;
 	private List<Message> messages;
 
-	public Channel(String name, UserLite creator, String description, Visibility visibility) {
+	public Channel(String name, UserLite creator, String description, Visibility visibility, ChannelType type) {
 		this.id = UUID.randomUUID();
 		this.name = name;
 		this.creator = creator;
 		this.description = description;
 		this.visibility = visibility;
+		this.type = type;
 		this.administrators = new ArrayList<UserLite>();
 		this.administrators.add(creator);
 		this.acceptedPersons = new ArrayList<UserLite>();
@@ -73,6 +75,8 @@ public abstract class Channel implements Serializable {
 	public void setVisibility(Visibility visibility) {
 		this.visibility = visibility;
 	}
+
+
 
 	public List<UserLite> getAdministrators() {
 		return administrators;
