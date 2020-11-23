@@ -42,9 +42,9 @@ public class NetworkReader extends CyclicTask {
             //eof - no error in this case
         }
         catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
 
-            commController.disconnect(userID);
+            //commController.disconnect(userID);
             cancel = true;
         }
     }

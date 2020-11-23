@@ -5,13 +5,7 @@ public abstract class CyclicTask implements Runnable {
 
     @Override
     public void run() {
-        while (true) {
-            synchronized (cancel) {
-                if (cancel) {
-                    break;
-                }
-            }
-
+        while (isActive()) {
             action();
         }
 
@@ -19,9 +13,7 @@ public abstract class CyclicTask implements Runnable {
     }
 
     public void stop() {
-        synchronized (cancel) {
-            cancel = true;
-        }
+        cancel = true;
     }
 
     public boolean isActive() {
