@@ -5,10 +5,8 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.*?>
 <?import java.net.URL?>
-<?import javafx.geometry.Insets?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/"
-            fx:controller="IHMChannel.controllers.ChannelPageController">
-    <VBox fx:id="channelPage" prefWidth="1400">
+<AnchorPane xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IHMChannel.controllers.ChannelPageController" style="-fx-background-color: white">
+    <VBox fx:id="channelPage" >
 
 
         <HBox>
@@ -21,7 +19,7 @@
         </HBox>
         <HBox style="-fx-background-color: #B9E6FF">
             <Pane HBox.hgrow="ALWAYS" />
-            <Button fx:id="back" styleClass="icon-btn" />
+            <Button fx:id="back" styleClass="icon-bar-btn" />
         </HBox>
 
         <TabPane fx:id="tabs" prefWidth="1400"/><!---->
