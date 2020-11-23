@@ -249,6 +249,21 @@ public class CommunicationClientController extends CommunicationController {
     }
 
     /**
+     * Notifier Data que la demande de rejoindre un channel a été refusé par serveur
+     * @param user
+     * @param channelID
+     */
+    public void notifyRefusedToJoinChannel(UserLite user, UUID channelID) {
+        if (dataClient == null)
+        {
+            System.err.println("notifyRefusedToJoinChannel: Data Iface est null");
+            return;
+        }
+        // TODO INTEGRATION request data to add a method userRefusedToJoinChannel(UserLite, UUID channelID) to handle request refused
+        //dataClient.userRefusedToJoinChannel(user, channelID);
+    }
+
+    /**
      * Notifier Data qu'un autre utilisateur a rejoint un channel
      * @param user
      * @param channelID

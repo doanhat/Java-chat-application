@@ -1,9 +1,9 @@
 package Communication.messages.client_to_server;
 
 import Communication.messages.abstracts.ClientToServerMessage;
-import Communication.messages.abstracts.NetworkMessage;
 import Communication.messages.server_to_client.AcceptJoinChannelMessage;
 import Communication.messages.server_to_client.NewUserJoinChannelMessage;
+import Communication.messages.server_to_client.RefuseJoinChannelMessage;
 import Communication.server.CommunicationServerController;
 import common.sharedData.Channel;
 import common.sharedData.UserLite;
@@ -33,6 +33,10 @@ public class AskToJoinMessage extends ClientToServerMessage {
             commController.sendMulticast(channel.getAcceptedPersons(),
                                          new NewUserJoinChannelMessage(sender, channelID),
                                          sender);
+        }
+        else {
+            // send Refusal back to sender
+            commController.sendMessage(sender.getId(), new RefuseJoinChannelMessage(sender, channelID));
         }
     }
 }
