@@ -3,7 +3,6 @@ package tests.communication.interfaces_simulation;
 import common.interfaces.server.IServerCommunicationToData;
 import common.sharedData.Channel;
 import common.sharedData.Message;
-import common.sharedData.SharedChannel;
 import common.sharedData.UserLite;
 
 import java.util.*;
@@ -146,7 +145,12 @@ public class VirtualDataServer implements IServerCommunicationToData {
     }
 
     @Override
-    public SharedChannel createPublicSharedChannel(String name, UserLite creator, String description) {
+    public Channel createPublicSharedChannel(String name, UserLite creator, String description) {
+        return null;
+    }
+    
+    @Override
+    public Channel createPrivateSharedChannel(String name, UserLite creator, String description) {
         return null;
     }
 

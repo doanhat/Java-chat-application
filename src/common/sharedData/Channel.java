@@ -76,7 +76,13 @@ public class Channel implements Serializable {
 		this.visibility = visibility;
 	}
 
+	public ChannelType getType() {
+		return type;
+	}
 
+	public void setType(ChannelType type) {
+		this.type = type;
+	}
 
 	public List<UserLite> getAdministrators() {
 		return administrators;
