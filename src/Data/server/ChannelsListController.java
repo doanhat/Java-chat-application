@@ -4,6 +4,8 @@ import Data.resourceHandle.FileHandle;
 import common.sharedData.Channel;
 import common.sharedData.Message;
 
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -13,8 +15,27 @@ public class ChannelsListController {
     private FileHandle fileHandle;
 
     public ChannelsListController() {
-        this.channels = new ArrayList<>();
-        this.fileHandle = new FileHandle();
+        this.fileHandle = new FileHandle(System.getProperty("user.dir")+"/projet-lo23a20d1/resource/channels/");
+        this.channels = createChannelListFromJSONFiles();
+    }
+
+    public List<Channel> createChannelListFromJSONFiles(){
+        List<Channel> list = new ArrayList<>();
+        String [] pathnames;
+        try{
+            File f = new File(fileHandle.getPath());
+
+            pathnames = f.list();
+
+            for (String pathname : pathnames) {
+                pathname = pathname.substring(0, pathname.lastIndexOf('.'));
+                list.add((Channel) fileHandle.readJSONFileToObject(pathname,Channel.class));
+                System.out.println(list.size());
+            }
+        } catch (Exception e){
+            System.out.println(e);
+        }
+        return new ArrayList<>();
     }
 
     public List<Channel> searchChannelByName(String nom) {
@@ -23,7 +44,7 @@ public class ChannelsListController {
 
     public Channel searchChannelById(UUID id) {
         for(Channel ch : channels){
-            if (ch.getId()==id)
+            if (ch.getId().equals(id))
                 return ch;
         }
         return null;
@@ -41,10 +62,11 @@ public class ChannelsListController {
         return null;
     }
 
-    public List<Channel> addChannel(Channel channel) {
-        if(searchChannelById(channel.getId())==null)
+    public void addChannel(Channel channel) {
+        if(searchChannelById(channel.getId())==null) {
             channels.add(channel);
-        return this.channels;
+            writeChannelDataToJSON(channel);
+        }
     }
 
     public List<Channel> removeChannel(Channel channel) {
@@ -57,12 +79,11 @@ public class ChannelsListController {
     }
 
     public void writeChannelDataToJSON(Channel channel){
-        this.fileHandle.writeJSONToFile("channels/"+channel.getId().toString(),channel);
+        this.fileHandle.writeJSONToFile(channel.getId().toString(),channel);
     }
 
     public Channel readJSONToChannelData(UUID idChannel){
-        Channel ch = (Channel) this.fileHandle.readJSONFileToObject("channels/" + idChannel, Channel.class);
-        return ch;
+        return (Channel) this.fileHandle.readJSONFileToObject("channels/" + idChannel, Channel.class);
     }
 
     /**
