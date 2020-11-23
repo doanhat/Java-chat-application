@@ -108,4 +108,18 @@ public class DirectoryFacilitatorImpl implements DirectoryFacilitator {
 
         return connections;
     }
+
+    /**
+     * Recevoir l'impulsion d'un client
+     * @param clientID ID du client
+     * @param nbSequence numero de séquence actuel du client
+     */
+    @Override
+    public void receivePulse(UUID clientID, int nbSequence) {
+        NetworkUser user = getConnection(clientID);
+
+        if (user != null) {
+            user.updateNbSequence(nbSequence);
+        }
+    }
 }

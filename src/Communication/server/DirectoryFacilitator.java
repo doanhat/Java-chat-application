@@ -40,4 +40,11 @@ public interface DirectoryFacilitator {
      * @return
      */
     List<NetworkUser> getConnections(List<UserLite> users);
+
+    /**
+     * Recevoir l'impulsion d'un client
+     * @param clientID ID du client
+     * @param nbSequence numero de séquence actuel du client
+     */
+    void receivePulse(UUID clientID, int nbSequence);
 }

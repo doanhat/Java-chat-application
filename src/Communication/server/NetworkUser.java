@@ -22,10 +22,12 @@ public class NetworkUser {
     private Socket socket;
     private ObjectOutputStream socketOut;
     private NetworkReader reader;
+    private int nbSequence;
 
     public NetworkUser(CommunicationServerController commController, Socket socket) {
         this.commController = commController;
         this.socket         = socket;
+        this.nbSequence     = 0;
 
         try {
             this.socketOut  = new ObjectOutputStream(this.socket.getOutputStream());
@@ -55,7 +57,7 @@ public class NetworkUser {
             }
 
             // dispatch reader to thread pool after connection procedure
-            System.err.println("Demarrer Socket reader pour client " + uuid());
+            System.err.println("Démarrer Socket reader pour client " + uuid());
 
             commController.taskManager.appendCyclicTask(this.reader);
         }
@@ -78,6 +80,14 @@ public class NetworkUser {
 
     public UserLite userInfo() {
         return userInfo;
+    }
+
+    public int currentSequence() {
+        return nbSequence;
+    }
+
+    public void updateNbSequence(int nbSequence) {
+        this.nbSequence = nbSequence;
     }
 
     public NetworkWriter.DeliveryPacket preparePacket(NetworkMessage message) {

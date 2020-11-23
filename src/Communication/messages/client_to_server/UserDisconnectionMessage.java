@@ -16,7 +16,6 @@ public class UserDisconnectionMessage extends ClientToServerMessage {
 
     @Override
     protected void handle(CommunicationServerController commController) {
-        // TODO handle client disconnection
         commController.disconnect(userID);
     }
 }
