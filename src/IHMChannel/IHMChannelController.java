@@ -5,9 +5,11 @@ import IHMChannel.controllers.ChannelPageController;
 import IHMChannel.interfaces.CommunicationToIHMChannel;
 import IHMChannel.interfaces.DataToIHMChannel;
 import IHMChannel.interfaces.IHMMainToIHMChannel;
+import common.IHMTools.IHMTools;
 import common.interfaces.client.*;
 import common.sharedData.*;
 import javafx.scene.Parent;
+import javafx.scene.layout.Region;
 
 import java.io.IOException;
 import java.util.ArrayList;

@@ -11,7 +11,7 @@
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="IHMChannel.controllers.ChannelController"
-            prefWidth="1400.0">
+            >
 
     <VBox fx:id="channelPage" prefWidth="1400">
         <HBox fx:id="menuBar" alignment="CENTER_LEFT" style="-fx-background-color: #B9E6FF">

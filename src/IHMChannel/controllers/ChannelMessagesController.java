@@ -82,7 +82,7 @@ public class ChannelMessagesController{
             if(changed.wasAdded()){
                 for(Message msgAdded : changed.getAddedSubList()){
                     try {
-                        getMessagesToDisplay().add((HBox) new MessageDisplay(msgAdded).root);
+                        getMessagesToDisplay().add((HBox) new MessageDisplay(msgAdded, ihmChannelController.getChannelPageController().getChannelController(channel.getId())).root);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -126,7 +126,7 @@ public class ChannelMessagesController{
     private void displayMessagesList() throws IOException {
         getMessagesToDisplay().removeAll(); //réinitialisation
         for (Message msg : this.channel.getMessages()){
-            getMessagesToDisplay().add((HBox) new MessageDisplay(msg).root);
+            getMessagesToDisplay().add((HBox) new MessageDisplay(msg, ihmChannelController.getChannelPageController().getChannelController(channel.getId())).root);
         }
         listMessages.setItems(getMessagesToDisplay());
     }
@@ -156,7 +156,7 @@ public class ChannelMessagesController{
         messagesToDisplay = FXCollections.observableArrayList();
         this.channel.getMessages().forEach(message -> {
             try {
-                this.messagesToDisplay.add((HBox) new MessageDisplay(message).root);
+                this.messagesToDisplay.add((HBox) new MessageDisplay(message, ihmChannelController.getChannelPageController().getChannelController(channel.getId())).root);
             } catch (IOException e) {
                 e.printStackTrace();
             }

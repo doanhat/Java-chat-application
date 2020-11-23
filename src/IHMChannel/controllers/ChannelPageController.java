@@ -3,6 +3,7 @@ package IHMChannel.controllers;
 import IHMChannel.ChannelMembersDisplay;
 import IHMChannel.ChannelMessagesDisplay;
 import IHMChannel.IHMChannelController;
+import common.IHMTools.IHMTools;
 import common.sharedData.*;
 import javafx.beans.InvalidationListener;
 import javafx.collections.FXCollections;
@@ -19,6 +20,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
@@ -95,6 +97,7 @@ public class ChannelPageController {
         tabs.getTabs().add(tab);
         tab.setContent((Node) root);
         tabs.getSelectionModel().select(tab);
+        IHMTools.fitSizeToParent((Region) ihmChannelController.getRoot(), (Region) root);
         //tab1.setGraphic(root);
 
 

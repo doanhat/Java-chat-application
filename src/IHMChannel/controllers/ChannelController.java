@@ -3,6 +3,7 @@ package IHMChannel.controllers;
 import IHMChannel.ChannelMembersDisplay;
 import IHMChannel.ChannelMessagesDisplay;
 import IHMChannel.IHMChannelController;
+import common.IHMTools.IHMTools;
 import common.sharedData.Channel;
 import common.sharedData.Message;
 import javafx.fxml.FXML;
@@ -17,7 +18,6 @@ import java.io.IOException;
 public class ChannelController {
     private Channel currentChannel; //channel à afficher dans l'interface
     private IHMChannelController ihmChannelController;
-
 
     /*
        ** @author : Triet
@@ -50,7 +50,7 @@ public class ChannelController {
     public void initialize() throws IOException {
         iconsInit();
         //Affichage de la partie "messages"
-        channelMessagesDisplay = new ChannelMessagesDisplay();
+        channelMessagesDisplay = new ChannelMessagesDisplay(ihmChannelController.getChannelPageController().getChannelController(currentChannel.getId()));
         pageToDisplay.setCenter(channelMessagesDisplay.root);
 
         //Chargement de la liste des utilisateurs

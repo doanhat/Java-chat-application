@@ -1,6 +1,7 @@
 package IHMChannel;
 
 import IHMChannel.controllers.ChannelPageController;
+import common.IHMTools.IHMTools;
 import common.sharedData.Channel;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -42,4 +43,6 @@ public class ChannelPageDisplay {
     public void setChannelPageController(ChannelPageController channelPageController) {
         this.channelPageController = channelPageController;
     }
+
+    public Parent getRoot() { return root;}
 }
