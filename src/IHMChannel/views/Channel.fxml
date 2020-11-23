@@ -21,9 +21,9 @@
                 <Text fx:id="channelDescription" styleClass="channel-description"/>
             </VBox>
             <Pane HBox.hgrow="ALWAYS" />
-            <Button fx:id="seeMembersBtn" onAction="#seeMembers" style="-fx-background-color: transparent;"/>
-            <Button fx:id="addMemberBtn" onAction="#addUserToChannel" style="-fx-background-color: transparent;"/>
-            <Button fx:id="leaveChannelBtn" onAction="#leaveChannel" style="-fx-background-color: transparent;"/>
+            <Button fx:id="seeMembersBtn" onAction="#seeMembers" styleClass="icon-bar-btn"/>
+            <Button fx:id="addMemberBtn" onAction="#addUserToChannel" styleClass="icon-bar-btn"/>
+            <Button fx:id="leaveChannelBtn" onAction="#leaveChannel" styleClass="icon-bar-btn"/>
         </HBox>
 
 
