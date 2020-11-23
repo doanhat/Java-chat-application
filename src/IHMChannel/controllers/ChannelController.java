@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 
@@ -40,6 +41,8 @@ public class ChannelController {
     Button addMemberBtn;
     @FXML
     Button leaveChannelBtn;
+    @FXML
+    AnchorPane channel;
 
     ChannelMessagesDisplay channelMessagesDisplay;
 
@@ -50,7 +53,7 @@ public class ChannelController {
     public void initialize() throws IOException {
         iconsInit();
         //Affichage de la partie "messages"
-        channelMessagesDisplay = new ChannelMessagesDisplay(ihmChannelController.getChannelPageController().getChannelController(currentChannel.getId()));
+        channelMessagesDisplay = new ChannelMessagesDisplay();
         pageToDisplay.setCenter(channelMessagesDisplay.root);
 
         //Chargement de la liste des utilisateurs

@@ -23,12 +23,11 @@ public class ChannelMessagesDisplay {
         return this.controller;
     }
 
-    public ChannelMessagesDisplay(ChannelController channelController) throws IOException {
+    public ChannelMessagesDisplay() throws IOException {
         FXMLLoader fxmlLoader =
                 new FXMLLoader(getClass().getResource("views/ChannelMessages.fxml"));
         root = fxmlLoader.load();
         controller = fxmlLoader.getController();
-        IHMTools.fitSizeToParent(channelController.get);
     }
 
     public void configureMessageController(IHMChannelController ihmChannelController){

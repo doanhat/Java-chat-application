@@ -27,9 +27,10 @@ public class ChannelPageDisplay {
         FXMLLoader fxmlLoader =
                 new FXMLLoader(getClass().getResource("views/ChannelPage.fxml"));
         root = fxmlLoader.load();
-        setChannelPageController(fxmlLoader.getController());
         this.ihmChannelController = ihmChannelController;
         ihmChannelController.setRoot(root);
+
+        setChannelPageController(fxmlLoader.getController());
         getChannelPageController().setIhmChannelController(ihmChannelController);
         getChannelPageController().addOpenedChannel(channel);
         //<ChannelPageController> fxmlLoader.getController().addOpenedChannel();

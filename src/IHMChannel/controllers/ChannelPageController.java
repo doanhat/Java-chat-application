@@ -19,6 +19,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
@@ -65,6 +66,9 @@ public class ChannelPageController {
     @FXML
     TabPane tabs;
 
+    @FXML
+    AnchorPane channelPageAnchor;
+
 
     /**
      * Setter du channel
@@ -97,7 +101,7 @@ public class ChannelPageController {
         tabs.getTabs().add(tab);
         tab.setContent((Node) root);
         tabs.getSelectionModel().select(tab);
-        IHMTools.fitSizeToParent((Region) ihmChannelController.getRoot(), (Region) root);
+        //IHMTools.fitSizeToParent((Region) ihmChannelController.getRoot(), (Region) root);
         //tab1.setGraphic(root);
 
 

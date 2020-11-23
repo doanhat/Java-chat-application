@@ -45,6 +45,7 @@ public class IHMMainWindowController implements Initializable{
         //On charge la vue IHMMainWindow ==> ???
         Region ihmChannelNode = ihmMainToIHMChannel.getIHMChannelWindow();
         this.mainArea.getChildren().addAll(ihmChannelNode); //On ajoute le noeud parent (fxml) au noeud racine de cette vue
+        System.out.println("C'est ici!!!!!!!!");
         IHMTools.fitSizeToParent((Region)this.mainArea,ihmChannelNode);
     }
 
