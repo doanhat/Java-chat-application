@@ -3,9 +3,7 @@ package IHMChannel.controllers;
 import IHMChannel.ChannelMembersDisplay;
 import IHMChannel.ChannelMessagesDisplay;
 import IHMChannel.IHMChannelController;
-import common.sharedData.Channel;
-import common.sharedData.Message;
-import common.sharedData.UserLite;
+import common.sharedData.*;
 import javafx.beans.InvalidationListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableSet;
@@ -17,6 +15,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -53,10 +52,17 @@ public class ChannelPageController {
     Button leaveChannelBtn;
 
     @FXML
+    private TextField canalText;
+
+    @FXML
+    private Button createCanalBtn;
+
+    @FXML
     BorderPane pageToDisplay;
 
     @FXML
     TabPane tabs;
+
 
     /**
      * Setter du channel
@@ -67,6 +73,7 @@ public class ChannelPageController {
 
 
     public void addOpenedChannel(Channel channel) throws IOException {
+        iconsInit();
         openedChannels.add(channel);
 
         //Création du nouvel onglet pour le channel ajouté
@@ -81,8 +88,13 @@ public class ChannelPageController {
         ctrl.getIhmChannelController().setChannelPageController(this);
         ctrl.configureMessageDisplay(ihmChannelController);
         Tab tab = new Tab(channel.getName());
+        tab.setId(channel.getName());
+        tab.setOnClosed((event->{
+            this.openedChannels.remove(channel);
+        }));
         tabs.getTabs().add(tab);
         tab.setContent((Node) root);
+        tabs.getSelectionModel().select(tab);
         //tab1.setGraphic(root);
 
 
@@ -119,34 +131,40 @@ public class ChannelPageController {
 
 
     private void iconsInit(){
-        //Liste membres
-        Image usersImage = new Image("IHMChannel/icons/users-solid.png");
+        //Accueil
+        Image usersImage = new Image("IHMChannel/icons/home.png");
         ImageView usersIcon = new ImageView(usersImage);
         usersIcon.setFitHeight(15);
         usersIcon.setFitWidth(15);
-        seeMembersBtn.setGraphic(usersIcon);
+        back.setGraphic(usersIcon);
 
-        //Ajout membre
-        Image addUserImage = new Image("IHMChannel/icons/user-plus-solid.png");
-        ImageView addUserIcon = new ImageView(addUserImage);
-        addUserIcon.setFitHeight(15);
-        addUserIcon.setFitWidth(15);
-        addMemberBtn.setGraphic(addUserIcon);
-
-        //Quitter
-        Image exitImage = new Image("IHMChannel/icons/exit.png");
-        ImageView exitIcon = new ImageView(exitImage);
-        exitIcon.setFitHeight(15);
-        exitIcon.setFitWidth(15);
-        leaveChannelBtn.setGraphic(exitIcon);
+//        //Liste membres
+//        Image usersImage = new Image("IHMChannel/icons/users-solid.png");
+//        ImageView usersIcon = new ImageView(usersImage);
+//        usersIcon.setFitHeight(15);
+//        usersIcon.setFitWidth(15);
+//        seeMembersBtn.setGraphic(usersIcon);
+//
+//        //Ajout membre
+//        Image addUserImage = new Image("IHMChannel/icons/user-plus-solid.png");
+//        ImageView addUserIcon = new ImageView(addUserImage);
+//        addUserIcon.setFitHeight(15);
+//        addUserIcon.setFitWidth(15);
+//        addMemberBtn.setGraphic(addUserIcon);
+//
+//        //Quitter
+//        Image exitImage = new Image("IHMChannel/icons/exit.png");
+//        ImageView exitIcon = new ImageView(exitImage);
+//        exitIcon.setFitHeight(15);
+//        exitIcon.setFitWidth(15);
+//        leaveChannelBtn.setGraphic(exitIcon);
     }
 
     /**
      * Méthode déclenchée au clic sur le bouton "voir les membres"
      */
     public void seeMembers(){
-
-        channelMap.get(currentChannel).seeMembers();
+//        channelMap.get(currentChannel).seeMembers();
     }
 
     /**
@@ -185,4 +203,38 @@ public class ChannelPageController {
         ChannelController channelController = channelMap.get(channelId);
         return channelController;
     }
+
+    @FXML
+    void creatCanal() throws IOException {
+        String channelName = canalText.getText();
+        int count = 0;
+        int maxid = 0;
+        Channel selectChannel;
+        for (Channel c : openedChannels) {
+            if (c.getName().equals(channelName)) {
+                count = 1;
+                selectChannel = c;
+                break;
+            }
+        }
+
+        for (Channel c : openedChannels) {
+            if (c.getId() > maxid) {
+                maxid = c.getId();
+            }
+        }
+//        System.out.println(count);
+        if (count == 0) {
+            Channel c = new OwnedChannel(maxid + 1, channelName, new UserLite(UUID.randomUUID(), "Léa", null), "channel pour l'UV " + channelName, Visibility.PUBLIC);
+            this.addOpenedChannel(c);
+        }
+        else {
+            for (Tab c : tabs.getTabs()) {
+                if (c.getId().equals(channelName)) {
+                    tabs.getSelectionModel().select(c);
+                }
+            }
+        }
+    }
+
 }

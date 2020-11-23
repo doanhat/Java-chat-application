@@ -18,6 +18,13 @@ public class ChannelController {
     private Channel currentChannel; //channel à afficher dans l'interface
     private IHMChannelController ihmChannelController;
 
+
+    /*
+       ** @author : Triet
+     */
+    private ChannelPageController channelPageController;
+
+
     @FXML
     BorderPane pageToDisplay;
     @FXML
@@ -101,7 +108,7 @@ public class ChannelController {
 
 
     public void setChannel(Channel channel) {
-        System.out.println("ChannelController.setChannel : "+channel);
+//        System.out.println("ChannelController.setChannel : "+channel);
         this.setCurrentChannel(channel);
         channelName.setText(channel.getName());
         channelDescription.setText(channel.getDescription());

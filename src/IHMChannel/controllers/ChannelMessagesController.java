@@ -51,7 +51,7 @@ public class ChannelMessagesController{
 
     public void setCurrentChannel(Channel channel){
         this.channel = channel;
-        System.out.println(channel);
+//        System.out.println(channel);
         try{
             displayMessagesList();
         }

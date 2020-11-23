@@ -7,21 +7,23 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.scene.text.Text?>
+<?import java.net.URL?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="IHMChannel.controllers.ChannelController"
-            prefHeight="400.0" prefWidth="600.0">
+            prefWidth="1400.0">
 
-    <VBox fx:id="channelPage">
-        <HBox fx:id="menuBar">
-            <Button fx:id="back" text="back"/>
+    <VBox fx:id="channelPage" prefWidth="1400">
+        <HBox fx:id="menuBar" alignment="CENTER_LEFT" style="-fx-background-color: #B9E6FF">
+            <!--La barre à retourner vers Main -->
             <VBox>
-                <Text fx:id="channelName"/>
-                <Text fx:id="channelDescription"/>
+                <Text fx:id="channelName" styleClass="channel-title"/>
+                <Text fx:id="channelDescription" styleClass="channel-description"/>
             </VBox>
-            <Button fx:id="seeMembersBtn" onAction="#seeMembers"/>
-            <Button fx:id="addMemberBtn" onAction="#addUserToChannel"/>
-            <Button fx:id="leaveChannelBtn" onAction="#leaveChannel"/>
+            <Pane HBox.hgrow="ALWAYS" />
+            <Button fx:id="seeMembersBtn" onAction="#seeMembers" style="-fx-background-color: transparent;"/>
+            <Button fx:id="addMemberBtn" onAction="#addUserToChannel" style="-fx-background-color: transparent;"/>
+            <Button fx:id="leaveChannelBtn" onAction="#leaveChannel" style="-fx-background-color: transparent;"/>
         </HBox>
 
 
@@ -39,5 +41,7 @@
         </HBox>
         -->
     </VBox>
-
+    <stylesheets>
+        <URL value="file:src/common/IHMCommon/common.css"></URL>
+    </stylesheets>
 </AnchorPane>
