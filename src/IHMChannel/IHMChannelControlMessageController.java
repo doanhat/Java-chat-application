@@ -1,14 +1,11 @@
 package IHMChannel;
-import IHMChannel.IHMChannelWindowController;
-import IHMMain.IHMMainWindowController;
+import IHMMain.controllers.IHMMainWindowController;
 import app.MainWindowController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.event.ActionEvent;
 
 import java.net.URL;
