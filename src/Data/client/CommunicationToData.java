@@ -19,11 +19,11 @@ public class CommunicationToData implements ICommunicationToData {
     /**
      * Add visible channel.
      *
-     * @param channelId the channel
+     * @param channel the channel
      */
     @Override
-    public void addVisibleChannel(UUID channelId) {
-
+    public void addVisibleChannel(Channel channel) {
+        dataController.getChannelController().addVisibleChannel(channel);
     }
 
     /**
@@ -34,7 +34,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void userAddedToChannel(UserLite user, UUID channelId) {
-
+        dataController.getChannelController().userAddedToChannel(user, channelId);
     }
 
     /**

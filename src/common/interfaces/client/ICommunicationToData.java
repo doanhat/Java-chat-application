@@ -21,9 +21,9 @@ public interface ICommunicationToData {
     /**
      * Add visible channel.
      *
-     * @param channelId the channel
+     * @param channel the channel
      */
-    void addVisibleChannel(UUID channelId);
+    void addVisibleChannel(Channel channel);
 
     /**
      * User added to channel.
