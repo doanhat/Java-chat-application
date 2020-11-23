@@ -23,7 +23,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
     private UserLite localUser;
 
     private CommunicationClientInterface() {
-        this.commController = new CommunicationClientController();
+        this.commController = CommunicationClientController.instance();
     }
 
     /**
@@ -37,6 +37,11 @@ public class CommunicationClientInterface implements IDataToCommunication,
 
         return instance;
     }
+
+    // NOTE Nornalement, appeller la methode instance() devra etre souffit
+    //public static IDataToCommunication getIDataToCommunication() { return instance(); }
+    //public static IIHMMainToCommunication getIHMMainToCommunication() { return instance(); }
+    //public static IIHMChannelToCommunication getIHMChannelToCommunication() { return instance(); }
 
     /**
      * Installer les interfaces de Data, IHM Main et IHM Channel

@@ -15,14 +15,28 @@ import java.util.UUID;
 
 public class CommunicationClientController extends CommunicationController {
 
+    private static CommunicationClientController instance = null;
+
     private final NetworkClient client;
     private ICommunicationToData dataClient;
     private ICommunicationToIHMMain mainClient;
     private ICommunicationToIHMChannel channelClient;
 
-    public CommunicationClientController() {
+    private CommunicationClientController() {
         super();
         client = new NetworkClient(this);
+    }
+
+    /**
+     * Recuperer singleton de CommunicationClientController
+     * @return
+     */
+    public static CommunicationClientController instance() {
+        if (instance == null) {
+            instance = new CommunicationClientController();
+        }
+
+        return instance;
     }
 
     /* ---------------------------------------------- Core functionalities -------------------------------------------*/
@@ -104,10 +118,6 @@ public class CommunicationClientController extends CommunicationController {
 
         return true;
     }
-
-    //public IDataToCommunication getIDataToCommunication(){ return this.ifcImpl; }
-    //public IIHMMainToCommunication getIHMMainToCommunication(){ return this.ifcImpl; }
-    //public IIHMChannelToCommunication getIHMChannelToCommunication(){ return this.ifcImpl; }
 
     /**
      * Installer l'interfaces de Data

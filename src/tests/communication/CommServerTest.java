@@ -25,6 +25,16 @@ public class CommServerTest {
 
         commServer.start();
 
-        //commServer.stop();
+        Scanner reader = new Scanner(System.in);
+
+        while (true) {
+            System.out.print("Disconnect: ");
+
+            if("exit".equals(reader.nextLine())) {
+                break;
+            }
+        }
+
+        commServer.stop();
     }
 }
