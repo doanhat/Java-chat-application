@@ -1,5 +1,6 @@
 package IHMMain.controllers;
 
+import IHMMain.IHMMainController;
 import app.MainWindowController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

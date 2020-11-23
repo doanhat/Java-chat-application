@@ -6,7 +6,7 @@ import java.util.ResourceBundle;
 
 import IHMMain.controllers.ConnectionController;
 import IHMMain.controllers.IHMMainWindowController;
-import IHMMain.controllers.IHMMainController;
+import IHMMain.IHMMainController;
 import common.IHMTools.*;
 import javafx.fxml.*;
 import javafx.fxml.FXMLLoader;

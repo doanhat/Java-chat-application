@@ -4,18 +4,14 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import IHMChannel.IHMMainToIHMChannel;
-import IHMMain.implementations.CommunicationToIHMMain;
+import IHMMain.IHMMainController;
 import app.MainWindowController;
 import common.IHMTools.*;
 import common.sharedData.Channel;
 import common.sharedData.SharedChannel;
-import common.sharedData.UserLite;
 import common.sharedData.Visibility;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.*;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -31,8 +27,6 @@ public class IHMMainWindowController implements Initializable{
     private IHMMainController ihmMainController;
 
     private MainWindowController mainWindowController;
-
-    private ObservableList<Channel> channelsObservableList = FXCollections.observableArrayList();
 
     @FXML
     private ListView<Channel> privateChannels;
@@ -59,20 +53,11 @@ public class IHMMainWindowController implements Initializable{
         //Mettez ici le code qui s'execute avant l'apparition de la vue
         loadUserListView();
 
-        // TODO get by interface
-        UserLite testUser = new UserLite("Jean Valjean", "");
-        channelsObservableList.setAll(
-                new SharedChannel("chan0", testUser, "channel 0", Visibility.PRIVATE),
-                new SharedChannel("chan1", testUser, "channel 1", Visibility.PRIVATE),
-                new SharedChannel("chan2", testUser, "channel 3", Visibility.PUBLIC),
-                new SharedChannel("chan3", testUser, "channel 3", Visibility.PUBLIC)
-        );
-
         /**
          * Bind the ListView with the list of private channels.
          * And use the ChannelListViewCellController to display each item.
          */
-        privateChannels.setItems(channelsObservableList.filtered(channel -> channel.getVisibility() == Visibility.PRIVATE));
+        privateChannels.setItems(ihmMainController.getVisibleChannels().filtered(channel -> channel.getVisibility() == Visibility.PRIVATE));
         privateChannels.setCellFactory(privateChannelsListView -> new ChannelListViewCellController());
 
         /**
@@ -96,7 +81,7 @@ public class IHMMainWindowController implements Initializable{
          * Bind the ListView with the list of public channels.
          * And use the ChannelListViewCellController to display each item.
          */
-        publicChannels.setItems(channelsObservableList.filtered(channel -> channel.getVisibility() == Visibility.PUBLIC));
+        publicChannels.setItems(ihmMainController.getVisibleChannels().filtered(channel -> channel.getVisibility() == Visibility.PUBLIC));
         publicChannels.setCellFactory(privateChannelsListView -> new ChannelListViewCellController());
 
         /**
@@ -139,7 +124,25 @@ public class IHMMainWindowController implements Initializable{
     }
 
     @FXML
-    public void loadCreationChannelPopup() throws IOException {
+    public void createPrivateChannel() {
+        try {
+            loadCreationChannelPopup(Visibility.PRIVATE);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void createPublicChannel() {
+        try {
+            loadCreationChannelPopup(Visibility.PUBLIC);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadCreationChannelPopup(Visibility type) throws IOException {
+        // TODO check correct button depending of parameter visibility
         Parent root;
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../views/CreationChannelPopup.fxml"));
@@ -169,8 +172,9 @@ public class IHMMainWindowController implements Initializable{
         System.out.println(newChannel.getDescription());
         System.out.println(newChannel.getCreator().getNickName());
         */
+        // TODO see with Communication if they add the channel or if it's our job
         ihmMainController.getIIHMMainToCommunication().createChannel(newChannel, newChannel instanceof SharedChannel, newChannel.getVisibility() == Visibility.PUBLIC, newChannel.getCreator());
-        channelsObservableList.add(newChannel);
+        ihmMainController.getVisibleChannels().add(newChannel);
     }
 
     @FXML
@@ -195,30 +199,9 @@ public class IHMMainWindowController implements Initializable{
         }
     }
 
-    @FXML
-    public void createPrivateChannel() {
-        int nb = channelsObservableList.size();
-        channelsObservableList.add(
-                new SharedChannel("chan"+String.valueOf(nb), new UserLite(), "channel "+String.valueOf(nb), Visibility.PRIVATE)
-        );
-    }
-
-    @FXML
-    public void createPublicChannel() {
-        int nb = channelsObservableList.size();
-        channelsObservableList.add(
-                new SharedChannel("chan"+String.valueOf(nb), new UserLite(), "channel "+String.valueOf(nb), Visibility.PUBLIC)
-        );
-    }
-
     public StackPane getMainArea() {
         return this.mainArea;
     }
-
-    public void addChannel(Channel newChannel) {
-        //TODO : Ajouter le channel à la liste des channels
-    }
-
 
     public IHMMainController getIhmMainController() {
         return ihmMainController;

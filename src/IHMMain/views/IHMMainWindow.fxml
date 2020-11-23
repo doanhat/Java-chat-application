@@ -62,7 +62,7 @@
                              <HBox fx:id="privatePane" alignment="CENTER" styleClass="channel-list-header">
                                  <Label text="Canaux privés" />
                                  <Region HBox.hgrow="ALWAYS" />
-                                 <Button onAction="#loadCreationChannelPopup" styleClass="channel-add-btn" />
+                                 <Button onAction="#createPrivateChannel" styleClass="channel-add-btn" />
                              </HBox>
                              <ListView fx:id="privateChannels" styleClass="list-view-channel" />
                          </VBox>
@@ -71,7 +71,7 @@
                                <HBox fx:id="publicPane" alignment="CENTER" styleClass="channel-list-header">
                                    <Label text="Canaux publiques" />
                                    <Region HBox.hgrow="ALWAYS" />
-                                   <Button onAction="#loadCreationChannelPopup" styleClass="channel-add-btn" />
+                                   <Button onAction="#createPublicChannel" styleClass="channel-add-btn" />
                                </HBox>
                                <ListView fx:id="publicChannels" styleClass="list-view-channel" />
                            </children>

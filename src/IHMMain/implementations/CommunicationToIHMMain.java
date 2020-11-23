@@ -1,6 +1,6 @@
 package IHMMain.implementations;
 
-import IHMMain.controllers.IHMMainController;
+import IHMMain.IHMMainController;
 import IHMMain.controllers.IHMMainWindowController;
 import common.interfaces.client.ICommunicationToIHMMain;
 import common.sharedData.Channel;
@@ -13,6 +13,10 @@ public class CommunicationToIHMMain implements ICommunicationToIHMMain {
     private IHMMainController ihmMainController;
 
     private IHMMainWindowController ihmMainWindowController;
+
+    public CommunicationToIHMMain(IHMMainController ihmMainController) {
+        this.ihmMainController = ihmMainController;
+    }
 
     @Override
     public void connectionAccepted() {
@@ -36,15 +40,16 @@ public class CommunicationToIHMMain implements ICommunicationToIHMMain {
 
     @Override
     public void channelCreated(Channel channel) {
-        ihmMainWindowController.addChannel(channel);
+        ihmMainController.getVisibleChannels().add(channel);
         //TODO : décommenter cela lorsque le code sera merge pour pouvoir load le channel dans la vue
         //ihmMainWindowController.loadIHMChannelWindow(channel);
+        // TODO selected this channel on the visible channel list
     }
 
 
     @Override
     public void channelAdded(Channel channel) {
-        ihmMainWindowController.addChannel(channel);
+        ihmMainController.getVisibleChannels().add(channel);
     }
 
     public void setIhmMainWindowController(IHMMainWindowController ihmMainWindowController){

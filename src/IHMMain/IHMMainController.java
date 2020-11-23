@@ -1,4 +1,4 @@
-package IHMMain.controllers;
+package IHMMain;
 
 import Communication.client.CommunicationClientInterfaceImpl;
 import common.interfaces.client.*;
@@ -8,34 +8,56 @@ import IHMMain.implementations.CommunicationToIHMMain;
 import IHMMain.implementations.DataToIHMMain;
 import IHMMain.implementations.IHMChannelToIHMMain;
 import app.MainWindowController;
+import common.sharedData.Channel;
+import common.sharedData.SharedChannel;
 import common.sharedData.UserLite;
+import common.sharedData.Visibility;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.util.List;
-
 public class IHMMainController {
-
+    /**
+     * Interface we provide to other modules
+     */
     private ICommunicationToIHMMain communicationToIHMMain;
 
     private IDataToIHMMain dataToIHMMain;
 
     private IIHMChannelToIHMMain ihmChannelToIHMMain;
 
+    /**
+     * Interface we use from other modules
+     */
     private IIHMMainToCommunication ihmMainToCommunication;
 
     private IHMMainToIHMChannel ihmMainToIHMChannel;
 
     private IHMMainToData ihmMainToData;
 
+    /**
+     * Properties use inside IHM-Main module
+     */
+
     private MainWindowController mainWindowController;
 
     private ObservableList<UserLite> connectedUsers = FXCollections.observableArrayList();
 
+    private ObservableList<Channel> visibleChannels = FXCollections.observableArrayList();
+
     public IHMMainController(){
-        communicationToIHMMain = new CommunicationToIHMMain();
-        dataToIHMMain = new DataToIHMMain();
-        ihmChannelToIHMMain = new IHMChannelToIHMMain();
+        communicationToIHMMain = new CommunicationToIHMMain(this);
+        dataToIHMMain = new DataToIHMMain(this);
+        ihmChannelToIHMMain = new IHMChannelToIHMMain(this);
+
+
+        // TODO (data test) get by interface
+        UserLite testUser = new UserLite("Jean Valjean", "");
+        visibleChannels.setAll(
+                new SharedChannel("chan0", testUser, "channel 0", Visibility.PRIVATE),
+                new SharedChannel("chan1", testUser, "channel 1", Visibility.PRIVATE),
+                new SharedChannel("chan2", testUser, "channel 3", Visibility.PUBLIC),
+                new SharedChannel("chan3", testUser, "channel 3", Visibility.PUBLIC)
+        );
     }
 
     public ICommunicationToIHMMain getCommunicationToIHMMain() {
@@ -55,9 +77,9 @@ public class IHMMainController {
     }
     public IIHMMainToCommunication getIIHMMainToCommunication() {
         // TODO remove if where integration is done
-        if (ihmMainToCommunication == null) {
+        /*if (ihmMainToCommunication == null) {
             ihmMainToCommunication = new CommunicationClientInterfaceImpl(null);
-        }
+        }*/
         return ihmMainToCommunication;
     }
 
@@ -66,9 +88,9 @@ public class IHMMainController {
     }
     public IHMMainToIHMChannel getIHMMainToIHMChannel() {
         // TODO remove if where integration is done
-        if (ihmMainToIHMChannel == null) {
+        /*if (ihmMainToIHMChannel == null) {
             ihmMainToIHMChannel = new IHMMainToIHMChannel();
-        }
+        }*/
         return ihmMainToIHMChannel;
     }
 
@@ -77,9 +99,9 @@ public class IHMMainController {
     }
     public IHMMainToData getIHMMainToData() {
         // TODO remove if where integration is done
-        if (ihmMainToData == null) {
+        /*if (ihmMainToData == null) {
             ihmMainToData = new IHMMainToData(null);
-        }
+        }*/
         return ihmMainToData;
     }
 
@@ -95,4 +117,7 @@ public class IHMMainController {
         return connectedUsers;
     }
 
+    public ObservableList<Channel> getVisibleChannels() {
+        return visibleChannels;
+    }
 }
