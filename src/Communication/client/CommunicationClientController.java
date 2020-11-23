@@ -219,6 +219,21 @@ public class CommunicationClientController extends CommunicationController {
     }
 
     /**
+     * Notifier IHM Main que l'action de création d'un channel a été refusé par serveur
+     * @param channel
+     */
+    public void notifyCreationChannelRefused(Channel channel) {
+        if (mainClient == null)
+        {
+            System.err.println("notifyCreationChannelRefused: IHMMain Iface est null");
+            return;
+        }
+
+        // TODO INTEGRATION request IHM Main to add channelCreationRefused(Channel) method to ICommunicationToIHMMain interface
+        //mainClient.channelCreationRefused(channel);
+    }
+
+    /**
      * Notifier Data que la demande de rejoindre un channel a été accepté par serveur
      * @param user
      * @param channelID

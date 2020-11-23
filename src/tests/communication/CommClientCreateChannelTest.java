@@ -24,18 +24,19 @@ public class CommClientCreateChannelTest {
 
         commClient.start(Parameters.SERVER_IP, Parameters.PORT, localUser);
 
+        // Wait for connection established
+        try {
+            Thread.sleep(3000);
+        }
+        catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         CommunicationClientInterfaceImpl commInterface = new CommunicationClientInterfaceImpl(commClient);
 
         Channel channel = new SharedChannel("Test Channel", localUser, "Test", Visibility.PUBLIC);
 
         commInterface.createChannel(channel, true, true, localUser);
-
-        try {
-            Thread.sleep(5000);
-        }
-        catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
         //commClient.stop();
     }
