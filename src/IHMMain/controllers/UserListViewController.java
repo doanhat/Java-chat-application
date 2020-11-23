@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class UserListViewController implements Initializable{
@@ -36,6 +37,18 @@ public class UserListViewController implements Initializable{
         );
 
         connectedUsersListView.setItems(connectedUsersObservableList);
+    }
+
+    public void setConnectedUsersList(List<UserLite> list){
+        connectedUsersObservableList.setAll(list);
+    }
+
+    public void addUserToConnectedUsersList(UserLite user){
+        connectedUsersObservableList.add(user);
+    }
+
+    public void removeUserFromConnectedUsersList(UserLite user){
+        connectedUsersObservableList.remove(user);
     }
 
 }
