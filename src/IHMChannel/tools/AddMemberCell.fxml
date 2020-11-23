@@ -20,7 +20,7 @@
 
             <ImageView fx:id="profilePicture" GridPane.columnIndex="0"/>
             <Text fx:id="username" GridPane.columnIndex="1"/>
-            <Button fx:id="addBtn" GridPane.columnIndex="2" text="+" onAction="#addUser"/>
+            <Button fx:id="addBtn" GridPane.columnIndex="2" text="+"/>
 
         </GridPane>
     </graphic>
