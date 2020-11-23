@@ -40,19 +40,6 @@ public class ChannelPageController {
     private IHMChannelController ihmChannelController;
 
     @FXML
-    Button back;
-    @FXML
-    Text channelName;
-    @FXML
-    Text channelDescription;
-    @FXML
-    Button seeMembersBtn;
-    @FXML
-    Button addMemberBtn;
-    @FXML
-    Button leaveChannelBtn;
-
-    @FXML
     BorderPane pageToDisplay;
 
     @FXML
@@ -111,67 +98,8 @@ public class ChannelPageController {
         Par exemple, le chargement des messages du channel, l'affichage de la photo de profil de l'utilisateur connecté près de la zone de message,...
         Cette méthode contient aussi les LISTENERS
         */
-        //iconsInit();
-
 
     }
-
-
-
-    private void iconsInit(){
-        //Liste membres
-        Image usersImage = new Image("IHMChannel/icons/users-solid.png");
-        ImageView usersIcon = new ImageView(usersImage);
-        usersIcon.setFitHeight(15);
-        usersIcon.setFitWidth(15);
-        seeMembersBtn.setGraphic(usersIcon);
-
-        //Ajout membre
-        Image addUserImage = new Image("IHMChannel/icons/user-plus-solid.png");
-        ImageView addUserIcon = new ImageView(addUserImage);
-        addUserIcon.setFitHeight(15);
-        addUserIcon.setFitWidth(15);
-        addMemberBtn.setGraphic(addUserIcon);
-
-        //Quitter
-        Image exitImage = new Image("IHMChannel/icons/exit.png");
-        ImageView exitIcon = new ImageView(exitImage);
-        exitIcon.setFitHeight(15);
-        exitIcon.setFitWidth(15);
-        leaveChannelBtn.setGraphic(exitIcon);
-    }
-
-    /**
-     * Méthode déclenchée au clic sur le bouton "voir les membres"
-     */
-    public void seeMembers(){
-
-        channelMap.get(currentChannel).seeMembers();
-    }
-
-    /**
-     * Méthode déclenchée au clic sur le bouton "ajouter un membre"
-     */
-    public void addUserToChannel(){
-
-    }
-
-    /**
-     * Méthode déclenchée au clic sur le bouton "quitter le channel"
-     */
-    public void leaveChannel(){
-      /*  openedChannels.remove(channelMap.get(currentChannel));
-        channelMap.remove(currentChannel)*/
-    }
-
-    /**
-     * Méthode de test déclenchée à l'appui sur le bouton "test réception"
-     * Génère l'ajout d'un message dans la liste de messages du channel.
-     */
-    public void receiveMessage(){
-        //channelMap.get(currentChannel).receiveMessage();
-    }
-
 
     public IHMChannelController getIhmChannelController() {
         return ihmChannelController;

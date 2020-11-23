@@ -103,6 +103,9 @@ public class ChannelController {
         channelMessagesDisplay.getController().addMessageToObservableList(receivedMessage);
     }
 
+    /**
+     * Méthode déclenchée au clic sur le bouton "voir les membres"
+     */
     public void seeMembers() {
         if(seeMessages){
             pageToDisplay.setCenter(channelMembersDisplay.root);
@@ -114,12 +117,15 @@ public class ChannelController {
         }
     }
 
+    /**
+     * Méthode déclenchée au clic sur le bouton "ajouter un membre"
+     */
     public void addUserToChannel() {
     }
 
 
 
-    public void setChannel(Channel channel) {
+    public void setChannel(Channel channel) throws IOException {
         System.out.println("ChannelController.setChannel : "+channel);
         this.setCurrentChannel(channel);
         channelName.setText(channel.getName());
@@ -127,7 +133,7 @@ public class ChannelController {
 
         //On transmet aux 2 "sous-vues" le channel à afficher et chacune fait le traitement nécessaire
         channelMessagesDisplay.getController().setCurrentChannel(channel);
-        //channelMembersDisplay.getController().setCurrentChannel(channel);
+        channelMembersDisplay.getController().setCurrentChannel(channel);
     }
 
 

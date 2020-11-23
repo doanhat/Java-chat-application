@@ -12,11 +12,11 @@
     <VBox>
         <HBox>
             <fx:define>
-                <ToggleGroup fx:id="modeAffichage" />
+                <ToggleGroup fx:id="viewMode" />
             </fx:define>
-            <RadioButton fx:id="alphaBtn" text="alphabétique" toggleGroup="$modeAffichage"/>
-            <RadioButton fx:id="autorBtn" text="autorisations" toggleGroup="$modeAffichage"/>
-            <RadioButton fx:id="onlineBtn" text="utilisateurs connectés" toggleGroup="$modeAffichage"/>
+            <RadioButton fx:id="alphaBtn" text="alphabétique" toggleGroup="$viewMode" onAction="#alphabeticSort"/>
+            <RadioButton fx:id="autor" text="autorisations" toggleGroup="$viewMode" onAction="#adminSort"/>
+            <RadioButton fx:id="onlineBtn" text="utilisateurs connectés" toggleGroup="$viewMode" onAction="#onlineUserSort"/>
         </HBox>
         <ListView fx:id="membersList"/>
     </VBox>

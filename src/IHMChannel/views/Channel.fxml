@@ -40,21 +40,7 @@
             <Button fx:id="addMemberBtn" onAction="#addUserToChannel"/>
             <Button fx:id="leaveChannelBtn" onAction="#leaveChannel"/>
         </HBox>
-
-
         <BorderPane fx:id="pageToDisplay"/>
-        <!--
-        MOVED TO ChannelMessages.fxml
-        <ListView fx:id="listMessages">
-
-        </ListView>
-
-        <HBox>
-            <ImageView fx:id="profilePic"/>
-            <TextArea fx:id="typedText"/>
-            <Button fx:id="sendBtn" onAction="#sendMessage"/>
-        </HBox>
-        -->
     </VBox>
 
 </AnchorPane>

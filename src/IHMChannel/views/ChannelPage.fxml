@@ -12,21 +12,7 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="IHMChannel.controllers.ChannelPageController">
     <VBox fx:id="channelPage">
-
-
         <TabPane fx:id="tabs"></TabPane>
         <BorderPane fx:id="pageToDisplay"/>
-        <!--
-        MOVED TO ChannelMessages.fxml
-        <ListView fx:id="listMessages">
-
-        </ListView>
-
-        <HBox>
-            <ImageView fx:id="profilePic"/>
-            <TextArea fx:id="typedText"/>
-            <Button fx:id="sendBtn" onAction="#sendMessage"/>
-        </HBox>
-        -->
     </VBox>
 </AnchorPane>

@@ -2,41 +2,57 @@ package IHMChannel.controllers;
 
 import IHMChannel.MemberDisplay;
 import common.sharedData.Channel;
+import common.sharedData.User;
 import common.sharedData.UserLite;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
-import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 
 import java.io.IOException;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Contrôleur de la vue "ChannelMembers" qui contient la liste des membres d'un channel et les options d'affichage de cette liste
  */
 public class ChannelMembersController {
     @FXML
-    ListView membersList;
+    ListView<HBox> membersList;
     @FXML
-    ToggleGroup modeAffichage;
-    @FXML
-    Toggle alphaBtn;
+    ToggleGroup viewMode;
+
+
+    ArrayList<UserLite> channelMembers;
 
     ObservableList<HBox> membersToDisplay = FXCollections.observableArrayList();
+
     Channel channel;
+
+
     ListChangeListener<UserLite> membersListListener;
     ListChangeListener<UserLite> adminsListListener;
 
     /**
-     * Initialise l'affichage de la liste des membres (acceptedPerson) contenus dans l'attribut channel de la classe
+     * Initialise la liste des membres (acceptedPerson) contenus dans l'attribut channel de la classe
      */
-    private void initMembersList() throws IOException {
-        membersToDisplay.removeAll(); //réinitialisation
+    private void initMembersList() {
+        channelMembers.removeAll(channelMembers);
         for (UserLite usr : this.channel.getAcceptedPersons()){
+            channelMembers.add(usr);
+        }
+    }
+
+    /**
+     * Permet l'affichage de la liste des membres en faisant une conversion en Hbox.
+     * @throws IOException
+     */
+
+    private void displayMembers() throws IOException {
+        membersToDisplay.removeAll(membersToDisplay);
+        for (UserLite usr : channelMembers){
             membersToDisplay.add((HBox) new MemberDisplay(usr).root);
         }
         membersList.setItems(membersToDisplay);
@@ -47,47 +63,55 @@ public class ChannelMembersController {
      * Met à jour la liste des membres en conséquence
      * @param channel
      */
-    public void setChannel(Channel channel){
+    public void setCurrentChannel(Channel channel) throws IOException {
         this.channel = channel;
-        try {
-            initMembersList();
-        } catch (IOException e) {
-            System.out.println("Erreur lors de l'affichage des membres du channel");
-            e.printStackTrace();
-        }
-        //TODO implémenter ces méthodes dans Channel
-//        this.channel.getAcceptedPersons().addListener(membersListListener);
-//        this.channel.getAdministrators().addListener(adminsListListener);
+
+        // A remettre pour utiliser les users du channel // Pour le moment, on utilise les données brutes en exemples.
+        //initMembersList();
+        //displayMembers();
     }
 
 
-    //TODO gérer les radio buttons /!\ listener
-
     public ChannelMembersController(){
-
+        channelMembers = new ArrayList<UserLite>();
     }
 
     public void initialize() throws IOException {
         //Membres
-        UserLite tmpUser = new UserLite(UUID.randomUUID(), "Léa", null);
-        tmpUser.setNickName("Léa");
-        HBox tmp = (HBox) new MemberDisplay(tmpUser).root;
-        membersToDisplay.add(tmp);
-        tmpUser.setNickName("Aida");
-        tmp = (HBox) new MemberDisplay(tmpUser).root;
-        membersToDisplay.add(tmp);
-        tmpUser.setNickName("Lucas");
-        tmp = (HBox) new MemberDisplay(tmpUser).root;
-        membersToDisplay.add(tmp);
-        tmpUser.setNickName("Vladimir");
-        tmp = (HBox) new MemberDisplay(tmpUser).root;
-        membersToDisplay.add(tmp);
-        tmpUser.setNickName("Jérôme");
-        tmp = (HBox) new MemberDisplay(tmpUser).root;
-        membersToDisplay.add(tmp);
-        tmpUser.setNickName("Van-Triet");
-        tmp = (HBox) new MemberDisplay(tmpUser).root;
-        membersToDisplay.add(tmp);
-        membersList.setItems(membersToDisplay);
+
+        UserLite user1 = new UserLite(UUID.randomUUID(), "Léa", null);
+        channelMembers.add(user1);
+        UserLite user2 = new UserLite(UUID.randomUUID(), "Aida", null);
+        channelMembers.add(user2);
+        UserLite user3 = new UserLite(UUID.randomUUID(), "Lucas", null);
+        channelMembers.add(user3);
+        UserLite user4 = new UserLite(UUID.randomUUID(), "Vladimir", null);
+        channelMembers.add(user4);
+        UserLite user5 = new UserLite(UUID.randomUUID(), "Jérôme", null);
+        channelMembers.add(user5);
+        UserLite user6 = new UserLite(UUID.randomUUID(), "Van-Triet", null);
+        channelMembers.add(user6);
+
+        displayMembers();
+    }
+
+    public void alphabeticSort() throws IOException {
+        channelMembers.sort(Comparator.comparing(UserLite::getNickName));
+        channelMembers.forEach(user -> System.out.println(user.getNickName()));
+        displayMembers();
+    }
+
+
+    public void adminSort() {
+
+    }
+
+    public void onlineUserSort() {
+        /* TO - DO quand on pourra savoir qui est connecté.
+
+        channelMembers.sort(Comparator.comparing(UserLite::isConnected));
+        displayMembers();
+
+        */
     }
 }
