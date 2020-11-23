@@ -45,7 +45,7 @@ public class MainChannel extends Application {
      * Crée un channel et lui ajoute une liste de messages
      */
     private void initTestData(){
-        channelToDisplay = new OwnedChannel(1,"LO23",new UserLite(UUID.randomUUID(), "Léa", null),"channel pour l'UV LO23", Visibility.PUBLIC);
+        channelToDisplay = new OwnedChannel(1,"LO23",new UserLite(UUID.randomUUID(),  "Léa", null),"channel pour l'UV LO23", Visibility.PUBLIC);
         UserLite usr1 = new UserLite(UUID.randomUUID(), "Aïda", null);
         usr1.setNickName("toto");
         UserLite usr2 = new UserLite(UUID.randomUUID(), "Vlad", null);
