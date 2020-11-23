@@ -7,6 +7,8 @@ import common.sharedData.Channel;
 import common.sharedData.Message;
 import common.sharedData.User;
 
+import java.util.UUID;
+
 public class DataToIHMChannel implements IDataToIHMChannel{
 
     private IHMChannelController controller;
@@ -124,4 +126,8 @@ public class DataToIHMChannel implements IDataToIHMChannel{
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
+    @Override
+    public Channel getChannel(UUID id){
+        return controller.getChannelPageController().getChannelController(id).getCurrentChannel();
+    }
 }

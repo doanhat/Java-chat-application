@@ -33,17 +33,17 @@ public class IHMChannelController {
         interfaceForIHMMain = new IHMMainToIHMChannel(this);
         // TODO: récupérer le channel depuis l'appel de getChannelWindow()
         try{
-            OwnedChannel newOwnedChannel = new OwnedChannel(1,"LO23",new UserLite(UUID.randomUUID(), "Aïda", null),"channel pour l'UV LO23", Visibility.PUBLIC);
+            OwnedChannel newOwnedChannel = new OwnedChannel("LO23",new UserLite("Aïda", null),"channel pour l'UV LO23", Visibility.PUBLIC);
 
-            UserLite usr1 = new UserLite(UUID.randomUUID(), "Aïda", null);
+            UserLite usr1 = new UserLite("Aïda", null);
             usr1.setNickName("toto");
-            UserLite usr2 = new UserLite(UUID.randomUUID(), "Léa", null);
+            UserLite usr2 = new UserLite("Léa", null);
             usr2.setNickName("titi");
 
             List<Message> listMessages = new ArrayList<Message>();
-            listMessages.add(new Message(1,"Salut, vous allez bien ?",usr1));
-            listMessages.add(new Message(2,"Oui super et toi ?",usr2));
-            listMessages.add(new Message(3,"T'as avancé le projet LO23 ?",usr1));
+            listMessages.add(new Message("Salut, vous allez bien ?",usr1));
+            listMessages.add(new Message("Oui super et toi ?",usr2));
+            listMessages.add(new Message("T'as avancé le projet LO23 ?",usr1));
 
             newOwnedChannel.setMessages(listMessages);
             ChannelPageDisplay channelPageDisplay = new ChannelPageDisplay(newOwnedChannel, this);
@@ -150,17 +150,17 @@ public class IHMChannelController {
     }
 
     public Channel initTestData() throws IOException {
-        OwnedChannel newOwnedChannel = new OwnedChannel(1,"LO23",new UserLite(UUID.randomUUID(), "Aïda", null),"channel pour l'UV LO23", Visibility.PUBLIC);
+        OwnedChannel newOwnedChannel = new OwnedChannel("LO23",new UserLite("Aïda", null),"channel pour l'UV LO23", Visibility.PUBLIC);
 
-        UserLite usr1 = new UserLite(UUID.randomUUID(), "Aïda", null);
+        UserLite usr1 = new UserLite( "Aïda", null);
         usr1.setNickName("toto");
-        UserLite usr2 = new UserLite(UUID.randomUUID(), "Léa", null);
+        UserLite usr2 = new UserLite("Léa", null);
         usr2.setNickName("titi");
 
         List<Message> listMessages = new ArrayList<Message>();
-        listMessages.add(new Message(1,"Salut, vous allez bien ?",usr1));
-        listMessages.add(new Message(2,"Oui super et toi ?",usr2));
-        listMessages.add(new Message(3,"T'as avancé le projet LO23 ?",usr1));
+        listMessages.add(new Message("Salut, vous allez bien ?",usr1));
+        listMessages.add(new Message("Oui super et toi ?",usr2));
+        listMessages.add(new Message("T'as avancé le projet LO23 ?",usr1));
 
 
         return newOwnedChannel;

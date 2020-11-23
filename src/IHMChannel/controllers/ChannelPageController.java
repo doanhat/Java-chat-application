@@ -32,10 +32,10 @@ import java.util.UUID;
  * TODO ajouter les interfaces
  */
 public class ChannelPageController {
-    int currentChannel; //channel à afficher dans l'interface
+    UUID currentChannel; //channel à afficher dans l'interface
     UserLite connectedUser; //tmp
     ObservableSet<Channel> openedChannels; //channel auxquels l'utilisateur est connecté
-    HashMap<Integer, ChannelController > channelMap;
+    HashMap<UUID, ChannelController > channelMap;
     private IHMChannelController ihmChannelController;
 
     @FXML
@@ -108,12 +108,12 @@ public class ChannelPageController {
     public ChannelPageController(){
         //tmp
         // permet d'avoir un utilisateur temporaire pour l'affichage des messages
-        connectedUser = new UserLite(UUID.randomUUID(), "newUser", null);
+        connectedUser = new UserLite("newUser", null);
         connectedUser.setNickName("Léa");
 
         //initialisation de oppenedChannel
         openedChannels = FXCollections.observableSet();
-        channelMap = new HashMap<Integer, ChannelController>();
+        channelMap = new HashMap<UUID, ChannelController>();
     }
     /**
      * Automatically called by FXML Loader
@@ -199,7 +199,7 @@ public class ChannelPageController {
         this.ihmChannelController = ihmChannelController;
     }
 
-    public ChannelController getChannelController(int channelId){
+    public ChannelController getChannelController(UUID channelId){
         ChannelController channelController = channelMap.get(channelId);
         return channelController;
     }

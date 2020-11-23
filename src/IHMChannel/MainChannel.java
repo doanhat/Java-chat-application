@@ -48,13 +48,13 @@ public class MainChannel extends Application {
         channelToDisplay = new OwnedChannel(1,"LO23",new UserLite(UUID.randomUUID(),  "Léa", null),"channel pour l'UV LO23", Visibility.PUBLIC);
         UserLite usr1 = new UserLite(UUID.randomUUID(), "Aïda", null);
         usr1.setNickName("toto");
-        UserLite usr2 = new UserLite(UUID.randomUUID(), "Vlad", null);
+        UserLite usr2 = new UserLite("Vlad", null);
         usr2.setNickName("titi");
 
         List<Message> listMessages = new ArrayList<Message>();
-        listMessages.add(new Message(1,"Salut, vous allez bien ?",usr1));
-        listMessages.add(new Message(2,"Oui super et toi ?",usr2));
-        listMessages.add(new Message(3,"T'as avancé le projet LO23 ?",usr1));
+        listMessages.add(new Message("Salut, vous allez bien ?",usr1));
+        listMessages.add(new Message("Oui super et toi ?",usr2));
+        listMessages.add(new Message("T'as avancé le projet LO23 ?",usr1));
 
         channelToDisplay.setMessages(listMessages);
     }

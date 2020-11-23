@@ -2,16 +2,16 @@ package common.interfaces.server;
 
 import common.sharedData.Channel;
 import common.sharedData.Message;
+import common.sharedData.SharedChannel;
 import common.sharedData.UserLite;
 import java.util.List;
+import java.util.UUID;
 
 public interface IServerCommunicationToData {
-
-    /** Channels section */
-
     /**
      * NOTE: Suggestion de Comm: ajouter une méthode: 'Channel getChannel(int channelID)' pour retrouver un channel selon son ID
      */
+
 
     /**
      * NOTE: Suggestion de Comm: utiliser seulement channelID pour diminuer la taille du paquet réseau,
@@ -129,7 +129,6 @@ public interface IServerCommunicationToData {
      *
      * @param channel le channel dans lequel est posté le message concerné
      * @param ms le message qui sera retiré du channel
-     * @param user ??????????????????????????????????????????????????????????????????????????????????
      * */
     void saveRemovalMessageIntoHistory(Channel channel, Message ms, Boolean deletedByCreator);
 
@@ -154,21 +153,21 @@ public interface IServerCommunicationToData {
      * @param creator l'utilisateur créateur du channel
      * @param description la description du channel
      * */
-    Channel createPublicSharedChannel(String name, UserLite creator, String description);
-
-    /** Users section */
+    SharedChannel createPublicSharedChannel(String name, UserLite creator, String description);
 
     /**
      * Méthode pour faire la déconnexion d'un utilisateur
      *
-     * @param user l'utilisateur qui va se déconnecter
+     * @param userID l'identifiant de l'utilisateur qui va se déconnecter
      * */
-    List<UserLite> disconnectUser(UserLite user);
+
+    void disconnectUser(UUID userID);
+
 
     /**
      * Méthode pour faire la connexion d'un utilisateur
      * */
-    List<UserLite> newConnection(UserLite user);
+    void newConnection(UserLite user);
 
     /**
      * Méthode pour retourner la liste des utilisateurs connectés
@@ -194,12 +193,19 @@ public interface IServerCommunicationToData {
     void sendChannelInvitation(UserLite sender, UserLite receiver, String message);
 
     /**
+     *  Méthode pour renvoyer la liste des messages d'un channel
+     *
+     * @param channelID l'identifiant du channel concerné
+     * */
+    List<Message> getChannelMessages(UUID channelID);
+
+    /**
      * Méthode pour s'abonner à un channel
      *
      * @param channel le channel auquel l'utilisateur va s'abonner
      * @param user l'utilisateur qui va s'abonner au channel
      * */
-    List<Message> joinChannel(Channel channel, UserLite user);
+    List<UserLite> joinChannel(Channel channel, UserLite user);
 
     /**
      * Méthode pour se désabonner d'un channel

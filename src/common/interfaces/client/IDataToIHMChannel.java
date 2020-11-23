@@ -4,6 +4,8 @@ import common.sharedData.Channel;
 import common.sharedData.Message;
 import common.sharedData.User;
 
+import java.util.UUID;
+
 public interface IDataToIHMChannel {
     /**
      * Permet de traiter la suppression du channel actuellement ouvert sur l'interface.
@@ -74,4 +76,7 @@ public interface IDataToIHMChannel {
      * @param deletedByCreator booléen indiquant si la suppression a été faite par le propriétaire du message
      */
     void deleteMessage(Message message, Channel channel, boolean deletedByCreator);
+
+    Channel getChannel(UUID id);
+
 }
