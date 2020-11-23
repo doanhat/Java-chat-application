@@ -36,7 +36,6 @@ public class ChannelController extends Controller{
         List<Channel> channels = getChannels();
         channels.add(channel);
         this.mainClient.updateListChannel(channels);
-        this.comClient.
     }
 
     /**
