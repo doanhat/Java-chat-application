@@ -10,18 +10,13 @@ import java.util.List;
 
 public class CommunicationToIHMChannel implements ICommunicationToIHMChannel {
 
-    private IHMChannelController controller;
-
-    /**
-     * Constructeur
-     * @param controller
-     */
     public CommunicationToIHMChannel(IHMChannelController controller){
         this.controller = controller;
     }
 
     /**
      * Méthode permettant de changer le nickname d'un utilisateur
+     *
      * @param user l'utilisateur
      */
     @Override
@@ -31,6 +26,7 @@ public class CommunicationToIHMChannel implements ICommunicationToIHMChannel {
 
     /**
      * Méthode permettant d'afficher l'historique des messages
+     *
      * @param channel le channel concerné
      * @param history la liste des messages
      */
@@ -38,5 +34,7 @@ public class CommunicationToIHMChannel implements ICommunicationToIHMChannel {
     public void displayHistory(Channel channel, List<Message> history) {
         throw new UnsupportedOperationException("Not implemented yet");
     }
+
+    private IHMChannelController controller;
 
 }

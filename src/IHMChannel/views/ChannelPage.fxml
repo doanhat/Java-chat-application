@@ -1,23 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="IHMChannel.controllers.ChannelPageController"
-            prefWidth="Infinity" prefHeight="Infinity">
-
+<AnchorPane xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IHMChannel.controllers.ChannelPageController">
     <VBox fx:id="channelPage">
 
+        <HBox>
+            <children>
+                <TextField fx:id="canalText" />
+                <Button fx:id="createCanalBtn" mnemonicParsing="false" onAction="#creatCanal" text="Join" />
+            </children>
+        </HBox>
+        <HBox style="-fx-background-color: #B9E6FF">
+            <Pane HBox.hgrow="ALWAYS" />
+            <Button fx:id="back" style="-fx-background-color: transparent;" />
+        </HBox>
 
-        <TabPane fx:id="tabs"></TabPane>
-        <BorderPane fx:id="pageToDisplay"/>
+        <TabPane fx:id="tabs" />
+        <BorderPane fx:id="pageToDisplay" />
         <!--
         MOVED TO ChannelMessages.fxml
         <ListView fx:id="listMessages">

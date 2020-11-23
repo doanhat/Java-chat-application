@@ -1,10 +1,13 @@
 package IHMChannel.controllers;
 
+import IHMChannel.ChannelMembersDisplay;
+import IHMChannel.ChannelMessagesDisplay;
 import IHMChannel.IHMChannelController;
-import common.sharedData.Channel;
-import common.sharedData.UserLite;
+import common.sharedData.*;
+import javafx.beans.InvalidationListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableSet;
+import javafx.collections.SetChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -12,13 +15,16 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.UUID;
 
 /**
@@ -46,10 +52,54 @@ public class ChannelPageController {
     Button leaveChannelBtn;
 
     @FXML
+    private TextField canalText;
+
+    @FXML
+    private Button createCanalBtn;
+
+    @FXML
     BorderPane pageToDisplay;
 
     @FXML
     TabPane tabs;
+
+
+    /**
+     * Setter du channel
+     * Met à jour l'attribut channel du contrôleur (= celui qu'affiche la page)
+     * Met à jour le nom et la description du channel sur l'interface.
+     * @param channel
+     */
+
+
+    public void addOpenedChannel(Channel channel) throws IOException {
+        iconsInit();
+        openedChannels.add(channel);
+
+        //Création du nouvel onglet pour le channel ajouté
+
+        FXMLLoader fxmlLoader =
+                new FXMLLoader(getClass().getResource("/IHMChannel/views/Channel.fxml"));
+        Parent root = fxmlLoader.load();
+
+        ChannelController ctrl = fxmlLoader.getController();
+        ctrl.setChannel(channel);
+        ctrl.setIhmChannelController(ihmChannelController);
+        ctrl.getIhmChannelController().setChannelPageController(this);
+        ctrl.configureMessageDisplay(ihmChannelController);
+        Tab tab = new Tab(channel.getName());
+        tab.setId(channel.getName());
+        tab.setOnClosed((event->{
+            this.openedChannels.remove(channel);
+        }));
+        tabs.getTabs().add(tab);
+        tab.setContent((Node) root);
+        tabs.getSelectionModel().select(tab);
+        //tab1.setGraphic(root);
+
+
+        channelMap.put(channel.getId(), ctrl);
+    }
 
     /**
      * Constructeur : Appelé par le FXML Loader.
@@ -65,33 +115,6 @@ public class ChannelPageController {
         openedChannels = FXCollections.observableSet();
         channelMap = new HashMap<Integer, ChannelController>();
     }
-
-    /**
-     * Getter du contrôleur principal de IHM-Channel
-     * @return le contrôleur principal de IHM-Channel
-     */
-    public IHMChannelController getIhmChannelController() {
-        return ihmChannelController;
-    }
-
-    /**
-     * Setter du contrôleur principal de IHM-Channel
-     * @param ihmChannelController le contrôleur principal de IHM-Channel
-     */
-    public void setIhmChannelController(IHMChannelController ihmChannelController) {
-        this.ihmChannelController = ihmChannelController;
-    }
-
-    /**
-     * Getter du contrôleur de la vue correspondant au channel dont l'id est channelId
-     * @param channelId id du channel lié à la vue dont on veut obtenir le contrôleur
-     * @return le contrôleur de la vue correspondant au channel dont l'id est channelId
-     */
-    public ChannelController getChannelController(int channelId){
-        ChannelController channelController = channelMap.get(channelId);
-        return channelController;
-    }
-
     /**
      * Automatically called by FXML Loader
      */
@@ -101,88 +124,117 @@ public class ChannelPageController {
         Cette méthode contient aussi les LISTENERS
         */
         //iconsInit();
+
+
     }
 
-    /**
-     * Ajoute channel à la liste des channels ouverts et l'affiche dans un nouvel onglet.
-     * @param channel nouveau channel à afficher
-     * @throws IOException
-     */
-    public void addOpenedChannel(Channel channel) throws IOException {
-        openedChannels.add(channel);
-        //Création du nouvel onglet pour le channel ajouté
-
-        FXMLLoader fxmlLoader =
-                new FXMLLoader(getClass().getResource("/IHMChannel/views/Channel.fxml"));
-        Parent root = fxmlLoader.load();
-
-        ChannelController ctrl = fxmlLoader.getController();
-        ctrl.setChannel(channel);
-        ctrl.setIhmChannelController(ihmChannelController);
-        ctrl.getIhmChannelController().setChannelPageController(this);
-        ctrl.configureChannelMessageDisplay(ihmChannelController);
-        Tab tab = new Tab(channel.getName());
-        tabs.getTabs().add(tab);
-        tab.setContent((Node) root);
-
-        channelMap.put(channel.getId(), ctrl);
-    }
 
 
     private void iconsInit(){
-        //Liste membres
-        Image usersImage = new Image("IHMChannel/icons/users-solid.png");
+        //Accueil
+        Image usersImage = new Image("IHMChannel/icons/home.png");
         ImageView usersIcon = new ImageView(usersImage);
         usersIcon.setFitHeight(15);
         usersIcon.setFitWidth(15);
-        seeMembersBtn.setGraphic(usersIcon);
+        back.setGraphic(usersIcon);
 
-        //Ajout membre
-        Image addUserImage = new Image("IHMChannel/icons/user-plus-solid.png");
-        ImageView addUserIcon = new ImageView(addUserImage);
-        addUserIcon.setFitHeight(15);
-        addUserIcon.setFitWidth(15);
-        addMemberBtn.setGraphic(addUserIcon);
-
-        //Quitter
-        Image exitImage = new Image("IHMChannel/icons/exit.png");
-        ImageView exitIcon = new ImageView(exitImage);
-        exitIcon.setFitHeight(15);
-        exitIcon.setFitWidth(15);
-        leaveChannelBtn.setGraphic(exitIcon);
+//        //Liste membres
+//        Image usersImage = new Image("IHMChannel/icons/users-solid.png");
+//        ImageView usersIcon = new ImageView(usersImage);
+//        usersIcon.setFitHeight(15);
+//        usersIcon.setFitWidth(15);
+//        seeMembersBtn.setGraphic(usersIcon);
+//
+//        //Ajout membre
+//        Image addUserImage = new Image("IHMChannel/icons/user-plus-solid.png");
+//        ImageView addUserIcon = new ImageView(addUserImage);
+//        addUserIcon.setFitHeight(15);
+//        addUserIcon.setFitWidth(15);
+//        addMemberBtn.setGraphic(addUserIcon);
+//
+//        //Quitter
+//        Image exitImage = new Image("IHMChannel/icons/exit.png");
+//        ImageView exitIcon = new ImageView(exitImage);
+//        exitIcon.setFitHeight(15);
+//        exitIcon.setFitWidth(15);
+//        leaveChannelBtn.setGraphic(exitIcon);
     }
 
-//    /**
-//     * Méthode déclenchée au clic sur le bouton "voir les membres"
-//     */
-//    public void seeMembers(){
-//
+    /**
+     * Méthode déclenchée au clic sur le bouton "voir les membres"
+     */
+    public void seeMembers(){
 //        channelMap.get(currentChannel).seeMembers();
-//    }
-//
-//    /**
-//     * Méthode déclenchée au clic sur le bouton "ajouter un membre"
-//     */
-//    public void addUserToChannel(){
-//
-//    }
-//
-//    /**
-//     * Méthode déclenchée au clic sur le bouton "quitter le channel"
-//     */
-//    public void leaveChannel(){
-//      /*  openedChannels.remove(channelMap.get(currentChannel));
-//        channelMap.remove(currentChannel)*/
-//    }
-//
-//    /**
-//     * Méthode de test déclenchée à l'appui sur le bouton "test réception"
-//     * Génère l'ajout d'un message dans la liste de messages du channel.
-//     */
-//    public void receiveMessage(){
-//        //channelMap.get(currentChannel).receiveMessage();
-//    }
+    }
+
+    /**
+     * Méthode déclenchée au clic sur le bouton "ajouter un membre"
+     */
+    public void addUserToChannel(){
+
+    }
+
+    /**
+     * Méthode déclenchée au clic sur le bouton "quitter le channel"
+     */
+    public void leaveChannel(){
+      /*  openedChannels.remove(channelMap.get(currentChannel));
+        channelMap.remove(currentChannel)*/
+    }
+
+    /**
+     * Méthode de test déclenchée à l'appui sur le bouton "test réception"
+     * Génère l'ajout d'un message dans la liste de messages du channel.
+     */
+    public void receiveMessage(){
+        //channelMap.get(currentChannel).receiveMessage();
+    }
 
 
+    public IHMChannelController getIhmChannelController() {
+        return ihmChannelController;
+    }
+
+    public void setIhmChannelController(IHMChannelController ihmChannelController) {
+        this.ihmChannelController = ihmChannelController;
+    }
+
+    public ChannelController getChannelController(int channelId){
+        ChannelController channelController = channelMap.get(channelId);
+        return channelController;
+    }
+
+    @FXML
+    void creatCanal() throws IOException {
+        String channelName = canalText.getText();
+        int count = 0;
+        int maxid = 0;
+        Channel selectChannel;
+        for (Channel c : openedChannels) {
+            if (c.getName().equals(channelName)) {
+                count = 1;
+                selectChannel = c;
+                break;
+            }
+        }
+
+        for (Channel c : openedChannels) {
+            if (c.getId() > maxid) {
+                maxid = c.getId();
+            }
+        }
+//        System.out.println(count);
+        if (count == 0) {
+            Channel c = new OwnedChannel(maxid + 1, channelName, new UserLite(UUID.randomUUID(), "Léa", null), "channel pour l'UV " + channelName, Visibility.PUBLIC);
+            this.addOpenedChannel(c);
+        }
+        else {
+            for (Tab c : tabs.getTabs()) {
+                if (c.getId().equals(channelName)) {
+                    tabs.getSelectionModel().select(c);
+                }
+            }
+        }
+    }
 
 }
