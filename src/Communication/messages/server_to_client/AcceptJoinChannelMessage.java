@@ -18,6 +18,7 @@ public class AcceptJoinChannelMessage extends ServerToClientMessage {
 
     @Override
     protected void handle(CommunicationClientController commClientController) {
+        System.err.println("Accepted to join channel " + channelID);
         commClientController.notifyAcceptedToJoinChannel(user, channelID);
     }
 }

@@ -17,6 +17,10 @@ import tests.communication.interfaces_simulation.VirtualCommunicationToIHMMain;
 import java.util.*;
 
 public class CommClientCreateChannelTest {
+    // shared data between interfaces
+    private static List<UserLite> otherUsers    = new ArrayList<>();
+    private static  Map<UUID, Channel> channels = new HashMap<>();
+
     public static void main(String[] args)
     {
         /* --------------------------------- Init Comm Controller ----------------------------------------*/
@@ -29,20 +33,18 @@ public class CommClientCreateChannelTest {
         String username     = reader.nextLine();
         UserLite localUser  = new UserLite(username, "dernier maitre de l'air");
 
-        commClient.start(Parameters.SERVER_IP, Parameters.PORT, localUser);
-
-
         /* --------------------------------- Init Virtual Interfaces ----------------------------------------*/
-
-        // shared data between interfaces
-        List<UserLite> otherUsers = new ArrayList<>();
-        Map<UUID, Channel> channels = new HashMap<>();
 
         ICommunicationToData dataIface = new VirtualCommunicationToData(localUser, otherUsers, channels);
         ICommunicationToIHMMain mainIface = new VirtualCommunicationToIHMMain(otherUsers, channels);
         ICommunicationToIHMChannel channelIface = new VirtualCommunicationToIHMChannel();
 
         commClient.setupInterfaces(dataIface, mainIface, channelIface);
+
+        /* ------------------------------------------- Test Communication interface ----------------------------------*/
+        CommunicationClientInterfaceImpl commInterface = new CommunicationClientInterfaceImpl(commClient);
+
+        commInterface.userConnect(localUser);
 
         // Wait for connection established
         try {
@@ -52,13 +54,48 @@ public class CommClientCreateChannelTest {
             e.printStackTrace();
         }
 
-        /* ------------------------------------------- Test Communication interface ----------------------------------*/
-        CommunicationClientInterfaceImpl commInterface = new CommunicationClientInterfaceImpl(commClient);
-
+        // Create channel
         Channel channel = new SharedChannel("Test Channel", localUser, "Test", Visibility.PUBLIC);
 
         commInterface.createChannel(channel, true, true, localUser);
 
+        // Wait for request to finished
+        try {
+            Thread.sleep(1000);
+        }
+        catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // Command handling
+        while (true) {
+            System.out.print("Request join channel: ");
+
+            String channelID = reader.nextLine();
+
+            Channel requestChannel = getChannel(channelID);
+
+            if (requestChannel == null) {
+                System.err.println("Cannot find channel requester");
+            }
+            else {
+                commInterface.askToJoin(channel);
+            }
+        }
+
         //commClient.stop();
+    }
+
+    private static Channel getChannel(String channelID) {
+        try {
+            Channel channel = channels.get(UUID.fromString(channelID));
+
+            return channel;
+        }
+        catch (IllegalArgumentException e) {
+            System.err.println("Argument not valid");
+        }
+
+        return null;
     }
 }

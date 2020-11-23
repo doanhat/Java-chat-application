@@ -18,6 +18,7 @@ public class RefuseJoinChannelMessage extends ServerToClientMessage {
 
     @Override
     protected void handle(CommunicationClientController commClientController) {
+        System.err.println("Refused to join channel " + channelID);
         commClientController.notifyRefusedToJoinChannel(user, channelID);
     }
 }
