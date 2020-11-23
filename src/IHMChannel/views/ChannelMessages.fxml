@@ -15,8 +15,8 @@
         <ListView fx:id="listMessages"/>
         <HBox>
             <ImageView fx:id="profilePic"/>
-            <TextArea fx:id="typedText" styleClass=""/>
-            <Button fx:id="sendBtn" onAction="#sendMessage"/>
+            <TextArea fx:id="typedText"/>
+            <Button fx:id="sendBtn" onAction="#sendMessage" styleClass="secondary-btn"/>
             <Button fx:id="testReception" text="test reception" onAction="#receiveMessage"/>
         </HBox>
     </VBox>

@@ -17,7 +17,7 @@
         <HBox fx:id="menuBar" alignment="CENTER_LEFT" style="-fx-background-color: #B9E6FF">
             <!--La barre à retourner vers Main -->
             <VBox>
-                <Text fx:id="channelName" styleClass="secondary-title"/>
+                <Text fx:id="channelName" styleClass="channel-title"/>
                 <Text fx:id="channelDescription" styleClass="channel-description"/>
             </VBox>
             <Pane HBox.hgrow="ALWAYS" />
