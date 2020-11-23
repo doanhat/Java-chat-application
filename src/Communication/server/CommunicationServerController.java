@@ -1,5 +1,6 @@
 package Communication.server;
 
+import Communication.client.CommunicationClientController;
 import Communication.common.CommunicationController;
 import Communication.common.NetworkWriter;
 import Communication.messages.abstracts.NetworkMessage;
@@ -17,13 +18,27 @@ import java.util.UUID;
 
 public class CommunicationServerController extends CommunicationController {
 
+    private static CommunicationServerController instance = null;
+
     private final NetworkServer server;
     private IServerCommunicationToData dataServer;
 
-    public CommunicationServerController() {
+    private CommunicationServerController() {
         super();
 
         server = new NetworkServer(this);
+    }
+
+    /**
+     * Recuperer singleton de CommunicationClientController
+     * @return
+     */
+    public static CommunicationServerController instance() {
+        if (instance == null) {
+            instance = new CommunicationServerController();
+        }
+
+        return instance;
     }
 
     /* -------------------------------------------- Setup interfaces -------------------------------------------------*/

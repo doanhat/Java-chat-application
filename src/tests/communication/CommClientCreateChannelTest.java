@@ -16,8 +16,8 @@ import java.util.*;
 
 public class CommClientCreateChannelTest {
     // shared data between interfaces
-    private static final List<UserLite> otherUsers    = new ArrayList<>();
-    private static final Map<UUID, Channel> channels = new HashMap<>();
+    private static final List<UserLite>     otherUsers  = new ArrayList<>();
+    private static final Map<UUID, Channel> channels    = new HashMap<>();
 
     public static void main(String[] args)
     {
@@ -50,7 +50,8 @@ public class CommClientCreateChannelTest {
         }
 
         // Create channel
-        Channel channel = new Channel("Test Channel", localUser, "Test", Visibility.PUBLIC, ChannelType.SHARED);
+        Channel channel = new Channel("Test Channel of " + localUser.getNickName(), localUser,
+                            "Test", Visibility.PUBLIC, ChannelType.SHARED);
 
         commInterface.createChannel(channel, true, true, localUser);
 

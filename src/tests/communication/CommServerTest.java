@@ -19,7 +19,7 @@ public class CommServerTest {
 
         IServerCommunicationToData dataServer = new VirtualDataServer(users, channels, mapUserChannels);
 
-        CommunicationServerController commServer = new CommunicationServerController();
+        CommunicationServerController commServer = CommunicationServerController.instance();
 
         commServer.setupInterfaces(dataServer);
 
@@ -36,5 +36,7 @@ public class CommServerTest {
         }
 
         commServer.stop();
+
+        return;
     }
 }

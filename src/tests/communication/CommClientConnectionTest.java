@@ -30,5 +30,7 @@ public class CommClientConnectionTest {
         }
 
         commClient.disconnect(localUser.getId());
+
+        return;
     }
 }
