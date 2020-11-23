@@ -144,14 +144,5 @@ public class VirtualCommunicationToData implements ICommunicationToData {
             channel.addUser(user);
         }
     }
-
-    @Override
-    public void disconnectUser(UserLite user) {
-
-    }
-
-    @Override
-    public void newConnectionUser(User user) {
-
-    }
+    
 }
