@@ -7,12 +7,14 @@ import java.util.*;
 
 public class VirtualCommunicationToData implements ICommunicationToData {
 
-    private Map<UUID, Channel>  channels = new HashMap<>();
-    private Map<UUID, UserLite> users    = new HashMap<>();
+    private Map<UUID, Channel> channels;
+    private List<UserLite> otherUsers;
     UserLite localUser;
 
-    public VirtualCommunicationToData(UserLite localUser) {
+    public VirtualCommunicationToData(UserLite localUser, List<UserLite> otherUsers, Map<UUID, Channel> channels) {
         this.localUser = localUser;
+        this.otherUsers = otherUsers;
+        this.channels = channels;
     }
 
     @Override
@@ -119,7 +121,7 @@ public class VirtualCommunicationToData implements ICommunicationToData {
 
     @Override
     public List<UserLite> getUsers() {
-        return new ArrayList<>(users.values());
+        return otherUsers;
     }
 
     @Override
