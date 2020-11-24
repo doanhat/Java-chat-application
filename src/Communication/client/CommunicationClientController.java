@@ -35,7 +35,6 @@ public class CommunicationClientController extends CommunicationController {
     private CommunicationClientController() {
         super();
         client = new NetworkClient(this);
-        CommunicationClientInterface.instance();
     }
 
     /**

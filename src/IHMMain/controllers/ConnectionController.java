@@ -91,9 +91,9 @@ public class ConnectionController implements Initializable{
         }
         if (checkMandatoryFields(errors)) {
             // TODO uncomment when integration is done
-            /*ihmMainController.getIHMMainToData().localAuthentification(
+            ihmMainController.getIHMMainToData().localAuthentification(
                     userConnectionIDTextField.getText().trim(),
-                    password);*/
+                    password);
             // Manque vérification de la connexion : localAuthentification() devrait renvoyer une valeur booléenne à tester avant d'afficher IHMMainWindow
             mainWindowController.loadIHMMainWindow();
         }

@@ -8,7 +8,9 @@ import common.sharedData.Channel;
 import common.sharedData.User;
 import common.sharedData.UserLite;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,15 +19,27 @@ public class UserController extends Controller {
     public UserController(IDataToCommunication comClient, IDataToIHMChannel channelClient, IDataToIHMMain mainClient) {
         super(comClient, channelClient, mainClient);
     }
+    private User localUser;
 
     public boolean verificationAccount(String nickName, String password){
-        List<User> listUserLogin = new FileHandle().readJSONFileToList("users",User.class);
-        for (User user : listUserLogin){
-            if (user.getNickName().equals(nickName) & user.getPassword().equals(password)){
-                this.comClient.userConnect(user.getUserLite());
-            }
+//        List<User> listUserLogin = new FileHandle().readJSONFileToList("users",User.class);
+//        for (User user : listUserLogin){
+//            if (user.getNickName().equals(nickName) & user.getPassword().equals(password)){
+//                this.comClient.userConnect(user.getUserLite());
+//            }
+//
+//        }
+        /**
+         * ON TEST EN UN USER EN DUR POUR L'INTEGRATION
+         */
 
+        try {
+            localUser = new User(nickName, null , password, "Vlad", "Tchek", (String) null);
+            this.comClient.userConnect(localUser.getUserLite());
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
+
         return true;
     }
 
@@ -35,7 +49,7 @@ public class UserController extends Controller {
      * @return the user
      */
     User getUser() {
-        return null;
+        return localUser;
     }
 
     /**
