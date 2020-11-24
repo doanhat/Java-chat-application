@@ -22,9 +22,20 @@ public class CommunicationClientController extends CommunicationController {
     private ICommunicationToIHMMain mainClient;
     private ICommunicationToIHMChannel channelClient;
 
+
+
+
+    /**
+     * INTEGRATION:
+     * SINGLETON A VIRER (REMARQUE DE B.LUSSIER)
+     * Et une interface qui sert d'interface pour tous c'est pas ouf (contre principe de classe courte, pas de modularite)
+     *
+     */
+
     private CommunicationClientController() {
         super();
         client = new NetworkClient(this);
+        CommunicationClientInterface.instance();
     }
 
     /**

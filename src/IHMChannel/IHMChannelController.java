@@ -33,7 +33,7 @@ public class IHMChannelController {
         interfaceForIHMMain = new IHMMainToIHMChannel(this);
         // TODO: récupérer le channel depuis l'appel de getChannelWindow()
         try{
-            OwnedChannel newOwnedChannel = new OwnedChannel("LO23",new UserLite("Aïda", null),"channel pour l'UV LO23", Visibility.PUBLIC);
+            Channel newOwnedChannel = new Channel("LO23",new UserLite("Aïda", null),"channel pour l'UV LO23", Visibility.PUBLIC, ChannelType.OWNED);
 
             UserLite usr1 = new UserLite("Aïda", null);
             usr1.setNickName("toto");
@@ -108,7 +108,7 @@ public class IHMChannelController {
      * Getter de l'interface pour IHMMain vers IHMChannel
      * @return l'interface pour IHMMain vers IHMChannel
      */
-    public IIHMMainToIHMChannel getInterfaceForIHMMain() {
+    public IHMMainToIHMChannel getInterfaceForIHMMain() {
         return interfaceForIHMMain;
     }
 
@@ -150,7 +150,7 @@ public class IHMChannelController {
     }
 
     public Channel initTestData() throws IOException {
-        OwnedChannel newOwnedChannel = new OwnedChannel("LO23",new UserLite("Aïda", null),"channel pour l'UV LO23", Visibility.PUBLIC);
+        Channel newOwnedChannel = new Channel("LO23",new UserLite("Aïda", null),"channel pour l'UV LO23", Visibility.PUBLIC, ChannelType.OWNED);
 
         UserLite usr1 = new UserLite( "Aïda", null);
         usr1.setNickName("toto");

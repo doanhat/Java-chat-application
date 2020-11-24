@@ -217,7 +217,7 @@ public class ChannelPageController {
             }
         }
         if (count == 0) {
-            Channel c = new OwnedChannel(channelName, new UserLite("Léa", null), "channel pour l'UV " + channelName, Visibility.PUBLIC);
+            Channel c = new Channel(channelName, new UserLite("Léa", null), "channel pour l'UV " + channelName, Visibility.PUBLIC, ChannelType.OWNED);
             this.addOpenedChannel(c);
         }
         else {

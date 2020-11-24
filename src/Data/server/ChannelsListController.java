@@ -14,6 +14,10 @@ public class ChannelsListController {
     private List<Channel> channels;
     private FileHandle fileHandle;
 
+    /**
+     * SVP CREER LES FICHIER AVEC DES FONCTIONS
+     */
+
     public ChannelsListController() {
         this.fileHandle = new FileHandle(System.getProperty("user.dir")+"/projet-lo23a20d1/resource/channels/");
         this.channels = createChannelListFromJSONFiles();
@@ -21,20 +25,20 @@ public class ChannelsListController {
 
     public List<Channel> createChannelListFromJSONFiles(){
         List<Channel> list = new ArrayList<>();
-        String [] pathnames;
-        try{
-            File f = new File(fileHandle.getPath());
-
-            pathnames = f.list();
-
-            for (String pathname : pathnames) {
-                pathname = pathname.substring(0, pathname.lastIndexOf('.'));
-                list.add((Channel) fileHandle.readJSONFileToObject(pathname,Channel.class));
-                System.out.println(list.size());
-            }
-        } catch (Exception e){
-            System.out.println(e);
-        }
+//        String [] pathnames;
+//        try{
+//            File f = new File(fileHandle.getPath());
+//
+//            pathnames = f.list();
+//
+//            for (String pathname : pathnames) {
+//                pathname = pathname.substring(0, pathname.lastIndexOf('.'));
+//                list.add((Channel) fileHandle.readJSONFileToObject(pathname,Channel.class));
+//                System.out.println(list.size());
+//            }
+//        } catch (Exception e){
+//           e.printStackTrace();
+//        }
         return new ArrayList<>();
     }
 
