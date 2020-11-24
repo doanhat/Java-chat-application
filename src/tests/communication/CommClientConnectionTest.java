@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class CommClientConnectionTest {
     public static void main(String[] args)
     {
-        CommunicationClientController commClient = new CommunicationClientController();
+        CommunicationClientController commClient = CommunicationClientController.instance();
 
         Scanner reader = new Scanner(System.in);
 
@@ -30,5 +30,7 @@ public class CommClientConnectionTest {
         }
 
         commClient.disconnect(localUser.getId());
+
+        return;
     }
 }

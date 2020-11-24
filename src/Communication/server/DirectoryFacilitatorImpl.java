@@ -108,4 +108,23 @@ public class DirectoryFacilitatorImpl implements DirectoryFacilitator {
 
         return connections;
     }
+
+    /**
+     * Purge la liste de NetworkUser et ferme tous les sockets clients
+     */
+    @Override
+    public void clear() {
+        for (NetworkUser user: connections.values()) {
+            if (user != null) {
+                try {
+                    user.stop();
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        connections.clear();
+    }
 }

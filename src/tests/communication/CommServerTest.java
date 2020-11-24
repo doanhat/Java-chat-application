@@ -19,12 +19,24 @@ public class CommServerTest {
 
         IServerCommunicationToData dataServer = new VirtualDataServer(users, channels, mapUserChannels);
 
-        CommunicationServerController commServer = new CommunicationServerController();
+        CommunicationServerController commServer = CommunicationServerController.instance();
 
         commServer.setupInterfaces(dataServer);
 
         commServer.start();
 
-        //commServer.stop();
+        Scanner reader = new Scanner(System.in);
+
+        while (true) {
+            System.out.print("Disconnect: ");
+
+            if("exit".equals(reader.nextLine())) {
+                break;
+            }
+        }
+
+        commServer.stop();
+
+        return;
     }
 }
