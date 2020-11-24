@@ -2,8 +2,7 @@ package IHMChannel.controllers;
 
 import common.sharedData.Message;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
@@ -110,8 +109,22 @@ public class MessageController {
      * Méthode appelée au clic sur le bouton de suppresion
      */
     public void deleteMessage(){
-        System.out.println("suppression du message "+this.content.getText());
-        this.content.setText("message supprimé");
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Voulez vous supprimer le message ?", ButtonType.YES, ButtonType.NO);
+
+        //récupération du CSS
+        //DialogPane dialogPane = alert.getDialogPane();
+        //dialogPane.getStylesheets().add(getClass().getResource("src/common/IHMCommon/dialog.css").toExternalForm());
+
+        //dialogPane.getStyleClass().add("dialog");
+
+        alert.showAndWait();
+
+        if (alert.getResult() == ButtonType.YES) {
+            System.out.println("suppression du message "+this.content.getText());
+            this.content.setText("message supprimé");
+        }
+
         //Attention, ici on ne màj que l'affichage, les data ne sont pas impactées.
     }
 
