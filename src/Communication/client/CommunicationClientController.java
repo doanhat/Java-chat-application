@@ -3,13 +3,11 @@ package Communication.client;
 import Communication.common.CommunicationController;
 import Communication.messages.abstracts.NetworkMessage;
 import Communication.messages.client_to_server.UserConnectionMessage;
+import Communication.messages.client_to_server.ValideUserLeftMessage;
 import common.interfaces.client.ICommunicationToData;
 import common.interfaces.client.ICommunicationToIHMChannel;
 import common.interfaces.client.ICommunicationToIHMMain;
-import common.sharedData.Channel;
-import common.sharedData.Message;
-import common.sharedData.User;
-import common.sharedData.UserLite;
+import common.sharedData.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -184,6 +182,27 @@ public class CommunicationClientController extends CommunicationController {
         dataClient.addUserToChannel(user, channelID);
     }
 
+    public void notifyTellOwnerToAddAdmin(UserLite user, UUID channel) {
+        if (dataClient == null)
+        {
+            System.err.println("notifyAddNewAdmin: Data Iface est null");
+            return;
+        }
+
+        dataClient.saveNewAdminIntoHistory(user, channel);
+        // TODO AdminAddedMessage
+    }
+
+    public void notifyValidateDeletionChannel(UUID channel) {
+        if (dataClient == null)
+        {
+            System.err.println("notifyAddNewAdmin: Data Iface est null");
+            return;
+        }
+        dataClient.removeChannelFromList(channel, 0, "Channel supprimé");
+        //TODO check deleteChannel
+    }
+
     @Override
     public void disconnect(UUID user) {
         System.err.println("A IHM Main : je suis plus connecté");
@@ -192,6 +211,15 @@ public class CommunicationClientController extends CommunicationController {
             client.close();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void notifyUserHasLeftChannel(Channel channel, UserLite userLite) {
+        //Ask to data
+        //dataClient.leaveChannel(channel, userLite)
+        dataClient.deleteUserFromChannel(userLite, channel.getId(), 0, "Leave");
+        if(channel.getClass() != OwnedChannel.class && channel.getCreator().getId() == client.getUUID()) {
+            sendMessage(new ValideUserLeftMessage(channel, userLite, dataClient.getMembers(channel.getId())));
         }
     }
 }

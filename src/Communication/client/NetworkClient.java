@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.ObjectInputStream;
 import java.net.Socket;
+import java.util.UUID;
 
 public class NetworkClient {
 
@@ -36,6 +37,13 @@ public class NetworkClient {
 
     public void sendMessage(NetworkMessage message) {
         writer.sendMessage(new NetworkWriter.DeliveryPacket(socketOut, message));
+    }
+
+    public UUID getUUID() {
+        if (reader != null) {
+            return reader.getUser();
+        }
+        return null;
     }
 
     public void close() throws IOException {

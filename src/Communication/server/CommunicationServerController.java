@@ -2,11 +2,14 @@ package Communication.server;
 
 import Communication.common.CommunicationController;
 import Communication.messages.abstracts.NetworkMessage;
+import Communication.messages.server_to_client.TellOwnerUserHasLeftChannelMessage;
 import Communication.messages.server_to_client.UserDisconnectedMessage;
+import Communication.messages.server_to_client.UserHasLeftChannelMessage;
 import common.interfaces.client.ICommunicationToData;
 import common.interfaces.server.IServerCommunicationToData;
 import common.sharedData.Channel;
 import common.sharedData.Message;
+import common.sharedData.SharedChannel;
 import common.sharedData.UserLite;
 
 import java.io.IOException;
@@ -120,5 +123,34 @@ public class CommunicationServerController extends CommunicationController {
 
     public void saveMessage (Message msg, Channel channel, Message response) {
         data.saveMessageIntoHistory(msg, channel.getId(), response);
+    }
+
+    public void notifyLeaveChannel(Channel channel, UserLite userLite) {
+        if (dataServer == null)
+        {
+            System.err.println("requestJoinSharedChannel: Data Iface est null");
+            return;
+        }
+        if (channel.getClass() == SharedChannel.class) {
+            dataServer.leaveChannel(channel, userLite);
+            for( UserLite user : dataServer.getConnectedUsers() ) {
+                sendMessage(user.getId(), new UserHasLeftChannelMessage(channel, userLite));
+            }
+        } else {
+            sendMessage(channel.getCreator().getId(), new TellOwnerUserHasLeftChannelMessage(channel, userLite));
+        }
+        // TODO prevenir les autres
+    }
+
+    public void notifyUserLeftChannel(Channel channel, List<UserLite> members, UserLite exMembers) {
+        if (dataServer == null)
+        {
+            System.err.println("requestJoinSharedChannel: Data Iface est null");
+            return;
+        }
+
+        for( UserLite user : members ) {
+            sendMessage(user.getId(), new UserHasLeftChannelMessage(channel, exMembers));
+        }
     }
 }

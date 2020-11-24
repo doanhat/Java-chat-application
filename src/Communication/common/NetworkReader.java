@@ -18,6 +18,10 @@ public class NetworkReader implements Runnable {
         this.user = null;
     }
 
+    public UUID getUser() {
+        return user;
+    }
+
     public NetworkMessage readMessage() throws IOException, ClassNotFoundException {
         return (NetworkMessage) socketIn.readObject();
     }
