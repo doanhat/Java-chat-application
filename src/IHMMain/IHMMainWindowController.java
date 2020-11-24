@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import IHMChannel.IHMMainToIHMChannel;
+import IHMChannel.IHMChannelController;
+import IHMChannel.interfaces.IHMMainToIHMChannel;
+import IHMMain.controllers.UserListViewController;
 import app.MainWindowController;
 import common.IHMTools.*;
 import javafx.fxml.*;
@@ -31,7 +33,8 @@ public class IHMMainWindowController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //Mettez ici le code qui s'execute avant l'apparition de la vue
-        ihmMainToIHMChannel = new IHMMainToIHMChannel();
+        // TODO : Code modifié par Data pour être compilé, à vérifer par Channel
+        ihmMainToIHMChannel = new IHMMainToIHMChannel(new IHMChannelController());
         loadUserListView();
     }
 
