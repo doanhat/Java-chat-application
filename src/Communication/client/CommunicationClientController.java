@@ -4,6 +4,7 @@ import Communication.common.CommunicationController;
 import Communication.messages.abstracts.NetworkMessage;
 import Communication.messages.client_to_server.UserConnectionMessage;
 import Communication.messages.client_to_server.UserDisconnectionMessage;
+import Communication.messages.client_to_server.ValideUserLeftMessage;
 import common.interfaces.client.*;
 import common.sharedData.*;
 
@@ -341,6 +342,35 @@ public class CommunicationClientController extends CommunicationController {
         }
         dataClient.saveMessageIntoHistory(msg, channelID, response);
     }
-    
-    
+
+    public void notifyTellOwnerToAddAdmin(UserLite user, UUID channel) {
+        if (dataClient == null)
+        {
+            System.err.println("notifyAddNewAdmin: Data Iface est null");
+            return;
+        }
+
+        dataClient.saveNewAdminIntoHistory(user, channel);
+        // TODO AdminAddedMessage
+    }
+
+    public void notifyValidateDeletionChannel(UUID channel) {
+        if (dataClient == null)
+        {
+            System.err.println("notifyAddNewAdmin: Data Iface est null");
+            return;
+        }
+        dataClient.removeChannelFromList(channel, 0, "Channel supprimé");
+        //TODO check deleteChannel
+    }
+
+    public void notifyUserHasLeftChannel(Channel channel, UserLite userLite) {
+        //Ask to data
+        //dataClient.leaveChannel(channel, userLite)
+        dataClient.deleteUserFromChannel(userLite, channel.getId(), 0, "Leave");
+        if (channel.getType() != ChannelType.OWNED && channel.getCreator().getId() == client.getUUID()) {
+            // FIXME
+            // sendMessage(new ValideUserLeftMessage(channel, userLite, dataClient.getMembers(channel.getId())));
+        }
+    }
 }

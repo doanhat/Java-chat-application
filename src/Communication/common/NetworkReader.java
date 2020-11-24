@@ -44,6 +44,10 @@ public class NetworkReader extends CyclicTask {
      * @throws IOException
      * @throws ClassNotFoundException
      */
+    public UUID getUser() {
+        return userID;
+    }
+
     public NetworkMessage readMessage() throws IOException, ClassNotFoundException {
         return (NetworkMessage) socketIn.readObject();
     }

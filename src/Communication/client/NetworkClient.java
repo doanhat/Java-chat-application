@@ -9,6 +9,7 @@ import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.UUID;
 
 /**
  * Cette classe sert à gérer la connexion du client au serveur au travers de socket et de {@link Communication.common.NetworkReader} et {@link Communication.common.NetworkWriter}
@@ -56,6 +57,13 @@ public class NetworkClient {
      */
     public void sendMessage(NetworkMessage message) {
         writer.sendMessage(new NetworkWriter.DeliveryPacket(socketOut, message));
+    }
+
+    public UUID getUUID() {
+        if (reader != null) {
+            return reader.getUser();
+        }
+        return null;
     }
 
     /**
