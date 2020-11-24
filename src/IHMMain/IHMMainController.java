@@ -1,6 +1,5 @@
 package IHMMain;
 
-import Communication.client.CommunicationClientInterfaceImpl;
 import common.interfaces.client.*;
 import Data.client.IHMMainToData;
 import IHMChannel.IHMMainToIHMChannel;
