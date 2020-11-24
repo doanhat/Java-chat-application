@@ -47,17 +47,16 @@ public class MainChannel extends Application {
     private void initTestData(){
         channelToDisplay = new OwnedChannel(1,"LO23",new UserLite(UUID.randomUUID(), "Léa", null),"channel pour l'UV LO23", Visibility.PUBLIC);
         UserLite user1 = new UserLite(UUID.randomUUID(), "Aïda", null);
-        UserLite user2 = new UserLite(UUID.randomUUID(), "Aida", null);
-        UserLite user3 = new UserLite(UUID.randomUUID(), "Lucas", null);
-        UserLite user4 = new UserLite(UUID.randomUUID(), "Vladimir", null);
-        UserLite user5 = new UserLite(UUID.randomUUID(), "Jérôme", null);
-        UserLite user6 = new UserLite(UUID.randomUUID(), "Van-Triet", null);
+        UserLite user2 = new UserLite(UUID.randomUUID(), "Lucas", null);
+        UserLite user3 = new UserLite(UUID.randomUUID(), "Vladimir", null);
+        UserLite user4 = new UserLite(UUID.randomUUID(), "Jérôme", null);
+        UserLite user5 = new UserLite(UUID.randomUUID(), "Van-Triet", null);
 
+        channelToDisplay.addUser(user1);
         channelToDisplay.addUser(user2);
         channelToDisplay.addUser(user3);
         channelToDisplay.addUser(user4);
         channelToDisplay.addUser(user5);
-        channelToDisplay.addUser(user6);
 
         channelToDisplay.addAdmin(user3);
         channelToDisplay.addAdmin(user4);

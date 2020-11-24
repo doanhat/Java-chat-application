@@ -18,12 +18,6 @@
             <RadioButton fx:id="adminBtn" text="autorisations" toggleGroup="$viewMode" onAction="#adminSort"/>
             <RadioButton fx:id="onlineBtn" text="utilisateurs connectés" toggleGroup="$viewMode" onAction="#onlineUserSort"/>
         </HBox>
-        <BorderPane fx:id="pageToDisplay"/>
-        <GridPane fx:id="members">
-            <Label text="Liste des membres"/>
-            <ListView fx:id="membersList"/>
-        </GridPane>
+        <BorderPane fx:id="listMembersDisplay"/>
     </VBox>
-
-
 </AnchorPane>
