@@ -6,6 +6,11 @@ import java.util.*;
 public interface IIHMMainToCommunication
 {
     /**
+     * Déconnecter application
+     */
+    void disconnect();
+
+    /**
      * Demande la creation d'un nouveau channel au serveur
      *
      * @param channel [Channel] Objet channel a crée sur le serveur

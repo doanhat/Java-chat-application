@@ -37,5 +37,9 @@ public class UserLite implements Serializable {
 		this.avatar = avatar;
 	}
 
+	@Override
+	public String toString() {
+		return this.nickName;
+	}
 
 }

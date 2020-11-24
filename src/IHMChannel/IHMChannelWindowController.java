@@ -1,6 +1,6 @@
 package IHMChannel;
 
-import IHMMain.IHMMainWindowController;
+import IHMMain.controllers.IHMMainWindowController;
 import common.IHMTools.IHMTools;
 import app.MainWindowController;
 import javafx.fxml.FXML;

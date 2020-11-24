@@ -49,7 +49,7 @@ public class FileHandle<T> {
 
     public void writeJSONToFile(String fileName, Object object){
         ObjectMapper mapper = new ObjectMapper();
-        String path = System.getProperty("user.dir") + "/projet-lo23a20d1/resource/" + fileName + ".json";
+        String path = this.path + fileName + ".json";
         try {
             mapper.writeValue(Paths.get(path).toFile(), object);
         } catch (IOException e) {
