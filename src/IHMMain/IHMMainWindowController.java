@@ -7,6 +7,7 @@ import IHMChannel.interfaces.IHMMainToIHMChannel;
 import IHMMain.controllers.UserListViewController;
 import app.MainWindowController;
 import common.IHMTools.*;
+import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.Parent;
 import javafx.scene.layout.Region;
@@ -64,4 +65,9 @@ public class IHMMainWindowController implements Initializable{
         return this.mainArea;
     }
 
+    public void createPrivateChannel(ActionEvent actionEvent) {
+    }
+
+    public void createPublicChannel(ActionEvent actionEvent) {
+    }
 }

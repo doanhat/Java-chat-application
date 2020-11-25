@@ -125,7 +125,9 @@ public class ConnectionController implements Initializable{
                     nameTextField.getText(),
                     dateOfBirth);
             // Manque vérification de l'inscription : createAccount() devrait renvoyer une valeur booléenne à tester avant d'afficher IHMMainWindow
+            
             mainWindowController.loadIHMMainWindow();
+
         }
     }
 

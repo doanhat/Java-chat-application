@@ -34,9 +34,9 @@ public class UserController extends Controller {
          */
 
         try {
-            localUser = new User(nickName, null , password, "Vlad", "Tchek", (String) null);
+            localUser = new User(nickName, null , password, "Vlad", "Tchek", new Date());
             this.comClient.userConnect(localUser.getUserLite());
-        } catch (ParseException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
