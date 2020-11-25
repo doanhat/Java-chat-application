@@ -50,14 +50,12 @@ public class MainWindowController implements Initializable {
         try {
             FXMLLoader fxmlLoader = new
                     FXMLLoader(getClass().getResource("../IHMMain/views/IHMMainWindow.fxml"));
-            Parent parent = fxmlLoader.load();
-
-            IHMMainWindowController ihmMainWindowController = fxmlLoader.getController();
-
-            ihmMainWindowController.setMainWindowController(this); //On donne au controller fils une référence de son controller parent
-
+            //Parent parent = fxmlLoader.load();
+           IHMMainWindowController ihmMainWindowController = new IHMMainWindowController();
+           fxmlLoader.setController(ihmMainWindowController);
+           ihmMainWindowController.setMainWindowController(this); //On donne au controller fils une référence de son controller parent
             ihmMainWindowController.setIhmMainController(ihmMainController);
-            //fxmlLoader.setController(ihmMainWindowController);
+           Parent parent = fxmlLoader.load();
 
             this.root.getChildren().addAll(parent); //On ajoute le noeud parent (fxml) au noeud racine de cette vue
             IHMTools.fitSizeToParent((Region) root, (Region) parent);

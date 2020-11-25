@@ -50,7 +50,7 @@ public class IHMMainWindowController implements Initializable{
         //On charge la vue UserListView
         try {
             FXMLLoader fxmlLoader = new
-                    FXMLLoader(getClass().getResource("UserListView.fxml"));
+                    FXMLLoader(getClass().getResource("./views/UserListView.fxml"));
             Parent parent = fxmlLoader.load(); //On recupère le noeud racine du fxml chargé
             UserListViewController userListViewController = fxmlLoader.getController(); //On récupère la classe controller liée au fxml
             userListViewController.setMainWindowController(this.mainWindowController); //On donne au controller fils une référence de son controller grand-parent
