@@ -363,6 +363,15 @@ public class CommunicationClientController extends CommunicationController {
         dataClient.removeChannelFromList(channel, 0, "Channel supprimé");
         //TODO check deleteChannel
     }
+    public List<Message> requestHistory (UUID channelID){
+        if (dataClient == null)
+        {
+            System.err.println("notifyNewUserAddedToJoinChannel: Data Iface est null");
+            return null;
+        }
+        return dataClient.getHistory(channelID);
+    }
+
 
     public void notifyUserHasLeftChannel(Channel channel, UserLite userLite) {
         //Ask to data
