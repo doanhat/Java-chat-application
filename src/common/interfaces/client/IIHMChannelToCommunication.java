@@ -15,6 +15,7 @@ public interface IIHMChannelToCommunication
      **/
     void sendInvite(UserLite sender, UserLite receiver, Message message);
 
+
     /**
      * Demande l'envoie d'un message de nomination d'administrateur au serveur
      *
@@ -91,6 +92,7 @@ public interface IIHMChannelToCommunication
      * @param channel [Channel] Channel que l'on veut rejoindre
      **/
     void askToJoin(Channel channel);
+
 
     /**
      * Recupere l'histoique d'un serveur donnée
