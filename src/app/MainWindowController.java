@@ -22,6 +22,8 @@ public class MainWindowController implements Initializable {
 
     private IHMMainController ihmMainController;
     private ConnectionController connectionController;
+    private IHMMainWindowController ihmMainWindowController;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //Mettez ici le code qui s'execute avant l'apparition de la vue
@@ -52,6 +54,7 @@ public class MainWindowController implements Initializable {
                     FXMLLoader(getClass().getResource("../IHMMain/views/IHMMainWindow.fxml"));
             //Parent parent = fxmlLoader.load();
            IHMMainWindowController ihmMainWindowController = new IHMMainWindowController();
+           this.ihmMainWindowController = ihmMainWindowController;
            fxmlLoader.setController(ihmMainWindowController);
            ihmMainWindowController.setMainWindowController(this); //On donne au controller fils une référence de son controller parent
             ihmMainWindowController.setIhmMainController(ihmMainController);
@@ -72,4 +75,7 @@ public class MainWindowController implements Initializable {
         this.ihmMainController = ihmMainController;
     }
 
+    public IHMMainWindowController getIHMMainWindowController() {
+        return ihmMainWindowController;
+    }
 }

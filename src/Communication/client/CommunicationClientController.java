@@ -5,11 +5,10 @@ import Communication.messages.abstracts.NetworkMessage;
 import Communication.messages.client_to_server.UserConnectionMessage;
 import Communication.messages.client_to_server.UserDisconnectionMessage;
 import common.interfaces.client.*;
-import common.sharedData.Channel;
-import common.sharedData.Message;
-import common.sharedData.UserLite;
+import common.sharedData.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -169,10 +168,19 @@ public class CommunicationClientController extends CommunicationController {
             return;
         }
 
+        /**
+         * Donnee test pour l'integ
+         */
+        UserLite newUser = new UserLite("Mr.Integration", "");
+        List<Channel> testList = new ArrayList<Channel>();
+        testList.add(new Channel("Test1", newUser, "desc1", Visibility.PUBLIC, ChannelType.OWNED));
+        testList.add(new Channel("Test2", newUser, "desc2", Visibility.PUBLIC, ChannelType.OWNED));
+        testList.add(new Channel("Test3", newUser, "desc2", Visibility.PUBLIC, ChannelType.OWNED));
+
         mainClient.connectionAccepted();
         mainClient.setConnectedUsers(users);
 
-        for (Channel channel: channels) {
+        for (Channel channel: testList) {
             notifyVisibleChannel(channel);
         }
     }

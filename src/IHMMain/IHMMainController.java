@@ -38,6 +38,8 @@ public class IHMMainController {
      * Properties use inside IHM-Main module
      */
 
+
+
     private MainWindowController mainWindowController;
 
     private ObservableList<UserLite> connectedUsers = FXCollections.observableArrayList();
