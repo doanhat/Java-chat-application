@@ -1,8 +1,7 @@
 package Data.server;
 
 import Data.resourceHandle.FileHandle;
-import common.sharedData.Channel;
-import common.sharedData.Message;
+import common.sharedData.*;
 
 
 import java.io.File;
@@ -19,15 +18,17 @@ public class ChannelsListController {
      */
 
     public ChannelsListController() {
-        this.fileHandle = new FileHandle(System.getProperty("user.dir")+"/projet-lo23a20d1/resource/channels/");
+        this.fileHandle = new FileHandle<Channel>(System.getProperty("user.dir")+"/resource/");
         this.channels = createChannelListFromJSONFiles();
     }
 
     public List<Channel> createChannelListFromJSONFiles(){
-        List<Channel> list = new ArrayList<>();
-//        String [] pathnames;
+
+        String [] pathnames;
+        List<Channel> list = fileHandle.readJSONFileToList("sharedChannels", Channel.class);
+
 //        try{
-//            File f = new File(fileHandle.getPath());
+//            File f = new File(fileHandle.getPath() + "s");
 //
 //            pathnames = f.list();
 //
@@ -39,7 +40,7 @@ public class ChannelsListController {
 //        } catch (Exception e){
 //           e.printStackTrace();
 //        }
-        return new ArrayList<>();
+        return list;
     }
 
     public List<Channel> searchChannelByName(String nom) {
@@ -87,7 +88,18 @@ public class ChannelsListController {
     }
 
     public Channel readJSONToChannelData(UUID idChannel){
-        return (Channel) this.fileHandle.readJSONFileToObject("channels/" + idChannel, Channel.class);
+        //return (Channel) this.fileHandle.readJSONFileToObject("channels/" + idChannel, Channel.class);
+        /**
+         * POUR TEST DURANT INTEGRATION
+         */
+        List<Channel> list = fileHandle.readJSONFileToList("sharedChannels", Channel.class);
+
+        for(Channel channel: list) {
+            if(idChannel.equals(channel.getId())) {
+                return channel;
+            }
+        }
+        return null;
     }
 
     /**

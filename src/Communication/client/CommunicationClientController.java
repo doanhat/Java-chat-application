@@ -171,16 +171,12 @@ public class CommunicationClientController extends CommunicationController {
         /**
          * Donnee test pour l'integ
          */
-        UserLite newUser = new UserLite("Mr.Integration", "");
-        List<Channel> testList = new ArrayList<Channel>();
-        testList.add(new Channel("Test1", newUser, "desc1", Visibility.PUBLIC, ChannelType.OWNED));
-        testList.add(new Channel("Test2", newUser, "desc2", Visibility.PUBLIC, ChannelType.OWNED));
-        testList.add(new Channel("Test3", newUser, "desc2", Visibility.PUBLIC, ChannelType.OWNED));
+
 
         mainClient.connectionAccepted();
         mainClient.setConnectedUsers(users);
 
-        for (Channel channel: testList) {
+        for (Channel channel: channels) {
             notifyVisibleChannel(channel);
         }
     }
@@ -224,7 +220,7 @@ public class CommunicationClientController extends CommunicationController {
             return;
         }
 
-        // TODO INTEGRATION request data addVisibleChannel receive Channel as parameter
+        // TODO INTEGRATION request data addVisibleChannel receive Channel as parameter : (REMARQUE INTEG, CETTE LIGNE RAJOUTE DE LA REDONDANCE) QUE FAIRE??
         //dataClient.addVisibleChannel(channel);
         // TODO INTEGRATION Verify workflow between Comm, Data, Main to avoid redundancy
         mainClient.channelAdded(channel);

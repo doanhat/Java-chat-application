@@ -99,4 +99,6 @@ public interface IIHMChannelToCommunication
      * @return List<Message> Liste des messages qui compose l'historique
      **/
     List<Message> getHistory(Channel channel);
+
+    UserLite getConnectedUser();
 }

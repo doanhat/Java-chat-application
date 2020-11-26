@@ -14,7 +14,7 @@ public class FileHandle<T> {
     private String path;
 
     public FileHandle() {
-        this.path = System.getProperty("user.dir") + "/projet-lo23a20d1/resource/";
+        this.path = System.getProperty("user.dir") + "/resource/";
     }
 
     public FileHandle(String resourcePath) {

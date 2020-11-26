@@ -137,9 +137,7 @@ public class IHMChannelController {
 
     public void setChannelPageToDisplay(Channel channel) {
 
-        // TODO: récupérer le channel depuis l'appel de getChannelWindow()
         try{
-//            Channel newOwnedChannel = new Channel("LO23",new UserLite("Aïda", null),"channel pour l'UV LO23", Visibility.PUBLIC, ChannelType.OWNED);
 
             UserLite usr1 = new UserLite("Aïda", null);
             usr1.setNickName("toto");

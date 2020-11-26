@@ -3,6 +3,7 @@ package Data.server;
 import common.interfaces.server.IServerCommunicationToData;
 import common.sharedData.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -81,7 +82,20 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
     @Override
     public List<Channel> getVisibleChannels(UserLite user) {
-        return null;
+        /**
+         * Fais pendant l'intégration (si question demander a Vladimir)
+         */
+       List<Channel> channels =  channelsListController.getChannels();
+       List<Channel> results = new ArrayList<>();
+        for (Channel channel: channels) {
+            List<UserLite> acceptedPersons = channel.getAcceptedPersons();
+            for (UserLite usr: acceptedPersons){
+                if (usr.getNickName().equals(user.getNickName())){  //REMARQUE INTEG : IL FAUT SURCHAGER EQUALS DANS USERLITE POUR COMPARER LES ID
+                    results.add(channel);
+                }
+            }
+        }
+        return results;
     }
 
     @Override
@@ -159,5 +173,11 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     @Override
     public Boolean checkAuthorization(Channel ch, UserLite user) {
         return null;
+    }
+
+    @Override
+    public Channel getChannel(UUID channelID)
+    {
+       return channelsListController.searchChannelById(channelID);
     }
 }

@@ -232,4 +232,10 @@ public class VirtualDataServer implements IServerCommunicationToData {
     public Boolean checkAuthorization(Channel channel, UserLite user) {
         return null;
     }
+
+    @Override
+    public Channel getChannel(UUID channelID){
+        Channel ch = null;
+        return ch;
+    }
 }

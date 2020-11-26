@@ -22,20 +22,18 @@ public class UserController extends Controller {
     private User localUser;
 
     public boolean verificationAccount(String nickName, String password){
-//        List<User> listUserLogin = new FileHandle().readJSONFileToList("users",User.class);
-//        for (User user : listUserLogin){
-//            if (user.getNickName().equals(nickName) & user.getPassword().equals(password)){
-//                this.comClient.userConnect(user.getUserLite());
-//            }
-//
-//        }
+
         /**
          * ON TEST EN UN USER EN DUR POUR L'INTEGRATION
          */
 
         try {
-            localUser = new User(nickName, null , password, "Vlad", "Tchek", new Date());
-            this.comClient.userConnect(localUser.getUserLite());
+            List<User> listUserLogin = new FileHandle<User>().readJSONFileToList("users",User.class);
+            for (User user : listUserLogin){
+                if (user.getNickName().equals(nickName) & user.getPassword().equals(password)){
+                    this.comClient.userConnect(user.getUserLite());
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

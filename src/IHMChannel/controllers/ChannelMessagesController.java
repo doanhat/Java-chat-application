@@ -65,7 +65,7 @@ public class ChannelMessagesController{
     }
 
     public ChannelMessagesController(){
-        connectedUser = new UserLite("Léa", null);
+        //UserLite user = ihmChannelController.getInterfaceToCommunication().getConnectedUser();
 
     }
     public void initialize() throws IOException {
@@ -98,7 +98,7 @@ public class ChannelMessagesController{
         if(!typedText.getText().isEmpty()){
             //ATTENTION l'id du message est écrit en dur, on ne sait pas comment il est généré pour le moment.
             // Ne paraît pas logique qu'il soit généré par IHM Channel, donc penser à un constructeur sans id
-            Message newMsg = new Message(typedText.getText(),connectedUser);
+            Message newMsg = new Message(typedText.getText(), ihmChannelController.getInterfaceToCommunication().getConnectedUser());
             ihmChannelController.getInterfaceToCommunication().sendMessage(newMsg, channel, parentMessage);
             //messagesToDisplay.add((HBox)new MessageDisplay(new Message(1,typedText.getText(),connectedUser)).root);
             typedText.setText("");

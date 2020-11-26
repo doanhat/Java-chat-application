@@ -22,6 +22,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
     private final CommunicationClientController commController;
     private UserLite localUser;
 
+
     private CommunicationClientInterface() {
         this.commController = CommunicationClientController.instance();
     }
@@ -219,4 +220,10 @@ public class CommunicationClientInterface implements IDataToCommunication,
         // TODO V3
         return new ArrayList<>();
     }
+
+    @Override
+    public UserLite getConnectedUser() {
+        return localUser;
+    }
+
 }

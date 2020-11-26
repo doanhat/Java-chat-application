@@ -192,8 +192,8 @@ public class CommunicationServerController extends CommunicationController {
             return null;
         }
 
-        // TODO INTEGRATION request Data to add a Channel getChannel(UUID channelID) methode
-        return null;  // dataServer.getChannel(channelID);
+
+        return dataServer.getChannel(channelID);
     }
 
     /* -------------------------------------- Channel action Request handling ----------------------------------------*/
