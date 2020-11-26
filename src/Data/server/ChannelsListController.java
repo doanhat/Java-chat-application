@@ -88,18 +88,7 @@ public class ChannelsListController {
     }
 
     public Channel readJSONToChannelData(UUID idChannel){
-        //return (Channel) this.fileHandle.readJSONFileToObject("channels/" + idChannel, Channel.class);
-        /**
-         * POUR TEST DURANT INTEGRATION
-         */
-        List<Channel> list = fileHandle.readJSONFileToList("sharedChannels", Channel.class);
-
-        for(Channel channel: list) {
-            if(idChannel.equals(channel.getId())) {
-                return channel;
-            }
-        }
-        return null;
+        return (Channel) this.fileHandle.readJSONFileToObject(" " + idChannel, Channel.class);
     }
 
     /**
