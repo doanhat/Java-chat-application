@@ -23,16 +23,16 @@ public class MainChannel extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        //Parent root = FXMLLoader.load(getClass().getResource("views/ChannelPage.fxml"));
-        //Data init
-        initTestData();
-        // Pour la suite, c'est dans IHMChannelController que se fera les lignes suivantes
-        ihmChannelController = new IHMChannelController();
-        ChannelPageDisplay channelPageDisplay = new ChannelPageDisplay(channelToDisplay, ihmChannelController);
-        primaryStage.setTitle("Channel");
-        primaryStage.setScene(new Scene(channelPageDisplay.root));
-        primaryStage.setMaximized(true);
-        primaryStage.show();
+//        //Parent root = FXMLLoader.load(getClass().getResource("views/ChannelPage.fxml"));
+//        //Data init
+//        initTestData();
+//        // Pour la suite, c'est dans IHMChannelController que se fera les lignes suivantes
+//        ihmChannelController = new IHMChannelController();
+//        ChannelPageDisplay channelPageDisplay = new ChannelPageDisplay(channelToDisplay, ihmChannelController);
+//        primaryStage.setTitle("Channel");
+//        primaryStage.setScene(new Scene(channelPageDisplay.root));
+//        primaryStage.setMaximized(true);
+//        primaryStage.show();
     }
 
 

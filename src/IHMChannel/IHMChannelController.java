@@ -31,28 +31,6 @@ public class IHMChannelController {
         interfaceForCommunication = new CommunicationToIHMChannel(this);
         interfaceForData = new DataToIHMChannel(this);
         interfaceForIHMMain = new IHMMainToIHMChannel(this);
-        // TODO: récupérer le channel depuis l'appel de getChannelWindow()
-        try{
-            Channel newOwnedChannel = new Channel("LO23",new UserLite("Aïda", null),"channel pour l'UV LO23", Visibility.PUBLIC, ChannelType.OWNED);
-
-            UserLite usr1 = new UserLite("Aïda", null);
-            usr1.setNickName("toto");
-            UserLite usr2 = new UserLite("Léa", null);
-            usr2.setNickName("titi");
-
-            List<Message> listMessages = new ArrayList<Message>();
-            listMessages.add(new Message("Salut, vous allez bien ?",usr1));
-            listMessages.add(new Message("Oui super et toi ?",usr2));
-            listMessages.add(new Message("T'as avancé le projet LO23 ?",usr1));
-
-            newOwnedChannel.setMessages(listMessages);
-            ChannelPageDisplay channelPageDisplay = new ChannelPageDisplay(newOwnedChannel, this);
-            channelPageDisplay.getChannelPageController().getChannelController(newOwnedChannel.getId()).setChannel(newOwnedChannel);
-
-        }catch(IOException e){
-            e.printStackTrace();
-        }
-
 
     }
 
@@ -149,28 +127,40 @@ public class IHMChannelController {
         this.channelPageController = channelPageController;
     }
 
-    public Channel initTestData() throws IOException {
-        Channel newOwnedChannel = new Channel("LO23",new UserLite("Aïda", null),"channel pour l'UV LO23", Visibility.PUBLIC, ChannelType.OWNED);
-
-        UserLite usr1 = new UserLite( "Aïda", null);
-        usr1.setNickName("toto");
-        UserLite usr2 = new UserLite("Léa", null);
-        usr2.setNickName("titi");
-
-        List<Message> listMessages = new ArrayList<Message>();
-        listMessages.add(new Message("Salut, vous allez bien ?",usr1));
-        listMessages.add(new Message("Oui super et toi ?",usr2));
-        listMessages.add(new Message("T'as avancé le projet LO23 ?",usr1));
-
-
-        return newOwnedChannel;
-    }
-
     public Parent getRoot() {
         return this.root;
     }
 
     public void setRoot(Parent root) {
         this.root = root;
+    }
+
+    public void setChannelPageToDisplay(Channel channel) {
+
+        // TODO: récupérer le channel depuis l'appel de getChannelWindow()
+        try{
+//            Channel newOwnedChannel = new Channel("LO23",new UserLite("Aïda", null),"channel pour l'UV LO23", Visibility.PUBLIC, ChannelType.OWNED);
+
+            UserLite usr1 = new UserLite("Aïda", null);
+            usr1.setNickName("toto");
+            UserLite usr2 = new UserLite("Léa", null);
+            usr2.setNickName("titi");
+
+            /*
+             * MESSAGES TEST INTEGRATION
+             * */
+
+            List<Message> listMessages = new ArrayList<Message>();
+            listMessages.add(new Message("Salut, vous allez bien ?",usr1));
+            listMessages.add(new Message("Oui super et toi ?",usr2));
+            listMessages.add(new Message("T'as avancé le projet LO23 ?",usr1));
+
+            channel.setMessages(listMessages);
+            ChannelPageDisplay channelPageDisplay = new ChannelPageDisplay(channel, this);
+            channelPageDisplay.getChannelPageController().getChannelController(channel.getId()).setChannel(channel);
+
+        }catch(IOException e){
+            e.printStackTrace();
+        }
     }
 }

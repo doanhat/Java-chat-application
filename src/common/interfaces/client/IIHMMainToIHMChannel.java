@@ -23,5 +23,5 @@ public interface IIHMMainToIHMChannel {
     * Retourne le noeud de la vue de IHMChannel
     * @return
     */
-    public Region getIHMChannelWindow();
+    public Region getIHMChannelWindow(Channel channel);
 }
