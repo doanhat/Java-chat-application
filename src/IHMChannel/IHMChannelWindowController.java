@@ -7,11 +7,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Region;
+import javafx.scene.layout.*;
 import javafx.scene.control.Button;
-import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.net.URL;
@@ -28,7 +25,8 @@ public class IHMChannelWindowController implements Initializable{
     private IHMMainWindowController ihmMainWindowController;
     @FXML
     private BorderPane channelPageToDisplay;
-
+    @FXML
+    private StackPane stackWindow;
     public ObservableList<VBox> messagesToDisplay = FXCollections.observableArrayList();
 
 
@@ -55,5 +53,9 @@ public class IHMChannelWindowController implements Initializable{
 
     public void setChannelPageToDisplay(BorderPane channelPageToDisplay) {
         this.channelPageToDisplay = channelPageToDisplay;
+    }
+
+    public StackPane getStackWindow(){
+        return this.stackWindow;
     }
 }

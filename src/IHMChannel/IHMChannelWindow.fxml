@@ -1,17 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.StackPane?>
-
 <?import javafx.scene.layout.BorderPane?>
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IHMChannel.IHMChannelWindowController">
-   <children>
-       <BorderPane fx:id="channelPageToDisplay"></BorderPane>
-   </children>
-</StackPane>
+
+
+<BorderPane fx:id="channelPageToDisplay" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" />
