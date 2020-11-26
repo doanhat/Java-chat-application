@@ -15,6 +15,12 @@ public class UserLite implements Serializable {
 		this.avatar = avatar;
 	}
 
+	public UserLite(UUID id,String nickName, String avatar) {
+		this.id = id;
+		this.nickName = nickName;
+		this.avatar = avatar;
+	}
+
 	public UserLite() {
 	}
 
