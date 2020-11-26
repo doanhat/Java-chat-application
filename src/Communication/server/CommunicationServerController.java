@@ -157,9 +157,7 @@ public class CommunicationServerController extends CommunicationController {
      */
     public void sendMulticast(List<UserLite> receivers, NetworkMessage message, UserLite excludedUser) {
         for(NetworkUser usr : server.directory().getConnections(receivers)) {
-            if (usr.uuid() != excludedUser.getId()) {
-                server.sendMessage(usr.preparePacket(message));
-            }
+            server.sendMessage(usr.preparePacket(message));
         }
     }
 

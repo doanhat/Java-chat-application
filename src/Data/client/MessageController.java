@@ -54,7 +54,7 @@ public class MessageController extends Controller{
      * @param response the response
      */
     public void receiveMessage(Message message, UUID channelId, Message response) {
-        //channelClient.receiveMessage(message,channelId,response);
+        channelClient.receiveMessage(message,channelId,response);
     }
 
     /**

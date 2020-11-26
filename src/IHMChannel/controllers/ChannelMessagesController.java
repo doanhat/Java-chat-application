@@ -114,7 +114,7 @@ public class ChannelMessagesController{
         System.out.println("hello");
        //Message message = new Message(2, "message reçu test", connectedUser);
          getIhmChannelController().getInterfaceForData().receiveMessage(new Message("message reçu test", connectedUser),
-                          this.channel, null);
+                          this.channel.getId(), null);
 
         //Message newMsg = new Message(99,"Salut, je suis un message reçu via le bouton de test",connectedUser);
         //this.channel.addMessage(newMsg);

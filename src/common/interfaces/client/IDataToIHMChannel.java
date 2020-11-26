@@ -51,7 +51,7 @@ public interface IDataToIHMChannel {
      * @param channel channel sur lequel le message a été reçu
      * @param responseTo message parent
      */
-    void receiveMessage(Message message, Channel channel, Message responseTo);
+    void receiveMessage(Message message, UUID channel, Message responseTo);
 
     /**
      * Permet la modification d'un message.
