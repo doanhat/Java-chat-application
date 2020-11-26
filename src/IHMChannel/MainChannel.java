@@ -46,7 +46,7 @@ public class MainChannel extends Application {
      */
     private void initTestData(){
 
-        UserLite usr1 = new UserLite("Léa", null);
+        UserLite usr1 = new UserLite();
         usr1.setNickName("toto");
         UserLite usr2 = new UserLite("Vlad", null);
         usr2.setNickName("titi");

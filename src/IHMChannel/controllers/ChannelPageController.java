@@ -18,7 +18,6 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 
@@ -40,12 +39,9 @@ public class ChannelPageController {
     private IHMChannelController ihmChannelController;
 
     @FXML
-    private AnchorPane anchorPage;
-
-    @FXML
     Button back;
-//    @FXML
-//    Text channelName;
+    @FXML
+    Text channelName;
     @FXML
     Text channelDescription;
     @FXML
@@ -58,8 +54,8 @@ public class ChannelPageController {
     @FXML
     private TextField canalText;
 
-//    @FXML
-//    private Button createCanalBtn;
+    @FXML
+    private Button createCanalBtn;
 
     @FXML
     BorderPane pageToDisplay;
@@ -92,7 +88,7 @@ public class ChannelPageController {
         ctrl.getIhmChannelController().setChannelPageController(this);
         ctrl.configureMessageDisplay(ihmChannelController);
         Tab tab = new Tab(channel.getName());
-        tab.setId(channel.getId().toString());
+        tab.setId(channel.getName());
         tab.setOnClosed((event->{
             this.openedChannels.remove(channel);
         }));
@@ -208,55 +204,29 @@ public class ChannelPageController {
         return channelController;
     }
 
-//    @FXML
-//    void createChannel() throws IOException {
-//        String channelName = canalText.getText();
-//        int count = 0;
-//        Channel selectChannel;
-//        for (Channel c : openedChannels) {
-//            if (c.getName().equals(channelName)) {
-//                count = 1;
-//                selectChannel = c;
-//                break;
-//            }
-//        }
-//        if (count == 0) {
-//            Channel c = new Channel(channelName, new UserLite("Léa", null), "channel pour l'UV " + channelName, Visibility.PUBLIC, ChannelType.OWNED);
-//            this.addOpenedChannel(c);
-//        }
-//        else {
-//            for (Tab c : tabs.getTabs()) {
-//                if (c.getId().equals(channelName)) {
-//                    tabs.getSelectionModel().select(c);
-//                }
-//            }
-//        }
-//    }
-    public AnchorPane getAnchorPage(){
-        return this.anchorPage;
-    }
-    public void createChannel(Channel channel_open) throws IOException {
+    @FXML
+    void createChannel() throws IOException {
+        String channelName = canalText.getText();
         int count = 0;
-        Channel selectChannel = null;
+        Channel selectChannel;
         for (Channel c : openedChannels) {
-            if (c.equals(channel_open)) {
+            if (c.getName().equals(channelName)) {
                 count = 1;
                 selectChannel = c;
                 break;
             }
         }
         if (count == 0) {
-            this.addOpenedChannel(channel_open);
+            Channel c = new Channel(channelName, new UserLite("Léa", null), "channel pour l'UV " + channelName, Visibility.PUBLIC, ChannelType.OWNED);
+            this.addOpenedChannel(c);
         }
         else {
             for (Tab c : tabs.getTabs()) {
-                if (c.getId().equals(selectChannel.getId().toString())) {
+                if (c.getId().equals(channelName)) {
                     tabs.getSelectionModel().select(c);
                 }
             }
         }
     }
-    public ObservableSet<Channel> getOpenedChannels(){
-        return openedChannels;
-    }
+
 }

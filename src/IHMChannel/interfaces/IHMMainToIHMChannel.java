@@ -45,13 +45,9 @@ public class IHMMainToIHMChannel implements IIHMMainToIHMChannel {
      */
     @Override
     public Region getIHMChannelWindow(Channel channel) {
-//        controller.setChannelPageToDisplay(channel);
+        controller.setChannelPageToDisplay(channel);
         return (Region)controller.getRoot();
     }
 
     private IHMChannelController controller;
-
-    public IHMChannelController getController() {
-        return controller;
-    }
 }

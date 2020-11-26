@@ -20,7 +20,6 @@ import java.util.UUID;
  */
 public class IHMChannelController {
     private ChannelPageController channelPageController;
-    private ChannelPageDisplay channelPageDisplay;
     private Parent root;
     /**
      * Constructeur
@@ -157,15 +156,9 @@ public class IHMChannelController {
             listMessages.add(new Message("T'as avancé le projet LO23 ?",usr1));
 
             channel.setMessages(listMessages);
-            if (this.channelPageDisplay == null) {
-                this.channelPageDisplay = new ChannelPageDisplay(channel, this);
-                channelPageDisplay.setChannelPageController(channelPageController);
-                channelPageDisplay.getChannelPageController().setIhmChannelController(this);
-            }
-            else {
-                channelPageDisplay.getChannelPageController().createChannel(channel);
-                channelPageDisplay.getChannelPageController().getChannelController(channel.getId()).setChannel(channel);
-            }
+            ChannelPageDisplay channelPageDisplay = new ChannelPageDisplay(channel, this);
+            channelPageDisplay.getChannelPageController().getChannelController(channel.getId()).setChannel(channel);
+
         }catch(IOException e){
             e.printStackTrace();
         }
