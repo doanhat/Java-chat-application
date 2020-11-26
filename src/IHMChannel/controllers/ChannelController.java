@@ -138,8 +138,11 @@ public class ChannelController {
         try{
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../views/AddMember.fxml"));
             popup.getContent().add(fxmlLoader.load());
+            ((AddMemberController) fxmlLoader.getController()).setIhmChannelController(ihmChannelController);
             popup.setAutoHide(true); //disparaît si on clique ailleurs
-            popup.show(addMemberBtn.getScene().getWindow());
+            Bounds screenBounds = addMemberBtn.localToScreen(addMemberBtn.getBoundsInLocal()); //alignement pop up et bouton
+            popup.show(addMemberBtn.getScene().getWindow(),screenBounds.getMinX(),screenBounds.getMaxY());
+
         }
         catch (Exception e){
             e.printStackTrace();

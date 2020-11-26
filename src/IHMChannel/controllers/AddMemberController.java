@@ -1,6 +1,9 @@
 package IHMChannel.controllers;
 
+import IHMChannel.IHMChannelController;
 import IHMChannel.tools.AddMemberCellFactory;
+import common.interfaces.client.IDataToIHMChannel;
+import common.interfaces.client.IIHMMainToIHMChannel;
 import common.sharedData.UserLite;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,11 +24,15 @@ public class AddMemberController {
 
     ObservableList<UserLite> observableList;
 
-    //TODO implémenter la recherche
-    //Par exemple, mettre un listener sur le textarea et faire la recherche "dynamiquement" dès que le texte change
-    //ou, + simple, ajouter un bouton de recherche
+    private IHMChannelController ihmChannelController;
+
+    public void setIhmChannelController(IHMChannelController ihmChannelController) {
+        this.ihmChannelController = ihmChannelController;
+    }
 
     public AddMemberController(){
+        //TEST DATA
+        //TODO binding avec la liste de tous les utilisateurs connectés via interface
         List<UserLite> tmp = new ArrayList();
         UserLite usr = new UserLite(UUID.randomUUID(),"TOTO","/icons/heart-solid.png");
         tmp.add(usr);
@@ -41,5 +48,12 @@ public class AddMemberController {
     public void initialize(){
         usersList.setCellFactory(new AddMemberCellFactory());
         usersList.setItems(observableList);
+
+        searchBar.textProperty().addListener((obs,oldValue,newValue)->{
+            // TODO refresh la liste en fonction de ce qui est tapé
+            //Attention, cette façon de faire fait que la recherche est déclenchée à chaque lettre tapée et / effacée.
+            //Dynamique mais peut-être plus lourd, à voir.
+            System.out.println("On recherche "+newValue);
+        });
     }
 }

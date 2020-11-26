@@ -6,14 +6,18 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane xmlns="http://javafx.com/javafx"
+<GridPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="IHMChannel.controllers.AddMemberController">
-    <top>
-        <TextArea fx:id="searchBar" editable="true" promptText="Rechercher..."/>
-    </top>
-    <center>
-        <ListView fx:id="usersList"/>
-    </center>
+            fx:controller="IHMChannel.controllers.AddMemberController"
+            prefHeight="150" prefWidth="200" >
+    <rowConstraints>
+        <RowConstraints vgrow="SOMETIMES" percentHeight="20"/>
+        <RowConstraints vgrow="SOMETIMES" percentHeight="80"/>
+    </rowConstraints>
 
-</BorderPane>
+    <TextArea fx:id="searchBar" editable="true" promptText="Rechercher..." GridPane.rowIndex="0"/>
+
+    <ListView fx:id="usersList" GridPane.rowIndex="1"/>
+
+
+</GridPane>
