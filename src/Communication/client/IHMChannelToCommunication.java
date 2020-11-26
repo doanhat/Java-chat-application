@@ -25,7 +25,7 @@ public class IHMChannelToCommunication implements IIHMChannelToCommunication {
      * @param message [Message] Message d'invitation
      **/
     public void sendInvite(UserLite sender, UserLite receiver, Message message){
-
+        //TODO add the channel where it need to be invited
     }
 
     /**
@@ -121,7 +121,7 @@ public class IHMChannelToCommunication implements IIHMChannelToCommunication {
      * @param channel [Channel] Channel que l'on veut rejoindre
      **/
     public void askToJoin(Channel channel){
-
+        //TODO add User that request to Join
     }
 
     /**
