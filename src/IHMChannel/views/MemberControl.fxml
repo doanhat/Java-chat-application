@@ -5,7 +5,7 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
+<?import IHMChannel.switchButton.ToggleSwitch?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.text.Text?>
 <HBox xmlns="http://javafx.com/javafx"
@@ -16,7 +16,7 @@
         <Text fx:id="username"/>
         <ImageView fx:id="authorizationIcon"/>
         <Text fx:id="isThatYouText"/>
-        <ToggleButton fx:id="toggleAdminBtn" onAction="#toggleAdmin"/>
+        <ToggleSwitch fx:id="toggleAdminBtn" />
         <Button fx:id="banBtn" text="ban"/>
 
 </HBox>

@@ -56,6 +56,7 @@ public class MemberController {
     /**
      * Méthode déclenchée au clic sur le bouton toggle de l'admin
      */
+    @FXML
     public void toggleAdmin(){
         //TODO
         System.out.println(this.toggleAdminBtn.getCurrentRole());
