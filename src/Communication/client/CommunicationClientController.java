@@ -183,6 +183,15 @@ public class CommunicationClientController extends CommunicationController {
 
         dataClient.addUserToChannel(user, channelID);
     }
+    public List<Message> requestHistory (UUID channelID){
+        if (dataClient == null)
+        {
+            System.err.println("notifyNewUserAddedToJoinChannel: Data Iface est null");
+            return null;
+        }
+        return dataClient.getHistory(channelID);
+    }
+
 
     @Override
     public void disconnect(UUID user) {
