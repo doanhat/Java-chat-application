@@ -1,6 +1,6 @@
 [
   {
-    "id": "59c7d8a8-1288-4ce0-a767-24e2793e947c",
+    "id": "63b6245e-3032-11eb-adc1-0242ac120002",
     "nickName": "user1",
     "avatar": "avatar1",
     "password": "password1",
@@ -13,6 +13,15 @@
     "nickName": "user2",
     "avatar": "avatar2",
     "password": "password2",
+    "lastName": "last2",
+    "firstName": "first2",
+    "birthDate": "04-03-1999"
+  },
+  {
+    "id": "59c7d8a8-1288-4ce0-a767-24e2793e947c",
+    "nickName": "vtchek",
+    "avatar": "avatar1",
+    "password": "abc",
     "lastName": "last2",
     "firstName": "first2",
     "birthDate": "04-03-1999"

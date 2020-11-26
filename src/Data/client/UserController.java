@@ -1,6 +1,7 @@
 package Data.client;
 
 import Data.resourceHandle.FileHandle;
+import Data.resourceHandle.LocationType;
 import common.interfaces.client.IDataToCommunication;
 import common.interfaces.client.IDataToIHMChannel;
 import common.interfaces.client.IDataToIHMMain;
@@ -28,7 +29,7 @@ public class UserController extends Controller {
          */
 
         try {
-            List<User> listUserLogin = new FileHandle<User>().readJSONFileToList("users",User.class);
+            List<User> listUserLogin = new FileHandle<User>(LocationType.CLIENT).readJSONFileToList("users",User.class);
             for (User user : listUserLogin){
                 if (user.getNickName().equals(nickName) & user.getPassword().equals(password)){
                     this.comClient.userConnect(user.getUserLite());

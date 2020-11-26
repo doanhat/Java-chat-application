@@ -4,7 +4,7 @@
     "name": "chan1",
     "creator": {
       "id": "59c7d8a8-1288-4ce0-a767-24e2793e947c",
-      "nickName": "user1",
+      "nickName": "vtchek",
       "avatar": "avatar1"
     },
     "description": "desc",
@@ -13,14 +13,14 @@
     "administrators": [
       {
         "id": "59c7d8a8-1288-4ce0-a767-24e2793e947c",
-        "nickName": "user1",
+        "nickName": "vtchek",
         "avatar": "avatar1"
       }
     ],
     "acceptedPersons": [
       {
         "id": "59c7d8a8-1288-4ce0-a767-24e2793e947c",
-        "nickName": "user1",
+        "nickName": "vtchek",
         "avatar": "avatar1"
       },
       {
@@ -30,7 +30,7 @@
       }
     ],
     "nickNames": {
-      "59c7d8a8-1288-4ce0-a767-24e2793e947c": "user1"
+      "59c7d8a8-1288-4ce0-a767-24e2793e947c": "vtchek"
     },
     "kicked": [],
     "messages": [
@@ -41,7 +41,7 @@
         "edited": false,
         "author": {
           "id": "59c7d8a8-1288-4ce0-a767-24e2793e947c",
-          "nickName": "user1",
+          "nickName": "vtchek",
           "avatar": "avatar1"
         },
         "likes": [],

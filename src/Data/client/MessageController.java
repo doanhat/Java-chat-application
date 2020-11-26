@@ -1,6 +1,7 @@
 package Data.client;
 
 import Data.resourceHandle.FileHandle;
+import Data.resourceHandle.LocationType;
 import common.interfaces.client.IDataToCommunication;
 import common.interfaces.client.IDataToIHMChannel;
 import common.interfaces.client.IDataToIHMMain;
@@ -21,7 +22,7 @@ public class MessageController extends Controller{
             message.setId(UUID.randomUUID());
         }
         int responseAdded = 0;
-        FileHandle fileHandler = new FileHandle();
+        FileHandle fileHandler = new FileHandle(LocationType.CLIENT);
         List<Channel> listOwnedChannel = fileHandler.readJSONFileToList("ownedChannels", Channel.class);
         if (!listOwnedChannel.isEmpty()) {
             for (Channel oCh : listOwnedChannel) {
@@ -31,12 +32,15 @@ public class MessageController extends Controller{
                     if (listMsg.isEmpty()){
                         listMsg.add(message);
                     } else {
-                        for (Message msg : listMsg) {
-                            if (msg.getId().toString().equals(response.getId().toString())) {
-                                msg.addAnswers(message);
-                                responseAdded++;
+                        if (response!=null) {
+                            for (Message msg : listMsg) {
+                                if (msg.getId().toString().equals(response.getId().toString())) {
+                                    msg.addAnswers(message);
+                                    responseAdded++;
+                                }
                             }
                         }
+
                         if (responseAdded == 0){
                             listMsg.add(message);
                         }

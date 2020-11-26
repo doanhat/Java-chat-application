@@ -13,12 +13,10 @@ public class FileHandle<T> {
     ObjectMapper mapper = new ObjectMapper();
     private String path;
 
-    public FileHandle() {
-        this.path = System.getProperty("user.dir") + "/resource/";
-    }
+    private LocationType location;
 
-    public FileHandle(String resourcePath) {
-        this.path = resourcePath;
+    public FileHandle(LocationType location) {
+        this.path = System.getProperty("user.dir") + "/projet-lo23a20d1/resource/"+location+"/";
     }
 
 
@@ -63,6 +61,14 @@ public class FileHandle<T> {
 
     public String getPath(){
         return path;
+    }
+
+    public LocationType getLocation() {
+        return location;
+    }
+
+    public void setLocation(LocationType location) {
+        this.location = location;
     }
 
 }

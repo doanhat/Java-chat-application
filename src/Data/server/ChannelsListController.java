@@ -1,6 +1,7 @@
 package Data.server;
 
 import Data.resourceHandle.FileHandle;
+import Data.resourceHandle.LocationType;
 import common.sharedData.*;
 
 
@@ -18,7 +19,7 @@ public class ChannelsListController {
      */
 
     public ChannelsListController() {
-        this.fileHandle = new FileHandle<Channel>(System.getProperty("user.dir")+"/resource/");
+        this.fileHandle = new FileHandle<Channel>(LocationType.SERVER);
         this.channels = createChannelListFromJSONFiles();
     }
 
