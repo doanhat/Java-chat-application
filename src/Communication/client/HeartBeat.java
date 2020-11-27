@@ -1,28 +1,34 @@
 package Communication.client;
 
+import Communication.common.Parameters;
+import Communication.messages.client_to_server.ClientPulseMessage;
+import common.sharedData.UserLite;
+
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.UUID;
 
 public class HeartBeat {
 
     private final CommunicationClientController commController;
     private Timer timer;
     private boolean serverAlive = false;
+    private UUID userID;
 
     public HeartBeat(CommunicationClientController commController) {
         this.commController = commController;
     }
 
-    public void start() {
-        timer = new Timer();
-        serverAlive = true;
+    public void start(UUID userID) {
+        this.timer = new Timer();
+        this.serverAlive = true;
+        this.userID = userID;
 
-        timer.schedule(new TimerTask(){
+        this.timer.schedule(new TimerTask(){
             @Override
             public void run() {
                 if (serverAlive) {
-                    // TODO Inform server that client is still alive by ClientPulseMessage
-                    // commController.sendMessage();
+                    commController.sendMessage(new ClientPulseMessage(userID));
                 }
                 else {
                     // TODO Inform controller of disconnection
@@ -31,12 +37,12 @@ public class HeartBeat {
                 // reset to false and wait for server reply
                 serverAlive = false;
             }
-        }, 1000);
+        }, Parameters.PULSE_INTERVAL);
     }
 
     public void restart() {
         stop();
-        start();
+        start(userID);
     }
 
     public void stop() {
