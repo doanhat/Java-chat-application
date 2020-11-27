@@ -324,4 +324,12 @@ public class CommunicationServerController extends CommunicationController {
 
         dataServer.saveMessageIntoHistory(channel, msg, response);
     }
+
+    public void SendInvite(UUID senderID, UUID receiverID, Message mess ) {
+        UserLite receiver = server.directory().getConnection(receiverID).getUserInfo();
+        UserLite sender = server.directory().getConnection(senderID).getUserInfo();
+
+        dataServer.sendChannelInvitation(sender, receiver, mess.getMessage());
+
+    }
 }

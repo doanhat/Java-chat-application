@@ -304,6 +304,15 @@ public class CommunicationClientController extends CommunicationController {
         // TODO INTEGRATION verify with data what is the difference between userAddedToChannel and addUserToChannel
         dataClient.addUserToChannel(user, channelID);
     }
+    public List<Message> requestHistory (UUID channelID){
+        if (dataClient == null)
+        {
+            System.err.println("notifyNewUserAddedToJoinChannel: Data Iface est null");
+            return null;
+        }
+        return dataClient.getHistory(channelID);
+    }
+
 
 
     /* ---------------------------------------- Chat Message Handling ------------------------------------------------*/
