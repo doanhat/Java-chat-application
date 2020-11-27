@@ -14,11 +14,12 @@ import java.util.UUID;
 public class CommunicationClientController extends CommunicationController {
 
     private final NetworkClient client;
+    private final HeartBeat heart;
     private ICommunicationToData dataClient;
     private ICommunicationToIHMMain mainClient;
     private ICommunicationToIHMChannel channelClient;
     private CommunicationClientInterface commInterface;
-
+    
     /**
      * INTEGRATION:
      * SINGLETON A VIRER (REMARQUE DE B.LUSSIER)
@@ -29,6 +30,7 @@ public class CommunicationClientController extends CommunicationController {
     public CommunicationClientController() {
         super();
         client = new NetworkClient(this);
+        heart  = new HeartBeat(this);
         commInterface = new CommunicationClientInterface(this);
     }
 
@@ -45,6 +47,7 @@ public class CommunicationClientController extends CommunicationController {
         try {
             client.connect(ip, port);
             client.sendMessage(new UserConnectionMessage(user));
+            heart.start(user.getId());
 
             System.err.println("Connexion au server...");
         }

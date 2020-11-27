@@ -67,7 +67,7 @@ public class DirectoryFacilitatorImpl implements DirectoryFacilitator {
     /**
      * Cherche NetworkUser selon clientID
      * @param clientID ID du client
-     * @return
+     * @return handler du client socket
      */
     @Override
     public NetworkUser getConnection(UUID clientID) {
@@ -76,7 +76,7 @@ public class DirectoryFacilitatorImpl implements DirectoryFacilitator {
 
     /**
      * Retourne la liste des clients en-lignes
-     * @return
+     * @return liste des clients enlignes
      */
     @Override
     public List<UserLite> onlineUsers() {
@@ -92,7 +92,7 @@ public class DirectoryFacilitatorImpl implements DirectoryFacilitator {
     /**
      * Cherche la liste des NetworkUser selon User Id
      * @param users liste de clients
-     * @return
+     * @return listes des handlers du client socket actives
      */
     @Override
     public List<NetworkUser> getConnections(List<UserLite> users) {
