@@ -1,23 +1,49 @@
 package Communication.server;
 
+import Communication.common.Parameters;
+import Communication.messages.client_to_server.ClientPulseMessage;
 import common.sharedData.UserLite;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.UUID;
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
 
 public class DirectoryFacilitatorImpl implements DirectoryFacilitator {
 
     private final CommunicationServerController commController;
     private final Map<UUID, NetworkUser> connections;
+    private final Timer timer;
 
     public DirectoryFacilitatorImpl(CommunicationServerController commController) {
         this.commController = commController;
         this.connections = new HashMap<>();
+
+        // Setup periodic users health check
+        this.timer = new Timer();
+
+        this.timer.schedule(new TimerTask(){
+            @Override
+            public void run() {
+                Collection<UUID> userIDs = connections.keySet();
+                // Check pulse of all NetworkUsers
+                for (UUID userID: userIDs) {
+                    NetworkUser user = connections.get(userID);
+
+                    if (user != null) {
+                        if (!user.isActive()) {
+                            // reset active flag to false wait for client to reset to true
+                            user.active(false);
+                            // TODO reply to client
+                        }
+                        else {
+                            System.err.println("Client " + userID + " déconnecté");
+                            commController.disconnect(userID);
+                        }
+                    }
+                }
+
+            }
+        }, 0, Parameters.PULSE_INTERVAL);
     }
 
     /**
