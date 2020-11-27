@@ -33,10 +33,11 @@ public class HeartBeat {
                 else {
                     System.err.println("Server n'a pas répondu");
                     // TODO Inform controller of disconnection
+                    commController.stop();
                 }
 
                 // reset to false and wait for server reply
-                //serverAlive = false;
+                serverAlive = false;
             }
         }, Parameters.PULSE_INTERVAL, Parameters.PULSE_INTERVAL);
     }
@@ -52,6 +53,7 @@ public class HeartBeat {
     }
 
     public void handleServerReply() {
+        System.err.println("HeartBeat recoit réponse du serveur");
         serverAlive = true;
     }
 }

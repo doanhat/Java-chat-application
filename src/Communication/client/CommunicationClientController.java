@@ -100,6 +100,13 @@ public class CommunicationClientController extends CommunicationController {
         client.sendMessage(message);
     }
 
+    /**
+     * Recevoir la réponse du server
+     */
+    public void receiveServerHeartBeat() {
+        heart.handleServerReply();
+    }
+
     /* -------------------------------------------- Setup interfaces -------------------------------------------------*/
 
     /**

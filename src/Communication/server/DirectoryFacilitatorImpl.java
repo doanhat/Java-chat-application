@@ -2,6 +2,8 @@ package Communication.server;
 
 import Communication.common.Parameters;
 import Communication.messages.client_to_server.ClientPulseMessage;
+import Communication.messages.server_to_client.AcceptationMessage;
+import Communication.messages.server_to_client.ReplyClientPulseMessage;
 import common.sharedData.UserLite;
 
 import java.io.IOException;
@@ -30,10 +32,10 @@ public class DirectoryFacilitatorImpl implements DirectoryFacilitator {
                     NetworkUser user = connections.get(userID);
 
                     if (user != null) {
-                        if (!user.isActive()) {
+                        if (user.isActive()) {
                             // reset active flag to false wait for client to reset to true
                             user.active(false);
-                            // TODO reply to client
+                            commController.sendMessage(user.preparePacket(new ReplyClientPulseMessage()));
                         }
                         else {
                             System.err.println("Client " + userID + " déconnecté");
