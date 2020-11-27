@@ -4,18 +4,15 @@ import Communication.messages.abstracts.ClientToServerMessage;
 import Communication.server.CommunicationServerController;
 import common.sharedData.UserLite;
 
+import java.util.UUID;
+
 public class ClientPulseMessage extends ClientToServerMessage {
 
-    private final UserLite user;
+    private final UUID userID;
     private int nbSequence;
 
-    public ClientPulseMessage(UserLite user, int nbSequence) {
-        this.user = user;
-        this.nbSequence = nbSequence;
-    }
-
-    public UserLite getUser() {
-        return user;
+    public ClientPulseMessage(UUID userID) {
+        this.userID = userID;
     }
 
     @Override
