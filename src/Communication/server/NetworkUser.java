@@ -22,12 +22,12 @@ public class NetworkUser {
     private Socket socket;
     private ObjectOutputStream socketOut;
     private NetworkReader reader;
-    private int nbSequence;
+    private boolean isActive;
 
     public NetworkUser(CommunicationServerController commController, Socket socket) {
         this.commController = commController;
         this.socket         = socket;
-        this.nbSequence     = 0;
+        this.isActive       = true;
 
         try {
             this.socketOut  = new ObjectOutputStream(this.socket.getOutputStream());
@@ -82,12 +82,12 @@ public class NetworkUser {
         return userInfo;
     }
 
-    public int currentSequence() {
-        return nbSequence;
+    public boolean isActive() {
+        return isActive;
     }
 
-    public void updateNbSequence(int nbSequence) {
-        this.nbSequence = nbSequence;
+    public void active(boolean b) {
+        this.isActive = isActive;
     }
 
     public NetworkWriter.DeliveryPacket preparePacket(NetworkMessage message) {

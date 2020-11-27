@@ -17,6 +17,6 @@ public class ClientPulseMessage extends ClientToServerMessage {
 
     @Override
     protected void handle(CommunicationServerController commController) {
-        // TODO 
+        commController.receiveClientPulse(userID);
     }
 }
