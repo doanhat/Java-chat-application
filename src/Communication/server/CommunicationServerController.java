@@ -103,6 +103,14 @@ public class CommunicationServerController extends CommunicationController {
     }
 
     /**
+     * Notifie DirectoryFacilitator l'impulse du client
+     * @param userID ID de l'émetteur
+     */
+    public void receiveClientPulse(UUID userID) {
+        server.directory().receivePulse(userID);
+    }
+
+    /**
      * Envoyer un message réseau à un client
      * @param receiverID ID du client
      * @param message message réseau
@@ -126,6 +134,7 @@ public class CommunicationServerController extends CommunicationController {
         server.sendMessage(packet);
     }
 
+    // FIXME: remove excluded user from function parameters
     /**
      * Liste des clients en-ligne
      * @return

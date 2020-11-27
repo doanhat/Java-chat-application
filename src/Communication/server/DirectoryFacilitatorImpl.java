@@ -112,14 +112,15 @@ public class DirectoryFacilitatorImpl implements DirectoryFacilitator {
     /**
      * Recevoir l'impulsion d'un client
      * @param clientID ID du client
-     * @param nbSequence numero de séquence actuel du client
      */
     @Override
-    public void receivePulse(UUID clientID, int nbSequence) {
+    public void receivePulse(UUID clientID) {
         NetworkUser user = getConnection(clientID);
 
         if (user != null) {
-            user.updateNbSequence(nbSequence);
+            System.err.println("Server reçoit impulse du client " + clientID);
+            
+            user.active(true);
         }
     }
     /**
