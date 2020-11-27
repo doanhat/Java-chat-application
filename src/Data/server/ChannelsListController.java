@@ -89,7 +89,8 @@ public class ChannelsListController {
     }
 
     public Channel readJSONToChannelData(UUID idChannel){
-        return (Channel) this.fileHandle.readJSONFileToObject(" " + idChannel, Channel.class);
+        //TODO UPDATE (Espace)
+        return (Channel) this.fileHandle.readJSONFileToObject(idChannel.toString(), Channel.class);
     }
 
     /**

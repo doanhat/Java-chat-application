@@ -32,6 +32,7 @@ public class UserController extends Controller {
             List<User> listUserLogin = new FileHandle<User>(LocationType.CLIENT).readJSONFileToList("users",User.class);
             for (User user : listUserLogin){
                 if (user.getNickName().equals(nickName) & user.getPassword().equals(password)){
+                    this.localUser = user;
                     this.comClient.userConnect(user.getUserLite());
                 }
             }

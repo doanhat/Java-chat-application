@@ -105,4 +105,10 @@ public class IHMMainToData implements IIHMMainToData {
     public void createAccount(String nickName, String avatar, String password, String lastName, String firstName, Date birthDate) {
 
     }
+
+    // TODO UPGRATE
+    @Override
+    public User getUser() {
+        return dataController.getUserController().getUser();
+    }
 }

@@ -23,7 +23,9 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
     @Override
     public List<Channel> requestChannelCreation(Channel channel, Boolean typeOwner, Boolean typePublic, UserLite user) {
-        return null;
+        // TODO UPDATE
+        this.channelsListController.addChannel(channel);
+        return this.channelsListController.getChannels();
     }
 
     @Override
