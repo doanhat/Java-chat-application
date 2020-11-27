@@ -86,8 +86,10 @@ public class NetworkUser {
         return isActive;
     }
 
-    public void active(boolean b) {
-        this.isActive = isActive;
+    public void active(boolean flag) {
+        System.err.println("Client " + uuid() + " active " + flag);
+
+        this.isActive = flag;
     }
 
     public NetworkWriter.DeliveryPacket preparePacket(NetworkMessage message) {
