@@ -31,13 +31,14 @@ public class HeartBeat {
                     commController.sendMessage(new ClientPulseMessage(userID));
                 }
                 else {
+                    System.err.println("Server n'a pas répondu");
                     // TODO Inform controller of disconnection
                 }
 
                 // reset to false and wait for server reply
-                serverAlive = false;
+                //serverAlive = false;
             }
-        }, Parameters.PULSE_INTERVAL);
+        }, Parameters.PULSE_INTERVAL, Parameters.PULSE_INTERVAL);
     }
 
     public void restart() {

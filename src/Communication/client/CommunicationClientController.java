@@ -69,6 +69,7 @@ public class CommunicationClientController extends CommunicationController {
      */
     public void stop() {
         taskManager.shutdown();
+        heart.stop();
 
         try {
             client.close();
