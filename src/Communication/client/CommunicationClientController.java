@@ -18,6 +18,7 @@ public class CommunicationClientController extends CommunicationController {
     private static CommunicationClientController instance = null;
 
     private final NetworkClient client;
+    private final HeartBeat heart;
     private ICommunicationToData dataClient;
     private ICommunicationToIHMMain mainClient;
     private ICommunicationToIHMChannel channelClient;
@@ -25,6 +26,7 @@ public class CommunicationClientController extends CommunicationController {
     private CommunicationClientController() {
         super();
         client = new NetworkClient(this);
+        heart  = new HeartBeat(this);
     }
 
     /**
@@ -51,6 +53,7 @@ public class CommunicationClientController extends CommunicationController {
         try {
             client.connect(ip, port);
             client.sendMessage(new UserConnectionMessage(user));
+            heart.start(user.getId());
 
             System.err.println("Connexion au server...");
         }
