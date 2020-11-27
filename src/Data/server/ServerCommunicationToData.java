@@ -53,6 +53,7 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
     @Override
     public void saveMessageIntoHistory(Channel ch, Message ms, Message response) {
+        this.channelsListController.writeMessageInChannel(ch.getId(), ms, response);
     }
 
 
@@ -84,15 +85,20 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     }
 
     @Override
-    public SharedChannel createPublicSharedChannel(String name, UserLite creator, String description) {
-        // TODO ID creation
-        // TODO new constructor for sharedChannel?
-        SharedChannel sChannel = new SharedChannel();
+    public Channel createPublicSharedChannel(String name, UserLite creator, String description) {
         Visibility channelVisibility = Visibility.PUBLIC;
-        sChannel.setName(name);
-        sChannel.setCreator(creator);
-        sChannel.setDescription(description);
-        sChannel.setVisibility(channelVisibility);
+        ChannelType type = ChannelType.SHARED;
+        Channel sChannel = new Channel(name,creator,description,channelVisibility,type);
+        channelsListController.writeChannelDataToJSON(sChannel);
+        return sChannel;
+    }
+
+    @Override
+    public Channel createPrivateSharedChannel(String name, UserLite creator, String description) {
+        Visibility channelVisibility = Visibility.PRIVATE;
+        ChannelType type = ChannelType.SHARED;
+        Channel sChannel= new Channel(name,creator,description,channelVisibility,type);
+        channelsListController.writeChannelDataToJSON(sChannel);
         return sChannel;
     }
 

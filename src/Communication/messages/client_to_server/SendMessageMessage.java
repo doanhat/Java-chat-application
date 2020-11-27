@@ -27,7 +27,7 @@ public class SendMessageMessage extends ClientToServerMessage {
         Channel channel = commController.getChannel(channelID);
 
         // Handle shared Channel
-        if (channel.getClass() == SharedChannel.class) {
+        if (channel.getType() == ChannelType.SHARED) {
             // Tell data server to save message
             commController.saveMessage(message, channel, response);
 

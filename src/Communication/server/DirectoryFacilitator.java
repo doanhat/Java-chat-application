@@ -47,4 +47,9 @@ public interface DirectoryFacilitator {
      * @param nbSequence numero de séquence actuel du client
      */
     void receivePulse(UUID clientID, int nbSequence);
+
+    /**
+     * Purge la liste de NetworkUser et ferme tous les sockets clients
+     */
+    void clear();
 }

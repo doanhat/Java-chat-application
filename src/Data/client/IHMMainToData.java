@@ -46,11 +46,7 @@ public class IHMMainToData implements IIHMMainToData {
     @Override
     public void createChannel(String name, String description, Boolean isShared, Boolean isPublic, UserLite owner) {
         Channel channel;
-        if(isShared) {
-            channel = new SharedChannel(name, owner, description, isPublic ? Visibility.PUBLIC : Visibility.PRIVATE);
-        } else {
-            channel = new OwnedChannel(name, owner, description, isPublic ? Visibility.PUBLIC : Visibility.PRIVATE);
-        }
+        channel = new Channel(name, owner, description, isPublic ? Visibility.PUBLIC : Visibility.PRIVATE, isShared ? ChannelType.SHARED : ChannelType.OWNED);
         this.dataController.getChannelController().addVisibleChannel(channel);
     }
 
@@ -77,7 +73,6 @@ public class IHMMainToData implements IIHMMainToData {
      * @param lastName  the last name
      * @param firstName the first name
      * @param birthDate the birth date
-     * @param user      the user
      */
     @Override
     public void editProfile(String nickName, String avatar, String password, String lastName, String firstName, Date birthDate, User user) {

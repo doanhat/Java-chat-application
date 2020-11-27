@@ -36,6 +36,8 @@ public class NetworkServer {
     }
 
     public void close() throws IOException {
+        directoryFacilitator.clear();
+
         if (!serverSocket.isClosed()) {
             serverSocket.close();
 

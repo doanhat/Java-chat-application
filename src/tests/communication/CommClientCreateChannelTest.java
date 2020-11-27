@@ -1,13 +1,11 @@
 package tests.communication;
 
-import Communication.client.CommunicationClientController;
-import Communication.client.CommunicationClientInterfaceImpl;
-import Communication.common.Parameters;
+import Communication.client.CommunicationClientInterface;
 import common.interfaces.client.ICommunicationToData;
 import common.interfaces.client.ICommunicationToIHMChannel;
 import common.interfaces.client.ICommunicationToIHMMain;
 import common.sharedData.Channel;
-import common.sharedData.SharedChannel;
+import common.sharedData.ChannelType;
 import common.sharedData.UserLite;
 import common.sharedData.Visibility;
 import tests.communication.interfaces_simulation.VirtualCommunicationToData;
@@ -18,14 +16,12 @@ import java.util.*;
 
 public class CommClientCreateChannelTest {
     // shared data between interfaces
-    private static List<UserLite> otherUsers    = new ArrayList<>();
-    private static  Map<UUID, Channel> channels = new HashMap<>();
+    private static final List<UserLite>     otherUsers  = new ArrayList<>();
+    private static final Map<UUID, Channel> channels    = new HashMap<>();
 
     public static void main(String[] args)
     {
         /* --------------------------------- Init Comm Controller ----------------------------------------*/
-        CommunicationClientController commClient = new CommunicationClientController();
-
         Scanner reader = new Scanner(System.in);
 
         System.out.print("Enter pseudo: ");
@@ -39,10 +35,9 @@ public class CommClientCreateChannelTest {
         ICommunicationToIHMMain mainIface = new VirtualCommunicationToIHMMain(otherUsers, channels);
         ICommunicationToIHMChannel channelIface = new VirtualCommunicationToIHMChannel();
 
-        commClient.setupInterfaces(dataIface, mainIface, channelIface);
-
         /* ------------------------------------------- Test Communication interface ----------------------------------*/
-        CommunicationClientInterfaceImpl commInterface = new CommunicationClientInterfaceImpl(commClient);
+        CommunicationClientInterface commInterface = CommunicationClientInterface.instance();
+        commInterface.setupInterfaces(dataIface, mainIface, channelIface);
 
         commInterface.userConnect(localUser);
 
@@ -55,7 +50,8 @@ public class CommClientCreateChannelTest {
         }
 
         // Create channel
-        Channel channel = new SharedChannel("Test Channel", localUser, "Test", Visibility.PUBLIC);
+        Channel channel = new Channel("Test Channel of " + localUser.getNickName(), localUser,
+                            "Test", Visibility.PUBLIC, ChannelType.SHARED);
 
         commInterface.createChannel(channel, true, true, localUser);
 
@@ -83,14 +79,12 @@ public class CommClientCreateChannelTest {
             }
         }
 
-        //commClient.stop();
+        //commInterface.disconnect();
     }
 
     private static Channel getChannel(String channelID) {
         try {
-            Channel channel = channels.get(UUID.fromString(channelID));
-
-            return channel;
+            return channels.get(UUID.fromString(channelID));
         }
         catch (IllegalArgumentException e) {
             System.err.println("Argument not valid");
