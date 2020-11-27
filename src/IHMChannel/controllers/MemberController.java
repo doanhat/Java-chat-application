@@ -1,31 +1,49 @@
 package IHMChannel.controllers;
 
 import common.sharedData.UserLite;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
 public class MemberController {
 
-    UserLite userToDisplay;
     @FXML
-    ImageView profilePic;
+    ImageView profilePicture;
     @FXML
     ImageView connectedIcon;
     @FXML
     Text username;
     @FXML
-    ImageView authorizationIcon;
+    ImageView creatorIcon;
     @FXML
     Text isThatYouText;
     @FXML
+    ToggleButton toggleAdminBtn;
+    @FXML
     Button banBtn;
 
-    public void setUserToDisplay(UserLite userToDisplay) {
+    // TO - DO actionHandler: profilePicture, isThatYouText, toggleAdminBtn, banBtn
+    UserLite userToDisplay;
+
+    boolean isAdmin;
+    boolean isCreator;
+    boolean isConnected;
+
+
+    public void setUserToDisplay(UserLite userToDisplay,boolean isAdmin, boolean isCreator, boolean isConnected) {
         this.userToDisplay = userToDisplay;
         this.username.setText(userToDisplay.getNickName());
+
+        this.isAdmin = isAdmin;
+        this.isCreator = isCreator;
+        this.isConnected = isConnected;
+        iconsInit();
+
+        if(isAdmin) toggleAdminBtn.setSelected(true);
     }
 
     /**
@@ -40,18 +58,25 @@ public class MemberController {
      * Méthode d'initialisation des icônes du contrôle, appelée à l'initialisation
      */
     private void iconsInit(){
+        // Profile Icon
+        Image profileImage = new Image("IHMChannel/icons/user-circle-solid.png");
+        profilePicture.setImage(profileImage);
+        profilePicture.setFitHeight(30);
+        profilePicture.setFitWidth(30);
 
-        // Utilisateur en ligne
-        Image connectedImage = new Image("IHMChannel/icons/circle-solid.png");
-        connectedIcon.setImage(connectedImage);
-        connectedIcon.setFitHeight(10);
-        connectedIcon.setFitWidth(10);
+        if(isCreator){
+            Image creatorImage = new Image("IHMChannel/icons/crown-solid.png");
+            creatorIcon.setImage(creatorImage);
+            creatorIcon.setFitHeight(15);
+            creatorIcon.setFitWidth(15);
+        }
 
-        // Image Admin
-        Image adminImage = new Image("IHMChannel/icons/crown-solid.png");
-        authorizationIcon.setImage(adminImage);
-        authorizationIcon.setFitHeight(15);
-        authorizationIcon.setFitWidth(15);
+        if(isConnected){
+            Image connectedImage = new Image("IHMChannel/icons/circle-solid.png");
+            connectedIcon.setImage(connectedImage);
+            connectedIcon.setFitHeight(10);
+            connectedIcon.setFitWidth(10);
+        }
 
         // Ban Icon
         Image banImage = new Image("IHMChannel/icons/ban-solid.png");
@@ -59,15 +84,17 @@ public class MemberController {
         banIcon.setFitHeight(15);
         banIcon.setFitWidth(15);
         banBtn.setGraphic(banIcon);
+
     }
+
     /**
      * Méthode déclenchée au clic sur le bouton toggle de l'admin
      */
-    public void toggleAdmin(){
+    public void adminHandler(){
         //TODO
     }
 
 
-
-
+    public void banHandler() {
+    }
 }

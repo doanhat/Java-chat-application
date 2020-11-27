@@ -48,7 +48,13 @@ public class AlphabeticalMembersListController {
     private void displayMembers() throws IOException {
         membersToDisplay.removeAll(membersToDisplay);
         for (UserLite usr : channelMembers){
-            membersToDisplay.add((HBox) new MemberDisplay(usr).root);
+            if(usr==creator){
+                membersToDisplay.add((HBox) new MemberDisplay(usr,true,true,true).root);
+            }else if(adminMembers.contains(usr)){
+                membersToDisplay.add((HBox) new MemberDisplay(usr, true,false,true).root);
+            }else{
+                membersToDisplay.add((HBox) new MemberDisplay(usr, false, false,true).root);
+            }
         }
         membersList.setItems(membersToDisplay);
     }

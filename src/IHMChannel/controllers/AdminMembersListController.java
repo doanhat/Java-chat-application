@@ -57,12 +57,12 @@ public class AdminMembersListController {
         adminsToDisplay.clear();
 
         for (UserLite usr : adminMembers){
-            adminsToDisplay.add((HBox) new MemberDisplay(usr).root);
+            adminsToDisplay.add((HBox) new MemberDisplay(usr,true,false,true).root);
         }
         for (UserLite usr : channelMembers){
-            membersToDisplay.add((HBox) new MemberDisplay(usr).root);
+            membersToDisplay.add((HBox) new MemberDisplay(usr,false,false,true).root);
         }
-        creatorToDisplay.add((HBox) new MemberDisplay(creator).root);
+        creatorToDisplay.add((HBox) new MemberDisplay(creator,true,true,true).root);
 
         adminList.setItems(adminsToDisplay);
         membersList.setItems(membersToDisplay);

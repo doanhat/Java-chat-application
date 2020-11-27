@@ -11,12 +11,12 @@
 <HBox xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="IHMChannel.controllers.MemberController">
-        <ImageView fx:id="profilePic"/>
+        <ImageView fx:id="profilePicture"/>
         <ImageView fx:id="connectedIcon"/>
         <Text fx:id="username"/>
-        <ImageView fx:id="authorizationIcon"/>
+        <ImageView fx:id="creatorIcon"/>
         <Text fx:id="isThatYouText"/>
-        <ToggleButton fx:id="toggleAdminBtn" onAction="#toggleAdmin"/>
-        <Button fx:id="banBtn"/>
+        <ToggleButton fx:id="toggleAdminBtn" onAction="#adminHandler"/>
+        <Button fx:id="banBtn" onAction="#banHandler"/>
 
 </HBox>
