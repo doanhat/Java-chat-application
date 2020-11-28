@@ -331,4 +331,13 @@ public class CommunicationServerController extends CommunicationController {
         dataServer.sendChannelInvitation(sender, receiver, mess.getMessage());
 
     }
+
+    /**
+     * Methode qui signale a Data d'ajouter un nouvel admin sur un channel partage
+     * @param user Utilisateur devenant admin
+     * @param channel Channel ou l'utilisateur devient admin
+     */
+    public void saveNewAdmin(Channel channel, UserLite user) {
+        dataServer.saveNewAdminIntoHistory(channel, user);
+    }
 }

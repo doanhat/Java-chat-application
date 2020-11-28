@@ -382,4 +382,13 @@ public class CommunicationClientController extends CommunicationController {
             // sendMessage(new ValideUserLeftMessage(channel, userLite, dataClient.getMembers(channel.getId())));
         }
     }
+
+    /**
+     * Avertit Data de l'ajout d'un nouvel admin
+     * @param channelID Channel ou un admin est ajoute
+     * @param user Utilisateur devenant admin
+     */
+    public void notifyNewAdmin(UUID channelID, UserLite user) {
+        dataClient.newAdmin(user, channelID);
+    }
 }
