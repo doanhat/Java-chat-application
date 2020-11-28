@@ -1,6 +1,7 @@
 package Data.client;
 
 import Data.resourceHandle.FileHandle;
+import Data.resourceHandle.FileType;
 import Data.resourceHandle.LocationType;
 import common.interfaces.client.IDataToCommunication;
 import common.interfaces.client.IDataToIHMChannel;
@@ -22,33 +23,28 @@ public class MessageController extends Controller{
             message.setId(UUID.randomUUID());
         }
         int responseAdded = 0;
-        FileHandle fileHandler = new FileHandle(LocationType.CLIENT);
-        List<Channel> listOwnedChannel = fileHandler.readJSONFileToList("ownedChannels", Channel.class);
-        if (!listOwnedChannel.isEmpty()) {
-            for (Channel oCh : listOwnedChannel) {
-                if (oCh.getId().toString().equals(channelId.toString())) {
-                    List<Message> listMsg = oCh.getMessages();
-                    //listMsg.add(message);
-                    if (listMsg.isEmpty()){
-                        listMsg.add(message);
-                    } else {
-                        if (response!=null) {
-                            for (Message msg : listMsg) {
-                                if (msg.getId().toString().equals(response.getId().toString())) {
-                                    msg.addAnswers(message);
-                                    responseAdded++;
-                                }
-                            }
-                        }
-
-                        if (responseAdded == 0){
-                            listMsg.add(message);
-                        }
+        FileHandle fileHandler = new FileHandle(LocationType.CLIENT, FileType.CHANNEL);
+        Channel ownedChannel = (Channel) fileHandler.readJSONFileToObject(channelId.toString(), Channel.class);
+        if (ownedChannel!=null) {
+            List<Message> listMsg = ownedChannel.getMessages();
+            //listMsg.add(message);
+            if (response==null){
+                listMsg.add(message);
+            } else {
+                for (Message msg : listMsg) {
+                    if (msg.getId().toString().equals(response.getId().toString())) {
+                        msg.addAnswers(message);
+                        responseAdded++;
                     }
                 }
+
+                if (responseAdded == 0) {
+                    listMsg.add(message);
+                }
             }
+
         }
-        fileHandler.writeJSONToFile("ownedChannels",listOwnedChannel);
+        fileHandler.writeJSONToFile("ownedChannels",ownedChannel);
     }
 
     /**

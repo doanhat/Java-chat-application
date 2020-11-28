@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -15,8 +16,10 @@ public class FileHandle<T> {
 
     private LocationType location;
 
-    public FileHandle(LocationType location) {
-        this.path = System.getProperty("user.dir") + "/projet-lo23a20d1/resource/"+location+"/";
+    private FileType fileType;
+
+    public FileHandle(LocationType location,FileType fileType) {
+        this.path = System.getProperty("user.dir") + "/projet-lo23a20d1/resource/"+location+"/"+fileType+"/";
     }
 
 
@@ -26,6 +29,24 @@ public class FileHandle<T> {
         String sysPath = this.path + fileName + ".json";
         try {
             List<T> ts = mapper.readValue(Paths.get(sysPath).toFile(), listType);
+            return ts;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<T> readAllJSONFilesToList(Class<T> tClass){
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        try {
+            List<T> ts = new ArrayList<>();
+            File directoryPath = new File(this.path);
+            //List of all files and directories
+            File filesList[] = directoryPath.listFiles();
+            for(File file : filesList) {
+                T t = mapper.readValue(Paths.get(file.getAbsolutePath()).toFile(),tClass);
+                ts.add(t);
+            }
             return ts;
         } catch (IOException e) {
             e.printStackTrace();
@@ -71,4 +92,11 @@ public class FileHandle<T> {
         this.location = location;
     }
 
+    public FileType getFileType() {
+        return fileType;
+    }
+
+    public void setFileType(FileType fileType) {
+        this.fileType = fileType;
+    }
 }

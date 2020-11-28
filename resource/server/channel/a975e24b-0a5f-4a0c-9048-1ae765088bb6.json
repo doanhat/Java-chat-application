@@ -1,0 +1,68 @@
+{
+  "id": "a975e24b-0a5f-4a0c-9048-1ae765088bb6",
+  "name": "qsd",
+  "creator": {
+    "id": "59c7d8a8-1288-4ce0-a767-24e2793e947c",
+    "nickName": "vtchek",
+    "avatar": "avatar1"
+  },
+  "description": "",
+  "visibility": "PUBLIC",
+  "type": "SHARED",
+  "administrators": [
+    {
+      "id": "59c7d8a8-1288-4ce0-a767-24e2793e947c",
+      "nickName": "vtchek",
+      "avatar": "avatar1"
+    }
+  ],
+  "acceptedPersons": [
+    {
+      "id": "59c7d8a8-1288-4ce0-a767-24e2793e947c",
+      "nickName": "vtchek",
+      "avatar": "avatar1"
+    }
+  ],
+  "nickNames": {
+    "59c7d8a8-1288-4ce0-a767-24e2793e947c": "vtchek"
+  },
+  "kicked": [],
+  "messages": [
+    {
+      "id": "aa1958cc-a1d1-4fdf-9bf2-09da7e515111",
+      "date": "28-11-2020",
+      "message": "qsdqs",
+      "edited": false,
+      "author": {
+        "id": "59c7d8a8-1288-4ce0-a767-24e2793e947c",
+        "nickName": "vtchek",
+        "avatar": "avatar1"
+      },
+      "likes": [],
+      "deletedByUser": false,
+      "deletedByAdmin": false,
+      "parentMessageId": null,
+      "answers": []
+    },
+    {
+      "id": "c9b1f931-ba0b-4fe4-82d8-6bedd94cdf3c",
+      "date": "28-11-2020",
+      "message": "dgsfdghfgh",
+      "edited": false,
+      "author": {
+        "id": "59c7d8a8-1288-4ce0-a767-24e2793e947c",
+        "nickName": "vtchek",
+        "avatar": "avatar1",
+        "password": "abc",
+        "lastName": "last2",
+        "firstName": "first2",
+        "birthDate": "04-03-1999"
+      },
+      "likes": [],
+      "deletedByUser": false,
+      "deletedByAdmin": false,
+      "parentMessageId": null,
+      "answers": []
+    }
+  ]
+}

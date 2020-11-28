@@ -1,6 +1,7 @@
 package Data.server;
 
 import Data.resourceHandle.FileHandle;
+import Data.resourceHandle.FileType;
 import Data.resourceHandle.LocationType;
 import common.sharedData.*;
 
@@ -19,14 +20,15 @@ public class ChannelsListController {
      */
 
     public ChannelsListController() {
-        this.fileHandle = new FileHandle<Channel>(LocationType.SERVER);
+        this.fileHandle = new FileHandle<Channel>(LocationType.SERVER, FileType.CHANNEL);
         this.channels = createChannelListFromJSONFiles();
     }
 
     public List<Channel> createChannelListFromJSONFiles(){
 
         String [] pathnames;
-        List<Channel> list = fileHandle.readJSONFileToList("sharedChannels", Channel.class);
+
+        List<Channel> list = fileHandle.readAllJSONFilesToList(Channel.class);
 
 //        try{
 //            File f = new File(fileHandle.getPath() + "s");
