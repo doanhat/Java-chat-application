@@ -15,11 +15,22 @@ public class AskToJoinMessage extends ClientToServerMessage {
     private final UserLite sender;
     private final UUID channelID;
 
+    /**
+     * Message notifiant l'arrive d'un utilisateur sur un channel
+     * @param channelID
+     * @param requester
+     */
     public AskToJoinMessage(UUID channelID, UserLite requester) {
         this.sender = requester;
         this.channelID = channelID;
     }
 
+    /**
+     * Ajoute l'utilisateur sur le channel
+     * Genere un message avertissant l'utilisateur de son ajout
+     * Genere un message avertissant les autres utilisateurs du channel de l'arrivé d'un nouvel utilisateur
+     * @param commController
+     */
     @Override
     protected void handle(CommunicationServerController commController) {
         Channel channel = commController.getChannel(channelID);

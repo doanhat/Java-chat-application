@@ -19,6 +19,13 @@ public class CreateChannelMessage extends ClientToServerMessage {
     private final boolean  proprietaryChannel;
     private final boolean  publicChannel;
 
+    /**
+     * Message de création d'un nouveau channel
+     * @param sender
+     * @param channel
+     * @param proprietary
+     * @param publicChannel
+     */
     public CreateChannelMessage(UserLite sender,
                                 Channel channel,
                                 boolean proprietary,
@@ -29,6 +36,11 @@ public class CreateChannelMessage extends ClientToServerMessage {
         this.publicChannel = publicChannel;
     }
 
+    /**
+     * Effectue la demande de création du channel, puis avertit tous les utilisateurs de sa présence si il est public.
+     * Genere un message a l'expediteur l'informant de la création.
+     * @param commController
+     */
     @Override
     protected void handle(CommunicationServerController commController) {
         Channel newChannel = commController.requestCreateChannel(channel, proprietaryChannel, publicChannel, sender);

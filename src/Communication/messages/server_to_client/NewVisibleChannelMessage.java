@@ -13,10 +13,18 @@ public class NewVisibleChannelMessage extends ServerToClientMessage {
 
     private final Channel channel;
 
+    /**
+     * Message avertissant un utilisateur qu'un nouveau channel est visible
+     * @param channel
+     */
     public NewVisibleChannelMessage(Channel channel){
         this.channel = channel;
     }
 
+    /**
+     * Notifie le controller de l'ajout du channel
+     * @param commClientController
+     */
     @Override
     protected void handle(CommunicationClientController commClientController) {
         commClientController.notifyVisibleChannel(channel);

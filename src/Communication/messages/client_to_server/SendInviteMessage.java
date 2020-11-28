@@ -20,6 +20,13 @@ public class SendInviteMessage extends ClientToServerMessage {
     private Message message;
     private Channel channel;
 
+    /**
+     * Message d'inviation a rejoindre un channel
+     * @param sender
+     * @param receiver
+     * @param message
+     * @param channel
+     */
     public SendInviteMessage(UserLite sender, UserLite receiver, Message message, Channel channel){
         this.channel = channel;
         this.message = message;
@@ -28,6 +35,10 @@ public class SendInviteMessage extends ClientToServerMessage {
     }
 
 
+    /**
+     * Envoi le message d'invitation
+     * @param commController
+     */
     @Override
     protected void handle(CommunicationServerController commController) {
 

@@ -16,6 +16,7 @@ public class ReceiveHistoryMessage extends ServerToClientMessage {
         this.history = history;
     }
 
+
     @Override
     protected void handle(CommunicationClientController commClientController) {
         if(commClientController.requestHistory(channelId) != null) {
