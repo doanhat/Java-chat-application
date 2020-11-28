@@ -10,9 +10,7 @@ import common.sharedData.Channel;
 import common.sharedData.User;
 import common.sharedData.UserLite;
 
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,7 +28,7 @@ public class UserController extends Controller {
          */
 
         try {
-            List<User> listUserLogin = new FileHandle<User>(LocationType.CLIENT, FileType.USER).readJSONFileToList("users",User.class);
+            List<User> listUserLogin = new FileHandle<User>(LocationType.client, FileType.user).readJSONFileToList("users",User.class);
             for (User user : listUserLogin){
                 if (user.getNickName().equals(nickName) & user.getPassword().equals(password)){
                     this.localUser = user;

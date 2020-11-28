@@ -23,7 +23,7 @@ public class MessageController extends Controller{
             message.setId(UUID.randomUUID());
         }
         int responseAdded = 0;
-        FileHandle fileHandler = new FileHandle(LocationType.CLIENT, FileType.CHANNEL);
+        FileHandle fileHandler = new FileHandle(LocationType.client, FileType.channel);
         Channel ownedChannel = (Channel) fileHandler.readJSONFileToObject(channelId.toString(), Channel.class);
         if (ownedChannel!=null) {
             List<Message> listMsg = ownedChannel.getMessages();
@@ -44,7 +44,7 @@ public class MessageController extends Controller{
             }
 
         }
-        fileHandler.writeJSONToFile("ownedChannels",ownedChannel);
+        fileHandler.writeJSONToFile(channelId.toString(),ownedChannel);
     }
 
     /**
