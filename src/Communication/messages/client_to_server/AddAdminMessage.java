@@ -17,11 +17,21 @@ public class AddAdminMessage extends ClientToServerMessage{
     private final UUID channelID;
     private final UserLite user;
 
+    /**
+     * Message de demande d'ajout d'admin sur le serveur.
+     * @param user
+     * @param channelID
+     */
     public AddAdminMessage(UserLite user, UUID channelID) {
         this.channelID  = channelID;
         this.user = user;
     }
 
+    /**
+     * Si le channel est partagé, enregistre la modification, et notifie tous les utilisateurs du channel
+     * Si le channel est proprietaire, Notifie le propriétaire de la demande.
+     * @param commController Controller du serveur
+     */
     @Override
     protected void handle(CommunicationServerController commController) {
         Channel channel = commController.getChannel(channelID);

@@ -21,12 +21,23 @@ public class SendMessageMessage extends ClientToServerMessage {
     private final UUID    channelID;
     private final Message response;
 
+    /**
+     * Message informant de l'arrive d'un message dans un des channel
+     * @param message
+     * @param channelID
+     * @param response
+     */
     public SendMessageMessage(Message message, UUID channelID, Message response) {
         this.message    = message;
         this.channelID  = channelID;
         this.response   = response;
     }
 
+    /**
+     * Channel partage : Sauvegarde le message et avertit les utilisateurs du channel de son existence
+     * Channel proprietaire : Avertit le proprietaire du nouveau message
+     * @param commController
+     */
     @Override
     protected void handle(CommunicationServerController commController) {
         Channel channel = commController.getChannel(channelID);

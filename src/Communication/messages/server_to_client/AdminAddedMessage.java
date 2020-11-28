@@ -12,11 +12,20 @@ public class AdminAddedMessage extends ServerToClientMessage{
     private final UserLite user;
     private final UUID channelID;
 
+    /**
+     * Message avertissant un utilisateur qu'un nouvel administrateur a été ajouté
+     * @param user
+     * @param channelID
+     */
     public AdminAddedMessage(UserLite user, UUID channelID){
         this.user = user;
         this.channelID = channelID;
     }
 
+    /**
+     * Notifie le controller de l'ajout
+     * @param commController
+     */
     @Override
     protected void handle(CommunicationClientController commController) {
         commController.notifyNewAdmin(channelID, user);

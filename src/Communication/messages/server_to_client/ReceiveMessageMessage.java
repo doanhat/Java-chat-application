@@ -28,6 +28,10 @@ public class ReceiveMessageMessage extends ServerToClientMessage {
         this.response   = response;
     }
 
+    /**
+     *Notifie le controller du nouveau message
+     * @param commController
+     */
     @Override
     protected void handle(CommunicationClientController commController) {
         commController.notifyReceiveMessage(message, channelID, response);
