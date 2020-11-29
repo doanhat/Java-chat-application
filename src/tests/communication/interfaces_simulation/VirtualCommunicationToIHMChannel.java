@@ -17,4 +17,9 @@ public class VirtualCommunicationToIHMChannel implements ICommunicationToIHMChan
     public void displayHistory(Channel channel, List<Message> history) {
 
     }
+
+    @Override
+    public void sendInvite(User sender, User receiver, Channel channel) {
+
+    }
 }

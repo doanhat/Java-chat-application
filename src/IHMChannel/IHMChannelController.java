@@ -161,10 +161,13 @@ public class IHMChannelController {
                 this.channelPageDisplay = new ChannelPageDisplay(channel, this);
                 channelPageDisplay.setChannelPageController(channelPageController);
                 channelPageDisplay.getChannelPageController().setIhmChannelController(this);
+                channelPageDisplay.getChannelPageController().getChannelController(channel.getId()).setChannel(channel);
+                channelPageDisplay.getChannelPageController().getChannelController(channel.getId()).setIhmChannelController(this);
             }
             else {
                 channelPageDisplay.getChannelPageController().createChannel(channel);
                 channelPageDisplay.getChannelPageController().getChannelController(channel.getId()).setChannel(channel);
+                channelPageDisplay.getChannelPageController().getChannelController(channel.getId()).setIhmChannelController(this);
             }
         }catch(IOException e){
             e.printStackTrace();

@@ -3,21 +3,31 @@ package IHMChannel.controllers;
 import IHMChannel.ChannelMembersDisplay;
 import IHMChannel.ChannelMessagesDisplay;
 import IHMChannel.IHMChannelController;
+import IHMMain.controllers.IHMMainPage;
+import common.IHMTools.IHMTools;
 import common.sharedData.Channel;
 import common.sharedData.Message;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Observable;
 
 public class ChannelController {
     private Channel currentChannel; //channel à afficher dans l'interface
     private IHMChannelController ihmChannelController;
-
 
     /*
        ** @author : Triet
@@ -102,7 +112,21 @@ public class ChannelController {
         }
     }
 
-    public void addUserToChannel() {
+    public void addUserToChannel() throws IOException {
+        FXMLLoader fxmlLoader =
+                new FXMLLoader(getClass().getResource("../views/addMemberPopUp.fxml"));
+        Parent root = fxmlLoader.load();
+        AddMemberPopUpController addMemberPopUpController = fxmlLoader.getController();
+        addMemberPopUpController.setChannelController(this);
+        addMemberPopUpController.initUser();
+        addMemberPopUpController.orderAlphabetic(addMemberPopUpController.membersToDisplay);
+        addMemberPopUpController.getListAddUser().setItems(addMemberPopUpController.membersToDisplay);
+        Stage popupwindow = new Stage();
+        popupwindow.initModality(Modality.APPLICATION_MODAL);
+        popupwindow.setTitle("Add Member");
+        popupwindow.setScene(new Scene(root));
+        popupwindow.setResizable(false);
+        popupwindow.show();
     }
 
 
@@ -140,7 +164,7 @@ public class ChannelController {
     }
 
     public Channel getCurrentChannel() {
-        return currentChannel;
+        return this.currentChannel;
     }
 
     public void setCurrentChannel(Channel currentChannel) {

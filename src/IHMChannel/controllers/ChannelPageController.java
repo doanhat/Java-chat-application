@@ -38,10 +38,9 @@ public class ChannelPageController {
     ObservableSet<Channel> openedChannels; //channel auxquels l'utilisateur est connecté
     HashMap<UUID, ChannelController > channelMap;
     private IHMChannelController ihmChannelController;
-
     @FXML
     private AnchorPane anchorPage;
-
+    private ChannelController channelController;
     @FXML
     Button back;
 //    @FXML
@@ -204,8 +203,8 @@ public class ChannelPageController {
     }
 
     public ChannelController getChannelController(UUID channelId){
-        ChannelController channelController = channelMap.get(channelId);
-        return channelController;
+        this.channelController = channelMap.get(channelId);
+        return this.channelController;
     }
 
 //    @FXML

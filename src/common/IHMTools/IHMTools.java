@@ -14,5 +14,8 @@ public class IHMTools {
         child.prefHeightProperty().bind(parent.heightProperty().divide(i));
         child.minHeightProperty().bind(parent.minHeightProperty().divide(i));
     }
-
+    public static void fitSizeWidth(Region parent, Region child, float i) {
+        child.prefWidthProperty().bind(parent.widthProperty().divide(i));
+        child.minWidthProperty().bind(parent.minWidthProperty().divide(i));
+    }
 }

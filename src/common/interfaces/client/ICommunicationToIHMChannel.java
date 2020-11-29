@@ -24,4 +24,6 @@ public interface ICommunicationToIHMChannel {
      * @param history la liste des messages
      */
     void displayHistory(Channel channel, List<Message> history);
+
+    void sendInvite(User sender, User receiver, Channel channel);
 }

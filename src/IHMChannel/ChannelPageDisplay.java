@@ -1,5 +1,6 @@
 package IHMChannel;
 
+import IHMChannel.controllers.ChannelController;
 import IHMChannel.controllers.ChannelPageController;
 import common.sharedData.Channel;
 import javafx.fxml.FXML;

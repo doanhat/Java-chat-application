@@ -33,6 +33,12 @@ public class CommunicationToIHMChannel implements ICommunicationToIHMChannel {
     @Override
     public void displayHistory(Channel channel, List<Message> history) {
         throw new UnsupportedOperationException("Not implemented yet");
+
+    }
+
+    @Override
+    public void sendInvite(User sender, User receiver, Channel channel) {
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 
     private IHMChannelController controller;
