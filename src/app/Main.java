@@ -3,7 +3,6 @@ package app;
 import Communication.client.CommunicationClientController;
 import Data.client.DataClientController;
 import IHMChannel.IHMChannelController;
-import IHMChannel.interfaces.IHMMainToIHMChannel;
 import IHMMain.IHMMainController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -32,21 +31,21 @@ public class Main extends Application {
 
         ihmMainController = new IHMMainController();
         ihmChannelController = new IHMChannelController();
-        communicationClientController = CommunicationClientController.instance();
+        communicationClientController = new CommunicationClientController();
         /**
          * A modifier quand Comm change son singleton
          */
-        dataClientController = new DataClientController(CommunicationClientInterface.instance(), ihmChannelController.getInterfaceForData(), ihmMainController.getDataToIHMMain());
+        dataClientController = new DataClientController(communicationClientController.getDataToCommunication(), ihmChannelController.getInterfaceForData(), ihmMainController.getDataToIHMMain());
 
-        ihmChannelController.setInterfaceToCommunication(CommunicationClientInterface.instance());
+        ihmChannelController.setInterfaceToCommunication(communicationClientController.getIHMChannelToCommunication());
         ihmChannelController.setInterfaceToData(dataClientController.getIhmChannelToData());
         ihmChannelController.setInterfaceToIHMMain(ihmMainController.getIhmChannelToIHMMain());
 
-        ihmMainController.setIhmMainToCommunication(CommunicationClientInterface.instance());
+        ihmMainController.setIhmMainToCommunication(communicationClientController.getIHMMainToCommunication());
         ihmMainController.setIhmMainToData(dataClientController.getIhmMainToData());
         ihmMainController.setIhmMainToIHMChannel(ihmChannelController.getInterfaceForIHMMain());
 
-        communicationClientController.setICommunicationData(dataClientController.getCommToData());
+        communicationClientController.setICommunicationToData(dataClientController.getCommToData());
         communicationClientController.setICommunicationToIHMChannel(ihmChannelController.getInterfaceForCommunication());
         communicationClientController.setICommunicationToIHMMain(ihmMainController.getCommunicationToIHMMain());
 

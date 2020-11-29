@@ -17,27 +17,14 @@ public class CommunicationClientInterface implements IDataToCommunication,
                                                      IIHMMainToCommunication,
                                                      IIHMChannelToCommunication {
 
-    private static CommunicationClientInterface instance = null;
-
     private final CommunicationClientController commController;
     private UserLite localUser;
 
 
-    private CommunicationClientInterface() {
-        this.commController = CommunicationClientController.instance();
+    public CommunicationClientInterface(CommunicationClientController CommunicationClientController) {
+        this.commController = CommunicationClientController;
     }
 
-    /**
-     * Recuperer singleton de CommunicationClientInterface
-     * @return
-     */
-    public static CommunicationClientInterface instance() {
-        if (instance == null) {
-            instance = new CommunicationClientInterface();
-        }
-
-        return instance;
-    }
 
     // NOTE Nornalement, appeller la methode instance() devra etre souffit
     //public static IDataToCommunication getIDataToCommunication() { return instance(); }
@@ -54,7 +41,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
     public boolean setupInterfaces(ICommunicationToData dataIface,
                                    ICommunicationToIHMMain mainIface,
                                    ICommunicationToIHMChannel channelIface) {
-        return instance().commController.setupInterfaces(dataIface, mainIface, channelIface);
+        return commController.setupInterfaces(dataIface, mainIface, channelIface);
     }
 
     /* ---------------------------- IDataToCommunication interface implementations -----------------------------------*/

@@ -8,21 +8,16 @@ import common.interfaces.client.*;
 import common.sharedData.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 public class CommunicationClientController extends CommunicationController {
 
-    private static CommunicationClientController instance = null;
-
     private final NetworkClient client;
     private ICommunicationToData dataClient;
     private ICommunicationToIHMMain mainClient;
     private ICommunicationToIHMChannel channelClient;
-
-
-
+    private CommunicationClientInterface commInterface;
 
     /**
      * INTEGRATION:
@@ -31,22 +26,12 @@ public class CommunicationClientController extends CommunicationController {
      *
      */
 
-    private CommunicationClientController() {
+    public CommunicationClientController() {
         super();
         client = new NetworkClient(this);
+        commInterface = new CommunicationClientInterface(this);
     }
 
-    /**
-     * Recuperer singleton de CommunicationClientController
-     * @return
-     */
-    public static CommunicationClientController instance() {
-        if (instance == null) {
-            instance = new CommunicationClientController();
-        }
-
-        return instance;
-    }
 
     /* ---------------------------------------------- Core functionalities -------------------------------------------*/
 
@@ -121,7 +106,7 @@ public class CommunicationClientController extends CommunicationController {
             return false;
         }
 
-        setICommunicationData(dataIface);
+        setICommunicationToData(dataIface);
         setICommunicationToIHMMain(mainIface);
         setICommunicationToIHMChannel(channelIface);
 
@@ -132,7 +117,7 @@ public class CommunicationClientController extends CommunicationController {
      * Installer l'interfaces de Data
      * @param dataIface
      */
-    public void setICommunicationData(ICommunicationToData dataIface) {
+    public void setICommunicationToData(ICommunicationToData dataIface) {
         dataClient = dataIface;
     }
 
@@ -150,6 +135,22 @@ public class CommunicationClientController extends CommunicationController {
      */
     public void setICommunicationToIHMChannel(ICommunicationToIHMChannel channelIface) {
         channelClient = channelIface;
+    }
+
+    public IDataToCommunication getDataToCommunication() {
+        return (IDataToCommunication) commInterface;
+    }
+
+    public IIHMChannelToCommunication getIHMChannelToCommunication() {
+        return (IIHMChannelToCommunication) commInterface;
+    }
+
+    public IIHMMainToCommunication getIHMMainToCommunication() {
+        return (IIHMMainToCommunication) commInterface;
+    }
+
+    public CommunicationClientInterface getCommunicationClientInterface(){
+        return  commInterface;
     }
 
     /* ------------------------------------- Connection Notifications handling ---------------------------------------*/
