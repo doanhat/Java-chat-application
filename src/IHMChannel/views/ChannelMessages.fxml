@@ -11,15 +11,29 @@
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="IHMChannel.controllers.ChannelMessagesController">
-    <VBox prefWidth="1400">
-        <ListView fx:id="listMessages"/>
-        <HBox>
-            <ImageView fx:id="profilePic"/>
-            <TextArea fx:id="typedText"/>
-            <Button fx:id="sendBtn" onAction="#sendMessage" styleClass="secondary-btn"/>
-            <Button fx:id="testReception" text="test reception" onAction="#receiveMessage"/>
-        </HBox>
-    </VBox>
+    <GridPane>
+        <columnConstraints>
+            <ColumnConstraints percentWidth="95.0" />
+            <ColumnConstraints percentWidth="5.00"/>
+        </columnConstraints>
+        <children>
+            <VBox prefWidth="1400">
+                <ListView fx:id="listMessages"/>
+                <HBox>
+                    <ImageView fx:id="profilePic"/>
+                    <TextArea fx:id="typedText"/>
+                    <Button fx:id="sendBtn" onAction="#sendMessage" styleClass="secondary-btn"/>
+                    <Button fx:id="testReception" text="test reception" onAction="#receiveMessage"/>
+                </HBox>
+            </VBox>
+            <BorderPane fx:id="connectedMembers" styleClass="connectedMembersList"></BorderPane>
+        </children>
+
+
+
+    </GridPane>
+
+
     <stylesheets>
         <URL value="file:src/common/IHMCommon/common.css"></URL>
     </stylesheets>
