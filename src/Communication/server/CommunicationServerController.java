@@ -18,36 +18,21 @@ import java.util.UUID;
 
 public class CommunicationServerController extends CommunicationController {
 
-    private static CommunicationServerController instance = null;
-
     private final NetworkServer server;
     private IServerCommunicationToData dataServer;
 
-    private CommunicationServerController() {
+    public CommunicationServerController() {
         super();
-
         server = new NetworkServer(this);
-    }
-
-    /**
-     * Recuperer singleton de CommunicationClientController
-     * @return
-     */
-    public static CommunicationServerController instance() {
-        if (instance == null) {
-            instance = new CommunicationServerController();
-        }
-
-        return instance;
     }
 
     /* -------------------------------------------- Setup interfaces -------------------------------------------------*/
 
     /**
-     * Installer les interfaces de Data Serveur
+     * Installer l'interfaces de Data Serveur
      * @param dataServerIface
      */
-    public void setupInterfaces(IServerCommunicationToData dataServerIface) {
+    public void setIServerCommunicationToData(IServerCommunicationToData dataServerIface) {
         this.dataServer = dataServerIface;
     }
 

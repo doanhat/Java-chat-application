@@ -7,8 +7,8 @@ public class MainServer {
 
     public static void main (String [] argv) {
         DataServerController dataServerController = new DataServerController();
-        CommunicationServerController commServerController = CommunicationServerController.instance();
-        commServerController.setupInterfaces(dataServerController.getIServerCommunicationToData());
+        CommunicationServerController commServerController = new CommunicationServerController();
+        commServerController.setIServerCommunicationToData(dataServerController.getIServerCommunicationToData());
         commServerController.start(); //lancement du server
     }
 }

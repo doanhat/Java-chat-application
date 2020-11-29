@@ -43,10 +43,12 @@ public class FileHandle<T> {
             File directoryPath = new File(this.path);
             //List of all files and directories
             File filesList[] = directoryPath.listFiles();
-            for(File file : filesList) {
-                //System.out.println(Paths.get(file.getAbsolutePath()));
-                T t = mapper.readValue(Paths.get(file.getAbsolutePath()).toFile(),tClass);
-                ts.add(t);
+            if(filesList != null) {
+                for (File file : filesList) {
+                    //System.out.println(Paths.get(file.getAbsolutePath()));
+                    T t = mapper.readValue(Paths.get(file.getAbsolutePath()).toFile(), tClass);
+                    ts.add(t);
+                }
             }
             return ts;
         } catch (IOException e) {
