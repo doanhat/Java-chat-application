@@ -2,12 +2,11 @@ package Communication.messages.server_to_client;
 
 import Communication.client.CommunicationClientController;
 import Communication.messages.abstracts.ServerToClientMessage;
-import common.sharedData.Message;
 import common.sharedData.UserLite;
 
 import java.util.UUID;
 
-public class AdminAddedMessage extends ServerToClientMessage {
+public class TellOwnerToAddAdminMessage extends ServerToClientMessage {
 
     private final UserLite user;
     private final UUID channelID;
@@ -17,7 +16,7 @@ public class AdminAddedMessage extends ServerToClientMessage {
      * @param user
      * @param channelID
      */
-    public AdminAddedMessage(UserLite user, UUID channelID){
+    public TellOwnerToAddAdminMessage(UserLite user, UUID channelID){
         this.user = user;
         this.channelID = channelID;
     }
@@ -28,6 +27,6 @@ public class AdminAddedMessage extends ServerToClientMessage {
      */
     @Override
     protected void handle(CommunicationClientController commController) {
-        commController.notifyNewAdminAdded(channelID, user);
+        commController.saveNewAdmin(channelID, user);
     }
 }

@@ -3,6 +3,7 @@ package Communication.messages.client_to_server;
 import Communication.messages.abstracts.ClientToServerMessage;
 import Communication.messages.server_to_client.AdminAddedMessage;
 import Communication.messages.server_to_client.ReceiveMessageMessage;
+import Communication.messages.server_to_client.TellOwnerToAddAdminMessage;
 import Communication.messages.server_to_client.TellOwnerToSaveMessage;
 import Communication.server.CommunicationServerController;
 import common.sharedData.Channel;
@@ -53,8 +54,8 @@ public class AddAdminMessage extends ClientToServerMessage{
                                          null);
         }
         else {
-            //TODO Handle proprietary channel. Tell Owners to add admins
-            //commController.sendMessage(channel.getCreator().getId(), new TellOwnerToAddAdminMessage(user, channelID));
+            //Handle proprietary channel. Tell Owners to add admins
+            commController.sendMessage(channel.getCreator().getId(), new TellOwnerToAddAdminMessage(user, channelID));
         }
     }
 
