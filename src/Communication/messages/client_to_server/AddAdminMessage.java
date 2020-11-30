@@ -58,5 +58,4 @@ public class AddAdminMessage extends ClientToServerMessage{
             commController.sendMessage(channel.getCreator().getId(), new TellOwnerToAddAdminMessage(user, channelID));
         }
     }
-
 }
