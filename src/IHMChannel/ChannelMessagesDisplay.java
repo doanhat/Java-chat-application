@@ -1,6 +1,6 @@
 package IHMChannel;
 
-import IHMChannel.IHMChannelWindowController;
+import IHMChannel.controllers.ChannelMessagesController;
 import common.sharedData.Channel;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,17 +13,22 @@ import java.io.IOException;
 public class ChannelMessagesDisplay {
 
     public Parent root= null;
-    public IHMChannelWindowController controller;
+    public ChannelMessagesController controller;
+    private Channel channel;
 
-    public IHMChannelWindowController getController(){
+    public ChannelMessagesController getController(){
         return this.controller;
     }
 
     public ChannelMessagesDisplay() throws IOException {
         FXMLLoader fxmlLoader =
-                new FXMLLoader(getClass().getResource("../IHMChannel/IHMChannelWindow.fxml"));
+                new FXMLLoader(getClass().getResource("views/ChannelMessages.fxml"));
         root = fxmlLoader.load();
         controller = fxmlLoader.getController();
+    }
+
+    public void configureMessageController(IHMChannelController ihmChannelController){
+        controller.setIhmChannelController(ihmChannelController);
     }
 
 }

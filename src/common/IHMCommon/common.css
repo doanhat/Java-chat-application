@@ -176,6 +176,12 @@ TextField {
     -fx-font-size: 22px;
 }
 
+.channel-title {
+  -fx-fill: #000000;
+  -fx-font-weight: 700;
+  -fx-font-size: 2em;
+}
+
 .pop-up-title {
     -fx-font-size: 24px;
 }

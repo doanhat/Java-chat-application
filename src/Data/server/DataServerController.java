@@ -7,6 +7,7 @@ public class DataServerController {
     private UserListController userListController;
     private IServerCommunicationToData iServerCommunicationToData;
 
+
     public DataServerController() {
         this.channelsListController= new ChannelsListController();
         this.userListController = new UserListController();

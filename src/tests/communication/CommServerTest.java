@@ -19,9 +19,9 @@ public class CommServerTest {
 
         IServerCommunicationToData dataServer = new VirtualDataServer(users, channels, mapUserChannels);
 
-        CommunicationServerController commServer = CommunicationServerController.instance();
+        CommunicationServerController commServer = new CommunicationServerController();
 
-        commServer.setupInterfaces(dataServer);
+        commServer.setIServerCommunicationToData(dataServer);
 
         commServer.start();
 
