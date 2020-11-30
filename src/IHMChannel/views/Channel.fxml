@@ -42,7 +42,7 @@
             <Pane HBox.hgrow="ALWAYS" />
             <Button fx:id="seeMembersBtn" onAction="#seeMembers" styleClass="icon-bar-btn"/>
             <Button fx:id="addMemberBtn" onAction="#addUserToChannel" styleClass="icon-bar-btn"/>
-            <Button fx:id="leaveChannelBtn" onAction="#leaveChannel" styleClass="icon-bar-btn"/>
+            <Button fx:id="leaveChannelBtn" onAction="#leaveChannel" styleClass="icon-bar-btn" />
         </HBox>
         <BorderPane fx:id="pageToDisplay"/>
     </VBox>
