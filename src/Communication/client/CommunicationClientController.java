@@ -184,6 +184,7 @@ public class CommunicationClientController extends CommunicationController {
 
         mainClient.connectionAccepted();
         mainClient.setConnectedUsers(users);
+        //channelClient.setConnectedUsers(users); //TODO Activer cette methode quand channel l'aura dans son interface
 
         for (Channel channel: channels) {
             notifyVisibleChannel(channel);
@@ -201,6 +202,7 @@ public class CommunicationClientController extends CommunicationController {
         }
 
         mainClient.addConnectedUser(newUser);
+        //channelClient.addConnectedUser(newUser); //TODO Activer cette methode quand channel l'aura dans son interface
     }
 
     /**
@@ -214,6 +216,7 @@ public class CommunicationClientController extends CommunicationController {
         }
 
         mainClient.removeConnectedUser(user);
+        //channelClient.removeConnectedUser(user); //TODO Activer cette methode quand channel l'aura dans son interface
     }
 
     /**
