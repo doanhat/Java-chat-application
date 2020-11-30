@@ -5,6 +5,7 @@ import IHMMain.controllers.IHMMainWindowController;
 import common.interfaces.client.ICommunicationToIHMMain;
 import common.sharedData.Channel;
 import common.sharedData.UserLite;
+import javafx.application.Platform;
 
 import java.util.List;
 
@@ -20,7 +21,16 @@ public class CommunicationToIHMMain implements ICommunicationToIHMMain {
 
     @Override
     public void connectionAccepted() {
-        ihmMainWindowController.getMainWindowController().loadIHMMainWindow();
+        /**
+         * N'étant pas sur le threadprincipal il faut execute le load plus tard
+         */
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                ihmMainWindowController = ihmMainController.getMainWindowController().getIHMMainWindowController();
+                ihmMainWindowController.getMainWindowController().loadIHMMainWindow();
+            }
+        });
     }
 
     @Override
@@ -41,9 +51,7 @@ public class CommunicationToIHMMain implements ICommunicationToIHMMain {
     @Override
     public void channelCreated(Channel channel) {
         ihmMainController.getVisibleChannels().add(channel);
-        //TODO : décommenter cela lorsque le code sera merge pour pouvoir load le channel dans la vue
-        //ihmMainWindowController.loadIHMChannelWindow(channel);
-        // TODO selected this channel on the visible channel list
+        ihmMainWindowController.loadIHMChannelWindow(channel);
     }
 
 

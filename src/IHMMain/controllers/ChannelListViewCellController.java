@@ -2,6 +2,7 @@ package IHMMain.controllers;
 
 
 import common.sharedData.Channel;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -45,7 +46,13 @@ public class ChannelListViewCellController extends ListCell<Channel> {
             description.setText(channel.getDescription());
 
             setText(null);
-            setGraphic(anchorPane);
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    setGraphic(anchorPane);
+                }
+            });
+
         }
     }
 }

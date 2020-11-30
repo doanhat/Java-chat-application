@@ -3,6 +3,7 @@ package Data.server;
 import common.interfaces.server.IServerCommunicationToData;
 import common.sharedData.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,7 +23,9 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
     @Override
     public List<Channel> requestChannelCreation(Channel channel, Boolean typeOwner, Boolean typePublic, UserLite user) {
-        return null;
+        // TODO UPDATE
+        this.channelsListController.addChannel(channel);
+        return this.channelsListController.getChannels();
     }
 
     @Override
@@ -81,7 +84,23 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
     @Override
     public List<Channel> getVisibleChannels(UserLite user) {
-        return null;
+
+       List<Channel> channels =  channelsListController.getChannels();
+       List<Channel> results = new ArrayList<>();
+        for (Channel channel: channels) {
+            if (channel.getType().equals(ChannelType.SHARED)){
+                results.add(channel);
+
+            }else {
+                List<UserLite> acceptedPersons = channel.getAcceptedPersons();
+                for (UserLite usr: acceptedPersons){
+                    if (usr.getId().equals(user.getId())) {
+                        results.add(channel);
+                    }
+                }
+            }
+        }
+        return results;
     }
 
     @Override
@@ -159,5 +178,11 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     @Override
     public Boolean checkAuthorization(Channel ch, UserLite user) {
         return null;
+    }
+
+    @Override
+    public Channel getChannel(UUID channelID)
+    {
+       return channelsListController.searchChannelById(channelID);
     }
 }
