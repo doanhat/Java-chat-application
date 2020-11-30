@@ -348,12 +348,22 @@ public class CommunicationClientController extends CommunicationController {
         dataClient.saveMessageIntoHistory(msg, channelID, response);
     }
 
+    /* ---------------------------------------- Admin access right Handling ------------------------------------------*/
     /**
      * Avertit Data de l'ajout d'un nouvel admin
-     * @param channelID Channel ou un admin est ajoute
-     * @param user Utilisateur devenant admin
+     * @param channelID [UUID] Channel ou un admin est ajoute
+     * @param user [UserLite] Utilisateur devenant admin
      */
-    public void notifyNewAdmin(UUID channelID, UserLite user) {
+    public void notifyNewAdminAdded(UUID channelID, UserLite user) {
         dataClient.newAdmin(user, channelID);
+    }
+
+    /**
+     * Avertit Owner d'ajouter d'un nouvel admin au channel proprietaire
+     * @param channelID [UUID] Channel ou un admin est ajoute
+     * @param user [UserLite] Utilisateur devenant admin
+     */
+    public void saveNewAdmin(UUID channelID, UserLite user) {
+        dataClient.saveNewAdminIntoHistory(user, channelID);
     }
 }

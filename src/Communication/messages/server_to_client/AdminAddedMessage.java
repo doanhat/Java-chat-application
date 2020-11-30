@@ -28,6 +28,6 @@ public class AdminAddedMessage extends ServerToClientMessage{
      */
     @Override
     protected void handle(CommunicationClientController commController) {
-        commController.notifyNewAdmin(channelID, user);
+        commController.notifyNewAdminAdded(channelID, user);
     }
 }
