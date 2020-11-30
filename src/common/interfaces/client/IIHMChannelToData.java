@@ -16,4 +16,6 @@ public interface IIHMChannelToData {
      * @return the user
      */
     UserLite getUser(UUID id);
+
+    User getLocalUser();
 }

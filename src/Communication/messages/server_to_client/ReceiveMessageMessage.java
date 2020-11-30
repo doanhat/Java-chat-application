@@ -2,7 +2,6 @@ package Communication.messages.server_to_client;
 
 import Communication.client.CommunicationClientController;
 import Communication.messages.abstracts.ServerToClientMessage;
-import common.sharedData.Channel;
 import common.sharedData.Message;
 
 import java.util.UUID;
@@ -12,8 +11,7 @@ import java.util.UUID;
  */
 public class ReceiveMessageMessage extends ServerToClientMessage {
 
-	private static final long serialVersionUID = -2578930171910220363L;
-	private final Message message;
+    private final Message message;
     private final UUID    channelID;
     private final Message response;
 

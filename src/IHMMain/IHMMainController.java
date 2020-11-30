@@ -1,8 +1,9 @@
 package IHMMain;
 
+import IHMChannel.interfaces.IHMMainToIHMChannel;
 import common.interfaces.client.*;
 import Data.client.IHMMainToData;
-import IHMChannel.IHMMainToIHMChannel;
+import IHMChannel.interfaces.IHMMainToIHMChannel;
 import IHMMain.implementations.CommunicationToIHMMain;
 import IHMMain.implementations.DataToIHMMain;
 import IHMMain.implementations.IHMChannelToIHMMain;
@@ -37,6 +38,8 @@ public class IHMMainController {
      * Properties use inside IHM-Main module
      */
 
+
+
     private MainWindowController mainWindowController;
 
     private ObservableList<UserLite> connectedUsers = FXCollections.observableArrayList();
@@ -47,16 +50,6 @@ public class IHMMainController {
         communicationToIHMMain = new CommunicationToIHMMain(this);
         dataToIHMMain = new DataToIHMMain(this);
         ihmChannelToIHMMain = new IHMChannelToIHMMain(this);
-
-
-        // TODO (data test) get by interface
-        UserLite testUser = new UserLite("Jean Valjean", "");
-        visibleChannels.setAll(
-                new Channel("chan0", testUser, "channel 0", Visibility.PRIVATE, ChannelType.SHARED),
-                new Channel("chan1", testUser, "channel 1", Visibility.PRIVATE,ChannelType.SHARED),
-                new Channel("chan2", testUser, "channel 3", Visibility.PUBLIC,ChannelType.SHARED),
-                new Channel("chan3", testUser, "channel 3", Visibility.PUBLIC,ChannelType.SHARED)
-        );
     }
 
     public ICommunicationToIHMMain getCommunicationToIHMMain() {
@@ -75,10 +68,7 @@ public class IHMMainController {
         this.ihmMainToCommunication = ihmMainToCommunication;
     }
     public IIHMMainToCommunication getIIHMMainToCommunication() {
-        // TODO remove if where integration is done
-        /*if (ihmMainToCommunication == null) {
-            ihmMainToCommunication = new CommunicationClientInterfaceImpl(null);
-        }*/
+
         return ihmMainToCommunication;
     }
 
@@ -86,10 +76,7 @@ public class IHMMainController {
         this.ihmMainToIHMChannel = ihmMainToIHMChannel;
     }
     public IHMMainToIHMChannel getIHMMainToIHMChannel() {
-        // TODO remove if where integration is done
-        /*if (ihmMainToIHMChannel == null) {
-            ihmMainToIHMChannel = new IHMMainToIHMChannel();
-        }*/
+
         return ihmMainToIHMChannel;
     }
 
@@ -97,10 +84,7 @@ public class IHMMainController {
         this.ihmMainToData = ihmMainToData;
     }
     public IHMMainToData getIHMMainToData() {
-        // TODO remove if where integration is done
-        /*if (ihmMainToData == null) {
-            ihmMainToData = new IHMMainToData(null);
-        }*/
+
         return ihmMainToData;
     }
 

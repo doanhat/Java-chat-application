@@ -22,28 +22,14 @@ import java.util.UUID;
  */
 public class CommunicationServerController extends CommunicationController {
 
-    private static CommunicationServerController instance = null;
-
     private final NetworkServer server;
     private IServerCommunicationToData dataServer;
 
-    private CommunicationServerController() {
+    public CommunicationServerController() {
         super();
-
         server = new NetworkServer(this);
     }
 
-    /**
-     * Recuperer singleton de CommunicationClientController
-     * @return instance du CommunicationClientController
-     */
-    public static CommunicationServerController instance() {
-        if (instance == null) {
-            instance = new CommunicationServerController();
-        }
-
-        return instance;
-    }
 
     /* -------------------------------------------- Setup interfaces -------------------------------------------------*/
 
@@ -51,7 +37,7 @@ public class CommunicationServerController extends CommunicationController {
      * Installer les interfaces de Data Serveur
      * @param dataServerIface interface de dataserver
      */
-    public void setupInterfaces(IServerCommunicationToData dataServerIface) {
+    public void setIServerCommunicationToData(IServerCommunicationToData dataServerIface) {
         this.dataServer = dataServerIface;
     }
 
@@ -170,9 +156,7 @@ public class CommunicationServerController extends CommunicationController {
      */
     public void sendMulticast(List<UserLite> receivers, NetworkMessage message, UserLite excludedUser) {
         for(NetworkUser usr : server.directory().getConnections(receivers)) {
-            if (usr.uuid() != excludedUser.getId()) {
-                server.sendMessage(usr.preparePacket(message));
-            }
+            server.sendMessage(usr.preparePacket(message));
         }
     }
 
@@ -205,8 +189,8 @@ public class CommunicationServerController extends CommunicationController {
             return null;
         }
 
-        // TODO INTEGRATION request Data to add a Channel getChannel(UUID channelID) methode
-        return null;  // dataServer.getChannel(channelID);
+
+        return dataServer.getChannel(channelID);
     }
 
     /* -------------------------------------- Channel action Request handling ----------------------------------------*/

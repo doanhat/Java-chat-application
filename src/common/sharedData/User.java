@@ -70,7 +70,7 @@ public class User extends UserLite {
 	}
 
 	public UserLite getUserLite(){
-		return (UserLite) this;
+		return new UserLite(this);
 	}
 
 }
