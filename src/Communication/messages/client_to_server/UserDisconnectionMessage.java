@@ -6,6 +6,10 @@ import common.sharedData.UserLite;
 
 import java.util.UUID;
 
+/**
+ * Ce message sert à indiquer au serveur un souhait de déconnexion normal.
+ *
+ */
 public class UserDisconnectionMessage extends ClientToServerMessage {
 
     private final UUID userID;

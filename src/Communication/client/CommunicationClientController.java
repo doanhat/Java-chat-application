@@ -132,7 +132,7 @@ public class CommunicationClientController extends CommunicationController {
 
     /**
      * Installer l'interfaces de Data
-     * @param dataIface
+     * @param dataIface interface de Data
      */
     public void setICommunicationData(ICommunicationToData dataIface) {
         dataClient = dataIface;
@@ -140,7 +140,7 @@ public class CommunicationClientController extends CommunicationController {
 
     /**
      * Installer l'interfaces de IHM Main
-     * @param mainIface
+     * @param mainIface interface de IHM Main
      */
     public void setICommunicationToIHMMain(ICommunicationToIHMMain mainIface) {
         mainClient = mainIface;
@@ -148,7 +148,7 @@ public class CommunicationClientController extends CommunicationController {
 
     /**
      * Installer l'interfaces de IHM Channel
-     * @param channelIface
+     * @param channelIface Interface de IHMChannel
      */
     public void setICommunicationToIHMChannel(ICommunicationToIHMChannel channelIface) {
         channelClient = channelIface;
@@ -158,8 +158,8 @@ public class CommunicationClientController extends CommunicationController {
 
     /**
      * Notifier IHM Main que la connexion a été établie, en donnant les listes de utilisateurs en-lignes et channels visibles
-     * @param users
-     * @param channels
+     * @param users Liste des utilisateurs en ligne
+     * @param channels Liste des channels visibles
      */
     public void notifyConnectionSuccess(List<UserLite> users, List<Channel> channels) {
         System.err.println("Connecté au serveur");
@@ -180,7 +180,7 @@ public class CommunicationClientController extends CommunicationController {
 
     /**
      * Notifier IHM Main qu'un autre utilisateur est connecté
-     * @param newUser
+     * @param newUser Nouvel utilisateur connecté que l'on notifie
      */
     public void notifyUserConnected(UserLite newUser) {
         if (mainClient == null)
@@ -194,7 +194,7 @@ public class CommunicationClientController extends CommunicationController {
 
     /**
      * Notifier IHM Main qu'un autre utilisateur est déconnecté
-     * @param user
+     * @param user Utilisateur déconnecté
      */
     public void notifyUserDisconnected(UserLite user) {
         if (mainClient == null)
@@ -208,7 +208,7 @@ public class CommunicationClientController extends CommunicationController {
 
     /**
      * Notifier IHM Main, Data qu'un channel vient d'etre visible au utilisateur local
-     * @param channel
+     * @param channel Channel a notifié
      */
     public void notifyVisibleChannel(Channel channel) {
         if (mainClient == null)
@@ -229,7 +229,7 @@ public class CommunicationClientController extends CommunicationController {
 
     /**
      * Notifier IHM Main que l'action de création d'un channel a été accepté par serveur
-     * @param channel
+     * @param channel channel à notifier à passer à la notification
      */
     public void notifyChannelCreated(Channel channel) {
         if (mainClient == null)
@@ -246,7 +246,7 @@ public class CommunicationClientController extends CommunicationController {
 
     /**
      * Notifier IHM Main que l'action de création d'un channel a été refusé par serveur
-     * @param channel
+     * @param channel channel à notifier à passer à la notification
      */
     public void notifyCreationChannelRefused(Channel channel) {
         if (mainClient == null)
@@ -261,8 +261,8 @@ public class CommunicationClientController extends CommunicationController {
 
     /**
      * Notifier Data que la demande de rejoindre un channel a été accepté par serveur
-     * @param user
-     * @param channelID
+     * @param user Utilisateur qui cherche a rejoindre le channel
+     * @param channelID identifiant unique (UUID) du channel
      */
     public void notifyAcceptedToJoinChannel (UserLite user, UUID channelID) {
         if (dataClient == null)
@@ -276,8 +276,8 @@ public class CommunicationClientController extends CommunicationController {
 
     /**
      * Notifier Data que la demande de rejoindre un channel a été refusé par serveur
-     * @param user
-     * @param channelID
+     * @param user Utilisateur qui cherche a rejoindre le channel
+     * @param channelID  identifiant unique (UUID) du channel
      */
     public void notifyRefusedToJoinChannel(UserLite user, UUID channelID) {
         if (dataClient == null)
@@ -291,8 +291,8 @@ public class CommunicationClientController extends CommunicationController {
 
     /**
      * Notifier Data qu'un autre utilisateur a rejoint un channel
-     * @param user
-     * @param channelID
+     * @param user Utilisateur qui a rejoint le channel
+     * @param channelID identifiant unique (UUID) du channel
      */
     public void notifyNewUserAddedToJoinChannel (UserLite user, UUID channelID) {
         if (dataClient == null)
@@ -307,11 +307,12 @@ public class CommunicationClientController extends CommunicationController {
 
 
     /* ---------------------------------------- Chat Message Handling ------------------------------------------------*/
+    
     /**
      * Notifier Data l'arrivée d'un message de chat
-     * @param msg
-     * @param channelID
-     * @param response
+     * @param msg message reçu
+     * @param channelID  identifiant unique (UUID) du channel dans lequel le message à été reçu
+     * @param response Message auquel ce message à répondu
      */
     public void notifyReceiveMessage (Message msg, UUID channelID, Message response) {
         if (dataClient == null)
@@ -325,9 +326,9 @@ public class CommunicationClientController extends CommunicationController {
 
     /**
      * Déclencher Data de faire l'action de sauvegarde d'un message
-     * @param msg
-     * @param channelID
-     * @param response
+     * @param msg message reçu
+     * @param channelID identifiant unique (UUID) du channel dans lequel le message à été reçu
+     * @param response Message auquel ce message à répondu
      */
     public void saveMessage(Message msg, UUID channelID, Message response) {
         if (dataClient == null)

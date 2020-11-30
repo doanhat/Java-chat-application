@@ -10,6 +10,9 @@ import common.sharedData.UserLite;
 
 import java.util.UUID;
 
+/**
+ * Message envoyé par le client lorsque le client demande à rejoindre un channel particulier.
+ */
 public class AskToJoinMessage extends ClientToServerMessage {
 
     private final UserLite sender;

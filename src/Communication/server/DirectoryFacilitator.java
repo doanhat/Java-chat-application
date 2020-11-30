@@ -8,16 +8,16 @@ import java.util.UUID;
 
 public interface DirectoryFacilitator {
     /**
-     * Register nouveau client au Annuaire
+     * Enregistrer le nouveau client a l'annuaire
      * @param clientSocket socket du client
-     * @return
+     * @return <code>true</code> si le nouveau client <code>false</code> si le nouveau client n'a pas été inscrit à l'annuaire.
      */
     boolean registerClient(Socket clientSocket);
 
     /**
-     * Deregister nouveau client au Annuaire
+     * Supprimer l'enregistrement du client a l'annuaire
      * @param clientID ID du client
-     * @return
+     * @return <code>true</code> si le client à bien été supprimé de l'annuaire </code>false</code> sinon
      */
     boolean deregisterClient(UUID clientID);
 

@@ -6,6 +6,10 @@ import common.sharedData.Message;
 
 import java.util.UUID;
 
+/**
+ * Message de demande au client d'enregistrement d'un message particulier
+ *
+ */
 public class TellOwnerToSaveMessage extends ServerToClientMessage {
 
     private final Message message;

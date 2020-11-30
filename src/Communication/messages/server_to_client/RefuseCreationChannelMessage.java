@@ -4,6 +4,9 @@ import Communication.client.CommunicationClientController;
 import Communication.messages.abstracts.ServerToClientMessage;
 import common.sharedData.Channel;
 
+/**
+ * Message de refus de création d'un cannal envoyé par le serveur si il n'autorise pas la création d'un canal
+ */
 public class RefuseCreationChannelMessage extends ServerToClientMessage {
 
     private final Channel refusedChannel;

@@ -16,6 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Classe principale de gestion des communications côté serveur. Cette classe implemente le design patern singleton
+ *
+ */
 public class CommunicationServerController extends CommunicationController {
 
     private static CommunicationServerController instance = null;
@@ -31,7 +35,7 @@ public class CommunicationServerController extends CommunicationController {
 
     /**
      * Recuperer singleton de CommunicationClientController
-     * @return
+     * @return instance du CommunicationClientController
      */
     public static CommunicationServerController instance() {
         if (instance == null) {
@@ -45,7 +49,7 @@ public class CommunicationServerController extends CommunicationController {
 
     /**
      * Installer les interfaces de Data Serveur
-     * @param dataServerIface
+     * @param dataServerIface interface de dataserver
      */
     public void setupInterfaces(IServerCommunicationToData dataServerIface) {
         this.dataServer = dataServerIface;
@@ -128,7 +132,7 @@ public class CommunicationServerController extends CommunicationController {
 
     /**
      * Envoyer un pacquet réseau
-     * @param packet
+     * @param packet paquet réseau
      */
     public void sendMessage(NetworkWriter.DeliveryPacket packet) {
         server.sendMessage(packet);
@@ -137,7 +141,7 @@ public class CommunicationServerController extends CommunicationController {
     // FIXME: remove excluded user from function parameters
     /**
      * Liste des clients en-ligne
-     * @return
+     * @return Liste des client qui sont en ligne
      */
     public List<UserLite> onlineUsers() {
         return server.directory().onlineUsers();
@@ -145,7 +149,7 @@ public class CommunicationServerController extends CommunicationController {
 
     /**
      * Broadcast messages aux tous les clients en-ligne
-     * @param message
+     * @param message message à envoyer à tous les client
      * @param excludedUser utilisateur exclu qui ne recevra le message pour éviter renvoie de message à l'émetteur
      */
     public void sendBroadcast(NetworkMessage message, UserLite excludedUser) {
@@ -176,8 +180,8 @@ public class CommunicationServerController extends CommunicationController {
 
     /**
      * Liste des channels visible à un utilisateur
-     * @param user
-     * @return
+     * @param user utilisateur dont on cherche à obtenir la liste des cannaux dans lequel il est présent
+     * @return Liste des cannaux auquel l'utilisateur à accès
      */
     public List<Channel> getUserChannels(UserLite user) {
         if (dataServer == null)
@@ -209,11 +213,11 @@ public class CommunicationServerController extends CommunicationController {
 
     /**
      * Demande Data server à ajouter un nouveau channel
-     * @param channel
-     * @param proprietary
-     * @param publicChannel
-     * @param requester
-     * @return
+     * @param channel canal à ajouter
+     * @param proprietary true si le canal est de type propriétaire
+     * @param publicChannel true si le canal est public false si il est privé
+     * @param requester Utilisateur ayant demandé la création du canal
+     * @return Channel si le canal est autorisé à la création, null si c'est faux
      */
     public Channel requestCreateChannel(Channel channel,
                                         boolean proprietary,
@@ -241,10 +245,11 @@ public class CommunicationServerController extends CommunicationController {
     }
 
     /**
-     * Demande Data server à supprimer un channel
-     * @param channel
-     * @param requester
-     * @return
+     * Demande Data server à supprimer un canal
+     * @param channel canal à supprimer
+     * @param requester personne qui demande la supression du canal
+     * @return <code>true</code> si le canal à été correctement supprimé
+     * 		   <code>false</code> sinon
      */
     public boolean requestDeleteChannel(Channel channel, UserLite requester) {
         if (dataServer == null)
@@ -270,9 +275,10 @@ public class CommunicationServerController extends CommunicationController {
 
     /**
      * Demande Data server à rejoindre un utilisateur à un channel
-     * @param channel
-     * @param user
-     * @return
+     * @param channel cannal que l'utilisateur demande à rejoindre
+     * @param user utilisateur qui demande a rejoindre
+     * @return <code>true</code> si l'utilisateur à bien rejoint le channel
+     *         <code>false</code> si il n'a pas pu le rejoindre 
      */
     public boolean requestJoinChannel(Channel channel, UserLite user){
         if (dataServer == null)
@@ -289,10 +295,11 @@ public class CommunicationServerController extends CommunicationController {
     }
 
     /**
-     * Demande Data server à rejoindre un utilisateur à un channel proprietaire
-     * @param channel
-     * @param user
-     * @return
+     * Demande Data server à rejoindre un utilisateur à un canal proprietaire
+     * @implNote Cette methode n'est pas encore implementée correctement
+     * @param channel cannal à rejoindre
+     * @param user utilisateur à rejoindre
+     * @return Liste des messages du canal
      */
     public List<Message> requestJoinOwnedChannel(Channel channel, UserLite user){
         if (dataServer == null)
@@ -311,9 +318,9 @@ public class CommunicationServerController extends CommunicationController {
 
     /**
      * Demande Data server à enregistrer un message
-     * @param msg
-     * @param channel
-     * @param response
+     * @param msg message à enregistrer
+     * @param channel canal du message
+     * @param response message auquel le nouveau message est une réponse
      */
     public void saveMessage (Message msg, Channel channel, Message response) {
         if (dataServer == null)
