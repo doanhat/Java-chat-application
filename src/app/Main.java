@@ -17,6 +17,7 @@ public class Main extends Application {
         Parent root = loader.load();
         primaryStage.setTitle("LO23-Chat-Application");
         primaryStage.setScene(new Scene(root));
+        primaryStage.setMaximized(true);
         primaryStage.show();
 
         ihmMainController = new IHMMainController();

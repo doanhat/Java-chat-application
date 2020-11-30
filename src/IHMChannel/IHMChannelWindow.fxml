@@ -9,25 +9,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 
+<?import javafx.scene.layout.BorderPane?>
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IHMChannel.IHMChannelWindowController">
    <children>
-      <GridPane>
-        <columnConstraints>
-          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints maxHeight="300.0" minHeight="10.0" prefHeight="300.0" valignment="TOP" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <HBox GridPane.rowIndex="1">
-               <children>
-                  <TextArea fx:id="messageSend" />
-                  <Button fx:id="sendBtn" mnemonicParsing="false" onAction="#sendMessage" text="envoyer" />
-               </children>
-            </HBox>
-            <ListView fx:id="chatView" prefHeight="200.0" prefWidth="200.0" />
-         </children>
-      </GridPane>
+       <BorderPane fx:id="channelPageToDisplay"></BorderPane>
    </children>
 </StackPane>

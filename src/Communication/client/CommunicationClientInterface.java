@@ -1,6 +1,7 @@
 package Communication.client;
 
 import Communication.common.Parameters;
+import Communication.messages.client_to_server.AddAdminMessage;
 import Communication.messages.client_to_server.AskToJoinMessage;
 import Communication.messages.client_to_server.CreateChannelMessage;
 import Communication.messages.client_to_server.SendMessageMessage;
@@ -117,12 +118,17 @@ public class CommunicationClientInterface implements IDataToCommunication,
     /**
      * Demande l'envoie d'un message de nomination d'administrateur au serveur
      *
-     * @param us [UserLite] Utilisateur devenant admin
+     * @param user [UserLite] Utilisateur devenant admin
      * @param channel [Channel] Channel qui doit recevoir les droitsChannel
      *                sur lequel on souhait donnée les droits d'admin
      **/
-    public void giveAdmin(UserLite us, Channel channel) {
-        // TODO V3
+    public void giveAdmin(UserLite user, Channel channel) {
+        if (user == null || channel == null)
+        {
+            return;
+        }
+
+        commController.sendMessage(new AddAdminMessage(user, channel));
     }
     /**
      * Demande de bannir un utilisateur d'un channel

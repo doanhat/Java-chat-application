@@ -38,46 +38,46 @@ public class IHMChannelListMemberController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //Mettez ici le code qui s'execute avant l'apparition de la vue
-        this.init();
-    }
-    public void init() {
+        // TODO : Code modifié par Data pour être compilé, à vérifier par Channel
         try {
-
-            this.memberDisplay = new MemberDisplay("Léa");
-            HBox tmp = (HBox) this.memberDisplay.root;
-            memberToDisplay.add(tmp);
-            IHMTools.fitSizeToParent((Region)this.listMember, (Region)tmp);
-            IHMTools.fitSizeListMessage((Region)this.listMember, (Region)tmp, 10);
-            this.memberDisplay = new MemberDisplay("Jerôme");
-            tmp = (HBox) this.memberDisplay.root;
-            memberToDisplay.add(tmp);
-            IHMTools.fitSizeToParent((Region)this.listMember, (Region)tmp);
-            IHMTools.fitSizeListMessage((Region)this.listMember, (Region)tmp, 10);
-            this.memberDisplay = new MemberDisplay("Lucas");
-            tmp = (HBox) this.memberDisplay.root;
-            memberToDisplay.add(tmp);
-            IHMTools.fitSizeToParent((Region)this.listMember, (Region)tmp);
-            IHMTools.fitSizeListMessage((Region)this.listMember, (Region)tmp, 10);
-            this.memberDisplay = new MemberDisplay("Vladimir");
-            tmp = (HBox) this.memberDisplay.root;
-            memberToDisplay.add(tmp);
-            IHMTools.fitSizeToParent((Region)this.listMember, (Region)tmp);
-            IHMTools.fitSizeListMessage((Region)this.listMember, (Region)tmp, 10);
-            this.memberDisplay = new MemberDisplay("Aïda");
-            tmp = (HBox) this.memberDisplay.root;
-            memberToDisplay.add(tmp);
-            IHMTools.fitSizeToParent((Region)this.listMember, (Region)tmp);
-            IHMTools.fitSizeListMessage((Region)this.listMember, (Region)tmp, 10);
-            this.memberDisplay = new MemberDisplay("Van Triet");
-            tmp = (HBox) this.memberDisplay.root;
-            memberToDisplay.add(tmp);
-            IHMTools.fitSizeToParent((Region)this.listMember, (Region)tmp);
-            IHMTools.fitSizeListMessage((Region)this.listMember, (Region)tmp, 10);
-            listMember.setItems(memberToDisplay);
-
-        }
-        catch (IOException e) {
+            this.init();
+        } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    public void init() throws IOException {
+        // TODO : Code modifié par Data pour être compilé, à vérifier par Channel
+        //this.memberDisplay = new MemberDisplay("Léa");
+        HBox tmp = (HBox) this.memberDisplay.root;
+        memberToDisplay.add(tmp);
+        IHMTools.fitSizeToParent((Region)this.listMember, (Region)tmp);
+        IHMTools.fitSizeListMessage((Region)this.listMember, (Region)tmp, 10);
+        //this.memberDisplay = new MemberDisplay("Jerôme");
+        tmp = (HBox) this.memberDisplay.root;
+        memberToDisplay.add(tmp);
+        IHMTools.fitSizeToParent((Region)this.listMember, (Region)tmp);
+        IHMTools.fitSizeListMessage((Region)this.listMember, (Region)tmp, 10);
+        //this.memberDisplay = new MemberDisplay("Lucas");
+        tmp = (HBox) this.memberDisplay.root;
+        memberToDisplay.add(tmp);
+        IHMTools.fitSizeToParent((Region)this.listMember, (Region)tmp);
+        IHMTools.fitSizeListMessage((Region)this.listMember, (Region)tmp, 10);
+        //this.memberDisplay = new MemberDisplay("Vladimir");
+        tmp = (HBox) this.memberDisplay.root;
+        memberToDisplay.add(tmp);
+        IHMTools.fitSizeToParent((Region)this.listMember, (Region)tmp);
+        IHMTools.fitSizeListMessage((Region)this.listMember, (Region)tmp, 10);
+        //this.memberDisplay = new MemberDisplay("Aïda");
+        tmp = (HBox) this.memberDisplay.root;
+        memberToDisplay.add(tmp);
+        IHMTools.fitSizeToParent((Region)this.listMember, (Region)tmp);
+        IHMTools.fitSizeListMessage((Region)this.listMember, (Region)tmp, 10);
+        //this.memberDisplay = new MemberDisplay("Van Triet");
+        tmp = (HBox) this.memberDisplay.root;
+        memberToDisplay.add(tmp);
+        IHMTools.fitSizeToParent((Region)this.listMember, (Region)tmp);
+        IHMTools.fitSizeListMessage((Region)this.listMember, (Region)tmp, 10);
+        listMember.setItems(memberToDisplay);
+
     }
 }

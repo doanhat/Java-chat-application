@@ -358,15 +358,29 @@ public class CommunicationClientController extends CommunicationController {
      * @param user [UserLite] Utilisateur devenant admin
      */
     public void notifyNewAdminAdded(UUID channelID, UserLite user) {
+        if (dataClient == null)
+        {
+            System.err.println("notifyNewAdminAdded: Data Iface est null");
+            return;
+        }
+
+        System.err.println("new admin " + user.getNickName() + " added to channel " + channelID);
         dataClient.newAdmin(user, channelID);
     }
 
     /**
-     * Avertit Owner d'ajouter d'un nouvel admin au channel proprietaire
+     * Avertit Owner d'ajouter un nouvel admin au channel proprietaire
      * @param channelID [UUID] Channel ou un admin est ajoute
      * @param user [UserLite] Utilisateur devenant admin
      */
     public void saveNewAdmin(UUID channelID, UserLite user) {
+        if (dataClient == null)
+        {
+            System.err.println("saveNewAdmin: Data Iface est null");
+            return;
+        }
+
+        System.err.println("request owner to add admin " + user.getNickName() + " to channel " + channelID);
         dataClient.saveNewAdminIntoHistory(user, channelID);
     }
 }

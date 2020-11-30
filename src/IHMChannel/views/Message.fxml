@@ -1,0 +1,24 @@
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.GridPane?>
+
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.Button?>
+<HBox fx:controller="IHMChannel.controllers.MessageController"
+      xmlns:fx="http://javafx.com/fxml" alignment="center">
+    <ImageView fx:id="profilePic" />
+    <VBox fx:id="main">
+        <Text fx:id="author"/>
+        <TextArea fx:id="content"/>
+    </VBox>
+    <HBox fx:id="details"> <!-- infos et actions message -->
+        <Text fx:id="time"/>
+        <Button fx:id="like" onAction="#likeMessage"/>
+        <Button fx:id="answer" onAction="#answerMessage"/>
+        <Button fx:id="edit" onAction="#editMessage"/>
+        <Button fx:id="delete" onAction="#deleteMessage"/>
+    </HBox>
+</HBox>
