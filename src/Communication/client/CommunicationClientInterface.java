@@ -22,8 +22,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
 
     private final CommunicationClientController commController;
     private UserLite localUser;
-
-
+    
     public CommunicationClientInterface(CommunicationClientController CommunicationClientController) {
         this.commController = CommunicationClientController;
     }
@@ -39,7 +38,8 @@ public class CommunicationClientInterface implements IDataToCommunication,
      * @param dataIface interface de Data
      * @param mainIface interface de IHM Main
      * @param channelIface interface de IHM Channel
-     * @return
+     * @return true si les interfaces sont correctement initialisées 
+     * @return false si les interfaces n'ont pas été correctement initialisées
      */
     public boolean setupInterfaces(ICommunicationToData dataIface,
                                    ICommunicationToIHMMain mainIface,
@@ -50,9 +50,9 @@ public class CommunicationClientInterface implements IDataToCommunication,
     /* ---------------------------- IDataToCommunication interface implementations -----------------------------------*/
 
     /**
-     * Connection utilisateur local
-     *
-     **/
+     * Connecte le client pour l'utilisateur passé en paramètre au serveur
+     * @param user utilisateur à connecter
+     */
     @Override
     public void userConnect(UserLite user) {
         this.localUser = user;
@@ -60,9 +60,9 @@ public class CommunicationClientInterface implements IDataToCommunication,
     }
 
     /**
-     * Transfert au serveur la demande de suppresion d'un channel
-     *
+     * Transfere au serveur la demande de suppresion d'un channel
      * @param channelID ID de l'objet à supprimer
+     * @implNote
      **/
     @Override
     public void delete(UUID channelID) {
@@ -72,7 +72,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
     /* ---------------------------- IIHMMainToCommunication interface implementations --------------------------------*/
 
     /**
-     * Déconnecter application
+     * Demande de deconnexion du client
      */
     public void disconnect() {
         commController.disconnect(localUser.getId());

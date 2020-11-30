@@ -4,22 +4,19 @@ import Communication.client.CommunicationClientController;
 import Communication.messages.abstracts.ServerToClientMessage;
 import common.sharedData.Channel;
 
+/**
+ * Message validant la création d'un canal particulier
+ *
+ */
 public class ValidateCreationChannelMessage extends ServerToClientMessage {
 
-    private final Channel newChannel;
+	private static final long serialVersionUID = -2287773862822477125L;
+	private final Channel newChannel;
 
-    /**
-     * Message notifiant a un utilisateur que sa demande de création de channel a été prise en compte
-     * @param newChannel
-     */
     public ValidateCreationChannelMessage(Channel newChannel) {
         this.newChannel = newChannel;
     }
 
-    /**
-     * Notifie le controller du succes
-     * @param commController
-     */
     @Override
     protected void handle(CommunicationClientController commController) {
         System.err.println("Creation channel" + newChannel.getId() + " est accepté");

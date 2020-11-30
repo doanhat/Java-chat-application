@@ -6,9 +6,13 @@ import common.sharedData.UserLite;
 
 import java.util.UUID;
 
+/**
+ * Message servant à la verification de l'état du serveura un instant donné
+ */
 public class ClientPulseMessage extends ClientToServerMessage {
 
-    private final UUID userID;
+	private static final long serialVersionUID = -8159868108654492827L;
+	private final UUID userID;
     private int nbSequence;
 
     public ClientPulseMessage(UUID userID) {

@@ -6,9 +6,14 @@ import common.sharedData.UserLite;
 
 import java.util.UUID;
 
+/**
+ * Message envoyé par le serveur en cas de refus de ce dernier de permettre au client de rejoindre un canal particulier.
+ *
+ */
 public class RefuseJoinChannelMessage extends ServerToClientMessage {
 
-    private final UserLite user;
+	private static final long serialVersionUID = 6524550817887518512L;
+	private final UserLite user;
     private final UUID channelID;
 
     public RefuseJoinChannelMessage(UserLite receiver, UUID channelID) {

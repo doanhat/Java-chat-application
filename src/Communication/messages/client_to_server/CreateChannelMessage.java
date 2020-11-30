@@ -12,19 +12,24 @@ import common.sharedData.Visibility;
 
 import java.util.List;
 
+/**
+ * Cette classe correspond à un message indiquant la volonté de création d'un nouveau channel au serveur
+ *
+ */
 public class CreateChannelMessage extends ClientToServerMessage {
 
-    private final UserLite sender;
+	private static final long serialVersionUID = 7561722469207475665L;
+	private final UserLite sender;
     private final Channel  channel;
     private final boolean  proprietaryChannel;
     private final boolean  publicChannel;
 
     /**
-     * Message de création d'un nouveau channel
-     * @param sender
-     * @param channel
-     * @param proprietary
-     * @param publicChannel
+     * Constructeur principal de la classe
+     * @param sender Utilisateur qui souhaite la construction du canal
+     * @param channel Canal à créer
+     * @param proprietary true si le canal doit être propriétaire
+     * @param publicChannel true si le canal est public, false si il est privé
      */
     public CreateChannelMessage(UserLite sender,
                                 Channel channel,
@@ -36,11 +41,6 @@ public class CreateChannelMessage extends ClientToServerMessage {
         this.publicChannel = publicChannel;
     }
 
-    /**
-     * Effectue la demande de création du channel, puis avertit tous les utilisateurs de sa présence si il est public.
-     * Genere un message a l'expediteur l'informant de la création.
-     * @param commController
-     */
     @Override
     protected void handle(CommunicationServerController commController) {
         Channel newChannel = commController.requestCreateChannel(channel, proprietaryChannel, publicChannel, sender);

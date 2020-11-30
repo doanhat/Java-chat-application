@@ -15,6 +15,10 @@ import java.net.Socket;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Classe d'un utilisateur connecté au serveur. Cette classe permet de gérer le socket et les messages entrant et sortant de l'utilisateurs, ainsi que maintenir l'état du client.
+ *
+ */
 public class NetworkUser {
 
     private final CommunicationServerController commController;
@@ -24,6 +28,11 @@ public class NetworkUser {
     private NetworkReader reader;
     private boolean isActive;
 
+    /**
+     * Construit l'objet depuis le socket du client
+     * @param commController controlleur de communication
+     * @param socket socket du client
+     */
     public NetworkUser(CommunicationServerController commController, Socket socket) {
         this.commController = commController;
         this.socket         = socket;
@@ -74,6 +83,10 @@ public class NetworkUser {
         }
     }
 
+    /**
+     * récupère l'uuid du client
+     * @return l'UUID du client en utilisant la methode {@link UserLite#getId()}
+     */
     public UUID uuid() {
         return userInfo.getId();
     }
@@ -86,20 +99,37 @@ public class NetworkUser {
         return isActive;
     }
 
+    /**
+     * Place le client en tant qu'actif ou en tant qu'abscent
+     * @param flag <code>true</code> si le client est actif, <code>false</code> sinon.
+     */
     public void active(boolean flag) {
         System.err.println("Client " + uuid() + " active " + flag);
 
         this.isActive = flag;
     }
 
+    /**
+     * Prepare le Packet pour un message réseau défini en l'encapsulant dans un {@link NetworkWriter.DeliveryPacket}
+     * @param message message a encapsuler
+     * @return instance créée du {@link NetworkWriter.DeliveryPacket}
+     */
     public NetworkWriter.DeliveryPacket preparePacket(NetworkMessage message) {
         return new NetworkWriter.DeliveryPacket(socketOut, message);
     }
 
+    /**
+     * Ferme le socket de communication
+     * @throws IOException Si le socket renvoie une IOException
+     */
     public void stop() throws IOException {
         socket.close();
     }
 
+    /**
+     * getter de UserInfo
+     * @return information de l'utilisateur pour lequel ce socket est ouvert
+     */
     public UserLite getUserInfo() {
         return userInfo;
     }

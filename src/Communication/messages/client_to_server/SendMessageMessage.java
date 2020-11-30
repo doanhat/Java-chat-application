@@ -10,9 +10,14 @@ import common.sharedData.*;
 
 import java.util.UUID;
 
+/**
+ * Cette classe corrrespond à l'envoi d'un message sur un channel particulier
+ *
+ */
 public class SendMessageMessage extends ClientToServerMessage {
 
-    private final Message message;
+	private static final long serialVersionUID = 5513528799348758221L;
+	private final Message message;
     private final UUID    channelID;
     private final Message response;
 

@@ -3,6 +3,11 @@ package Communication.messages.abstracts;
 import Communication.common.CommunicationController;
 import Communication.server.CommunicationServerController;
 
+/**
+ * Classe abstraite depuis laquelle sont étendu les messages devant aller des clients au serveur.
+ * @see NetworkMessage
+ *
+ */
 public abstract class ClientToServerMessage extends NetworkMessage {
 
     @Override
