@@ -3,61 +3,35 @@
     -fx-background-color: #ffffff;
 }
 
-.glyph-icon {
-    -fx-fill: black;
-    -glyph-size: 30px;
-    -fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.7) , 6, 0.0 , 0 , 2);
-}
-
-.glyph-icon:hover {
-    -fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.7) , 6, 0.0 , 0 , 2);
-}
-
 .btn {
     -fx-position: relative;
     -fx-font-weight: bold;
     -fx-padding: 6px 14px;
     -fx-border-radius: 5px;
-    -fx-background-radius: 5px;
-    -fx-background-insets: 0,0,0,0;
     -fx-margin: 5px;
-}
-
-.btn:hover {
-    -fx-background-radius: 5px;
-    -fx-border-weight: solid;
-    -fx-border-width: 2px;
-    -fx-border-radius: 5px;
-    -fx-background-insets: 0,0,0,0;
 }
 
 .primary-btn {
     -fx-background-color: #03254f;
     -fx-text-fill: #ffffff;
-    -fx-border-color:  #03254f;
-    -fx-border-weight: solid;
-    -fx-border-width: 2px;
-    -fx-border-radius: 5px;
+    -fx-border: solid #03254f 2px;
 }
 .primary-btn:hover {
     -fx-text-fill: #03254f;
     -fx-background-color: #ffffff;
-    -fx-border-color:  #03254f;
+    -fx-border: solid #03254f 2px;
 }
 
 .critical-btn {
     -fx-background-color: #f13f3f;
     -fx-text-fill: #ffffff;
-    -fx-border-color:  #f13f3f;
-    -fx-border-weight: solid;
-    -fx-border-width: 2px;
-    -fx-border-radius: 5px;
+    -fx-border: solid #f13f3f 2px;
 }
 
 .critical-btn:hover {
     -fx-text-fill: #f13f3f;
     -fx-background-color: #ffffff;
-    -fx-border-color:  #f13f3f;
+    -fx-border: solid #f13f3f 2px;
 }
 
 .critical-light-btn {
@@ -66,13 +40,14 @@
     -fx-border-color:  #f13f3f;
     -fx-border-weight: solid;
     -fx-border-width: 2px;
-    -fx-border-radius: 5px;
 }
 
 .critical-light-btn:hover {
     -fx-text-fill: #ffffff;
     -fx-background-color: #f13f3f;
-    -fx-border-color: #f13f3f;
+    -fx-border-color: #ffffff;
+    -fx-border-weight: solid;
+    -fx-border-width: 2px;
 }
 
 .secondary-btn {
@@ -81,24 +56,30 @@
     -fx-border-color: #03254f;
     -fx-border-weight: solid;
     -fx-border-width: 2px;
-    -fx-border-radius: 5px;
 }
 
 .secondary-btn:hover {
     -fx-text-fill: #d2f4ff;
     -fx-background-color: #03254f;
     -fx-border: #03254f;
+    -fx-border-weight: solid;
+    -fx-border-width: 2px;
 }
 
 .btn-radio {
     -fx-color: #ffffff;
+    display: none;
+    position: absolute;
+    width: 100%;
+    appearance: none;
 }
+
 
 .btn-radio:selected {
-    -fx-color: #90807a;
+    -fx-color: #90807A;
+    -fx-background-insets: 0;
 }
 
-/*
 .toggle-btn {
   position: relative;
   display: inline-block;
@@ -106,6 +87,7 @@
   height: 24px;
 }
 
+/*
 .slider {
   position: absolute;
   cursor: pointer;
@@ -153,8 +135,7 @@ input:checked + .slider:before {
 
 .form-label {
     -fx-text-fill: #03254f;
-    -fx-font-weight: BOLD;
-    -fx-font-size: 12px;
+    -fx-font-weight: bold;
     -fx-padding: 1em;
 }
 
@@ -164,22 +145,16 @@ TextField {
 }
 
 .main-title {
-    /* sur fond bleu foncé */
+    /* sur fond bleu foncé*/
     -fx-fill: #ffffff;
     -fx-font-weight: bold;
-    -fx-font-size: 40px;
+    -fx-font-size: 48px;
 }
 
 .secondary-title {
     -fx-fill: #a63a49;
     -fx-font-weight: 700;
-    -fx-font-size: 22px;
-}
-
-.channel-title {
-  -fx-fill: #000000;
-  -fx-font-weight: 700;
-  -fx-font-size: 2em;
+    -fx-font-size: 2em;
 }
 
 .pop-up-title {
@@ -192,10 +167,6 @@ TextField {
 
 .neutral-tooltip {
     -fx-background-color: #ffffff;
-}
-
-.tooltip {
-    -fx-font-size: 10px;
 }
 
 .tooltip-label {
@@ -213,7 +184,7 @@ TextField {
 
 .positive-notification {
     -fx-border-radius: 5px;
-    -fx-background-color: rgb(109, 241, 47, 0.45);
+    -fx-background-color: rgba(109, 241, 47, 0.45);
     -fx-padding: 10px;
     -fx-margin: 5px;
 }
@@ -225,7 +196,35 @@ TextField {
 
 .negative-notification {
     -fx-border-radius: 5px;
-    -fx-background-color: rgb(226, 79, 79, 0.45);
+    -fx-background-color: rgba(226, 79, 79, 0.45);
     -fx-padding: 10px;
     -fx-margin: 5px;
+}
+
+.list-cell:filled:selected:focused, .list-cell:filled:selected {
+    /* 3:, 4: */
+    -fx-background-color: white;
+}
+.list-cell:odd { -fx-background-color: white; /* 1 */ }
+.list-cell:even { -fx-background-color: white; /* for information */ }
+
+#banBtn {
+    -fx-background-color: transparent;
+    -fx-alignment: CENTER_RIGHT;
+}
+#toggleAdminBtn {
+    -fx-alignment: CENTER_RIGHT;
+}
+
+#channelMember {
+    position: absolute;
+    -fx-background-color: #ffffff;
+    -fx-padding: 10px;
+    width: 100%;
+    align-items: center;
+    align-content: center;
+}
+
+#username {
+    -fx-background-color: #ff00ff;
 }

@@ -2,7 +2,7 @@ package IHMMain;
 
 import common.interfaces.client.*;
 import Data.client.IHMMainToData;
-import IHMChannel.IHMMainToIHMChannel;
+import IHMChannel.interfaces.IHMMainToIHMChannel;
 import IHMMain.implementations.CommunicationToIHMMain;
 import IHMMain.implementations.DataToIHMMain;
 import IHMMain.implementations.IHMChannelToIHMMain;
