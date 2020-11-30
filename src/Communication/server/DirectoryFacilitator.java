@@ -24,20 +24,20 @@ public interface DirectoryFacilitator {
     /**
      * Cherche NetworkUser selon clientID
      * @param clientID ID du client
-     * @return
+     * @return NetworkUser correspondant au client dont l'UUID est UUID.
      */
     NetworkUser getConnection(UUID clientID);
 
     /**
      * Retourne la liste des clients en-lignes
-     * @return
+     * @return Liste des utilisateurs connectés
      */
     List<UserLite> onlineUsers();
 
     /**
      * Cherche la liste des NetworkUser selon User Id
      * @param users liste de clients
-     * @return
+     * @return Liste des NetworkUsers correspondant à la liste des utilisateurs demandés.
      */
     List<NetworkUser> getConnections(List<UserLite> users);
 

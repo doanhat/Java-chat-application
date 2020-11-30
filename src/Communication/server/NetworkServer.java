@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * Classe principale du serveur. Son rôle est d'instancier les socket et de préparer les taches cycliques de receptions
+ */
 public class NetworkServer {
 
     private final CommunicationServerController commController;
@@ -20,6 +23,9 @@ public class NetworkServer {
         this.directoryFacilitator   = new DirectoryFacilitatorImpl(commController);
     }
 
+    /**
+     * Démarre le serveur
+     */
     public void start() {
         try {
             serverSocket = new ServerSocket(Parameters.PORT);
@@ -35,6 +41,10 @@ public class NetworkServer {
         }
     }
 
+    /**
+     * Arrête le serveur
+     * @throws IOException si le socket entraîne une IOException lors de sa fermeture
+     */
     public void close() throws IOException {
         directoryFacilitator.clear();
 
@@ -45,6 +55,10 @@ public class NetworkServer {
         }
     }
 
+    /**
+     * Envoie le message passé en paramètre.
+     * @param packet encapsulation d'un message contenant les informations nécessaires
+     */
     public void sendMessage(NetworkWriter.DeliveryPacket packet) {
         msgSender.sendMessage(packet);
     }
@@ -53,6 +67,10 @@ public class NetworkServer {
         return directoryFacilitator;
     }
 
+    /**
+     * Classe dont le rôle est d'être une tache periodique dont le rôle est d'accepter les nouveaux clients sur le serveur.
+     *
+     */
     private static class ClientAcceptor extends CyclicTask {
 
         private NetworkServer networkServer;
@@ -62,6 +80,10 @@ public class NetworkServer {
         }
 
         @Override
+        /**
+         * Accepte un nouvau client sur la socket et inscrit le socket.
+         * Si la connexion est annulée, provoquant une IOException, la tache est annulée.
+         */
         public void action() {
             try {
                 Socket clientSocket = networkServer.serverSocket.accept();
