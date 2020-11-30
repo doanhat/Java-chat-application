@@ -208,4 +208,9 @@ public class CommunicationClientInterface implements IDataToCommunication,
         return new ArrayList<>();
     }
 
+    @Override
+    public void sendProprietaryChannels(List<Channel> channels) {
+
+    }
+
 }
