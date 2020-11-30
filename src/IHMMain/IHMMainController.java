@@ -87,9 +87,9 @@ public class IHMMainController {
     }
     public IHMMainToIHMChannel getIHMMainToIHMChannel() {
         // TODO remove if where integration is done
-        /*if (ihmMainToIHMChannel == null) {
+        if (ihmMainToIHMChannel == null) {
             ihmMainToIHMChannel = new IHMMainToIHMChannel();
-        }*/
+        }
         return ihmMainToIHMChannel;
     }
 

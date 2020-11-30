@@ -21,6 +21,7 @@ public class Main extends Application {
 
         ihmMainController = new IHMMainController();
         MainWindowController mainWindowController = loader.getController();
+        mainWindowController.setPrimaryStage(primaryStage);
         mainWindowController.setIhmMainController(ihmMainController);
         ihmMainController.setMainWindowController(loader.getController());
     }
