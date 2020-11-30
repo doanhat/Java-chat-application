@@ -338,6 +338,13 @@ public class CommunicationServerController extends CommunicationController {
      * @param channel Channel ou l'utilisateur devient admin
      */
     public void saveNewAdmin(Channel channel, UserLite user) {
+        if (dataServer == null)
+        {
+            System.err.println("saveNewAdmin: Data Iface est null");
+            return;
+        }
+
+        System.err.println("new admin " + user.getNickName() + " added to channel " + channel.getId());
         dataServer.saveNewAdminIntoHistory(channel, user);
     }
 }
