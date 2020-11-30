@@ -18,7 +18,8 @@ import java.util.List;
  */
 public class CreateChannelMessage extends ClientToServerMessage {
 
-    private final UserLite sender;
+	private static final long serialVersionUID = 7561722469207475665L;
+	private final UserLite sender;
     private final Channel  channel;
     private final boolean  proprietaryChannel;
     private final boolean  publicChannel;

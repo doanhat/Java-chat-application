@@ -12,7 +12,8 @@ import java.util.UUID;
  */
 public class RefuseJoinChannelMessage extends ServerToClientMessage {
 
-    private final UserLite user;
+	private static final long serialVersionUID = 6524550817887518512L;
+	private final UserLite user;
     private final UUID channelID;
 
     public RefuseJoinChannelMessage(UserLite receiver, UUID channelID) {

@@ -12,7 +12,8 @@ import java.util.UUID;
  */
 public class AcceptJoinChannelMessage extends ServerToClientMessage {
 
-    private final UserLite user;
+	private static final long serialVersionUID = -5922382684107438936L;
+	private final UserLite user;
     private final UUID channelID;
 
     public AcceptJoinChannelMessage(UserLite receiver, UUID channelID) {

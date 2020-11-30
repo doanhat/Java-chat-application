@@ -10,7 +10,9 @@ import java.io.Serializable;
  */
 public abstract class NetworkMessage implements Serializable {
 
-    public abstract void handle(CommunicationController commController);
+	private static final long serialVersionUID = -7165721578275332325L;
+
+	public abstract void handle(CommunicationController commController);
 
     /**
      * Class embarqué pour associe handle fonction avec un Runnable

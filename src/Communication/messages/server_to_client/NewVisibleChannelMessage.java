@@ -15,7 +15,8 @@ import java.util.List;
  */
 public class NewVisibleChannelMessage extends ServerToClientMessage {
 
-    private final Channel channel;
+	private static final long serialVersionUID = 4145865987516690680L;
+	private final Channel channel;
 
     public NewVisibleChannelMessage(Channel channel){
         this.channel = channel;

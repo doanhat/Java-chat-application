@@ -11,7 +11,8 @@ import java.util.UUID;
  */
 public class ClientPulseMessage extends ClientToServerMessage {
 
-    private final UUID userID;
+	private static final long serialVersionUID = -8159868108654492827L;
+	private final UUID userID;
     private int nbSequence;
 
     public ClientPulseMessage(UUID userID) {

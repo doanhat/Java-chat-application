@@ -10,7 +10,9 @@ import Communication.messages.client_to_server.ClientPulseMessage;
  */
 public class ReplyClientPulseMessage extends ServerToClientMessage {
 
-    @Override
+	private static final long serialVersionUID = 4397161634935162347L;
+
+	@Override
     protected void handle(CommunicationClientController commController) {
         commController.receiveServerHeartBeat();
     }

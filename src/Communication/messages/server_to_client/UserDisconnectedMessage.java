@@ -10,7 +10,8 @@ import common.sharedData.UserLite;
  */
 public class UserDisconnectedMessage extends ServerToClientMessage {
 
-    private final UserLite user;
+	private static final long serialVersionUID = -1766844866729235472L;
+	private final UserLite user;
 
     public UserDisconnectedMessage(UserLite user)
     {

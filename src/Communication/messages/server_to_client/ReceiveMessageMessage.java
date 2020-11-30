@@ -12,7 +12,8 @@ import java.util.UUID;
  */
 public class ReceiveMessageMessage extends ServerToClientMessage {
 
-    private final Message message;
+	private static final long serialVersionUID = -2578930171910220363L;
+	private final Message message;
     private final UUID    channelID;
     private final Message response;
 
