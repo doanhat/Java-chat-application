@@ -16,15 +16,19 @@ import java.util.UUID;
 public class AddAdminMessage extends ClientToServerMessage{
 
     private final UUID channelID;
+    private final ChannelType channelType;
+    private final UUID channelCreatorID;
     private final UserLite user;
 
     /**
      * Message de demande d'ajout d'admin sur le serveur.
      * @param user [UserLite] nouveau admin
-     * @param channelID [UUID] ID du channel
+     * @param channel [Channel] ID du channel
      */
-    public AddAdminMessage(UserLite user, UUID channelID) {
-        this.channelID  = channelID;
+    public AddAdminMessage(UserLite user, Channel channel) {
+        this.channelID  = channel.getId();
+        this.channelType = channel.getType();
+        this.channelCreatorID = channel.getCreator().getId();
         this.user = user;
     }
 
@@ -35,17 +39,17 @@ public class AddAdminMessage extends ClientToServerMessage{
      */
     @Override
     protected void handle(CommunicationServerController commController) {
-        Channel channel = commController.getChannel(channelID);
-
-        if (channel != null)
-        {
-            //System.err.println("Channel n'est pas trouvé");
-
-            return;
-        }
-
-        if (channel.getType() == ChannelType.SHARED) {
+        if (channelType == ChannelType.SHARED) {
             // Handle shared Channel
+            Channel channel = commController.getChannel(channelID);
+
+            if (channel != null)
+            {
+                //System.err.println("Channel n'est pas trouvé");
+
+                return;
+            }
+
             // Tell data server to save new admin
             commController.saveNewAdmin(channel, user);
 
@@ -55,7 +59,7 @@ public class AddAdminMessage extends ClientToServerMessage{
         }
         else {
             //Handle proprietary channel. Tell Owners to add admins
-            commController.sendMessage(channel.getCreator().getId(), new TellOwnerToAddAdminMessage(user, channelID));
+            commController.sendMessage(channelCreatorID, new TellOwnerToAddAdminMessage(user, channelID));
         }
     }
 }

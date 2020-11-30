@@ -123,7 +123,12 @@ public class CommunicationClientInterface implements IDataToCommunication,
      *                sur lequel on souhait donnée les droits d'admin
      **/
     public void giveAdmin(UserLite user, Channel channel) {
-        commController.sendMessage(new AddAdminMessage(user, channel.getId()));
+        if (user == null || channel == null)
+        {
+            return;
+        }
+
+        commController.sendMessage(new AddAdminMessage(user, channel));
     }
     /**
      * Demande de bannir un utilisateur d'un channel
