@@ -4,6 +4,10 @@ import Communication.client.CommunicationClientController;
 import Communication.messages.abstracts.ServerToClientMessage;
 import common.sharedData.Channel;
 
+/**
+ * Message validant la création d'un canal particulier
+ *
+ */
 public class ValidateCreationChannelMessage extends ServerToClientMessage {
 
     private final Channel newChannel;

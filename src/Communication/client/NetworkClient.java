@@ -8,6 +8,9 @@ import java.io.ObjectOutputStream;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 
+/**
+ * Cette classe sert à gérer la connexion du client au serveur au travers de socket et de {@link Communication.common.NetworkReader} et {@link Communication.common.NetworkWriter}
+ */
 public class NetworkClient {
 
     private final CommunicationClientController commController;
@@ -16,10 +19,20 @@ public class NetworkClient {
     private NetworkReader reader;
     private NetworkWriter writer;
 
+    /**
+     * Constructeur du client réseau
+     * @param commController singleton du controlleur client.
+     */
     public NetworkClient(CommunicationClientController commController) {
         this.commController = commController;
     }
 
+    /**
+     * Effectue la connexion du client au serveur en utilisant les différents paramètres passés en information
+     * @param ip adress ip du serveur
+     * @param port port tcp du serveur auquel se connecter
+     * @throws IOException exception envoyée en cas d'erreur à la création des Streams ou du socket client.
+     */
     public void connect(String ip, int port) throws IOException {
         socket = new Socket(ip, port);
         System.err.println("Connexion à " + ip + ":" + port);
@@ -34,10 +47,18 @@ public class NetworkClient {
         commController.taskManager.appendCyclicTask(writer);
     }
 
+    /**
+     * Envoie un message au serveur sur lequel on est connecté
+     * @param message message a envoyer
+     */
     public void sendMessage(NetworkMessage message) {
         writer.sendMessage(new NetworkWriter.DeliveryPacket(socketOut, message));
     }
 
+    /**
+     * Ferme le socket entrainant la deconnexion du client.
+     * @throws IOException générée en cas d'echec de fermeture du socket
+     */
     public void close() throws IOException {
         if (socket != null && !socket.isClosed()) {
             socket.close();

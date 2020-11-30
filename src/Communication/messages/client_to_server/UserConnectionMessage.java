@@ -12,6 +12,10 @@ import Communication.server.CommunicationServerController;
 import java.util.List;
 import java.util.UUID;
 
+/** 
+ * Cette classe sert à indiquer au serveur que l'on vient de se connecter
+ *
+ */
 public class UserConnectionMessage extends ClientToServerMessage {
 
     private final UserLite user;

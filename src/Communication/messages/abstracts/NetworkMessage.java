@@ -4,6 +4,10 @@ import Communication.common.CommunicationController;
 
 import java.io.Serializable;
 
+/**
+ * Classe abstraite des messages transitant sur le réseau.
+ *
+ */
 public abstract class NetworkMessage implements Serializable {
 
     public abstract void handle(CommunicationController commController);

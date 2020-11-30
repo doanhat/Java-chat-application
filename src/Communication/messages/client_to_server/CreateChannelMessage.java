@@ -12,6 +12,10 @@ import common.sharedData.Visibility;
 
 import java.util.List;
 
+/**
+ * Cette classe correspond à un message indiquant la volonté de création d'un nouveau channel au serveur
+ *
+ */
 public class CreateChannelMessage extends ClientToServerMessage {
 
     private final UserLite sender;
@@ -19,6 +23,13 @@ public class CreateChannelMessage extends ClientToServerMessage {
     private final boolean  proprietaryChannel;
     private final boolean  publicChannel;
 
+    /**
+     * Constructeur principal de la classe
+     * @param sender Utilisateur qui souhaite la construction du canal
+     * @param channel Canal à créer
+     * @param proprietary true si le canal doit être propriétaire
+     * @param publicChannel true si le canal est public, false si il est privé
+     */
     public CreateChannelMessage(UserLite sender,
                                 Channel channel,
                                 boolean proprietary,

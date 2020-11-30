@@ -9,6 +9,10 @@ import common.sharedData.Visibility;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * Cette classe indique au client qu'un nouveau canal vient d'être créé
+ *
+ */
 public class NewVisibleChannelMessage extends ServerToClientMessage {
 
     private final Channel channel;

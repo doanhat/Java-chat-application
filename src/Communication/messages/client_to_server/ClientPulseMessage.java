@@ -6,6 +6,9 @@ import common.sharedData.UserLite;
 
 import java.util.UUID;
 
+/**
+ * Message servant à la verification de l'état du serveura un instant donné
+ */
 public class ClientPulseMessage extends ClientToServerMessage {
 
     private final UUID userID;
