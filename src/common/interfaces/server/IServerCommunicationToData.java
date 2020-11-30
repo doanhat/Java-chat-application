@@ -237,4 +237,6 @@ public interface IServerCommunicationToData {
      * @param user l'utilisateur dont les droits seront testés
      * */
     Boolean checkAuthorization(Channel channel, UserLite user);
+
+     Channel getChannel(UUID channelID);
 }

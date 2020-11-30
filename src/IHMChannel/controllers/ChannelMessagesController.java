@@ -17,7 +17,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
 import java.io.IOException;
-import java.util.UUID;
 
 /**
  * Contrôleur de la vue "ChannelMessages" dans laquelle on retrouve l'affichage et la saisie de messages d'un channel
@@ -51,21 +50,17 @@ public class ChannelMessagesController{
 
     public void setCurrentChannel(Channel channel){
         this.channel = channel;
-//        System.out.println(channel);
+        observableMessages = FXCollections.observableArrayList(this.channel.getMessages());
+        observableMessages.addListener(messageListListener);
         try{
             displayMessagesList();
         }
         catch (Exception e){
             System.out.println("Problème lors de l'affichage des messages");
         }
-
-        //setMessagesToDisplay();
-        observableMessages = FXCollections.observableArrayList(this.channel.getMessages());
-        observableMessages.addListener(messageListListener);
     }
 
     public ChannelMessagesController(){
-        connectedUser = new UserLite("Léa", null);
 
     }
     public void initialize() throws IOException {
@@ -98,7 +93,7 @@ public class ChannelMessagesController{
         if(!typedText.getText().isEmpty()){
             //ATTENTION l'id du message est écrit en dur, on ne sait pas comment il est généré pour le moment.
             // Ne paraît pas logique qu'il soit généré par IHM Channel, donc penser à un constructeur sans id
-            Message newMsg = new Message(typedText.getText(),connectedUser);
+            Message newMsg = new Message(typedText.getText(), ihmChannelController.getInterfaceToData().getLocalUser().getUserLite());
             ihmChannelController.getInterfaceToCommunication().sendMessage(newMsg, channel, parentMessage);
             //messagesToDisplay.add((HBox)new MessageDisplay(new Message(1,typedText.getText(),connectedUser)).root);
             typedText.setText("");
@@ -114,7 +109,7 @@ public class ChannelMessagesController{
         System.out.println("hello");
        //Message message = new Message(2, "message reçu test", connectedUser);
          getIhmChannelController().getInterfaceForData().receiveMessage(new Message("message reçu test", connectedUser),
-                          this.channel, null);
+                          this.channel.getId(), null);
 
         //Message newMsg = new Message(99,"Salut, je suis un message reçu via le bouton de test",connectedUser);
         //this.channel.addMessage(newMsg);
@@ -125,7 +120,7 @@ public class ChannelMessagesController{
      */
     private void displayMessagesList() throws IOException {
         getMessagesToDisplay().removeAll(); //réinitialisation
-        for (Message msg : this.channel.getMessages()){
+        for (Message msg : observableMessages){
             getMessagesToDisplay().add((HBox) new MessageDisplay(msg).root);
         }
         listMessages.setItems(getMessagesToDisplay());
@@ -150,16 +145,5 @@ public class ChannelMessagesController{
 
     public ObservableList<HBox> getMessagesToDisplay() {
         return messagesToDisplay;
-    }
-
-    public void setMessagesToDisplay() {
-        messagesToDisplay = FXCollections.observableArrayList();
-        this.channel.getMessages().forEach(message -> {
-            try {
-                this.messagesToDisplay.add((HBox) new MessageDisplay(message).root);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
     }
 }
