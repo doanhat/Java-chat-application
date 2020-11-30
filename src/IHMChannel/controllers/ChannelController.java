@@ -3,6 +3,7 @@ package IHMChannel.controllers;
 import IHMChannel.ChannelMembersDisplay;
 import IHMChannel.ChannelMessagesDisplay;
 import IHMChannel.IHMChannelController;
+import common.IHMTools.IHMTools;
 import common.sharedData.Channel;
 import common.sharedData.Message;
 import javafx.event.ActionEvent;
@@ -199,11 +200,10 @@ public class ChannelController {
      * Méthode déclenchée au clic sur le bouton "quitter le channel"
      */
     public void leaveChannel(){
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Voulez vous quitter le channel ?", ButtonType.YES, ButtonType.NO);
 
-        alert.showAndWait();
+        boolean result = IHMTools.confirmationPopup("Voulez vous quitter le channel ?");
 
-        if (alert.getResult() == ButtonType.YES) {
+        if (result) {
             /*  openedChannels.remove(channelMap.get(currentChannel));
         channelMap.remove(currentChannel)*/
     }
