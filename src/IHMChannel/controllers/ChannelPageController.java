@@ -12,10 +12,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -178,8 +175,15 @@ public class ChannelPageController {
      * Méthode déclenchée au clic sur le bouton "quitter le channel"
      */
     public void leaveChannel(){
-      /*  openedChannels.remove(channelMap.get(currentChannel));
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Voulez vous quitter le channel ?", ButtonType.YES, ButtonType.NO);
+
+        alert.showAndWait();
+
+        if (alert.getResult() == ButtonType.YES) {
+            /*  openedChannels.remove(channelMap.get(currentChannel));
         channelMap.remove(currentChannel)*/
+        }
+
     }
 
     /**

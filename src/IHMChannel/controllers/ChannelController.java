@@ -6,7 +6,9 @@ import IHMChannel.IHMChannelController;
 import common.sharedData.Channel;
 import common.sharedData.Message;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -126,8 +128,14 @@ public class ChannelController {
      * Méthode déclenchée au clic sur le bouton "quitter le channel"
      */
     public void leaveChannel(){
-      /*  openedChannels.remove(channelMap.get(currentChannel));
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Voulez vous quitter le channel ?", ButtonType.YES, ButtonType.NO);
+
+        alert.showAndWait();
+
+        if (alert.getResult() == ButtonType.YES) {
+            /*  openedChannels.remove(channelMap.get(currentChannel));
         channelMap.remove(currentChannel)*/
+        }
     }
 
 
