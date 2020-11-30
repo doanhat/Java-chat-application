@@ -7,32 +7,16 @@ import common.sharedData.UserLite;
 import java.util.UUID;
 
 public class TellOwnerToAddAdminMessage extends ServerToClientMessage {
-    private UUID channel;
-    private UserLite user;
+    private final UserLite user;
+    private final UUID channelID;
 
-    public UUID getChannel() {
-        return channel;
-    }
-
-    public void setChannel(UUID channel) {
-        this.channel = channel;
-    }
-
-    public UserLite getUser() {
-        return user;
-    }
-
-    public void setUser(UserLite user) {
+    public TellOwnerToAddAdminMessage(UserLite user, UUID channelID){
         this.user = user;
-    }
-
-    public TellOwnerToAddAdminMessage(UUID channel, UserLite user) {
-        this.channel = channel;
-        this.user = user;
+        this.channelID = channelID;
     }
 
     @Override
-    protected void handle(CommunicationClientController commClientController) {
-        commClientController.notifyTellOwnerToAddAdmin(user, channel);
+    protected void handle(CommunicationClientController commController) {
+        commController.saveNewAdmin(channelID, user);
     }
 }

@@ -7,7 +7,7 @@ import common.sharedData.UserLite;
 
 import java.util.UUID;
 
-public class AdminAddedMessage extends ServerToClientMessage{
+public class AdminAddedMessage extends ServerToClientMessage {
 
     private final UserLite user;
     private final UUID channelID;
