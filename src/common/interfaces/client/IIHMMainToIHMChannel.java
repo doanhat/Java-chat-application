@@ -20,8 +20,8 @@ public interface IIHMMainToIHMChannel {
     public void askToJoin(Channel channel);
 
     /**
-     * Retourne le noeud de la vue de IHMChannel
-     * @return
-     */
+    * Retourne le noeud de la vue de IHMChannel
+    * @return
+    */
     public Region getIHMChannelWindow();
 }

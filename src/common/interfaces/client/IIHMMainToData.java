@@ -1,4 +1,5 @@
 package common.interfaces.client;
+
 import common.sharedData.Channel;
 import common.sharedData.User;
 import common.sharedData.UserLite;
