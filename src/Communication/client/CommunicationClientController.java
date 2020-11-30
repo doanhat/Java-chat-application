@@ -359,7 +359,7 @@ public class CommunicationClientController extends CommunicationController {
     }
 
     /**
-     * Avertit Owner d'ajouter d'un nouvel admin au channel proprietaire
+     * Avertit Owner d'ajouter un nouvel admin au channel proprietaire
      * @param channelID [UUID] Channel ou un admin est ajoute
      * @param user [UserLite] Utilisateur devenant admin
      */
