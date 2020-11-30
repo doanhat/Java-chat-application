@@ -84,16 +84,19 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
     @Override
     public List<Channel> getVisibleChannels(UserLite user) {
-        /**
-         * Fais pendant l'intégration (si question demander a Vladimir)
-         */
+
        List<Channel> channels =  channelsListController.getChannels();
        List<Channel> results = new ArrayList<>();
         for (Channel channel: channels) {
-            List<UserLite> acceptedPersons = channel.getAcceptedPersons();
-            for (UserLite usr: acceptedPersons){
-                if (usr.getNickName().equals(user.getNickName())){  //REMARQUE INTEG : IL FAUT SURCHAGER EQUALS DANS USERLITE POUR COMPARER LES ID
-                    results.add(channel);
+            if (channel.getType().equals(ChannelType.SHARED)){
+                results.add(channel);
+
+            }else {
+                List<UserLite> acceptedPersons = channel.getAcceptedPersons();
+                for (UserLite usr: acceptedPersons){
+                    if (usr.getId().equals(user.getId())) {
+                        results.add(channel);
+                    }
                 }
             }
         }

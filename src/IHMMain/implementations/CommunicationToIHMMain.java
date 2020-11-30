@@ -51,9 +51,7 @@ public class CommunicationToIHMMain implements ICommunicationToIHMMain {
     @Override
     public void channelCreated(Channel channel) {
         ihmMainController.getVisibleChannels().add(channel);
-        //TODO : décommenter cela lorsque le code sera merge pour pouvoir load le channel dans la vue
-        //ihmMainWindowController.loadIHMChannelWindow(channel);
-        // TODO selected this channel on the visible channel list
+        ihmMainWindowController.loadIHMChannelWindow(channel);
     }
 
 

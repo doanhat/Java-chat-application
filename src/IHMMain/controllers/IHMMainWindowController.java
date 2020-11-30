@@ -174,7 +174,7 @@ public class IHMMainWindowController implements Initializable{
         */
         // TODO see with Communication if they add the channel or if it's our job
         ihmMainController.getIIHMMainToCommunication().createChannel(newChannel, newChannel.getType() == ChannelType.SHARED, newChannel.getVisibility() == Visibility.PUBLIC, newChannel.getCreator());
-        ihmMainController.getVisibleChannels().add(newChannel);
+
     }
 
     @FXML

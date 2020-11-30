@@ -83,7 +83,7 @@ public class ChannelPageController {
         Parent root = fxmlLoader.load();
 
         ChannelController ctrl = fxmlLoader.getController();
-        ctrl.setChannel(channel);
+        //ctrl.setChannel(channel);
         ctrl.setIhmChannelController(ihmChannelController);
         ctrl.getIhmChannelController().setChannelPageController(this);
         ctrl.configureMessageDisplay(ihmChannelController);

@@ -50,17 +50,14 @@ public class ChannelMessagesController{
 
     public void setCurrentChannel(Channel channel){
         this.channel = channel;
-//        System.out.println(channel);
+        observableMessages = FXCollections.observableArrayList(this.channel.getMessages());
+        observableMessages.addListener(messageListListener);
         try{
             displayMessagesList();
         }
         catch (Exception e){
             System.out.println("Problème lors de l'affichage des messages");
         }
-
-        //setMessagesToDisplay();
-        observableMessages = FXCollections.observableArrayList(this.channel.getMessages());
-        observableMessages.addListener(messageListListener);
     }
 
     public ChannelMessagesController(){
@@ -123,7 +120,7 @@ public class ChannelMessagesController{
      */
     private void displayMessagesList() throws IOException {
         getMessagesToDisplay().removeAll(); //réinitialisation
-        for (Message msg : this.channel.getMessages()){
+        for (Message msg : observableMessages){
             getMessagesToDisplay().add((HBox) new MessageDisplay(msg).root);
         }
         listMessages.setItems(getMessagesToDisplay());
@@ -148,16 +145,5 @@ public class ChannelMessagesController{
 
     public ObservableList<HBox> getMessagesToDisplay() {
         return messagesToDisplay;
-    }
-
-    public void setMessagesToDisplay() {
-        messagesToDisplay = FXCollections.observableArrayList();
-        this.channel.getMessages().forEach(message -> {
-            try {
-                this.messagesToDisplay.add((HBox) new MessageDisplay(message).root);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
     }
 }

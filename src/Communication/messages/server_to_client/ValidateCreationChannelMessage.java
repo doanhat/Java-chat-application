@@ -15,8 +15,6 @@ public class ValidateCreationChannelMessage extends ServerToClientMessage {
     @Override
     protected void handle(CommunicationClientController commController) {
         System.err.println("Creation channel" + newChannel.getId() + " est accepté");
-        // TODO UPDATE
-        // REDONDANT
-        //commController.notifyChannelCreated(newChannel);
+        commController.notifyChannelCreated(newChannel);
     }
 }

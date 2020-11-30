@@ -221,9 +221,11 @@ public class CommunicationClientController extends CommunicationController {
             return;
         }
 
-        // TODO INTEGRATION request data addVisibleChannel receive Channel as parameter : (REMARQUE INTEG, CETTE LIGNE RAJOUTE DE LA REDONDANCE) QUE FAIRE??
-        //dataClient.addVisibleChannel(channel);
-        // TODO INTEGRATION Verify workflow between Comm, Data, Main to avoid redundancy
+//        // TODO INTEGRATION request data addVisibleChannel receive Channel as parameter : (REMARQUE INTEG, CETTE LIGNE RAJOUTE DE LA REDONDANCE) QUE FAIRE??
+        /**
+         * TODO: IF DATA DOESN'T IMPLEMENT a ChannelList, please delete the line "dataClient.addVisibleChannel(channel)" in next integration
+         */
+//        dataClient.addVisibleChannel(channel);
         mainClient.channelAdded(channel);
 
         // TODO handle propriety Channel
