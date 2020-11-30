@@ -19,7 +19,11 @@ public class FileHandle<T> {
     private FileType fileType;
 
     public FileHandle(LocationType location,FileType fileType) {
-        this.path = System.getProperty("user.dir") + "/resource/"+location+"/"+fileType+"/";
+        String filePath = System.getProperty("user.dir") + "/resource/"+location+"/"+fileType+"/";
+        if (!Paths.get(filePath).toFile().exists() || !Paths.get(filePath).toFile().isDirectory()) {
+            Paths.get(filePath).toFile().mkdirs();
+        }
+        this.path = filePath;
     }
 
 
