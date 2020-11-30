@@ -1,5 +1,6 @@
 package IHMChannel.controllers;
 
+import common.IHMTools.IHMTools;
 import common.sharedData.Message;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -110,17 +111,11 @@ public class MessageController {
      */
     public void deleteMessage(){
 
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Voulez vous supprimer le message ?", ButtonType.YES, ButtonType.NO);
 
-        //récupération du CSS
-        //DialogPane dialogPane = alert.getDialogPane();
-        //dialogPane.getStylesheets().add(getClass().getResource("src/common/IHMCommon/dialog.css").toExternalForm());
 
-        //dialogPane.getStyleClass().add("dialog");
+        boolean result = IHMTools.confirmationPopup("Voulez vous supprimer le message ?");
 
-        alert.showAndWait();
-
-        if (alert.getResult() == ButtonType.YES) {
+        if (result){
             System.out.println("suppression du message "+this.content.getText());
             this.content.setText("message supprimé");
         }
