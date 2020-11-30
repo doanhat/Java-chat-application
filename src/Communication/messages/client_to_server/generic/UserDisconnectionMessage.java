@@ -1,4 +1,4 @@
-package Communication.messages.client_to_server;
+package Communication.messages.client_to_server.generic;
 
 import java.util.UUID;
 

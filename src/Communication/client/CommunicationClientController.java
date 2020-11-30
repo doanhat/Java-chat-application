@@ -2,9 +2,8 @@ package Communication.client;
 
 import Communication.common.CommunicationController;
 import Communication.messages.abstracts.NetworkMessage;
-import Communication.messages.client_to_server.UserConnectionMessage;
-import Communication.messages.client_to_server.UserDisconnectionMessage;
-import Communication.messages.client_to_server.ValideUserLeftMessage;
+import Communication.messages.client_to_server.generic.UserConnectionMessage;
+import Communication.messages.client_to_server.generic.UserDisconnectionMessage;
 import common.interfaces.client.*;
 import common.sharedData.*;
 

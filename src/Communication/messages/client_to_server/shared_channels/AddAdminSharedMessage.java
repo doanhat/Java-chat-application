@@ -1,4 +1,4 @@
-package Communication.messages.client_to_server;
+package Communication.messages.client_to_server.shared_channels;
 
 import Communication.messages.abstracts.ClientToServerMessage;
 import Communication.messages.server_to_client.AdminAddedMessage;
@@ -13,11 +13,9 @@ import common.sharedData.UserLite;
 
 import java.util.UUID;
 
-public class AddAdminMessage extends ClientToServerMessage{
+public class AddAdminSharedMessage extends ClientToServerMessage{
 
     private final UUID channelID;
-    private final ChannelType channelType;
-    private final UUID channelCreatorID;
     private final UserLite user;
 
     /**
@@ -25,10 +23,8 @@ public class AddAdminMessage extends ClientToServerMessage{
      * @param user [UserLite] nouveau admin
      * @param channel [Channel] ID du channel
      */
-    public AddAdminMessage(UserLite user, Channel channel) {
+    public AddAdminSharedMessage(UserLite user, Channel channel) {
         this.channelID  = channel.getId();
-        this.channelType = channel.getType();
-        this.channelCreatorID = channel.getCreator().getId();
         this.user = user;
     }
 
@@ -39,27 +35,21 @@ public class AddAdminMessage extends ClientToServerMessage{
      */
     @Override
     protected void handle(CommunicationServerController commController) {
-        if (channelType == ChannelType.SHARED) {
-            // Handle shared Channel
-            Channel channel = commController.getChannel(channelID);
+        // Handle shared Channel
+        Channel channel = commController.getChannel(channelID);
 
-            if (channel != null)
-            {
+        if (channel != null)
+        {
                 //System.err.println("Channel n'est pas trouvé");
 
-                return;
-            }
+            return;
+        }
 
             // Tell data server to save new admin
-            commController.saveNewAdmin(channel, user);
+        commController.saveNewAdmin(channel, user);
 
-            commController.sendMulticast(channel.getAcceptedPersons(),
-                                         new AdminAddedMessage(user, channelID),
-                                         null);
-        }
-        else {
-            //Handle proprietary channel. Tell Owners to add admins
-            commController.sendMessage(channelCreatorID, new TellOwnerToAddAdminMessage(user, channelID));
-        }
+        commController.sendMulticast(channel.getAcceptedPersons(),
+                    new AdminAddedMessage(user, channelID),
+                    null);
     }
 }
