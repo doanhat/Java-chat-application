@@ -24,4 +24,8 @@ public class AlphabeticalMembersListDisplay {
         root = fxmlLoader.load();
         AlphabeticalMembersController = fxmlLoader.getController();
     }
+
+    public void configureController(IHMChannelController ihmChannelController){
+        AlphabeticalMembersController.setIhmChannelController(ihmChannelController);
+    }
 }

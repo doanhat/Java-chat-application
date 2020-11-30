@@ -81,6 +81,10 @@ public class ChannelController {
         channelMessagesDisplay.configureMessageController(ihmChannelController);
     }
 
+    public void configureMemberDisplay(IHMChannelController ihmChannelController){
+        channelMembersDisplay.configureMembersController(ihmChannelController);
+    }
+
     private void iconsInit(){
         //Liste membres
         Image usersImage = new Image("IHMChannel/icons/users-solid.png");

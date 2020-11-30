@@ -1,5 +1,8 @@
 package IHMChannel.controllers;
 
+import IHMChannel.IHMChannelController;
+import common.interfaces.client.IIHMChannelToCommunication;
+import common.sharedData.Channel;
 import common.sharedData.UserLite;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,6 +13,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
 public class MemberController {
+
+    private IHMChannelController ihmChannelController;
+
+    Channel channel;
 
     @FXML
     ImageView profilePicture;
@@ -26,7 +33,8 @@ public class MemberController {
     @FXML
     Button banBtn;
 
-    // TO - DO actionHandler: profilePicture, isThatYouText, toggleAdminBtn, banBtn
+    // TO - DO actionHandler: isThatYouText, toggleAdminBtn, banBtn
+
     UserLite userToDisplay;
 
     boolean isAdmin;
@@ -88,13 +96,26 @@ public class MemberController {
     }
 
     /**
-     * Méthode déclenchée au clic sur le bouton toggle de l'admin
+     * Méthode déclenchée au clic sur le bouton toggle de l'admin permettant de faire basculer le statut d'un membre entre administrateur et simple membre.
      */
     public void adminHandler(){
-        //TODO
+        System.out.println("Envoi message de changement de droit administrateur au serveur... ");
+        ihmChannelController.getInterfaceToCommunication().giveAdmin(userToDisplay, channel);
     }
 
 
     public void banHandler() {
+    }
+
+    public IHMChannelController getIhmChannelController() {
+        return ihmChannelController;
+    }
+
+    public void setIhmChannelController(IHMChannelController ihmChannelController) {
+        this.ihmChannelController = ihmChannelController;
+    }
+
+    public void setChannel(Channel channel) {
+        this.channel = channel;
     }
 }

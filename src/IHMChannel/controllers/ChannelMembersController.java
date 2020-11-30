@@ -2,6 +2,7 @@ package IHMChannel.controllers;
 
 import IHMChannel.AdminMembersListDisplay;
 import IHMChannel.AlphabeticalMembersListDisplay;
+import IHMChannel.IHMChannelController;
 import IHMChannel.MemberDisplay;
 import common.sharedData.Channel;
 import common.sharedData.User;
@@ -22,6 +23,9 @@ import java.util.*;
  * Contrôleur de la vue "ChannelMembers" qui contient la liste des membres d'un channel et les options d'affichage de cette liste
  */
 public class ChannelMembersController {
+
+    private IHMChannelController ihmChannelController;
+
     @FXML
     ToggleGroup viewMode;
     @FXML
@@ -57,10 +61,13 @@ public class ChannelMembersController {
     }
 
     public void alphabeticSort() throws IOException {
+        alphabeticalMembersListDisplay.configureController(ihmChannelController);
         listMembersDisplay.setCenter(alphabeticalMembersListDisplay.root);
+
     }
 
     public void adminSort() {
+        adminMembersListDisplay.configureController(ihmChannelController);
         listMembersDisplay.setCenter(adminMembersListDisplay.root);
     }
 
@@ -69,5 +76,13 @@ public class ChannelMembersController {
         channelMembers.sort(Comparator.comparing(UserLite::isConnected));
         displayMembers();
         */
+    }
+
+    public IHMChannelController getIhmChannelController() {
+        return ihmChannelController;
+    }
+
+    public void setIhmChannelController(IHMChannelController ihmChannelController) {
+        this.ihmChannelController = ihmChannelController;
     }
 }

@@ -1,5 +1,6 @@
 package IHMChannel.controllers;
 
+import IHMChannel.IHMChannelController;
 import IHMChannel.MemberDisplay;
 import common.sharedData.Channel;
 import common.sharedData.UserLite;
@@ -12,6 +13,9 @@ import javafx.scene.layout.HBox;
 import java.io.IOException;
 
 public class AdminMembersListController {
+
+    private IHMChannelController ihmChannelController;
+
     @FXML
     ListView<HBox> creatorList;
     @FXML
@@ -57,12 +61,12 @@ public class AdminMembersListController {
         adminsToDisplay.clear();
 
         for (UserLite usr : adminMembers){
-            adminsToDisplay.add((HBox) new MemberDisplay(usr,true,false,true).root);
+            adminsToDisplay.add((HBox) new MemberDisplay(usr,true,false,true, channel, ihmChannelController).root);
         }
         for (UserLite usr : channelMembers){
-            membersToDisplay.add((HBox) new MemberDisplay(usr,false,false,true).root);
+            membersToDisplay.add((HBox) new MemberDisplay(usr,false,false,true, channel, ihmChannelController).root);
         }
-        creatorToDisplay.add((HBox) new MemberDisplay(creator,true,true,true).root);
+        creatorToDisplay.add((HBox) new MemberDisplay(creator,true,true,true, channel, ihmChannelController).root);
 
         adminList.setItems(adminsToDisplay);
         membersList.setItems(membersToDisplay);
@@ -90,5 +94,13 @@ public class AdminMembersListController {
         membersToDisplay = FXCollections.observableArrayList();
         creatorToDisplay = FXCollections.observableArrayList() ;
         adminsToDisplay= FXCollections.observableArrayList();
+    }
+
+    public IHMChannelController getIhmChannelController() {
+        return ihmChannelController;
+    }
+
+    public void setIhmChannelController(IHMChannelController ihmChannelController) {
+        this.ihmChannelController = ihmChannelController;
     }
 }

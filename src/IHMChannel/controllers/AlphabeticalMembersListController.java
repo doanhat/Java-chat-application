@@ -1,5 +1,6 @@
 package IHMChannel.controllers;
 
+import IHMChannel.IHMChannelController;
 import IHMChannel.MemberDisplay;
 import common.sharedData.Channel;
 import common.sharedData.UserLite;
@@ -13,6 +14,9 @@ import javafx.scene.layout.HBox;
 import java.io.IOException;
 
 public class AlphabeticalMembersListController {
+
+    private IHMChannelController ihmChannelController;
+
     @FXML
     ListView<HBox> membersList;
 
@@ -25,7 +29,7 @@ public class AlphabeticalMembersListController {
     ObservableList<HBox> membersToDisplay;
 
     /**
-     * Initialise la liste des membres (acceptedPerson) contenus dans l'attribut channel de la classe
+     * Initialise la liste des membres contenus dans l'attribut channel de la classe
      */
     private void initMembersList() {
         channelMembers.removeAll(channelMembers);
@@ -49,11 +53,11 @@ public class AlphabeticalMembersListController {
         membersToDisplay.removeAll(membersToDisplay);
         for (UserLite usr : channelMembers){
             if(usr==creator){
-                membersToDisplay.add((HBox) new MemberDisplay(usr,true,true,true).root);
+                membersToDisplay.add((HBox) new MemberDisplay(usr,true,true,true, channel, ihmChannelController).root);
             }else if(adminMembers.contains(usr)){
-                membersToDisplay.add((HBox) new MemberDisplay(usr, true,false,true).root);
+                membersToDisplay.add((HBox) new MemberDisplay(usr, true,false,true, channel, ihmChannelController).root);
             }else{
-                membersToDisplay.add((HBox) new MemberDisplay(usr, false, false,true).root);
+                membersToDisplay.add((HBox) new MemberDisplay(usr, false, false,true, channel, ihmChannelController).root);
             }
         }
         membersList.setItems(membersToDisplay);
@@ -78,5 +82,13 @@ public class AlphabeticalMembersListController {
         channelMembers = FXCollections.observableArrayList();
         adminMembers = FXCollections.observableArrayList();
         membersToDisplay = FXCollections.observableArrayList();
+    }
+
+    public IHMChannelController getIhmChannelController() {
+        return ihmChannelController;
+    }
+
+    public void setIhmChannelController(IHMChannelController ihmChannelController) {
+        this.ihmChannelController = ihmChannelController;
     }
 }

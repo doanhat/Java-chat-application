@@ -67,6 +67,7 @@ public class ChannelPageController {
         ctrl.setIhmChannelController(ihmChannelController);
         ctrl.getIhmChannelController().setChannelPageController(this);
         ctrl.configureMessageDisplay(ihmChannelController);
+        ctrl.configureMemberDisplay(ihmChannelController);
         Tab tab = new Tab(channel.getName());
         tabs.getTabs().add(tab);
         tab.setContent((Node) root);
