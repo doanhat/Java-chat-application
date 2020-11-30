@@ -1,12 +1,11 @@
 package Data.server;
 
 import Data.resourceHandle.FileHandle;
-import common.sharedData.Channel;
-import common.sharedData.Message;
+import Data.resourceHandle.FileType;
+import Data.resourceHandle.LocationType;
+import common.sharedData.*;
 
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,28 +13,35 @@ public class ChannelsListController {
     private List<Channel> channels;
     private FileHandle fileHandle;
 
+    /**
+     * SVP CREER LES FICHIER AVEC DES FONCTIONS
+     */
+
     public ChannelsListController() {
-        this.fileHandle = new FileHandle(System.getProperty("user.dir")+"/projet-lo23a20d1/resource/channels/");
+        this.fileHandle = new FileHandle<Channel>(LocationType.server, FileType.channel);
         this.channels = createChannelListFromJSONFiles();
     }
 
     public List<Channel> createChannelListFromJSONFiles(){
-        List<Channel> list = new ArrayList<>();
+
         String [] pathnames;
-        try{
-            File f = new File(fileHandle.getPath());
 
-            pathnames = f.list();
+        List<Channel> list = fileHandle.readAllJSONFilesToList(Channel.class);
 
-            for (String pathname : pathnames) {
-                pathname = pathname.substring(0, pathname.lastIndexOf('.'));
-                list.add((Channel) fileHandle.readJSONFileToObject(pathname,Channel.class));
-                System.out.println(list.size());
-            }
-        } catch (Exception e){
-            System.out.println(e);
-        }
-        return new ArrayList<>();
+//        try{
+//            File f = new File(fileHandle.getPath() + "s");
+//
+//            pathnames = f.list();
+//
+//            for (String pathname : pathnames) {
+//                pathname = pathname.substring(0, pathname.lastIndexOf('.'));
+//                list.add((Channel) fileHandle.readJSONFileToObject(pathname,Channel.class));
+//                System.out.println(list.size());
+//            }
+//        } catch (Exception e){
+//           e.printStackTrace();
+//        }
+        return list;
     }
 
     public List<Channel> searchChannelByName(String nom) {
@@ -83,7 +89,8 @@ public class ChannelsListController {
     }
 
     public Channel readJSONToChannelData(UUID idChannel){
-        return (Channel) this.fileHandle.readJSONFileToObject("channels/" + idChannel, Channel.class);
+        //TODO UPDATE (Espace)
+        return (Channel) this.fileHandle.readJSONFileToObject(idChannel.toString(), Channel.class);
     }
 
     /**

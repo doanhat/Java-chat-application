@@ -80,13 +80,13 @@ public class DataToIHMChannel implements IDataToIHMChannel{
      * à d'autres.
      *
      * @param message    message reçu
-     * @param channel    channel sur lequel le message a été reçu
+     * @param channelID    channel sur lequel le message a été reçu
      * @param responseTo message parent
      */
     @Override
-    public void receiveMessage(Message message, Channel channel, Message responseTo) {
+    public void receiveMessage(Message message, UUID channelID, Message responseTo) {
         //get channelctrl depuis ihmctrl
-        ChannelController channelController = controller.getChannelPageController().getChannelController(channel.getId());
+        ChannelController channelController = controller.getChannelPageController().getChannelController(channelID);
         //appeler channelctrl.receiveMessage()
         channelController.receiveMessage(message, responseTo);
     }

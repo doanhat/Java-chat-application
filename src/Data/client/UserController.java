@@ -1,6 +1,8 @@
 package Data.client;
 
 import Data.resourceHandle.FileHandle;
+import Data.resourceHandle.FileType;
+import Data.resourceHandle.LocationType;
 import common.interfaces.client.IDataToCommunication;
 import common.interfaces.client.IDataToIHMChannel;
 import common.interfaces.client.IDataToIHMMain;
@@ -17,15 +19,26 @@ public class UserController extends Controller {
     public UserController(IDataToCommunication comClient, IDataToIHMChannel channelClient, IDataToIHMMain mainClient) {
         super(comClient, channelClient, mainClient);
     }
+    private User localUser;
 
     public boolean verificationAccount(String nickName, String password){
-        List<User> listUserLogin = new FileHandle().readJSONFileToList("users",User.class);
-        for (User user : listUserLogin){
-            if (user.getNickName().equals(nickName) & user.getPassword().equals(password)){
-                this.comClient.userConnect(user.getUserLite());
-            }
 
+        /**
+         * ON TEST EN UN USER EN DUR POUR L'INTEGRATION
+         */
+
+        try {
+            List<User> listUserLogin = new FileHandle<User>(LocationType.client, FileType.user).readJSONFileToList("users",User.class);
+            for (User user : listUserLogin){
+                if (user.getNickName().equals(nickName) & user.getPassword().equals(password)){
+                    this.localUser = user;
+                    this.comClient.userConnect(user.getUserLite());
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
         return true;
     }
 
@@ -35,7 +48,7 @@ public class UserController extends Controller {
      * @return the user
      */
     User getUser() {
-        return null;
+        return localUser;
     }
 
     /**

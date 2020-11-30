@@ -44,15 +44,8 @@ public class IHMMainToIHMChannel implements IIHMMainToIHMChannel {
      * @return
      */
     @Override
-    public Region getIHMChannelWindow() {
-        //Parent root = FXMLLoader.load(getClass().getResource("views/ChannelPage.fxml"));
-        //Data init
-        Channel channel = null;
-        ChannelPageDisplay channelPageDisplay = null;
-
-            controller = new IHMChannelController(); //passer ici le channel
-
-
+    public Region getIHMChannelWindow(Channel channel) {
+        controller.setChannelPageToDisplay(channel);
         return (Region)controller.getRoot();
     }
 

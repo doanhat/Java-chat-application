@@ -63,15 +63,13 @@ public class CreationChannelPopupController {
             Boolean isShared = sharedChannelButton.isSelected();
             Boolean isPublic = publicChannelButton.isSelected();
 
-            //L'ID est actuellement généré par l'app client qui request la création de channel, à changer : l'ID devrait être généré côté serveur, je pense
-            int channelID = new Random().nextInt();
-            UserLite testUser = new UserLite("Jean Valjean", "");
+            UserLite user = parentController.getIhmMainController().getIHMMainToData().getUser().getUserLite();
             Visibility channelVisibility = isPublic ? Visibility.PUBLIC : Visibility.PRIVATE;
 
             if(isShared){
-                newChannel = new Channel(channelName.getText(), testUser, channelDescription.getText(), channelVisibility,ChannelType.SHARED);
+                newChannel = new Channel(channelName.getText(), user, channelDescription.getText(), channelVisibility,ChannelType.SHARED);
             } else {
-                newChannel = new Channel(channelName.getText(), testUser, channelDescription.getText(), channelVisibility,ChannelType.OWNED);
+                newChannel = new Channel(channelName.getText(), user, channelDescription.getText(), channelVisibility,ChannelType.OWNED);
             }
 
             try {

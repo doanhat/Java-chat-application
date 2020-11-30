@@ -23,16 +23,16 @@ public class MainChannel extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        //Parent root = FXMLLoader.load(getClass().getResource("views/ChannelPage.fxml"));
-        //Data init
-        initTestData();
-        // Pour la suite, c'est dans IHMChannelController que se fera les lignes suivantes
-        ihmChannelController = new IHMChannelController();
-        ChannelPageDisplay channelPageDisplay = new ChannelPageDisplay(channelToDisplay, ihmChannelController);
-        primaryStage.setTitle("Channel");
-        primaryStage.setScene(new Scene(channelPageDisplay.root));
-        primaryStage.setMaximized(true);
-        primaryStage.show();
+//        //Parent root = FXMLLoader.load(getClass().getResource("views/ChannelPage.fxml"));
+//        //Data init
+//        initTestData();
+//        // Pour la suite, c'est dans IHMChannelController que se fera les lignes suivantes
+//        ihmChannelController = new IHMChannelController();
+//        ChannelPageDisplay channelPageDisplay = new ChannelPageDisplay(channelToDisplay, ihmChannelController);
+//        primaryStage.setTitle("Channel");
+//        primaryStage.setScene(new Scene(channelPageDisplay.root));
+//        primaryStage.setMaximized(true);
+//        primaryStage.show();
     }
 
 
@@ -50,7 +50,8 @@ public class MainChannel extends Application {
         usr1.setNickName("toto");
         UserLite usr2 = new UserLite("Vlad", null);
         usr2.setNickName("titi");
-        channelToDisplay = new Channel("LO23",usr1,"channel pour l'UV LO23", Visibility.PUBLIC,ChannelType.OWNED);
+
+        channelToDisplay = new Channel("LO23",usr1,"channel pour l'UV LO23", Visibility.PUBLIC, ChannelType.OWNED);
 
         List<Message> listMessages = new ArrayList<Message>();
         listMessages.add(new Message("Salut, vous allez bien ?",usr1));

@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import IHMMain.controllers.ConnectionController;
 import IHMMain.controllers.IHMMainWindowController;
 import IHMMain.IHMMainController;
+import com.sun.corba.se.pept.transport.ContactInfo;
 import common.IHMTools.*;
 import javafx.fxml.*;
 import javafx.fxml.FXMLLoader;
@@ -20,6 +21,8 @@ public class MainWindowController implements Initializable {
     private AnchorPane root;
 
     private IHMMainController ihmMainController;
+    private ConnectionController connectionController;
+    private IHMMainWindowController ihmMainWindowController;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -30,8 +33,8 @@ public class MainWindowController implements Initializable {
             FXMLLoader fxmlLoader = new
                     FXMLLoader(getClass().getResource("../IHMMain/views/Connection.fxml"));
             Parent parent = fxmlLoader.load(); //On recupère le noeud racine du fxml chargé
-            ConnectionController connectionController = fxmlLoader.getController(); //On récupère la classe controller liée au fxml
-            connectionController.setMainWindowController(this); //On donne au controller fils une référence de son controller parent
+            connectionController = fxmlLoader.getController(); //On récupère la classe controller liée au fxml
+            connectionController.setMainWindowController(this); //On donne au controller fils une référence de son controller parent;
             this.root.getChildren().addAll(parent); //On ajoute le noeud parent (fxml) au noeud racine de cette vue
             IHMTools.fitSizeToParent((Region) root, (Region) parent);
         } catch (IOException exception) {
@@ -39,22 +42,28 @@ public class MainWindowController implements Initializable {
         }
     }
 
-    @FXML
+    public ConnectionController getConnectionController() {return connectionController;}
+
+
+
     public void loadIHMMainWindow() {
         this.root.getChildren().clear(); //On efface les noeuds fils de la racine
         //On charge la vue IHMMainWindow
         try {
             FXMLLoader fxmlLoader = new
                     FXMLLoader(getClass().getResource("../IHMMain/views/IHMMainWindow.fxml"));
-            IHMMainWindowController ihmMainWindowController = new IHMMainWindowController();
-            ihmMainWindowController.setMainWindowController(this); //On donne au controller fils une référence de son controller parent
+            //Parent parent = fxmlLoader.load();
+           IHMMainWindowController ihmMainWindowController = new IHMMainWindowController();
+           this.ihmMainWindowController = ihmMainWindowController;
+           fxmlLoader.setController(ihmMainWindowController);
+           ihmMainWindowController.setMainWindowController(this); //On donne au controller fils une référence de son controller parent
             ihmMainWindowController.setIhmMainController(ihmMainController);
-            fxmlLoader.setController(ihmMainWindowController);
-            Parent parent = fxmlLoader.load(); //On recupère le noeud racine du fxml chargé
+           Parent parent = fxmlLoader.load();
+
             this.root.getChildren().addAll(parent); //On ajoute le noeud parent (fxml) au noeud racine de cette vue
             IHMTools.fitSizeToParent((Region) root, (Region) parent);
         } catch (IOException exception) {
-            throw new RuntimeException(exception);
+            exception.printStackTrace();
         }
     }
 
@@ -66,4 +75,7 @@ public class MainWindowController implements Initializable {
         this.ihmMainController = ihmMainController;
     }
 
+    public IHMMainWindowController getIHMMainWindowController() {
+        return ihmMainWindowController;
+    }
 }
