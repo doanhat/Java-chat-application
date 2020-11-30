@@ -13,7 +13,8 @@ import java.util.List;
  */
 public class AcceptationMessage extends ServerToClientMessage {
 
-    private final List<Channel>   channelsList;
+	private static final long serialVersionUID = -2723562845245870330L;
+	private final List<Channel>   channelsList;
     private final List<UserLite>  usersList;
 
     public AcceptationMessage(List<Channel> channelsList, List<UserLite> usersList) {

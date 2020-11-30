@@ -15,7 +15,8 @@ import java.util.UUID;
  */
 public class AskToJoinMessage extends ClientToServerMessage {
 
-    private final UserLite sender;
+	private static final long serialVersionUID = -1923313673314704993L;
+	private final UserLite sender;
     private final UUID channelID;
 
     public AskToJoinMessage(UUID channelID, UserLite requester) {

@@ -9,7 +9,8 @@ import common.sharedData.Channel;
  */
 public class RefuseCreationChannelMessage extends ServerToClientMessage {
 
-    private final Channel refusedChannel;
+	private static final long serialVersionUID = 73255288821227363L;
+	private final Channel refusedChannel;
 
     public RefuseCreationChannelMessage(Channel refusedChannel) {
         this.refusedChannel = refusedChannel;

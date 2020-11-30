@@ -12,7 +12,8 @@ import java.util.UUID;
  */
 public class UserDisconnectionMessage extends ClientToServerMessage {
 
-    private final UUID userID;
+	private static final long serialVersionUID = 2970712372437347267L;
+	private final UUID userID;
 
     public UserDisconnectionMessage(UUID userID) {
         this.userID = userID;
