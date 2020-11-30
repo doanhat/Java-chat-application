@@ -1,12 +1,14 @@
 package Communication.client;
 
 import Communication.common.Parameters;
-import Communication.messages.client_to_server.AddAdminMessage;
 import Communication.messages.client_to_server.AskToJoinMessage;
 import Communication.messages.client_to_server.CreateChannelMessage;
 import Communication.messages.client_to_server.SendMessageMessage;
+import Communication.messages.client_to_server.proprietary_channels.AddAdminPropMessage;
+import Communication.messages.client_to_server.shared_channels.AddAdminSharedMessage;
 import common.interfaces.client.*;
 import common.sharedData.Channel;
+import common.sharedData.ChannelType;
 import common.sharedData.Message;
 import common.sharedData.UserLite;
 
@@ -127,8 +129,12 @@ public class CommunicationClientInterface implements IDataToCommunication,
         {
             return;
         }
-
-        commController.sendMessage(new AddAdminMessage(user, channel));
+        if(channel.getType() == ChannelType.OWNED){
+            commController.sendMessage(new AddAdminPropMessage(user, channel));
+        }
+        else{
+            commController.sendMessage(new AddAdminSharedMessage(user, channel));
+        }
     }
     /**
      * Demande de bannir un utilisateur d'un channel

@@ -1,8 +1,7 @@
 package Communication.client;
 
 import Communication.common.Parameters;
-import Communication.messages.client_to_server.ClientPulseMessage;
-import common.sharedData.UserLite;
+import Communication.messages.client_to_server.generic.ClientPulseMessage;
 
 import java.util.Timer;
 import java.util.TimerTask;

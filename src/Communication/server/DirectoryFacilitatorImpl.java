@@ -1,8 +1,6 @@
 package Communication.server;
 
 import Communication.common.Parameters;
-import Communication.messages.client_to_server.ClientPulseMessage;
-import Communication.messages.server_to_client.AcceptationMessage;
 import Communication.messages.server_to_client.ReplyClientPulseMessage;
 import common.sharedData.UserLite;
 

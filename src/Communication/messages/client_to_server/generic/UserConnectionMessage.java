@@ -1,4 +1,4 @@
-package Communication.messages.client_to_server;
+package Communication.messages.client_to_server.generic;
 
 import Communication.messages.abstracts.NetworkMessage;
 import Communication.messages.server_to_client.AcceptationMessage;
