@@ -208,9 +208,4 @@ public class CommunicationClientInterface implements IDataToCommunication,
         return new ArrayList<>();
     }
 
-    @Override
-    public UserLite getConnectedUser() {
-        return localUser;
-    }
-
 }

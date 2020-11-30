@@ -139,21 +139,6 @@ public class IHMChannelController {
 
         try{
 
-            UserLite usr1 = new UserLite("Aïda", null);
-            usr1.setNickName("toto");
-            UserLite usr2 = new UserLite("Léa", null);
-            usr2.setNickName("titi");
-
-            /*
-             * MESSAGES TEST INTEGRATION
-             * */
-
-            List<Message> listMessages = new ArrayList<Message>();
-            listMessages.add(new Message("Salut, vous allez bien ?",usr1));
-            listMessages.add(new Message("Oui super et toi ?",usr2));
-            listMessages.add(new Message("T'as avancé le projet LO23 ?",usr1));
-
-            channel.setMessages(listMessages);
             ChannelPageDisplay channelPageDisplay = new ChannelPageDisplay(channel, this);
             channelPageDisplay.getChannelPageController().getChannelController(channel.getId()).setChannel(channel);
 

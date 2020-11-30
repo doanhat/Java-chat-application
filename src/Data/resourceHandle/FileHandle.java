@@ -19,7 +19,7 @@ public class FileHandle<T> {
     private FileType fileType;
 
     public FileHandle(LocationType location,FileType fileType) {
-        this.path = System.getProperty("user.dir") + "/projet-lo23a20d1/resource/"+location+"/"+fileType+"/";
+        this.path = System.getProperty("user.dir") + "/resource/"+location+"/"+fileType+"/";
     }
 
 

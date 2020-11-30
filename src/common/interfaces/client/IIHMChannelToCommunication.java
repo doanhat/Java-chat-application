@@ -100,5 +100,4 @@ public interface IIHMChannelToCommunication
      **/
     List<Message> getHistory(Channel channel);
 
-    UserLite getConnectedUser();
 }
