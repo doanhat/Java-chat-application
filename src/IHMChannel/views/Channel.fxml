@@ -14,7 +14,7 @@
 
     <VBox fx:id="channelPage">
         <HBox fx:id="menuBar">
-            <Button fx:id="back" text="back"/>
+            <Button fx:id="homeBtn" onAction="#homeBtnHandler"/>
             <VBox>
                 <HBox>
                     <Label fx:id="channelName">

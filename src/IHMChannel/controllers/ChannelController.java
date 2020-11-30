@@ -35,7 +35,7 @@ public class ChannelController {
 
     //Boutons barre supérieure
     @FXML
-    Button back;
+    Button homeBtn;
     @FXML
     Button seeMembersBtn;
     @FXML
@@ -86,6 +86,13 @@ public class ChannelController {
     }
 
     private void iconsInit(){
+        // Home
+        Image homeImage = new Image("IHMChannel/icons/home-solid.png");
+        ImageView homeIcon = new ImageView(homeImage);
+        homeIcon.setFitHeight(15);
+        homeIcon.setFitWidth(15);
+        homeBtn.setGraphic(homeIcon);
+
         //Liste membres
         Image usersImage = new Image("IHMChannel/icons/users-solid.png");
         ImageView usersIcon = new ImageView(usersImage);
@@ -175,6 +182,8 @@ public class ChannelController {
     public void leaveChannel(){
       /*  openedChannels.remove(channelMap.get(currentChannel));
         channelMap.remove(currentChannel)*/
+
+        //  ihmChannelController.getInterfaceToIHMMain().redirectToHomePage();
     }
 
 
@@ -197,6 +206,15 @@ public class ChannelController {
         //On veut que le menu contextuel soit correctement positionné par rapport au bouton : haut gauche du menu au bas gauche du bouton
         Bounds screenBounds = contextMenuBtn.localToScreen(contextMenuBtn.getBoundsInLocal());
         channelContextMenu.show(contextMenuBtn,screenBounds.getMinX(),screenBounds.getMaxY());
+    }
+
+    /***
+     * Redirige sur la page "Home" (IhmMain) lorsqu'on clic sur le bouton home.
+     *
+     */
+    public void homeBtnHandler() {
+        // A voir ce que fait redirectHomePage()
+        ihmChannelController.getInterfaceToIHMMain().redirectToHomePage();
     }
 
     /**
@@ -233,4 +251,5 @@ public class ChannelController {
     public void deleteChannel() {
         //TODO implémenter la méthode
     }
+
 }
