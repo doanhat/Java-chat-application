@@ -79,4 +79,9 @@ public interface IIHMMainToData {
      * @param birthDate the birth date
      */
     void createAccount(String nickName, String avatar, String password, String lastName, String firstName, Date birthDate);
+
+    /**
+     * Get connected User.
+     */
+    User getUser();
 }

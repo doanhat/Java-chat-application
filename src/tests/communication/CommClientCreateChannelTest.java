@@ -1,5 +1,6 @@
 package tests.communication;
 
+import Communication.client.CommunicationClientController;
 import Communication.client.CommunicationClientInterface;
 import common.interfaces.client.ICommunicationToData;
 import common.interfaces.client.ICommunicationToIHMChannel;
@@ -36,7 +37,8 @@ public class CommClientCreateChannelTest {
         ICommunicationToIHMChannel channelIface = new VirtualCommunicationToIHMChannel();
 
         /* ------------------------------------------- Test Communication interface ----------------------------------*/
-        CommunicationClientInterface commInterface = CommunicationClientInterface.instance();
+        CommunicationClientController commControler = new CommunicationClientController();
+        CommunicationClientInterface commInterface = commControler.getCommunicationClientInterface();
         commInterface.setupInterfaces(dataIface, mainIface, channelIface);
 
         commInterface.userConnect(localUser);

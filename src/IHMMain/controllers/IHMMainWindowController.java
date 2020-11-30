@@ -117,8 +117,8 @@ public class IHMMainWindowController implements Initializable{
     public void loadIHMChannelWindow(Channel channel){
         this.mainArea.getChildren().clear(); //On efface les noeuds fils
         //On charge la vue IHMMainWindow
-        Region ihmChannelNode = ihmMainController.getIHMMainToIHMChannel().getIHMChannelWindow();
-        // Region ihmChannelNode = ihmMainToIHMChannel.getIHMChannelWindow(channel); // TODO lors du merge avec IHM-Channel, utiliser cette ligne plutot que celle au dessus
+        //Region ihmChannelNode = ihmMainController.getIHMMainToIHMChannel().getIHMChannelWindow();
+        Region ihmChannelNode = ihmMainController.getIHMMainToIHMChannel().getIHMChannelWindow(channel); // TODO lors du merge avec IHM-Channel, utiliser cette ligne plutot que celle au dessus
         this.mainArea.getChildren().addAll(ihmChannelNode); //On ajoute le noeud parent (fxml) au noeud racine de cette vue
         IHMTools.fitSizeToParent((Region)this.mainArea,ihmChannelNode);
     }
@@ -174,7 +174,7 @@ public class IHMMainWindowController implements Initializable{
         */
         // TODO see with Communication if they add the channel or if it's our job
         ihmMainController.getIIHMMainToCommunication().createChannel(newChannel, newChannel.getType() == ChannelType.SHARED, newChannel.getVisibility() == Visibility.PUBLIC, newChannel.getCreator());
-        ihmMainController.getVisibleChannels().add(newChannel);
+
     }
 
     @FXML
