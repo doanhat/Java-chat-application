@@ -2,6 +2,7 @@ package IHMMain.controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import IHMMain.IHMMainController;
@@ -10,13 +11,14 @@ import common.IHMTools.*;
 import common.sharedData.Channel;
 import common.sharedData.ChannelType;
 import common.sharedData.Visibility;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.*;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ListView;
-import javafx.scene.control.MultipleSelectionModel;
+import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
@@ -27,6 +29,9 @@ public class IHMMainWindowController implements Initializable{
     private IHMMainController ihmMainController;
 
     private MainWindowController mainWindowController;
+
+    @FXML
+    private AnchorPane root;
 
     @FXML
     private ListView<Channel> privateChannels;
@@ -52,6 +57,24 @@ public class IHMMainWindowController implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
         //Mettez ici le code qui s'execute avant l'apparition de la vue
         loadUserListView();
+
+        Stage primaryStage = mainWindowController.getPrimaryStage();
+        Platform.setImplicitExit(false);
+        primaryStage.setOnCloseRequest(event -> {
+            // Save file
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Fermer l'application");
+            alert.setHeaderText("Voulez-vous fermer l'application?");
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK){
+                // ... user chose OK
+                //ihmMainController.getIIHMMainToCommunication().disconnect();
+            } else {
+                // ... user chose CANCEL or closed the dialog
+                event.consume();
+            }
+        });
 
         /**
          * Bind the ListView with the list of private channels.

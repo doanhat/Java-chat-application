@@ -14,6 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
+import javafx.stage.Stage;
 
 public class MainWindowController implements Initializable {
 
@@ -23,6 +24,16 @@ public class MainWindowController implements Initializable {
     private IHMMainController ihmMainController;
     private ConnectionController connectionController;
     private IHMMainWindowController ihmMainWindowController;
+
+    private Stage primaryStage;
+
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

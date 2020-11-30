@@ -76,7 +76,6 @@ public class IHMMainController {
         this.ihmMainToIHMChannel = ihmMainToIHMChannel;
     }
     public IHMMainToIHMChannel getIHMMainToIHMChannel() {
-
         return ihmMainToIHMChannel;
     }
 
