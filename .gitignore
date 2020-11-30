@@ -89,3 +89,6 @@ nb-configuration.xml
 src/app/MainDataTest.java
 src/app/MainDataTest
 
+
+#IGNORE LE FICHIER RESSOURCE (les .json)
+ressource
