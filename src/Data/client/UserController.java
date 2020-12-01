@@ -43,6 +43,18 @@ public class UserController extends Controller {
     }
 
     /**
+     * Stores a user into the local users file
+     * @param user the user
+     */
+    public void storeUser(User user) {
+        FileHandle<User> fileHandle = new FileHandle();
+        List<User> listUser = fileHandle.readJSONFileToList("users",User.class);
+
+        listUser.add(user);
+        fileHandle.writeJSONToFile("users", User.class);
+    }
+
+    /**
      * Gets user.
      *
      * @return the user

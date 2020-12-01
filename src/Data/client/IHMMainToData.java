@@ -103,7 +103,10 @@ public class IHMMainToData implements IIHMMainToData {
      */
     @Override
     public void createAccount(String nickName, String avatar, String password, String lastName, String firstName, Date birthDate) {
+        User user = new User(nickName, avatar, password, lastName, firstName, birthDate);
 
+        UserController userController = dataController.getUserController();
+        userController.storeUser(user);
     }
 
     // TODO UPGRATE
