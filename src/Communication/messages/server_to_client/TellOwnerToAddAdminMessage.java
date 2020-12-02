@@ -26,7 +26,7 @@ public class TellOwnerToAddAdminMessage extends ServerToClientMessage {
         this.user = user;
     }
 
-    public TellOwnerToAddAdminMessage(UUID channel, UserLite user) {
+    public TellOwnerToAddAdminMessage(UserLite user, UUID channel) {
         this.channel = channel;
         this.user = user;
     }

@@ -188,7 +188,7 @@ public class CommunicationClientController extends CommunicationController {
             System.err.println("notifyAddNewAdmin: Data Iface est null");
             return;
         }
-
+        dataClient.newAdmin(user, channel);
         dataClient.saveNewAdminIntoHistory(user, channel);
         // TODO AdminAddedMessage
     }
