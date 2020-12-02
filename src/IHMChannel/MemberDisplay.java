@@ -1,5 +1,7 @@
 package IHMChannel;
 
+import IHMChannel.controllers.MemberController;
+import common.sharedData.UserLite;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
@@ -10,18 +12,17 @@ import java.io.IOException;
  */
 public class MemberDisplay {
     public Parent root = null;
-    public IHMChannelMemberController  ihmChannelMemberController;
+    public MemberController memberController;
 
     /**
      * Constructeur, à appeler pour créer une ligne d'utilisateur.
-     * @param name utilisateur à afficher dans le widget en cours de création
+     * @param userToDisplay utilisateur à afficher dans le widget en cours de création
      */
-    public MemberDisplay(String name) throws IOException {
+    public MemberDisplay(UserLite userToDisplay) throws IOException {
         FXMLLoader fxmlLoader =
-                new FXMLLoader(getClass().getResource("../IHMChannel/IHMChannelMember.fxml"));
+                new FXMLLoader(getClass().getResource("views/Member.fxml"));
         root = fxmlLoader.load();
-        ihmChannelMemberController = fxmlLoader.getController();
-        System.out.println(ihmChannelMemberController.toString());
-        ihmChannelMemberController.setUser(name);
+        memberController = fxmlLoader.getController();
+        memberController.setUserToDisplay(userToDisplay);
     }
 }

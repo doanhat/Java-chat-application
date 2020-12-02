@@ -1,6 +1,7 @@
 package common.sharedData;
 
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.UUID;
 
 public class UserLite implements Serializable {
@@ -16,6 +17,12 @@ public class UserLite implements Serializable {
 	}
 
 	public UserLite() {
+	}
+
+	public UserLite(User u) {
+		this.id = u.getId();
+		this.nickName = u.getNickName();
+		this.avatar = u.getAvatar();
 	}
 
 	public UUID getId() {
@@ -36,4 +43,11 @@ public class UserLite implements Serializable {
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
 	}
+
+	@Override
+	public String toString() {
+		return this.nickName;
+	}
+
+
 }

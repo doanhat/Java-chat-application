@@ -6,9 +6,14 @@ import common.sharedData.Message;
 
 import java.util.UUID;
 
+/**
+ * Message de demande au client d'enregistrement d'un message particulier
+ *
+ */
 public class TellOwnerToSaveMessage extends ServerToClientMessage {
 
-    private final Message message;
+	private static final long serialVersionUID = -8527233704319089062L;
+	private final Message message;
     private final UUID    channelID;
     private final Message response;
 

@@ -9,6 +9,11 @@ public class DataClientController {
     private final UserController userCtrl;
     private final MessageController messageCtrl;
 
+    private CommunicationToData commToData;
+    private IHMChannelToData ihmChannelToData;
+    private IHMMainToData ihmMainToData;
+
+
     public DataClientController(
             IDataToCommunication comInterface,
             IDataToIHMChannel channelInterface,
@@ -16,6 +21,10 @@ public class DataClientController {
         this.channelCtrl = new ChannelController(comInterface,channelInterface,mainInterface);
         this.userCtrl = new UserController(comInterface,channelInterface,mainInterface);
         this.messageCtrl = new MessageController(comInterface,channelInterface,mainInterface);
+
+        commToData = new CommunicationToData(this);
+        ihmChannelToData = new IHMChannelToData(this);
+        ihmMainToData = new IHMMainToData(this);
     }
 
     public ChannelController getChannelController() {
@@ -30,4 +39,7 @@ public class DataClientController {
         return this.messageCtrl;
     }
 
+    public CommunicationToData getCommToData() {return commToData;}
+    public IHMChannelToData getIhmChannelToData() {return ihmChannelToData;}
+    public IHMMainToData getIhmMainToData() {return ihmMainToData;}
 }

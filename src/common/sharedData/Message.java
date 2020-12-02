@@ -23,7 +23,7 @@ public class Message implements Serializable {
 	private List<UserLite> likes;
 	private boolean deletedByUser;
 	private boolean deletedByAdmin;
-	private Message parentMessage;
+	private UUID parentMessageId;
 	private List<Message> answers;
 
 	public Message(String message, UserLite author) {
@@ -105,12 +105,12 @@ public class Message implements Serializable {
 		return deletedByAdmin;
 	}
 
-	public Message getParentMessage() {
-		return parentMessage;
+	public UUID getParentMessageId() {
+		return parentMessageId;
 	}
 
-	public void setParentMessage(Message parentMessage) {
-		this.parentMessage = parentMessage;
+	public void setParentMessageId(UUID parentMessageId) {
+		this.parentMessageId = parentMessageId;
 	}
 
 	public List<Message> getAnswers() {
@@ -123,7 +123,7 @@ public class Message implements Serializable {
 
 	public void addAnswers(Message answer) {
 		this.answers.add(answer);
-		answer.parentMessage = this;
+		answer.setParentMessageId(this.id);
 	}
 
 	public int countLikes() {

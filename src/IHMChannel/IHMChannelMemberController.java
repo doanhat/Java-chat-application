@@ -1,7 +1,5 @@
 package IHMChannel;
 
-import IHMMain.IHMMainWindowController;
-import app.MainWindowController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
