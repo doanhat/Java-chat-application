@@ -1,17 +1,14 @@
 package Communication.server;
 
-import Communication.client.CommunicationClientController;
 import Communication.common.CommunicationController;
 import Communication.common.NetworkWriter;
 import Communication.messages.abstracts.NetworkMessage;
-import Communication.messages.server_to_client.TellOwnerUserHasLeftChannelMessage;
 import Communication.messages.server_to_client.UserDisconnectedMessage;
 import Communication.messages.server_to_client.UserHasLeftChannelMessage;
-import common.interfaces.client.ICommunicationToData;
+import Communication.messages.server_to_client.ValideUserLeftMessage;
 import common.interfaces.server.IServerCommunicationToData;
 import common.sharedData.Channel;
 import common.sharedData.Message;
-import common.sharedData.SharedChannel;
 import common.sharedData.UserLite;
 
 import java.io.IOException;
@@ -301,6 +298,25 @@ public class CommunicationServerController extends CommunicationController {
         return null;
     }
 
+    /**
+     * Demande à Data server de retire un utilisateur d'un canal
+     * @param channelID cannal à quitter
+     * @param userLite utilisateur voulant partir
+     */
+    public void notifyLeaveChannel(UUID channelID, UserLite userLite) {
+        if (dataServer == null)
+        {
+            System.err.println("requestJoinSharedChannel: Data Iface est null");
+            return;
+        }
+        Channel ch = dataServer.getChannel(channelID);
+        dataServer.leaveChannel(ch, userLite);
+
+        sendMessage(userLite.getId(), new ValideUserLeftMessage(channelID));
+
+        sendMulticast(ch.getAcceptedPersons(), new UserHasLeftChannelMessage(channelID, userLite), userLite);
+    }
+
     /* ----------------------------------------- Chat action handling ------------------------------------------------*/
 
     /**
@@ -343,32 +359,4 @@ public class CommunicationServerController extends CommunicationController {
         dataServer.saveNewAdminIntoHistory(channel, user);
     }
 
-    public void notifyLeaveChannel(Channel channel, UserLite userLite) {
-        if (dataServer == null)
-        {
-            System.err.println("requestJoinSharedChannel: Data Iface est null");
-            return;
-        }
-        if (channel.getClass() == SharedChannel.class) {
-            dataServer.leaveChannel(channel, userLite);
-            for( UserLite user : dataServer.getConnectedUsers() ) {
-                sendMessage(user.getId(), new UserHasLeftChannelMessage(channel, userLite));
-            }
-        } else {
-            sendMessage(channel.getCreator().getId(), new TellOwnerUserHasLeftChannelMessage(channel, userLite));
-        }
-        // TODO prevenir les autres
-    }
-
-    public void notifyUserLeftChannel(Channel channel, List<UserLite> members, UserLite exMembers) {
-        if (dataServer == null)
-        {
-            System.err.println("requestJoinSharedChannel: Data Iface est null");
-            return;
-        }
-
-        for( UserLite user : members ) {
-            sendMessage(user.getId(), new UserHasLeftChannelMessage(channel, exMembers));
-        }
-    }
 }

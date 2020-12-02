@@ -5,13 +5,18 @@ import Communication.server.CommunicationServerController;
 import common.sharedData.Channel;
 import common.sharedData.UserLite;
 
+import java.util.UUID;
+
+/**
+* Cette classe permet de demander au server de quitter un channel
+ */
 public class LeaveChannelMessage extends ClientToServerMessage {
     UserLite userLite;
-    Channel channel;
+    UUID channel;
 
-    public LeaveChannelMessage(UserLite userLite, Channel channel) {
+    public LeaveChannelMessage(UserLite userLite, UUID channelID) {
         this.userLite = userLite;
-        this.channel = channel;
+        this.channel = channelID;
     }
 
     @Override

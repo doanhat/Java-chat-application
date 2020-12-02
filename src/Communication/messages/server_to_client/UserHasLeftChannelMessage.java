@@ -5,16 +5,22 @@ import Communication.messages.abstracts.ServerToClientMessage;
 import common.sharedData.Channel;
 import common.sharedData.UserLite;
 
+import java.util.UUID;
+
+/**
+ * Cette classe permet de prevenir les membres d'un channel qu'un autre membre est parti
+ */
+
 public class UserHasLeftChannelMessage extends ServerToClientMessage {
-    Channel channel;
+    UUID channelID;
     UserLite userLite;
 
-    public Channel getChannel() {
-        return channel;
+    public UUID getChannelID() {
+        return channelID;
     }
 
-    public void setChannel(Channel channel) {
-        this.channel = channel;
+    public void setChannel(UUID channelID) {
+        this.channelID = channelID;
     }
 
     public UserLite getUserLite() {
@@ -25,13 +31,13 @@ public class UserHasLeftChannelMessage extends ServerToClientMessage {
         this.userLite = userLite;
     }
 
-    public UserHasLeftChannelMessage(Channel channel, UserLite userLite) {
-        this.channel = channel;
+    public UserHasLeftChannelMessage(UUID channelID, UserLite userLite) {
+        this.channelID = channelID;
         this.userLite = userLite;
     }
 
     @Override
     protected void handle(CommunicationClientController commClientController) {
-        commClientController.notifyUserHasLeftChannel(channel, userLite);
+        commClientController.notifyUserHasLeftChannel(channelID, userLite);
     }
 }

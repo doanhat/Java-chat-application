@@ -3,6 +3,7 @@ package Communication.client;
 import Communication.common.Parameters;
 import Communication.messages.client_to_server.AskToJoinMessage;
 import Communication.messages.client_to_server.CreateChannelMessage;
+import Communication.messages.client_to_server.LeaveChannelMessage;
 import Communication.messages.client_to_server.SendMessageMessage;
 import Communication.messages.client_to_server.proprietary_channels.AddAdminPropMessage;
 import Communication.messages.client_to_server.shared_channels.AddAdminSharedMessage;
@@ -197,7 +198,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
      * @param channel [Channel] Channel que l'on veut quitter
      **/
     public void leaveChannel(UserLite user, Channel channel) {
-        // TODO V2
+        commController.sendMessage(new LeaveChannelMessage(user, channel.getId()));
     }
 
     /**

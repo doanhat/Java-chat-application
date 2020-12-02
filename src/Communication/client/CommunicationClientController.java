@@ -400,19 +400,11 @@ public class CommunicationClientController extends CommunicationController {
             return;
         }
         dataClient.removeChannelFromList(channel, 0, "Channel supprimé");
-        //TODO check deleteChannel
     }
 
 
-
-
-    public void notifyUserHasLeftChannel(Channel channel, UserLite userLite) {
-        //Ask to data
-        //dataClient.leaveChannel(channel, userLite)
-        dataClient.deleteUserFromChannel(userLite, channel.getId(), 0, "Leave");
-        if(channel.getClass() != OwnedChannel.class && channel.getCreator().getId() == client.getUUID()) {
-            sendMessage(new ValideUserLeftMessage(channel, userLite, dataClient.getMembers(channel.getId())));
-        }
+    public void notifyUserHasLeftChannel(UUID channelID, UserLite userLite) {
+        dataClient.deleteUserFromChannel(userLite, channelID, 0, "has left");
     }
 }
 
