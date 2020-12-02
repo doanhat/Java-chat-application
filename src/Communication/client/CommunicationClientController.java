@@ -417,4 +417,8 @@ public class CommunicationClientController extends CommunicationController {
         System.err.println("request owner to add admin " + user.getNickName() + " to channel " + channelID);
         dataClient.saveNewAdminIntoHistory(user, channelID);
     }
+
+    public void notifyUserHasLeftChannel(UUID channelID, UserLite userLite) {
+        dataClient.deleteUserFromChannel(userLite, channelID, 0, "has left");
+    }
 }
