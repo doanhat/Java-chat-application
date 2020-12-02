@@ -328,4 +328,15 @@ public class CommunicationServerController extends CommunicationController {
         System.err.println("new admin " + user.getNickName() + " added to channel " + channel.getId());
         dataServer.saveNewAdminIntoHistory(channel, user);
     }
+
+    public void deleteMessage(Message message, Channel channel, Boolean deleteByCreator){
+        if (dataServer == null)
+        {
+            System.err.println("saveNewAdmin: Data Iface est null");
+            return;
+        }
+
+        System.err.println("Message " + message.getId() + " deleted on channel " + channel.getId());
+        dataServer.saveRemovalMessageIntoHistory(channel, message, deleteByCreator);
+    }
 }

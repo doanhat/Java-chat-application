@@ -38,6 +38,6 @@ public class UserHasLeftChannelMessage extends ServerToClientMessage {
 
     @Override
     protected void handle(CommunicationClientController commClientController) {
-        commClientController.notifyUserHasLeftChannel(channelID, userLite);
+        //commClientController.notifyUserHasLeftChannel(channelID, userLite);
     }
 }

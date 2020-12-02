@@ -2,6 +2,7 @@ package Communication.client;
 
 import Communication.common.CommunicationController;
 import Communication.messages.abstracts.NetworkMessage;
+import Communication.messages.client_to_server.ValideDeleteMessageMesage;
 import Communication.messages.client_to_server.generic.UserConnectionMessage;
 import Communication.messages.client_to_server.generic.UserDisconnectionMessage;
 import common.interfaces.client.*;
@@ -313,7 +314,6 @@ public class CommunicationClientController extends CommunicationController {
         dataClient.addUserToChannel(user, channelID);
     }
 
-
     /* ---------------------------------------- Chat Message Handling ------------------------------------------------*/
     
     /**
@@ -356,14 +356,17 @@ public class CommunicationClientController extends CommunicationController {
         // TODO AdminAddedMessage
     }
 
-    public void notifyValidateDeletionChannel(UUID channel) {
+    /**
+     * Retire un channel de la liste des channels car celui-ci à été supprimé
+     * @param channelID identifiant unique (UUID) du channel à supprimer
+     */
+    public void notifyValidateDeletionChannel(UUID channelID) {
         if (dataClient == null)
         {
             System.err.println("notifyAddNewAdmin: Data Iface est null");
             return;
         }
-        dataClient.removeChannelFromList(channel, 0, "Channel supprimé");
-        //TODO check deleteChannel
+        dataClient.removeChannelFromList(channelID, 0, "Channel supprimé");
     }
     public List<Message> requestHistory (UUID channelID){
         if (dataClient == null)
@@ -374,7 +377,11 @@ public class CommunicationClientController extends CommunicationController {
         return dataClient.getHistory(channelID);
     }
 
-
+    /**
+     * Retire une personne d'un channel
+     * @param channel identifiant unique (UUID) du channel quitté
+     * @param userLite identifiant unique (UUID) de l'utilisateur qui est parti
+     */
     public void notifyUserHasLeftChannel(Channel channel, UserLite userLite) {
         //Ask to data
         //dataClient.leaveChannel(channel, userLite)
@@ -418,7 +425,19 @@ public class CommunicationClientController extends CommunicationController {
         dataClient.saveNewAdminIntoHistory(user, channelID);
     }
 
-    public void notifyUserHasLeftChannel(UUID channelID, UserLite userLite) {
-        dataClient.deleteUserFromChannel(userLite, channelID, 0, "has left");
+
+    public void notifyOwnerToDeleteMessage(Message message, UUID channelID, Boolean deleteByCreator) {
+        if (dataClient == null)
+        {
+            System.err.println("notifyNewUserAddedToJoinChannel: Data Iface est null");
+            return;
+        }
+
+        dataClient.saveDeletionIntoHistory(message, null, channelID);
+        sendMessage(new ValideDeleteMessageMesage(message, channelID, deleteByCreator));
+    }
+
+    public void notifyDeletedMessage(Message message, UUID channelID, Boolean deleteByCreator) {
+        dataClient.saveDeletionIntoHistory(message, null, channelID);
     }
 }
