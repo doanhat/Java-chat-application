@@ -4,6 +4,7 @@ package common.interfaces.client;
 import common.sharedData.Channel;
 import common.sharedData.Message;
 import common.sharedData.User;
+import common.sharedData.UserLite;
 
 import java.util.List;
 
@@ -22,6 +23,7 @@ public interface ICommunicationToIHMChannel {
      * Méthode permettant d'afficher l'historique des messages
      * @param channel le channel concerné
      * @param history la liste des messages
+     * @param connectedUsers
      */
-    void displayHistory(Channel channel, List<Message> history);
+    void displayChannelHistory(Channel channel, List<Message> history, List<UserLite> connectedUsers);
 }

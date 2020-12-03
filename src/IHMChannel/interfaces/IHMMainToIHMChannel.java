@@ -1,14 +1,11 @@
 package IHMChannel.interfaces;
 
-import IHMChannel.ChannelPageDisplay;
 import IHMChannel.IHMChannelController;
 import common.interfaces.client.IIHMMainToIHMChannel;
 import common.sharedData.Channel;
-import javafx.scene.Scene;
 import javafx.scene.layout.Region;
-import javafx.stage.Stage;
 
-import java.io.IOException;
+import java.util.UUID;
 
 public class IHMMainToIHMChannel implements IIHMMainToIHMChannel {
 
@@ -20,23 +17,22 @@ public class IHMMainToIHMChannel implements IIHMMainToIHMChannel {
     /**
      * Ouvre un channel
      *
-     * @param channel [Channel] Channel qui a été sélectionné.
+     * @param channelId [Channel] Channel qui a été sélectionné.
      */
     @Override
-    public void openChannel(Channel channel) {
-
-        throw new UnsupportedOperationException("Not implemented yet");
+    public void openChannel(UUID channelId) {
+        controller.getInterfaceToCommunication().getChannelHistory(channelId);
     }
 
-    /**
-     * Envoie une demande pour rejoindre un channel
-     *
-     * @param channel [Channel] Channel que l'on souhaite rejoindre.
-     */
-    @Override
-    public void askToJoin(Channel channel) {
-        throw new UnsupportedOperationException("Not implemented yet");
-    }
+//    /**
+//     * Envoie une demande pour rejoindre un channel
+//     *
+//     * @param channel [Channel] Channel que l'on souhaite rejoindre.
+//     */
+//    @Override
+//    public void askToJoin(Channel channel) {
+//        throw new UnsupportedOperationException("Not implemented yet");
+//    }
 
     /**
      * Génère puis Retourne le noeud de la vue de IHMChannel

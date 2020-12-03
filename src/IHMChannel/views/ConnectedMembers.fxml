@@ -11,7 +11,7 @@
            xmlns:fx="http://javafx.com/fxml"
            fx:controller="IHMChannel.controllers.ConnectedMembersController">
     <VBox>
-        <ListView fx:id="connectedMembersList" style="-fx-background-color: #ffffff;" styleClass="list-cell"/>
+        <ListView fx:id="connectedMembersListView" style="-fx-background-color: #ffffff;" styleClass="list-cell"/>
     </VBox>
     <stylesheets>
         <URL value="@../css/style.css" />

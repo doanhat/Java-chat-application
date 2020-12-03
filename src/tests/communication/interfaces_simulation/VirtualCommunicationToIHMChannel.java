@@ -4,6 +4,7 @@ import common.interfaces.client.ICommunicationToIHMChannel;
 import common.sharedData.Channel;
 import common.sharedData.Message;
 import common.sharedData.User;
+import common.sharedData.UserLite;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ public class VirtualCommunicationToIHMChannel implements ICommunicationToIHMChan
     }
 
     @Override
-    public void displayHistory(Channel channel, List<Message> history) {
+    public void displayChannelHistory(Channel channel, List<Message> history, List<UserLite> connectedUsers) {
 
     }
 }

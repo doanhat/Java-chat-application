@@ -22,10 +22,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Contrôleur de la partie Channel de l'interface.
@@ -205,6 +202,7 @@ public class ChannelPageController {
     }
 
     @FXML
+    // Test method for dev
     void createChannel() throws IOException {
         String channelName = canalText.getText();
         int count = 0;
@@ -219,7 +217,30 @@ public class ChannelPageController {
         if (count == 0) {
 
             Channel c = new Channel(channelName, new UserLite("Léa", null), "channel pour l'UV " + channelName, Visibility.PUBLIC,ChannelType.OWNED);
-            this.addOpenedChannel(c);
+            //Membres connectés
+            List<String> nickName = new ArrayList<>();
+            nickName.add("Léa");
+            nickName.add("Aida");
+            nickName.add("Lucas");
+            nickName.add("Vladimir");
+            nickName.add("Jérôme");
+            nickName.add("Van-Triet");
+            List<UserLite> connectedUsers = new ArrayList<>();
+            for(int i=0; i < nickName.size(); i++){
+                UserLite u = new UserLite();
+                u.setNickName(nickName.get(i));
+                connectedUsers.add(u);
+            }
+            List<Message> history = new ArrayList<>();
+            for(int i=0; i < 7; i++){
+                Message m = new Message();
+                m.setAuthor(connectedUsers.get((i+1)%connectedUsers.size()));
+                m.setMessage("hello " + connectedUsers.get((i+2)%connectedUsers.size()).getNickName());
+                m.setDate(new Date());
+                history.add(m);
+            }
+            ihmChannelController.getInterfaceForCommunication().displayChannelHistory(c, history, connectedUsers);
+            //this.addOpenedChannel(c);
         }
         else {
             for (Tab c : tabs.getTabs()) {

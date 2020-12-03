@@ -5,6 +5,7 @@ import IHMChannel.ChannelMessagesDisplay;
 import IHMChannel.IHMChannelController;
 import common.sharedData.Channel;
 import common.sharedData.Message;
+import common.sharedData.UserLite;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -13,10 +14,12 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
+import java.util.List;
 
 public class ChannelController {
     private Channel currentChannel; //channel à afficher dans l'interface
     private IHMChannelController ihmChannelController;
+    private List<UserLite> connectedMembersList;
 
 
     /*
@@ -51,6 +54,7 @@ public class ChannelController {
         iconsInit();
         //Affichage de la partie "messages"
         channelMessagesDisplay = new ChannelMessagesDisplay();
+        //channelMessagesDisplay.setConnectedMembersList(connectedMembersList);
         pageToDisplay.setCenter(channelMessagesDisplay.root);
 
         //Chargement de la liste des utilisateurs
@@ -145,5 +149,15 @@ public class ChannelController {
 
     public void setCurrentChannel(Channel currentChannel) {
         this.currentChannel = currentChannel;
+    }
+
+    public List<UserLite> getConnectedMembersList() {
+        return connectedMembersList;
+    }
+
+    public void setConnectedMembersList(List<UserLite> connectedMembersList) {
+        this.connectedMembersList = connectedMembersList;
+        this.channelMessagesDisplay.setConnectedMembersList(connectedMembersList);
+
     }
 }

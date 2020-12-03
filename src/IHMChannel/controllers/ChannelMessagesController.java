@@ -20,6 +20,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Contrôleur de la vue "ChannelMessages" dans laquelle on retrouve l'affichage et la saisie de messages d'un channel
@@ -160,5 +161,9 @@ public class ChannelMessagesController{
 
     public ObservableList<HBox> getMessagesToDisplay() {
         return messagesToDisplay;
+    }
+
+    public void setConnectedMembersList(List<UserLite> connectedMembersList) {
+        this.connectedMembersController.setConnectedMembersList(connectedMembersList);
     }
 }
