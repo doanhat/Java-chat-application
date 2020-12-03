@@ -1,6 +1,7 @@
 package IHMChannel;
 
 import IHMChannel.controllers.ChannelMembersController;
+import common.sharedData.Channel;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
@@ -17,11 +18,14 @@ public class ChannelMembersDisplay {
         return this.membersController;
     }
 
-
     public ChannelMembersDisplay() throws IOException {
         FXMLLoader fxmlLoader =
                 new FXMLLoader(getClass().getResource("views/ChannelMembers.fxml"));
         root = fxmlLoader.load();
         membersController = fxmlLoader.getController();
+    }
+
+    public void configureMembersController(IHMChannelController ihmChannelController) {
+        membersController.setIhmChannelController(ihmChannelController);
     }
 }

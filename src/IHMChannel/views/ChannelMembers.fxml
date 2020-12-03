@@ -14,13 +14,15 @@
     <VBox>
         <HBox fx:id="channelMember">
             <fx:define>
-                <ToggleGroup fx:id="modeAffichage" />
+                <ToggleGroup fx:id="viewMode" />
             </fx:define>
-            <RadioButton fx:id="alphaBtn" text="alphabétique" toggleGroup="$modeAffichage" styleClass="btn-radio"/>
-            <RadioButton fx:id="autorBtn" text="autorisations" toggleGroup="$modeAffichage" styleClass="btn-radio"/>
-            <RadioButton fx:id="onlineBtn" text="utilisateurs connectés" toggleGroup="$modeAffichage" styleClass="btn-radio"/>
+            <RadioButton fx:id="alphaBtn" text="alphabétique" toggleGroup="$viewMode" onAction="#alphabeticSort" styleClass="btn-radio"/>
+            <RadioButton fx:id="adminBtn" text="autorisations" toggleGroup="$viewMode" onAction="#adminSort"/>
+            <RadioButton fx:id="onlineBtn" text="utilisateurs connectés" toggleGroup="$viewMode" onAction="#onlineUserSort"/>
         </HBox>
+        <!--CONFLICT ??? ListView ou BorderPane ? --> 
         <ListView fx:id="membersList" style="-fx-background-color: #ffffff;" styleClass="list-cell"/>
+        <BorderPane fx:id="listMembersDisplay"/>
     </VBox>
     <stylesheets>
         <URL value="@../css/style.css" />

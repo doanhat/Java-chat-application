@@ -52,6 +52,15 @@ public class MainChannel extends Application {
         usr2.setNickName("titi");
         channelToDisplay = new Channel("LO23",usr1,"channel pour l'UV LO23", Visibility.PUBLIC, ChannelType.OWNED);
 
+        channelToDisplay.addUser(user1);
+        channelToDisplay.addUser(user2);
+        channelToDisplay.addUser(user3);
+        channelToDisplay.addUser(user4);
+        channelToDisplay.addUser(user5);
+
+        channelToDisplay.addAdmin(user3);
+        channelToDisplay.addAdmin(user4);
+
         List<Message> listMessages = new ArrayList<Message>();
         listMessages.add(new Message("Salut, vous allez bien ?",usr1));
         listMessages.add(new Message("Oui super et toi ?",usr2));

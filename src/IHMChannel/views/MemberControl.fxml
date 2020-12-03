@@ -14,7 +14,7 @@
         <ImageView fx:id="profilePic"/>
         <ImageView fx:id="connectedIcon"/>
         <Text fx:id="username"/>
-        <ImageView fx:id="authorizationIcon"/>
+        <ImageView fx:id="creatorIcon"/>
         <Text fx:id="isThatYouText"/>
         <ToggleButton fx:id="toggleAdminBtn" onAction="#toggleAdmin"/>
         <Button fx:id="banBtn" text="ban"/>
