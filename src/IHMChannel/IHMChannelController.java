@@ -138,10 +138,7 @@ public class IHMChannelController {
     public void setChannelPageToDisplay(Channel channel) {
 
         try{
-
             ChannelPageDisplay channelPageDisplay = new ChannelPageDisplay(channel, this);
-            channelPageDisplay.getChannelPageController().getChannelController(channel.getId()).setChannel(channel);
-
         }catch(IOException e){
             e.printStackTrace();
         }

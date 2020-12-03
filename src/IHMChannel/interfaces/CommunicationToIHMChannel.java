@@ -36,6 +36,7 @@ public class CommunicationToIHMChannel implements ICommunicationToIHMChannel {
     @Override
     public void displayChannelHistory(Channel channel, List<Message> history, List<UserLite> connectedUsers) {
         try {
+            channel.setMessages(history);
             controller.getChannelPageController().addOpenedChannel(channel);
             controller.getChannelPageController().getChannelController(channel.getId()).setConnectedMembersList(connectedUsers);
         } catch (IOException e) {

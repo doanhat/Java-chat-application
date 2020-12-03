@@ -19,6 +19,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.List;
 
