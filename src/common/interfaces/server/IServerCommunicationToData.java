@@ -2,7 +2,6 @@ package common.interfaces.server;
 
 import common.sharedData.Channel;
 import common.sharedData.Message;
-import common.sharedData.SharedChannel;
 import common.sharedData.UserLite;
 import java.util.List;
 import java.util.UUID;
@@ -153,7 +152,16 @@ public interface IServerCommunicationToData {
      * @param creator l'utilisateur créateur du channel
      * @param description la description du channel
      * */
-    SharedChannel createPublicSharedChannel(String name, UserLite creator, String description);
+    Channel createPublicSharedChannel(String name, UserLite creator, String description);
+
+    /**
+     * Méthode pour créer un channel privé partagé
+     *
+     * @param name le nom du channel
+     * @param creator l'utilisateur créateur du channel
+     * @param description la description du channel
+     * */
+    Channel createPrivateSharedChannel(String name, UserLite creator, String description);
 
     /**
      * Méthode pour faire la déconnexion d'un utilisateur
@@ -229,4 +237,6 @@ public interface IServerCommunicationToData {
      * @param user l'utilisateur dont les droits seront testés
      * */
     Boolean checkAuthorization(Channel channel, UserLite user);
+
+     Channel getChannel(UUID channelID);
 }

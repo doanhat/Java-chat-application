@@ -6,6 +6,7 @@ import common.interfaces.client.IDataToIHMChannel;
 import common.sharedData.Channel;
 import common.sharedData.Message;
 import common.sharedData.User;
+import common.sharedData.UserLite;
 
 import java.util.UUID;
 
@@ -33,7 +34,7 @@ public class DataToIHMChannel implements IDataToIHMChannel{
      * @param channel channel pour lequel on a ajouté un admin
      */
     @Override
-    public void addNewAdmin(User user, Channel channel) {
+    public void addNewAdmin(UserLite user, Channel channel) {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
@@ -59,7 +60,7 @@ public class DataToIHMChannel implements IDataToIHMChannel{
      * @param explanation motif du kick
      */
     @Override
-    public void userBanNotification(User user, Channel channel, int duration, String explanation) {
+    public void userBanNotification(UserLite user, Channel channel, int duration, String explanation) {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
@@ -70,7 +71,7 @@ public class DataToIHMChannel implements IDataToIHMChannel{
      * @param channel channel sur lequel user est revenu
      */
     @Override
-    public void userBanCancelledNotification(User user, Channel channel) {
+    public void userBanCancelledNotification(UserLite user, Channel channel) {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
@@ -79,13 +80,13 @@ public class DataToIHMChannel implements IDataToIHMChannel{
      * à d'autres.
      *
      * @param message    message reçu
-     * @param channel    channel sur lequel le message a été reçu
+     * @param channelID    channel sur lequel le message a été reçu
      * @param responseTo message parent
      */
     @Override
-    public void receiveMessage(Message message, Channel channel, Message responseTo) {
+    public void receiveMessage(Message message, UUID channelID, Message responseTo) {
         //get channelctrl depuis ihmctrl
-        ChannelController channelController = controller.getChannelPageController().getChannelController(channel.getId());
+        ChannelController channelController = controller.getChannelPageController().getChannelController(channelID);
         //appeler channelctrl.receiveMessage()
         channelController.receiveMessage(message, responseTo);
     }
