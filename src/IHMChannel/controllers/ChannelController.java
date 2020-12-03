@@ -249,7 +249,10 @@ public class ChannelController {
      * Clic sur "supprimer channel" depuis le menu contextuel
      */
     public void deleteChannel() {
-        //TODO implémenter la méthode
+        //TODO pop-up confirmation
+
+        //appel interface /!\ UnsupportedOperationException : not implemented yet pour le moment (sera réglé avec integ)
+        this.getIhmChannelController().getInterfaceForData().openChannelDeleted(this.currentChannel);
     }
 
 }
