@@ -23,7 +23,7 @@ public class ChannelController extends Controller{
 
         // TODO : Get real data
         for (int i = 1; i < 5; i++) {
-            channels.add(new SharedChannel("channel n°" + i, null, "Description du channel n°" + i, i % 2 == 0 ? Visibility.PUBLIC : Visibility.PRIVATE));
+            channels.add(new Channel("channel n°" + i, null, "Description du channel n°" + i, i % 2 == 0 ? Visibility.PUBLIC : Visibility.PRIVATE, ChannelType.SHARED));
         }
         return channels;
     }
@@ -33,17 +33,26 @@ public class ChannelController extends Controller{
      * @param channel the channel
      */
     public void addVisibleChannel(Channel channel) {
-
+        List<Channel> channels = getChannels();
+        channels.add(channel);
+        this.mainClient.addChannelToList(channel);
     }
 
     /**
      * User added to channel.
      *
      * @param user    the user
-     * @param channel the channel
+     * @param channelID the channel
      */
-    public void userAddedToChannel(User user, Channel channel) {
-
+    public void userAddedToChannel(UserLite user, UUID channelID) {
+        List<Channel> channels = getChannels();
+        for (Channel c : channels) {
+            if(c.getId() == channelID) {
+                c.addUser(user);
+                break;
+            }
+        }
+        this.mainClient.updateListChannel(channels);
     }
 
     /**
