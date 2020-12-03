@@ -1,9 +1,7 @@
 package IHMChannel.controllers;
 
 import IHMChannel.IHMChannelController;
-import IHMChannel.tools.AddMemberCellFactory;
-import common.interfaces.client.IDataToIHMChannel;
-import common.interfaces.client.IIHMMainToIHMChannel;
+import IHMChannel.tools.AddMemberCellFactory.AddMemberCellFactory;
 import common.sharedData.UserLite;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -34,11 +32,11 @@ public class AddMemberController {
         //TEST DATA
         //TODO binding avec la liste de tous les utilisateurs connectés via interface
         List<UserLite> tmp = new ArrayList();
-        UserLite usr = new UserLite(UUID.randomUUID(),"TOTO","/icons/heart-solid.png");
+        UserLite usr = new UserLite("TOTO","/icons/heart-solid.png");
         tmp.add(usr);
-        UserLite usr2 = new UserLite(UUID.randomUUID(),"TITI","/icons/heart-solid.png");
+        UserLite usr2 = new UserLite("TITI","/icons/heart-solid.png");
         tmp.add(usr2);
-        UserLite usr3 = new UserLite(UUID.randomUUID(),"TATA","/icons/heart-solid.png");
+        UserLite usr3 = new UserLite("TATA","/icons/heart-solid.png");
         tmp.add(usr3);
 
         this.observableList = FXCollections.observableList(tmp);

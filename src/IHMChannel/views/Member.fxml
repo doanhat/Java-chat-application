@@ -17,7 +17,7 @@
         <ImageView fx:id="creatorIcon"/>
         <Text fx:id="isThatYouText" />
         <Pane HBox.hgrow="ALWAYS" />
-        <ToggleSwitch fx:id="toggleAdminBtn" onAction="#adminHandler" styleClass="btn, toggle-btn"/>
+        <ToggleSwitch fx:id="toggleAdminBtn" styleClass="btn, toggle-btn"/>
         <Button fx:id="banBtn" onAction="#banHandler" />
         <stylesheets>
                 <URL value="@../css/style.css" />

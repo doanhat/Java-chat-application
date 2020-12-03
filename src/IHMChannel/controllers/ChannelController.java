@@ -176,9 +176,15 @@ public class ChannelController {
         channelName.setText(channel.getName());
         channelDescription.setText(channel.getDescription());
 
-        //On transmet aux 2 "sous-vues" le channel à afficher et chacune fait le traitement nécessaire
-        channelMessagesDisplay.getController().setCurrentChannel(channel);
-        channelMembersDisplay.getController().setCurrentChannel(channel);
+        try{
+            //On transmet aux 2 "sous-vues" le channel à afficher et chacune fait le traitement nécessaire
+            channelMessagesDisplay.getController().setCurrentChannel(channel);
+            channelMembersDisplay.getController().setCurrentChannel(channel);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
 

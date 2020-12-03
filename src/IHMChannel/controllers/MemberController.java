@@ -34,11 +34,11 @@ public class MemberController {
     @FXML
     Text isThatYouText;
     @FXML
-    ToggleButton toggleAdminBtn;
+    ToggleSwitch toggleAdminBtn;
     @FXML
     Button banBtn;
 
-    // TO - DO actionHandler: isThatYouText, toggleAdminBtn, banBtn
+    // TODO actionHandler: isThatYouText, toggleAdminBtn, banBtn
 
     UserLite userToDisplay;
 
@@ -48,11 +48,6 @@ public class MemberController {
 
 
     public void setUserToDisplay(UserLite userToDisplay,boolean isAdmin, boolean isCreator, boolean isConnected) {
-    @FXML
-    Button banBtn;
-    @FXML
-    ToggleSwitch toggleAdminBtn;
-    public void setUserToDisplay(UserLite userToDisplay) {
         this.userToDisplay = userToDisplay;
         this.username.setText(userToDisplay.getNickName());
 
@@ -61,7 +56,7 @@ public class MemberController {
         this.isConnected = isConnected;
         iconsInit();
 
-        if(isAdmin) toggleAdminBtn.setSelected(true);
+        //if(isAdmin) toggleAdminBtn.set;
     }
 
     /**
@@ -79,6 +74,7 @@ public class MemberController {
         //TODO initialisation des icônes:
         // - utilisateur en ligne
         // - bouton bloquer
+
         toggleAdminBtn.setMemberController(this);
         Image usersImage = new Image("IHMChannel/icons/ban.png");
         ImageView usersIcon = new ImageView(usersImage);
@@ -90,19 +86,17 @@ public class MemberController {
     /**
      * Méthode déclenchée au clic sur le bouton toggle de l'admin permettant de faire basculer le statut d'un membre entre administrateur et simple membre.
      */
-    public void adminHandler(){
-        System.out.println("Envoi message de changement de droit administrateur au serveur... ");
-        ihmChannelController.getInterfaceToCommunication().giveAdmin(userToDisplay, channel);
     public void toggleAdmin(){
         //TODO
         System.out.println(this.toggleAdminBtn.getCurrentRole());
-    }
 
-    public void banUser(){
-        System.out.println("ban");
+        System.out.println("Envoi message de changement de droit administrateur au serveur... ");
+        ihmChannelController.getInterfaceToCommunication().giveAdmin(userToDisplay, channel);
     }
 
     public void banHandler() {
+        //TODO
+        System.out.println("ban");
     }
 
     public IHMChannelController getIhmChannelController() {

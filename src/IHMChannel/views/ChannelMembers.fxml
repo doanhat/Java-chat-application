@@ -21,7 +21,7 @@
             <RadioButton fx:id="onlineBtn" text="utilisateurs connectés" toggleGroup="$viewMode" onAction="#onlineUserSort"/>
         </HBox>
         <!--CONFLICT ??? ListView ou BorderPane ? --> 
-        <ListView fx:id="membersList" style="-fx-background-color: #ffffff;" styleClass="list-cell"/>
+        <!--<ListView fx:id="membersList" style="-fx-background-color: #ffffff;" styleClass="list-cell"/>-->
         <BorderPane fx:id="listMembersDisplay"/>
     </VBox>
     <stylesheets>

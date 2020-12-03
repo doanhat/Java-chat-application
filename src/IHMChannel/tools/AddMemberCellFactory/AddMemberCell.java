@@ -1,14 +1,12 @@
-package IHMChannel.tools;
+package IHMChannel.tools.AddMemberCellFactory;
 
 import common.sharedData.UserLite;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.ListCell;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 

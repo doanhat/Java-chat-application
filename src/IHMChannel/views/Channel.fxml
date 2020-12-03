@@ -19,7 +19,7 @@
             <Button fx:id="homeBtn" onAction="#homeBtnHandler"/>
             <VBox>
                 <HBox>
-                    <Text fx:id="channelName" styleClass="channel-title"/>
+                    <Label fx:id="channelName" styleClass="channel-title">
                         <contextMenu>
                             <ContextMenu fx:id="channelContextMenu">
                                 <items>
@@ -32,7 +32,7 @@
                                 </items>
                             </ContextMenu>
                         </contextMenu>
-                    </Text>
+                    </Label>
                     <Button fx:id="contextMenuBtn" text="v" onAction="#openChannelContextMenu"/>
                 </HBox>
                             

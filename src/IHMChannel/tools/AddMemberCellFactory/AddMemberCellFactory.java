@@ -1,4 +1,4 @@
-package IHMChannel.tools;
+package IHMChannel.tools.AddMemberCellFactory;
 
 import common.sharedData.UserLite;
 import javafx.scene.control.ListCell;
