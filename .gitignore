@@ -86,7 +86,9 @@ nb-configuration.xml
 .DS_Store
 
 # resource folder
-resource/*
 src/app/MainDataTest.java
 src/app/MainDataTest
 
+
+#IGNORE LE FICHIER RESSOURCE (les .json)
+resource

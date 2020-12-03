@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class CommClientConnectionTest {
     public static void main(String[] args)
     {
-        CommunicationClientController commClient = CommunicationClientController.instance();
+        CommunicationClientController commClient = new CommunicationClientController();
 
         Scanner reader = new Scanner(System.in);
 

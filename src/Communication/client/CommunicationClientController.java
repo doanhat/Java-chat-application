@@ -5,9 +5,7 @@ import Communication.messages.abstracts.NetworkMessage;
 import Communication.messages.client_to_server.UserConnectionMessage;
 import Communication.messages.client_to_server.UserDisconnectionMessage;
 import common.interfaces.client.*;
-import common.sharedData.Channel;
-import common.sharedData.Message;
-import common.sharedData.UserLite;
+import common.sharedData.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -15,29 +13,25 @@ import java.util.UUID;
 
 public class CommunicationClientController extends CommunicationController {
 
-    private static CommunicationClientController instance = null;
-
     private final NetworkClient client;
     private ICommunicationToData dataClient;
     private ICommunicationToIHMMain mainClient;
     private ICommunicationToIHMChannel channelClient;
-
-    private CommunicationClientController() {
-        super();
-        client = new NetworkClient(this);
-    }
+    private CommunicationClientInterface commInterface;
 
     /**
-     * Recuperer singleton de CommunicationClientController
-     * @return
+     * INTEGRATION:
+     * SINGLETON A VIRER (REMARQUE DE B.LUSSIER)
+     * Et une interface qui sert d'interface pour tous c'est pas ouf (contre principe de classe courte, pas de modularite)
+     *
      */
-    public static CommunicationClientController instance() {
-        if (instance == null) {
-            instance = new CommunicationClientController();
-        }
 
-        return instance;
+    public CommunicationClientController() {
+        super();
+        client = new NetworkClient(this);
+        commInterface = new CommunicationClientInterface(this);
     }
+
 
     /* ---------------------------------------------- Core functionalities -------------------------------------------*/
 
@@ -112,7 +106,7 @@ public class CommunicationClientController extends CommunicationController {
             return false;
         }
 
-        setICommunicationData(dataIface);
+        setICommunicationToData(dataIface);
         setICommunicationToIHMMain(mainIface);
         setICommunicationToIHMChannel(channelIface);
 
@@ -123,7 +117,7 @@ public class CommunicationClientController extends CommunicationController {
      * Installer l'interfaces de Data
      * @param dataIface
      */
-    public void setICommunicationData(ICommunicationToData dataIface) {
+    public void setICommunicationToData(ICommunicationToData dataIface) {
         dataClient = dataIface;
     }
 
@@ -143,6 +137,22 @@ public class CommunicationClientController extends CommunicationController {
         channelClient = channelIface;
     }
 
+    public IDataToCommunication getDataToCommunication() {
+        return (IDataToCommunication) commInterface;
+    }
+
+    public IIHMChannelToCommunication getIHMChannelToCommunication() {
+        return (IIHMChannelToCommunication) commInterface;
+    }
+
+    public IIHMMainToCommunication getIHMMainToCommunication() {
+        return (IIHMMainToCommunication) commInterface;
+    }
+
+    public CommunicationClientInterface getCommunicationClientInterface(){
+        return  commInterface;
+    }
+
     /* ------------------------------------- Connection Notifications handling ---------------------------------------*/
 
     /**
@@ -158,6 +168,11 @@ public class CommunicationClientController extends CommunicationController {
             System.err.println("notifyConnectionSuccess: IHMMain Iface est null");
             return;
         }
+
+        /**
+         * Donnee test pour l'integ
+         */
+
 
         mainClient.connectionAccepted();
         mainClient.setConnectedUsers(users);
@@ -206,9 +221,11 @@ public class CommunicationClientController extends CommunicationController {
             return;
         }
 
-        // TODO INTEGRATION request data addVisibleChannel receive Channel as parameter
-        //dataClient.addVisibleChannel(channel);
-        // TODO INTEGRATION Verify workflow between Comm, Data, Main to avoid redundancy
+//        // TODO INTEGRATION request data addVisibleChannel receive Channel as parameter : (REMARQUE INTEG, CETTE LIGNE RAJOUTE DE LA REDONDANCE) QUE FAIRE??
+        /**
+         * TODO: IF DATA DOESN'T IMPLEMENT a ChannelList, please delete the line "dataClient.addVisibleChannel(channel)" in next integration
+         */
+//        dataClient.addVisibleChannel(channel);
         mainClient.channelAdded(channel);
 
         // TODO handle propriety Channel

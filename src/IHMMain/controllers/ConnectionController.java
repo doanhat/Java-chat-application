@@ -60,6 +60,7 @@ public class ConnectionController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         // Gestion de l'affichage du bouton d'affichage/masquage du mot de passe lors de l'inscription
         ImageView eyeButtonSubscription = new ImageView("IHMMain/icons/eye.png");
         eyeButtonSubscription.setFitHeight(18);
@@ -91,9 +92,9 @@ public class ConnectionController implements Initializable{
         }
         if (checkMandatoryFields(errors)) {
             // TODO uncomment when integration is done
-            /*ihmMainController.getIHMMainToData().localAuthentification(
+            ihmMainController.getIHMMainToData().localAuthentification(
                     userConnectionIDTextField.getText().trim(),
-                    password);*/
+                    password);
             // Manque vérification de la connexion : localAuthentification() devrait renvoyer une valeur booléenne à tester avant d'afficher IHMMainWindow
             mainWindowController.loadIHMMainWindow();
         }
@@ -125,7 +126,9 @@ public class ConnectionController implements Initializable{
                     nameTextField.getText(),
                     dateOfBirth);
             // Manque vérification de l'inscription : createAccount() devrait renvoyer une valeur booléenne à tester avant d'afficher IHMMainWindow
+
             mainWindowController.loadIHMMainWindow();
+
         }
     }
 
