@@ -43,6 +43,7 @@ import java.util.UUID;
             channel.setMessages(history);
             controller.getChannelPageController().addOpenedChannel(channel);
             controller.getChannelPageController().getChannelController(channel.getId()).setConnectedMembersList(connectedUsers);
+            controller.getInterfaceToIHMMain().updateOpenedChannelList(controller.getOpenedChannelsList());
         } catch (IOException e) {
             e.printStackTrace();
         }
