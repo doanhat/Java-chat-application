@@ -6,6 +6,7 @@ import IHMChannel.IHMChannelController;
 import common.sharedData.*;
 import javafx.beans.InvalidationListener;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.collections.ObservableSet;
 import javafx.collections.SetChangeListener;
 import javafx.fxml.FXML;
@@ -47,6 +48,10 @@ public class ChannelPageController {
     Button addMemberBtn;
     @FXML
     Button leaveChannelBtn;
+    @FXML
+    Button addUserBtn; //pour test
+    @FXML
+    Button removeUserBtn; //pour test
 
     @FXML
     private TextField canalText;
@@ -60,6 +65,9 @@ public class ChannelPageController {
     @FXML
     TabPane tabs;
 
+    //Pour tests
+    UserLite userTemp = new UserLite();
+
 
     /**
      * Setter du channel
@@ -72,6 +80,7 @@ public class ChannelPageController {
     public void addOpenedChannel(Channel channel) throws IOException {
         iconsInit();
         openedChannels.add(channel);
+        currentChannel = channel.getId(); //TODO mieux gérer la mise à jour de cette valeur
 
         //Création du nouvel onglet pour le channel ajouté
 
@@ -112,6 +121,9 @@ public class ChannelPageController {
         //initialisation de oppenedChannel
         openedChannels = FXCollections.observableSet();
         channelMap = new HashMap<UUID, ChannelController>();
+
+        userTemp.setId(UUID.randomUUID());
+        userTemp.setNickName("Clément");
     }
     /**
      * Automatically called by FXML Loader
@@ -252,4 +264,23 @@ public class ChannelPageController {
         }
     }
 
+    @FXML
+    /**
+     * Pour tester l'interface proposée à comm
+     */
+    public void addUser(){
+        ihmChannelController.getInterfaceForCommunication().addConnectedUser(currentChannel, userTemp);
+    }
+
+    @FXML
+    /**
+     * Pour tester l'interface proposée à comm
+     */
+    public void removeUser(){
+        ihmChannelController.getInterfaceForCommunication().removeConnectedUser(currentChannel, userTemp);
+    }
+
+    public ObservableSet<Channel> getOpenedChannels() {
+        return this.openedChannels;
+    }
 }

@@ -15,6 +15,8 @@
             <children>
                 <TextField fx:id="canalText"/>
                 <Button fx:id="createCanalBtn" mnemonicParsing="false" onAction="#createChannel" text="Join"/>
+                <Button fx:id="addUserBtn" mnemonicParsing="false" onAction="#addUser" text="Add user test"/>
+                <Button fx:id="removeUserBtn" mnemonicParsing="false" onAction="#removeUser" text="Remove user test"/>
             </children>
         </HBox>
         <HBox style="-fx-background-color: #B9E6FF">

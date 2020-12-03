@@ -167,4 +167,12 @@ public class ChannelMessagesController{
     public void setConnectedMembersList(List<UserLite> connectedMembersList) {
         this.connectedMembersController.setConnectedMembersList(connectedMembersList);
     }
+
+    public void addMemberToObservableList(UserLite user) {
+        this.connectedMembersController.addMemberToObservableList(user);
+    }
+
+    public void removeMemberFromObservableList(UserLite user) {
+        this.connectedMembersController.removeMemberFromObservableList(user);
+    }
 }

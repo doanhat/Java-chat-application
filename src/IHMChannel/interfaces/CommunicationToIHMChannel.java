@@ -6,11 +6,15 @@ import common.sharedData.Channel;
 import common.sharedData.Message;
 import common.sharedData.User;
 import common.sharedData.UserLite;
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableSet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
-public class CommunicationToIHMChannel implements ICommunicationToIHMChannel {
+    public class CommunicationToIHMChannel implements ICommunicationToIHMChannel {
 
     public CommunicationToIHMChannel(IHMChannelController controller){
         this.controller = controller;
@@ -42,6 +46,18 @@ public class CommunicationToIHMChannel implements ICommunicationToIHMChannel {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void addConnectedUser(UUID channelId, UserLite user) {
+        controller.getChannelPageController().getChannelController(channelId).addConnectedUser(user);
+        controller.getInterfaceToIHMMain().updateOpenedChannelList(controller.getOpenedChannelsList());
+    }
+
+    @Override
+    public void removeConnectedUser(UUID channelId, UserLite user) {
+        controller.getChannelPageController().getChannelController(channelId).removeConnectedUser(user);
+        controller.getInterfaceToIHMMain().updateOpenedChannelList(controller.getOpenedChannelsList());
     }
 
     private IHMChannelController controller;
