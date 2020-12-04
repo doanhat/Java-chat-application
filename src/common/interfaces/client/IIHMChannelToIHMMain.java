@@ -2,6 +2,8 @@ package common.interfaces.client;
 
 import common.sharedData.Channel;
 
+import java.util.List;
+
 /**
  * Cette classe offre les méthodes nécessaire par IHMChannel vis à vis de IHMMain
  */
@@ -16,4 +18,6 @@ public interface IIHMChannelToIHMMain {
      * @param channel le channel à fermer
      */
     public void closeChannel(Channel channel);
+
+    public void updateOpenedChannelList(List<Channel> openedChannels);
 }

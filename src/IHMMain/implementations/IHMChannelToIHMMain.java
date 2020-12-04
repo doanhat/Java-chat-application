@@ -4,6 +4,8 @@ import IHMMain.IHMMainController;
 import common.interfaces.client.IIHMChannelToIHMMain;
 import common.sharedData.Channel;
 
+import java.util.List;
+
 public class IHMChannelToIHMMain implements IIHMChannelToIHMMain {
 
     private IHMMainController ihmMainController;
@@ -21,4 +23,7 @@ public class IHMChannelToIHMMain implements IIHMChannelToIHMMain {
     public void closeChannel(Channel channel) {
         ihmMainController.getVisibleChannels().remove(channel);
     }
+
+    @Override
+    public void updateOpenedChannelList(List<Channel> openedChannels) {}
 }

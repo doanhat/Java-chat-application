@@ -11,6 +11,7 @@ import javafx.geometry.Bounds;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import common.sharedData.UserLite;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
@@ -21,10 +22,12 @@ import javafx.scene.text.Text;
 import javafx.stage.Popup;
 
 import java.io.IOException;
+import java.util.List;
 
 public class ChannelController {
     private Channel currentChannel; //channel à afficher dans l'interface
     private IHMChannelController ihmChannelController;
+    private List<UserLite> connectedMembersList;
 
 
     /*
@@ -77,6 +80,7 @@ public class ChannelController {
         iconsInit();
         //Affichage de la partie "messages"
         channelMessagesDisplay = new ChannelMessagesDisplay();
+        //channelMessagesDisplay.setConnectedMembersList(connectedMembersList);
         pageToDisplay.setCenter(channelMessagesDisplay.root);
 
         //Chargement de la liste des utilisateurs
@@ -244,6 +248,7 @@ public class ChannelController {
         //TODO implémenter la méthode
     }
 
+<<<<<<< src/IHMChannel/controllers/ChannelController.java
     /**
      * Clic sur "Kicker un utilisateur" depuis le menu contextuel
      */
@@ -268,4 +273,26 @@ public class ChannelController {
         this.getIhmChannelController().getInterfaceForData().openChannelDeleted(this.currentChannel);
     }
 
+=======
+    public List<UserLite> getConnectedMembersList() {
+        return connectedMembersList;
+    }
+
+    public void setConnectedMembersList(List<UserLite> connectedMembersList) {
+        this.connectedMembersList = connectedMembersList;
+        this.channelMessagesDisplay.setConnectedMembersList(connectedMembersList);
+
+    }
+
+    public void addConnectedUser(UserLite user) {
+        this.connectedMembersList.add(user);
+        this.channelMessagesDisplay.getController().addMemberToObservableList(user);
+        //this.channelMessagesDisplay.setConnectedMembersList(this.connectedMembersList);
+    }
+
+    public void removeConnectedUser(UserLite user) {
+        this.connectedMembersList.remove(user);
+        this.channelMessagesDisplay.getController().removeMemberFromObservableList(user);
+    }
+>>>>>>> src/IHMChannel/controllers/ChannelController.java
 }

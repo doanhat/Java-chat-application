@@ -14,7 +14,7 @@
             prefWidth="1400.0">
 
     <VBox fx:id="channelPage" prefWidth="1400">
-        <HBox fx:id="menuBar" alignment="CENTER_LEFT" style="-fx-background-color: #B9E6FF">
+        <!--<HBox alignment="CENTER_LEFT" style="-fx-background-color: #B9E6FF" prefWidth="1400">-->
             <!--La barre à retourner vers Main -->
             <Button fx:id="homeBtn" onAction="#homeBtnHandler"/>
             <VBox>
