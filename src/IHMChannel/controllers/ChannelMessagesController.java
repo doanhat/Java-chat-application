@@ -5,6 +5,7 @@ import IHMChannel.MessageDisplay;
 import common.sharedData.Channel;
 import common.sharedData.Message;
 import common.sharedData.UserLite;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -84,11 +85,18 @@ public class ChannelMessagesController{
             changed.next();
             if(changed.wasAdded()){
                 for(Message msgAdded : changed.getAddedSubList()){
-                    try {
-                        getMessagesToDisplay().add((HBox) new MessageDisplay(msgAdded).root);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    getMessagesToDisplay().add((HBox) new MessageDisplay(msgAdded).root);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+
                 }
             }
         };
