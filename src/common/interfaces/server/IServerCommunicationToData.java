@@ -213,15 +213,15 @@ public interface IServerCommunicationToData {
      * @param channel le channel auquel l'utilisateur va s'abonner
      * @param user l'utilisateur qui va s'abonner au channel
      * */
-    List<UserLite> joinChannel(Channel channel, UserLite user);
+    void joinChannel(UUID channel, UserLite user);
 
     /**
-     * Méthode pour se désabonner d'un channel
+     * Méthode pour se désabonner d'un channel volontairement 
      *
-     * @param channel le channel duquel l'utilisateur va se désabonner
+     * @param channelID l'identificatuer du channel auquel l'utilisateur va se désabonner
      * @param user l'utilisateur qui va se désabonner
      * */
-    void leaveChannel(Channel channel, UserLite user);
+    void leaveChannel(UUID channelID, UserLite user);
 
     /**
      * Méthode qui renvoie l'adresse de l'utilisateur

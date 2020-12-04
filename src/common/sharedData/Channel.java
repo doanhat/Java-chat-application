@@ -136,6 +136,10 @@ public class Channel implements Serializable {
 		this.acceptedPersons.add(user);
 	}
 
+	public void removeUser(UUID idUser){
+		this.acceptedPersons.removeIf(person ->(person.getId().equals(idUser)));
+	}
+
 	public void kickPermanentUser(UserLite user, String reason) {
 		this.kicked.add(new Kick(user, this, reason, true));
 	}

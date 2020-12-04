@@ -161,13 +161,19 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     }
 
     @Override
-    public List<UserLite> joinChannel(Channel ch, UserLite user) {
-        return null;
+    public void joinChannel(UUID ch, UserLite user) {
+        Channel channel = channelsListController.searchChannelById(ch);
+        if(channel!=null){
+            channel.addUser(user);
+        }
     }
 
     @Override
-    public void leaveChannel(Channel ch, UserLite user) {
-
+    public void leaveChannel(UUID ch, UserLite user) {
+        Channel channel = channelsListController.searchChannelById(ch);
+        if(channel!=null){
+            channel.removeUser(user.getId());
+        }
     }
 
     @Override

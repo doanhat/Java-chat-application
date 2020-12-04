@@ -196,23 +196,21 @@ public class VirtualDataServer implements IServerCommunicationToData {
     }
 
     @Override
-    public List<UserLite> joinChannel(Channel channel, UserLite user) {
-        Channel correctChannel = channels.get(channel.getId());
+    public void joinChannel(UUID channel, UserLite user) {
+        Channel correctChannel = channels.get(channel);
 
         if (correctChannel == null)
         {
             System.err.println("Cannot find channel");
-            return new ArrayList<>();
         }
 
         correctChannel.addUser(user);
 
-        return correctChannel.getAcceptedPersons();
     }
 
     @Override
-    public void leaveChannel(Channel channel, UserLite user) {
-        Channel correctChannel = channels.get(channel.getId());
+    public void leaveChannel(UUID channel, UserLite user) {
+        Channel correctChannel = channels.get(channel);
 
         if (correctChannel == null)
         {
