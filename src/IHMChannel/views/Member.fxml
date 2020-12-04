@@ -6,18 +6,19 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
+        
 
 <?import IHMChannel.switchButton.ToggleSwitch?>
 
 <HBox alignment="CENTER_LEFT" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IHMChannel.controllers.MemberController">
         <ImageView fx:id="profilePic" />
         <ImageView fx:id="connectedIcon" />
-        <Text fx:id="username" text="abc"/>
-        <ImageView fx:id="authorizationIcon" />
+        <Text fx:id="username"/>
+        <ImageView fx:id="creatorIcon"/>
         <Text fx:id="isThatYouText" />
         <Pane HBox.hgrow="ALWAYS" />
         <ToggleSwitch fx:id="toggleAdminBtn" styleClass="btn, toggle-btn"/>
-        <Button fx:id="banBtn" onAction="#banUser" />
+        <Button fx:id="banBtn" onAction="#banHandler" />
         <stylesheets>
                 <URL value="@../css/style.css" />
         </stylesheets>
