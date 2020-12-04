@@ -9,14 +9,19 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Contrôleur de la vue "ChannelMessages" dans laquelle on retrouve l'affichage et la saisie de messages d'un channel
@@ -25,6 +30,7 @@ public class ChannelMessagesController{
     UserLite connectedUser; //tmp
     Channel channel;
     private IHMChannelController ihmChannelController;
+    private ConnectedMembersController connectedMembersController;
     private Message parentMessage = null;
 
     @FXML
@@ -37,6 +43,8 @@ public class ChannelMessagesController{
     Button sendBtn;
     @FXML
     Button testReception; //utilisé pour test uniquement
+    @FXML
+    BorderPane connectedMembers;
 
     //Liste de HBox (= contrôle message)
     private ObservableList<HBox> messagesToDisplay = FXCollections.observableArrayList();
@@ -84,6 +92,10 @@ public class ChannelMessagesController{
                 }
             }
         };
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../views/ConnectedMembers.fxml"));
+        Parent root = fxmlLoader.load();
+        connectedMembers.setRight(root);
+        connectedMembersController = fxmlLoader.getController();
     }
 
     /**
@@ -131,8 +143,13 @@ public class ChannelMessagesController{
         return ihmChannelController;
     }
 
+    /**
+     * Setter de ihmChannelController pour ChannelMessagesController et ConnectedMembersController.
+     * @param ihmChannelController
+     */
     public void setIhmChannelController(IHMChannelController ihmChannelController) {
         this.ihmChannelController = ihmChannelController;
+        this.connectedMembersController.setIhmChannelController(ihmChannelController);
     }
 
     public Message getParentMessage() {
@@ -145,5 +162,17 @@ public class ChannelMessagesController{
 
     public ObservableList<HBox> getMessagesToDisplay() {
         return messagesToDisplay;
+    }
+
+    public void setConnectedMembersList(List<UserLite> connectedMembersList) {
+        this.connectedMembersController.setConnectedMembersList(connectedMembersList);
+    }
+
+    public void addMemberToObservableList(UserLite user) {
+        this.connectedMembersController.addMemberToObservableList(user);
+    }
+
+    public void removeMemberFromObservableList(UserLite user) {
+        this.connectedMembersController.removeMemberFromObservableList(user);
     }
 }
