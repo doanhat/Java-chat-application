@@ -3,6 +3,7 @@ package IHMChannel.controllers;
 import IHMChannel.ChannelMembersDisplay;
 import IHMChannel.ChannelMessagesDisplay;
 import IHMChannel.IHMChannelController;
+import common.IHMTools.IHMTools;
 import common.sharedData.Channel;
 import common.sharedData.Message;
 import javafx.event.ActionEvent;
@@ -13,8 +14,10 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import common.sharedData.UserLite;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -197,10 +200,13 @@ public class ChannelController {
      * Méthode déclenchée au clic sur le bouton "quitter le channel"
      */
     public void leaveChannel(){
-      /*  openedChannels.remove(channelMap.get(currentChannel));
-        channelMap.remove(currentChannel)*/
 
-        //  ihmChannelController.getInterfaceToIHMMain().redirectToHomePage();
+        boolean result = IHMTools.confirmationPopup("Voulez vous quitter le channel ?");
+
+        if (result) {
+            /*  openedChannels.remove(channelMap.get(currentChannel));
+        channelMap.remove(currentChannel)*/
+        }
     }
 
 
