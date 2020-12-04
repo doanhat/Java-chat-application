@@ -1,12 +1,11 @@
 package IHMChannel.controllers;
 
-import common.IHMTools.IHMTools;
 import common.sharedData.Message;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 
 /**
@@ -111,16 +110,8 @@ public class MessageController {
      * Méthode appelée au clic sur le bouton de suppresion
      */
     public void deleteMessage(){
-
-
-
-        boolean result = IHMTools.confirmationPopup("Voulez vous supprimer le message ?");
-
-        if (result){
-            System.out.println("suppression du message "+this.content.getText());
-            this.content.setText("message supprimé");
-        }
-
+        System.out.println("suppression du message "+this.content.getText());
+        this.content.setText("message supprimé");
         //Attention, ici on ne màj que l'affichage, les data ne sont pas impactées.
     }
 
