@@ -180,6 +180,7 @@ TextField {
   -fx-fill: #000000;
   -fx-font-weight: 700;
   -fx-font-size: 2em;
+  -fx-padding: 1em;
 }
 
 .pop-up-title {

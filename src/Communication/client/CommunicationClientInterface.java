@@ -200,10 +200,10 @@ public class CommunicationClientInterface implements IDataToCommunication,
     /**
      * Recupere l'histoique d'un serveur donnée
      *
-     * @param channel [Channel] Channel dont on demande l'historique
+     * @param channelId [Channel] Channel dont on demande l'historique
      * @return List<Message> Liste des messages qui compose l'historique
      **/
-    public List<Message> getHistory(Channel channel){
+    public List<Message> getChannelHistory(UUID channelId){
         // TODO V3
         return new ArrayList<>();
     }

@@ -11,15 +11,38 @@
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="IHMChannel.controllers.ChannelMessagesController">
-    <VBox prefWidth="1400">
-        <ListView fx:id="listMessages"/>
-        <HBox>
-            <ImageView fx:id="profilePic"/>
-            <TextArea fx:id="typedText"/>
-            <Button fx:id="sendBtn" onAction="#sendMessage" styleClass="secondary-btn"/>
-            <Button fx:id="testReception" text="test reception" onAction="#receiveMessage"/>
-        </HBox>
-    </VBox>
+    <GridPane>
+        <columnConstraints>
+            <ColumnConstraints percentWidth="95.0" />
+            <ColumnConstraints percentWidth="5.00"/>
+        </columnConstraints>
+        <children>
+            <VBox prefWidth="1400">
+                <HBox prefWidth="1400">
+                    <ListView fx:id="listMessages" prefWidth="1200"/>
+                    <BorderPane fx:id="connectedMembers" styleClass="connectedMembersList" prefWidth="200"></BorderPane>
+                </HBox>
+
+                <HBox prefWidth="1400">
+                    <ImageView fx:id="profilePic"/>
+                    <TextArea fx:id="typedText" prefWidth="1300"/>
+
+                    <VBox prefWidth="100" style="-fx-background-color: #d2f4ff" alignment="CENTER">
+                        <Button fx:id="sendBtn" onAction="#sendMessage" styleClass="secondary-btn" prefWidth="75" prefHeight="75"/>
+                        <Button fx:id="testReception" text="test reception" onAction="#receiveMessage"/>
+                    </VBox>
+
+                </HBox>
+
+            </VBox>
+
+        </children>
+
+
+
+    </GridPane>
+
+
     <stylesheets>
         <URL value="file:src/common/IHMCommon/common.css"></URL>
     </stylesheets>
