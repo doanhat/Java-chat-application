@@ -8,6 +8,7 @@
 
 <?import javafx.scene.text.Text?>
 <?import java.net.URL?>
+<?import javafx.geometry.Insets?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="IHMChannel.controllers.ChannelController"
@@ -39,10 +40,10 @@
                 <Text fx:id="channelDescription" styleClass="channel-description"/>
             </VBox>
             <Pane HBox.hgrow="ALWAYS" />
-            <Button fx:id="seeMembersBtn" onAction="#seeMembers" style="-fx-background-color: transparent;"/>
-            <Button fx:id="addMemberBtn" onAction="#addUserToChannel" style="-fx-background-color: transparent;"/>
-            <Button fx:id="leaveChannelBtn" onAction="#leaveChannel" style="-fx-background-color: transparent;"/>
-        <!--</HBox>-->
+            <Button fx:id="seeMembersBtn" onAction="#seeMembers" styleClass="icon-bar-btn"/>
+            <Button fx:id="addMemberBtn" onAction="#addUserToChannel" styleClass="icon-bar-btn"/>
+            <Button fx:id="leaveChannelBtn" onAction="#leaveChannel" styleClass="icon-bar-btn" />
+        </HBox>
         <BorderPane fx:id="pageToDisplay"/>
     </VBox>
     <stylesheets>
