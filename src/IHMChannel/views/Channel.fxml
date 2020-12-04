@@ -69,7 +69,7 @@
             <TextArea fx:id="typedText"/>
             <Button fx:id="sendBtn" onAction="#sendMessage"/>
         </HBox>
-        <BorderPane fx:id="pageToDisplay"/>
+        <BorderPane fx:id="pageToDisplay"/>-->
     </VBox>
     <stylesheets>
         <URL value="file:src/common/IHMCommon/common.css"></URL>
