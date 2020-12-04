@@ -299,3 +299,10 @@ TextField {
   -fx-alignment: CENTER;
   -fx-text-fill: #FFFFFF;
 }
+
+.notification-popup{
+  -fx-background-color: #6DF12F45;
+  -fx-padding: 10 100 10 100;
+  -fx-font-size: 16;
+  -fx-border-radius: 5;
+}
