@@ -115,7 +115,7 @@ public class ChannelController extends Controller{
      * @param channelId channel id
      * @return history
      */
-    List<Message> getHistory(UUID channelId) {
+    public List<Message> getHistory(UUID channelId) {
         for (Channel c : channelList){
             if (c.getId().equals(channelId)){
                 return c.getMessages();

@@ -27,6 +27,18 @@ public class DataClientController {
         ihmMainToData = new IHMMainToData(this);
     }
 
+    public void setCommToData(CommunicationToData commToData) {
+        this.commToData = commToData;
+    }
+
+    public void setIhmChannelToData(IHMChannelToData ihmChannelToData) {
+        this.ihmChannelToData = ihmChannelToData;
+    }
+
+    public void setIhmMainToData(IHMMainToData ihmMainToData) {
+        this.ihmMainToData = ihmMainToData;
+    }
+
     public ChannelController getChannelController() {
         return this.channelCtrl;
     }
