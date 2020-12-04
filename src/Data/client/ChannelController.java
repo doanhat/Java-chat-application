@@ -26,7 +26,7 @@ public class ChannelController extends Controller{
         super(comClient, channelClient, mainClient);
         channelList = new FileHandle<Channel>(LocationType.client, FileType.channel).readAllJSONFilesToList(Channel.class);
     }
-  
+
     /**
      * Add visible channel.
      *
