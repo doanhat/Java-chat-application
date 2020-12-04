@@ -42,7 +42,7 @@
             <Button fx:id="seeMembersBtn" onAction="#seeMembers" style="-fx-background-color: transparent;"/>
             <Button fx:id="addMemberBtn" onAction="#addUserToChannel" style="-fx-background-color: transparent;"/>
             <Button fx:id="leaveChannelBtn" onAction="#leaveChannel" style="-fx-background-color: transparent;"/>
-        </HBox>
+        <!--</HBox>-->
         <BorderPane fx:id="pageToDisplay"/>
     </VBox>
     <stylesheets>
