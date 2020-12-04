@@ -98,11 +98,11 @@ public class ChannelController {
 
     private void iconsInit(){
         // Home
-        Image homeImage = new Image("IHMChannel/icons/home-solid.png");
+        /*Image homeImage = new Image("IHMChannel/icons/home-solid.png");
         ImageView homeIcon = new ImageView(homeImage);
         homeIcon.setFitHeight(15);
         homeIcon.setFitWidth(15);
-        homeBtn.setGraphic(homeIcon);
+        homeBtn.setGraphic(homeIcon);*/
 
         //Liste membres
         Image usersImage = new Image("IHMChannel/icons/users-solid.png");
@@ -248,7 +248,6 @@ public class ChannelController {
         //TODO implémenter la méthode
     }
 
-<<<<<<< src/IHMChannel/controllers/ChannelController.java
     /**
      * Clic sur "Kicker un utilisateur" depuis le menu contextuel
      */
@@ -273,7 +272,6 @@ public class ChannelController {
         this.getIhmChannelController().getInterfaceForData().openChannelDeleted(this.currentChannel);
     }
 
-=======
     public List<UserLite> getConnectedMembersList() {
         return connectedMembersList;
     }
@@ -294,5 +292,4 @@ public class ChannelController {
         this.connectedMembersList.remove(user);
         this.channelMessagesDisplay.getController().removeMemberFromObservableList(user);
     }
->>>>>>> src/IHMChannel/controllers/ChannelController.java
 }
