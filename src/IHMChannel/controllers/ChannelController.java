@@ -136,6 +136,9 @@ public class ChannelController {
             /*  openedChannels.remove(channelMap.get(currentChannel));
         channelMap.remove(currentChannel)*/
         }
+        else{
+            IHMTools.showPopupMessage("Ceci est une notification", this.pageToDisplay.getScene().getWindow());
+        }
     }
 
 

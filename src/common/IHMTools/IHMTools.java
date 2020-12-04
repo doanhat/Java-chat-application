@@ -1,10 +1,13 @@
 package common.IHMTools;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.DialogPane;
+import javafx.event.EventHandler;
+import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
+import javafx.stage.Popup;
+import javafx.stage.Stage;
+import javafx.stage.Window;
+import javafx.stage.WindowEvent;
 
 public class IHMTools {
 
@@ -51,5 +54,36 @@ public class IHMTools {
             return true;
         }
         return false;
+    }
+
+    public static Popup createPopup(final String message) {
+        final Popup popup = new Popup();
+        popup.setAutoFix(true);
+        popup.setAutoHide(true);
+        popup.setHideOnEscape(true);
+        Label label = new Label(message);
+        label.setOnMouseReleased(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e) {
+                popup.hide();
+            }
+        });
+        String url = IHMTools.class.getResource("../../common/IHMCommon/common.css").toExternalForm();
+        label.getStylesheets().add(url);
+        label.getStyleClass().add("notification-popup");
+        popup.getContent().add(label);
+        return popup;
+    }
+
+    public static void showPopupMessage(final String message, final Window window) {
+        final Popup popup = createPopup(message);
+        popup.setOnShown(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent e) {
+                popup.setX(window.getX() + window.getWidth()/2 - popup.getWidth()/2);
+                popup.setY(window.getY() + window.getHeight()/6 - popup.getHeight()/2);
+            }
+        });
+        popup.show(window);
     }
 }
