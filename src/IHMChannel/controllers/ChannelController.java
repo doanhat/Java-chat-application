@@ -248,7 +248,6 @@ public class ChannelController {
         //TODO implémenter la méthode
     }
 
-<<<<<<< src/IHMChannel/controllers/ChannelController.java
     /**
      * Clic sur "Kicker un utilisateur" depuis le menu contextuel
      */
@@ -273,7 +272,6 @@ public class ChannelController {
         this.getIhmChannelController().getInterfaceForData().openChannelDeleted(this.currentChannel);
     }
 
-=======
     public List<UserLite> getConnectedMembersList() {
         return connectedMembersList;
     }
@@ -294,5 +292,4 @@ public class ChannelController {
         this.connectedMembersList.remove(user);
         this.channelMessagesDisplay.getController().removeMemberFromObservableList(user);
     }
->>>>>>> src/IHMChannel/controllers/ChannelController.java
 }
