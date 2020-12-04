@@ -230,3 +230,77 @@ TextField {
     -fx-padding: 10px;
     -fx-margin: 5px;
 }
+.icon-bar-btn {
+  -fx-background-color: transparent;
+}
+
+.icon-bar-btn:hover {
+  -fx-background-color: #ffffff;
+}
+
+.icon-bar-btn:pressed{
+  -fx-background-color: #85E0FF;
+}
+
+.message-button {
+  -fx-background-color: transparent;
+}
+
+.message-button:hover{
+  -fx-background-color: #cccccc;
+}
+
+.message-button:pressed{
+  -fx-background-color: #aaaaaa;
+}
+
+.message-content {
+  -fx-background-color: transparent;
+  -fx-border-color: transparent;
+}
+
+.envoi-message {
+  -fx-background-color: #B9E6FF;
+  -fx-padding: 2em;
+}
+
+.tab-pane .tab-header-area .tab-header-background {
+  -fx-background-color: #B9E6FF;
+}
+
+.tab-pane
+{
+  -fx-tab-min-width:90px;
+}
+
+.tab{
+  -fx-background-insets: 0 1 0 1,0,0;
+}
+.tab-pane .tab
+{
+  -fx-background-color: #ffffff;
+}
+
+.tab-pane .tab:selected
+{
+  -fx-background-color: #023254;
+}
+
+.tab .tab-label {
+  -fx-alignment: CENTER;
+  -fx-text-fill: #023254;
+  -fx-font-size: 12px;
+  -fx-font-weight: bold;
+}
+
+.tab:selected .tab-label {
+  -fx-alignment: CENTER;
+  -fx-text-fill: #FFFFFF;
+}
+
+.notification-popup{
+  -fx-background-color: #6DF12F45;
+  -fx-padding: 10 100 10 100;
+  -fx-font-size: 16;
+  -fx-border-radius: 5;
+}

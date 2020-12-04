@@ -3,18 +3,17 @@ package IHMChannel.controllers;
 import IHMChannel.ChannelMembersDisplay;
 import IHMChannel.ChannelMessagesDisplay;
 import IHMChannel.IHMChannelController;
+import common.IHMTools.IHMTools;
 import common.sharedData.Channel;
 import common.sharedData.Message;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Bounds;
-import javafx.scene.control.CheckMenuItem;
-import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import common.sharedData.UserLite;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Bounds;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -31,7 +30,7 @@ public class ChannelController {
 
 
     /*
-       ** @author : Triet
+     ** @author : Triet
      */
     private ChannelPageController channelPageController;
 
@@ -71,6 +70,7 @@ public class ChannelController {
     public Channel getCurrentChannel() {
         return currentChannel;
     }
+
     public void setCurrentChannel(Channel currentChannel) {
         this.currentChannel = currentChannel;
     }
@@ -88,15 +88,15 @@ public class ChannelController {
 
     }
 
-    public void configureMessageDisplay(IHMChannelController ihmChannelController){
+    public void configureMessageDisplay(IHMChannelController ihmChannelController) {
         channelMessagesDisplay.configureMessageController(ihmChannelController);
     }
 
-    public void configureMemberDisplay(IHMChannelController ihmChannelController){
+    public void configureMemberDisplay(IHMChannelController ihmChannelController) {
         channelMembersDisplay.configureMembersController(ihmChannelController);
     }
 
-    private void iconsInit(){
+    private void iconsInit() {
         // Home
         /*Image homeImage = new Image("IHMChannel/icons/home-solid.png");
         ImageView homeIcon = new ImageView(homeImage);
@@ -136,14 +136,13 @@ public class ChannelController {
      * Méthode déclenchée au clic sur le bouton "voir les membres"
      */
     public void seeMembers() {
-        if(seeMessages){
+        if (seeMessages) {
             pageToDisplay.setCenter(channelMembersDisplay.root);
-            seeMessages=false;
+            seeMessages = false;
             seeMembersMenuCheck.setSelected(true);
-        }
-        else{
+        } else {
             pageToDisplay.setCenter(channelMessagesDisplay.root);
-            seeMessages=true;
+            seeMessages = true;
             seeMembersMenuCheck.setSelected(false);
         }
     }
@@ -157,21 +156,19 @@ public class ChannelController {
         //En JavaFX, pop-up = fenêtre transparente sans aucun style.
 
         Popup popup = new Popup();
-        try{
+        try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../views/AddMember.fxml"));
             popup.getContent().add(fxmlLoader.load());
             ((AddMemberController) fxmlLoader.getController()).setIhmChannelController(ihmChannelController);
             popup.setAutoHide(true); //disparaît si on clique ailleurs
             Bounds screenBounds = addMemberBtn.localToScreen(addMemberBtn.getBoundsInLocal()); //alignement pop up et bouton
-            popup.show(addMemberBtn.getScene().getWindow(),screenBounds.getMinX(),screenBounds.getMaxY());
+            popup.show(addMemberBtn.getScene().getWindow(), screenBounds.getMinX(), screenBounds.getMaxY());
 
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
-
 
 
     public void setChannel(Channel channel) {
@@ -180,29 +177,30 @@ public class ChannelController {
         channelName.setText(channel.getName());
         channelDescription.setText(channel.getDescription());
 
-        try{
+        try {
             //On transmet aux 2 "sous-vues" le channel à afficher et chacune fait le traitement nécessaire
             channelMessagesDisplay.getController().setCurrentChannel(channel);
             channelMembersDisplay.getController().setCurrentChannel(channel);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
 
-
     /**
      * Méthode déclenchée au clic sur le bouton "quitter le channel"
      */
-    public void leaveChannel(){
-      /*  openedChannels.remove(channelMap.get(currentChannel));
+    public void leaveChannel() {
+
+        boolean result = IHMTools.confirmationPopup("Voulez vous quitter le channel ?");
+
+        if (result) {
+            /*  openedChannels.remove(channelMap.get(currentChannel));
         channelMap.remove(currentChannel)*/
-
-        //  ihmChannelController.getInterfaceToIHMMain().redirectToHomePage();
+        }
     }
-
+    
 
     public IHMChannelController getIhmChannelController() {
         return ihmChannelController;
@@ -213,7 +211,6 @@ public class ChannelController {
     }
 
 
-
     /**
      * Clic sur le bouton "v" pour faire apparaître le menu contextuel du channel
      * Récupère la position du bouton par rapport à l'écran pour positionner correctement le menu
@@ -222,7 +219,7 @@ public class ChannelController {
         //Pour obtenir la posiiton du bouton par rapport à l'écran.
         //On veut que le menu contextuel soit correctement positionné par rapport au bouton : haut gauche du menu au bas gauche du bouton
         Bounds screenBounds = contextMenuBtn.localToScreen(contextMenuBtn.getBoundsInLocal());
-        channelContextMenu.show(contextMenuBtn,screenBounds.getMinX(),screenBounds.getMaxY());
+        channelContextMenu.show(contextMenuBtn, screenBounds.getMinX(), screenBounds.getMaxY());
     }
 
     /***
