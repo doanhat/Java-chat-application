@@ -14,17 +14,29 @@
             prefWidth="1400.0">
 
     <VBox fx:id="channelPage" prefWidth="1400">
-        <HBox fx:id="menuBar" alignment="CENTER_LEFT" style="-fx-background-color: #B9E6FF">
+        <!--<HBox alignment="CENTER_LEFT" style="-fx-background-color: #B9E6FF" prefWidth="1400">-->
             <!--La barre à retourner vers Main -->
-            <VBox>
-                <Text fx:id="channelName" styleClass="channel-title"/>
-                <Text fx:id="channelDescription" styleClass="channel-description"/>
-            </VBox>
-            <Pane HBox.hgrow="ALWAYS" />
-            <Button fx:id="seeMembersBtn" onAction="#seeMembers" style="-fx-background-color: transparent;"/>
-            <Button fx:id="addMemberBtn" onAction="#addUserToChannel" style="-fx-background-color: transparent;"/>
-            <Button fx:id="leaveChannelBtn" onAction="#leaveChannel" style="-fx-background-color: transparent;"/>
-        </HBox>
+            <GridPane fx:id="menuBar" style="-fx-background-color: #B9E6FF">
+                <columnConstraints>
+                    <ColumnConstraints fillWidth="false" prefWidth="1300"></ColumnConstraints>
+                    <ColumnConstraints halignment="CENTER" prefWidth="100"></ColumnConstraints>
+                </columnConstraints>
+                <children>
+                    <VBox GridPane.columnIndex="0">
+                        <Text fx:id="channelName" styleClass="channel-title"/>
+                        <Text fx:id="channelDescription" styleClass="channel-description"/>
+                    </VBox>
+                    <HBox GridPane.columnIndex="1" alignment="CENTER_RIGHT">
+                        <Button fx:id="seeMembersBtn" onAction="#seeMembers" style="-fx-background-color: transparent;"/>
+                        <Button fx:id="addMemberBtn" onAction="#addUserToChannel" style="-fx-background-color: transparent;"/>
+                        <Button fx:id="leaveChannelBtn" onAction="#leaveChannel" style="-fx-background-color: transparent;"/>
+                    </HBox>
+                </children>
+            </GridPane>
+
+           <!-- <Pane prefWidth="1200"/> -->
+
+      <!--  </HBox> -->
 
 
         <BorderPane fx:id="pageToDisplay"/>
