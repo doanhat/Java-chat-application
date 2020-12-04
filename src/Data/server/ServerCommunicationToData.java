@@ -24,8 +24,9 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     @Override
     public List<Channel> requestChannelCreation(Channel channel, Boolean typeOwner, Boolean typePublic, UserLite user) {
         // TODO UPDATE
-        this.channelsListController.addChannel(channel);
-        return this.channelsListController.getChannels();
+        //this.channelsListController.addChannel(channel);
+        //return this.channelsListController.getChannels();
+        return null;
     }
 
     @Override
@@ -84,23 +85,13 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
     @Override
     public List<Channel> getVisibleChannels(UserLite user) {
-
-       List<Channel> channels =  channelsListController.getChannels();
-       List<Channel> results = new ArrayList<>();
-        for (Channel channel: channels) {
-            if (channel.getType().equals(ChannelType.SHARED)){
-                results.add(channel);
-
-            }else {
-                List<UserLite> acceptedPersons = channel.getAcceptedPersons();
-                for (UserLite usr: acceptedPersons){
-                    if (usr.getId().equals(user.getId())) {
-                        results.add(channel);
-                    }
-                }
+       List<Channel> channels =  channelsListController.getSharedChannels();
+        for (Channel channel: channelsListController.getOwnedChannels()) {
+            if (channel.userInChannel(user.getId())){
+                channels.add(channel);
             }
         }
-        return results;
+        return channels;
     }
 
     @Override
