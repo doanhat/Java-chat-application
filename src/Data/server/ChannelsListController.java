@@ -77,7 +77,7 @@ public class ChannelsListController {
         if(ch!=null) {
             if(ch.getType().equals(ChannelType.SHARED)) {
                 sharedChannels.remove(ch);
-                // TODO delete JSON file
+                fileHandle.deleteJSONFile(channelID.toString());
             } else{ //Channel proprietaire
                 ownedChannels.remove(ch);
             }

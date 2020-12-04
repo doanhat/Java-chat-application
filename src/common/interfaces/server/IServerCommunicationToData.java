@@ -23,10 +23,10 @@ public interface IServerCommunicationToData {
     /**
      * Méthode pour faire la suppression d'un channel
      *
-     * @param channel le channel à être supprime
+     * @param channelID l'identificateur du channel à supprimer
      * @param user l'utilisateur qui fait la demande de suppression
      * */
-    List<Channel> requestChannelRemoval(Channel channel, UserLite user);
+    boolean requestChannelRemoval(UUID channelID, UserLite user);
 
     /**
      * NOTE: Suggestion de Comm: utiliser seulement channelID pour diminuer la taille du paquet réseau,
@@ -36,15 +36,6 @@ public interface IServerCommunicationToData {
      * Et cette méthode devrait retouner l'objet channel créé ou un objet null si le channel n'est pas créé
      */
 
-    /**
-     * Méthode pour ajouter un channel à la liste des channels actifs du serveur
-     *
-     * @param channel le channel à être ajouté
-     * @param typeOwner indique si le channel est de type propriétaire
-     * @param typePublic indique si le channel est de type public
-     * @param user l'utilisateur qui fait la demande
-     * */
-    List<Channel> requestChannelCreation(Channel channel, Boolean typeOwner, Boolean typePublic, UserLite user);
 
     /**
      * NOTE: Suggestion de Comm: utiliser une classe supplémentaire qui contient seulement les méta-données d'un channel
@@ -153,6 +144,24 @@ public interface IServerCommunicationToData {
      * @param description la description du channel
      * */
     Channel createPublicSharedChannel(String name, UserLite creator, String description);
+
+    /**
+     * Méthode pour créer un channel privé proprietaire
+     *
+     * @param name le nom du channel
+     * @param creator l'utilisateur créateur du channel
+     * @param description la description du channel
+     * */
+    Channel createPrivateOwnedChannel(String name, UserLite creator, String description);
+
+    /**
+     * Méthode pour créer un channel public proprietaire
+     *
+     * @param name le nom du channel
+     * @param creator l'utilisateur créateur du channel
+     * @param description la description du channel
+     * */
+    Channel createPublicOwnedChannel(String name, UserLite creator, String description);
 
     /**
      * Méthode pour créer un channel privé partagé

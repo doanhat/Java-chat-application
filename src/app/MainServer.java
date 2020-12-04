@@ -1,6 +1,9 @@
 package app;
 import Data.server.DataServerController;
 import Communication.server.CommunicationServerController;
+import common.sharedData.UserLite;
+
+import java.util.UUID;
 
 public class MainServer {
 

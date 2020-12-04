@@ -17,17 +17,17 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     }
 
     @Override
-    public List<Channel> requestChannelRemoval(Channel channel, UserLite user) {
-        return null;
+    public boolean requestChannelRemoval(UUID channelID, UserLite user) {
+        Channel channel = channelsListController.searchChannelById(channelID);
+        if(channel!=null){
+            if(channel.userIsAdmin(user.getId())) {
+                channelsListController.removeChannel(channelID);
+                return true;
+            }
+        }
+        return false;
     }
 
-    @Override
-    public List<Channel> requestChannelCreation(Channel channel, Boolean typeOwner, Boolean typePublic, UserLite user) {
-        // TODO UPDATE
-        //this.channelsListController.addChannel(channel);
-        //return this.channelsListController.getChannels();
-        return null;
-    }
 
     @Override
     public List<UserLite> updateChannel(Channel channel) {
@@ -100,7 +100,26 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
         ChannelType type = ChannelType.SHARED;
         Channel sChannel = new Channel(name,creator,description,channelVisibility,type);
         channelsListController.writeChannelDataToJSON(sChannel);
+        channelsListController.addChannel(sChannel);
         return sChannel;
+    }
+
+    @Override
+    public Channel createPrivateOwnedChannel(String name, UserLite creator, String description) {
+        Visibility channelVisibility = Visibility.PRIVATE;
+        ChannelType type = ChannelType.OWNED;
+        Channel oChannel = new Channel(name,creator,description,channelVisibility,type);
+        channelsListController.addChannel(oChannel);
+        return oChannel;
+    }
+
+    @Override
+    public Channel createPublicOwnedChannel(String name, UserLite creator, String description) {
+        Visibility channelVisibility = Visibility.PUBLIC;
+        ChannelType type = ChannelType.OWNED;
+        Channel oChannel = new Channel(name,creator,description,channelVisibility,type);
+        channelsListController.addChannel(oChannel);
+        return oChannel;
     }
 
     @Override
@@ -109,6 +128,7 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
         ChannelType type = ChannelType.SHARED;
         Channel sChannel= new Channel(name,creator,description,channelVisibility,type);
         channelsListController.writeChannelDataToJSON(sChannel);
+        channelsListController.addChannel(sChannel);
         return sChannel;
     }
 

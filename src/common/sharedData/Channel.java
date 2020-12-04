@@ -144,6 +144,14 @@ public class Channel implements Serializable {
 		return false;
 	}
 
+	public boolean userIsAdmin(UUID userID){
+		for (UserLite user : administrators) {
+			if(user.getId().equals(userID))
+				return true;
+		}
+		return false;
+	}
+
 	public void removeUser(UUID idUser){
 		this.acceptedPersons.removeIf(person ->(person.getId().equals(idUser)));
 	}
