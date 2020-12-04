@@ -201,6 +201,7 @@ public class CommunicationServerController extends CommunicationController {
 
         // TODO INTEGRATION request Data to fix return type to Channel in order to return only created channel or null
         //  to avoid exposing data and decrease run time complexity
+        /**
         List<Channel> allChannels = dataServer.requestChannelCreation(channel, proprietary, publicChannel, requester);
 
         if (allChannels != null) {
@@ -210,6 +211,9 @@ public class CommunicationServerController extends CommunicationController {
                 }
             }
         }
+         */
+        // TODO svp faire appel aux méthodes spécifiques pour la création d'un channel
+        //  p.e. createPublicSharedChannel / createPrivateOwnedChannel / ...
 
         return null;
     }
@@ -229,7 +233,10 @@ public class CommunicationServerController extends CommunicationController {
 
         // TODO INTEGRATION request Data to fix return type to Channel in order to return only boolean
         //  to avoid exposing data and decrease run time complexity
-        List<Channel> allChannels = dataServer.requestChannelRemoval(channel, requester);
+
+        // DÉJÀ CHANGÉ POUR RETOURNER UN BOOLEAN
+        /*
+        List<Channel> allChannels = dataServer.requestChannelRemoval(channel.getId(), requester);
 
         if (allChannels != null) {
             for (Channel c: allChannels) {
@@ -238,6 +245,7 @@ public class CommunicationServerController extends CommunicationController {
                 }
             }
         }
+        */
 
         return true;
     }
@@ -257,7 +265,7 @@ public class CommunicationServerController extends CommunicationController {
 
         // TODO INTEGRATION verify with Data what are the differences between requestAddUser and joinChannel
         // TODO INTEGRATION request Data return a boolean in requestAddUser and joinChannel for confirmation
-        dataServer.joinChannel(channel, user);
+        dataServer.joinChannel(channel.getId(), user);
 
         return true;
     }

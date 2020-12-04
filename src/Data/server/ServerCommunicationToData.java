@@ -17,16 +17,17 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     }
 
     @Override
-    public List<Channel> requestChannelRemoval(Channel channel, UserLite user) {
-        return null;
+    public boolean requestChannelRemoval(UUID channelID, UserLite user) {
+        Channel channel = channelsListController.searchChannelById(channelID);
+        if(channel!=null){
+            if(channel.userIsAdmin(user.getId())) {
+                channelsListController.removeChannel(channelID);
+                return true;
+            }
+        }
+        return false;
     }
 
-    @Override
-    public List<Channel> requestChannelCreation(Channel channel, Boolean typeOwner, Boolean typePublic, UserLite user) {
-        // TODO UPDATE
-        this.channelsListController.addChannel(channel);
-        return this.channelsListController.getChannels();
-    }
 
     @Override
     public List<UserLite> updateChannel(Channel channel) {
@@ -84,23 +85,13 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
     @Override
     public List<Channel> getVisibleChannels(UserLite user) {
-
-       List<Channel> channels =  channelsListController.getChannels();
-       List<Channel> results = new ArrayList<>();
-        for (Channel channel: channels) {
-            if (channel.getType().equals(ChannelType.SHARED)){
-                results.add(channel);
-
-            }else {
-                List<UserLite> acceptedPersons = channel.getAcceptedPersons();
-                for (UserLite usr: acceptedPersons){
-                    if (usr.getId().equals(user.getId())) {
-                        results.add(channel);
-                    }
-                }
+       List<Channel> channels =  channelsListController.getSharedChannels();
+        for (Channel channel: channelsListController.getOwnedChannels()) {
+            if (channel.userInChannel(user.getId())){
+                channels.add(channel);
             }
         }
-        return results;
+        return channels;
     }
 
     @Override
@@ -109,7 +100,26 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
         ChannelType type = ChannelType.SHARED;
         Channel sChannel = new Channel(name,creator,description,channelVisibility,type);
         channelsListController.writeChannelDataToJSON(sChannel);
+        channelsListController.addChannel(sChannel);
         return sChannel;
+    }
+
+    @Override
+    public Channel createPrivateOwnedChannel(String name, UserLite creator, String description) {
+        Visibility channelVisibility = Visibility.PRIVATE;
+        ChannelType type = ChannelType.OWNED;
+        Channel oChannel = new Channel(name,creator,description,channelVisibility,type);
+        channelsListController.addChannel(oChannel);
+        return oChannel;
+    }
+
+    @Override
+    public Channel createPublicOwnedChannel(String name, UserLite creator, String description) {
+        Visibility channelVisibility = Visibility.PUBLIC;
+        ChannelType type = ChannelType.OWNED;
+        Channel oChannel = new Channel(name,creator,description,channelVisibility,type);
+        channelsListController.addChannel(oChannel);
+        return oChannel;
     }
 
     @Override
@@ -118,6 +128,7 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
         ChannelType type = ChannelType.SHARED;
         Channel sChannel= new Channel(name,creator,description,channelVisibility,type);
         channelsListController.writeChannelDataToJSON(sChannel);
+        channelsListController.addChannel(sChannel);
         return sChannel;
     }
 
@@ -161,13 +172,19 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     }
 
     @Override
-    public List<UserLite> joinChannel(Channel ch, UserLite user) {
-        return null;
+    public void joinChannel(UUID ch, UserLite user) {
+        Channel channel = channelsListController.searchChannelById(ch);
+        if(channel!=null){
+            channel.addUser(user);
+        }
     }
 
     @Override
-    public void leaveChannel(Channel ch, UserLite user) {
-
+    public void leaveChannel(UUID ch, UserLite user) {
+        Channel channel = channelsListController.searchChannelById(ch);
+        if(channel!=null){
+            channel.removeUser(user.getId());
+        }
     }
 
     @Override

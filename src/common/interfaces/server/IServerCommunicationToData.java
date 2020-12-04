@@ -23,10 +23,10 @@ public interface IServerCommunicationToData {
     /**
      * Méthode pour faire la suppression d'un channel
      *
-     * @param channel le channel à être supprime
+     * @param channelID l'identificateur du channel à supprimer
      * @param user l'utilisateur qui fait la demande de suppression
      * */
-    List<Channel> requestChannelRemoval(Channel channel, UserLite user);
+    boolean requestChannelRemoval(UUID channelID, UserLite user);
 
     /**
      * NOTE: Suggestion de Comm: utiliser seulement channelID pour diminuer la taille du paquet réseau,
@@ -36,15 +36,6 @@ public interface IServerCommunicationToData {
      * Et cette méthode devrait retouner l'objet channel créé ou un objet null si le channel n'est pas créé
      */
 
-    /**
-     * Méthode pour ajouter un channel à la liste des channels actifs du serveur
-     *
-     * @param channel le channel à être ajouté
-     * @param typeOwner indique si le channel est de type propriétaire
-     * @param typePublic indique si le channel est de type public
-     * @param user l'utilisateur qui fait la demande
-     * */
-    List<Channel> requestChannelCreation(Channel channel, Boolean typeOwner, Boolean typePublic, UserLite user);
 
     /**
      * NOTE: Suggestion de Comm: utiliser une classe supplémentaire qui contient seulement les méta-données d'un channel
@@ -155,6 +146,24 @@ public interface IServerCommunicationToData {
     Channel createPublicSharedChannel(String name, UserLite creator, String description);
 
     /**
+     * Méthode pour créer un channel privé proprietaire
+     *
+     * @param name le nom du channel
+     * @param creator l'utilisateur créateur du channel
+     * @param description la description du channel
+     * */
+    Channel createPrivateOwnedChannel(String name, UserLite creator, String description);
+
+    /**
+     * Méthode pour créer un channel public proprietaire
+     *
+     * @param name le nom du channel
+     * @param creator l'utilisateur créateur du channel
+     * @param description la description du channel
+     * */
+    Channel createPublicOwnedChannel(String name, UserLite creator, String description);
+
+    /**
      * Méthode pour créer un channel privé partagé
      *
      * @param name le nom du channel
@@ -213,15 +222,15 @@ public interface IServerCommunicationToData {
      * @param channel le channel auquel l'utilisateur va s'abonner
      * @param user l'utilisateur qui va s'abonner au channel
      * */
-    List<UserLite> joinChannel(Channel channel, UserLite user);
+    void joinChannel(UUID channel, UserLite user);
 
     /**
-     * Méthode pour se désabonner d'un channel
+     * Méthode pour se désabonner d'un channel volontairement 
      *
-     * @param channel le channel duquel l'utilisateur va se désabonner
+     * @param channelID l'identificatuer du channel auquel l'utilisateur va se désabonner
      * @param user l'utilisateur qui va se désabonner
      * */
-    void leaveChannel(Channel channel, UserLite user);
+    void leaveChannel(UUID channelID, UserLite user);
 
     /**
      * Méthode qui renvoie l'adresse de l'utilisateur

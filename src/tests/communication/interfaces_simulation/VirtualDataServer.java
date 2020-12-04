@@ -20,21 +20,25 @@ public class VirtualDataServer implements IServerCommunicationToData {
     }
 
     @Override
-    public List<Channel> requestChannelRemoval(Channel channel, UserLite user) {
+    public boolean requestChannelRemoval(UUID channel, UserLite user) {
         if (channel == null || user == null) {
-            return null;
+            return false;
         }
 
-        Channel correctChannel = channels.get(channel.getId());
+        Channel correctChannel = channels.get(channel);
 
         if (correctChannel != null && correctChannel.getCreator().getId() == user.getId()) {
             channels.remove(correctChannel.getId());
 
-            return new ArrayList<>(channels.values());
+            return true;
         }
 
-        return null;
+        return false;
     }
+
+    /*
+    //Méthode supprimée confirmer si besoin de cette méthode, il a été remplacée par
+    // différentes méthodes de création
 
     @Override
     public List<Channel> requestChannelCreation(Channel channel, Boolean typeOwner, Boolean typePublic, UserLite user) {
@@ -55,6 +59,8 @@ public class VirtualDataServer implements IServerCommunicationToData {
 
         return new ArrayList<>(channels.values());
     }
+    */
+
 
     @Override
     public List<UserLite> updateChannel(Channel channel) {
@@ -148,7 +154,17 @@ public class VirtualDataServer implements IServerCommunicationToData {
     public Channel createPublicSharedChannel(String name, UserLite creator, String description) {
         return null;
     }
-    
+
+    @Override
+    public Channel createPrivateOwnedChannel(String name, UserLite creator, String description) {
+        return null;
+    }
+
+    @Override
+    public Channel createPublicOwnedChannel(String name, UserLite creator, String description) {
+        return null;
+    }
+
     @Override
     public Channel createPrivateSharedChannel(String name, UserLite creator, String description) {
         return null;
@@ -196,23 +212,21 @@ public class VirtualDataServer implements IServerCommunicationToData {
     }
 
     @Override
-    public List<UserLite> joinChannel(Channel channel, UserLite user) {
-        Channel correctChannel = channels.get(channel.getId());
+    public void joinChannel(UUID channel, UserLite user) {
+        Channel correctChannel = channels.get(channel);
 
         if (correctChannel == null)
         {
             System.err.println("Cannot find channel");
-            return new ArrayList<>();
         }
 
         correctChannel.addUser(user);
 
-        return correctChannel.getAcceptedPersons();
     }
 
     @Override
-    public void leaveChannel(Channel channel, UserLite user) {
-        Channel correctChannel = channels.get(channel.getId());
+    public void leaveChannel(UUID channel, UserLite user) {
+        Channel correctChannel = channels.get(channel);
 
         if (correctChannel == null)
         {

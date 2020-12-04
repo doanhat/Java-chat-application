@@ -97,6 +97,20 @@ public class FileHandle<T> {
         list.add((T) object);
         writeJSONToFile(fileName,list);
     }
+
+    public boolean deleteJSONFile(String fileName){
+        String sysPath = this.path + fileName + ".json";
+        System.out.println(sysPath);
+        try {
+            File f = new File(sysPath);
+            if(f.delete())
+                return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public void setPath(String path) {
         this.path = path;
     }
