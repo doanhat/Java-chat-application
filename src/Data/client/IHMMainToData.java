@@ -32,7 +32,7 @@ public class IHMMainToData implements IIHMMainToData {
      */
     @Override
     public List<Channel> getChannels() {
-        return this.dataController.getChannelController().getChannels();
+        return this.dataController.getChannelController().getChannelList();
     }
 
     /**

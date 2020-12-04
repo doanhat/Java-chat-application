@@ -23,23 +23,19 @@ public class UserController extends Controller {
 
     public boolean verificationAccount(String nickName, String password){
 
-        /**
-         * ON TEST EN UN USER EN DUR POUR L'INTEGRATION
-         */
-
         try {
             List<User> listUserLogin = new FileHandle<User>(LocationType.client, FileType.user).readJSONFileToList("users",User.class);
             for (User user : listUserLogin){
                 if (user.getNickName().equals(nickName) & user.getPassword().equals(password)){
                     this.localUser = user;
                     this.comClient.userConnect(user.getUserLite());
+                    return true;
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        return true;
+        return false;
     }
 
     /**

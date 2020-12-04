@@ -1,5 +1,8 @@
 package Data.client;
 
+import Data.resourceHandle.FileHandle;
+import Data.resourceHandle.FileType;
+import Data.resourceHandle.LocationType;
 import common.interfaces.client.IDataToCommunication;
 import common.interfaces.client.IDataToIHMChannel;
 import common.interfaces.client.IDataToIHMMain;
@@ -10,30 +13,27 @@ import java.util.List;
 import java.util.UUID;
 
 public class ChannelController extends Controller{
+    private List<Channel> channelList;
+
+    public List<Channel> getChannelList() {
+        return channelList;
+    }
+
+    public void setChannelList(List<Channel> channelList) {
+        this.channelList = channelList;
+    }
     public ChannelController(IDataToCommunication comClient, IDataToIHMChannel channelClient, IDataToIHMMain mainClient) {
         super(comClient, channelClient, mainClient);
+        channelList = new FileHandle<Channel>(LocationType.client, FileType.channel).readAllJSONFilesToList(Channel.class);
     }
-    /**
-     * Get all channels
-     *
-     * @return List<Channel>
-     */
-    public List<Channel> getChannels() {
-        List<Channel> channels = new ArrayList<Channel>();
-
-        // TODO : Get real data
-        for (int i = 1; i < 5; i++) {
-            channels.add(new Channel("channel n°" + i, null, "Description du channel n°" + i, i % 2 == 0 ? Visibility.PUBLIC : Visibility.PRIVATE, ChannelType.SHARED));
-        }
-        return channels;
-    }
+  
     /**
      * Add visible channel.
      *
      * @param channel the channel
      */
     public void addVisibleChannel(Channel channel) {
-        List<Channel> channels = getChannels();
+        List<Channel> channels = getChannelList();
         channels.add(channel);
         this.mainClient.addChannelToList(channel);
     }
@@ -45,7 +45,7 @@ public class ChannelController extends Controller{
      * @param channelID the channel
      */
     public void userAddedToChannel(UserLite user, UUID channelID) {
-        List<Channel> channels = getChannels();
+        List<Channel> channels = getChannelList();
         for (Channel c : channels) {
             if(c.getId() == channelID) {
                 c.addUser(user);
@@ -112,10 +112,15 @@ public class ChannelController extends Controller{
     /**
      * Gets history.
      *
-     * @param channel the channel
+     * @param channelId channel id
      * @return history
      */
-    List<Message> getHistory(Channel channel) {
+    List<Message> getHistory(UUID channelId) {
+        for (Channel c : channelList){
+            if (c.getId().equals(channelId)){
+                return c.getMessages();
+            }
+        }
         return null;
     }
 
