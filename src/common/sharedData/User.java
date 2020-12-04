@@ -68,6 +68,10 @@ public class User extends UserLite {
 	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
 	}
+	public void setBirthDate(String birthDate) throws ParseException {
+		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+		this.birthDate = df.parse(birthDate);
+	}
 
 	public UserLite getUserLite(){
 		return new UserLite(this);

@@ -9,6 +9,7 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class FileHandle<T> {
@@ -91,6 +92,11 @@ public class FileHandle<T> {
         }
     }
 
+    public void addObjectToFile(String fileName, Object object, Class<T> tClass){
+        List<T> list = readJSONFileToList(fileName,tClass);
+        list.add((T) object);
+        writeJSONToFile(fileName,list);
+    }
     public void setPath(String path) {
         this.path = path;
     }

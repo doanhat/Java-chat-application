@@ -11,6 +11,7 @@ import common.sharedData.User;
 import common.sharedData.UserLite;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,8 +19,27 @@ import java.util.UUID;
 public class UserController extends Controller {
     public UserController(IDataToCommunication comClient, IDataToIHMChannel channelClient, IDataToIHMMain mainClient) {
         super(comClient, channelClient, mainClient);
+        fileHandle = new FileHandle<User>(LocationType.client, FileType.user);
+        localUserList = fileHandle.readJSONFileToList("users",User.class);
     }
     private User localUser;
+    private List<User> localUserList;
+    private FileHandle<User> fileHandle;
+    public User getLocalUser() {
+        return localUser;
+    }
+
+    public void setLocalUser(User localUser) {
+        this.localUser = localUser;
+    }
+
+    public List<User> getLocalUserList() {
+        return localUserList;
+    }
+
+    public void setLocalUserList(List<User> localUserList) {
+        this.localUserList = localUserList;
+    }
 
     public boolean verificationAccount(String nickName, String password){
 
@@ -92,5 +112,11 @@ public class UserController extends Controller {
             users.add(new UserLite("user " + i, "avatar"));
         }
         return users;
+    }
+
+    public boolean createAccount(String nickName, String avatar, String password, String lastName, String firstName, Date birthDate) {
+        User user = new User(nickName,avatar,password,lastName,firstName,birthDate);
+        fileHandle.addObjectToFile("users",user,User.class);
+        return true;
     }
 }

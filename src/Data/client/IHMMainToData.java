@@ -86,9 +86,9 @@ public class IHMMainToData implements IIHMMainToData {
      * @param password the password
      */
     @Override
-    public void localAuthentification(String nickName, String password) {
+    public boolean localAuthentification(String nickName, String password) {
         UserController userController = dataController.getUserController();
-        userController.verificationAccount(nickName,password);
+        return userController.verificationAccount(nickName,password);
     }
 
     /**
@@ -102,8 +102,8 @@ public class IHMMainToData implements IIHMMainToData {
      * @param birthDate the birth date
      */
     @Override
-    public void createAccount(String nickName, String avatar, String password, String lastName, String firstName, Date birthDate) {
-
+    public boolean createAccount(String nickName, String avatar, String password, String lastName, String firstName, Date birthDate) {
+        return dataController.getUserController().createAccount(nickName,avatar,password,lastName,firstName,birthDate);
     }
 
     // TODO UPGRATE
