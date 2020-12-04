@@ -22,6 +22,12 @@ public class IHMTools {
         child.minHeightProperty().bind(parent.minHeightProperty().divide(i));
     }
 
+    /**
+     * Méthode permettant d'afficher des popups de confirmation
+     *
+     * @param text le contenu du message de la popup
+     * @return le retour de la popup : True si confirmé, False si annulé
+     */
     public static boolean confirmationPopup(String text){
         ButtonType confirm = new ButtonType("Confirmer");
         ButtonType annul = new ButtonType("Annuler");
@@ -56,6 +62,11 @@ public class IHMTools {
         return false;
     }
 
+    /**
+     * Fonction pour créer une popup de notification
+     * @param message le message à afficher
+     * @return l'objet popup
+     */
     public static Popup createPopup(final String message) {
         final Popup popup = new Popup();
         popup.setAutoFix(true);
@@ -75,6 +86,11 @@ public class IHMTools {
         return popup;
     }
 
+    /**
+     * Méthode pour créer et afficher la popup de notification
+     * @param message message à afficher
+     * @param window la fenètre principale sur laquelle la notification doit être affichée
+     */
     public static void showPopupMessage(final String message, final Window window) {
         final Popup popup = createPopup(message);
         popup.setOnShown(new EventHandler<WindowEvent>() {

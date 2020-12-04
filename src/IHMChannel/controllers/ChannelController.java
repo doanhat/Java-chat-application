@@ -206,6 +206,7 @@ public class ChannelController {
         if (result) {
             /*  openedChannels.remove(channelMap.get(currentChannel));
         channelMap.remove(currentChannel)*/
+        }
     }
 
 
