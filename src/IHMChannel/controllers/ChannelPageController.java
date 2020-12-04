@@ -91,6 +91,7 @@ public class ChannelPageController {
         ctrl.getIhmChannelController().setChannelPageController(this);
         ctrl.configureMessageDisplay(ihmChannelController);
         ctrl.configureMemberDisplay(ihmChannelController);
+        ctrl.setChannel(channel);
         Tab tab = new Tab(channel.getName());
         tab.setId(channel.getName());
         tab.setOnClosed((event->{
