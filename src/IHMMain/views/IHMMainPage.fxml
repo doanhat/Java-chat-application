@@ -7,7 +7,6 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 
-
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IHMMain.controllers.IHMMainPage">
    <children>
       <GridPane>
@@ -19,7 +18,8 @@
           <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button mnemonicParsing="false" text="&lt;" />
+            <Button mnemonicParsing="false" onAction="#deconnexion" text="Déconnexion" />
+            <Button mnemonicParsing="false" text="&lt;" GridPane.columnIndex="1" />
             <Label text="Ici sera la barre de navigation" GridPane.columnIndex="1" />
          </children>
       </GridPane>

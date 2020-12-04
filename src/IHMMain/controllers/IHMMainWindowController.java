@@ -5,9 +5,11 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import Communication.client.CommunicationClientInterface;
 import IHMMain.IHMMainController;
 import app.MainWindowController;
 import common.IHMTools.*;
+import common.interfaces.client.IIHMMainToCommunication;
 import common.sharedData.Channel;
 import common.sharedData.ChannelType;
 import common.sharedData.Visibility;
@@ -29,6 +31,8 @@ public class IHMMainWindowController implements Initializable{
     private IHMMainController ihmMainController;
 
     private MainWindowController mainWindowController;
+
+    private ConnectionController connectionController;
 
     @FXML
     private AnchorPane root;
@@ -162,6 +166,26 @@ public class IHMMainWindowController implements Initializable{
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    @FXML
+    public void onSeDeconnecterButtonClick(){
+        System.out.println("deconnexion !! ");
+        try {
+            ihmMainController.getIIHMMainToCommunication().disconnect();
+
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../views/Connection.fxml"));
+            Parent parent = fxmlLoader.load(); //On recupère le noeud racine du fxml chargé
+            connectionController = fxmlLoader.getController(); //On récupère la classe controller liée au fxml
+            connectionController.setMainWindowController(mainWindowController); //On donne au controller fils une référence de son controller parent;
+            this.root.getChildren().addAll(parent); //On ajoute le noeud parent (fxml) au noeud racine de cette vue
+            IHMTools.fitSizeToParent((Region) root, (Region) parent);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+
     }
 
     private void loadCreationChannelPopup(Visibility type) throws IOException {
