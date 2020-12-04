@@ -8,38 +8,43 @@
 
 <?import javafx.scene.text.Text?>
 <?import java.net.URL?>
+<?import javafx.geometry.Insets?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="IHMChannel.controllers.ChannelController"
             prefWidth="1400.0">
 
     <VBox fx:id="channelPage" prefWidth="1400">
-        <HBox fx:id="menuBar" alignment="CENTER_LEFT" style="-fx-background-color: #B9E6FF">
+        <!--<HBox alignment="CENTER_LEFT" style="-fx-background-color: #B9E6FF" prefWidth="1400">-->
             <!--La barre à retourner vers Main -->
+            <Button fx:id="homeBtn" onAction="#homeBtnHandler"/>
             <VBox>
-                <Text fx:id="channelName" styleClass="channel-title"/>
+                <HBox>
+                    <Label fx:id="channelName" styleClass="channel-title">
+                        <contextMenu>
+                            <ContextMenu fx:id="channelContextMenu">
+                                <items>
+                                    <MenuItem text="Modifier les infos du channel" onAction="#modifyChannel"/>
+                                    <CheckMenuItem fx:id="seeMembersMenuCheck" text="Voir la liste des utilisateurs" onAction="#seeMembers"/>
+                                    <MenuItem text="Changer les droits" onAction="#changeRights"/>
+                                    <MenuItem text="Kicker un utilisateur" onAction="#kickMember"/>
+                                    <MenuItem text="Liste des utilisateurs kickés" onAction="#seeKickedMembers"/>
+                                    <MenuItem text="Supprimer channel" onAction="#deleteChannel"/>
+                                </items>
+                            </ContextMenu>
+                        </contextMenu>
+                    </Label>
+                    <Button fx:id="contextMenuBtn" text="v" onAction="#openChannelContextMenu"/>
+                </HBox>
+                            
                 <Text fx:id="channelDescription" styleClass="channel-description"/>
             </VBox>
             <Pane HBox.hgrow="ALWAYS" />
-            <Button fx:id="seeMembersBtn" onAction="#seeMembers" style="-fx-background-color: transparent;"/>
-            <Button fx:id="addMemberBtn" onAction="#addUserToChannel" style="-fx-background-color: transparent;"/>
-            <Button fx:id="leaveChannelBtn" onAction="#leaveChannel" style="-fx-background-color: transparent;"/>
+            <Button fx:id="seeMembersBtn" onAction="#seeMembers" styleClass="icon-bar-btn"/>
+            <Button fx:id="addMemberBtn" onAction="#addUserToChannel" styleClass="icon-bar-btn"/>
+            <Button fx:id="leaveChannelBtn" onAction="#leaveChannel" styleClass="icon-bar-btn" />
         </HBox>
-
-
         <BorderPane fx:id="pageToDisplay"/>
-        <!--
-        MOVED TO ChannelMessages.fxml
-        <ListView fx:id="listMessages">
-
-        </ListView>
-
-        <HBox>
-            <ImageView fx:id="profilePic"/>
-            <TextArea fx:id="typedText"/>
-            <Button fx:id="sendBtn" onAction="#sendMessage"/>
-        </HBox>
-        -->
     </VBox>
     <stylesheets>
         <URL value="file:src/common/IHMCommon/common.css"></URL>

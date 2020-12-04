@@ -13,10 +13,11 @@
             fx:controller="IHMChannel.controllers.ChannelMessagesController">
     <VBox prefWidth="1400">
         <ListView fx:id="listMessages"/>
-        <HBox>
+        <HBox prefHeight="-Infinity" styleClass="envoi-message" alignment="CENTER_LEFT">
+            <Pane HBox.hgrow="ALWAYS" />
             <ImageView fx:id="profilePic"/>
-            <TextArea fx:id="typedText"/>
-            <Button fx:id="sendBtn" onAction="#sendMessage" styleClass="secondary-btn"/>
+            <TextArea fx:id="typedText" prefWidth="1200"/>
+            <Button fx:id="sendBtn" onAction="#sendMessage" styleClass="icon-bar-btn"/>
             <Button fx:id="testReception" text="test reception" onAction="#receiveMessage"/>
         </HBox>
     </VBox>
