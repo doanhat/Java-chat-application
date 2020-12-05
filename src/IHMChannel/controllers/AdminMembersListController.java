@@ -42,13 +42,14 @@ public class AdminMembersListController {
 
         creator = this.channel.getCreator();
 
-        adminMembers.addAll(this.channel.getAdministrators());
-        adminMembers.remove(creator);
-
-        this.channel.getAcceptedPersons().forEach(userLite -> {
-            if(!adminMembers.contains(userLite) && userLite!=creator){channelMembers.add(userLite);}
+        this.channel.getAdministrators().forEach(userLite -> {
+            if(!userLite.getId().equals(creator.getId())){adminMembers.add(userLite);}
         });
 
+        this.channel.getAcceptedPersons().forEach(userLite -> {
+
+            if(!adminMembers.contains(userLite) && !userLite.getId().equals(creator.getId())){channelMembers.add(userLite);}
+        });
     }
 
     /**

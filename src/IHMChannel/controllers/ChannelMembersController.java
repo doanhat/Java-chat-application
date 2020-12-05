@@ -38,8 +38,6 @@ public class ChannelMembersController {
 
     ObservableList<HBox> membersToDisplay = FXCollections.observableArrayList();
     Channel channel;
-    ListChangeListener<UserLite> membersListListener;
-    ListChangeListener<UserLite> adminsListListener;
 
     AlphabeticalMembersListDisplay alphabeticalMembersListDisplay;
     AdminMembersListDisplay adminMembersListDisplay;
