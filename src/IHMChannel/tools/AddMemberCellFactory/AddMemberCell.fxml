@@ -7,6 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.text.Text?>
+<?import java.net.URL?>
 <fx:root type="javafx.scene.control.ListCell"
          xmlns="http://javafx.com/javafx"
          xmlns:fx="http://javafx.com/fxml">
@@ -20,9 +21,14 @@
 
             <ImageView fx:id="profilePicture" GridPane.columnIndex="0"/>
             <Text fx:id="username" GridPane.columnIndex="1"/>
-            <Button fx:id="addBtn" GridPane.columnIndex="2" text="+"/>
+            <Button fx:id="addBtn" GridPane.columnIndex="2" text="+" style="-fx-background-color: transparent;"/>
 
         </GridPane>
     </graphic>
+
+    <stylesheets>
+        <URL value="file:src/IHMChannel/css/style.css"></URL>
+    </stylesheets>
+
 </fx:root>
 

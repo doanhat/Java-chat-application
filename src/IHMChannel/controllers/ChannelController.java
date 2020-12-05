@@ -8,13 +8,11 @@ import common.sharedData.Channel;
 import common.sharedData.Message;
 import common.sharedData.UserLite;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.ContextMenu;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -154,14 +152,15 @@ public class ChannelController {
      * Affiche la pop-up de sélection d'utilisateur
      */
     public void addUserToChannel() {
-        //Affiche le FXML "AddMember" dans une pop-up
+        //Affiche le FXML "AddMemberPopUp" dans une pop-up
         //En JavaFX, pop-up = fenêtre transparente sans aucun style.
 
         Popup popup = new Popup();
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../views/AddMember.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../views/AddMemberPopUp.fxml"));
             popup.getContent().add(fxmlLoader.load());
-            ((AddMemberController) fxmlLoader.getController()).setIhmChannelController(ihmChannelController);
+            ((AddMemberPopUpController) fxmlLoader.getController()).setIhmChannelController(ihmChannelController);
+            ((AddMemberPopUpController) fxmlLoader.getController()).setChannelController(this);
             popup.setAutoHide(true); //disparaît si on clique ailleurs
             Bounds screenBounds = addMemberBtn.localToScreen(addMemberBtn.getBoundsInLocal()); //alignement pop up et bouton
             popup.show(addMemberBtn.getScene().getWindow(), screenBounds.getMinX(), screenBounds.getMaxY());
