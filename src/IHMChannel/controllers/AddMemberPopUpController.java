@@ -28,8 +28,8 @@ public class AddMemberPopUpController {
 
     public void setUsersObservableList(List<UserLite> usersObservableList) {
         this.usersObservableList = FXCollections.observableArrayList(usersObservableList);
-        //TODO décommenter ligne dessous
-        //usersListView.setItems(this.usersObservableList);
+
+        usersListView.setItems(this.usersObservableList);
     }
 
     private ChannelController channelController;

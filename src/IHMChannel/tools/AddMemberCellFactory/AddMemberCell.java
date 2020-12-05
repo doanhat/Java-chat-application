@@ -5,6 +5,7 @@ import IHMChannel.controllers.ChannelController;
 import IHMChannel.controllers.PopUpConfirmationController;
 import IHMChannel.controllers.SendInvitePopUpController;
 import common.sharedData.Channel;
+import common.sharedData.Message;
 import common.sharedData.UserLite;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -15,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.ListCell;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
@@ -85,12 +87,10 @@ public class AddMemberCell extends ListCell<UserLite> {
                 public void handle(ActionEvent e)
                 {
                     System.out.println("You have invited " + user.getNickName() + " to channel " + channel.getName()+".\nMessage : "+sendInvitePopUpController.getInvitationMessage());
-                    //TODO appel interface
-                    //channelController.getIhmChannelController().getInterfaceToCommunication().
+                    channelController.getIhmChannelController().getInterfaceToCommunication().sendInvite(user,channel, sendInvitePopUpController.getInvitationMessage());
                     popUpWindow.close();
                 }
             });
-
         });
     }
 
@@ -109,6 +109,12 @@ public class AddMemberCell extends ListCell<UserLite> {
         }
     }
 
+    /**
+     * Méthode qui permet de compléter la cellule de liste
+     * Impliquée par l'utilisation de Cell Factory
+     * @param item
+     * @param empty
+     */
     @Override
     protected void updateItem(UserLite item, boolean empty) {
         super.updateItem(item, empty);
@@ -120,8 +126,7 @@ public class AddMemberCell extends ListCell<UserLite> {
         }
         else {
             username.setText(item.getNickName());
-            //TODO voir pour l'image
-            //profilePicture.setImage(new Image(item.getAvatar()));
+            profilePicture.setImage(new Image(item.getAvatar()));
             setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         }
     }
