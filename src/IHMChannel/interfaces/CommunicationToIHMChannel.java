@@ -43,7 +43,7 @@ import java.util.UUID;
             channel.setMessages(history);
             controller.getChannelPageController().addOpenedChannel(channel);
             controller.getChannelPageController().getChannelController(channel.getId()).setConnectedMembersList(connectedUsers);
-            controller.getInterfaceToIHMMain().updateOpenedChannelList(controller.getOpenedChannelsList());
+            controller.getInterfaceToIHMMain().setOpenedChannelsList(controller.getOpenedChannelsList());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -52,13 +52,13 @@ import java.util.UUID;
     @Override
     public void addConnectedUser(UUID channelId, UserLite user) {
         controller.getChannelPageController().getChannelController(channelId).addConnectedUser(user);
-        controller.getInterfaceToIHMMain().updateOpenedChannelList(controller.getOpenedChannelsList());
+        controller.getInterfaceToIHMMain().setOpenedChannelsList(controller.getOpenedChannelsList());
     }
 
     @Override
     public void removeConnectedUser(UUID channelId, UserLite user) {
         controller.getChannelPageController().getChannelController(channelId).removeConnectedUser(user);
-        controller.getInterfaceToIHMMain().updateOpenedChannelList(controller.getOpenedChannelsList());
+        controller.getInterfaceToIHMMain().setOpenedChannelsList(controller.getOpenedChannelsList());
     }
 
     private IHMChannelController controller;
