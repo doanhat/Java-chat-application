@@ -3,6 +3,10 @@ package IHMMain.implementations;
 import IHMMain.IHMMainController;
 import common.interfaces.client.IIHMChannelToIHMMain;
 import common.sharedData.Channel;
+import common.sharedData.UserLite;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import java.util.List;
 
@@ -25,5 +29,17 @@ public class IHMChannelToIHMMain implements IIHMChannelToIHMMain {
     }
 
     @Override
-    public void updateOpenedChannelList(List<Channel> openedChannels) {}
+    public void setOpenedChannelsList(List<Channel> openedChannels) {
+
+    }
+
+    @Override
+    public void setCurrentVisibleChannel(Channel channel) {
+
+    }
+
+    @Override
+    public List<UserLite> getConnectedUsersList() {
+        return new ArrayList<>();
+    }
 }
