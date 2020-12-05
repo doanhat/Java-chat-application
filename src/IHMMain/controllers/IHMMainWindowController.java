@@ -92,7 +92,8 @@ public class IHMMainWindowController implements Initializable{
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK){
                 // ... user chose OK
-                //ihmMainController.getIIHMMainToCommunication().disconnect();
+                ihmMainController.getIIHMMainToCommunication().disconnect();
+                System.exit(0);
             } else {
                 // ... user chose CANCEL or closed the dialog
                 event.consume();
