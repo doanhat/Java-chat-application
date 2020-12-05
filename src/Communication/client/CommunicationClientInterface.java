@@ -3,9 +3,11 @@ package Communication.client;
 import Communication.common.Parameters;
 import Communication.messages.client_to_server.*;
 import Communication.messages.client_to_server.proprietary_channels.AddAdminPropMessage;
+import Communication.messages.client_to_server.proprietary_channels.SendInvitePropMessage;
 import Communication.messages.client_to_server.shared_channels.AddAdminSharedMessage;
 import Communication.messages.client_to_server.proprietary_channels.AskToJoinPropMessage;
 import Communication.messages.client_to_server.shared_channels.AskToJoinSharedMessage;
+import Communication.messages.client_to_server.shared_channels.SendInviteSharedMessage;
 import common.interfaces.client.*;
 import common.sharedData.Channel;
 import common.sharedData.ChannelType;
@@ -95,15 +97,22 @@ public class CommunicationClientInterface implements IDataToCommunication,
     /* -------------------------- IIHMChannelToCommunication interface implementations -------------------------------*/
 
     /**
-     * Transfert au serveur l'envoie d'un message d'invitation au serveur'envoi
+     * Transfert au serveur l'envoi d'un message d'invitation au serveur'envoi
      * d'une invitation a rejoindre un channel
      *
-     * @param receiver   [UserLite] Utilisateur qui doit recevoir l'invitation
-     * @param channel [Channel] Channel concerne
-     * @param message  [String] Message d'invitation
+     * @param guest [UserLite] Utilisateur invité au channel
+     * @param channel [Channel] Channel auquel guest est invité
+     * @param message [String] Message d'invitation
      **/
-    public void sendInvite(UserLite receiver, Channel channel, String message) {
-        // TODO V2
+    public void sendInvite(UserLite guest, Channel channel, String message) {
+        if (guest == null || channel == null || message == null) {
+            return;
+        }
+        if (channel.getType() == ChannelType.OWNED) {
+            commController.sendMessage(new SendInvitePropMessage(guest, channel, message));
+        } else if (channel.getType() == ChannelType.SHARED) {
+            commController.sendMessage(new SendInviteSharedMessage(guest, channel, message));
+        }
     }
 
     /**

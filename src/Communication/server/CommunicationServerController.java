@@ -11,7 +11,7 @@ import Communication.common.CommunicationController;
 import Communication.common.NetworkWriter;
 import Communication.messages.abstracts.NetworkMessage;
 import Communication.messages.server_to_client.UserDisconnectedMessage;
-import Communication.messages.server_to_client.UserHasLeftChannelMessage;
+import Communication.messages.server_to_client.UserLeftChannelMessage;
 import Communication.messages.server_to_client.ValideUserLeftMessage;
 import common.interfaces.server.IServerCommunicationToData;
 import common.sharedData.Channel;
@@ -282,7 +282,7 @@ public class CommunicationServerController extends CommunicationController {
 		Channel ch = dataServer.getChannel(channelID);
 		dataServer.leaveChannel(ch.getId(), userLite);
 		sendMessage(userLite.getId(), new ValideUserLeftMessage(channelID));
-		sendMulticast(ch.getAcceptedPersons(), new UserHasLeftChannelMessage(ch.getId(), userLite), null);
+		sendMulticast(ch.getAcceptedPersons(), new UserLeftChannelMessage(ch.getId(), userLite), null);
 	}
 
 	/* ----------------------------------------- Chat action handling ------------------------------------------------*/
@@ -309,8 +309,8 @@ public class CommunicationServerController extends CommunicationController {
         UserLite receiver = server.directory().getConnection(receiverID).getUserInfo();
         UserLite sender = server.directory().getConnection(senderID).getUserInfo();
 
-        dataServer.sendChannelInvitation(sender, receiver, mess.getMessage());
-
+        // FIXME
+        //dataServer.sendChannelInvitation(sender, receiver, mess);
     }
 
     /**
@@ -340,8 +340,12 @@ public class CommunicationServerController extends CommunicationController {
         dataServer.saveRemovalMessageIntoHistory(channel, message, deleteByCreator);
     }
 
-    public List<UserLite> getChannelConnectedUserList(UUID channelID){
-        //TODO
-        return null;
+    public List<UserLite> getChannelConnectedUserList(UUID channelID) {
+		//TODO
+		return null;
+	}
+
+    public void notifyInviteChannel(UserLite guest, Channel ch) {
+        this.dataServer.requestAddUser(ch, guest);
     }
 }

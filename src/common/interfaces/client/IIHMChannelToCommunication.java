@@ -6,15 +6,14 @@ import java.util.*;
 public interface IIHMChannelToCommunication
 {
     /**
-     * Transfert au serveur l'envoie d'un message d'invitation au serveur'envoi
+     * Transfert au serveur l'envoi d'un message d'invitation au serveur'envoi
      * d'une invitation a rejoindre un channel
      *
-     * @param receiver [UserLite] Utilisateur qui crée l'invitation
-     * @param channel [Channel] Utilisateur qui doit recevoir l'invitation
-     * @param message [Message] Message d'invitation
+     * @param guest [UserLite] Utilisateur invité au channel
+     * @param channel [Channel] Channel auquel guest est invité
+     * @param message [String] Message d'invitation
      **/
-    void sendInvite(UserLite receiver, Channel channel, String message);
-
+    void sendInvite(UserLite guest, Channel channel, String message);
 
     /**
      * Demande l'envoie d'un message de nomination d'administrateur au serveur
