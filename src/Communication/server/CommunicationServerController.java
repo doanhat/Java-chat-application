@@ -370,4 +370,8 @@ public class CommunicationServerController extends CommunicationController {
         dataServer.saveRemovalMessageIntoHistory(channel, message, deleteByCreator);
     }
 
+    public List<UserLite> getChannelConnectedUserList(UUID channelID){
+        //TODO
+        return null;
+    }
 }

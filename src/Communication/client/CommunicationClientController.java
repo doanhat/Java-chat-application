@@ -197,7 +197,6 @@ public class CommunicationClientController extends CommunicationController {
         }
 
         mainClient.addConnectedUser(newUser);
-        //channelClient.addConnectedUser(newUser); //TODO Activer cette methode quand channel l'aura dans son interface
     }
 
     /**
@@ -212,7 +211,6 @@ public class CommunicationClientController extends CommunicationController {
         }
 
         mainClient.removeConnectedUser(user);
-        //channelClient.removeConnectedUser(user); //TODO Activer cette methode quand channel l'aura dans son interface
     }
 
     /**
@@ -273,16 +271,16 @@ public class CommunicationClientController extends CommunicationController {
     /**
      * Notifier Data que la demande de rejoindre un channel a été accepté par serveur
      * @param user Utilisateur qui cherche a rejoindre le channel
-     * @param channelID identifiant unique (UUID) du channel
+     * @param channel channel rejoint
      */
-    public void notifyAcceptedToJoinChannel (UserLite user, UUID channelID) {
+    public void notifyAcceptedToJoinChannel (UserLite user, Channel channel) {
         if (dataClient == null)
         {
             System.err.println("notifyAcceptedToJoinChannel: Data Iface est null");
             return;
         }
         // TODO INTEGRATION verify with data what is the difference between userAddedToChannel and addUserToChannel
-        dataClient.userAddedToChannel(user, channelID);
+        dataClient.userAddedToChannel(user, channel.getId());
     }
 
     /**
