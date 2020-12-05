@@ -314,7 +314,7 @@ public class CommunicationServerController extends CommunicationController {
 
         sendMessage(userLite.getId(), new ValideUserLeftMessage(channelID));
 
-        sendMulticast(ch.getAcceptedPersons(), new UserLeftChannelMessage(channelID, userLite), userLite);
+        sendMulticast(ch.getAcceptedPersons(), new UserHasLeftChannelMessage(channelID, userLite), userLite);
     }
 
     /* ----------------------------------------- Chat action handling ------------------------------------------------*/
@@ -335,11 +335,11 @@ public class CommunicationServerController extends CommunicationController {
         dataServer.saveMessageIntoHistory(channel, msg, response);
     }
 
-    public void SendInvite(UUID senderID, UUID receiverID, String mess ) {
+    public void SendInvite(UUID senderID, UUID receiverID, Message mess ) {
         UserLite receiver = server.directory().getConnection(receiverID).getUserInfo();
         UserLite sender = server.directory().getConnection(senderID).getUserInfo();
 
-        dataServer.sendChannelInvitation(sender, receiver, mess);
+        dataServer.sendChannelInvitation(sender, receiver, mess.getMessage());
 
     }
 
@@ -368,6 +368,11 @@ public class CommunicationServerController extends CommunicationController {
 
         System.err.println("Message " + message.getId() + " deleted on channel " + channel.getId());
         dataServer.saveRemovalMessageIntoHistory(channel, message, deleteByCreator);
+    }
+
+    public List<UserLite> getChannelConnectedUserList(UUID channelID){
+        //TODO
+        return null;
     }
 
     public void notifyInviteChannel(UserLite guest, Channel ch) {

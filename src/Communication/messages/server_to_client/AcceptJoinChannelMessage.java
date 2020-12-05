@@ -2,28 +2,25 @@ package Communication.messages.server_to_client;
 
 import Communication.client.CommunicationClientController;
 import Communication.messages.abstracts.ServerToClientMessage;
-import Communication.messages.client_to_server.AskToJoinMessage;
 import common.sharedData.UserLite;
-
-import java.util.UUID;
+import common.sharedData.Channel;
 
 /**
- * Cette classe indique au client qu'il a été correctement autorisé à rejoindre le canal désiré, en réponse à un {@link AskToJoinMessage}
+ * Message indiquant au client qu'il s'est bien connecte au channel, et lui fournit l'objet channel complet
  */
 public class AcceptJoinChannelMessage extends ServerToClientMessage {
 
 	private static final long serialVersionUID = -5922382684107438936L;
 	private final UserLite user;
-    private final UUID channelID;
+    private final Channel channel;
 
-    public AcceptJoinChannelMessage(UserLite receiver, UUID channelID) {
+    public AcceptJoinChannelMessage(UserLite receiver, Channel channel) {
         this.user = receiver;
-        this.channelID = channelID;
+        this.channel = channel;
     }
 
     @Override
     protected void handle(CommunicationClientController commClientController) {
-        System.err.println("Accepted to join channel " + channelID);
-        commClientController.notifyAcceptedToJoinChannel(user, channelID);
+        commClientController.notifyAcceptedToJoinChannel(user, channel);
     }
 }
