@@ -2,7 +2,7 @@ package Communication.client;
 
 import Communication.common.CommunicationController;
 import Communication.messages.abstracts.NetworkMessage;
-import Communication.messages.client_to_server.ValideDeleteMessageMesage;
+import Communication.messages.client_to_server.ValideDeleteMessageMessage;
 import Communication.messages.client_to_server.generic.UserConnectionMessage;
 import Communication.messages.client_to_server.generic.UserDisconnectionMessage;
 import common.interfaces.client.*;
@@ -423,11 +423,15 @@ public class CommunicationClientController extends CommunicationController {
         }
 
         dataClient.saveDeletionIntoHistory(message, null, channelID);
-        sendMessage(new ValideDeleteMessageMesage(message, channelID, deleteByCreator));
+        sendMessage(new ValideDeleteMessageMessage(message, channelID, deleteByCreator));
     }
 
     public void notifyDeletedMessage(Message message, UUID channelID, Boolean deleteByCreator) {
         dataClient.saveDeletionIntoHistory(message, null, channelID);
+    }
+
+    public void notifyInviteChannel(UserLite guest, UUID channelID) {
+        dataClient.addUserToChannel(guest, channelID);
     }
 }
 

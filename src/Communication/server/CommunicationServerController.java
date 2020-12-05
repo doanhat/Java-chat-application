@@ -4,7 +4,7 @@ import Communication.common.CommunicationController;
 import Communication.common.NetworkWriter;
 import Communication.messages.abstracts.NetworkMessage;
 import Communication.messages.server_to_client.UserDisconnectedMessage;
-import Communication.messages.server_to_client.UserHasLeftChannelMessage;
+import Communication.messages.server_to_client.UserLeftChannelMessage;
 import Communication.messages.server_to_client.ValideUserLeftMessage;
 import common.interfaces.server.IServerCommunicationToData;
 import common.sharedData.Channel;
@@ -314,7 +314,7 @@ public class CommunicationServerController extends CommunicationController {
 
         sendMessage(userLite.getId(), new ValideUserLeftMessage(channelID));
 
-        sendMulticast(ch.getAcceptedPersons(), new UserHasLeftChannelMessage(channelID, userLite), userLite);
+        sendMulticast(ch.getAcceptedPersons(), new UserLeftChannelMessage(channelID, userLite), userLite);
     }
 
     /* ----------------------------------------- Chat action handling ------------------------------------------------*/
@@ -335,11 +335,11 @@ public class CommunicationServerController extends CommunicationController {
         dataServer.saveMessageIntoHistory(channel, msg, response);
     }
 
-    public void SendInvite(UUID senderID, UUID receiverID, Message mess ) {
+    public void SendInvite(UUID senderID, UUID receiverID, String mess ) {
         UserLite receiver = server.directory().getConnection(receiverID).getUserInfo();
         UserLite sender = server.directory().getConnection(senderID).getUserInfo();
 
-        dataServer.sendChannelInvitation(sender, receiver, mess.getMessage());
+        dataServer.sendChannelInvitation(sender, receiver, mess);
 
     }
 
@@ -370,4 +370,7 @@ public class CommunicationServerController extends CommunicationController {
         dataServer.saveRemovalMessageIntoHistory(channel, message, deleteByCreator);
     }
 
+    public void notifyInviteChannel(UserLite guest, Channel ch) {
+        this.dataServer.requestAddUser(ch, guest);
+    }
 }
