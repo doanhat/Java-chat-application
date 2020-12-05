@@ -339,4 +339,9 @@ public class CommunicationServerController extends CommunicationController {
         System.err.println("Message " + message.getId() + " deleted on channel " + channel.getId());
         dataServer.saveRemovalMessageIntoHistory(channel, message, deleteByCreator);
     }
+
+    public List<UserLite> getChannelConnectedUserList(UUID channelID){
+        //TODO
+        return null;
+    }
 }
