@@ -222,8 +222,8 @@ public class CommunicationClientInterface implements IDataToCommunication,
         if (channel.getType() == ChannelType.OWNED) {
             commController.sendMessage(new AskToJoinPropMessage(channel.getId(), localUser, channel.getCreator()));
         } else {
-            commController.sendMessage(new AskToJoinSharedMessage(channel.getId(), localUser));        }
-
+            commController.sendMessage(new AskToJoinSharedMessage(channel.getId(), localUser));
+        }
     }
 
     /**

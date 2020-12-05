@@ -59,7 +59,7 @@ public class ValideDeleteMessageMessage extends ClientToServerMessage {
             return;
         }
 
-        commController.sendMulticast(channel.getAcceptedPersons(),
+        commController.sendMulticast(commController.getChannelConnectedUserList(channelID),
                 new DeleteMessageMessage(message, channelID, deleteByCreator),
                 null);
     }
