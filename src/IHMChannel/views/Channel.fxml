@@ -24,24 +24,27 @@
             </columnConstraints>
             <children>
                 <VBox GridPane.columnIndex="0">
-                    <Label fx:id="channelName" styleClass="channel-title">
-                        <contextMenu>
-                            <ContextMenu fx:id="channelContextMenu">
-                                <items>
-                                    <MenuItem text="Modifier les infos du channel" onAction="#modifyChannel"/>
-                                    <CheckMenuItem fx:id="seeMembersMenuCheck" text="Voir la liste des utilisateurs"
-                                                   onAction="#seeMembers"/>
-                                    <MenuItem text="Changer les droits" onAction="#changeRights"/>
-                                    <MenuItem text="Kicker un utilisateur" onAction="#kickMember"/>
-                                    <MenuItem text="Liste des utilisateurs kickés" onAction="#seeKickedMembers"/>
-                                    <MenuItem text="Supprimer channel" onAction="#deleteChannel"/>
-                                </items>
-                            </ContextMenu>
-                        </contextMenu>
-                    </Label>
-                    <Button fx:id="contextMenuBtn" text="v" onAction="#openChannelContextMenu"/>
+                    <HBox alignment="CENTER_LEFT">
+                        <Label fx:id="channelName" styleClass="channel-title">
+                            <contextMenu>
+                                <ContextMenu fx:id="channelContextMenu">
+                                    <items>
+                                        <MenuItem text="Modifier les infos du channel" onAction="#modifyChannel"/>
+                                        <CheckMenuItem fx:id="seeMembersMenuCheck" text="Voir la liste des utilisateurs"
+                                                       onAction="#seeMembers"/>
+                                        <MenuItem text="Changer les droits" onAction="#changeRights"/>
+                                        <MenuItem text="Kicker un utilisateur" onAction="#kickMember"/>
+                                        <MenuItem text="Liste des utilisateurs kickés" onAction="#seeKickedMembers"/>
+                                        <MenuItem text="Supprimer channel" onAction="#deleteChannel"/>
+                                    </items>
+                                </ContextMenu>
+                            </contextMenu>
+                        </Label>
+                        <Button fx:id="contextMenuBtn" onAction="#openChannelContextMenu" styleClass="icon-bar-btn"/>
+                    </HBox>
 
-                    <Text fx:id="channelDescription" styleClass="channel-description"/>
+
+                    <Label fx:id="channelDescription" styleClass="channel-description"/>
                 </VBox>
                 <HBox GridPane.columnIndex="1" alignment="CENTER_RIGHT">
                     <Button fx:id="seeMembersBtn" onAction="#seeMembers" styleClass="icon-bar-btn"/>

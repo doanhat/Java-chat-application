@@ -74,7 +74,7 @@ public class ChannelPageController {
 
 
     public void addOpenedChannel(Channel channel) throws IOException {
-        iconsInit();
+        //iconsInit();
         openedChannels.add(channel);
         currentChannel = channel.getId(); //TODO mieux gérer la mise à jour de cette valeur
         ihmChannelController.getInterfaceToIHMMain().setCurrentVisibleChannel(channel);

@@ -180,7 +180,7 @@ TextField {
   -fx-fill: #000000;
   -fx-font-weight: 700;
   -fx-font-size: 2em;
-  -fx-padding: 0 2 0 0em;
+  -fx-label-padding: 0 10 0 5;
 }
 
 .pop-up-title {
@@ -210,7 +210,7 @@ TextField {
 
 .channel-description {
   -fx-font-style: italic;
-  -fx-padding: 0 2 0 0em;
+  -fx-label-padding: 0 10 0 5;
 }
 
 .positive-notification {
@@ -305,3 +305,4 @@ TextField {
   -fx-font-size: 16;
   -fx-border-radius: 5;
 }
+

@@ -42,7 +42,7 @@ public class ChannelController {
     @FXML
     Label channelName;
     @FXML
-    Text channelDescription;
+    Label channelDescription;
 
     //Boutons barre supérieure
     @FXML
@@ -126,6 +126,13 @@ public class ChannelController {
         exitIcon.setFitHeight(15);
         exitIcon.setFitWidth(15);
         leaveChannelBtn.setGraphic(exitIcon);
+
+        //Menu Contextuel
+        Image contextMenuImage = new Image("IHMChannel/icons/chevron_down.png");
+        ImageView contextMenuIcon = new ImageView(contextMenuImage);
+        contextMenuIcon.setFitHeight(15);
+        contextMenuIcon.setFitWidth(15);
+        contextMenuBtn.setGraphic(contextMenuIcon);
     }
 
     public void receiveMessage(Message receivedMessage, Message responseTo) {
