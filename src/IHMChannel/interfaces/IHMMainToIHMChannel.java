@@ -36,7 +36,9 @@ public class IHMMainToIHMChannel implements IIHMMainToIHMChannel {
             u.setNickName(nickName.get(i));
             connectedUsers.add(u);
         }
+
         controller.getInterfaceForCommunication().displayChannelHistory(channel, channel.getMessages(), connectedUsers);
+
 
 
         return (Region)controller.getRoot();
@@ -44,7 +46,7 @@ public class IHMMainToIHMChannel implements IIHMMainToIHMChannel {
 
     @Override
     public void viewChannel(UUID channelId) {
-		controller.getInterfaceToCommunication().getChannelHistory(channelId);
+        controller.getInterfaceToCommunication().getChannelHistory(channelId);
     }
 
     private IHMChannelController controller;
