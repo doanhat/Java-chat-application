@@ -18,11 +18,11 @@ public class NewUserJoinChannelMessage extends ServerToClientMessage {
 
     /**
      * Crée un message indiquant l'arrivée d'un nouvel utilisateur
-     * @param receiver utilisateur ayant rejoint le canal
+     * @param userWhoJoined utilisateur ayant rejoint le canal
      * @param channelID Canal en question
      */
-    public NewUserJoinChannelMessage(UserLite receiver, UUID channelID) {
-        this.user = receiver;
+    public NewUserJoinChannelMessage(UserLite userWhoJoined, UUID channelID) {
+        this.user = userWhoJoined;
         this.channelID = channelID;
     }
 
