@@ -46,8 +46,7 @@ public class MemberController {
     boolean isCreator;
     boolean isConnected;
 
-
-    public void setUserToDisplay(UserLite userToDisplay,boolean isAdmin, boolean isCreator, boolean isConnected,boolean toogleDisplay) {
+    public void setUserToDisplay(UserLite userToDisplay,boolean isAdmin, boolean isCreator, boolean isConnected, boolean toogleDisplay) {
         this.userToDisplay = userToDisplay;
         this.username.setText(userToDisplay.getNickName());
 
@@ -55,11 +54,14 @@ public class MemberController {
         this.isCreator = isCreator;
         this.isConnected = isConnected;
 
+        // Desactivation du toogleAdmin
         if(!toogleDisplay){toggleAdminBtn.setDisable(true);}
 
-        iconsInit();
+        if(ihmChannelController.getInterfaceToData().getLocalUser().getId().equals(userToDisplay.getId())){
+            isThatYouText.setText(" (vous)");
+        }
 
-        //if(isAdmin) toggleAdminBtn.set;
+        iconsInit();
     }
 
     /**
@@ -84,6 +86,7 @@ public class MemberController {
         usersIcon.setFitHeight(15);
         usersIcon.setFitWidth(15);
         banBtn.setGraphic(usersIcon);
+
     }
 
     /**

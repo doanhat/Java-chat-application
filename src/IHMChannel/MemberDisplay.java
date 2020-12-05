@@ -1,5 +1,6 @@
 package IHMChannel;
 
+import IHMChannel.controllers.AlphabeticalMembersListController;
 import IHMChannel.controllers.MemberController;
 import common.sharedData.Channel;
 import common.sharedData.UserLite;
@@ -14,18 +15,18 @@ import java.io.IOException;
 public class MemberDisplay {
     public Parent root = null;
     public MemberController memberController;
-
+    public MemberController getController(){return this.memberController;}
     /**
      * Constructeur, à appeler pour créer une ligne d'utilisateur.
      * @param userToDisplay utilisateur à afficher dans le widget en cours de création
      */
-    public MemberDisplay(UserLite userToDisplay, boolean isAdmin, boolean isCreator,boolean isConnected,boolean toogleDisplay, Channel channel, IHMChannelController ihmChannelController) throws IOException {
+    public MemberDisplay(UserLite userToDisplay, boolean isAdmin, boolean isCreator,boolean isConnected,boolean toggleDisplay, Channel channel, IHMChannelController ihmChannelController) throws IOException {
         FXMLLoader fxmlLoader =
                 new FXMLLoader(getClass().getResource("views/Member.fxml"));
         root = fxmlLoader.load();
         memberController = fxmlLoader.getController();
         memberController.setIhmChannelController(ihmChannelController);
-        memberController.setUserToDisplay(userToDisplay,isAdmin, isCreator,isConnected,toogleDisplay);
+        memberController.setUserToDisplay(userToDisplay,isAdmin, isCreator,isConnected,toggleDisplay);
         memberController.setChannel(channel);
     }
 

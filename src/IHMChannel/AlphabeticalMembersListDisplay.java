@@ -14,18 +14,18 @@ import java.io.IOException;
 
 public class AlphabeticalMembersListDisplay {
     public Parent root = null;
-    public AlphabeticalMembersListController AlphabeticalMembersController;
+    public AlphabeticalMembersListController alphabeticalMembersController;
 
-    public AlphabeticalMembersListController getController(){return this.AlphabeticalMembersController;}
+    public AlphabeticalMembersListController getController(){return this.alphabeticalMembersController;}
 
     public AlphabeticalMembersListDisplay() throws IOException {
         FXMLLoader fxmlLoader =
                 new FXMLLoader(getClass().getResource("views/AlphabeticalMembersList.fxml"));
         root = fxmlLoader.load();
-        AlphabeticalMembersController = fxmlLoader.getController();
+        alphabeticalMembersController = fxmlLoader.getController();
     }
 
     public void configureController(IHMChannelController ihmChannelController){
-        AlphabeticalMembersController.setIhmChannelController(ihmChannelController);
+        alphabeticalMembersController.setIhmChannelController(ihmChannelController);
     }
 }
