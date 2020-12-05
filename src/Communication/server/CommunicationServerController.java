@@ -14,6 +14,7 @@ import common.sharedData.UserLite;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -297,6 +298,23 @@ public class CommunicationServerController extends CommunicationController {
 
         return null;
     }
+    
+    
+    /**
+     * Demande a dataserver à changer le nickname d'un utilisateur dans un canal
+     * @param user utilisateur demandant le changement
+     * @param channel canal dans lequel changer le nickname de l'utilisateur
+     * @param newNickname nouveau nom d'utilisateur demandé
+     * @throws NullPointerException Si l'interface de dataServer n'est pas acccessible.
+     */
+    public void requestNicknameChange(UserLite user, Channel channel, String newNickname){
+    	 if (dataServer == null)
+         {
+           throw new NullPointerException("Data Interface est nulle");
+         }else {
+        	dataServer.updateNickname(channel, user, newNickname); 
+         }
+    }
 
     /* ----------------------------------------- Chat action handling ------------------------------------------------*/
 
@@ -315,4 +333,6 @@ public class CommunicationServerController extends CommunicationController {
 
         dataServer.saveMessageIntoHistory(channel, msg, response);
     }
+    
+ 
 }
