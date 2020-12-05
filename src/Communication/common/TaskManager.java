@@ -1,12 +1,10 @@
 package Communication.common;
 
+import static java.util.concurrent.Executors.newCachedThreadPool;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-
-import static java.util.concurrent.Executors.newCachedThreadPool;
 
 /**
  * Class gérant l'execution de taches cycliques et Uniques avec un thread pool permettant une execution d'une multitudes d'actions avec un pool de thread limité.

@@ -1,12 +1,11 @@
 package Communication.messages.server_to_client;
 
+import java.util.List;
+
 import Communication.client.CommunicationClientController;
 import Communication.messages.abstracts.ServerToClientMessage;
-import Communication.server.CommunicationServerController;
 import common.sharedData.Channel;
 import common.sharedData.UserLite;
-
-import java.util.List;
 
 /**
  * Ce message sert au serveur à indiquer qu'il accèpte le client, en lui transmettant au passage la liste de canaux et la liste des utilisateurs

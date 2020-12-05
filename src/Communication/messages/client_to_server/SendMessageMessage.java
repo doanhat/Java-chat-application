@@ -1,14 +1,14 @@
 package Communication.messages.client_to_server;
 
+import java.util.UUID;
+
 import Communication.messages.abstracts.ClientToServerMessage;
-import Communication.messages.abstracts.NetworkMessage;
-import Communication.messages.server_to_client.NewUserJoinChannelMessage;
 import Communication.messages.server_to_client.ReceiveMessageMessage;
 import Communication.messages.server_to_client.TellOwnerToSaveMessage;
 import Communication.server.CommunicationServerController;
-import common.sharedData.*;
-
-import java.util.UUID;
+import common.sharedData.Channel;
+import common.sharedData.ChannelType;
+import common.sharedData.Message;
 
 /**
  * Cette classe corrrespond à l'envoi d'un message sur un channel particulier

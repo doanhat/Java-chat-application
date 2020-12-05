@@ -3,11 +3,6 @@ package Communication.messages.server_to_client;
 import Communication.client.CommunicationClientController;
 import Communication.messages.abstracts.ServerToClientMessage;
 import common.sharedData.Channel;
-import common.sharedData.UserLite;
-import common.sharedData.Visibility;
-
-import java.io.Serializable;
-import java.util.List;
 
 /**
  * Cette classe indique au client qu'un nouveau canal vient d'être créé

@@ -1,20 +1,18 @@
 package Communication.server;
 
-import Communication.client.CommunicationClientController;
-import Communication.common.CommunicationController;
-import Communication.common.NetworkWriter;
-import Communication.messages.abstracts.NetworkMessage;
-import Communication.messages.server_to_client.UserDisconnectedMessage;
-import common.interfaces.client.ICommunicationToData;
-import common.interfaces.server.IServerCommunicationToData;
-import common.sharedData.Channel;
-import common.sharedData.Message;
-import common.sharedData.UserLite;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import Communication.common.CommunicationController;
+import Communication.common.NetworkWriter;
+import Communication.messages.abstracts.NetworkMessage;
+import Communication.messages.server_to_client.UserDisconnectedMessage;
+import common.interfaces.server.IServerCommunicationToData;
+import common.sharedData.Channel;
+import common.sharedData.Message;
+import common.sharedData.UserLite;
 
 /**
  * Classe principale de gestion des communications côté serveur. Cette classe implemente le design patern singleton

@@ -1,16 +1,8 @@
 package Communication.messages.client_to_server;
 
-import Communication.messages.abstracts.NetworkMessage;
-import Communication.messages.server_to_client.AcceptationMessage;
-import Communication.messages.server_to_client.NewUserConnectedMessage;
-import common.sharedData.Channel;
-import common.sharedData.UserLite;
-
 import Communication.messages.abstracts.ClientToServerMessage;
 import Communication.server.CommunicationServerController;
-
-import java.util.List;
-import java.util.UUID;
+import common.sharedData.UserLite;
 
 /** 
  * Cette classe sert à indiquer au serveur que l'on vient de se connecter
