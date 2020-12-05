@@ -10,8 +10,6 @@ import common.sharedData.Channel;
 import common.sharedData.UserLite;
 import common.sharedData.Visibility;
 
-import java.util.List;
-
 /**
  * Cette classe correspond à un message indiquant la volonté de création d'un nouveau channel au serveur
  *

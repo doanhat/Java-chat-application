@@ -1,12 +1,11 @@
 package Communication.client;
 
-import Communication.common.Parameters;
-import Communication.messages.client_to_server.ClientPulseMessage;
-import common.sharedData.UserLite;
-
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
+
+import Communication.common.Parameters;
+import Communication.messages.client_to_server.ClientPulseMessage;
 
 /**
  * Classe servant à gérer un keepalive entre le client et le serveur et d'informer le client en cas de rupture de communication avec le serveur
