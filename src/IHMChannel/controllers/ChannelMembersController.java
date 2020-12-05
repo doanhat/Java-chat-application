@@ -43,18 +43,6 @@ public class ChannelMembersController {
     AdminMembersListDisplay adminMembersListDisplay;
 
 
-    /**
-     * Initialise l'affichage de la liste des membres (acceptedPerson) contenus dans l'attribut channel de la classe
-     */
-    private void initMembersList() throws IOException {
-        membersToDisplay.removeAll(); //réinitialisation
-        for (UserLite usr : this.channel.getAcceptedPersons()){
-            //TODO à corriger (constructeur pas bon)
-            //membersToDisplay.add((HBox) new MemberDisplay(usr).root);
-        }
-        //TODO recharger l'affichage
-
-    }
 
     /**
      * Setter du channel
@@ -72,8 +60,8 @@ public class ChannelMembersController {
      * Tri des utilisateurs par ordre alphabétique
      * @throws IOException
      */
-    public void alphabeticSort() throws IOException {
-        alphabeticalMembersListDisplay.configureController(ihmChannelController);
+    public void alphabeticSort(){
+
         listMembersDisplay.setCenter(alphabeticalMembersListDisplay.root);
 
     }
@@ -82,7 +70,7 @@ public class ChannelMembersController {
      * Tri des membres selon leur rôle
      */
     public void adminSort() {
-        adminMembersListDisplay.configureController(ihmChannelController);
+
         listMembersDisplay.setCenter(adminMembersListDisplay.root);
     }
 
@@ -141,5 +129,7 @@ public class ChannelMembersController {
 
     public void setIhmChannelController(IHMChannelController ihmChannelController) {
         this.ihmChannelController = ihmChannelController;
+        alphabeticalMembersListDisplay.configureController(ihmChannelController);
+        adminMembersListDisplay.configureController(ihmChannelController);
     }
 }

@@ -12,20 +12,20 @@ import java.io.IOException;
  */
 public class ChannelMembersDisplay {
     public Parent root= null;
-    public ChannelMembersController membersController;
+    public ChannelMembersController channelMembersController;
 
     public ChannelMembersController getController(){
-        return this.membersController;
+        return this.channelMembersController;
     }
 
     public ChannelMembersDisplay() throws IOException {
         FXMLLoader fxmlLoader =
                 new FXMLLoader(getClass().getResource("views/ChannelMembers.fxml"));
         root = fxmlLoader.load();
-        membersController = fxmlLoader.getController();
+        channelMembersController = fxmlLoader.getController();
     }
 
     public void configureMembersController(IHMChannelController ihmChannelController) {
-        membersController.setIhmChannelController(ihmChannelController);
+        channelMembersController.setIhmChannelController(ihmChannelController);
     }
 }

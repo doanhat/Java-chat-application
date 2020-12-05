@@ -19,13 +19,13 @@ public class MemberDisplay {
      * Constructeur, à appeler pour créer une ligne d'utilisateur.
      * @param userToDisplay utilisateur à afficher dans le widget en cours de création
      */
-    public MemberDisplay(UserLite userToDisplay, boolean isAdmin, boolean isCreator,boolean isConnected, Channel channel, IHMChannelController ihmChannelController) throws IOException {
+    public MemberDisplay(UserLite userToDisplay, boolean isAdmin, boolean isCreator,boolean isConnected,boolean toogleDisplay, Channel channel, IHMChannelController ihmChannelController) throws IOException {
         FXMLLoader fxmlLoader =
                 new FXMLLoader(getClass().getResource("views/Member.fxml"));
         root = fxmlLoader.load();
         memberController = fxmlLoader.getController();
-        memberController.setUserToDisplay(userToDisplay,isAdmin, isCreator,isConnected);
         memberController.setIhmChannelController(ihmChannelController);
+        memberController.setUserToDisplay(userToDisplay,isAdmin, isCreator,isConnected,toogleDisplay);
         memberController.setChannel(channel);
     }
 

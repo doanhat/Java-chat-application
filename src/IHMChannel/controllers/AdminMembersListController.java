@@ -28,6 +28,8 @@ public class AdminMembersListController {
     ObservableList<UserLite> channelMembers ;
     ObservableList<UserLite> adminMembers;
     UserLite creator;
+    UserLite localUser;
+    boolean isLocalUserAdmin = true;
 
     ObservableList<HBox> creatorToDisplay;
     ObservableList<HBox> adminsToDisplay;
@@ -47,9 +49,9 @@ public class AdminMembersListController {
         });
 
         this.channel.getAcceptedPersons().forEach(userLite -> {
-
             if(!adminMembers.contains(userLite) && !userLite.getId().equals(creator.getId())){channelMembers.add(userLite);}
         });
+
     }
 
     /**
@@ -58,16 +60,17 @@ public class AdminMembersListController {
      */
 
     private void displayMembers() throws IOException {
+
         membersToDisplay.clear();
         adminsToDisplay.clear();
 
         for (UserLite usr : adminMembers){
-            adminsToDisplay.add((HBox) new MemberDisplay(usr,true,false,true, channel, ihmChannelController).root);
+            adminsToDisplay.add((HBox) new MemberDisplay(usr,true,false,true,isLocalUserAdmin ,  channel, ihmChannelController).root);
         }
         for (UserLite usr : channelMembers){
-            membersToDisplay.add((HBox) new MemberDisplay(usr,false,false,true, channel, ihmChannelController).root);
+            membersToDisplay.add((HBox) new MemberDisplay(usr,false,false,true,isLocalUserAdmin, channel, ihmChannelController).root);
         }
-        creatorToDisplay.add((HBox) new MemberDisplay(creator,true,true,true, channel, ihmChannelController).root);
+        creatorToDisplay.add((HBox) new MemberDisplay(creator,true,true,true,isLocalUserAdmin, channel, ihmChannelController).root);
 
         adminList.setItems(adminsToDisplay);
         membersList.setItems(membersToDisplay);

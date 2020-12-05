@@ -26,6 +26,9 @@ public class AlphabeticalMembersListController {
     ObservableList<UserLite> adminMembers;
     UserLite creator;
 
+    UserLite localUser;
+    boolean isLocalUserAdmin = true;
+
     ObservableList<HBox> membersToDisplay;
 
     /**
@@ -41,7 +44,6 @@ public class AlphabeticalMembersListController {
             adminMembers.add(usr);
         }
         creator = this.channel.getCreator();
-
     }
 
     /**
@@ -50,14 +52,23 @@ public class AlphabeticalMembersListController {
      */
 
     private void displayMembers() throws IOException {
+       /*
+        localUser = ihmChannelController.getInterfaceToData().getLocalUser().getUserLite();
+
+        if(this.channel.getAdministrators().contains(localUser)){
+            isLocalUserAdmin = false;
+        }else{
+            isLocalUserAdmin = true;
+        }
+    */
         membersToDisplay.removeAll(membersToDisplay);
         for (UserLite usr : channelMembers){
             if(usr==creator){
-                membersToDisplay.add((HBox) new MemberDisplay(usr,true,true,true, channel, ihmChannelController).root);
+                membersToDisplay.add((HBox) new MemberDisplay(usr,true,true,true,isLocalUserAdmin, channel, ihmChannelController).root);
             }else if(adminMembers.contains(usr)){
-                membersToDisplay.add((HBox) new MemberDisplay(usr, true,false,true, channel, ihmChannelController).root);
+                membersToDisplay.add((HBox) new MemberDisplay(usr, true,false,true,isLocalUserAdmin,  channel, ihmChannelController).root);
             }else{
-                membersToDisplay.add((HBox) new MemberDisplay(usr, false, false,true, channel, ihmChannelController).root);
+                membersToDisplay.add((HBox) new MemberDisplay(usr, false, false,true,isLocalUserAdmin, channel, ihmChannelController).root);
             }
         }
         membersList.setItems(membersToDisplay);

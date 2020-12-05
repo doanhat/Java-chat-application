@@ -47,13 +47,16 @@ public class MemberController {
     boolean isConnected;
 
 
-    public void setUserToDisplay(UserLite userToDisplay,boolean isAdmin, boolean isCreator, boolean isConnected) {
+    public void setUserToDisplay(UserLite userToDisplay,boolean isAdmin, boolean isCreator, boolean isConnected,boolean toogleDisplay) {
         this.userToDisplay = userToDisplay;
         this.username.setText(userToDisplay.getNickName());
 
         this.isAdmin = isAdmin;
         this.isCreator = isCreator;
         this.isConnected = isConnected;
+
+        if(!toogleDisplay){toggleAdminBtn.setDisable(true);}
+
         iconsInit();
 
         //if(isAdmin) toggleAdminBtn.set;
@@ -87,11 +90,16 @@ public class MemberController {
      * Méthode déclenchée au clic sur le bouton toggle de l'admin permettant de faire basculer le statut d'un membre entre administrateur et simple membre.
      */
     public void toggleAdmin(){
-        //TODO
-        System.out.println(this.toggleAdminBtn.getCurrentRole());
+        if(isAdmin){
+            isAdmin= false;
+            // TODO Avoir une fonction removeAdmin();
+            System.out.println("Retrait d'un  admin. ");
+        }else{
+            isAdmin = true;
+            System.out.println("Ajout d'un user en admin. ");
+            ihmChannelController.getInterfaceToCommunication().giveAdmin(userToDisplay, channel);
+        }
 
-        System.out.println("Envoi message de changement de droit administrateur au serveur... ");
-        ihmChannelController.getInterfaceToCommunication().giveAdmin(userToDisplay, channel);
     }
 
     public void banHandler() {
