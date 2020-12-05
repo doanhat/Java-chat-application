@@ -116,7 +116,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public List<Message> getHistory(UUID channelId) {
-        return null;
+        return dataController.getChannelController().getHistory(channelId);
     }
 
     /**

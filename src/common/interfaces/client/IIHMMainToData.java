@@ -66,7 +66,7 @@ public interface IIHMMainToData {
      * @param nickName   the pseudo
      * @param password the password
      */
-    void localAuthentification(String nickName, String password);
+    boolean localAuthentification(String nickName, String password);
 
     /**
      * Create account.
@@ -78,7 +78,7 @@ public interface IIHMMainToData {
      * @param firstName the first name
      * @param birthDate the birth date
      */
-    void createAccount(String nickName, String avatar, String password, String lastName, String firstName, Date birthDate);
+    boolean createAccount(String nickName, String avatar, String password, String lastName, String firstName, Date birthDate);
 
     /**
      * Get connected User.

@@ -9,6 +9,7 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class FileHandle<T> {
@@ -89,6 +90,25 @@ public class FileHandle<T> {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void addObjectToFile(String fileName, Object object, Class<T> tClass){
+        List<T> list = readJSONFileToList(fileName,tClass);
+        list.add((T) object);
+        writeJSONToFile(fileName,list);
+    }
+
+    public boolean deleteJSONFile(String fileName){
+        String sysPath = this.path + fileName + ".json";
+        System.out.println(sysPath);
+        try {
+            File f = new File(sysPath);
+            if(f.delete())
+                return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public void setPath(String path) {
