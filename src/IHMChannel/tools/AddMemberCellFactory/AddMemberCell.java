@@ -3,6 +3,7 @@ package IHMChannel.tools.AddMemberCellFactory;
 import IHMChannel.controllers.AddMemberPopUpController;
 import IHMChannel.controllers.ChannelController;
 import IHMChannel.controllers.PopUpConfirmationController;
+import IHMChannel.controllers.SendInvitePopUpController;
 import common.sharedData.Channel;
 import common.sharedData.UserLite;
 import javafx.event.ActionEvent;
@@ -47,7 +48,7 @@ public class AddMemberCell extends ListCell<UserLite> {
         //Action sur le bouton
         addBtn.setOnAction((ActionEvent event) -> {
             FXMLLoader fxmlLoader =
-                    new FXMLLoader(getClass().getResource("../../views/PopUpConfirmation.fxml"));
+                    new FXMLLoader(getClass().getResource("../../views/SendInvitePopUp.fxml"));
             Parent root = null;
             try {
                 root = fxmlLoader.load();
@@ -58,13 +59,11 @@ public class AddMemberCell extends ListCell<UserLite> {
             Channel channel = this.channelController.getCurrentChannel();
 
             //Pop-up init
-            PopUpConfirmationController popUpConfirmationController = fxmlLoader.getController();
-            popUpConfirmationController.setText("Voulez-vous vraiment ajouter " + user.getNickName() + " au channel "+channel+" ?");
+            SendInvitePopUpController sendInvitePopUpController = fxmlLoader.getController();
+            sendInvitePopUpController.setText(user,channel);
             Stage popUpWindow = new Stage();
-            popUpWindow.setWidth(300);
-            popUpWindow.setHeight(100);
             popUpWindow.initModality(Modality.APPLICATION_MODAL);
-            popUpWindow.setTitle("Confirmation");
+            popUpWindow.setTitle("Envoyer une invitation");
             popUpWindow.setScene(new Scene(root));
             popUpWindow.setResizable(false);
             popUpWindow.show();
@@ -72,7 +71,7 @@ public class AddMemberCell extends ListCell<UserLite> {
             /**
              * Gestion du clic sur le bouton annuler
              */
-            popUpConfirmationController.getAnnulerBtn().setOnAction(new EventHandler<ActionEvent>() {
+            sendInvitePopUpController.getCancelBtn().setOnAction(new EventHandler<ActionEvent>() {
                 public void handle(ActionEvent e)
                 {
                     popUpWindow.close();
@@ -82,10 +81,10 @@ public class AddMemberCell extends ListCell<UserLite> {
             /**
              * Gestion du clic sur le bouton confirmer
              */
-            popUpConfirmationController.getConfirmerBtn().setOnAction(new EventHandler<ActionEvent>() {
+            sendInvitePopUpController.getSendInviteBtn().setOnAction(new EventHandler<ActionEvent>() {
                 public void handle(ActionEvent e)
                 {
-                    System.out.println("You have invited " + user.getNickName() + " to channel " + channel.getName());
+                    System.out.println("You have invited " + user.getNickName() + " to channel " + channel.getName()+".\nMessage : "+sendInvitePopUpController.getInvitationMessage());
                     //TODO appel interface
                     //channelController.getIhmChannelController().getInterfaceToCommunication().
                     popUpWindow.close();

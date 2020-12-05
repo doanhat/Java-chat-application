@@ -17,7 +17,7 @@
                         <Button fx:id="searchBtn" mnemonicParsing="false" style="-fx-background-color: transparent;" />
                     </children>
                 </HBox>
-                <ListView fx:id="usersList" styleClass="list-cell"/>
+                <ListView fx:id="usersListView" styleClass="list-cell"/>
             </children>
             <stylesheets>
                 <URL value="file:src/IHMChannel/css/style.css"></URL>
