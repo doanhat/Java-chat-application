@@ -5,10 +5,9 @@ import IHMChannel.ChannelMessagesDisplay;
 import IHMChannel.IHMChannelController;
 import common.sharedData.*;
 import javafx.beans.InvalidationListener;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.collections.ObservableSet;
-import javafx.collections.SetChangeListener;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -78,6 +77,7 @@ public class ChannelPageController {
         iconsInit();
         openedChannels.add(channel);
         currentChannel = channel.getId(); //TODO mieux gérer la mise à jour de cette valeur
+        ihmChannelController.getInterfaceToIHMMain().setCurrentVisibleChannel(channel);
 
         //Création du nouvel onglet pour le channel ajouté
 
@@ -97,6 +97,18 @@ public class ChannelPageController {
         tab.setOnClosed((event->{
             this.openedChannels.remove(channel);
         }));
+
+        tab.setOnSelectionChanged (e ->
+            {
+                if (tab.isSelected()) {
+                    handleChangeTab(channel);
+                } else {
+                    System.out.println("Unselected");
+                }
+            }
+        );
+
+
         tabs.getTabs().add(tab);
         tab.setContent((Node) root);
         tabs.getSelectionModel().select(tab);
@@ -131,6 +143,8 @@ public class ChannelPageController {
         Par exemple, le chargement des messages du channel, l'affichage de la photo de profil de l'utilisateur connecté près de la zone de message,...
         Cette méthode contient aussi les LISTENERS
         */
+        //iconsInit();
+
 
     }
 
@@ -143,27 +157,6 @@ public class ChannelPageController {
         usersIcon.setFitHeight(15);
         usersIcon.setFitWidth(15);
         back.setGraphic(usersIcon);
-
-//        //Liste membres
-//        Image usersImage = new Image("IHMChannel/icons/users-solid.png");
-//        ImageView usersIcon = new ImageView(usersImage);
-//        usersIcon.setFitHeight(15);
-//        usersIcon.setFitWidth(15);
-//        seeMembersBtn.setGraphic(usersIcon);
-//
-//        //Ajout membre
-//        Image addUserImage = new Image("IHMChannel/icons/user-plus-solid.png");
-//        ImageView addUserIcon = new ImageView(addUserImage);
-//        addUserIcon.setFitHeight(15);
-//        addUserIcon.setFitWidth(15);
-//        addMemberBtn.setGraphic(addUserIcon);
-//
-//        //Quitter
-//        Image exitImage = new Image("IHMChannel/icons/exit.png");
-//        ImageView exitIcon = new ImageView(exitImage);
-//        exitIcon.setFitHeight(15);
-//        exitIcon.setFitWidth(15);
-//        leaveChannelBtn.setGraphic(exitIcon);
     }
 
     /**
@@ -285,5 +278,14 @@ public class ChannelPageController {
 
     public ObservableSet<Channel> getOpenedChannels() {
         return this.openedChannels;
+    }
+
+    /**
+     * Handler pour le changement de Tab
+     * @param channel
+     */
+    public void handleChangeTab(Channel channel) {
+        currentChannel = channel.getId();
+        ihmChannelController.getInterfaceToIHMMain().setCurrentVisibleChannel(channel);
     }
 }

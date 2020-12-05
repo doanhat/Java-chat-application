@@ -17,33 +17,8 @@ public class IHMMainToIHMChannel implements IIHMMainToIHMChannel {
         this.controller = controller;
     }
 
-    /**
-     * Ouvre un channel
-     *
-     * @param channelId [Channel] Channel qui a été sélectionné.
-     */
     @Override
-    public void openChannel(UUID channelId) {
-        controller.getInterfaceToCommunication().getChannelHistory(channelId);
-    }
-
-//    /**
-//     * Envoie une demande pour rejoindre un channel
-//     *
-//     * @param channel [Channel] Channel que l'on souhaite rejoindre.
-//     */
-//    @Override
-//    public void askToJoin(Channel channel) {
-//        throw new UnsupportedOperationException("Not implemented yet");
-//    }
-
-    /**
-     * Génère puis Retourne le noeud de la vue de IHMChannel
-     *
-     * @return
-     */
-    @Override
-    public Region getIHMChannelWindow(Channel channel) {
+    public Region initIHMChannelWindow(Channel channel) {
         controller.setChannelPageToDisplay(channel);
         //controller.getInterfaceToCommunication().getChannelHistory(channel.getId()); //TODO décommenter cette ligne pour intégration avec Comm
         //TODO: enlever cette ligne pour intégration avec Comm. Elle ne sert qu'aux tests
@@ -61,10 +36,17 @@ public class IHMMainToIHMChannel implements IIHMMainToIHMChannel {
             u.setNickName(nickName.get(i));
             connectedUsers.add(u);
         }
+
         controller.getInterfaceForCommunication().displayChannelHistory(channel, channel.getMessages(), connectedUsers);
 
 
+
         return (Region)controller.getRoot();
+    }
+
+    @Override
+    public void viewChannel(UUID channelId) {
+        controller.getInterfaceToCommunication().getChannelHistory(channelId);
     }
 
     private IHMChannelController controller;
