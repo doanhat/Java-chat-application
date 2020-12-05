@@ -3,7 +3,11 @@ package Communication.client;
 import Communication.common.Parameters;
 import Communication.messages.client_to_server.*;
 import Communication.messages.client_to_server.proprietary_channels.AddAdminPropMessage;
+import Communication.messages.client_to_server.proprietary_channels.AskToJoinPropMessage;
+import Communication.messages.client_to_server.proprietary_channels.SendInvitePropMessage;
 import Communication.messages.client_to_server.shared_channels.AddAdminSharedMessage;
+import Communication.messages.client_to_server.shared_channels.AskToJoinSharedMessage;
+import Communication.messages.client_to_server.shared_channels.SendInviteSharedMessage;
 import common.interfaces.client.*;
 import common.sharedData.Channel;
 import common.sharedData.ChannelType;
@@ -216,7 +220,11 @@ public class CommunicationClientInterface implements IDataToCommunication,
      * @param channel [Channel] Channel que l'on veut rejoindre
      **/
     public void askToJoin(Channel channel) {
-        commController.sendMessage(new AskToJoinMessage(channel.getId(), localUser));
+        if (channel.getType() == ChannelType.OWNED) {
+            commController.sendMessage(new AskToJoinPropMessage(channel.getId(), localUser, channel.getCreator()));
+        } else {
+            commController.sendMessage(new AskToJoinSharedMessage(channel.getId(), localUser));
+        }
     }
 
     /**

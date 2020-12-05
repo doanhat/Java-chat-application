@@ -314,7 +314,7 @@ public class CommunicationServerController extends CommunicationController {
 
         sendMessage(userLite.getId(), new ValideUserLeftMessage(channelID));
 
-        sendMulticast(ch.getAcceptedPersons(), new UserHasLeftChannelMessage(channelID, userLite), userLite);
+        sendMulticast(ch.getAcceptedPersons(), new UserLeftChannelMessage(channelID, userLite), userLite);
     }
 
     /* ----------------------------------------- Chat action handling ------------------------------------------------*/
