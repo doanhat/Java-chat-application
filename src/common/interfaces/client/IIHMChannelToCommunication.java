@@ -100,4 +100,12 @@ public interface IIHMChannelToCommunication
      **/
     List<Message> getChannelHistory(UUID channelId);
 
+    /**
+     * Signale que le client a fermé l'onglet du channel d'ID channelId.
+     * Cela signifie qu'il s'est déconnecté du channel mais ne l'a pas quitté pour autant.
+     * @param channelId ID du channel fermé
+     * @param user user ayant quitté le channel
+     */
+    void closeChannel(UUID channelId);
+
 }
