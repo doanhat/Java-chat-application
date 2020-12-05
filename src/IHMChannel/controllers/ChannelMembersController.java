@@ -61,16 +61,13 @@ public class ChannelMembersController {
      * @throws IOException
      */
     public void alphabeticSort(){
-
         listMembersDisplay.setCenter(alphabeticalMembersListDisplay.root);
-
     }
 
     /**
      * Tri des membres selon leur rôle
      */
     public void adminSort() {
-
         listMembersDisplay.setCenter(adminMembersListDisplay.root);
     }
 

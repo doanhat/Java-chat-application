@@ -29,7 +29,7 @@ public class AdminMembersListController {
     ObservableList<UserLite> adminMembers;
     UserLite creator;
     UserLite localUser;
-    boolean isLocalUserAdmin = true;
+    boolean isLocalUserAdmin = false;
 
     ObservableList<HBox> creatorToDisplay;
     ObservableList<HBox> adminsToDisplay;
@@ -44,8 +44,15 @@ public class AdminMembersListController {
 
         creator = this.channel.getCreator();
 
+        isLocalUserAdmin = false;
         this.channel.getAdministrators().forEach(userLite -> {
+            // On n'ajoute pas le créateur dans cette liste.
             if(!userLite.getId().equals(creator.getId())){adminMembers.add(userLite);}
+
+            // On regarde si le localUser est admin
+            if(userLite.getId().equals(localUser.getId())) {
+                isLocalUserAdmin = true;
+            }
         });
 
         this.channel.getAcceptedPersons().forEach(userLite -> {
@@ -70,7 +77,7 @@ public class AdminMembersListController {
         for (UserLite usr : channelMembers){
             membersToDisplay.add((HBox) new MemberDisplay(usr,false,false,true,isLocalUserAdmin, channel, ihmChannelController).root);
         }
-        creatorToDisplay.add((HBox) new MemberDisplay(creator,true,true,true,isLocalUserAdmin, channel, ihmChannelController).root);
+        creatorToDisplay.add((HBox) new MemberDisplay(creator,true,true,true,false, channel, ihmChannelController).root);
 
         adminList.setItems(adminsToDisplay);
         membersList.setItems(membersToDisplay);
@@ -106,5 +113,6 @@ public class AdminMembersListController {
 
     public void setIhmChannelController(IHMChannelController ihmChannelController) {
         this.ihmChannelController = ihmChannelController;
+        localUser = ihmChannelController.getInterfaceToData().getLocalUser().getUserLite();
     }
 }
