@@ -5,9 +5,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class FileHandle<T> {
@@ -19,7 +21,11 @@ public class FileHandle<T> {
     private FileType fileType;
 
     public FileHandle(LocationType location,FileType fileType) {
-        this.path = System.getProperty("user.dir") + "/resource/"+location+"/"+fileType+"/";
+        String filePath = System.getProperty("user.dir") + "/resource/"+location+"/"+fileType+"/";
+        if (!Paths.get(filePath).toFile().exists() || !Paths.get(filePath).toFile().isDirectory()) {
+            Paths.get(filePath).toFile().mkdirs();
+        }
+        this.path = filePath;
     }
 
 
@@ -42,7 +48,14 @@ public class FileHandle<T> {
             List<T> ts = new ArrayList<>();
             File directoryPath = new File(this.path);
             //List of all files and directories
-            File filesList[] = directoryPath.listFiles();
+
+            File filesList[] = directoryPath.listFiles(new FilenameFilter() {
+                @Override
+                public boolean accept(File dir, String name) {
+                    if (name.toLowerCase().endsWith(".json")) return true;
+                    return false;
+                }
+            });
             if(filesList != null) {
                 for (File file : filesList) {
                     //System.out.println(Paths.get(file.getAbsolutePath()));
@@ -77,6 +90,25 @@ public class FileHandle<T> {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void addObjectToFile(String fileName, Object object, Class<T> tClass){
+        List<T> list = readJSONFileToList(fileName,tClass);
+        list.add((T) object);
+        writeJSONToFile(fileName,list);
+    }
+
+    public boolean deleteJSONFile(String fileName){
+        String sysPath = this.path + fileName + ".json";
+        System.out.println(sysPath);
+        try {
+            File f = new File(sysPath);
+            if(f.delete())
+                return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public void setPath(String path) {

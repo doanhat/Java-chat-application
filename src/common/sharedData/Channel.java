@@ -136,6 +136,26 @@ public class Channel implements Serializable {
 		this.acceptedPersons.add(user);
 	}
 
+	public boolean userInChannel(UUID userID){
+		for (UserLite user : acceptedPersons) {
+			if(user.getId().equals(userID))
+				return true;
+		}
+		return false;
+	}
+
+	public boolean userIsAdmin(UUID userID){
+		for (UserLite user : administrators) {
+			if(user.getId().equals(userID))
+				return true;
+		}
+		return false;
+	}
+
+	public void removeUser(UUID idUser){
+		this.acceptedPersons.removeIf(person ->(person.getId().equals(idUser)));
+	}
+
 	public void kickPermanentUser(UserLite user, String reason) {
 		this.kicked.add(new Kick(user, this, reason, true));
 	}
