@@ -14,7 +14,7 @@ public class ValidateCreationChannelMessage extends ServerToClientMessage {
 
 	private static final long serialVersionUID = -2287773862822477125L;
 	private final Channel newChannel;
- 
+
     public ValidateCreationChannelMessage(Channel newChannel) {
         this.newChannel = newChannel;
     }

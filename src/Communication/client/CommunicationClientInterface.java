@@ -11,6 +11,7 @@ import Communication.messages.client_to_server.shared_channels.AddAdminSharedMes
 import Communication.messages.client_to_server.proprietary_channels.AskToJoinPropMessage;
 import Communication.messages.client_to_server.shared_channels.AskToJoinSharedMessage;
 import Communication.messages.client_to_server.shared_channels.SendInviteSharedMessage;
+
 import common.interfaces.client.*;
 import common.sharedData.Channel;
 import common.sharedData.ChannelType;
@@ -31,12 +32,6 @@ public class CommunicationClientInterface implements IDataToCommunication,
     public CommunicationClientInterface(CommunicationClientController CommunicationClientController) {
         this.commController = CommunicationClientController;
     }
-
-
-    // NOTE Nornalement, appeller la methode instance() devra etre souffit
-    //public static IDataToCommunication getIDataToCommunication() { return instance(); }
-    //public static IIHMMainToCommunication getIHMMainToCommunication() { return instance(); }
-    //public static IIHMChannelToCommunication getIHMChannelToCommunication() { return instance(); }
 
     /**
      * Installer les interfaces de Data, IHM Main et IHM Channel
@@ -224,7 +219,8 @@ public class CommunicationClientInterface implements IDataToCommunication,
     public void askToJoin(Channel channel) {
         if (channel.getType() == ChannelType.OWNED) {
             commController.sendMessage(new AskToJoinPropMessage(channel.getId(), localUser, channel.getCreator()));
-        } else {
+        }
+        else {
             commController.sendMessage(new AskToJoinSharedMessage(channel.getId(), localUser));
         }
     }

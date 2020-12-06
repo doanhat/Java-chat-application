@@ -29,13 +29,13 @@ public class NetworkReader extends CyclicTask {
     }
 
     /**
-     * Setter de l'identifiant unique d'utilisateur 
+     * Setter de l'identifiant unique d'utilisateur
      * @param userID UUID de l'utilisateur
      */
     public void setUserID(UUID userID) {
         this.userID = userID;
     }
-
+    
     /**
      * Récupère le message reçu sur le réseau et le transforme en objet de type {@link Communication.messages.abstracts.NetworkMessage} en utilisant
      * {@link ObjectInputStream#readObject()}

@@ -10,17 +10,15 @@ import common.sharedData.UserLite;
  */
 public class NewUserConnectedMessage extends ServerToClientMessage {
 
-	private static final long serialVersionUID = 1612256798443169567L;
-	private final UserLite newUser;
+    private static final long serialVersionUID = 1612256798443169567L;
+    private final UserLite newUser;
 
-    public NewUserConnectedMessage(UserLite newUser)
-    {
+    public NewUserConnectedMessage(UserLite newUser) {
         this.newUser = newUser;
     }
 
     @Override
-    protected void handle(CommunicationClientController commController)
-    {
+    protected void handle(CommunicationClientController commController) {
         commController.notifyUserConnected(newUser);
     }
 }

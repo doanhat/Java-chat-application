@@ -1,5 +1,4 @@
 package Communication.messages.client_to_server.connection;
-
 import java.util.UUID;
 
 import Communication.messages.abstracts.ClientToServerMessage;
