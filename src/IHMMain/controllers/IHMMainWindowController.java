@@ -84,10 +84,8 @@ public class IHMMainWindowController implements Initializable{
         loadUserListView();
         userL = ihmMainController.getIHMMainToData().getUser().getUserLite();
         updateProfileImage();
-        /**
-         * Ne fonctionne pas car ce initialize a lieu avant la réponse du serveur, voir avec connexion
-         */
-        //nickname.setText(userL.getNickName());
+        nickname.setText(userL.getNickName());
+
         Stage primaryStage = mainWindowController.getPrimaryStage();
         Platform.setImplicitExit(false);
         primaryStage.setOnCloseRequest(event -> {
@@ -223,14 +221,7 @@ public class IHMMainWindowController implements Initializable{
     public void onSeDeconnecterButtonClick(){
         try {
             ihmMainController.getIIHMMainToCommunication().disconnect();
-
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../views/Connection.fxml"));
-            Parent parent = fxmlLoader.load(); //On recupère le noeud racine du fxml chargé
-            connectionController = fxmlLoader.getController(); //On récupère la classe controller liée au fxml
-            connectionController.setMainWindowController(mainWindowController); //On donne au controller fils une référence de son controller parent;
-            this.root.getChildren().addAll(parent); //On ajoute le noeud parent (fxml) au noeud racine de cette vue
-            IHMTools.fitSizeToParent((Region) root, (Region) parent);
-
+            ihmMainController.getMainWindowController().loadConnectionWindow();
         } catch (Exception e) {
             e.printStackTrace();
         }
