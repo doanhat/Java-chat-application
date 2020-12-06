@@ -2,7 +2,7 @@ package Communication.client;
 
 import Communication.common.Parameters;
 import Communication.messages.client_to_server.*;
-import Communication.messages.client_to_server.channel_handling.CreateChannelMessage;
+import Communication.messages.client_to_server.channel_manipulation.CreateChannelMessage;
 import Communication.messages.client_to_server.chat_action.SendMessageMessage;
 import Communication.messages.client_to_server.generic.GetHistoryMessage;
 import Communication.messages.client_to_server.proprietary_channels.AddAdminPropMessage;

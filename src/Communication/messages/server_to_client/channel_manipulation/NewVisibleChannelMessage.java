@@ -1,4 +1,4 @@
-package Communication.messages.server_to_client.channel_handling;
+package Communication.messages.server_to_client.channel_manipulation;
 
 import Communication.client.CommunicationClientController;
 import Communication.messages.abstracts.ServerToClientMessage;

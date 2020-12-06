@@ -6,6 +6,7 @@ import common.sharedData.UserLite;
 
 import java.util.UUID;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Message envoyé par le serveur en cas de refus de ce dernier de permettre au client de rejoindre un canal particulier.
@@ -24,7 +25,9 @@ public class RefuseJoinChannelMessage extends ServerToClientMessage {
 
     @Override
     protected void handle(CommunicationClientController commClientController) {
+        Logger logger = Logger.getLogger(this.getClass().getName());
         logger.log(Level.WARNING, "Refused to join channel {}" , channelID);
+
         commClientController.notifyRefusedToJoinChannel(user, channelID);
     }
 }
