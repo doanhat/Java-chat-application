@@ -23,7 +23,7 @@ public interface ICommunicationToData {
      *
      * @param channel the channel
      */
-    void addVisibleChannel(Channel channel);
+    //void createChannel(Channel channel);
 
     /**
      * User added to channel.
@@ -192,12 +192,13 @@ public interface ICommunicationToData {
     void saveNicknameIntoHistory(UserLite user,UUID channelId, String newNickname);
 
     /**
-     * Add user to channel.
+     * Add user to channel .
      *
      * @param user    the user
      * @param channelId the channel
      */
-    void addUserToChannel(UserLite user, UUID channelId);
+    void unbannedUserToChannel(UserLite user, UUID channelId);
 
+    void addUserToOwnedChannel(UserLite user, UUID channelId);
 }
 

@@ -5,7 +5,6 @@ import common.sharedData.*;
 
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 public class IHMMainToData implements IIHMMainToData {
 
@@ -47,8 +46,7 @@ public class IHMMainToData implements IIHMMainToData {
     public void createChannel(String name, String description, Boolean isShared, Boolean isPublic, UserLite owner) {
         Channel channel;
         channel = new Channel(name, owner, description, isPublic ? Visibility.PUBLIC : Visibility.PRIVATE, isShared ? ChannelType.SHARED : ChannelType.OWNED);
-        this.dataController.getChannelController().addVisibleChannel(channel);
-        this.dataController.getChannelController().sendOwnedChannelsToServer();
+        this.dataController.getChannelController().createChannel(channel);
     }
 
     /**

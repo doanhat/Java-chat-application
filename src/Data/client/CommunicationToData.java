@@ -1,6 +1,5 @@
 package Data.client;
 
-import Data.server.UserListController;
 import common.interfaces.client.ICommunicationToData;
 import common.sharedData.Channel;
 import common.sharedData.Message;
@@ -23,10 +22,10 @@ public class CommunicationToData implements ICommunicationToData {
      *
      * @param channel the channel
      */
-    @Override
-    public void addVisibleChannel(Channel channel) {
+    /*@Override
+    public void createChannel(Channel channel) {
         dataController.getChannelController().mainClient.addChannelToList(channel);
-    }
+    }*/
 
     /**
      * User added to channel.
@@ -135,7 +134,6 @@ public class CommunicationToData implements ICommunicationToData {
                     message,
                     ownedChannel,
                     response);
-            dataController.getChannelController().sendOwnedChannelsToServer();
         }
     }
 
@@ -268,13 +266,17 @@ public class CommunicationToData implements ICommunicationToData {
      * @param channelId the channel
      */
     @Override
-    public void addUserToChannel(UserLite user, UUID channelId) {
+    public void unbannedUserToChannel(UserLite user, UUID channelId) {
         Channel ownedChannel = dataController.getChannelController().searchChannelById(channelId);
         if (ownedChannel != null) {
             ownedChannel.addUser(user);
-            dataController.getChannelController().sendOwnedChannelsToServer();
-            dataController.getUserController().addUserToChannel(user,channelId);
+            dataController.getUserController().unbannedUserTochannel(user,channelId);
         }
+    }
+
+    @Override
+    public void addUserToOwnedChannel(UserLite user, UUID channelId) {
+        dataController.getChannelController().addUserToOwnedChannel(user,channelId);
     }
 
 }

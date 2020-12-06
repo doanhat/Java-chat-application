@@ -35,16 +35,26 @@ public class ChannelController extends Controller{
         }
         return null;
     }
+
+    public void addChannelToLocalChannels(Channel channel){
+        for (Channel c : channelList){
+            if (c.getId().equals(channel.getId())){
+                channelList.remove(c);
+            }
+        }
+        channelList.add(channel);
+        new FileHandle<Channel>(LocationType.client, FileType.channel).writeJSONToFile(channel.getId().toString(),Channel.class);
+
+    }
     /**
      * Add visible channel.
      *
      * @param channel the channel
      */
-    public void addVisibleChannel(Channel channel) {
-        List<Channel> channels = getChannelList();
-        channels.add(channel);
+    public void createChannel(Channel channel) {
+        addChannelToLocalChannels(channel);
         this.mainClient.addChannelToList(channel);
-        this.comClient.sendProprietaryChannels(channelList);
+        sendOwnedChannelToServer(channel);
     }
 
     /**
@@ -58,11 +68,11 @@ public class ChannelController extends Controller{
         for (Channel c : channels) {
             if(c.getId().equals(channelID)) {
                 c.addUser(user);
+                new FileHandle<Channel>(LocationType.client, FileType.channel).writeJSONToFile(channelID.toString(),Channel.class);
                 break;
             }
         }
         this.mainClient.updateListChannel(channels);
-        this.comClient.sendProprietaryChannels(channelList);
     }
 
     /**
@@ -76,7 +86,6 @@ public class ChannelController extends Controller{
         if (ownedChannel!=null) {
             ownedChannel.addAdmin(user);
             fileHandler.writeJSONToFile(ownedChannel.getId().toString(),ownedChannel);
-            sendOwnedChannelsToServer();
         }
     }
 
@@ -140,5 +149,19 @@ public class ChannelController extends Controller{
 
     public void sendOwnedChannelsToServer(){
         this.comClient.sendProprietaryChannels(this.channelList);
+    }
+    public void sendOwnedChannelToServer(Channel channel){
+        this.comClient.sendProprietaryChannel(channel);
+    }
+
+    public void addUserToOwnedChannel(UserLite user, UUID channelId) {
+        List<Channel> channels = getChannelList();
+        for (Channel c : channels) {
+            if(c.getId().equals(channelId)) {
+                c.addUser(user);
+                new FileHandle<Channel>(LocationType.client, FileType.channel).writeJSONToFile(channelId.toString(),Channel.class);
+                break;
+            }
+        }
     }
 }

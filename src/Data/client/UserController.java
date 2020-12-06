@@ -94,7 +94,7 @@ public class UserController extends Controller {
      *  @param user    the user
      * @param channelId the channel
      */
-    public void addUserToChannel(UserLite user, UUID channelId) {
+    public void unbannedUserTochannel(UserLite user, UUID channelId) {
         channelClient.userBanCancelledNotification(user,channelClient.getChannel(channelId));
     }
 
@@ -116,8 +116,19 @@ public class UserController extends Controller {
 
     public boolean createAccount(String nickName, String avatar, String password, String lastName, String firstName, Date birthDate) {
         User user = new User(nickName,avatar,password,lastName,firstName,birthDate);
+        addUserToLocalUsers(user);
         fileHandle.addObjectToFile("users",user,User.class);
-        localUserList = fileHandle.readJSONFileToList("users",User.class);
         return true;
     }
+
+    private void addUserToLocalUsers(User user) {
+        for (UserLite userLite : localUserList){
+            if (userLite.getId().equals(user.getId())){
+                localUserList.remove(userLite);
+            }
+        }
+        localUserList.add(user);
+    }
+
+
 }

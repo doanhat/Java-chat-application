@@ -221,11 +221,11 @@ public class CommunicationClientController extends CommunicationController {
             return;
         }
 
-//        // TODO INTEGRATION request data addVisibleChannel receive Channel as parameter : (REMARQUE INTEG, CETTE LIGNE RAJOUTE DE LA REDONDANCE) QUE FAIRE??
+//        // TODO INTEGRATION request data createChannel receive Channel as parameter : (REMARQUE INTEG, CETTE LIGNE RAJOUTE DE LA REDONDANCE) QUE FAIRE??
         /**
-         * TODO: IF DATA DOESN'T IMPLEMENT a ChannelList, please delete the line "dataClient.addVisibleChannel(channel)" in next integration
+         * TODO: IF DATA DOESN'T IMPLEMENT a ChannelList, please delete the line "dataClient.createChannel(channel)" in next integration
          */
-//        dataClient.addVisibleChannel(channel);
+//        dataClient.createChannel(channel);
         mainClient.channelAdded(channel);
 
         // TODO handle propriety Channel
@@ -247,7 +247,7 @@ public class CommunicationClientController extends CommunicationController {
         mainClient.channelCreated(channel);
 
         // TODO INTEGRATION verify with Data if new created Channel is control by Data Client and fill missing sequence diagram
-        //dataClient.addVisibleChannel(channel);
+        //dataClient.createChannel(channel);
     }
 
     /**
@@ -276,7 +276,7 @@ public class CommunicationClientController extends CommunicationController {
             System.err.println("notifyAcceptedToJoinChannel: Data Iface est null");
             return;
         }
-        // TODO INTEGRATION verify with data what is the difference between userAddedToChannel and addUserToChannel
+        // TODO INTEGRATION verify with data what is the difference between userAddedToChannel and unbannedUserToChannel
         dataClient.userAddedToChannel(user, channelID);
     }
 
@@ -307,8 +307,8 @@ public class CommunicationClientController extends CommunicationController {
             return;
         }
 
-        // TODO INTEGRATION verify with data what is the difference between userAddedToChannel and addUserToChannel
-        dataClient.addUserToChannel(user, channelID);
+        // TODO INTEGRATION verify with data what is the difference between userAddedToChannel and unbannedUserToChannel
+        dataClient.unbannedUserToChannel(user, channelID);
     }
 
 
