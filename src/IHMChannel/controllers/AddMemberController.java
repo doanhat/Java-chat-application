@@ -10,6 +10,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -45,6 +46,7 @@ public class AddMemberController {
 
     public void initialize(){
         usersList.setCellFactory(new AddMemberCellFactory());
+        sortValueSearch(observableList);
         usersList.setItems(observableList);
 
         searchBar.textProperty().addListener((obs,oldValue,newValue)->{
@@ -52,6 +54,23 @@ public class AddMemberController {
             //Attention, cette façon de faire fait que la recherche est déclenchée à chaque lettre tapée et / effacée.
             //Dynamique mais peut-être plus lourd, à voir.
             System.out.println("On recherche "+newValue);
+            if (newValue != "" && newValue.trim().length() > 0) {
+                ObservableList<UserLite> newlist = observableList.filtered(t -> t.getNickName().substring(0, newValue.length()).toLowerCase().contains(newValue.toLowerCase()));
+                usersList.setItems(newlist);
+            }
+            else {
+                usersList.setItems(observableList);
+            }
+        });
+    }
+
+
+    public void sortValueSearch(ObservableList<UserLite> userLites) {
+        userLites.sort(new Comparator<UserLite>() {
+            @Override
+            public int compare(UserLite o1, UserLite o2) {
+                return o1.getNickName().compareTo(o2.getNickName());
+            }
         });
     }
 }

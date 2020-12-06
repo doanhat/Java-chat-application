@@ -2,6 +2,7 @@ package IHMChannel.controllers;
 
 import IHMChannel.IHMChannelController;
 import IHMChannel.MessageDisplay;
+import common.IHMTools.IHMTools;
 import common.sharedData.Channel;
 import common.sharedData.Message;
 import common.sharedData.UserLite;
@@ -17,8 +18,8 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.*;
+import javafx.scene.text.Text;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -33,7 +34,21 @@ public class ChannelMessagesController{
     private IHMChannelController ihmChannelController;
     private ConnectedMembersController connectedMembersController;
     private Message parentMessage = null;
+    private boolean isReponse = false;
+    @FXML
+    ImageView imgReceiver;
 
+    @FXML
+    Text userNameReceiver;
+
+    @FXML
+    TextArea messageReceiver;
+
+    @FXML
+    Button removeBtn;
+
+    @FXML
+    HBox reponseArea;
     @FXML
     ListView listMessages;
     @FXML
@@ -79,18 +94,36 @@ public class ChannelMessagesController{
         sendIcon.setFitHeight(15);
         sendIcon.setFitWidth(15);
         sendBtn.setGraphic(sendIcon);
-
+        reponseArea.setVisible(false);
+        messageReceiver.setEditable(false);
         // Définition listener sur la liste de messages
         messageListListener = changed -> {
             changed.next();
             if(changed.wasAdded()){
                 for(Message msgAdded : changed.getAddedSubList()){
-
+                        ChannelMessagesController that = this;
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
                                 try {
-                                    getMessagesToDisplay().add((HBox) new MessageDisplay(msgAdded).root);
+                                    if (!isReponse) {
+                                        getMessagesToDisplay().add((HBox) new MessageDisplay(msgAdded, that).root);
+                                    }
+                                    else {
+                                        HBox rpArea = new HBox();
+                                        rpArea.setVisible(true);
+                                        ImageView newImgReceiver = new ImageView();
+                                        Text newUserNameReceiver = new Text();
+                                        TextArea newMessageReceiver = new TextArea();
+                                        newUserNameReceiver.setText(userNameReceiver.getText());
+                                        newMessageReceiver.setText(messageReceiver.getText());
+                                        rpArea.getChildren().addAll(newImgReceiver, newUserNameReceiver, newMessageReceiver);
+                                        getMessagesToDisplay().add(rpArea);
+                                        HBox msg = (HBox) new MessageDisplay(msgAdded, that).root;
+                                        HBox.setHgrow(msg.getChildren().get(0), Priority.ALWAYS);
+                                        getMessagesToDisplay().add(msg);
+                                        setIsReponse(false);
+                                    }
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
@@ -110,13 +143,22 @@ public class ChannelMessagesController{
      * Méthode déclenchée au clic sur le bouton d'envoi de message.
      */
     public void sendMessage() throws IOException {
-        if(!typedText.getText().isEmpty()){
-            //ATTENTION l'id du message est écrit en dur, on ne sait pas comment il est généré pour le moment.
-            // Ne paraît pas logique qu'il soit généré par IHM Channel, donc penser à un constructeur sans id
-            Message newMsg = new Message(typedText.getText(), ihmChannelController.getInterfaceToData().getLocalUser().getUserLite());
-            ihmChannelController.getInterfaceToCommunication().sendMessage(newMsg, channel, parentMessage);
-            //messagesToDisplay.add((HBox)new MessageDisplay(new Message(1,typedText.getText(),connectedUser)).root);
-            typedText.setText("");
+        if (!isReponse) {
+            if (!typedText.getText().isEmpty()) {
+                //ATTENTION l'id du message est écrit en dur, on ne sait pas comment il est généré pour le moment.
+                // Ne paraît pas logique qu'il soit généré par IHM Channel, donc penser à un constructeur sans id
+                Message newMsg = new Message(typedText.getText(), ihmChannelController.getInterfaceToData().getLocalUser().getUserLite());
+                ihmChannelController.getInterfaceToCommunication().sendMessage(newMsg, channel, parentMessage);
+                //messagesToDisplay.add((HBox)new MessageDisplay(new Message(1,typedText.getText(),connectedUser)).root);
+                typedText.setText("");
+            }
+        }
+        else {
+            if(!typedText.getText().isEmpty()) {
+                Message newMsg = new Message(typedText.getText(), ihmChannelController.getInterfaceToData().getLocalUser().getUserLite());
+                ihmChannelController.getInterfaceToCommunication().sendMessage(newMsg, channel, parentMessage);
+                typedText.setText("");
+            }
         }
     }
 
@@ -141,7 +183,7 @@ public class ChannelMessagesController{
     private void displayMessagesList() throws IOException {
         getMessagesToDisplay().removeAll(); //réinitialisation
         for (Message msg : observableMessages){
-            getMessagesToDisplay().add((HBox) new MessageDisplay(msg).root);
+            getMessagesToDisplay().add((HBox) new MessageDisplay(msg, this).root);
         }
         listMessages.setItems(getMessagesToDisplay());
     }
@@ -182,5 +224,28 @@ public class ChannelMessagesController{
 
     public void removeMemberFromObservableList(UserLite user) {
         this.connectedMembersController.removeMemberFromObservableList(user);
+    }
+
+    /**
+     * test
+     */
+
+    public ObservableList<Message> getObservableMessages() {
+        return observableMessages;
+    }
+
+    public void setIsReponse(boolean isReponse){
+        if (isReponse) {
+            reponseArea.setVisible(true);
+        }
+        else{
+            reponseArea.setVisible(false);
+        }
+        this.isReponse = isReponse;
+    }
+    @FXML
+    void removeReponse() {
+        setIsReponse(false);
+        this.parentMessage = null;
     }
 }
