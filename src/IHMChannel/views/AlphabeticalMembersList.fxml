@@ -6,6 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import java.net.URL?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="IHMChannel.controllers.AlphabeticalMembersListController">
@@ -13,4 +14,7 @@
         <Label text="Liste des membres :" />
         <ListView fx:id="membersList" />
     </VBox>
+    <stylesheets>
+        <URL value="@../css/style.css" />
+    </stylesheets>
 </AnchorPane>

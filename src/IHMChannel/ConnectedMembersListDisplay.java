@@ -10,6 +10,9 @@ import javafx.scene.Parent;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ *  Classe "modèle" qui gère l'affichage  de la liste des membres du channel en fonction de s'ils sont connectés en appelant le FXML Loader
+ */
 public class ConnectedMembersListDisplay {
     public Parent root = null;
     public ConnectedMembersListController connectedMembersController;

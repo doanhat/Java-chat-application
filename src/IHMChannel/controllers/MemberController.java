@@ -1,24 +1,14 @@
 package IHMChannel.controllers;
 
 import IHMChannel.IHMChannelController;
-import common.interfaces.client.IIHMChannelToCommunication;
 import common.sharedData.Channel;
-import IHMChannel.MemberDisplay;
-import common.sharedData.Message;
 import common.sharedData.UserLite;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.image.Image;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import IHMChannel.switchButton.ToggleSwitch;
-
-import java.io.IOException;
 
 public class MemberController {
 
@@ -27,7 +17,7 @@ public class MemberController {
     Channel channel;
 
     @FXML
-    ImageView profilePicture;
+    ImageView profilePic;
     @FXML
     ImageView connectedIcon;
     @FXML
@@ -89,6 +79,20 @@ public class MemberController {
         usersIcon.setFitHeight(15);
         usersIcon.setFitWidth(15);
         banBtn.setGraphic(usersIcon);
+
+        if(isCreator){
+            Image creatorImage = new Image("IHMChannel/icons/crown-solid.png");
+            creatorIcon.setImage(creatorImage);
+            creatorIcon.setFitHeight(15);
+            creatorIcon.setFitWidth(15);
+        }
+
+        if(isConnected){
+            Image connectedImage = new Image("IHMChannel/icons/circle-solid.png");
+            connectedIcon.setImage(connectedImage);
+            connectedIcon.setFitHeight(10);
+            connectedIcon.setFitWidth(10);
+        }
 
     }
 

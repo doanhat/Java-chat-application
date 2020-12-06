@@ -6,6 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import java.net.URL?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="IHMChannel.controllers.ConnectedMembersListController">
@@ -15,4 +16,7 @@
         <Label text="Membres déconnectés :" />
         <ListView fx:id="disconnectedMembers" maxHeight="150" />
     </VBox>
+    <stylesheets>
+        <URL value="@../css/style.css" />
+    </stylesheets>
 </AnchorPane>
