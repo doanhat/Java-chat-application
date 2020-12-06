@@ -278,6 +278,7 @@ public class ChannelController {
     public void setConnectedMembersList(List<UserLite> connectedMembersList) {
         this.connectedMembersList = connectedMembersList;
         this.channelMessagesDisplay.setConnectedMembersList(connectedMembersList);
+        this.channelMembersDisplay.setConnectedMembersList(connectedMembersList);
 
     }
 
@@ -285,10 +286,12 @@ public class ChannelController {
         this.connectedMembersList.add(user);
         this.channelMessagesDisplay.getController().addMemberToObservableList(user);
         //this.channelMessagesDisplay.setConnectedMembersList(this.connectedMembersList);
+        this.channelMembersDisplay.getController().addMemberToObservableList(user);
     }
 
     public void removeConnectedUser(UserLite user) {
         this.connectedMembersList.remove(user);
         this.channelMessagesDisplay.getController().removeMemberFromObservableList(user);
+        this.channelMembersDisplay.getController().removeMemberFromObservableList(user);
     }
 }
