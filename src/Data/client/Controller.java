@@ -14,4 +14,16 @@ public class Controller {
         this.channelClient = channelClient;
         this.mainClient = mainClient;
     }
+
+    public IDataToCommunication getComClient() {
+        return comClient;
+    }
+
+    public IDataToIHMChannel getChannelClient() {
+        return channelClient;
+    }
+
+    public IDataToIHMMain getMainClient() {
+        return mainClient;
+    }
 }

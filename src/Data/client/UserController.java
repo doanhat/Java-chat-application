@@ -94,7 +94,7 @@ public class UserController extends Controller {
      *  @param user    the user
      * @param channelId the channel
      */
-    public void addUserToChannel(UserLite user, UUID channelId) {
+    public void unbannedUserTochannel(UserLite user, UUID channelId) {
         channelClient.userBanCancelledNotification(user,channelClient.getChannel(channelId));
     }
 
@@ -108,15 +108,27 @@ public class UserController extends Controller {
         List<UserLite> users = new ArrayList<UserLite>();
 
         // TODO : get real data
-        for (int i = 1 ; i <= 5 ; i++) {
+        /*for (int i = 1 ; i <= 5 ; i++) {
             users.add(new UserLite("user " + i, "avatar"));
-        }
+        }*/
         return users;
     }
 
     public boolean createAccount(String nickName, String avatar, String password, String lastName, String firstName, Date birthDate) {
         User user = new User(nickName,avatar,password,lastName,firstName,birthDate);
+        addUserToLocalUsers(user);
         fileHandle.addObjectToFile("users",user,User.class);
         return true;
     }
+
+    private void addUserToLocalUsers(User user) {
+        for (UserLite userLite : localUserList){
+            if (userLite.getId().equals(user.getId())){
+                localUserList.remove(userLite);
+            }
+        }
+        localUserList.add(user);
+    }
+
+
 }
