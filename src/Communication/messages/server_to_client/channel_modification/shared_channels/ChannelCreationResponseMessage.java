@@ -1,4 +1,4 @@
-package Communication.messages.server_to_client.channel_modification;
+package Communication.messages.server_to_client.channel_modification.shared_channels;
 
 import Communication.client.CommunicationClientController;
 import Communication.messages.abstracts.ServerToClientMessage;

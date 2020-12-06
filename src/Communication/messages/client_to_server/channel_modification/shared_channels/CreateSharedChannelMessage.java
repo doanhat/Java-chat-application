@@ -1,4 +1,4 @@
-package Communication.messages.client_to_server.channel_modification;
+package Communication.messages.client_to_server.channel_modification.shared_channels;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 import Communication.messages.abstracts.ClientToServerMessage;
 import Communication.messages.abstracts.NetworkMessage;
 import Communication.messages.server_to_client.channel_modification.NewVisibleChannelMessage;
-import Communication.messages.server_to_client.channel_modification.ChannelCreationResponseMessage;
+import Communication.messages.server_to_client.channel_modification.shared_channels.ChannelCreationResponseMessage;
 import Communication.server.CommunicationServerController;
 import common.sharedData.Channel;
 import common.sharedData.UserLite;
@@ -16,7 +16,7 @@ import common.sharedData.Visibility;
  * Cette classe correspond à un message indiquant la volonté de création d'un nouveau channel au serveur
  *
  */
-public class CreateChannelMessage extends ClientToServerMessage {
+public class CreateSharedChannelMessage extends ClientToServerMessage {
 
 	private static final long serialVersionUID = 7561722469207475665L;
 	private final UserLite sender;
@@ -31,10 +31,10 @@ public class CreateChannelMessage extends ClientToServerMessage {
      * @param isShared true si le canal doit être partagé
      * @param isPublic true si le canal est public, false si il est privé
      */
-    public CreateChannelMessage(UserLite sender,
-                                Channel channel,
-                                boolean isShared,
-                                boolean isPublic) {
+    public CreateSharedChannelMessage(UserLite sender,
+                                      Channel channel,
+                                      boolean isShared,
+                                      boolean isPublic) {
         this.sender = sender;
         this.channel = channel;
         this.isShared = isShared;
@@ -47,7 +47,9 @@ public class CreateChannelMessage extends ClientToServerMessage {
 
         Logger logger = Logger.getLogger(this.getClass().getName());
 
-        // NOTE: Same procedure for shared and proprietary channels
+        // NOTE: Same procedure for shared and proprietary channels,
+        // shared channel is created by IHM main, proprietary channel is created by Data Client
+        // But both need to register with Server by method requestCreateChannel()
         if (newChannel != null)
         {
             // Request Accepted

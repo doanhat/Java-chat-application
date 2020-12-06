@@ -2,7 +2,8 @@ package Communication.client;
 
 import Communication.common.Parameters;
 import Communication.messages.client_to_server.*;
-import Communication.messages.client_to_server.channel_modification.CreateChannelMessage;
+import Communication.messages.client_to_server.channel_modification.proprietary_channels.SendProprietaryChannelsMessage;
+import Communication.messages.client_to_server.channel_modification.shared_channels.CreateSharedChannelMessage;
 import Communication.messages.client_to_server.chat_action.SendMessageMessage;
 import Communication.messages.client_to_server.generic.GetHistoryMessage;
 import Communication.messages.client_to_server.channel_access.proprietary_channels.AddAdminPropMessage;
@@ -18,13 +19,11 @@ import common.sharedData.ChannelType;
 import common.sharedData.Message;
 import common.sharedData.UserLite;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class CommunicationClientInterface implements IDataToCommunication,
-        IIHMMainToCommunication,
-        IIHMChannelToCommunication {
+                                                     IIHMMainToCommunication,
+                                                     IIHMChannelToCommunication {
 
     private final CommunicationClientController commController;
     private UserLite localUser;
@@ -75,7 +74,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
      * @param owner    [UserLite] Information sur le proprietaire du channel si c'est un channel privé
      **/
     public void createChannel(Channel channel, Boolean isShared, Boolean isPublic, UserLite owner) {
-        this.commController.sendMessage(new CreateChannelMessage(owner, channel, isShared, isPublic));
+        this.commController.sendMessage(new CreateSharedChannelMessage(owner, channel, isShared, isPublic));
     }
 
     /* -------------------------- IIHMChannelToCommunication interface implementations -------------------------------*/
@@ -228,12 +227,12 @@ public class CommunicationClientInterface implements IDataToCommunication,
 
     @Override
     public void sendProprietaryChannels(List<Channel> channels) {
-
+        commController.sendMessage(new SendProprietaryChannelsMessage(localUser, channels));
     }
 
     @Override
     public void sendProprietaryChannel(Channel channel) {
-
+        commController.sendMessage(new SendProprietaryChannelsMessage(localUser, Collections.singletonList(channel)));
     }
 
 }
