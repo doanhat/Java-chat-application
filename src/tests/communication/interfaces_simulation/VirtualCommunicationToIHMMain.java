@@ -24,6 +24,9 @@ public class VirtualCommunicationToIHMMain implements ICommunicationToIHMMain {
     }
 
     @Override
+    public void setConnectionStatus(int status) { }
+
+    @Override
     public void setConnectedUsers(List<UserLite> users) {
         otherUsers.clear();
         otherUsers.addAll(users);

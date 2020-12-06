@@ -22,13 +22,25 @@ public class CommunicationToIHMMain implements ICommunicationToIHMMain {
     @Override
     public void connectionAccepted() {
         /**
-         * N'étant pas sur le threadprincipal il faut execute le load plus tard
+         * N'étant pas sur le thread principal il faut execute le load plus tard
          */
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                ihmMainWindowController = ihmMainController.getMainWindowController().getIHMMainWindowController();
-                ihmMainWindowController.getMainWindowController().loadIHMMainWindow();
+                ihmMainController.getMainWindowController().loadIHMMainWindow();
+            }
+        });
+    }
+
+    @Override
+    public void setConnectionStatus(int status) {
+        /**
+         * N'étant pas sur le thread principal il faut execute le load plus tard
+         */
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                ihmMainController.loadIHMMainWindow(status);
             }
         });
     }
