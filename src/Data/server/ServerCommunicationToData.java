@@ -17,6 +17,17 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     }
 
     @Override
+    public Channel requestChannelCreation(Channel channel, boolean isShared, boolean isPublic, UserLite owner) {
+        channel.setVisibility(isPublic ? Visibility.PUBLIC : Visibility.PRIVATE);
+        channel.setType(isShared ? ChannelType.SHARED : ChannelType.OWNED);
+        channel.updateCreator(owner);
+
+        channelsListController.addChannel(channel);
+
+        return channel;
+    }
+
+    @Override
     public boolean requestChannelRemoval(UUID channelID, UserLite user) {
         Channel channel = channelsListController.searchChannelById(channelID);
         if(channel!=null){
@@ -57,7 +68,11 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
     @Override
     public void saveMessageIntoHistory(Channel ch, Message ms, Message response) {
-        this.channelsListController.writeMessageInChannel(ch.getId(), ms, response);
+        ch.addMessage(ms);
+
+        if (ch.getType() == ChannelType.SHARED) {
+            this.channelsListController.writeMessageInChannel(ch, ms, response);
+        }
     }
 
 
@@ -85,13 +100,23 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
     @Override
     public List<Channel> getVisibleChannels(UserLite user) {
-       List<Channel> channels =  channelsListController.getSharedChannels();
-        for (Channel channel: channelsListController.getOwnedChannels()) {
-            if (channel.userInChannel(user.getId())){
-                channels.add(channel);
+        List<Channel> visibleChannels = new ArrayList<>();
+        List<Channel> sharedChannels = channelsListController.getSharedChannels();
+        List<Channel> ownedChannels = channelsListController.getOwnedChannels();
+
+        for (Channel channel: sharedChannels) {
+            if ((channel.getVisibility() == Visibility.PUBLIC) || (channel.userInChannel(user.getId()))) {
+                visibleChannels.add(channel);
             }
         }
-        return channels;
+
+        for (Channel channel: ownedChannels) {
+            if ((channel.getVisibility() == Visibility.PUBLIC) || (channel.userInChannel(user.getId()))) {
+                visibleChannels.add(channel);
+            }
+        }
+
+        return visibleChannels;
     }
 
     @Override
@@ -202,4 +227,11 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     {
        return channelsListController.searchChannelById(channelID);
     }
+
+    @Override
+    public List<Channel> disconnectOwnedChannel(UserLite owner) {
+        return channelsListController.disconnectOwnedChannel(owner);
+    }
+
+
 }

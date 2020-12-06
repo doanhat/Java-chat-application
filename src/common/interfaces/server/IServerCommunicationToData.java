@@ -2,24 +2,14 @@ package common.interfaces.server;
 
 import common.sharedData.Channel;
 import common.sharedData.Message;
+import common.sharedData.User;
 import common.sharedData.UserLite;
 import java.util.List;
 import java.util.UUID;
 
 public interface IServerCommunicationToData {
-    /**
-     * NOTE: Suggestion de Comm: ajouter une méthode: 'Channel getChannel(int channelID)' pour retrouver un channel selon son ID
-     */
 
-
-    /**
-     * NOTE: Suggestion de Comm: utiliser seulement channelID pour diminuer la taille du paquet réseau,
-     * ou une classe supplémentaire qui contient seulement les méta-données d'un channel
-     * (un objet channel peut contient un objet de méta-données, et les contenues comme les message, user info, ...)
-     *
-     * Et cette méthode devrait retouner un boolean indiqué si le channel est bien supprimé
-     */
-
+    Channel requestChannelCreation(Channel channel,boolean isShared, boolean isPublic, UserLite owner);
     /**
      * Méthode pour faire la suppression d'un channel
      *
@@ -247,5 +237,7 @@ public interface IServerCommunicationToData {
      * */
     Boolean checkAuthorization(Channel channel, UserLite user);
 
-     Channel getChannel(UUID channelID);
+    Channel getChannel(UUID channelID);
+
+    List<Channel> disconnectOwnedChannel(UserLite owner);
 }

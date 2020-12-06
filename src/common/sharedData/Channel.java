@@ -60,6 +60,14 @@ public class Channel implements Serializable {
 		this.creator = creator;
 	}
 
+	public void updateCreator(UserLite creator) {
+		if (getCreator() == null || !getCreator().getId().equals(creator.getId())){
+			this.creator = creator;
+			this.administrators.add(creator);
+			this.acceptedPersons.add(creator);
+			this.nickNames.put(creator.getId().toString(), creator.getNickName());
+		}
+	}
 	public String getDescription() {
 		return description;
 	}

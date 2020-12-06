@@ -128,7 +128,14 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void saveMessageIntoHistory(Message message, UUID channelId, Message response) {
-        dataController.getMessageController().saveMessageIntoHistory(message,channelId,response);
+        Channel ownedChannel = dataController.getChannelController().searchChannelById(channelId);
+        if (ownedChannel != null) {
+            ownedChannel.addMessage(message);
+            dataController.getMessageController().saveMessageIntoHistory(
+                    message,
+                    ownedChannel,
+                    response);
+        }
     }
 
 

@@ -104,12 +104,12 @@ public class ChannelsListController {
     /**
      * Enregistre un message et son parent dans l'historique d'un channel.
      *
-     * @param channelId L'ID du channel.
+     * @param channel le channel.
      * @param message   Le message à enregistrer.
      * @param parent  Le parent du message, s'il existe.
      */
-    public void writeMessageInChannel(UUID channelId, Message message, Message parent){
-        Channel channel = this.readJSONToChannelData(channelId);
+    public void writeMessageInChannel(Channel channel, Message message, Message parent){
+        //Channel channel = this.readJSONToChannelData(channelId);
 
         if (channel != null) {
             List<Message> messages = channel.getMessages();
@@ -126,5 +126,23 @@ public class ChannelsListController {
 
             this.writeChannelDataToJSON(channel);
         }
+    }
+
+    public List<Channel> disconnectOwnedChannel(UserLite owner) {
+        List<Channel> userOwnedChannels = new ArrayList<>();
+        List<Channel> ownedChannels = getOwnedChannels();
+
+        if (ownedChannels == null) {
+            return null;
+        }
+
+        for (Channel channel: ownedChannels) {
+            if (channel.getCreator().getId().equals(owner.getId())) {
+                userOwnedChannels.add(channel);
+                ownedChannels.remove(channel);
+            }
+        }
+
+        return userOwnedChannels;
     }
 }
