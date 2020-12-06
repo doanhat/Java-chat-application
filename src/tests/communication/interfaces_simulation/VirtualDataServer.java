@@ -20,6 +20,11 @@ public class VirtualDataServer implements IServerCommunicationToData {
     }
 
     @Override
+    public Channel requestChannelCreation(Channel channel, boolean isShared, boolean isPublic, UserLite owner) {
+        return null;
+    }
+
+    @Override
     public boolean requestChannelRemoval(UUID channel, UserLite user) {
         if (channel == null || user == null) {
             return false;

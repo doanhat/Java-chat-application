@@ -18,13 +18,12 @@ public class MessageController extends Controller{
         super(comClient, channelClient, mainClient);
     }
 
-    public void saveMessageIntoHistory(Message message, UUID channelId, Message response) {
+    public void saveMessageIntoHistory(Message message, Channel ownedChannel, Message response) {
         if (message.getId().toString().equals("")) {
             message.setId(UUID.randomUUID());
         }
         int responseAdded = 0;
         FileHandle fileHandler = new FileHandle(LocationType.client, FileType.channel);
-        Channel ownedChannel = (Channel) fileHandler.readJSONFileToObject(channelId.toString(), Channel.class);
         if (ownedChannel!=null) {
             List<Message> listMsg = ownedChannel.getMessages();
             //listMsg.add(message);
@@ -44,7 +43,7 @@ public class MessageController extends Controller{
             }
 
         }
-        fileHandler.writeJSONToFile(channelId.toString(),ownedChannel);
+        fileHandler.writeJSONToFile(ownedChannel.getId().toString(),ownedChannel);
     }
 
     /**

@@ -27,6 +27,13 @@ public class ChannelController extends Controller{
         channelList = new FileHandle<Channel>(LocationType.client, FileType.channel).readAllJSONFilesToList(Channel.class);
     }
 
+    public Channel searchChannelById(UUID id) {
+        for(Channel ch : channelList){
+            if (ch.getId().equals(id))
+                return ch;
+        }
+        return null;
+    }
     /**
      * Add visible channel.
      *
