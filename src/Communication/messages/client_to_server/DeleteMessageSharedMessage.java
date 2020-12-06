@@ -1,13 +1,10 @@
 package Communication.messages.client_to_server;
 
 import Communication.messages.abstracts.ClientToServerMessage;
-import Communication.messages.server_to_client.AdminAddedMessage;
 import Communication.messages.server_to_client.DeleteMessageMessage;
-import Communication.messages.server_to_client.TellOwnerToDeleteMessageMessage;
 import Communication.server.CommunicationServerController;
 import common.sharedData.Channel;
 import common.sharedData.Message;
-import common.sharedData.UserLite;
 
 import java.util.UUID;
 
@@ -39,8 +36,7 @@ public class DeleteMessageSharedMessage extends ClientToServerMessage {
         commController.deleteMessage(message, channel, deleteByCreator);
 
         commController.sendMulticast(commController.getChannelConnectedUserList(channelID),
-                new DeleteMessageMessage(message, channelID, deleteByCreator),
-                null);
+                new DeleteMessageMessage(message, channelID, deleteByCreator));
 
     }
 }

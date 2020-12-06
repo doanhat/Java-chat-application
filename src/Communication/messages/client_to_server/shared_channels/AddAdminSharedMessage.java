@@ -49,7 +49,6 @@ public class AddAdminSharedMessage extends ClientToServerMessage{
         commController.saveNewAdmin(channel, user);
 
         commController.sendMulticast(channel.getAcceptedPersons(),
-                    new AdminAddedMessage(user, channelID),
-                    null);
+                    new AdminAddedMessage(user, channelID));
     }
 }

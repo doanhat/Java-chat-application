@@ -39,7 +39,6 @@ public class NewAdminConfirmation extends ClientToServerMessage {
         }
 
         commController.sendMulticast(channel.getAcceptedPersons(),
-                                     new AdminAddedMessage(user, channelID),
-                                     null);
+                                     new AdminAddedMessage(user, channelID));
     }
 }
