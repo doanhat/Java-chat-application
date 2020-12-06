@@ -4,12 +4,9 @@ import Communication.common.Parameters;
 import Communication.messages.client_to_server.*;
 import Communication.messages.client_to_server.channel_handling.CreateChannelMessage;
 import Communication.messages.client_to_server.chat_action.SendMessageMessage;
+import Communication.messages.client_to_server.generic.GetHistoryMessage;
 import Communication.messages.client_to_server.proprietary_channels.AddAdminPropMessage;
-import Communication.messages.client_to_server.proprietary_channels.AskToJoinPropMessage;
-import Communication.messages.client_to_server.proprietary_channels.SendInvitePropMessage;
 import Communication.messages.client_to_server.shared_channels.AddAdminSharedMessage;
-import Communication.messages.client_to_server.shared_channels.AskToJoinSharedMessage;
-import Communication.messages.client_to_server.shared_channels.SendInviteSharedMessage;
 import common.interfaces.client.*;
 import common.sharedData.Channel;
 import common.sharedData.ChannelType;
@@ -30,12 +27,6 @@ public class CommunicationClientInterface implements IDataToCommunication,
     public CommunicationClientInterface(CommunicationClientController CommunicationClientController) {
         this.commController = CommunicationClientController;
     }
-
-
-    // NOTE Nornalement, appeller la methode instance() devra etre souffit
-    //public static IDataToCommunication getIDataToCommunication() { return instance(); }
-    //public static IIHMMainToCommunication getIHMMainToCommunication() { return instance(); }
-    //public static IIHMChannelToCommunication getIHMChannelToCommunication() { return instance(); }
 
     /**
      * Installer les interfaces de Data, IHM Main et IHM Channel
@@ -100,22 +91,20 @@ public class CommunicationClientInterface implements IDataToCommunication,
     /* -------------------------- IIHMChannelToCommunication interface implementations -------------------------------*/
 
     /**
-     * Transfert au serveur l'envoi d'un message d'invitation au serveur'envoi
+     * Transfert au serveur l'envoie d'un message d'invitation au serveur'envoi
      * d'une invitation a rejoindre un channel
      *
-     * @param guest [UserLite] Utilisateur invité au channel
-     * @param channel [Channel] Channel auquel guest est invité
-     * @param message [String] Message d'invitation
+     * @param sender   [UserLite] Utilisateur qui crée l'invitation
+     * @param receiver [UserLite] Utilisateur qui doit recevoir l'invitation
+     * @param message  [Message] Message d'invitation
      **/
+    public void sendInvite(UserLite sender, UserLite receiver, Message message) {
+        // TODO V2
+    }
+
+    @Override
     public void sendInvite(UserLite guest, Channel channel, String message) {
-        if (guest == null || channel == null || message == null) {
-            return;
-        }
-        if (channel.getType() == ChannelType.OWNED) {
-            commController.sendMessage(new SendInvitePropMessage(guest, channel, message));
-        } else if (channel.getType() == ChannelType.SHARED) {
-            commController.sendMessage(new SendInviteSharedMessage(guest, channel, message));
-        }
+        // TODO V2
     }
 
     /**
@@ -222,11 +211,8 @@ public class CommunicationClientInterface implements IDataToCommunication,
      * @param channel [Channel] Channel que l'on veut rejoindre
      **/
     public void askToJoin(Channel channel) {
-        if (channel.getType() == ChannelType.OWNED) {
-            commController.sendMessage(new AskToJoinPropMessage(channel.getId(), localUser, channel.getCreator()));
-        } else {
-            commController.sendMessage(new AskToJoinSharedMessage(channel.getId(), localUser));
-        }
+        // TODO
+        //commController.sendMessage(new AskToJoinMessage(channel.getId(), localUser));
     }
 
     /**
@@ -237,6 +223,10 @@ public class CommunicationClientInterface implements IDataToCommunication,
      **/
     public List<Message> getHistory(Channel channel) {
         // TODO V3
+        //sendMessage + give liste de message
+        commController.sendMessage(new GetHistoryMessage(channel.getId(), localUser));
+
+
         return new ArrayList<>();
     }
 

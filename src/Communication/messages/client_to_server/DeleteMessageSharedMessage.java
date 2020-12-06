@@ -34,10 +34,8 @@ public class DeleteMessageSharedMessage extends ClientToServerMessage {
 
 
         commController.deleteMessage(message, channel, deleteByCreator);
-
         commController.sendMulticast(commController.getChannelConnectedUserList(channelID),
                 new DeleteMessageMessage(message, channelID, deleteByCreator));
-
     }
 }
 

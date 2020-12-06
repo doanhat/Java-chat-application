@@ -197,6 +197,7 @@ public class CommunicationClientController extends CommunicationController {
         }
 
         mainClient.addConnectedUser(newUser);
+        //channelClient.addConnectedUser(newUser); //TODO Activer cette methode quand channel l'aura dans son interface
     }
 
     /**
@@ -211,6 +212,7 @@ public class CommunicationClientController extends CommunicationController {
         }
 
         mainClient.removeConnectedUser(user);
+        //channelClient.removeConnectedUser(user); //TODO Activer cette methode quand channel l'aura dans son interface
     }
 
     /**
@@ -271,16 +273,16 @@ public class CommunicationClientController extends CommunicationController {
     /**
      * Notifier Data que la demande de rejoindre un channel a été accepté par serveur
      * @param user Utilisateur qui cherche a rejoindre le channel
-     * @param channel channel rejoint
+     * @param channelID identifiant unique (UUID) du channel
      */
-    public void notifyAcceptedToJoinChannel (UserLite user, Channel channel) {
+    public void notifyAcceptedToJoinChannel (UserLite user, UUID channelID) {
         if (dataClient == null)
         {
             System.err.println("notifyAcceptedToJoinChannel: Data Iface est null");
             return;
         }
         // TODO INTEGRATION verify with data what is the difference between userAddedToChannel and addUserToChannel
-        dataClient.userAddedToChannel(user, channel.getId());
+        dataClient.userAddedToChannel(user, channelID);
     }
 
     /**
@@ -426,6 +428,10 @@ public class CommunicationClientController extends CommunicationController {
 
     public void notifyDeletedMessage(Message message, UUID channelID, Boolean deleteByCreator) {
         dataClient.saveDeletionIntoHistory(message, null, channelID);
+    }
+
+    public void sendHistory(Channel channel, List<Message> history ){
+        channelClient.displayHistory(channel, history);
     }
 
     public void notifyInviteChannel(UserLite guest, UUID channelID) {

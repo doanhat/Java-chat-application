@@ -5,9 +5,11 @@ import Communication.common.NetworkWriter;
 import Communication.messages.abstracts.NetworkMessage;
 import Communication.messages.server_to_client.connection.UserDisconnectedMessage;
 import Communication.messages.server_to_client.UserLeftChannelMessage;
+
 import Communication.messages.server_to_client.ValideUserLeftMessage;
 import common.interfaces.server.IServerCommunicationToData;
 import common.sharedData.Channel;
+import common.sharedData.ChannelType;
 import common.sharedData.Message;
 import common.sharedData.UserLite;
 
@@ -188,6 +190,7 @@ public class CommunicationServerController extends CommunicationController {
             return null;
         }
 
+
         return dataServer.getChannel(channelID);
     }
 
@@ -211,6 +214,8 @@ public class CommunicationServerController extends CommunicationController {
             return null;
         }
 
+        // TODO INTEGRATION request Data to fix return type to Channel in order to return only created channel or null
+        //  to avoid exposing data and decrease run time complexity
         List<Channel> allChannels = dataServer.requestChannelCreation(channel, proprietary, publicChannel, requester);
 
         if (allChannels != null) {
@@ -364,6 +369,25 @@ public class CommunicationServerController extends CommunicationController {
 
         System.err.println("Message " + message.getId() + " deleted on channel " + channel.getId());
         dataServer.saveRemovalMessageIntoHistory(channel, message, deleteByCreator);
+    }
+
+
+    public List<Message> getHistoryMessage(Channel channel, UserLite user){
+        if(dataServer == null){
+            System.err.println("saveNewAdmin: Data Iface est null");
+            return null;
+        }
+        if (dataServer.checkAuthorization(channel, user)){
+            List<Message> history = dataServer.getHistory(channel);
+            if(channel.getType() == ChannelType.OWNED){
+                //TODO
+
+
+            }else{
+                return dataServer.getHistory(channel);
+            }
+        }
+        return null;
     }
 
     public List<UserLite> getChannelConnectedUserList(UUID channelID){
