@@ -122,6 +122,11 @@ public class Message implements Serializable {
 	}
 
 	public void addAnswers(Message answer) {
+		for (Message ans: answers){
+			if (ans.getId().equals(answer.getId())){
+				answers.remove(ans);
+			}
+		}
 		this.answers.add(answer);
 		answer.setParentMessageId(this.id);
 	}

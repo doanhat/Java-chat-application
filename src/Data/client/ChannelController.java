@@ -56,7 +56,7 @@ public class ChannelController extends Controller{
     public void userAddedToChannel(UserLite user, UUID channelID) {
         List<Channel> channels = getChannelList();
         for (Channel c : channels) {
-            if(c.getId() == channelID) {
+            if(c.getId().equals(channelID)) {
                 c.addUser(user);
                 break;
             }
@@ -67,22 +67,31 @@ public class ChannelController extends Controller{
 
     /**
      * Save new admin into history.
-     *
-     * @param user    the user
-     * @param channel the channel
+     *  @param user    the user
+     * @param channelId the channelId
      */
-    public void saveNewAdminIntoHistory(User user, Channel channel) {
-
+    public void saveNewAdminIntoHistory(UserLite user, UUID channelId) {
+        FileHandle fileHandler = new FileHandle(LocationType.client, FileType.channel);
+        Channel ownedChannel = searchChannelById(channelId);
+        if (ownedChannel!=null) {
+            ownedChannel.addAdmin(user);
+            fileHandler.writeJSONToFile(ownedChannel.getId().toString(),ownedChannel);
+            sendOwnedChannelsToServer();
+        }
     }
 
     /**
      * New admin.
-     *
-     * @param user    the user
-     * @param channel the channel
+     *  @param user    the user
+     * @param channelId the channelId
      */
-    public void newAdmin(User user, Channel channel) {
-
+    public void newAdmin(UserLite user, UUID channelId) {
+        Channel channel = searchChannelById(channelId);
+        if (channel!=null){
+            channel.addAdmin(user);
+            this.channelClient.addNewAdmin(user,this.channelClient.getChannel(channelId));
+            sendOwnedChannelsToServer();
+        }
     }
 
     /**

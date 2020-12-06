@@ -47,7 +47,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void saveNewAdminIntoHistory(UserLite user, UUID channelId) {
-
+        dataController.getChannelController().saveNewAdminIntoHistory(user,channelId);
     }
 
     /**
@@ -58,7 +58,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void newAdmin(UserLite user, UUID channelId) {
-
+        dataController.getChannelController().newAdmin(user, channelId);
     }
 
     /**
@@ -150,7 +150,11 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void receiveMessage(Message message, UUID channelId, Message response) {
-        dataController.getMessageController().receiveMessage(message,channelId,response);
+        Channel ownedChannel = dataController.getChannelController().searchChannelById(channelId);
+        if (ownedChannel != null) {
+            dataController.getMessageController().receiveMessage(message,ownedChannel,response);
+            dataController.getChannelController().sendOwnedChannelsToServer();
+        }
     }
 
     /**
