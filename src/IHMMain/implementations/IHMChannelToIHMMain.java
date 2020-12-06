@@ -28,7 +28,7 @@ public class IHMChannelToIHMMain implements IIHMChannelToIHMMain {
 
     @Override
     public void setOpenedChannelsList(List<Channel> openedChannels) {
-
+        ihmMainController.getOpenedChannels().setAll(openedChannels);
     }
 
     @Override

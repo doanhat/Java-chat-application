@@ -91,7 +91,7 @@ public class IHMMainWindowController implements Initializable{
          * And use the ChannelListViewCellController to display each item.
          */
         privateChannels.setItems(ihmMainController.getVisibleChannels().filtered(channel -> channel.getVisibility() == Visibility.PRIVATE));
-        privateChannels.setCellFactory(privateChannelsListView -> new ChannelListViewCellController());
+        privateChannels.setCellFactory(privateChannelsListView -> new ChannelListViewCellController(ihmMainController));
 
         /**
          * When a channel is selected, we display is channel view
@@ -115,7 +115,7 @@ public class IHMMainWindowController implements Initializable{
          * And use the ChannelListViewCellController to display each item.
          */
         publicChannels.setItems(ihmMainController.getVisibleChannels().filtered(channel -> channel.getVisibility() == Visibility.PUBLIC));
-        publicChannels.setCellFactory(privateChannelsListView -> new ChannelListViewCellController());
+        publicChannels.setCellFactory(privateChannelsListView -> new ChannelListViewCellController(ihmMainController));
 
         /**
          * When a channel is selected, we display is channel view
