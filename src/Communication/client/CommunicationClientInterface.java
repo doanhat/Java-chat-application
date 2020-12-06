@@ -2,6 +2,7 @@ package Communication.client;
 
 import Communication.common.Parameters;
 import Communication.messages.client_to_server.*;
+import Communication.messages.client_to_server.generic.CreateChannelMessage;
 import Communication.messages.client_to_server.proprietary_channels.AddAdminPropMessage;
 import Communication.messages.client_to_server.proprietary_channels.SendInvitePropMessage;
 import Communication.messages.client_to_server.shared_channels.AddAdminSharedMessage;

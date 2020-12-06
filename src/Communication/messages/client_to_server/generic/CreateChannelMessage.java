@@ -1,4 +1,4 @@
-package Communication.messages.client_to_server;
+package Communication.messages.client_to_server.generic;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -48,6 +48,7 @@ public class CreateChannelMessage extends ClientToServerMessage {
 
         Logger logger = Logger.getLogger(this.getClass().getName());
 
+        // NOTE: Same procedure for shared and proprietary channels
         if (newChannel != null)
         {
             // Request Accepted
@@ -66,6 +67,7 @@ public class CreateChannelMessage extends ClientToServerMessage {
         else {
             // Request Refused
         	logger.log(Level.WARNING, "Serveur réfuse la creation du channel {}" , channel.getId());
+
             commController.sendMessage(sender.getId(), new RefuseCreationChannelMessage(channel));
         }
     }
