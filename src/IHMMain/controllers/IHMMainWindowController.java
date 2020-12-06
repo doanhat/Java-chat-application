@@ -1,16 +1,12 @@
 package IHMMain.controllers;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
-import Communication.client.CommunicationClientInterface;
 import IHMMain.IHMMainController;
 import app.MainWindowController;
-import common.IHMTools.*;
-import common.interfaces.client.IIHMMainToCommunication;
+import common.IHMTools.IHMTools;
 import common.sharedData.Channel;
 import common.sharedData.ChannelType;
 import common.sharedData.UserLite;
@@ -18,7 +14,9 @@ import common.sharedData.Visibility;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.fxml.*;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -30,6 +28,10 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 public class IHMMainWindowController implements Initializable{
 

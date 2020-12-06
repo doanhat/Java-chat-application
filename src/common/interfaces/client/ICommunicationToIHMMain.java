@@ -1,8 +1,9 @@
 package common.interfaces.client;
 
-import java.util.List;
-import common.sharedData.UserLite;
 import common.sharedData.Channel;
+import common.sharedData.UserLite;
+
+import java.util.List;
 
 /**
  * Interface fournie par le module IHMMain pour le module Communication
@@ -12,6 +13,12 @@ public interface ICommunicationToIHMMain {
      * Informe IHMMain que le serceur a accepté la connexion de l'utilisateur.
      */
     public void connectionAccepted();
+
+    /**
+     * Informe IHMMain du statut de la connexion de l'utilisateur au serveur
+     * @param status
+     */
+    public void setConnectionStatus(int status);
 
     /**
      * Transmet a IHMMain la liste des utilisateurs actuellement connectés sur le serveur

@@ -88,15 +88,18 @@ public class ConnectionController implements Initializable{
             errors.append("Veuillez saisir un identifiant\n");
         }
         if (password.isEmpty()) {
-            errors.append("Veuillez saisir un mot de passe\n"); 
+            errors.append("Veuillez saisir un mot de passe\n");
         }
         if (checkMandatoryFields(errors)) {
-            // TODO uncomment when integration is done
-            ihmMainController.getIHMMainToData().localAuthentification(
+            if (!ihmMainController.getIHMMainToData().localAuthentification(
                     userConnectionIDTextField.getText().trim(),
-                    password);
-            // Manque vérification de la connexion : localAuthentification() devrait renvoyer une valeur booléenne à tester avant d'afficher IHMMainWindow
-            mainWindowController.loadIHMMainWindow();
+                    password)) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Alerte");
+                alert.setHeaderText("Connexion impossible");
+                alert.setContentText("Identifiant ou mot de passe incorrect");
+                alert.showAndWait();
+            };
         }
     }
 
@@ -118,17 +121,20 @@ public class ConnectionController implements Initializable{
             errors.append("Veuillez saisir un mot de passe\n");
         }
         if (checkMandatoryFields(errors)) {
-            ihmMainController.getIHMMainToData().createAccount(
+            if (!ihmMainController.getIHMMainToData().createAccount(
                     userSubscriptionIDTextField.getText().trim(),
                     chooseFileTextField.getText(),
                     password,
                     surnameTextField.getText(),
                     nameTextField.getText(),
-                    dateOfBirth);
-            // Manque vérification de l'inscription : createAccount() devrait renvoyer une valeur booléenne à tester avant d'afficher IHMMainWindow
-
-            mainWindowController.loadIHMMainWindow();
-
+                    dateOfBirth)) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Alerte");
+                alert.setHeaderText("Inscription impossible");
+                alert.showAndWait();
+            } else {
+                loadIHMMainWindow(0);
+            }
         }
     }
 
@@ -188,5 +194,17 @@ public class ConnectionController implements Initializable{
             return false;
         }
         return true;
+    }
+
+    public void loadIHMMainWindow(int status) {
+        if (status != 0) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Alerte");
+            alert.setHeaderText("Connexion impossible");
+            alert.setContentText("Erreur de connexion au serveur");
+            alert.showAndWait();
+        } else {
+            mainWindowController.loadIHMMainWindow();
+        }
     }
 }

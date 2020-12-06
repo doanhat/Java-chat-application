@@ -1,17 +1,17 @@
 package IHMMain;
 
-import IHMChannel.interfaces.IHMMainToIHMChannel;
-import common.interfaces.client.*;
 import Data.client.IHMMainToData;
 import IHMChannel.interfaces.IHMMainToIHMChannel;
 import IHMMain.implementations.CommunicationToIHMMain;
 import IHMMain.implementations.DataToIHMMain;
 import IHMMain.implementations.IHMChannelToIHMMain;
 import app.MainWindowController;
+import common.interfaces.client.ICommunicationToIHMMain;
+import common.interfaces.client.IDataToIHMMain;
+import common.interfaces.client.IIHMChannelToIHMMain;
+import common.interfaces.client.IIHMMainToCommunication;
 import common.sharedData.Channel;
-import common.sharedData.ChannelType;
 import common.sharedData.UserLite;
-import common.sharedData.Visibility;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -107,5 +107,9 @@ public class IHMMainController {
 
     public ObservableList<Channel> getOpenedChannels() {
         return openedChannels;
+    }
+    
+    public void loadIHMMainWindow(int status) {
+        mainWindowController.getConnectionController().loadIHMMainWindow(status);
     }
 }

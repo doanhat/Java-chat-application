@@ -1,20 +1,20 @@
 package app;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-
+import IHMMain.IHMMainController;
 import IHMMain.controllers.ConnectionController;
 import IHMMain.controllers.IHMMainWindowController;
-import IHMMain.IHMMainController;
-import com.sun.corba.se.pept.transport.ContactInfo;
-import common.IHMTools.*;
-import javafx.fxml.*;
+import common.IHMTools.IHMTools;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 public class MainWindowController implements Initializable {
 
@@ -55,8 +55,6 @@ public class MainWindowController implements Initializable {
 
     public ConnectionController getConnectionController() {return connectionController;}
 
-
-
     public void loadIHMMainWindow() {
         this.root.getChildren().clear(); //On efface les noeuds fils de la racine
         //On charge la vue IHMMainWindow
@@ -64,12 +62,12 @@ public class MainWindowController implements Initializable {
             FXMLLoader fxmlLoader = new
                     FXMLLoader(getClass().getResource("../IHMMain/views/IHMMainWindow.fxml"));
             //Parent parent = fxmlLoader.load();
-           IHMMainWindowController ihmMainWindowController = new IHMMainWindowController();
-           this.ihmMainWindowController = ihmMainWindowController;
-           fxmlLoader.setController(ihmMainWindowController);
-           ihmMainWindowController.setMainWindowController(this); //On donne au controller fils une référence de son controller parent
+            IHMMainWindowController ihmMainWindowController = new IHMMainWindowController();
+            this.ihmMainWindowController = ihmMainWindowController;
+            fxmlLoader.setController(ihmMainWindowController);
+            ihmMainWindowController.setMainWindowController(this); //On donne au controller fils une référence de son controller parent
             ihmMainWindowController.setIhmMainController(ihmMainController);
-           Parent parent = fxmlLoader.load();
+            Parent parent = fxmlLoader.load();
 
             this.root.getChildren().addAll(parent); //On ajoute le noeud parent (fxml) au noeud racine de cette vue
             IHMTools.fitSizeToParent((Region) root, (Region) parent);
