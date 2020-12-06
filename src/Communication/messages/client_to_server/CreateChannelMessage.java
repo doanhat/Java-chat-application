@@ -1,5 +1,8 @@
 package Communication.messages.client_to_server;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import Communication.messages.abstracts.ClientToServerMessage;
 import Communication.messages.abstracts.NetworkMessage;
 import Communication.messages.server_to_client.NewVisibleChannelMessage;
@@ -19,34 +22,35 @@ public class CreateChannelMessage extends ClientToServerMessage {
 	private static final long serialVersionUID = 7561722469207475665L;
 	private final UserLite sender;
     private final Channel  channel;
-    private final boolean  proprietaryChannel;
-    private final boolean  publicChannel;
+    private final boolean  isShared;
+    private final boolean  isPublic;
 
     /**
      * Constructeur principal de la classe
      * @param sender Utilisateur qui souhaite la construction du canal
      * @param channel Canal à créer
-     * @param proprietary true si le canal doit être propriétaire
-     * @param publicChannel true si le canal est public, false si il est privé
+     * @param isShared true si le canal doit être partagé
+     * @param isPublic true si le canal est public, false si il est privé
      */
     public CreateChannelMessage(UserLite sender,
                                 Channel channel,
-                                boolean proprietary,
-                                boolean publicChannel) {
+                                boolean isShared,
+                                boolean isPublic) {
         this.sender = sender;
         this.channel = channel;
-        this.proprietaryChannel = proprietary;
-        this.publicChannel = publicChannel;
+        this.isShared = isShared;
+        this.isPublic = isPublic;
     }
 
     @Override
     protected void handle(CommunicationServerController commController) {
-        Channel newChannel = commController.requestCreateChannel(channel, proprietaryChannel, publicChannel, sender);
+        Channel newChannel = commController.requestCreateChannel(channel, isShared, isPublic, sender);
+        Logger logger = Logger.getLogger(this.getClass().getName());
 
         if (newChannel != null)
         {
             // Request Accepted
-            System.err.println("Serveur accepte la creation du channel" + channel.getId());
+            logger.log(Level.INFO, "Serveur accepte la creation du channel {}" , channel.getId());
 
             // broadcast public channel to other users
             if (newChannel.getVisibility() == Visibility.PUBLIC) {
@@ -60,8 +64,7 @@ public class CreateChannelMessage extends ClientToServerMessage {
         }
         else {
             // Request Refused
-            System.err.println("Serveur réfuse la creation du channel" + channel.getId());
-
+        	logger.log(Level.WARNING, "Serveur réfuse la creation du channel {}" , channel.getId());
             commController.sendMessage(sender.getId(), new RefuseCreationChannelMessage(channel));
         }
     }

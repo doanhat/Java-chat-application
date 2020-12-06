@@ -10,22 +10,18 @@ import common.sharedData.*;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class CommunicationClientController extends CommunicationController {
 
     private final NetworkClient client;
     private final HeartBeat heart;
+    private final Logger logger = Logger.getLogger(this.getClass().getName());
     private ICommunicationToData dataClient;
     private ICommunicationToIHMMain mainClient;
     private ICommunicationToIHMChannel channelClient;
     private CommunicationClientInterface commInterface;
-    
-    /**
-     * INTEGRATION:
-     * SINGLETON A VIRER (REMARQUE DE B.LUSSIER)
-     * Et une interface qui sert d'interface pour tous c'est pas ouf (contre principe de classe courte, pas de modularite)
-     *
-     */
 
     public CommunicationClientController() {
         super();
@@ -49,11 +45,11 @@ public class CommunicationClientController extends CommunicationController {
             client.sendMessage(new UserConnectionMessage(user));
             heart.start(user.getId());
 
-            System.err.println("Connexion au server...");
+            logger.log(Level.INFO, "Connexion au server...");
         }
         catch (IOException e) {
-            System.err.println("Echec de connexion au server!");
-
+            logger.log(Level.SEVERE, "Echec de connexion au server!");
+            
             disconnect(null);
         }
     }
@@ -81,7 +77,7 @@ public class CommunicationClientController extends CommunicationController {
     public void disconnect(UUID user) {
         sendMessage(new UserDisconnectionMessage(user));
 
-        System.err.println("Communication Controller déconnecté");
+        logger.log(Level.INFO, "Communication Controller déconnecté");
 
         stop();
     }
@@ -172,12 +168,11 @@ public class CommunicationClientController extends CommunicationController {
      * @param channels Liste des channels visibles
      */
     public void notifyConnectionSuccess(List<UserLite> users, List<Channel> channels) {
-        System.err.println("Connecté au serveur");
+        logger.log(Level.INFO, "Connecté au serveur");
 
         if (mainClient == null)
         {
-            System.err.println("notifyConnectionSuccess: IHMMain Iface est null");
-            return;
+        	throw new NullPointerException( "IHMMain Iface est null");
         }
 
         /**
@@ -200,8 +195,7 @@ public class CommunicationClientController extends CommunicationController {
     public void notifyUserConnected(UserLite newUser) {
         if (mainClient == null)
         {
-            System.err.println("notifyUserConnected: IHMMain Iface est null");
-            return;
+        	throw new NullPointerException( "IHMMain Iface est null");
         }
 
         mainClient.addConnectedUser(newUser);
@@ -214,8 +208,7 @@ public class CommunicationClientController extends CommunicationController {
     public void notifyUserDisconnected(UserLite user) {
         if (mainClient == null)
         {
-            System.err.println("notifyUserDisconnected: IHMMain Iface est null");
-            return;
+        	throw new NullPointerException( "IHMMain Iface est null");
         }
 
         mainClient.removeConnectedUser(user);
@@ -228,8 +221,7 @@ public class CommunicationClientController extends CommunicationController {
     public void notifyVisibleChannel(Channel channel) {
         if (mainClient == null)
         {
-            System.err.println("notifyVisibleChannel: IHMMain Iface est null");
-            return;
+        	throw new NullPointerException( "IHMMain Iface est null");
         }
 
 //        // TODO INTEGRATION request data addVisibleChannel receive Channel as parameter : (REMARQUE INTEG, CETTE LIGNE RAJOUTE DE LA REDONDANCE) QUE FAIRE??
@@ -251,8 +243,7 @@ public class CommunicationClientController extends CommunicationController {
     public void notifyChannelCreated(Channel channel) {
         if (mainClient == null)
         {
-            System.err.println("notifyChannelCreated: IHMMain Iface est null");
-            return;
+        	throw new NullPointerException( "IHMMain Iface est null");
         }
 
         mainClient.channelCreated(channel);
@@ -268,8 +259,7 @@ public class CommunicationClientController extends CommunicationController {
     public void notifyCreationChannelRefused(Channel channel) {
         if (mainClient == null)
         {
-            System.err.println("notifyCreationChannelRefused: IHMMain Iface est null");
-            return;
+        	
         }
 
         // TODO INTEGRATION request IHM Main to add channelCreationRefused(Channel) method to ICommunicationToIHMMain interface
@@ -284,8 +274,7 @@ public class CommunicationClientController extends CommunicationController {
     public void notifyAcceptedToJoinChannel (UserLite user, UUID channelID) {
         if (dataClient == null)
         {
-            System.err.println("notifyAcceptedToJoinChannel: Data Iface est null");
-            return;
+        	throw new NullPointerException( "Data Iface est null");
         }
         // TODO INTEGRATION verify with data what is the difference between userAddedToChannel and addUserToChannel
         dataClient.userAddedToChannel(user, channelID);
@@ -299,8 +288,7 @@ public class CommunicationClientController extends CommunicationController {
     public void notifyRefusedToJoinChannel(UserLite user, UUID channelID) {
         if (dataClient == null)
         {
-            System.err.println("notifyRefusedToJoinChannel: Data Iface est null");
-            return;
+        	throw new NullPointerException( "Data Iface est null");
         }
         // TODO INTEGRATION request data to add a method userRefusedToJoinChannel(UserLite, UUID channelID) to handle request refused
         //dataClient.userRefusedToJoinChannel(user, channelID);
@@ -314,8 +302,7 @@ public class CommunicationClientController extends CommunicationController {
     public void notifyNewUserAddedToJoinChannel (UserLite user, UUID channelID) {
         if (dataClient == null)
         {
-            System.err.println("notifyNewUserAddedToJoinChannel: Data Iface est null");
-            return;
+        	throw new NullPointerException( "Data Iface est null");
         }
 
         // TODO INTEGRATION verify with data what is the difference between userAddedToChannel and addUserToChannel
@@ -334,8 +321,7 @@ public class CommunicationClientController extends CommunicationController {
     public void notifyReceiveMessage (Message msg, UUID channelID, Message response) {
         if (dataClient == null)
         {
-            System.err.println("notifyReceiveMessage: Data Iface est null");
-            return;
+        	throw new NullPointerException( "Data Iface est null");
         }
 
         dataClient.receiveMessage(msg, channelID, response);
@@ -350,10 +336,10 @@ public class CommunicationClientController extends CommunicationController {
     public void saveMessage(Message msg, UUID channelID, Message response) {
         if (dataClient == null)
         {
-            System.err.println("saveMessage: Data Iface est null");
-            return;
+        	throw new NullPointerException( "Data Iface est null");
         }
-
         dataClient.saveMessageIntoHistory(msg, channelID, response);
     }
+    
+    
 }

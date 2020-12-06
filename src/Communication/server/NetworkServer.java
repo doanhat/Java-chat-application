@@ -7,6 +7,8 @@ import Communication.common.Parameters;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Classe principale du serveur. Son rôle est d'instancier les socket et de préparer les taches cycliques de receptions
@@ -17,6 +19,7 @@ public class NetworkServer {
     private final DirectoryFacilitator directoryFacilitator;
     private ServerSocket serverSocket;
     private NetworkWriter msgSender;
+    private final Logger logger = Logger.getLogger(this.getClass().getName());
 
     public NetworkServer(CommunicationServerController commController) {
         this.commController         = commController;
@@ -34,7 +37,7 @@ public class NetworkServer {
             commController.taskManager.appendCyclicTask(new ClientAcceptor(this));
             commController.taskManager.appendCyclicTask(msgSender);
 
-            System.err.println("Serveur en écoute sur le port " + Parameters.PORT);
+            logger.log(Level.INFO, "Serveur en écoute sur le port {}", Parameters.PORT);
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -51,7 +54,7 @@ public class NetworkServer {
         if (!serverSocket.isClosed()) {
             serverSocket.close();
 
-            System.err.println("Serveur socket fermé");
+            logger.log(Level.INFO,"Serveur socket fermé");
         }
     }
 
@@ -91,7 +94,7 @@ public class NetworkServer {
                 networkServer.directoryFacilitator.registerClient(clientSocket);
             }
             catch (IOException e) {
-                //e.printStackTrace();
+                e.printStackTrace();
                 cancel = true;
             }
         }

@@ -1,5 +1,7 @@
 package Communication.messages.server_to_client;
 
+import java.util.logging.Level;
+
 import Communication.client.CommunicationClientController;
 import Communication.messages.abstracts.ServerToClientMessage;
 import common.sharedData.Channel;
@@ -11,6 +13,7 @@ public class RefuseCreationChannelMessage extends ServerToClientMessage {
 
 	private static final long serialVersionUID = 73255288821227363L;
 	private final Channel refusedChannel;
+	
 
     public RefuseCreationChannelMessage(Channel refusedChannel) {
         this.refusedChannel = refusedChannel;
@@ -18,7 +21,7 @@ public class RefuseCreationChannelMessage extends ServerToClientMessage {
 
     @Override
     protected void handle(CommunicationClientController commController) {
-        System.err.println("Creation channel" + refusedChannel.getId() + " est refusé");
+        logger.log(Level.WARNING, "Creation channel pour {} est refusé", refusedChannel.getId());
 
         commController.notifyCreationChannelRefused(refusedChannel);
     }

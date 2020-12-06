@@ -84,8 +84,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
      * @param owner [UserLite] Information sur le proprietaire du channel si c'est un channel privé
      **/
     public void createChannel(Channel channel, Boolean isShared, Boolean isPublic, UserLite owner) {
-        //TODO INTEGRATION /!\ probleme isShared alors que ChannelMessage attend l'inverse
-        this.commController.sendMessage(new CreateChannelMessage(owner, channel, !isShared, isPublic));
+        this.commController.sendMessage(new CreateChannelMessage(owner, channel, isShared, isPublic));
     }
 
     /* -------------------------- IIHMChannelToCommunication interface implementations -------------------------------*/

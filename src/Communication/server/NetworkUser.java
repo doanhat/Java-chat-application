@@ -14,6 +14,8 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Classe d'un utilisateur connecté au serveur. Cette classe permet de gérer le socket et les messages entrant et sortant de l'utilisateurs, ainsi que maintenir l'état du client.
@@ -27,6 +29,7 @@ public class NetworkUser {
     private ObjectOutputStream socketOut;
     private NetworkReader reader;
     private boolean isActive;
+    private final Logger logger = Logger.getLogger(this.getClass().getName());
 
     /**
      * Construit l'objet depuis le socket du client
@@ -48,25 +51,24 @@ public class NetworkUser {
 
             if (connectionMessage != null) {
                 this.userInfo = connectionMessage.getUser();
-                this.reader.setUserID(this.userInfo.getId());
-
-                System.err.println("Accepte connection du client " + uuid());
+                
+                UUID userUUID = this.userInfo.getId();
+                this.reader.setUserID(userUUID);
+                logger.log(Level.FINE, "Accepte connection du client {}" , userUUID);
 
                 List<Channel> userChannels = commController.getUserChannels(this.userInfo);
                 List<UserLite> onlineUsers = commController.onlineUsers();
 
                 commController.sendMessage(preparePacket(new AcceptationMessage(userChannels, onlineUsers)));
-
                 commController.sendBroadcast(new NewUserConnectedMessage(this.userInfo), this.userInfo);
             }
             else {
-                System.err.println("Echec dans la recuperation UUID du nouveau client");
-
+                logger.log(Level.WARNING, "Echec dans la recuperation UUID du nouveau client");
                 return;
             }
 
             // dispatch reader to thread pool after connection procedure
-            System.err.println("Démarrer Socket reader pour client " + uuid());
+            logger.log(Level.FINE, "Démarrage du Socket reader pour client {}" , uuid());
 
             commController.taskManager.appendCyclicTask(this.reader);
         }
@@ -104,8 +106,7 @@ public class NetworkUser {
      * @param flag <code>true</code> si le client est actif, <code>false</code> sinon.
      */
     public void active(boolean flag) {
-        System.err.println("Client " + uuid() + " active " + flag);
-
+        logger.log(Level.FINER, "Client {0} active {1}", new Object[]{uuid(), flag});
         this.isActive = flag;
     }
 

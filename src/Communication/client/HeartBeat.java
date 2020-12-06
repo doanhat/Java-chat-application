@@ -3,6 +3,8 @@ package Communication.client;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import Communication.common.Parameters;
 import Communication.messages.client_to_server.ClientPulseMessage;
@@ -17,6 +19,7 @@ public class HeartBeat {
     private Timer timer;
     private boolean serverAlive = false;
     private UUID userID;
+    private final Logger logger = Logger.getLogger(this.getClass().getName());
 
     public HeartBeat(CommunicationClientController commController) {
         this.commController = commController;
@@ -37,7 +40,7 @@ public class HeartBeat {
                     commController.sendMessage(new ClientPulseMessage(userID));
                 }
                 else {
-                    System.err.println("Server n'a pas répondu");
+                    logger.log(Level.WARNING, "Server n'a pas répondu");
                     // TODO Inform controller of disconnection
                     commController.stop();
                 }
@@ -68,7 +71,7 @@ public class HeartBeat {
      * Fonction lancée à chaque réception de la réponse du serveur
      */
     public void handleServerReply() {
-        System.err.println("HeartBeat recoit réponse du serveur");
+        logger.log(Level.FINE, "HeartBeat recoit réponse du serveur");
         serverAlive = true;
     }
 }

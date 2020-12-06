@@ -1,5 +1,7 @@
 package Communication.messages.abstracts;
 
+import java.util.logging.Logger;
+
 import Communication.client.CommunicationClientController;
 import Communication.common.CommunicationController;
 
@@ -8,6 +10,7 @@ import Communication.common.CommunicationController;
  * @see NetworkMessage
  */
 public abstract class ServerToClientMessage extends NetworkMessage {
+	protected final Logger logger = Logger.getLogger(this.getClass().getName());
 	
     @Override
     public void handle(CommunicationController communicationController) {

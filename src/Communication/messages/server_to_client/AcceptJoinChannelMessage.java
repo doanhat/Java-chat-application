@@ -5,6 +5,7 @@ import Communication.messages.abstracts.ServerToClientMessage;
 import Communication.messages.client_to_server.AskToJoinMessage;
 import common.sharedData.UserLite;
 
+import java.util.logging.*;
 import java.util.UUID;
 
 /**
@@ -23,7 +24,7 @@ public class AcceptJoinChannelMessage extends ServerToClientMessage {
 
     @Override
     protected void handle(CommunicationClientController commClientController) {
-        System.err.println("Accepted to join channel " + channelID);
+        logger.log(Level.INFO, "Accepted to join channel {}" , channelID);
         commClientController.notifyAcceptedToJoinChannel(user, channelID);
     }
 }
