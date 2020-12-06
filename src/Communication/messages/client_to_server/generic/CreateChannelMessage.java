@@ -1,4 +1,4 @@
-package Communication.messages.client_to_server;
+package Communication.messages.client_to_server.generic;
 
 import Communication.messages.abstracts.ClientToServerMessage;
 import Communication.messages.abstracts.NetworkMessage;
@@ -9,8 +9,6 @@ import Communication.server.CommunicationServerController;
 import common.sharedData.Channel;
 import common.sharedData.UserLite;
 import common.sharedData.Visibility;
-
-import java.util.List;
 
 /**
  * Cette classe correspond à un message indiquant la volonté de création d'un nouveau channel au serveur
@@ -45,10 +43,10 @@ public class CreateChannelMessage extends ClientToServerMessage {
     protected void handle(CommunicationServerController commController) {
         Channel newChannel = commController.requestCreateChannel(channel, proprietaryChannel, publicChannel, sender);
 
+        // NOTE: Same procedure for shared and proprietary channels
         if (newChannel != null)
         {
-            // Request Accepted
-            System.err.println("Serveur accepte la creation du channel" + channel.getId());
+            //System.err.println("Serveur accepte la creation du channel" + channel.getId());
 
             // broadcast public channel to other users
             if (newChannel.getVisibility() == Visibility.PUBLIC) {
@@ -61,8 +59,7 @@ public class CreateChannelMessage extends ClientToServerMessage {
             commController.sendMessage(sender.getId(), new ValidateCreationChannelMessage(newChannel));
         }
         else {
-            // Request Refused
-            System.err.println("Serveur réfuse la creation du channel" + channel.getId());
+            //System.err.println("Serveur réfuse la creation du channel" + channel.getId());
 
             commController.sendMessage(sender.getId(), new RefuseCreationChannelMessage(channel));
         }

@@ -189,7 +189,6 @@ public class CommunicationServerController extends CommunicationController {
             return null;
         }
 
-
         return dataServer.getChannel(channelID);
     }
 
@@ -213,8 +212,6 @@ public class CommunicationServerController extends CommunicationController {
             return null;
         }
 
-        // TODO INTEGRATION request Data to fix return type to Channel in order to return only created channel or null
-        //  to avoid exposing data and decrease run time complexity
         List<Channel> allChannels = dataServer.requestChannelCreation(channel, proprietary, publicChannel, requester);
 
         if (allChannels != null) {
