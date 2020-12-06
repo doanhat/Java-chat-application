@@ -1,15 +1,19 @@
 package IHMMain.controllers;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import Communication.client.CommunicationClientInterface;
 import IHMMain.IHMMainController;
 import app.MainWindowController;
 import common.IHMTools.*;
+import common.interfaces.client.IIHMMainToCommunication;
 import common.sharedData.Channel;
 import common.sharedData.ChannelType;
+import common.sharedData.UserLite;
 import common.sharedData.Visibility;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -18,9 +22,12 @@ import javafx.fxml.*;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -29,6 +36,10 @@ public class IHMMainWindowController implements Initializable{
     private IHMMainController ihmMainController;
 
     private MainWindowController mainWindowController;
+
+    private ConnectionController connectionController;
+
+    private UserLite userL;
 
     @FXML
     private AnchorPane root;
@@ -45,6 +56,13 @@ public class IHMMainWindowController implements Initializable{
     @FXML
     private StackPane mainArea;
 
+    @FXML
+    private ImageView profileImage;
+
+    @FXML
+    private Text nickname;
+
+
     public MainWindowController getMainWindowController() {
         return mainWindowController;
     }
@@ -57,7 +75,12 @@ public class IHMMainWindowController implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
         //Mettez ici le code qui s'execute avant l'apparition de la vue
         loadUserListView();
-
+        userL = ihmMainController.getIHMMainToData().getUser().getUserLite();
+        updateProfileImage();
+        /**
+         * Ne fonctionne pas car ce initialize a lieu avant la réponse du serveur, voir avec connexion
+         */
+        //nickname.setText(userL.getNickName());
         Stage primaryStage = mainWindowController.getPrimaryStage();
         Platform.setImplicitExit(false);
         primaryStage.setOnCloseRequest(event -> {
@@ -171,6 +194,36 @@ public class IHMMainWindowController implements Initializable{
             loadCreationChannelPopup(Visibility.PUBLIC);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+    @FXML
+    public void onSeDeconnecterButtonClick(){
+        try {
+            ihmMainController.getIIHMMainToCommunication().disconnect();
+
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../views/Connection.fxml"));
+            Parent parent = fxmlLoader.load(); //On recupère le noeud racine du fxml chargé
+            connectionController = fxmlLoader.getController(); //On récupère la classe controller liée au fxml
+            connectionController.setMainWindowController(mainWindowController); //On donne au controller fils une référence de son controller parent;
+            this.root.getChildren().addAll(parent); //On ajoute le noeud parent (fxml) au noeud racine de cette vue
+            IHMTools.fitSizeToParent((Region) root, (Region) parent);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void updateProfileImage(){
+        if(userL.getAvatar() != ""){
+            /**
+             * Voir avec Data comment sont stockées les images sur le serveur,
+             * faire en sorte que getAvatar renvoie une image afin de ne pas stocker trop
+             * d'images en local
+             */
+            //Image image = new Image(userL.getAvatar());
+            Image image = new Image("IHMMain/icons/willsmith.png");
+            profileImage.setImage(image);
         }
     }
 
