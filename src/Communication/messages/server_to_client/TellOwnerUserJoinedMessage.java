@@ -2,7 +2,6 @@ package Communication.messages.server_to_client;
 
 import Communication.client.CommunicationClientController;
 import Communication.messages.abstracts.ServerToClientMessage;
-import Communication.messages.client_to_server.proprietary_channels.UserJoinedConfirmationMessage;
 import common.sharedData.UserLite;
 
 import java.util.UUID;

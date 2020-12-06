@@ -1,12 +1,12 @@
-package Communication.messages.client_to_server.channel_manipulation;
+package Communication.messages.client_to_server.channel_modification;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import Communication.messages.abstracts.ClientToServerMessage;
 import Communication.messages.abstracts.NetworkMessage;
-import Communication.messages.server_to_client.channel_manipulation.NewVisibleChannelMessage;
-import Communication.messages.server_to_client.channel_manipulation.ChannelCreationResponseMessage;
+import Communication.messages.server_to_client.channel_modification.NewVisibleChannelMessage;
+import Communication.messages.server_to_client.channel_modification.ChannelCreationResponseMessage;
 import Communication.server.CommunicationServerController;
 import common.sharedData.Channel;
 import common.sharedData.UserLite;
