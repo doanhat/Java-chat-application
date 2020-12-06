@@ -9,6 +9,7 @@ import common.sharedData.UserLite;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class CommunicationToData implements ICommunicationToData {
     private final DataClientController dataController;
@@ -135,6 +136,7 @@ public class CommunicationToData implements ICommunicationToData {
                     message,
                     ownedChannel,
                     response);
+            dataController.getChannelController().sendOwnedChannelsToServer();
         }
     }
 
@@ -230,7 +232,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public List<UserLite> getUsers() {
-        return new UserListController().getConnectedUsers();
+        return dataController.getUserController().getLocalUserList().stream().map(User::getUserLite).collect(Collectors.toList());
     }
 
     /**
@@ -265,7 +267,12 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void addUserToChannel(UserLite user, UUID channelId) {
-        dataController.getUserController().addUserToChannel(user,channelId);
+        Channel ownedChannel = dataController.getChannelController().searchChannelById(channelId);
+        if (ownedChannel != null) {
+            ownedChannel.addUser(user);
+            dataController.getChannelController().sendOwnedChannelsToServer();
+            dataController.getUserController().addUserToChannel(user,channelId);
+        }
     }
 
 }

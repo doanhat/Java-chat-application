@@ -48,6 +48,7 @@ public class IHMMainToData implements IIHMMainToData {
         Channel channel;
         channel = new Channel(name, owner, description, isPublic ? Visibility.PUBLIC : Visibility.PRIVATE, isShared ? ChannelType.SHARED : ChannelType.OWNED);
         this.dataController.getChannelController().addVisibleChannel(channel);
+        this.dataController.getChannelController().sendOwnedChannelsToServer();
     }
 
     /**

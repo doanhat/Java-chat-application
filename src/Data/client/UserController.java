@@ -108,15 +108,16 @@ public class UserController extends Controller {
         List<UserLite> users = new ArrayList<UserLite>();
 
         // TODO : get real data
-        for (int i = 1 ; i <= 5 ; i++) {
+        /*for (int i = 1 ; i <= 5 ; i++) {
             users.add(new UserLite("user " + i, "avatar"));
-        }
+        }*/
         return users;
     }
 
     public boolean createAccount(String nickName, String avatar, String password, String lastName, String firstName, Date birthDate) {
         User user = new User(nickName,avatar,password,lastName,firstName,birthDate);
         fileHandle.addObjectToFile("users",user,User.class);
+        localUserList = fileHandle.readJSONFileToList("users",User.class);
         return true;
     }
 }

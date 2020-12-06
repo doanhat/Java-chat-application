@@ -25,6 +25,7 @@ public class ChannelController extends Controller{
     public ChannelController(IDataToCommunication comClient, IDataToIHMChannel channelClient, IDataToIHMMain mainClient) {
         super(comClient, channelClient, mainClient);
         channelList = new FileHandle<Channel>(LocationType.client, FileType.channel).readAllJSONFilesToList(Channel.class);
+        sendOwnedChannelsToServer();
     }
 
     public Channel searchChannelById(UUID id) {
@@ -43,6 +44,7 @@ public class ChannelController extends Controller{
         List<Channel> channels = getChannelList();
         channels.add(channel);
         this.mainClient.addChannelToList(channel);
+        this.comClient.sendProprietaryChannels(channelList);
     }
 
     /**
@@ -60,6 +62,7 @@ public class ChannelController extends Controller{
             }
         }
         this.mainClient.updateListChannel(channels);
+        this.comClient.sendProprietaryChannels(channelList);
     }
 
     /**
@@ -131,11 +134,7 @@ public class ChannelController extends Controller{
         return null;
     }
 
-    /**
-     * Save message into history.
-     *
-     * @param message  the message
-     * @param channel  the channel
-     * @param response the response
-     */
+    public void sendOwnedChannelsToServer(){
+        this.comClient.sendProprietaryChannels(this.channelList);
+    }
 }
