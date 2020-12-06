@@ -117,6 +117,7 @@ public class ChannelMessagesController{
                                         TextArea newMessageReceiver = new TextArea();
                                         newUserNameReceiver.setText(userNameReceiver.getText());
                                         newMessageReceiver.setText(messageReceiver.getText());
+                                        newMessageReceiver.setEditable(false);
                                         rpArea.getChildren().addAll(newImgReceiver, newUserNameReceiver, newMessageReceiver);
                                         getMessagesToDisplay().add(rpArea);
                                         HBox msg = (HBox) new MessageDisplay(msgAdded, that).root;
