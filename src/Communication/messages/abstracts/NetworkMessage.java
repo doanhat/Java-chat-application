@@ -3,6 +3,7 @@ package Communication.messages.abstracts;
 import Communication.common.CommunicationController;
 
 import java.io.Serializable;
+import java.util.logging.Logger;
 
 /**
  * Classe abstraite des messages transitant sur le réseau.
@@ -10,6 +11,7 @@ import java.io.Serializable;
  */
 public abstract class NetworkMessage implements Serializable {
 
+    protected final transient Logger logger = Logger.getLogger(this.getClass().getName());
 	private static final long serialVersionUID = -7165721578275332325L;
 
 	public abstract void handle(CommunicationController commController);

@@ -11,8 +11,7 @@ import java.util.logging.Logger;
  *
  */
 public abstract class ClientToServerMessage extends NetworkMessage {
-    protected final transient Logger logger = Logger.getLogger(this.getClass().getName());
-    
+
     @Override
     public void handle(CommunicationController communicationController) {
         handle((CommunicationServerController) communicationController);

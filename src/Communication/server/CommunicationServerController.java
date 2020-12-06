@@ -35,7 +35,6 @@ public class CommunicationServerController extends CommunicationController {
 		server = new NetworkServer(this);
 	}
 
-
 	/* -------------------------------------------- Setup interfaces -------------------------------------------------*/
 
 	/**
@@ -191,7 +190,6 @@ public class CommunicationServerController extends CommunicationController {
 			logger.log(Level.SEVERE,"getChannel: Data Iface est null");
 			return null;
 		}
-
 
 		return dataServer.getChannel(channelID);
 	}
