@@ -53,24 +53,6 @@ public class MessageController extends Controller{
      * @param response the response
      */
     public void receiveMessage(Message message, Channel channel, Message response) {
-        if (message.getId().toString().equals("")) {
-            message.setId(UUID.randomUUID());
-        }
-        int responseAdded = 0;
-        if (response==null){
-            channel.addMessage(message);
-        } else {
-            for (Message msg : channel.getMessages()) {
-                if (msg.getId().toString().equals(response.getId().toString())) {
-                    msg.addAnswers(message);
-                    responseAdded++;
-                }
-            }
-
-            if (responseAdded == 0) {
-                channel.addMessage(message);
-            }
-        }
         channelClient.receiveMessage(message,channel.getId(),response);
     }
 

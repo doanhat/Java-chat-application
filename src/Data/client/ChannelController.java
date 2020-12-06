@@ -14,7 +14,7 @@ import java.util.UUID;
 
 public class ChannelController extends Controller{
     private List<Channel> channelList;
-
+    private Channel localChannel;
     public List<Channel> getChannelList() {
         return channelList;
     }
@@ -86,12 +86,7 @@ public class ChannelController extends Controller{
      * @param channelId the channelId
      */
     public void newAdmin(UserLite user, UUID channelId) {
-        Channel channel = searchChannelById(channelId);
-        if (channel!=null){
-            channel.addAdmin(user);
-            this.channelClient.addNewAdmin(user,this.channelClient.getChannel(channelId));
-            sendOwnedChannelsToServer();
-        }
+        this.channelClient.addNewAdmin(user,this.channelClient.getChannel(channelId));
     }
 
     /**

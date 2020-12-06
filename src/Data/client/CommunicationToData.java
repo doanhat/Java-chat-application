@@ -131,7 +131,6 @@ public class CommunicationToData implements ICommunicationToData {
     public void saveMessageIntoHistory(Message message, UUID channelId, Message response) {
         Channel ownedChannel = dataController.getChannelController().searchChannelById(channelId);
         if (ownedChannel != null) {
-            ownedChannel.addMessage(message);
             dataController.getMessageController().saveMessageIntoHistory(
                     message,
                     ownedChannel,
@@ -150,10 +149,9 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void receiveMessage(Message message, UUID channelId, Message response) {
-        Channel ownedChannel = dataController.getChannelController().searchChannelById(channelId);
+        Channel ownedChannel = dataController.getChannelController().channelClient.getChannel(channelId);
         if (ownedChannel != null) {
             dataController.getMessageController().receiveMessage(message,ownedChannel,response);
-            dataController.getChannelController().sendOwnedChannelsToServer();
         }
     }
 
