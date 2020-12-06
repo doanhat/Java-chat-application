@@ -1,50 +1,79 @@
 package Communication.client;
 
+
+import Communication.common.Parameters;
+import Communication.messages.client_to_server.connection.ClientPulseMessage;
+
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+
+/**
+ * Classe servant à gérer un keepalive entre le client et le serveur et d'informer le client en cas de rupture de communication avec le serveur
+ *
+ */
 public class HeartBeat {
 
     private final CommunicationClientController commController;
     private Timer timer;
     private boolean serverAlive = false;
+    private UUID userID;
+    private final Logger logger = Logger.getLogger(this.getClass().getName());
 
     public HeartBeat(CommunicationClientController commController) {
         this.commController = commController;
     }
+    /**
+     * Démarrer le Hearthbeat en tant que l'utilisateur userID
+     * @param userID identifiant unique permettant d'être certain de l'utilisateur effectuant la validation keepalive
+     */
+    public void start(UUID userID) {
+        this.timer = new Timer();
+        this.serverAlive = true;
+        this.userID = userID;
 
-    public void start() {
-        timer = new Timer();
-        serverAlive = true;
-
-        timer.schedule(new TimerTask(){
+        this.timer.schedule(new TimerTask(){
             @Override
             public void run() {
                 if (serverAlive) {
-                    // TODO Inform server that client is still alive by ClientPulseMessage
-                    // commController.sendMessage();
+                    commController.sendMessage(new ClientPulseMessage(userID));
                 }
                 else {
+                    logger.log(Level.WARNING, "Server n'a pas répondu");
                     // TODO Inform controller of disconnection
+                    commController.stop();
                 }
 
                 // reset to false and wait for server reply
                 serverAlive = false;
             }
-        }, 1000);
+        }, Parameters.PULSE_INTERVAL, Parameters.PULSE_INTERVAL);
     }
 
+    /**
+     * Redémare le fonctionnement du heathbeat en l'arrêtant puis le redémarant en utilisant les fonctions {@link stop()} et {@link start(userID)}
+     */
     public void restart() {
         stop();
-        start();
+        start(userID);
     }
-
+    
+    /**
+     * Arrête le keepalive en utilisant les fonctions {@link Timer.cancel()} et {@link Timer.purge()}
+     */
     public void stop() {
         timer.cancel();
         timer.purge();
     }
 
+    /**
+     * Fonction lancée à chaque réception de la réponse du serveur
+     */
     public void handleServerReply() {
+        logger.log(Level.FINE, "HeartBeat recoit réponse du serveur");
         serverAlive = true;
     }
 }

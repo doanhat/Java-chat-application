@@ -1,11 +1,20 @@
 package Communication.client;
 
 import Communication.common.Parameters;
-import Communication.messages.client_to_server.AskToJoinMessage;
-import Communication.messages.client_to_server.CreateChannelMessage;
-import Communication.messages.client_to_server.SendMessageMessage;
+import Communication.messages.client_to_server.*;
+import Communication.messages.client_to_server.channel_handling.CreateChannelMessage;
+import Communication.messages.client_to_server.chat_action.SendMessageMessage;
+import Communication.messages.client_to_server.generic.GetHistoryMessage;
+import Communication.messages.client_to_server.proprietary_channels.AddAdminPropMessage;
+import Communication.messages.client_to_server.proprietary_channels.SendInvitePropMessage;
+import Communication.messages.client_to_server.shared_channels.AddAdminSharedMessage;
+import Communication.messages.client_to_server.proprietary_channels.AskToJoinPropMessage;
+import Communication.messages.client_to_server.shared_channels.AskToJoinSharedMessage;
+import Communication.messages.client_to_server.shared_channels.SendInviteSharedMessage;
+
 import common.interfaces.client.*;
 import common.sharedData.Channel;
+import common.sharedData.ChannelType;
 import common.sharedData.Message;
 import common.sharedData.UserLite;
 
@@ -14,29 +23,23 @@ import java.util.List;
 import java.util.UUID;
 
 public class CommunicationClientInterface implements IDataToCommunication,
-                                                     IIHMMainToCommunication,
-                                                     IIHMChannelToCommunication {
+        IIHMMainToCommunication,
+        IIHMChannelToCommunication {
 
     private final CommunicationClientController commController;
     private UserLite localUser;
-
 
     public CommunicationClientInterface(CommunicationClientController CommunicationClientController) {
         this.commController = CommunicationClientController;
     }
 
-
-    // NOTE Nornalement, appeller la methode instance() devra etre souffit
-    //public static IDataToCommunication getIDataToCommunication() { return instance(); }
-    //public static IIHMMainToCommunication getIHMMainToCommunication() { return instance(); }
-    //public static IIHMChannelToCommunication getIHMChannelToCommunication() { return instance(); }
-
     /**
      * Installer les interfaces de Data, IHM Main et IHM Channel
-     * @param dataIface interface de Data
-     * @param mainIface interface de IHM Main
+     *
+     * @param dataIface    interface de Data
+     * @param mainIface    interface de IHM Main
      * @param channelIface interface de IHM Channel
-     * @return
+     * @return false si les interfaces n'ont pas été correctement initialisées
      */
     public boolean setupInterfaces(ICommunicationToData dataIface,
                                    ICommunicationToIHMMain mainIface,
@@ -47,9 +50,10 @@ public class CommunicationClientInterface implements IDataToCommunication,
     /* ---------------------------- IDataToCommunication interface implementations -----------------------------------*/
 
     /**
-     * Connection utilisateur local
+     * Connecte le client pour l'utilisateur passé en paramètre au serveur
      *
-     **/
+     * @param user utilisateur à connecter
+     */
     @Override
     public void userConnect(UserLite user) {
         this.localUser = user;
@@ -57,9 +61,10 @@ public class CommunicationClientInterface implements IDataToCommunication,
     }
 
     /**
-     * Transfert au serveur la demande de suppresion d'un channel
+     * Transfere au serveur la demande de suppresion d'un channel
      *
      * @param channelID ID de l'objet à supprimer
+     * @implNote
      **/
     @Override
     public void delete(UUID channelID) {
@@ -69,7 +74,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
     /* ---------------------------- IIHMMainToCommunication interface implementations --------------------------------*/
 
     /**
-     * Déconnecter application
+     * Demande de deconnexion du client
      */
     public void disconnect() {
         commController.disconnect(localUser.getId());
@@ -78,45 +83,59 @@ public class CommunicationClientInterface implements IDataToCommunication,
     /**
      * Demande la creation d'un nouveau channel au serveur
      *
-     * @param channel [Channel] Objet channel a crée sur le serveur
+     * @param channel  [Channel] Objet channel a crée sur le serveur
      * @param isShared [Boolean] Si le channel est partagé ou non
      * @param isPublic [Boolean] Si le channel est publique ou non
-     * @param owner [UserLite] Information sur le proprietaire du channel si c'est un channel privé
+     * @param owner    [UserLite] Information sur le proprietaire du channel si c'est un channel privé
      **/
     public void createChannel(Channel channel, Boolean isShared, Boolean isPublic, UserLite owner) {
-        //TODO INTEGRATION /!\ probleme isShared alors que ChannelMessage attend l'inverse
-        this.commController.sendMessage(new CreateChannelMessage(owner, channel, !isShared, isPublic));
+        this.commController.sendMessage(new CreateChannelMessage(owner, channel, isShared, isPublic));
     }
 
     /* -------------------------- IIHMChannelToCommunication interface implementations -------------------------------*/
 
     /**
-     * Transfert au serveur l'envoie d'un message d'invitation au serveur'envoi
+     * Transfert au serveur l'envoi d'un message d'invitation au serveur'envoi
      * d'une invitation a rejoindre un channel
      *
-     * @param sender [UserLite] Utilisateur qui crée l'invitation
-     * @param receiver [UserLite] Utilisateur qui doit recevoir l'invitation
-     * @param message [Message] Message d'invitation
+     * @param guest [UserLite] Utilisateur invité au channel
+     * @param channel [Channel] Channel auquel guest est invité
+     * @param message [String] Message d'invitation
      **/
-    public void sendInvite(UserLite sender, UserLite receiver, Message message) {
-        // TODO V2
+    public void sendInvite(UserLite guest, Channel channel, String message) {
+        if (guest == null || channel == null || message == null) {
+            return;
+        }
+        if (channel.getType() == ChannelType.OWNED) {
+            commController.sendMessage(new SendInvitePropMessage(guest, channel, message));
+        } else if (channel.getType() == ChannelType.SHARED) {
+            commController.sendMessage(new SendInviteSharedMessage(guest, channel, message));
+        }
     }
 
     /**
      * Demande l'envoie d'un message de nomination d'administrateur au serveur
      *
-     * @param us [UserLite] Utilisateur devenant admin
+     * @param user    [UserLite] Utilisateur devenant admin
      * @param channel [Channel] Channel qui doit recevoir les droitsChannel
      *                sur lequel on souhait donnée les droits d'admin
      **/
-    public void giveAdmin(UserLite us, Channel channel) {
-        // TODO V3
+    public void giveAdmin(UserLite user, Channel channel) {
+        if (user == null || channel == null) {
+            return;
+        }
+        if (channel.getType() == ChannelType.OWNED) {
+            commController.sendMessage(new AddAdminPropMessage(user, channel));
+        } else {
+            commController.sendMessage(new AddAdminSharedMessage(user, channel));
+        }
     }
+
     /**
      * Demande de bannir un utilisateur d'un channel
      *
-     * @param user Utilisateur a bannir
-     * @param duration Durée du bannisement
+     * @param user        Utilisateur a bannir
+     * @param duration    Durée du bannisement
      * @param explanation Chaine de caractere justifiant le ban
      **/
     public void banUserFromChannel(UserLite user, int duration, String explanation) {
@@ -126,8 +145,8 @@ public class CommunicationClientInterface implements IDataToCommunication,
     /**
      * Envoie d'un message au serveur
      *
-     * @param msg Nouveau messsage a envoyer
-     * @param channel Channel sur lequel ont veut envoyer le message
+     * @param msg      Nouveau messsage a envoyer
+     * @param channel  Channel sur lequel ont veut envoyer le message
      * @param response Message auquel le nouveau message repond sinon null
      **/
     public void sendMessage(Message msg, Channel channel, Message response) {
@@ -137,7 +156,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
     /**
      * Envoie une demande d'édite au serveur
      *
-     * @param msg [Message] Message d'origine
+     * @param msg     [Message] Message d'origine
      * @param new_msg [Message] Message modifier
      * @param channel [Channel] Channel du message a modifier
      **/
@@ -149,8 +168,8 @@ public class CommunicationClientInterface implements IDataToCommunication,
      * Envoie une demande de like d'un message au serveur
      *
      * @param channel [Channel] Channel du message a like
-     * @param msg [Message] Message à like
-     * @param user [UserLite] Utilisateur ayant like
+     * @param msg     [Message] Message à like
+     * @param user    [UserLite] Utilisateur ayant like
      **/
     public void likeMessage(Channel channel, Message msg, UserLite user) {
         // TODO V2
@@ -159,19 +178,23 @@ public class CommunicationClientInterface implements IDataToCommunication,
     /**
      * Envoie une demande de suppression de message au serveur
      *
-     * @param msg [Message] Message a supprimer
+     * @param msg     [Message] Message a supprimer
      * @param channel [Channel] Channel du message a supprimer
-     * @param user [UserLite] Utilisateur demandant la suppression
+     * @param user    [UserLite] Utilisateur demandant la suppression
      **/
     public void suppMessage(Message msg, Channel channel, UserLite user) {
-        // TODO V2
+        if (channel.getType() == ChannelType.OWNED) {
+            this.commController.sendMessage(new DeleteMessagePropMessage(channel.getCreator(), channel, msg, user.getId() == msg.getAuthor().getId()));
+        } else {
+            this.commController.sendMessage(new DeleteMessageSharedMessage(channel, msg, user.getId() == msg.getAuthor().getId()));
+        }
     }
 
     /**
      * Envoie l'information d'un changement de pseudo au serveur
      *
-     * @param user [UserLite] Utilisateur concerné
-     * @param channel [Channel] Channel ou le changement de pseudo à lieu
+     * @param user        [UserLite] Utilisateur concerné
+     * @param channel     [Channel] Channel ou le changement de pseudo à lieu
      * @param newNickname [String] Nouveau pseudo
      **/
     public void changeNickname(UserLite user, Channel channel, String newNickname) {
@@ -181,11 +204,11 @@ public class CommunicationClientInterface implements IDataToCommunication,
     /**
      * Demande de quitter un channel au serveur
      *
-     * @param user [UserLite] Utilisateur concerné
+     * @param user    [UserLite] Utilisateur concerné
      * @param channel [Channel] Channel que l'on veut quitter
      **/
     public void leaveChannel(UserLite user, Channel channel) {
-        // TODO V2
+        commController.sendMessage(new LeaveChannelMessage(user, channel.getId()));
     }
 
     /**
@@ -194,7 +217,12 @@ public class CommunicationClientInterface implements IDataToCommunication,
      * @param channel [Channel] Channel que l'on veut rejoindre
      **/
     public void askToJoin(Channel channel) {
-        commController.sendMessage(new AskToJoinMessage(channel.getId(), localUser));
+        if (channel.getType() == ChannelType.OWNED) {
+            commController.sendMessage(new AskToJoinPropMessage(channel.getId(), localUser, channel.getCreator()));
+        }
+        else {
+            commController.sendMessage(new AskToJoinSharedMessage(channel.getId(), localUser));
+        }
     }
 
     /**
@@ -203,8 +231,12 @@ public class CommunicationClientInterface implements IDataToCommunication,
      * @param channel [Channel] Channel dont on demande l'historique
      * @return List<Message> Liste des messages qui compose l'historique
      **/
-    public List<Message> getHistory(Channel channel){
+    public List<Message> getHistory(Channel channel) {
         // TODO V3
+        //sendMessage + give liste de message
+        commController.sendMessage(new GetHistoryMessage(channel.getId(), localUser));
+
+
         return new ArrayList<>();
     }
 

@@ -74,7 +74,7 @@ public class CommClientCreateChannelTest {
             Channel requestChannel = getChannel(channelID);
 
             if (requestChannel == null) {
-                System.err.println("Cannot find channel requester");
+                System.err.println("Cannot find requested channel");
             }
             else {
                 commInterface.askToJoin(channel);

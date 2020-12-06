@@ -1,14 +1,17 @@
-package Communication.messages.client_to_server;
+package Communication.messages.client_to_server.connection;
+import java.util.UUID;
 
 import Communication.messages.abstracts.ClientToServerMessage;
 import Communication.server.CommunicationServerController;
-import common.sharedData.UserLite;
 
-import java.util.UUID;
-
+/**
+ * Ce message sert à indiquer au serveur un souhait de déconnexion normal.
+ *
+ */
 public class UserDisconnectionMessage extends ClientToServerMessage {
 
-    private final UUID userID;
+	private static final long serialVersionUID = 2970712372437347267L;
+	private final UUID userID;
 
     public UserDisconnectionMessage(UUID userID) {
         this.userID = userID;
@@ -16,7 +19,6 @@ public class UserDisconnectionMessage extends ClientToServerMessage {
 
     @Override
     protected void handle(CommunicationServerController commController) {
-        // TODO handle client disconnection
         commController.disconnect(userID);
     }
 }
