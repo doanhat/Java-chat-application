@@ -3,8 +3,6 @@ package Communication.messages.abstracts;
 import Communication.common.CommunicationController;
 import Communication.server.CommunicationServerController;
 
-import java.util.logging.Logger;
-
 /**
  * Classe abstraite depuis laquelle sont étendu les messages devant aller des clients au serveur.
  * @see NetworkMessage

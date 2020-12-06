@@ -23,8 +23,8 @@ import java.util.List;
 import java.util.UUID;
 
 public class CommunicationClientInterface implements IDataToCommunication,
-                                                     IIHMMainToCommunication,
-                                                     IIHMChannelToCommunication {
+        IIHMMainToCommunication,
+        IIHMChannelToCommunication {
 
     private final CommunicationClientController commController;
     private UserLite localUser;

@@ -94,8 +94,9 @@ public class NetworkWriter extends CyclicTask {
          * @throws IOException si l'outputStream renvoie une IOException au moment du write
          */
         public void send() throws IOException {
-            //LOGGER.log(Level.FINE, "Send message {}", message.getClass());
-            System.err.println("send msg " + message.getClass());
+            LOGGER.log(Level.FINE, "Send message {}", message.getClass());
+            //System.err.println("send msg " + message.getClass());
+
             receiver.writeObject(message);
         }
     }
