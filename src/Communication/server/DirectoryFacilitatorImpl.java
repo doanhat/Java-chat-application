@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import Communication.common.Parameters;
 import Communication.messages.server_to_client.ReplyClientPulseMessage;
@@ -20,6 +22,7 @@ public class DirectoryFacilitatorImpl implements DirectoryFacilitator {
     private final CommunicationServerController commController;
     private final Map<UUID, NetworkUser> connections;
     private final Timer timer;
+    private final Logger logger = Logger.getLogger(this.getClass().getName());
 
     public DirectoryFacilitatorImpl(CommunicationServerController commController) {
         this.commController = commController;
@@ -43,7 +46,7 @@ public class DirectoryFacilitatorImpl implements DirectoryFacilitator {
                             commController.sendMessage(user.preparePacket(new ReplyClientPulseMessage()));
                         }
                         else {
-                            System.err.println("Client " + userID + " déconnecté");
+                            logger.log(Level.INFO, "Client {} déconnecté", userID);
                             commController.disconnect(userID);
                         }
                     }
@@ -64,15 +67,13 @@ public class DirectoryFacilitatorImpl implements DirectoryFacilitator {
 
             connections.put(client.uuid(), client);
 
-            System.err.println("DirectoryFacilitator register nouveau client avec ID: " + client.uuid());
-
+            logger.log(Level.INFO, "DirectoryFacilitator enrefistre un nouveau client avec ID: {}" , client.uuid());
             return true;
         }
         else {
-            System.err.println("DirectoryFacilitator.registerClients : Socket est NULL");
+            logger.log(Level.SEVERE, "DirectoryFacilitator.registerClients : Socket est NULL");
+            return false;
         }
-
-        return false;
     }
 
     /**
@@ -151,8 +152,7 @@ public class DirectoryFacilitatorImpl implements DirectoryFacilitator {
         NetworkUser user = getConnection(clientID);
 
         if (user != null) {
-            System.err.println("Server reçoit impulse du client " + clientID);
-
+            logger.log(Level.FINE, "Server reçoit impulse du client {}" , clientID);
             user.active(true);
         }
     }

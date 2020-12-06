@@ -5,6 +5,8 @@ import static java.util.concurrent.Executors.newCachedThreadPool;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Class gérant l'execution de taches cycliques et Uniques avec un thread pool permettant une execution d'une multitudes d'actions avec un pool de thread limité.
@@ -14,6 +16,7 @@ public class TaskManager {
 
     private final ExecutorService pool;
     private final List<CyclicTask> cyclicTasks;
+    private final Logger logger = Logger.getLogger(this.getClass().getName());
 
     public TaskManager() {
         pool = newCachedThreadPool();
@@ -43,12 +46,10 @@ public class TaskManager {
      * Arrête tous les threads et stop le pool de threads.
      */
     public void shutdown() {
-        System.err.println("Task manager s'arrete, annuler " + cyclicTasks.size() + " taches !");
-
+        logger.log(Level.WARNING, "Task manager doit être arreté, annulant {} taches", cyclicTasks.size());
         for (CyclicTask t : cyclicTasks) {
             t.stop();
         }
-
         pool.shutdownNow();
     }
 }

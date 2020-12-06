@@ -7,6 +7,8 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Classe gérant l'écriture et l'envoi de messages sur le réseau depuis une Liste synchronisée de messages.
@@ -15,6 +17,7 @@ import java.util.List;
 public class NetworkWriter extends CyclicTask {
 
     private final List<DeliveryPacket> messagesQueue;
+    private static final Logger LOGGER = Logger.getLogger(NetworkWriter.class.getName());
 
     public NetworkWriter() {
         messagesQueue = Collections.synchronizedList(new ArrayList<>());
@@ -91,8 +94,7 @@ public class NetworkWriter extends CyclicTask {
          * @throws IOException si l'outputStream renvoie une IOException au moment du write
          */
         public void send() throws IOException {
-            System.err.println("Send message " + message.getClass());
-
+            LOGGER.log(Level.FINE, "Send message {}", message.getClass());
             receiver.writeObject(message);
         }
     }

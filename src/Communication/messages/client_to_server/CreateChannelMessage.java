@@ -1,5 +1,8 @@
 package Communication.messages.client_to_server;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import Communication.messages.abstracts.ClientToServerMessage;
 import Communication.messages.abstracts.NetworkMessage;
 import Communication.messages.server_to_client.NewVisibleChannelMessage;
@@ -42,11 +45,12 @@ public class CreateChannelMessage extends ClientToServerMessage {
     @Override
     protected void handle(CommunicationServerController commController) {
         Channel newChannel = commController.requestCreateChannel(channel, proprietaryChannel, publicChannel, sender);
+        Logger logger = Logger.getLogger(this.getClass().getName());
 
         if (newChannel != null)
         {
             // Request Accepted
-            System.err.println("Serveur accepte la creation du channel" + channel.getId());
+            logger.log(Level.INFO, "Serveur accepte la creation du channel {}" , channel.getId());
 
             // broadcast public channel to other users
             if (newChannel.getVisibility() == Visibility.PUBLIC) {
@@ -60,8 +64,7 @@ public class CreateChannelMessage extends ClientToServerMessage {
         }
         else {
             // Request Refused
-            System.err.println("Serveur réfuse la creation du channel" + channel.getId());
-
+        	logger.log(Level.WARNING, "Serveur réfuse la creation du channel {}" , channel.getId());
             commController.sendMessage(sender.getId(), new RefuseCreationChannelMessage(channel));
         }
     }

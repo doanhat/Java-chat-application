@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.ObjectInputStream;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Cette classe sert à gérer la connexion du client au serveur au travers de socket et de {@link Communication.common.NetworkReader} et {@link Communication.common.NetworkWriter}
@@ -18,6 +20,7 @@ public class NetworkClient {
     private ObjectOutputStream socketOut;
     private NetworkReader reader;
     private NetworkWriter writer;
+    private final Logger logger = Logger.getLogger(this.getClass().getName());
 
     /**
      * Constructeur du client réseau
@@ -35,7 +38,7 @@ public class NetworkClient {
      */
     public void connect(String ip, int port) throws IOException {
         socket = new Socket(ip, port);
-        System.err.println("Connexion à " + ip + ":" + port);
+        logger.log(Level.INFO, "Connexion à {0}:{1}", new Object[] {ip, port});
 
         socketOut = new ObjectOutputStream(socket.getOutputStream());
 
