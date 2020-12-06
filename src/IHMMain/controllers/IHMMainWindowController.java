@@ -40,6 +40,11 @@ public class IHMMainWindowController implements Initializable{
     private ConnectionController connectionController;
 
     private UserLite userL;
+    
+    // Is true if it's home page currently display, false otherwise
+    private boolean isHomePage = true;
+
+    private Region ihmChannelNode;
 
     @FXML
     private AnchorPane root;
@@ -109,12 +114,16 @@ public class IHMMainWindowController implements Initializable{
             }
         });
 
+        initChannelsListView();
+    }
+
+    private void initChannelsListView() {
         /**
          * Bind the ListView with the list of private channels.
          * And use the ChannelListViewCellController to display each item.
          */
         privateChannels.setItems(ihmMainController.getVisibleChannels().filtered(channel -> channel.getVisibility() == Visibility.PRIVATE));
-        privateChannels.setCellFactory(privateChannelsListView -> new ChannelListViewCellController());
+        privateChannels.setCellFactory(privateChannelsListView -> new ChannelListViewCellController(ihmMainController));
 
         /**
          * When a channel is selected, we display is channel view
@@ -126,7 +135,7 @@ public class IHMMainWindowController implements Initializable{
                     @Override
                     public void changed(ObservableValue observable, Channel oldValue, Channel newValue) {
                         if (newValue != null) {
-                            loadIHMChannelWindow(newValue);
+                            viewChannel(newValue);
                             clearSelectedChannel(publicChannels);
                         }
                     }
@@ -138,7 +147,7 @@ public class IHMMainWindowController implements Initializable{
          * And use the ChannelListViewCellController to display each item.
          */
         publicChannels.setItems(ihmMainController.getVisibleChannels().filtered(channel -> channel.getVisibility() == Visibility.PUBLIC));
-        publicChannels.setCellFactory(privateChannelsListView -> new ChannelListViewCellController());
+        publicChannels.setCellFactory(privateChannelsListView -> new ChannelListViewCellController(ihmMainController));
 
         /**
          * When a channel is selected, we display is channel view
@@ -150,7 +159,7 @@ public class IHMMainWindowController implements Initializable{
                     @Override
                     public void changed(ObservableValue observable, Channel oldValue, Channel newValue) {
                         if (newValue != null) {
-                            loadIHMChannelWindow(newValue);
+                            viewChannel(newValue);
                             clearSelectedChannel(privateChannels);
                         }
                     }
@@ -169,12 +178,24 @@ public class IHMMainWindowController implements Initializable{
         }
     }
 
-    @FXML
-    public void loadIHMChannelWindow(Channel channel){
+    /**
+     * Use to show the thread of this channel
+     * @param channel Channel to set a in the current view
+     */
+    public void viewChannel(Channel channel) {
+        if (ihmChannelNode == null) {
+            ihmChannelNode = ihmMainController.getIHMMainToIHMChannel().initIHMChannelWindow(channel);
+        }
+        if (this.isHomePage) {
+            loadIHMChannelWindow();
+        }
+        this.ihmMainController.getIHMMainToIHMChannel().viewChannel(channel.getId());
+    }
+
+    public void loadIHMChannelWindow(){
         this.mainArea.getChildren().clear(); //On efface les noeuds fils
-        //On charge la vue IHMMainWindow
-        //Region ihmChannelNode = ihmMainController.getIHMMainToIHMChannel().getIHMChannelWindow();
-        Region ihmChannelNode = ihmMainController.getIHMMainToIHMChannel().initIHMChannelWindow(channel); // TODO lors du merge avec IHM-Channel, utiliser cette ligne plutot que celle au dessus
+        this.isHomePage = false;
+        //On charge la vue d'IHM-Channel
         this.mainArea.getChildren().addAll(ihmChannelNode); //On ajoute le noeud parent (fxml) au noeud racine de cette vue
         IHMTools.fitSizeToParent((Region)this.mainArea,ihmChannelNode);
     }
@@ -266,6 +287,7 @@ public class IHMMainWindowController implements Initializable{
     @FXML
     public void loadUserListView(){
         this.mainArea.getChildren().clear(); //On efface les noeuds fils
+        this.isHomePage = true;
 
         // Unselect both ListView
         clearSelectedChannel(privateChannels);

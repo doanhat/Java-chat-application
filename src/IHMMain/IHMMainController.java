@@ -46,6 +46,8 @@ public class IHMMainController {
 
     private ObservableList<Channel> visibleChannels = FXCollections.observableArrayList();
 
+    private ObservableList<Channel> openedChannels = FXCollections.observableArrayList();
+
     public IHMMainController(){
         communicationToIHMMain = new CommunicationToIHMMain(this);
         dataToIHMMain = new DataToIHMMain(this);
@@ -101,5 +103,9 @@ public class IHMMainController {
 
     public ObservableList<Channel> getVisibleChannels() {
         return visibleChannels;
+    }
+
+    public ObservableList<Channel> getOpenedChannels() {
+        return openedChannels;
     }
 }
