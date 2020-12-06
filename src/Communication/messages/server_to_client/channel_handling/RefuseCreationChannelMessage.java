@@ -1,4 +1,4 @@
-package Communication.messages.server_to_client;
+package Communication.messages.server_to_client.channel_handling;
 
 import java.util.logging.Level;
 

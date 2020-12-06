@@ -1,15 +1,10 @@
 package Communication.messages.client_to_server.proprietary_channels;
 
 import Communication.messages.abstracts.ClientToServerMessage;
-import Communication.messages.server_to_client.AcceptJoinChannelMessage;
-import Communication.messages.server_to_client.NewUserJoinChannelMessage;
-import Communication.messages.server_to_client.RefuseJoinChannelMessage;
 import Communication.server.CommunicationServerController;
 import Communication.messages.server_to_client.TellOwnerUserJoinedMessage;
-import common.sharedData.Channel;
 import common.sharedData.UserLite;
 
-import java.util.List;
 import java.util.UUID;
 
 public class AskToJoinPropMessage extends ClientToServerMessage {

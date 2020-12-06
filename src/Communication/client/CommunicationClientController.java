@@ -3,8 +3,8 @@ package Communication.client;
 import Communication.common.CommunicationController;
 import Communication.messages.abstracts.NetworkMessage;
 import Communication.messages.client_to_server.ValideDeleteMessageMessage;
-import Communication.messages.client_to_server.generic.UserConnectionMessage;
-import Communication.messages.client_to_server.generic.UserDisconnectionMessage;
+import Communication.messages.client_to_server.connection.UserConnectionMessage;
+import Communication.messages.client_to_server.connection.UserDisconnectionMessage;
 import common.interfaces.client.*;
 import common.sharedData.*;
 

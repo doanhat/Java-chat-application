@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 import Communication.common.CommunicationController;
 import Communication.common.NetworkWriter;
 import Communication.messages.abstracts.NetworkMessage;
-import Communication.messages.server_to_client.UserDisconnectedMessage;
+import Communication.messages.server_to_client.connection.UserDisconnectedMessage;
 import Communication.messages.server_to_client.UserLeftChannelMessage;
 import Communication.messages.server_to_client.ValideUserLeftMessage;
 import common.interfaces.server.IServerCommunicationToData;

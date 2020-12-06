@@ -1,16 +1,10 @@
 package Communication.messages.client_to_server.shared_channels;
 
 import Communication.messages.abstracts.ClientToServerMessage;
-import Communication.messages.abstracts.NetworkMessage;
-import Communication.messages.server_to_client.AcceptJoinChannelMessage;
 import Communication.messages.server_to_client.NewUserJoinChannelMessage;
-import Communication.messages.server_to_client.NewVisibleChannelMessage;
-import Communication.messages.server_to_client.ValidateCreationChannelMessage;
 import Communication.server.CommunicationServerController;
 import common.sharedData.Channel;
-import common.sharedData.Message;
 import common.sharedData.UserLite;
-import common.sharedData.Visibility;
 
 import java.util.UUID;
 

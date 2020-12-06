@@ -2,9 +2,9 @@ package Communication.server;
 
 import Communication.common.*;
 import Communication.messages.abstracts.NetworkMessage;
-import Communication.messages.client_to_server.generic.UserConnectionMessage;
-import Communication.messages.server_to_client.AcceptationMessage;
-import Communication.messages.server_to_client.NewUserConnectedMessage;
+import Communication.messages.client_to_server.connection.UserConnectionMessage;
+import Communication.messages.server_to_client.connection.AcceptationMessage;
+import Communication.messages.server_to_client.connection.NewUserConnectedMessage;
 import common.sharedData.Channel;
 import common.sharedData.UserLite;
 

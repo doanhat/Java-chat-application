@@ -1,4 +1,4 @@
-package Communication.messages.server_to_client;
+package Communication.messages.server_to_client.chat_action;
 
 import Communication.client.CommunicationClientController;
 import Communication.messages.abstracts.ServerToClientMessage;
@@ -30,7 +30,7 @@ public class ReceiveMessageMessage extends ServerToClientMessage {
 
     /**
      *Notifie le controller du nouveau message
-     * @param commController
+     * @param commController controlleur du comm Client
      */
     @Override
     protected void handle(CommunicationClientController commController) {
