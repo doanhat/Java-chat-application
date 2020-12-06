@@ -57,7 +57,6 @@ public class SendMessageMessage extends ClientToServerMessage {
         }
 
         commController.sendMulticast(channel.getAcceptedPersons(),
-                                     new ReceiveMessageMessage(message, channelID, response),
-                                     null);
+                                     new ReceiveMessageMessage(message, channelID, response));
     }
 }

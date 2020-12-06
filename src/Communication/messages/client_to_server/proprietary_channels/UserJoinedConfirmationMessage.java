@@ -41,8 +41,7 @@ public class UserJoinedConfirmationMessage extends ClientToServerMessage {
 
             // Notifie les utilisateurs connectes au channel qu'un nouveau utilisateur les rejoins
             commController.sendMulticast(users,
-                    new NewUserJoinChannelMessage(user, channel.getId()),
-                    null);
+                    new NewUserJoinChannelMessage(user, channel.getId()));
         }
     }
 }

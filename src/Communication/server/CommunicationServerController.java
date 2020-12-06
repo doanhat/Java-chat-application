@@ -155,9 +155,8 @@ public class CommunicationServerController extends CommunicationController {
 	 * Multicast messages aux tous les clients
 	 * @param receivers liste de recepteurs
 	 * @param message message réseau
-	 * @param excludedUser utilisateur exclu qui ne recevra le message pour éviter renvoie de message à l'émetteur
 	 */
-	public void sendMulticast(List<UserLite> receivers, NetworkMessage message, UserLite excludedUser) {
+	public void sendMulticast(List<UserLite> receivers, NetworkMessage message) {
 		for(NetworkUser usr : server.directory().getConnections(receivers)) {
 			server.sendMessage(usr.preparePacket(message));
 		}
@@ -282,7 +281,7 @@ public class CommunicationServerController extends CommunicationController {
 		Channel ch = dataServer.getChannel(channelID);
 		dataServer.leaveChannel(ch.getId(), userLite);
 		sendMessage(userLite.getId(), new ValideUserLeftMessage(channelID));
-		sendMulticast(ch.getAcceptedPersons(), new UserLeftChannelMessage(ch.getId(), userLite), null);
+		sendMulticast(ch.getAcceptedPersons(), new UserLeftChannelMessage(ch.getId(), userLite));
 	}
 
 	/* ----------------------------------------- Chat action handling ------------------------------------------------*/

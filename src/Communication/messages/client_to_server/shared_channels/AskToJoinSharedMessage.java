@@ -38,8 +38,7 @@ public class AskToJoinSharedMessage extends ClientToServerMessage {
 
             // Notifie les utilisateurs connectes au channel qu'un nouveau utilisateur les rejoins
             commController.sendMulticast(users,
-                    new NewUserJoinChannelMessage(sender, channelID),
-                    null);
+                    new NewUserJoinChannelMessage(sender, channelID));
         }
         else {
             // send Refusal back to sender
