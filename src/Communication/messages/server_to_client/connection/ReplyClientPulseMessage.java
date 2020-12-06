@@ -10,7 +10,7 @@ import Communication.messages.client_to_server.connection.ClientPulseMessage;
  */
 public class ReplyClientPulseMessage extends ServerToClientMessage {
 
-	private static final long serialVersionUID = 4397161634935162347L;
+	//private static final long serialVersionUID = 4397161634935162347L;
 
 	@Override
     protected void handle(CommunicationClientController commController) {

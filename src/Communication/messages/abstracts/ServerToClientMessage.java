@@ -10,7 +10,7 @@ import Communication.common.CommunicationController;
  * @see NetworkMessage
  */
 public abstract class ServerToClientMessage extends NetworkMessage {
-	protected final Logger logger = Logger.getLogger(this.getClass().getName());
+	protected final transient Logger logger = Logger.getLogger(this.getClass().getName());
 	
     @Override
     public void handle(CommunicationController communicationController) {

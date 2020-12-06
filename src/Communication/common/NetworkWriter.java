@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 public class NetworkWriter extends CyclicTask {
 
     private final List<DeliveryPacket> messagesQueue;
-    private static final Logger LOGGER = Logger.getLogger(NetworkWriter.class.getName());
+    private static final transient Logger LOGGER = Logger.getLogger(NetworkWriter.class.getName());
 
     public NetworkWriter() {
         messagesQueue = Collections.synchronizedList(new ArrayList<>());
@@ -94,7 +94,8 @@ public class NetworkWriter extends CyclicTask {
          * @throws IOException si l'outputStream renvoie une IOException au moment du write
          */
         public void send() throws IOException {
-            LOGGER.log(Level.FINE, "Send message {}", message.getClass());
+            //LOGGER.log(Level.FINE, "Send message {}", message.getClass());
+            System.err.println("send msg " + message.getClass());
             receiver.writeObject(message);
         }
     }

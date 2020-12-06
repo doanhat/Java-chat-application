@@ -12,7 +12,6 @@ public class ClientPulseMessage extends ClientToServerMessage {
 
 	private static final long serialVersionUID = -8159868108654492827L;
 	private final UUID userID;
-    private int nbSequence;
 
     public ClientPulseMessage(UUID userID) {
         this.userID = userID;
