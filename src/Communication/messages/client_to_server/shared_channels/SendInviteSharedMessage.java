@@ -1,4 +1,4 @@
-package Communication.messages.client_to_server;
+package Communication.messages.client_to_server.shared_channels;
 
 import Communication.messages.abstracts.ClientToServerMessage;
 import Communication.messages.abstracts.NetworkMessage;
@@ -14,26 +14,22 @@ import common.sharedData.Visibility;
 
 import java.util.UUID;
 
-public class SendInviteMessage extends ClientToServerMessage {
-    private UserLite sender;
-    private UserLite receiver;
-    private Message message;
-    private Channel channel;
+public class SendInviteSharedMessage extends ClientToServerMessage {
+    private UserLite guest;
+    private String message;
+    private UUID channelID;
 
     /**
      * Message d'inviation a rejoindre un channel
-     * @param sender
-     * @param receiver
-     * @param message
+     * @param guest
      * @param channel
+     * @param message
      */
-    public SendInviteMessage(UserLite sender, UserLite receiver, Message message, Channel channel){
-        this.channel = channel;
+    public SendInviteSharedMessage(UserLite guest, Channel channel, String message){
+        this.channelID = channel.getId();
         this.message = message;
-        this.receiver = receiver;
-        this.sender = sender;
+        this.guest = guest;
     }
-
 
     /**
      * Envoi le message d'invitation
@@ -42,10 +38,15 @@ public class SendInviteMessage extends ClientToServerMessage {
     @Override
     protected void handle(CommunicationServerController commController) {
 
-        if(receiver != null && channel != null) {
-            commController.SendInvite(sender.getId(), receiver.getId(), message);
-            commController.sendMessage(receiver.getId(), new NewUserJoinChannelMessage(receiver, channel.getId()));
-
+        if(guest != null && channelID != null) {
+            Channel ch = commController.getChannel(channelID);
+            if(ch==null){
+                System.err.println("Erreur SendInviteMessage: Le channel n'existe pas");
+                return;
+            }
+            //commController.SendInvite(sender.getId(), receiver.getId(), message);
+            commController.notifyInviteChannel(guest, ch); // Celon le diagrame de sequence
+            commController.sendMessage(guest.getId(), new NewUserJoinChannelMessage(guest, channelID));
         }
 
     }

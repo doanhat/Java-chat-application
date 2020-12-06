@@ -14,7 +14,7 @@ import java.util.UUID;
  * Envoie l'information au serveur que le message à été supprimé afin de la propager
  */
 
-public class ValideDeleteMessageMesage extends ClientToServerMessage {
+public class ValideDeleteMessageMessage extends ClientToServerMessage {
     UUID channelID;
     Message message;
     Boolean deleteByCreator;
@@ -43,7 +43,7 @@ public class ValideDeleteMessageMesage extends ClientToServerMessage {
         this.deleteByCreator = deleteByCreator;
     }
 
-    public ValideDeleteMessageMesage(Message message, UUID channelID, Boolean deleteByCreator) {
+    public ValideDeleteMessageMessage(Message message, UUID channelID, Boolean deleteByCreator) {
         this.channelID = channelID;
         this.message = message;
         this.deleteByCreator = deleteByCreator;
@@ -59,8 +59,7 @@ public class ValideDeleteMessageMesage extends ClientToServerMessage {
             return;
         }
 
-        commController.sendMulticast(channel.getAcceptedPersons(),
-                new DeleteMessageMessage(message, channelID, deleteByCreator),
-                null);
+        commController.sendMulticast(commController.getChannelConnectedUserList(channelID),
+                new DeleteMessageMessage(message, channelID, deleteByCreator));
     }
 }

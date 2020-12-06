@@ -1,8 +1,6 @@
 package Communication.messages.client_to_server;
 
 import Communication.messages.abstracts.ClientToServerMessage;
-import Communication.messages.abstracts.NetworkMessage;
-import Communication.messages.server_to_client.NewUserJoinChannelMessage;
 import Communication.messages.server_to_client.ReceiveMessageMessage;
 import Communication.messages.server_to_client.TellOwnerToSaveMessage;
 import Communication.server.CommunicationServerController;
@@ -23,9 +21,9 @@ public class SendMessageMessage extends ClientToServerMessage {
 
     /**
      * Message informant de l'arrive d'un message dans un des channel
-     * @param message
-     * @param channelID
-     * @param response
+     * @param message [Message] chat message
+     * @param channelID [UUID] ID du channel
+     * @param response [Message] réponde du message
      */
     public SendMessageMessage(Message message, UUID channelID, Message response) {
         this.message    = message;
@@ -36,27 +34,27 @@ public class SendMessageMessage extends ClientToServerMessage {
     /**
      * Channel partage : Sauvegarde le message et avertit les utilisateurs du channel de son existence
      * Channel proprietaire : Avertit le proprietaire du nouveau message
-     * @param commController
+     * @param commController [CommunicationServerController] communication controlleur du serveur
      */
     @Override
     protected void handle(CommunicationServerController commController) {
         Channel channel = commController.getChannel(channelID);
 
-        // Handle shared Channel
-        if (channel.getType() == ChannelType.SHARED) {
-            // Tell data server to save message
-            commController.saveMessage(message, channel, response);
-
-            commController.sendMulticast(channel.getAcceptedPersons(),
-                                         new ReceiveMessageMessage(message, channelID, response),
-                                         message.getAuthor());
+        if (channel == null) {
+            System.err.println("SendMessageMessage: channel est null");
+            return;
         }
-        else {
-            /**
-             * TODO INTEGRATION Verify with Data if this is an if else situation where TellOwnerToSaveMessage
-             * can replace ReceiveMessageMessage in case of shared Channel
-             */
+
+        // TODO INTEGRATION V2: cross check with data on ICommunicationServerToData.saveMessageIntoHistory()'s purpose
+        // Tell data server to save message for both shared and proprietary channels, in order to update active Channel on server
+        commController.saveMessage(message, channel, response);
+
+        // Server serves as a proxy in case of proprietary Channel
+        if (channel.getType() == ChannelType.OWNED) {
             commController.sendMessage(channel.getCreator().getId(), new TellOwnerToSaveMessage(message, channelID, response));
         }
+
+        commController.sendMulticast(channel.getAcceptedPersons(),
+                                     new ReceiveMessageMessage(message, channelID, response));
     }
 }

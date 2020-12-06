@@ -11,7 +11,7 @@ import java.util.UUID;
  * Cette classe permet de prevenir les membres d'un channel qu'un autre membre est parti
  */
 
-public class UserHasLeftChannelMessage extends ServerToClientMessage {
+public class UserLeftChannelMessage extends ServerToClientMessage {
     UUID channelID;
     UserLite userLite;
 
@@ -31,7 +31,7 @@ public class UserHasLeftChannelMessage extends ServerToClientMessage {
         this.userLite = userLite;
     }
 
-    public UserHasLeftChannelMessage(UUID channelID, UserLite userLite) {
+    public UserLeftChannelMessage(UUID channelID, UserLite userLite) {
         this.channelID = channelID;
         this.userLite = userLite;
     }
