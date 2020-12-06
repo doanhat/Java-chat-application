@@ -257,4 +257,9 @@ public class VirtualDataServer implements IServerCommunicationToData {
         Channel ch = null;
         return ch;
     }
+
+    @Override
+    public List<Channel> disconnectOwnedChannel(UserLite owner) {
+        return null;
+    }
 }
