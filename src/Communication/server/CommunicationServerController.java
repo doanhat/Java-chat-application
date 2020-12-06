@@ -8,6 +8,7 @@ import Communication.messages.server_to_client.UserHasLeftChannelMessage;
 import Communication.messages.server_to_client.ValideUserLeftMessage;
 import common.interfaces.server.IServerCommunicationToData;
 import common.sharedData.Channel;
+import common.sharedData.ChannelType;
 import common.sharedData.Message;
 import common.sharedData.UserLite;
 
@@ -369,5 +370,26 @@ public class CommunicationServerController extends CommunicationController {
         System.err.println("Message " + message.getId() + " deleted on channel " + channel.getId());
         dataServer.saveRemovalMessageIntoHistory(channel, message, deleteByCreator);
     }
+
+
+    public List<Message> getHistoryMessage(Channel channel, UserLite user){
+        if(dataServer == null){
+            System.err.println("saveNewAdmin: Data Iface est null");
+            return null;
+        }
+        if (dataServer.checkAuthorization(channel, user)){
+            List<Message> history = dataServer.getHistory(channel);
+            if(channel.getType() == ChannelType.OWNED){
+                //TODO
+
+
+            }else{
+                return dataServer.getHistory(channel);
+            }
+        }
+        return null;
+    }
+
+
 
 }

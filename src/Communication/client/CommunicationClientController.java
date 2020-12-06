@@ -429,5 +429,10 @@ public class CommunicationClientController extends CommunicationController {
     public void notifyDeletedMessage(Message message, UUID channelID, Boolean deleteByCreator) {
         dataClient.saveDeletionIntoHistory(message, null, channelID);
     }
+
+    public void sendHistory(Channel channel, List<Message> history ){
+        channelClient.displayHistory(channel, history);
+    }
+
 }
 

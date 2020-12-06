@@ -2,6 +2,7 @@ package Communication.client;
 
 import Communication.common.Parameters;
 import Communication.messages.client_to_server.*;
+import Communication.messages.client_to_server.generic.GetHistoryMessage;
 import Communication.messages.client_to_server.proprietary_channels.AddAdminPropMessage;
 import Communication.messages.client_to_server.shared_channels.AddAdminSharedMessage;
 import common.interfaces.client.*;
@@ -220,6 +221,10 @@ public class CommunicationClientInterface implements IDataToCommunication,
      **/
     public List<Message> getHistory(Channel channel) {
         // TODO V3
+        //sendMessage + give liste de message
+        commController.sendMessage(new GetHistoryMessage(channel.getId(), localUser));
+
+
         return new ArrayList<>();
     }
 
