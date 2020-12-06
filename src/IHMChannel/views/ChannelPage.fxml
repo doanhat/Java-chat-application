@@ -17,10 +17,10 @@
                 <Button fx:id="removeUserBtn" mnemonicParsing="false" onAction="#removeUser" text="Remove user test"/>
             </children>
         </HBox>
-        <HBox style="-fx-background-color: #B9E6FF">
-            <Pane HBox.hgrow="ALWAYS" />
-            <Button fx:id="back" styleClass="icon-bar-btn"/>
-        </HBox>
+<!--        <HBox style="-fx-background-color: #B9E6FF">-->
+<!--            <Pane HBox.hgrow="ALWAYS" />-->
+<!--            <Button fx:id="back" styleClass="icon-bar-btn"/>-->
+<!--        </HBox>-->
 
         <TabPane fx:id="tabs" prefWidth="1400"/><!---->
         <BorderPane fx:id="pageToDisplay" prefWidth="1400"/><!---->

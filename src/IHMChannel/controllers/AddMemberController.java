@@ -1,7 +1,7 @@
 package IHMChannel.controllers;
 
 import IHMChannel.IHMChannelController;
-import IHMChannel.tools.AddMemberCellFactory.AddMemberCellFactory;
+//import IHMChannel.tools.AddMemberCellFactory.AddMemberCellFactory;
 import common.sharedData.UserLite;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -45,7 +45,7 @@ public class AddMemberController {
 
 
     public void initialize(){
-        usersList.setCellFactory(new AddMemberCellFactory());
+//        usersList.setCellFactory(new AddMemberCellFactory());
         sortValueSearch(observableList);
         usersList.setItems(observableList);
 

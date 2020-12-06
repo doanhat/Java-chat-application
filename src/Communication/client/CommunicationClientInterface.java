@@ -94,11 +94,11 @@ public class CommunicationClientInterface implements IDataToCommunication,
      * Transfert au serveur l'envoie d'un message d'invitation au serveur'envoi
      * d'une invitation a rejoindre un channel
      *
-     * @param sender [UserLite] Utilisateur qui crée l'invitation
-     * @param receiver [UserLite] Utilisateur qui doit recevoir l'invitation
-     * @param message [Message] Message d'invitation
+     * @param guest [UserLite] Utilisateur invité au channel
+     * @param channel [Channel] Channel auquel guest est invité
+     * @param message [String] Message d'invitation
      **/
-    public void sendInvite(UserLite sender, UserLite receiver, Message message) {
+    public void sendInvite(UserLite guest, Channel channel, String message) {
         // TODO V2
     }
 
@@ -206,6 +206,11 @@ public class CommunicationClientInterface implements IDataToCommunication,
     public List<Message> getChannelHistory(UUID channelId){
         // TODO V3
         return new ArrayList<>();
+    }
+
+    @Override
+    public void closeChannel(UUID channelId) {
+        
     }
 
     @Override

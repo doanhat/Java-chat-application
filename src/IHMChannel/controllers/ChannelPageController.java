@@ -74,7 +74,7 @@ public class ChannelPageController {
 
 
     public void addOpenedChannel(Channel channel) throws IOException {
-        iconsInit();
+        //iconsInit();
         openedChannels.add(channel);
         currentChannel = channel.getId(); //TODO mieux gérer la mise à jour de cette valeur
         ihmChannelController.getInterfaceToIHMMain().setCurrentVisibleChannel(channel);
@@ -96,6 +96,15 @@ public class ChannelPageController {
         tab.setId(channel.getName());
         tab.setOnClosed((event->{
             this.openedChannels.remove(channel);
+            /* On notifie Comm de la fermeture de l'onglet */
+            ihmChannelController.getInterfaceToCommunication().closeChannel(channel.getId());
+            /* On notifie IHM-Main avec la nouvelle liste de channels ouverts */
+            ihmChannelController.getInterfaceToIHMMain().setOpenedChannelsList(ihmChannelController.getOpenedChannelsList());
+            /* On notifie IHM-Main avec le nouveau currentOpenedChannel dans le handler de changement de tab */
+            /* On revient à la page d'accueil si plus aucun channel à afficher */
+            if(openedChannels.size() == 0){
+                ihmChannelController.getInterfaceToIHMMain().redirectToHomePage();
+            }
         }));
 
         tab.setOnSelectionChanged (e ->
