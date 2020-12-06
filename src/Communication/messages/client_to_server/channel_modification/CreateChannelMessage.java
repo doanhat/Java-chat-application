@@ -1,13 +1,12 @@
-package Communication.messages.client_to_server.channel_handling;
+package Communication.messages.client_to_server.channel_modification;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import Communication.messages.abstracts.ClientToServerMessage;
 import Communication.messages.abstracts.NetworkMessage;
-import Communication.messages.server_to_client.channel_handling.NewVisibleChannelMessage;
-import Communication.messages.server_to_client.channel_handling.RefuseCreationChannelMessage;
-import Communication.messages.server_to_client.ValidateCreationChannelMessage;
+import Communication.messages.server_to_client.channel_modification.NewVisibleChannelMessage;
+import Communication.messages.server_to_client.channel_modification.ChannelCreationResponseMessage;
 import Communication.server.CommunicationServerController;
 import common.sharedData.Channel;
 import common.sharedData.UserLite;
@@ -52,9 +51,9 @@ public class CreateChannelMessage extends ClientToServerMessage {
         if (newChannel != null)
         {
             // Request Accepted
-            logger.log(Level.INFO, "Serveur accepte la creation du channel {}" , channel.getId());
+            logger.log(Level.INFO, "Serveur accepte la creation du channel {}" , newChannel.getId());
 
-            commController.sendMessage(sender.getId(), new ValidateCreationChannelMessage(newChannel));
+            commController.sendMessage(sender.getId(), new ChannelCreationResponseMessage(newChannel, true));
 
             // broadcast public channel to other users
             if (newChannel.getVisibility() == Visibility.PUBLIC) {
@@ -67,7 +66,7 @@ public class CreateChannelMessage extends ClientToServerMessage {
             // Request Refused
         	logger.log(Level.WARNING, "Serveur réfuse la creation du channel {}" , channel.getId());
 
-            commController.sendMessage(sender.getId(), new RefuseCreationChannelMessage(channel));
+            commController.sendMessage(sender.getId(), new ChannelCreationResponseMessage(channel, false));
         }
     }
 }

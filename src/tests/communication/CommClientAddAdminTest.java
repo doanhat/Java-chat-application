@@ -38,7 +38,7 @@ public class CommClientAddAdminTest {
         /* ------------------------------------------- Test Communication interface ----------------------------------*/
         CommunicationClientController commControler = new CommunicationClientController();
         CommunicationClientInterface commInterface = commControler.getCommunicationClientInterface();
-        commInterface.setupInterfaces(dataIface, mainIface, channelIface);
+        commControler.setupInterfaces(dataIface, mainIface, channelIface);
 
         commInterface.userConnect(localUser);
 

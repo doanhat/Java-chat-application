@@ -49,6 +49,7 @@ public class SendMessageMessage extends ClientToServerMessage {
 
         // TODO INTEGRATION V2: cross check with data on ICommunicationServerToData.saveMessageIntoHistory()'s purpose
         // Tell data server to save message for both shared and proprietary channels, in order to update active Channel on server
+
         commController.saveMessage(message, channel, response);
 
         // Server serves as a proxy in case of proprietary Channel

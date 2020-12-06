@@ -35,7 +35,6 @@ public class CommunicationServerController extends CommunicationController {
 		server = new NetworkServer(this);
 	}
 
-
 	/* -------------------------------------------- Setup interfaces -------------------------------------------------*/
 
 	/**
@@ -191,7 +190,6 @@ public class CommunicationServerController extends CommunicationController {
 			logger.log(Level.SEVERE,"getChannel: Data Iface est null");
 			return null;
 		}
-
 
 		return dataServer.getChannel(channelID);
 	}
@@ -365,5 +363,21 @@ public class CommunicationServerController extends CommunicationController {
             }
         }
         return null;
+    }
+    
+    /**
+     * Demande a dataserver à changer le nickname d'un utilisateur dans un canal
+     * @param user utilisateur demandant le changement
+     * @param channel canal dans lequel changer le nickname de l'utilisateur
+     * @param newNickname nouveau nom d'utilisateur demandé
+     * @throws NullPointerException Si l'interface de dataServer n'est pas acccessible.
+     */
+    public void requestNicknameChange(UserLite user, Channel channel, String newNickname){
+    	 if (dataServer == null)
+         {
+           throw new NullPointerException("Data Interface est nulle");
+         }else {
+        	dataServer.updateNickname(channel, user, newNickname); 
+         }
     }
 }

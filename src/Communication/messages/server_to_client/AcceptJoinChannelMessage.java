@@ -5,7 +5,6 @@ import Communication.messages.abstracts.ServerToClientMessage;
 // FIXME
 //import Communication.messages.client_to_server.AskToJoinMessage;
 import java.util.logging.*;
-import java.util.UUID;
 import common.sharedData.UserLite;
 import common.sharedData.Channel;
 
@@ -26,7 +25,9 @@ public class AcceptJoinChannelMessage extends ServerToClientMessage {
 
     @Override
     protected void handle(CommunicationClientController commClientController) {
+        Logger logger = Logger.getLogger(this.getClass().getName());
         logger.log(Level.INFO, "Accepted to join channel {}" , channel);
+
         commClientController.notifyAcceptedToJoinChannel(user, channel);
     }
 }

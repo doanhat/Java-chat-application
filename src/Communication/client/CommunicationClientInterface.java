@@ -2,15 +2,15 @@ package Communication.client;
 
 import Communication.common.Parameters;
 import Communication.messages.client_to_server.*;
-import Communication.messages.client_to_server.channel_handling.CreateChannelMessage;
+import Communication.messages.client_to_server.channel_modification.CreateChannelMessage;
 import Communication.messages.client_to_server.chat_action.SendMessageMessage;
 import Communication.messages.client_to_server.generic.GetHistoryMessage;
-import Communication.messages.client_to_server.proprietary_channels.AddAdminPropMessage;
-import Communication.messages.client_to_server.proprietary_channels.SendInvitePropMessage;
-import Communication.messages.client_to_server.shared_channels.AddAdminSharedMessage;
-import Communication.messages.client_to_server.proprietary_channels.AskToJoinPropMessage;
-import Communication.messages.client_to_server.shared_channels.AskToJoinSharedMessage;
-import Communication.messages.client_to_server.shared_channels.SendInviteSharedMessage;
+import Communication.messages.client_to_server.channel_access.proprietary_channels.AddAdminPropMessage;
+import Communication.messages.client_to_server.channel_access.proprietary_channels.SendInvitePropMessage;
+import Communication.messages.client_to_server.channel_access.shared_channels.AddAdminSharedMessage;
+import Communication.messages.client_to_server.channel_access.proprietary_channels.AskToJoinPropMessage;
+import Communication.messages.client_to_server.channel_access.shared_channels.AskToJoinSharedMessage;
+import Communication.messages.client_to_server.channel_access.shared_channels.SendInviteSharedMessage;
 
 import common.interfaces.client.*;
 import common.sharedData.Channel;
@@ -31,20 +31,6 @@ public class CommunicationClientInterface implements IDataToCommunication,
 
     public CommunicationClientInterface(CommunicationClientController CommunicationClientController) {
         this.commController = CommunicationClientController;
-    }
-
-    /**
-     * Installer les interfaces de Data, IHM Main et IHM Channel
-     *
-     * @param dataIface    interface de Data
-     * @param mainIface    interface de IHM Main
-     * @param channelIface interface de IHM Channel
-     * @return false si les interfaces n'ont pas été correctement initialisées
-     */
-    public boolean setupInterfaces(ICommunicationToData dataIface,
-                                   ICommunicationToIHMMain mainIface,
-                                   ICommunicationToIHMChannel channelIface) {
-        return commController.setupInterfaces(dataIface, mainIface, channelIface);
     }
 
     /* ---------------------------- IDataToCommunication interface implementations -----------------------------------*/

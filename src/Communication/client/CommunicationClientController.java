@@ -244,33 +244,25 @@ public class CommunicationClientController extends CommunicationController {
     /* -------------------------------- Channel actions notifications handling ---------------------------------------*/
 
     /**
-     * Notifier IHM Main que l'action de création d'un channel a été accepté par serveur
+     * Notifier IHM Main que l'action de création d'un channel a été accepté ou réfusé par serveur
      *
      * @param channel channel à notifier à passer à la notification
+     * @param isCreated indique si le channel a été bien créé.
      */
-    public void notifyChannelCreated(Channel channel) {
+    public void notifyChannelCreationResponse(Channel channel, boolean isCreated) {
         if (mainClient == null) {
             throw new NullPointerException("IHMMain Iface est null");
         }
 
-        mainClient.channelCreated(channel);
-
-        // TODO INTEGRATION verify with Data if new created Channel is control by Data Client and fill missing sequence diagram
-        //dataClient.createChannel(channel);
-    }
-
-    /**
-     * Notifier IHM Main que l'action de création d'un channel a été refusé par serveur
-     *
-     * @param channel channel à notifier à passer à la notification
-     */
-    public void notifyCreationChannelRefused(Channel channel) {
-        if (mainClient == null) {
-
+        if (isCreated) {
+            logger.log(Level.FINE, "Creation channel {} est accepté", channel.getId());
+            mainClient.channelCreated(channel);
+            //dataClient.addVisibleChannel(channel);
         }
-
-        // TODO INTEGRATION request IHM Main to add channelCreationRefused(Channel) method to ICommunicationToIHMMain interface
-        //mainClient.channelCreationRefused(channel);
+        else {
+            logger.log(Level.FINE, "Creation channel {} est refusé", channel.getId());
+            //mainClient.channelCreationRefused(channel);
+        }
     }
 
     /**

@@ -3,6 +3,7 @@ package Communication.messages.abstracts;
 import Communication.common.CommunicationController;
 
 import java.io.Serializable;
+import java.util.logging.Logger;
 
 /**
  * Classe abstraite des messages transitant sur le réseau.
