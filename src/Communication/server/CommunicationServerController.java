@@ -3,7 +3,7 @@ package Communication.server;
 import Communication.common.CommunicationController;
 import Communication.common.NetworkWriter;
 import Communication.messages.abstracts.NetworkMessage;
-import Communication.messages.server_to_client.UserDisconnectedMessage;
+import Communication.messages.server_to_client.connection.UserDisconnectedMessage;
 import Communication.messages.server_to_client.UserLeftChannelMessage;
 import Communication.messages.server_to_client.ValideUserLeftMessage;
 import common.interfaces.server.IServerCommunicationToData;
@@ -179,7 +179,7 @@ public class CommunicationServerController extends CommunicationController {
     /**
      * Cherche un channel selon son ID
      * @param channelID UUID du channel
-     * @return
+     * @return Channel correspond a l'ID
      */
     public Channel getChannel(UUID channelID) {
         if (dataServer == null)

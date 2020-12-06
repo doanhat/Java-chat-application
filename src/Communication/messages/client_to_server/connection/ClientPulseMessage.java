@@ -1,4 +1,4 @@
-package Communication.messages.client_to_server.generic;
+package Communication.messages.client_to_server.connection;
 
 import Communication.messages.abstracts.ClientToServerMessage;
 import Communication.server.CommunicationServerController;

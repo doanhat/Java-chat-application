@@ -1,8 +1,8 @@
-package Communication.messages.server_to_client;
+package Communication.messages.server_to_client.connection;
 
 import Communication.client.CommunicationClientController;
 import Communication.messages.abstracts.ServerToClientMessage;
-import Communication.messages.client_to_server.generic.ClientPulseMessage;
+import Communication.messages.client_to_server.connection.ClientPulseMessage;
 
 /**
  * Classe de message de réponse du serveur au client à ses demandes de keepalive via {@link ClientPulseMessage}

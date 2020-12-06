@@ -1,4 +1,4 @@
-package Communication.messages.client_to_server.generic;
+package Communication.messages.client_to_server.connection;
 
 import common.sharedData.UserLite;
 

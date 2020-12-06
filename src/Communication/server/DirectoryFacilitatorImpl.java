@@ -1,7 +1,7 @@
 package Communication.server;
 
 import Communication.common.Parameters;
-import Communication.messages.server_to_client.ReplyClientPulseMessage;
+import Communication.messages.server_to_client.connection.ReplyClientPulseMessage;
 import common.sharedData.UserLite;
 
 import java.io.IOException;

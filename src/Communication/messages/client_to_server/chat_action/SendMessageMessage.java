@@ -1,8 +1,8 @@
-package Communication.messages.client_to_server;
+package Communication.messages.client_to_server.chat_action;
 
 import Communication.messages.abstracts.ClientToServerMessage;
-import Communication.messages.server_to_client.ReceiveMessageMessage;
-import Communication.messages.server_to_client.TellOwnerToSaveMessage;
+import Communication.messages.server_to_client.chat_action.ReceiveMessageMessage;
+import Communication.messages.server_to_client.chat_action.TellOwnerToSaveMessage;
 import Communication.server.CommunicationServerController;
 import common.sharedData.*;
 
