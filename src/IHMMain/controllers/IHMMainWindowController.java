@@ -69,7 +69,17 @@ public class IHMMainWindowController implements Initializable{
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK){
                 // ... user chose OK
-                //ihmMainController.getIIHMMainToCommunication().disconnect();
+                try {
+                    try {
+                        ihmMainController.getIIHMMainToCommunication().disconnect();
+                        Platform.exit();
+                    }catch(Exception e){
+                        throw new Exception("Impossible de se déconnecter du serveur lors de la fermeture de l'application", e);
+                    }
+                }catch(Exception e){
+                    e.printStackTrace();
+                    Platform.exit();
+                }
             } else {
                 // ... user chose CANCEL or closed the dialog
                 event.consume();
