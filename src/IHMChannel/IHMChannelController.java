@@ -31,7 +31,6 @@ public class IHMChannelController {
         interfaceForCommunication = new CommunicationToIHMChannel(this);
         interfaceForData = new DataToIHMChannel(this);
         interfaceForIHMMain = new IHMMainToIHMChannel(this);
-
     }
 
     /**

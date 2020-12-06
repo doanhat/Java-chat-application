@@ -198,6 +198,7 @@ public class CommunicationServerController extends CommunicationController {
 	/**
 	 * Demande Data server à ajouter un nouveau channel
 	 * @param channel canal à ajouter
+<<<<<<< HEAD
 	 * @param isShared true si le canal est de type partagé
 	 * @param isPublic true si le canal est public
 	 * @param requester Utilisateur ayant demandé la création du canal

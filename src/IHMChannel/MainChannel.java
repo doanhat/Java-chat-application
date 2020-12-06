@@ -50,6 +50,7 @@ public class MainChannel extends Application {
         usr1.setNickName("toto");
         UserLite usr2 = new UserLite("Vlad", null);
         usr2.setNickName("titi");
+
         channelToDisplay = new Channel("LO23",usr1,"channel pour l'UV LO23", Visibility.PUBLIC, ChannelType.OWNED);
 
         List<Message> listMessages = new ArrayList<Message>();

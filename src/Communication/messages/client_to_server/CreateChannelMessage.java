@@ -45,6 +45,7 @@ public class CreateChannelMessage extends ClientToServerMessage {
     @Override
     protected void handle(CommunicationServerController commController) {
         Channel newChannel = commController.requestCreateChannel(channel, isShared, isPublic, sender);
+
         Logger logger = Logger.getLogger(this.getClass().getName());
 
         if (newChannel != null)

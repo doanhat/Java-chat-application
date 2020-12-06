@@ -23,6 +23,7 @@ public class CommunicationClientController extends CommunicationController {
     private ICommunicationToIHMChannel channelClient;
     private CommunicationClientInterface commInterface;
 
+
     public CommunicationClientController() {
         super();
         client = new NetworkClient(this);
