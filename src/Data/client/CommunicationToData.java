@@ -1,6 +1,5 @@
 package Data.client;
 
-import Data.server.UserListController;
 import common.interfaces.client.ICommunicationToData;
 import common.sharedData.Channel;
 import common.sharedData.Message;
@@ -9,6 +8,7 @@ import common.sharedData.UserLite;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class CommunicationToData implements ICommunicationToData {
     private final DataClientController dataController;
@@ -22,10 +22,10 @@ public class CommunicationToData implements ICommunicationToData {
      *
      * @param channel the channel
      */
-    @Override
-    public void addVisibleChannel(Channel channel) {
+    /*@Override
+    public void createChannel(Channel channel) {
         dataController.getChannelController().mainClient.addChannelToList(channel);
-    }
+    }*/
 
     /**
      * User added to channel.
@@ -46,7 +46,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void saveNewAdminIntoHistory(UserLite user, UUID channelId) {
-
+        dataController.getChannelController().saveNewAdminIntoHistory(user,channelId);
     }
 
     /**
@@ -57,7 +57,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void newAdmin(UserLite user, UUID channelId) {
-
+        dataController.getChannelController().newAdmin(user, channelId);
     }
 
     /**
@@ -130,7 +130,6 @@ public class CommunicationToData implements ICommunicationToData {
     public void saveMessageIntoHistory(Message message, UUID channelId, Message response) {
         Channel ownedChannel = dataController.getChannelController().searchChannelById(channelId);
         if (ownedChannel != null) {
-            ownedChannel.addMessage(message);
             dataController.getMessageController().saveMessageIntoHistory(
                     message,
                     ownedChannel,
@@ -148,7 +147,10 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void receiveMessage(Message message, UUID channelId, Message response) {
-        dataController.getMessageController().receiveMessage(message,channelId,response);
+        Channel ownedChannel = dataController.getChannelController().channelClient.getChannel(channelId);
+        if (ownedChannel != null) {
+            dataController.getMessageController().receiveMessage(message,ownedChannel,response);
+        }
     }
 
     /**
@@ -230,7 +232,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public List<UserLite> getUsers() {
-        return new UserListController().getConnectedUsers();
+        return dataController.getUserController().getLocalUserList().stream().map(User::getUserLite).collect(Collectors.toList());
     }
 
     /**
@@ -264,8 +266,17 @@ public class CommunicationToData implements ICommunicationToData {
      * @param channelId the channel
      */
     @Override
-    public void addUserToChannel(UserLite user, UUID channelId) {
-        dataController.getUserController().addUserToChannel(user,channelId);
+    public void unbannedUserToChannel(UserLite user, UUID channelId) {
+        Channel ownedChannel = dataController.getChannelController().searchChannelById(channelId);
+        if (ownedChannel != null) {
+            ownedChannel.addUser(user);
+            dataController.getUserController().unbannedUserTochannel(user,channelId);
+        }
+    }
+
+    @Override
+    public void addUserToOwnedChannel(UserLite user, UUID channelId) {
+        dataController.getChannelController().addUserToOwnedChannel(user,channelId);
     }
 
 }

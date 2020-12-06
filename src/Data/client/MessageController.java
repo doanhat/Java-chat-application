@@ -28,7 +28,7 @@ public class MessageController extends Controller{
             List<Message> listMsg = ownedChannel.getMessages();
             //listMsg.add(message);
             if (response==null){
-                listMsg.add(message);
+                ownedChannel.addMessage(message);
             } else {
                 for (Message msg : listMsg) {
                     if (msg.getId().toString().equals(response.getId().toString())) {
@@ -38,7 +38,7 @@ public class MessageController extends Controller{
                 }
 
                 if (responseAdded == 0) {
-                    listMsg.add(message);
+                    ownedChannel.addMessage(message);
                 }
             }
 
@@ -49,11 +49,11 @@ public class MessageController extends Controller{
     /**
      * Receive message.
      *  @param message  the message
-     * @param channelId  the channel
+     * @param channel  the channel
      * @param response the response
      */
-    public void receiveMessage(Message message, UUID channelId, Message response) {
-        channelClient.receiveMessage(message,channelId,response);
+    public void receiveMessage(Message message, Channel channel, Message response) {
+        channelClient.receiveMessage(message,channel.getId(),response);
     }
 
     /**

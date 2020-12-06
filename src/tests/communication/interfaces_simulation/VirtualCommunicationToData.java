@@ -17,15 +17,15 @@ public class VirtualCommunicationToData implements ICommunicationToData {
         this.channels = channels;
     }
 
-    @Override
-    public void addVisibleChannel(Channel channel) { //TO-DO : Remplacer l'UUID par l'objet Channel
+    /*@Override
+    public void createChannel(Channel channel) { //TO-DO : Remplacer l'UUID par l'objet Channel
         System.err.println("New visible channel " + channel.getId());
 
-        /*Channel newChannel = new Channel("channel", localUser, "test", Visibility.PUBLIC,ChannelType.SHARED);
-        newChannel.setId(channelId);*/
+        *//*Channel newChannel = new Channel("channel", localUser, "test", Visibility.PUBLIC,ChannelType.SHARED);
+        newChannel.setId(channelId);*//*
 
         channels.put(channel.getId(), channel);
-    }
+    }*/
 
     @Override
     public void userAddedToChannel(UserLite user, UUID channelId) {
@@ -135,7 +135,7 @@ public class VirtualCommunicationToData implements ICommunicationToData {
     }
 
     @Override
-    public void addUserToChannel(UserLite user, UUID channelId) {
+    public void unbannedUserToChannel(UserLite user, UUID channelId) {
         System.err.println("New user added to Channel " + channelId);
 
         Channel channel = channels.get(channelId);
@@ -143,6 +143,11 @@ public class VirtualCommunicationToData implements ICommunicationToData {
         if (channel != null) {
             channel.addUser(user);
         }
+    }
+
+    @Override
+    public void addUserToOwnedChannel(UserLite user, UUID channelId) {
+
     }
 
 }

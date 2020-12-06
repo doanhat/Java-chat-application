@@ -133,15 +133,26 @@ public class Channel implements Serializable {
 	}
 
 	public void addMessage(Message m) {
-		this.messages.add(m);
+		for (Message msg : messages) {
+			if(msg.getId().equals(m.getId())){
+				messages.remove(m);
+				break;
+			}
+		}
+		messages.add(m);
 	}
 
 	public void addAdmin(UserLite user) {
-		this.administrators.add(user);
+		if (!userIsAdmin(user.getId())){
+			this.administrators.add(user);
+		}
+		addUser(user);
 	}
 
 	public void addUser(UserLite user) {
-		this.acceptedPersons.add(user);
+		if (!userInChannel(user.getId())){
+			this.acceptedPersons.add(user);
+		}
 	}
 
 	public boolean userInChannel(UUID userID){

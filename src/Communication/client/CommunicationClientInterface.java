@@ -245,4 +245,9 @@ public class CommunicationClientInterface implements IDataToCommunication,
 
     }
 
+    @Override
+    public void sendProprietaryChannel(Channel channel) {
+
+    }
+
 }

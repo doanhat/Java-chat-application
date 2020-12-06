@@ -21,4 +21,7 @@ public interface IDataToCommunication
     void delete(UUID channelID);
 
     void sendProprietaryChannels(List<Channel> channels);
+
+    void sendProprietaryChannel(Channel channel);
+
 }
