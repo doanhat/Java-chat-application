@@ -8,6 +8,7 @@ import common.sharedData.Message;
 import common.sharedData.User;
 import common.sharedData.UserLite;
 
+import java.io.IOException;
 import java.util.UUID;
 
 public class DataToIHMChannel implements IDataToIHMChannel{
@@ -34,8 +35,9 @@ public class DataToIHMChannel implements IDataToIHMChannel{
      * @param channel channel pour lequel on a ajouté un admin
      */
     @Override
-    public void addNewAdmin(UserLite user, Channel channel) {
-        throw new UnsupportedOperationException("Not implemented yet");
+    public void addNewAdmin(UserLite user, Channel channel) throws IOException {
+        ChannelController channelController = controller.getChannelPageController().getChannelController(channel.getId());
+        channelController.addNewAdmin(user);
     }
 
     /**

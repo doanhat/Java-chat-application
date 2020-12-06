@@ -5,6 +5,7 @@ import common.sharedData.Message;
 import common.sharedData.User;
 import common.sharedData.UserLite;
 
+import java.io.IOException;
 import java.util.UUID;
 
 public interface IDataToIHMChannel {
@@ -19,7 +20,7 @@ public interface IDataToIHMChannel {
      * @param user user qui devient admin
      * @param channel channel pour lequel on a ajouté un admin
      */
-    void addNewAdmin(UserLite user, Channel channel);
+    void addNewAdmin(UserLite user, Channel channel) throws IOException;
 
     /**
      * Quand l'utilisateur se fait kické d'un channel, retire le channel en question de sa liste de channels.

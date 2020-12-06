@@ -4,6 +4,7 @@ import IHMChannel.IHMChannelController;
 import common.interfaces.client.IIHMChannelToCommunication;
 import common.sharedData.Channel;
 import IHMChannel.MemberDisplay;
+import common.sharedData.Message;
 import common.sharedData.UserLite;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,6 +17,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import IHMChannel.switchButton.ToggleSwitch;
+
+import java.io.IOException;
 
 public class MemberController {
 
@@ -99,8 +102,15 @@ public class MemberController {
             System.out.println("Retrait d'un  admin. ");
         }else{
             isAdmin = true;
-            System.out.println("Ajout d'un user en admin. ");
             ihmChannelController.getInterfaceToCommunication().giveAdmin(userToDisplay, channel);
+            // Pour tester le retour serveur
+            /*
+            try {
+                getIhmChannelController().getInterfaceForData().addNewAdmin(userToDisplay,channel);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            */
         }
 
     }
