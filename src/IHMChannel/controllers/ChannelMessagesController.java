@@ -152,6 +152,7 @@ public class ChannelMessagesController{
                 ihmChannelController.getInterfaceToCommunication().sendMessage(newMsg, channel, parentMessage);
                 //messagesToDisplay.add((HBox)new MessageDisplay(new Message(1,typedText.getText(),connectedUser)).root);
                 typedText.setText("");
+//                System.out.println(this.parentMessage);
             }
         }
         else {
@@ -159,8 +160,10 @@ public class ChannelMessagesController{
                 Message newMsg = new Message(typedText.getText(), ihmChannelController.getInterfaceToData().getLocalUser().getUserLite());
                 ihmChannelController.getInterfaceToCommunication().sendMessage(newMsg, channel, parentMessage);
                 typedText.setText("");
+//                System.out.println(this.parentMessage);
             }
         }
+        this.parentMessage = null; // D'après envoyer message, parent message devient nul
     }
 
     /**
