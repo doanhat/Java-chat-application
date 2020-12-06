@@ -347,4 +347,22 @@ public class CommunicationServerController extends CommunicationController {
     public void notifyInviteChannel(UserLite guest, Channel ch) {
         this.dataServer.requestAddUser(ch, guest);
     }
+
+    public List<Message> getHistoryMessage(Channel channel, UserLite user){
+        if(dataServer == null){
+            System.err.println("saveNewAdmin: Data Iface est null");
+            return null;
+        }
+        if (dataServer.checkAuthorization(channel, user)){
+            List<Message> history = dataServer.getHistory(channel);
+            if(channel.getType() == ChannelType.OWNED){
+                //TODO
+
+
+            }else{
+                return dataServer.getHistory(channel);
+            }
+        }
+        return null;
+    }
 }

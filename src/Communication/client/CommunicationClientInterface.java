@@ -4,6 +4,7 @@ import Communication.common.Parameters;
 import Communication.messages.client_to_server.*;
 import Communication.messages.client_to_server.channel_handling.CreateChannelMessage;
 import Communication.messages.client_to_server.chat_action.SendMessageMessage;
+import Communication.messages.client_to_server.generic.GetHistoryMessage;
 import Communication.messages.client_to_server.proprietary_channels.AddAdminPropMessage;
 import Communication.messages.client_to_server.proprietary_channels.SendInvitePropMessage;
 import Communication.messages.client_to_server.shared_channels.AddAdminSharedMessage;
@@ -236,6 +237,10 @@ public class CommunicationClientInterface implements IDataToCommunication,
      **/
     public List<Message> getHistory(Channel channel) {
         // TODO V3
+        //sendMessage + give liste de message
+        commController.sendMessage(new GetHistoryMessage(channel.getId(), localUser));
+
+
         return new ArrayList<>();
     }
 
