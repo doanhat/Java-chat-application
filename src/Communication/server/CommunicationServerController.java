@@ -322,6 +322,20 @@ public class CommunicationServerController extends CommunicationController {
 		return null;
 	}
 
+	public List<UserLite> channelConnectedUsers(Channel channel) {
+		List<UserLite> activeUsers = new ArrayList<>();
+
+		for (UserLite usr: channel.getAcceptedPersons()) {
+			NetworkUser user = server.directory().getConnection(usr.getId());
+
+			if (user != null) {
+				activeUsers.add(usr);
+			}
+		}
+
+		return activeUsers;
+	}
+
 	/* ----------------------------------------- Chat action handling ------------------------------------------------*/
 
 	/**

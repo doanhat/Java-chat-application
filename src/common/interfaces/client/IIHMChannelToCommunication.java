@@ -99,4 +99,6 @@ public interface IIHMChannelToCommunication
      * @param channel [Channel] Channel dont on demande l'historique
      **/
     void getHistory(Channel channel);
+
+    void closeChannel(UUID channelID);
 }

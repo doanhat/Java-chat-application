@@ -123,7 +123,8 @@ public class CommunicationClientInterface implements IDataToCommunication,
         }
         if (channel.getType() == ChannelType.OWNED) {
             commController.sendMessage(new AddAdminPropMessage(user, channel));
-        } else {
+        }
+        else {
             commController.sendMessage(new AddAdminSharedMessage(user, channel));
         }
     }
@@ -252,8 +253,8 @@ public class CommunicationClientInterface implements IDataToCommunication,
     }
 
     @Override
-    public void closeChannel(UUID channelId) {
-        
+    public void closeChannel(UUID channelID) {
+
     }
 
     @Override
