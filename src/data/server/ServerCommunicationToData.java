@@ -196,6 +196,7 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
         Channel channel = channelsListController.searchChannelById(ch);
         if(channel!=null){
             channel.addUser(user);
+            userListController.addConnectedUser(user);
         }
     }
 
