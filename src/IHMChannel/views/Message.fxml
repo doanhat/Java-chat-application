@@ -8,8 +8,10 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.Pane?>
+
 <HBox fx:controller="IHMChannel.controllers.MessageController"
       xmlns:fx="http://javafx.com/fxml" spacing="20">
+    <Pane HBox.hgrow="NEVER"></Pane>
     <ImageView fx:id="profilePic"/>
     <VBox fx:id="main">
         <Text fx:id="author" styleClass="user-name"/>
@@ -23,6 +25,4 @@
         <Button fx:id="edit" onAction="#editMessage" styleClass="message-button"/>
         <Button fx:id="delete" onAction="#deleteMessage" styleClass="message-button"/>
     </HBox>
-
-
 </HBox>

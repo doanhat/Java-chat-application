@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 
 /**
@@ -14,7 +15,7 @@ import javafx.scene.text.Text;
  */
 public class MessageController {
     Message messageToDisplay;
-
+    private ChannelMessagesController channelMessagesController;
     @FXML
     ImageView profilePic;
     @FXML
@@ -98,6 +99,10 @@ public class MessageController {
         // TODO: préparer l'edit de la réponse : dire à ChannelMessageController d'afficher le message parent au dessus de la barre de saisie
         // getChannelMessagesController.setParentMessage(messageToDisplay);
         // getChannelMessagesController.setResponseView();
+        this.channelMessagesController.setIsReponse(true);
+        this.channelMessagesController.userNameReceiver.setText(messageToDisplay.getAuthor().getNickName() + " a dit :");
+        this.channelMessagesController.messageReceiver.setText(messageToDisplay.getMessage());
+        this.channelMessagesController.setParentMessage(messageToDisplay);
     }
 
     /**
@@ -124,5 +129,8 @@ public class MessageController {
         //Attention, ici on ne màj que l'affichage, les data ne sont pas impactées.
     }
 
+    public void setChannelMessagesController(ChannelMessagesController channelMessagesController) {
+        this.channelMessagesController = channelMessagesController;
+    }
 
 }
