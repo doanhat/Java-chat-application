@@ -73,7 +73,14 @@ public class ChannelController extends Controller{
                 break;
             }
         }
-        this.mainClient.updateListChannel(channels);
+        /**
+         *  TODO integration V2 disable this line
+         *  Ici channels ne contient pas tout les channels visible pour l'utilisateur,
+         *  seulement ceux qui sont dans le dossier resource/client/channel
+         *  Donc cet appel "écrase" la vrai liste des channels visible pour l'utilisateur
+         *  Voir donc si cela ne pose pas de problème ailleur
+         */
+        //this.mainClient.updateListChannel(channels);
     }
 
     /**
