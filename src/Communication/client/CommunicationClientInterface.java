@@ -92,9 +92,11 @@ public class CommunicationClientInterface implements IDataToCommunication,
         if (guest == null || channel == null || message == null) {
             return;
         }
+
         if (channel.getType() == ChannelType.OWNED) {
             commController.sendMessage(new SendInvitePropMessage(guest, channel, message));
-        } else if (channel.getType() == ChannelType.SHARED) {
+        }
+        else {
             commController.sendMessage(new SendInviteSharedMessage(guest, channel, message));
         }
     }

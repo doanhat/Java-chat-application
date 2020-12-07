@@ -51,13 +51,11 @@ public class ValideDeleteMessageMessage extends ClientToServerMessage {
     protected void handle(CommunicationServerController commController) {
         Channel channel = commController.getChannel(channelID);
 
-        if (channel != null)
+        if (channel == null)
         {
-            System.err.println("Channel n'est pas trouvé");
             return;
         }
 
-        commController.sendMulticast(commController.getChannelConnectedUserList(channelID),
-                new DeleteMessageMessage(message, channelID, deleteByCreator));
+        commController.sendMulticast(channel.getAcceptedPersons(), new DeleteMessageMessage(message, channelID, deleteByCreator));
     }
 }

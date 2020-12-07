@@ -261,30 +261,10 @@ public class CommunicationServerController extends CommunicationController {
 			return false;
 		}
 
-		// TODO INTEGRATION verify with Data what are the differences between requestAddUser and joinChannel
+		// TODO INTEGRATION V2 verify with Data what are the differences between requestAddUser and joinChannel
 		dataServer.joinChannel(channel.getId(), user);
 
 		return true;
-	}
-
-	/**
-	 * Demande Data server à rejoindre un utilisateur à un canal proprietaire
-	 * @implNote Cette methode n'est pas encore implementée correctement
-	 * @param channel cannal à rejoindre
-	 * @param user utilisateur à rejoindre
-	 * @return Liste des messages du canal
-	 */
-	public List<Message> requestJoinOwnedChannel(Channel channel, UserLite user){
-		if (dataServer == null)
-		{
-		    logger.log(Level.SEVERE, "requestJoinOwnedChannel: Data Iface est null");
-			return null;
-		}
-		// TODO: verify return type with data
-		// TODO V2
-		//return dataServer.joinChannel(channel, user);
-
-		return null;
 	}
 
 	public void notifyLeaveChannel(UUID channelID, UserLite userLite) {
@@ -319,7 +299,7 @@ public class CommunicationServerController extends CommunicationController {
 
     /* ----------------------------------------- Chat action handling ------------------------------------------------*/
 
-    public void SendInvite(UUID senderID, UUID receiverID, Message mess ) {
+    public void sendInvite(UUID senderID, UUID receiverID, Message mess ) {
         UserLite receiver = server.directory().getConnection(receiverID).getUserInfo();
         UserLite sender = server.directory().getConnection(senderID).getUserInfo();
 
@@ -355,13 +335,13 @@ public class CommunicationServerController extends CommunicationController {
         dataServer.saveRemovalMessageIntoHistory(channel, message, deleteByCreator);
     }
 
-    public List<UserLite> getChannelConnectedUserList(UUID channelID) {
-		//TODO
-		return null;
-	}
+    public void requestAddUserToChannel(UserLite guest, Channel channel) {
+		if (dataServer == null)
+		{
+			logger.log(Level.SEVERE, "requestJoinSharedChannel: Data Iface est null");
+		}
 
-    public void notifyInviteChannel(UserLite guest, Channel ch) {
-        this.dataServer.requestAddUser(ch, guest);
+        this.dataServer.requestAddUser(channel, guest);
     }
 
     public List<Message> getHistoryMessage(Channel channel, UserLite user){

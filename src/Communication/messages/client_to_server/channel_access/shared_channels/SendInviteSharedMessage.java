@@ -13,33 +13,23 @@ public class SendInviteSharedMessage extends ClientToServerMessage {
     private String message;
     private UUID channelID;
 
-    /**
-     * Message d'inviation a rejoindre un channel
-     * @param guest
-     * @param channel
-     * @param message
-     */
     public SendInviteSharedMessage(UserLite guest, Channel channel, String message){
         this.channelID = channel.getId();
         this.message = message;
         this.guest = guest;
     }
 
-    /**
-     * Envoi le message d'invitation
-     * @param commController
-     */
     @Override
     protected void handle(CommunicationServerController commController) {
-
         if(guest != null && channelID != null) {
-            Channel ch = commController.getChannel(channelID);
-            if(ch==null){
-                System.err.println("Erreur SendInviteMessage: Le channel n'existe pas");
+            Channel channel = commController.getChannel(channelID);
+
+            if(channel == null){
                 return;
             }
+
             //commController.SendInvite(sender.getId(), receiver.getId(), message);
-            commController.notifyInviteChannel(guest, ch); // Celon le diagrame de sequence
+            commController.requestAddUserToChannel(guest, channel); // Celon le diagrame de sequence
             commController.sendMessage(guest.getId(), new NewUserJoinChannelMessage(guest, channelID));
         }
 

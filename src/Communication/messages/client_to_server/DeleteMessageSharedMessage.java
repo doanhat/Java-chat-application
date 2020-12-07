@@ -27,17 +27,14 @@ public class DeleteMessageSharedMessage extends ClientToServerMessage {
     protected void handle(CommunicationServerController commController) {
         // Handle shared Channel
         Channel channel = commController.getChannel(channelID);
-        if (channel != null) {
-            System.err.println("Channel n'est pas trouvé");
+
+        if (channel == null) {
             return;
         }
 
-
         commController.deleteMessage(message, channel, deleteByCreator);
 
-        commController.sendMulticast(commController.getChannelConnectedUserList(channelID),
-                new DeleteMessageMessage(message, channelID, deleteByCreator));
-
+        commController.sendMulticast(channel.getAcceptedPersons(), new DeleteMessageMessage(message, channelID, deleteByCreator));
     }
 }
 
