@@ -100,5 +100,5 @@ public interface IIHMChannelToCommunication
      **/
     void getHistory(Channel channel);
 
-    void closeChannel(UUID channelID);
+    void closeChannel(UUID channelId); // TODo check if it's not leaveChannel
 }
