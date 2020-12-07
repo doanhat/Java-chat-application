@@ -71,6 +71,12 @@ public class IHMMainWindowController implements Initializable{
     @FXML
     private Text nickname;
 
+    @FXML
+    private Button homePageButton;
+
+    @FXML
+    private Button disconnectButton;
+
 
     public MainWindowController getMainWindowController() {
         return mainWindowController;
@@ -87,6 +93,18 @@ public class IHMMainWindowController implements Initializable{
         userL = ihmMainController.getIHMMainToData().getUser().getUserLite();
         updateProfileImage();
         nickname.setText(userL.getNickName());
+
+        // Gestion de l'affichage du bouton de redirection vers la page d'accueil
+        ImageView goToHomePageButton = new ImageView("IHMMain/icons/arrow_back.png");
+        goToHomePageButton.setFitHeight(18);
+        goToHomePageButton.setFitWidth(18);
+        homePageButton.setGraphic(goToHomePageButton);
+
+        // Gestion de l'affichage du bouton de déconnexion
+        ImageView exitButtonConnection = new ImageView("IHMMain/icons/exit_to_app.png");
+        exitButtonConnection.setFitHeight(18);
+        exitButtonConnection.setFitWidth(18);
+        disconnectButton.setGraphic(exitButtonConnection);
 
         Stage primaryStage = mainWindowController.getPrimaryStage();
         Platform.setImplicitExit(false);

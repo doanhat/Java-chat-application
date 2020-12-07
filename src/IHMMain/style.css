@@ -1,4 +1,14 @@
 
+.app-bar {
+    -fx-background-color: #b9e6ff;
+}
+
+.app-bar-username {
+    -fx-text-fill: #03254f;
+    -fx-font-weight: bold;
+    -fx-font-size: 24px;
+}
+
 .channel-list-header {
     -fx-background-color: #b9e6ff;
     -fx-padding: 4;

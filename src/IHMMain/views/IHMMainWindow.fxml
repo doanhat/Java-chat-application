@@ -26,18 +26,18 @@
             <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <StackPane fx:id="stackMenu" style="-fx-background-color: lightgreen;">
+            <StackPane fx:id="stackMenu" styleClass="app-bar">
                <children>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="8.0">
                      <children>
                         <ImageView fx:id="profileImage" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" />
-                        <Text fx:id="nickname" strokeType="OUTSIDE" strokeWidth="0.0" text="Username" />
-                        <Button mnemonicParsing="false" onAction="#loadUserListView" text="&lt;">
+                        <Text fx:id="nickname" styleClass="app-bar-username" strokeType="OUTSIDE" strokeWidth="0.0" text="Username" />
+                        <Button fx:id="homePageButton" mnemonicParsing="false" onAction="#loadUserListView">
                            <HBox.margin>
                               <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
                            </HBox.margin></Button>
                         <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-                        <Button alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#onSeDeconnecterButtonClick" text="Deconnexion" />
+                        <Button fx:id="disconnectButton" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#onSeDeconnecterButtonClick" />
                      </children>
                      <StackPane.margin>
                         <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
