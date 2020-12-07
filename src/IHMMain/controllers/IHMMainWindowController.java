@@ -2,15 +2,14 @@ package IHMMain.controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import IHMMain.IHMMainController;
 import app.MainWindowController;
 import common.IHMTools.IHMTools;
-import common.sharedData.Channel;
-import common.sharedData.ChannelType;
-import common.sharedData.UserLite;
-import common.sharedData.Visibility;
+import common.sharedData.*;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -66,16 +65,21 @@ public class IHMMainWindowController implements Initializable{
     private StackPane mainArea;
 
     @FXML
-    private ImageView profileImage;
+    private ImageView profileImage, avatarUser;
 
     @FXML
-    private Text nickname;
+    private Text nickname, nicknameUser, surnameUser, nameUser
+    private Text birthDateUser;
+
+    @FXML
+    private ListView<Channel> listChannelsUser;
 
     @FXML
     private Button homePageButton;
 
     @FXML
     private Button disconnectButton;
+
 
 
     public MainWindowController getMainWindowController() {
@@ -339,6 +343,22 @@ public class IHMMainWindowController implements Initializable{
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
+    }
+
+    @FXML
+    public void loadUserInfos(User u){
+        /**
+        TODO avatar to be set when data changes the way of storing images
+         */
+        Image image = new Image("IHMMain/icons/willsmith.png");
+        avatarUser.setImage(image);
+
+        nicknameUser.setText(u.getNickName());
+        surnameUser.setText(u.getFirstName());
+        nameUser.setText(u.getLastName());
+
+        DateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
+        birthDateUser.setText(dateFormat.format(u.getBirthDate()));
     }
 
     public StackPane getMainArea() {
