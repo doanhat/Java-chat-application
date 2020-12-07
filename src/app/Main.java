@@ -52,6 +52,7 @@ public class Main extends Application {
 
         MainWindowController mainWindowController = loader.getController();
         mainWindowController.getConnectionController().setIhmMainController(ihmMainController);
+        mainWindowController.setPrimaryStage(primaryStage);
         mainWindowController.setIhmMainController(ihmMainController);
         ihmMainController.setMainWindowController(mainWindowController);
 
