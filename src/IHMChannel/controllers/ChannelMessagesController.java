@@ -123,6 +123,7 @@ public class ChannelMessagesController{
                                         HBox rpArea = new HBox();
                                         Pane pn = new Pane();
                                         pn.setPrefWidth(50);
+                                        rpArea.setPrefHeight(50);
                                         rpArea.setVisible(true);
                                         ImageView newImgReceiver = new ImageView();
                                         Text newUserNameReceiver = new Text();
@@ -130,8 +131,9 @@ public class ChannelMessagesController{
                                         newUserNameReceiver.setText(userNameReceiver.getText());
                                         newMessageReceiver.setText(messageReceiver.getText());
                                         newMessageReceiver.setEditable(false);
-                                        newMessageReceiver.setStyle("-fx-background-color: #BEB9B9");
+                                        newMessageReceiver.setStyle("-fx-control-inner-background: #E5E5E5");
                                         rpArea.getChildren().addAll(pn, newImgReceiver, newUserNameReceiver, newMessageReceiver);
+                                        rpArea.setAlignment(Pos.CENTER_LEFT);
                                         getMessagesToDisplay().add(rpArea);
                                         HBox msg = (HBox) new MessageDisplay(msgAdded, that).root;
                                         HBox.setHgrow(msg.getChildren().get(0), Priority.ALWAYS);
