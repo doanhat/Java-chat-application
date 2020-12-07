@@ -139,7 +139,6 @@ public class CommunicationServerController extends CommunicationController {
 		server.sendMessage(packet);
 	}
 
-	// FIXME: remove excluded user from function parameters
 	/**
 	 * Liste des clients en-ligne
 	 * @return Liste des client qui sont en ligne
@@ -296,14 +295,6 @@ public class CommunicationServerController extends CommunicationController {
 	}
 
     /* ----------------------------------------- Chat action handling ------------------------------------------------*/
-
-    public void sendInvite(UUID senderID, UUID receiverID, Message mess ) {
-        UserLite receiver = server.directory().getConnection(receiverID).getUserInfo();
-        UserLite sender = server.directory().getConnection(senderID).getUserInfo();
-
-        // FIXME
-        //dataServer.sendChannelInvitation(sender, receiver, mess);
-    }
 
     /**
      * Methode qui signale a Data d'ajouter un nouvel admin sur un channel partage

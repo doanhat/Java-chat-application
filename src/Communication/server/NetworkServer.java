@@ -76,17 +76,12 @@ public class NetworkServer {
      */
     private static class ClientAcceptor extends CyclicTask {
 
-        private NetworkServer networkServer;
+        private final NetworkServer networkServer;
 
         public ClientAcceptor(NetworkServer networkServer) {
             this.networkServer = networkServer;
         }
 
-        @Override
-        /**
-         * Accepte un nouvau client sur la socket et inscrit le socket.
-         * Si la connexion est annulée, provoquant une IOException, la tache est annulée.
-         */
         public void action() {
             try {
                 Socket clientSocket = networkServer.serverSocket.accept();

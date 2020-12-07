@@ -16,10 +16,6 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import Communication.common.Parameters;
-import Communication.messages.server_to_client.connection.ReplyClientPulseMessage;
-import common.sharedData.UserLite;
-
 public class DirectoryFacilitatorImpl implements DirectoryFacilitator {
 
     private final CommunicationServerController commController;

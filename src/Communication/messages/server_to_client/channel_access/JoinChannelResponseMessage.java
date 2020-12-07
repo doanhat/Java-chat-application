@@ -2,14 +2,11 @@ package Communication.messages.server_to_client.channel_access;
 
 import Communication.client.CommunicationClientController;
 import Communication.messages.abstracts.ServerToClientMessage;
-// FIXME
-//import Communication.messages.client_to_server.AskToJoinMessage;
-import java.util.logging.*;
 import common.sharedData.UserLite;
 import common.sharedData.Channel;
 
 /**
- * Cette classe indique au client qu'il a été correctement autorisé à rejoindre le canal désiré, en réponse à un {@link //AskToJoinMessage}
+ * Cette classe indique au client qu'il a été correctement autorisé à rejoindre le canal désiré
  * Message indiquant au client qu'il s'est bien connecte au channel, et lui fournit l'objet channel complet
  */
 public class JoinChannelResponseMessage extends ServerToClientMessage {
