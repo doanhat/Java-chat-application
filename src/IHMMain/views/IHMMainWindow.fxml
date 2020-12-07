@@ -91,7 +91,6 @@
                                  <Button onAction="#createPrivateChannel" styleClass="channel-add-btn" />
                              </HBox>
                              <ListView fx:id="privateChannels" styleClass="list-view-channel" />
-                           <TextField fx:id="channelSearchTextField1" layoutX="10.0" layoutY="10.0" promptText="Rechercher un channel (titre, description)..." />
                          </VBox>
                         <VBox GridPane.rowIndex="2">
                            <children>
