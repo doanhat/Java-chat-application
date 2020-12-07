@@ -26,8 +26,7 @@ public class ChannelsListController {
     }
 
     public List<Channel> createChannelListFromJSONFiles(){
-        List<Channel> list = fileHandle.readAllJSONFilesToList(Channel.class);
-        return list;
+        return fileHandle.readAllJSONFilesToList(Channel.class);
     }
 
     public List<Channel> searchChannelByName(String nom) {
@@ -129,7 +128,6 @@ public class ChannelsListController {
 
     public List<Channel> disconnectOwnedChannel(UserLite owner) {
         List<Channel> userOwnedChannels = new ArrayList<>();
-        List<Channel> ownedChannels = getOwnedChannels();
 
         if (ownedChannels == null) {
             return null;

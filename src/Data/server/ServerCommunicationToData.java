@@ -30,11 +30,9 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     @Override
     public boolean requestChannelRemoval(UUID channelID, UserLite user) {
         Channel channel = channelsListController.searchChannelById(channelID);
-        if(channel!=null){
-            if(channel.userIsAdmin(user.getId())) {
-                channelsListController.removeChannel(channelID);
-                return true;
-            }
+        if(channel!=null && channel.userIsAdmin(user.getId())){
+            channelsListController.removeChannel(channelID);
+            return true;
         }
         return false;
     }
@@ -48,12 +46,12 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
     @Override
     public void requestAddUser(Channel ch, UserLite user) {
-
+        throw new UnsupportedOperationException("Unimplemented method requestAddUser.");
     }
 
     @Override
     public void saveNewAdminIntoHistory(Channel ch, UserLite user) {
-
+        throw new UnsupportedOperationException("Unimplemented method saveNewAdminIntoHistory.");
     }
 
     @Override
@@ -78,18 +76,19 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
     @Override
     public void editMessage(Channel channel, Message ms) {
-
+        throw new UnsupportedOperationException("Unimplemented method editMessage.");
     }
 
 
     @Override
     public void saveLikeIntoHistory(Channel ch, Message ms, UserLite user) {
+        throw new UnsupportedOperationException("Unimplemented method saveLikeIntoHistory.");
     }
 
 
     @Override
     public void saveRemovalMessageIntoHistory(Channel ch, Message ms, Boolean deletedByCreator) {
-
+        throw new UnsupportedOperationException("Unimplemented method saveRemovalMessageIntoHistory.");
     }
 
     @Override
@@ -159,20 +158,16 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
     @Override
     public void disconnectUser(UUID userID) {
-        if(userID!=null){
-            if(userListController.userIsConnected(userID)){
-                userListController.removeConnectedUser(userID);
-            }
+        if(userID!=null && userListController.userIsConnected(userID)){
+            userListController.removeConnectedUser(userID);
         }
     }
 
 
     @Override
     public void newConnection(UserLite user) {
-        if(user.getId()!=null){
-            if(!userListController.userIsConnected(user.getId())){
-                userListController.addConnectedUser(user);
-            }
+        if(user.getId()!=null && !userListController.userIsConnected(user.getId())){
+            userListController.addConnectedUser(user);
         }
     }
 
@@ -183,12 +178,12 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
     @Override
     public void updateNickname(Channel ch, UserLite user, String newNickname) {
-
+        throw new UnsupportedOperationException("Unimplemented method updateNickname.");
     }
 
     @Override
     public void sendChannelInvitation(UserLite sender, UserLite receiver, String message) {
-
+        throw new UnsupportedOperationException("Unimplemented method sendChannelInvitation.");
     }
 
     @Override
