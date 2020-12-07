@@ -53,7 +53,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
      **/
     @Override
     public void delete(UUID channelID) {
-        // TODO V2
+        commController.sendMessage(new DeleteChannelMessage(channelID, localUser));
     }
 
     /* ---------------------------- IIHMMainToCommunication interface implementations --------------------------------*/
