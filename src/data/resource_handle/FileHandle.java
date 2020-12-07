@@ -8,7 +8,6 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -99,8 +98,7 @@ public class FileHandle<T> {
     public boolean deleteJSONFile(String fileName){
         String sysPath = this.path + fileName + EXTENSION;
         try {
-            Path p = Path.of(sysPath);
-            Files.delete(p);
+            Files.delete(Paths.get(sysPath));
             return true;
         } catch (Exception e) {
             e.printStackTrace();
