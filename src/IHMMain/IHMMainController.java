@@ -5,10 +5,7 @@ import IHMMain.implementations.CommunicationToIHMMain;
 import IHMMain.implementations.DataToIHMMain;
 import IHMMain.implementations.IHMChannelToIHMMain;
 import app.MainWindowController;
-import common.interfaces.client.ICommunicationToIHMMain;
-import common.interfaces.client.IDataToIHMMain;
-import common.interfaces.client.IIHMChannelToIHMMain;
-import common.interfaces.client.IIHMMainToCommunication;
+import common.interfaces.client.*;
 import common.sharedData.Channel;
 import common.sharedData.UserLite;
 import javafx.collections.FXCollections;
@@ -29,7 +26,7 @@ public class IHMMainController {
      */
     private IIHMMainToCommunication ihmMainToCommunication;
 
-    private IHMMainToIHMChannel ihmMainToIHMChannel;
+    private IIHMMainToIHMChannel ihmMainToIHMChannel;
 
     private IHMMainToData ihmMainToData;
 
@@ -73,10 +70,10 @@ public class IHMMainController {
         return ihmMainToCommunication;
     }
 
-    public void setIhmMainToIHMChannel(IHMMainToIHMChannel ihmMainToIHMChannel) {
+    public void setIhmMainToIHMChannel(IIHMMainToIHMChannel ihmMainToIHMChannel) {
         this.ihmMainToIHMChannel = ihmMainToIHMChannel;
     }
-    public IHMMainToIHMChannel getIHMMainToIHMChannel() {
+    public IIHMMainToIHMChannel getIHMMainToIHMChannel() {
         return ihmMainToIHMChannel;
     }
 
