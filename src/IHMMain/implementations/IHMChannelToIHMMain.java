@@ -18,7 +18,7 @@ public class IHMChannelToIHMMain implements IIHMChannelToIHMMain {
 
     @Override
     public void redirectToHomePage() {
-
+        ihmMainController.getMainWindowController().getIHMMainWindowController().loadUserListView();
     }
 
     @Override
@@ -38,6 +38,6 @@ public class IHMChannelToIHMMain implements IIHMChannelToIHMMain {
 
     @Override
     public List<UserLite> getConnectedUsersList() {
-        return new ArrayList<>();
+        return ihmMainController.getConnectedUsers();
     }
 }
