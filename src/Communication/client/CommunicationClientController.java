@@ -383,6 +383,17 @@ public class CommunicationClientController extends CommunicationController {
         // TODO AdminAddedMessage
     }
 
+    public void requestLeaveChannel(UUID channelID, UserLite userLite) {
+        dataClient.deleteUserFromChannel(userLite, channelID, 0, "Leave");
+
+        // TODO INTEGRATION V2: what happens if owner of shared channel leaves
+/*
+        if (channel.getType() != ChannelType.OWNED && channel.getCreator().getId() == client.getUUID()) {
+
+        }
+ */
+    }
+
     /**
      * Retire une personne d'un channel
      *
@@ -390,13 +401,8 @@ public class CommunicationClientController extends CommunicationController {
      * @param userLite identifiant unique (UUID) de l'utilisateur qui est parti
      */
     public void notifyUserHasLeftChannel(Channel channel, UserLite userLite) {
-        //Ask to data
-        //dataClient.leaveChannel(channel, userLite)
-        dataClient.deleteUserFromChannel(userLite, channel.getId(), 0, "Leave");
-        if (channel.getType() != ChannelType.OWNED && channel.getCreator().getId() == client.getUUID()) {
-            // FIXME
-            // sendMessage(new ValideUserLeftMessage(channel, userLite, dataClient.getMembers(channel.getId())));
-        }
+        // TODO INTEGRATION V2: ask IHM Main or IHM channel to add method for notifying that user left
+        //mainClient.leaveChannel(channel, userLite)
     }
 
     /* ---------------------------------------- Admin access right Handling ------------------------------------------*/

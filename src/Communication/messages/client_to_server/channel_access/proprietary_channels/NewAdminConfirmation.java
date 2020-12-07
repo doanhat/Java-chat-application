@@ -10,6 +10,7 @@ import java.util.UUID;
 
 public class NewAdminConfirmation extends ClientToServerMessage {
 
+    private static final long serialVersionUID = -1923313314704L;
     private final UUID channelID;
     private final UserLite user;
 

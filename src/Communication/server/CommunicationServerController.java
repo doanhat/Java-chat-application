@@ -12,14 +12,11 @@ import Communication.common.NetworkWriter;
 import Communication.messages.abstracts.NetworkMessage;
 import Communication.messages.server_to_client.channel_modification.NewInvisibleChannelsMessage;
 import Communication.messages.server_to_client.connection.UserDisconnectedMessage;
-import Communication.messages.server_to_client.UserLeftChannelMessage;
+import Communication.messages.server_to_client.channel_access.UserLeftChannelMessage;
 
-import Communication.messages.server_to_client.ValideUserLeftMessage;
+import Communication.messages.server_to_client.channel_access.ValideUserLeftMessage;
 import common.interfaces.server.IServerCommunicationToData;
-import common.sharedData.Channel;
-import common.sharedData.ChannelType;
-import common.sharedData.Message;
-import common.sharedData.UserLite;
+import common.sharedData.*;
 
 /**
  * Classe principale de gestion des communications côté serveur. Cette classe implemente le design patern singleton
@@ -67,8 +64,6 @@ public class CommunicationServerController extends CommunicationController {
 		catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		System.err.println("Communication Server s'arrete!");
 	}
 
 	/**
@@ -267,16 +262,20 @@ public class CommunicationServerController extends CommunicationController {
 		return true;
 	}
 
-	public void notifyLeaveChannel(UUID channelID, UserLite userLite) {
+	public void leaveChannel(UUID channelID, UserLite userLite) {
 		if (dataServer == null)
 		{
-			System.err.println("requestJoinSharedChannel: Data Iface est null");
-			return;
+			throw new NullPointerException("Data Interface est nulle");
 		}
-		Channel ch = dataServer.getChannel(channelID);
-		dataServer.leaveChannel(ch.getId(), userLite);
-		sendMessage(userLite.getId(), new ValideUserLeftMessage(channelID));
-		sendMulticast(ch.getAcceptedPersons(), new UserLeftChannelMessage(ch.getId(), userLite));
+
+		Channel channel = dataServer.getChannel(channelID);
+
+		// TODO INTEGRATION V2: ask data to implement leaveChannel() to remove user from shared and from proprietary channel,
+		// since owner and server sync content of channel
+		dataServer.leaveChannel(channel.getId(), userLite);
+
+		sendMessage(userLite.getId(), new ValideUserLeftMessage(channelID, (channel.getVisibility() == Visibility.PUBLIC)));
+		sendMulticast(channel.getAcceptedPersons(), new UserLeftChannelMessage(channel.getId(), userLite));
 	}
 
 	/* ----------------------------------------- Chat action handling ------------------------------------------------*/
@@ -374,7 +373,8 @@ public class CommunicationServerController extends CommunicationController {
     	 if (dataServer == null)
          {
            throw new NullPointerException("Data Interface est nulle");
-         }else {
+         }
+    	 else {
         	dataServer.updateNickname(channel, user, newNickname); 
          }
     }

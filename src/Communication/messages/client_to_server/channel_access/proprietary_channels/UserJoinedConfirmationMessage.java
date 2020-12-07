@@ -10,6 +10,7 @@ import common.sharedData.UserLite;
 import java.util.UUID;
 
 public class UserJoinedConfirmationMessage extends ClientToServerMessage {
+    private static final long serialVersionUID = -223713673314704993L;
     private final UUID channelID;
     private final UserLite user;
 

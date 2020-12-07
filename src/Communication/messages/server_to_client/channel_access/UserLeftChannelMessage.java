@@ -1,4 +1,4 @@
-package Communication.messages.server_to_client;
+package Communication.messages.server_to_client.channel_access;
 
 import Communication.client.CommunicationClientController;
 import Communication.messages.abstracts.ServerToClientMessage;
@@ -12,24 +12,9 @@ import java.util.UUID;
  */
 
 public class UserLeftChannelMessage extends ServerToClientMessage {
-    UUID channelID;
-    UserLite userLite;
-
-    public UUID getChannelID() {
-        return channelID;
-    }
-
-    public void setChannel(UUID channelID) {
-        this.channelID = channelID;
-    }
-
-    public UserLite getUserLite() {
-        return userLite;
-    }
-
-    public void setUserLite(UserLite userLite) {
-        this.userLite = userLite;
-    }
+    private static final long serialVersionUID = -8520233704392L;
+    private final UUID channelID;
+    private final  UserLite userLite;
 
     public UserLeftChannelMessage(UUID channelID, UserLite userLite) {
         this.channelID = channelID;
