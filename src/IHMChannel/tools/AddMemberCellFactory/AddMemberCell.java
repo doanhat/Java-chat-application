@@ -1,11 +1,8 @@
 package IHMChannel.tools.AddMemberCellFactory;
 
-import IHMChannel.controllers.AddMemberPopUpController;
 import IHMChannel.controllers.ChannelController;
-import IHMChannel.controllers.PopUpConfirmationController;
 import IHMChannel.controllers.SendInvitePopUpController;
 import common.sharedData.Channel;
-import common.sharedData.Message;
 import common.sharedData.UserLite;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

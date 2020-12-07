@@ -2,7 +2,6 @@ package IHMChannel.controllers;
 
 import IHMChannel.IHMChannelController;
 import IHMChannel.MessageDisplay;
-import common.IHMTools.IHMTools;
 import common.sharedData.Channel;
 import common.sharedData.Message;
 import common.sharedData.UserLite;
@@ -21,8 +20,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 
-import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -143,7 +142,7 @@ public class ChannelMessagesController{
     /**
      * Méthode déclenchée au clic sur le bouton d'envoi de message.
      */
-    public void sendMessage() throws IOException {
+    public void sendMessage(){
         if (!isReponse) {
             if (!typedText.getText().isEmpty()) {
                 //ATTENTION l'id du message est écrit en dur, on ne sait pas comment il est généré pour le moment.
@@ -152,7 +151,6 @@ public class ChannelMessagesController{
                 ihmChannelController.getInterfaceToCommunication().sendMessage(newMsg, channel, parentMessage);
                 //messagesToDisplay.add((HBox)new MessageDisplay(new Message(1,typedText.getText(),connectedUser)).root);
                 typedText.setText("");
-//                System.out.println(this.parentMessage);
             }
         }
         else {
@@ -160,7 +158,6 @@ public class ChannelMessagesController{
                 Message newMsg = new Message(typedText.getText(), ihmChannelController.getInterfaceToData().getLocalUser().getUserLite());
                 ihmChannelController.getInterfaceToCommunication().sendMessage(newMsg, channel, parentMessage);
                 typedText.setText("");
-//                System.out.println(this.parentMessage);
             }
         }
         this.parentMessage = null; // D'après envoyer message, parent message devient nul
@@ -176,16 +173,13 @@ public class ChannelMessagesController{
        //Message message = new Message(2, "message reçu test", connectedUser);
          getIhmChannelController().getInterfaceForData().receiveMessage(new Message("message reçu test", connectedUser),
                           this.channel.getId(), null);
-
-        //Message newMsg = new Message(99,"Salut, je suis un message reçu via le bouton de test",connectedUser);
-        //this.channel.addMessage(newMsg);
     }
 
     /**
      * Initialise l'affichage de la liste des messages contenus dans l'attribut channel de la classe
      */
     private void displayMessagesList() throws IOException {
-        getMessagesToDisplay().removeAll(); //réinitialisation
+        getMessagesToDisplay().clear(); //réinitialisation
         for (Message msg : observableMessages){
             getMessagesToDisplay().add((HBox) new MessageDisplay(msg, this).root);
         }
@@ -239,12 +233,7 @@ public class ChannelMessagesController{
     }
 
     public void setIsReponse(boolean isReponse){
-        if (isReponse) {
-            reponseArea.setVisible(true);
-        }
-        else{
-            reponseArea.setVisible(false);
-        }
+        reponseArea.setVisible(isReponse);
         this.isReponse = isReponse;
     }
     @FXML

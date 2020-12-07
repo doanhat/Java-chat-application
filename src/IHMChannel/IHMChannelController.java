@@ -1,6 +1,5 @@
 package IHMChannel;
 
-import IHMChannel.controllers.ChannelController;
 import IHMChannel.controllers.ChannelPageController;
 import IHMChannel.interfaces.CommunicationToIHMChannel;
 import IHMChannel.interfaces.DataToIHMChannel;
@@ -12,9 +11,7 @@ import javafx.scene.Parent;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Controller principal de IHMChannel

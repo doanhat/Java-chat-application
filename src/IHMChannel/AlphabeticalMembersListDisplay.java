@@ -2,9 +2,7 @@ package IHMChannel;
 
 import IHMChannel.controllers.AlphabeticalMembersListController;
 import common.sharedData.UserLite;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 
 import java.io.IOException;

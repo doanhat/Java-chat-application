@@ -17,7 +17,6 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.text.Text;
 import javafx.stage.Popup;
 
 import java.io.IOException;
@@ -150,7 +149,7 @@ public class ChannelController {
      * Méthode déclenchée au clic sur le bouton "voir les membres"
      */
     public void seeMembers() {
-        if (seeMessages) {
+        if (Boolean.TRUE.equals(seeMessages)) {
             pageToDisplay.setCenter(channelMembersDisplay.root);
             seeMessages = false;
             seeMembersMenuCheck.setSelected(true);
@@ -188,7 +187,6 @@ public class ChannelController {
 
 
     public void setChannel(Channel channel) {
-//        System.out.println("ChannelController.setChannel : "+channel);
         this.setCurrentChannel(channel);
         channelName.setText(channel.getName());
         channelDescription.setText(channel.getDescription());
@@ -279,10 +277,13 @@ public class ChannelController {
      * Clic sur "supprimer channel" depuis le menu contextuel
      */
     public void deleteChannel() {
-        //TODO pop-up confirmation
 
-        //appel interface /!\ UnsupportedOperationException : not implemented yet pour le moment (sera réglé avec integ)
-        this.getIhmChannelController().getInterfaceForData().openChannelDeleted(this.currentChannel);
+        boolean result = IHMTools.confirmationPopup("Voulez vous supprimer le channel ?");
+
+        if (result){
+            //appel interface /!\ UnsupportedOperationException : not implemented yet pour le moment (sera réglé avec integ)
+            this.getIhmChannelController().getInterfaceForData().openChannelDeleted(this.currentChannel);
+        }
     }
 
     public List<UserLite> getConnectedMembersList() {

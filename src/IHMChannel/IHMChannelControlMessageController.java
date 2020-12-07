@@ -32,8 +32,8 @@ public class IHMChannelControlMessageController implements Initializable {
     private IHMChannelWindowController ihmChannelWindowController;
     private Parent parent;
     @FXML
-    void LikeMessage() {
-        if (this.liked == false) {
+    void likeMessage() {
+        if (!this.liked) {
             this.liked = true;
             this.likeBtn.setStyle("-fx-background-color: #f80303;");
         }

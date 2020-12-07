@@ -1,7 +1,6 @@
 package IHMChannel.controllers;
 
 import IHMChannel.IHMChannelController;
-//import IHMChannel.tools.AddMemberCellFactory.AddMemberCellFactory;
 import common.sharedData.UserLite;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,7 +11,6 @@ import javafx.scene.control.TextArea;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.UUID;
 
 public class AddMemberController {
     @FXML

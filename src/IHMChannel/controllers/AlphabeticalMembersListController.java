@@ -8,7 +8,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 
 import java.io.IOException;
@@ -36,11 +35,11 @@ public class AlphabeticalMembersListController {
      * Initialise la liste des membres contenus dans l'attribut channel de la classe
      */
     private void initMembersList() {
-        channelMembers.removeAll(channelMembers);
+        channelMembers.clear();
         for (UserLite usr : this.channel.getAcceptedPersons()){
             channelMembers.add(usr);
         }
-        adminMembers.removeAll(adminMembers);
+        adminMembers.clear();
         for (UserLite usr : this.channel.getAdministrators()){
             adminMembers.add(usr);
             if(usr.getId().equals(localUser.getId())) {
@@ -56,7 +55,7 @@ public class AlphabeticalMembersListController {
      */
 
     private void displayMembers() throws IOException {
-        membersToDisplay.removeAll(membersToDisplay);
+        membersToDisplay.clear();
         for (UserLite usr : channelMembers){
             if(usr.getId().equals(creator.getId())){
                 membersToDisplay.add((HBox) new MemberDisplay(usr,true,true,(connectedMembersList!=null && connectedMembersList.contains(usr)),false, channel, ihmChannelController).root);
@@ -80,9 +79,6 @@ public class AlphabeticalMembersListController {
         displayMembers();
     }
 
-    public AlphabeticalMembersListController(){
-
-    };
 
     public void initialize() throws IOException {
         channelMembers = FXCollections.observableArrayList();
