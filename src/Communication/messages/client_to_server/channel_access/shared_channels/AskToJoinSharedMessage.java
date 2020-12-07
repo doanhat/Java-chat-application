@@ -28,9 +28,8 @@ public class AskToJoinSharedMessage extends ClientToServerMessage {
         Channel channel = commController.getChannel(channelID);
 
         // NOTE: c'est pas nécessaire de filtrer la liste des utilisateurs connectes parce que j'ai implémenter le DF pour qu'il filtre déjà
-        if (channel != null)
+        if (channel != null && commController.requestJoinChannel(channel, sender))
         {
-            commController.requestJoinChannel(channel, sender);
             // send Acceptation back to sender
             commController.sendMessage(sender.getId(), new JoinChannelResponseMessage(sender, channel, true));
 
