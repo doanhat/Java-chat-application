@@ -43,7 +43,9 @@ public class HeartBeat {
                 }
                 else {
                     logger.log(Level.WARNING, "Server n'a pas répondu");
-                    // TODO Inform controller of disconnection
+
+                    // Inform controller of disconnection
+                    commController.notifyLostConnection();
                     commController.stop();
                 }
 

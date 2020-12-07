@@ -43,5 +43,4 @@ public interface ICommunicationToIHMChannel {
      * @param user user qui vient de se déconnecter
      */
     void removeConnectedUser(UUID channelId, UserLite user);
-
 }
