@@ -338,9 +338,10 @@ public class CommunicationServerController extends CommunicationController {
     public void requestAddUserToChannel(UserLite guest, Channel channel) {
 		if (dataServer == null)
 		{
-			logger.log(Level.SEVERE, "requestJoinSharedChannel: Data Iface est null");
+			logger.log(Level.SEVERE, "requestAddUserToChannel: Data Iface est null");
 		}
 
+		// TODO INTEGRATION V2 verify with Data what are the differences between requestAddUser and joinChannel
         this.dataServer.requestAddUser(channel, guest);
     }
 

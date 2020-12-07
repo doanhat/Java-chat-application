@@ -283,7 +283,8 @@ public class CommunicationClientController extends CommunicationController {
         }
 
         if (isAccepted) {
-            // TODO INTEGRATION: request Data or Channel to receive Channel as parameter to receive full data of Channel
+            // TODO INTEGRATION V2: request Data or Channel to receive Channel as parameter to receive full data of Channel
+            // and update if channel is not already visible
             dataClient.userAddedToChannel(user, channel.getId());
         }
         else {
