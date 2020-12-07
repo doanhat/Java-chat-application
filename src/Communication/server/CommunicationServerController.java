@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import Communication.common.CommunicationController;
 import Communication.common.NetworkWriter;
 import Communication.messages.abstracts.NetworkMessage;
+import Communication.messages.server_to_client.channel_modification.NewInvisibleChannelsMessage;
 import Communication.messages.server_to_client.connection.UserDisconnectedMessage;
 import Communication.messages.server_to_client.UserLeftChannelMessage;
 
@@ -85,6 +86,21 @@ public class CommunicationServerController extends CommunicationController {
 			if (server.directory().deregisterClient(userID)) {
 				logger.log(Level.INFO, "Serveur déconnecte client {}" , userID);
 				sendBroadcast(new UserDisconnectedMessage(userInfo), userInfo);
+
+
+				List<Channel> userProprietaryChannel = dataServer.disconnectOwnedChannel(userInfo);
+
+				if (userProprietaryChannel != null && !userProprietaryChannel.isEmpty()) {
+					List<UUID> channelsID = new ArrayList<>();
+
+					for (Channel channel: userProprietaryChannel) {
+						channelsID.add(channel.getId());
+					}
+
+					// TODO INTEGRATION V2: review if it a broadcast or multicast under some specific rules
+					// broadcast invisible channel
+					sendBroadcast(new NewInvisibleChannelsMessage(channelsID), userInfo);
+				}
 			}
 			else {
 				logger.log(Level.SEVERE, "Serveur à echoué à déconnecter le client {}" , userID);

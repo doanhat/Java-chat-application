@@ -1,7 +1,7 @@
 package Communication.messages.client_to_server.channel_modification;
 
 import Communication.messages.abstracts.ClientToServerMessage;
-import Communication.messages.server_to_client.channel_modification.NewInvisibleChannelMessage;
+import Communication.messages.server_to_client.channel_modification.NewInvisibleChannelsMessage;
 import Communication.server.CommunicationServerController;
 import common.sharedData.*;
 
@@ -34,7 +34,7 @@ public class DeleteChannelMessage extends ClientToServerMessage {
                 // TODO Send request delete channel to Owner
             }
 
-            commController.sendBroadcast(new NewInvisibleChannelMessage(channel.getId()), requester);
+            commController.sendBroadcast(new NewInvisibleChannelsMessage(channel.getId()), requester);
         }
 
     }

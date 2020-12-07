@@ -235,15 +235,17 @@ public class CommunicationClientController extends CommunicationController {
     /**
      * Retire un channel de la liste des channels car celui-ci à été invisible
      *
-     * @param channelID identifiant unique (UUID) du channel à supprimer
+     * @param channelIDs liste identifiant unique (UUID) des channels à supprimer
      */
-    public void notifyInvisibleChannel(UUID channelID) {
+    public void notifyInvisibleChannels(List<UUID> channelIDs) {
         if (dataClient == null) {
             throw new NullPointerException("Data Iface est null");
         }
 
         // TODO INTEGRATION V2: verify which method is for delete proprietary channel and which is for delete channel from visible list
-        dataClient.removeChannelFromList(channelID, 0, "Channel supprimé");
+        for (UUID channelID: channelIDs) {
+            dataClient.removeChannelFromList(channelID, 0, "Channel supprimé");
+        }
     }
 
     /* -------------------------------- Channel actions notifications handling ---------------------------------------*/

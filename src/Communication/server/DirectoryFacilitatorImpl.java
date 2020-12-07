@@ -49,7 +49,7 @@ public class DirectoryFacilitatorImpl implements DirectoryFacilitator {
                             commController.sendMessage(user.preparePacket(new ReplyClientPulseMessage()));
                         }
                         else {
-                            logger.log(Level.INFO, "Client {} déconnecté", userID);
+                            logger.log(Level.INFO, "Client " + userID + "déconnecté");
                             commController.disconnect(userID);
                         }
                     }

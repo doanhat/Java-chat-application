@@ -3,6 +3,7 @@ package Communication.messages.server_to_client;
 import Communication.client.CommunicationClientController;
 import Communication.messages.abstracts.ServerToClientMessage;
 
+import java.util.Collections;
 import java.util.UUID;
 
 /**
@@ -10,7 +11,7 @@ import java.util.UUID;
  */
 
 public class ValideUserLeftMessage extends ServerToClientMessage {
-    UUID channelID;
+    private UUID channelID;
 
     public void setChannelID(UUID channelID) {
         this.channelID = channelID;
@@ -26,6 +27,6 @@ public class ValideUserLeftMessage extends ServerToClientMessage {
 
     @Override
     protected void handle(CommunicationClientController commClientController) {
-        commClientController.notifyInvisibleChannel(channelID);
+        commClientController.notifyInvisibleChannels(Collections.singletonList(channelID));
     }
 }
