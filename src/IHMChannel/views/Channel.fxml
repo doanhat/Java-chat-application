@@ -74,6 +74,6 @@
         <BorderPane fx:id="pageToDisplay"/>-->
     </VBox>
     <stylesheets>
-        <URL value="file:src/common/IHMCommon/common.css"></URL>
+        <URL value="@../../common/IHMCommon/common.css"></URL>
     </stylesheets>
 </AnchorPane>

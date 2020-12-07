@@ -98,7 +98,7 @@ public class MessageController {
         // getChannelMessagesController.setParentMessage(messageToDisplay);
         // getChannelMessagesController.setResponseView();
         this.channelMessagesController.setIsReponse(true);
-        this.channelMessagesController.userNameReceiver.setText(messageToDisplay.getAuthor().getNickName() + " a dit :");
+        this.channelMessagesController.userNameReceiver.setText(messageToDisplay.getAuthor().getNickName() + " a dit :     ");
         this.channelMessagesController.messageReceiver.setText(messageToDisplay.getMessage());
         this.channelMessagesController.setParentMessage(messageToDisplay);
     }
