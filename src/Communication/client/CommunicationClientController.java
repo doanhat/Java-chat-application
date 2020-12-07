@@ -461,4 +461,18 @@ public class CommunicationClientController extends CommunicationController {
         // TODO INTEGRATION V2
         //dataClient.addUserToChannel(guest, channelID);
     }
+
+    public void saveLike(UUID channelId, Message msg, UserLite user){
+        if (dataClient == null) {
+            throw new NullPointerException("Data Iface est null");
+        }
+
+        dataClient.saveLikeIntoHistory(channelId, msg, user);
+    }
+
+    public void notifyLikedMessage(UUID channelId, Message msg, UserLite user){
+        dataClient.likeMessage(channelId, msg, user);
+    }
+
+
 }
