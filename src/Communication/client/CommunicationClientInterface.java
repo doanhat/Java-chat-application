@@ -15,7 +15,9 @@ import Communication.messages.client_to_server.channel_access.proprietary_channe
 import Communication.messages.client_to_server.channel_access.shared_channels.AskToJoinSharedMessage;
 
 import Communication.messages.client_to_server.chat_action.proprietary_channels.DeleteMessagePropMessage;
+import Communication.messages.client_to_server.chat_action.proprietary_channels.SaveLikeMessageProp;
 import Communication.messages.client_to_server.chat_action.shared_channels.DeleteMessageSharedMessage;
+import Communication.messages.client_to_server.chat_action.shared_channels.SaveLikeMessageShared;
 import common.interfaces.client.*;
 import common.sharedData.Channel;
 import common.sharedData.ChannelType;
@@ -171,7 +173,15 @@ public class CommunicationClientInterface implements IDataToCommunication,
      * @param user    [UserLite] Utilisateur ayant like
      **/
     public void likeMessage(Channel channel, Message msg, UserLite user) {
-        // TODO V2
+        if (msg == null || channel == null || user == null) {
+            return;
+        }
+        if (channel.getType() == ChannelType.OWNED) {
+            this.commController.sendMessage(new SaveLikeMessageProp(channel, msg, user));
+        }
+        else {
+            this.commController.sendMessage(new SaveLikeMessageShared(channel.getId(), msg, user));
+        }
     }
 
     /**
