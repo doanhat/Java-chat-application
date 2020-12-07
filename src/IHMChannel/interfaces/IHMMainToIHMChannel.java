@@ -45,8 +45,8 @@ public class IHMMainToIHMChannel implements IIHMMainToIHMChannel {
     }
 
     @Override
-    public void viewChannel(UUID channelId) {
-        controller.getInterfaceToCommunication().getChannelHistory(channelId);
+    public void viewChannel(Channel channel) {
+        controller.getInterfaceToCommunication().askToJoin(channel);
     }
 
     private IHMChannelController controller;
