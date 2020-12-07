@@ -181,13 +181,26 @@ public class CommunicationClientController extends CommunicationController {
             throw new NullPointerException("IHMMain Iface est null");
         }
 
-        mainClient.connectionAccepted();
-        mainClient.setConnectedUsers(users);
+        mainClient.setConnectionStatus(0);
+        //mainClient.setConnectedUsers(users);
         //channelClient.setConnectedUsers(users); //TODO Activer cette methode quand channel l'aura dans son interface
 
         for (Channel channel : channels) {
             notifyVisibleChannel(channel);
         }
+    }
+
+    /**
+     * Notifier IHM Main que la connexion a été perdue
+     */
+    public void notifyLostConnection() {
+        logger.log(Level.INFO, "Déconnecté au serveur");
+
+        if (mainClient == null) {
+            throw new NullPointerException("IHMMain Iface est null");
+        }
+
+        mainClient.setConnectionStatus(1);
     }
 
     /**
