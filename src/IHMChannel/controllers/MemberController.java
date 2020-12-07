@@ -1,19 +1,12 @@
 package IHMChannel.controllers;
 
 import IHMChannel.IHMChannelController;
-import common.interfaces.client.IIHMChannelToCommunication;
 import common.sharedData.Channel;
-import IHMChannel.MemberDisplay;
 import common.sharedData.UserLite;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.image.Image;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import IHMChannel.switchButton.ToggleSwitch;
 
@@ -24,7 +17,7 @@ public class MemberController {
     Channel channel;
 
     @FXML
-    ImageView profilePicture;
+    ImageView profilePic;
     @FXML
     ImageView connectedIcon;
     @FXML
@@ -46,17 +39,22 @@ public class MemberController {
     boolean isCreator;
     boolean isConnected;
 
-
-    public void setUserToDisplay(UserLite userToDisplay,boolean isAdmin, boolean isCreator, boolean isConnected) {
+    public void setUserToDisplay(UserLite userToDisplay,boolean isAdmin, boolean isCreator, boolean isConnected, boolean toogleDisplay) {
         this.userToDisplay = userToDisplay;
         this.username.setText(userToDisplay.getNickName());
 
         this.isAdmin = isAdmin;
         this.isCreator = isCreator;
         this.isConnected = isConnected;
-        iconsInit();
 
-        //if(isAdmin) toggleAdminBtn.set;
+        // Desactivation du toogleAdmin
+        if(!toogleDisplay){toggleAdminBtn.setDisable(true);}
+
+        if(ihmChannelController.getInterfaceToData().getLocalUser().getId().equals(userToDisplay.getId())){
+            isThatYouText.setText(" (vous)");
+        }
+
+        iconsInit();
     }
 
     /**
@@ -81,17 +79,44 @@ public class MemberController {
         usersIcon.setFitHeight(15);
         usersIcon.setFitWidth(15);
         banBtn.setGraphic(usersIcon);
+
+        if(isCreator){
+            Image creatorImage = new Image("IHMChannel/icons/crown-solid.png");
+            creatorIcon.setImage(creatorImage);
+            creatorIcon.setFitHeight(15);
+            creatorIcon.setFitWidth(15);
+        }
+
+        if(isConnected){
+            Image connectedImage = new Image("IHMChannel/icons/circle-solid.png");
+            connectedIcon.setImage(connectedImage);
+            connectedIcon.setFitHeight(10);
+            connectedIcon.setFitWidth(10);
+        }
+
     }
 
     /**
      * Méthode déclenchée au clic sur le bouton toggle de l'admin permettant de faire basculer le statut d'un membre entre administrateur et simple membre.
      */
     public void toggleAdmin(){
-        //TODO
-        System.out.println(this.toggleAdminBtn.getCurrentRole());
+        if(isAdmin){
+            isAdmin= false;
+            // TODO Avoir une fonction removeAdmin();
+            System.out.println("Retrait d'un  admin. ");
+        }else{
+            isAdmin = true;
+            ihmChannelController.getInterfaceToCommunication().giveAdmin(userToDisplay, channel);
+            // Pour tester le retour serveur
+            /*
+            try {
+                getIhmChannelController().getInterfaceForData().addNewAdmin(userToDisplay,channel);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            */
+        }
 
-        System.out.println("Envoi message de changement de droit administrateur au serveur... ");
-        ihmChannelController.getInterfaceToCommunication().giveAdmin(userToDisplay, channel);
     }
 
     public void banHandler() {

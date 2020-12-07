@@ -12,9 +12,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 
 import java.io.IOException;
+import java.util.List;
 
 public class AlphabeticalMembersListController {
-
     private IHMChannelController ihmChannelController;
 
     @FXML
@@ -22,9 +22,13 @@ public class AlphabeticalMembersListController {
 
     Channel channel;
 
+    List<UserLite> connectedMembersList;
     ObservableList<UserLite> channelMembers ;
     ObservableList<UserLite> adminMembers;
     UserLite creator;
+
+    UserLite localUser;
+    boolean isLocalUserAdmin = false;
 
     ObservableList<HBox> membersToDisplay;
 
@@ -39,9 +43,11 @@ public class AlphabeticalMembersListController {
         adminMembers.removeAll(adminMembers);
         for (UserLite usr : this.channel.getAdministrators()){
             adminMembers.add(usr);
+            if(usr.getId().equals(localUser.getId())) {
+                isLocalUserAdmin = true;
+            }
         }
         creator = this.channel.getCreator();
-
     }
 
     /**
@@ -52,12 +58,12 @@ public class AlphabeticalMembersListController {
     private void displayMembers() throws IOException {
         membersToDisplay.removeAll(membersToDisplay);
         for (UserLite usr : channelMembers){
-            if(usr==creator){
-                membersToDisplay.add((HBox) new MemberDisplay(usr,true,true,true, channel, ihmChannelController).root);
+            if(usr.getId().equals(creator.getId())){
+                membersToDisplay.add((HBox) new MemberDisplay(usr,true,true,(connectedMembersList!=null && connectedMembersList.contains(usr)),false, channel, ihmChannelController).root);
             }else if(adminMembers.contains(usr)){
-                membersToDisplay.add((HBox) new MemberDisplay(usr, true,false,true, channel, ihmChannelController).root);
+                membersToDisplay.add((HBox) new MemberDisplay(usr, true,false,(connectedMembersList!=null && connectedMembersList.contains(usr)),isLocalUserAdmin,  channel, ihmChannelController).root);
             }else{
-                membersToDisplay.add((HBox) new MemberDisplay(usr, false, false,true, channel, ihmChannelController).root);
+                membersToDisplay.add((HBox) new MemberDisplay(usr, false, false,(connectedMembersList!=null && connectedMembersList.contains(usr)),isLocalUserAdmin, channel, ihmChannelController).root);
             }
         }
         membersList.setItems(membersToDisplay);
@@ -82,6 +88,7 @@ public class AlphabeticalMembersListController {
         channelMembers = FXCollections.observableArrayList();
         adminMembers = FXCollections.observableArrayList();
         membersToDisplay = FXCollections.observableArrayList();
+        connectedMembersList = FXCollections.observableArrayList();
     }
 
     public IHMChannelController getIhmChannelController() {
@@ -90,5 +97,26 @@ public class AlphabeticalMembersListController {
 
     public void setIhmChannelController(IHMChannelController ihmChannelController) {
         this.ihmChannelController = ihmChannelController;
+        localUser = ihmChannelController.getInterfaceToData().getLocalUser().getUserLite();
+    }
+
+    public List<UserLite> getConnectedMembersList() {
+        return connectedMembersList;
+    }
+
+    public void setConnectedMembersList(List<UserLite> updatedConnectedMembersList) {
+        if(this.connectedMembersList != null){
+            this.connectedMembersList.clear();
+        }
+        this.connectedMembersList = updatedConnectedMembersList;
+        // this.initConnectedMembersList();
+    }
+
+    public void addMemberToList(UserLite user) {
+        connectedMembersList.add(user);
+    }
+
+    public void removeMemberFromList(UserLite user) {
+        connectedMembersList.remove(user);
     }
 }

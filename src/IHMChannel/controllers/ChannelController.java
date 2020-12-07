@@ -139,6 +139,13 @@ public class ChannelController {
         channelMessagesDisplay.getController().addMessageToObservableList(receivedMessage);
     }
 
+
+    public void addNewAdmin(UserLite user) throws IOException {
+        currentChannel.addAdmin(user);
+        channelMembersDisplay.getController().setCurrentChannel(currentChannel);
+        // Faut-il mettre a jour nous même le channel dans les composants fils?
+    }
+
     /**
      * Méthode déclenchée au clic sur le bouton "voir les membres"
      */
@@ -285,6 +292,7 @@ public class ChannelController {
     public void setConnectedMembersList(List<UserLite> connectedMembersList) {
         this.connectedMembersList = connectedMembersList;
         this.channelMessagesDisplay.setConnectedMembersList(connectedMembersList);
+        this.channelMembersDisplay.setConnectedMembersList(connectedMembersList);
 
     }
 
@@ -292,10 +300,14 @@ public class ChannelController {
         this.connectedMembersList.add(user);
         this.channelMessagesDisplay.getController().addMemberToObservableList(user);
         //this.channelMessagesDisplay.setConnectedMembersList(this.connectedMembersList);
+        this.channelMembersDisplay.getController().addMemberToObservableList(user);
     }
 
     public void removeConnectedUser(UserLite user) {
         this.connectedMembersList.remove(user);
         this.channelMessagesDisplay.getController().removeMemberFromObservableList(user);
+        this.channelMembersDisplay.getController().removeMemberFromObservableList(user);
     }
+
+
 }

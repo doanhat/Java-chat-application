@@ -13,54 +13,45 @@ import javafx.scene.layout.HBox;
 import java.io.IOException;
 import java.util.List;
 
-public class AdminMembersListController {
+public class ConnectedMembersListController {
 
     private IHMChannelController ihmChannelController;
-
-    @FXML
-    ListView<HBox> creatorList;
-    @FXML
-    ListView<HBox> adminList;
-    @FXML
-    ListView<HBox> membersList;
-
     Channel channel;
 
-    List<UserLite> connectedMembersList;
+    @FXML
+    ListView<HBox> connectedMembers;
+    @FXML
+    ListView<HBox> disconnectedMembers;
+
     ObservableList<UserLite> channelMembers ;
     ObservableList<UserLite> adminMembers;
+
+    List<UserLite> connectedMembersList;
     UserLite creator;
     UserLite localUser;
+
     boolean isLocalUserAdmin = false;
 
-    ObservableList<HBox> creatorToDisplay;
-    ObservableList<HBox> adminsToDisplay;
-    ObservableList<HBox> membersToDisplay;
+    ObservableList<HBox> connectedMembersToDisplay;
+    ObservableList<HBox> disconnectedMembersToDisplay;
 
     /**
-     * Initialise la liste des membres (acceptedPerson) contenus dans l'attribut channel de la classe
+     * Initialise la liste des membres contenus dans l'attribut channel de la classe
      */
     private void initMembersList() {
         channelMembers.clear();
         adminMembers.clear();
 
-        creator = this.channel.getCreator();
-
-        isLocalUserAdmin = false;
-        this.channel.getAdministrators().forEach(userLite -> {
-            // On n'ajoute pas le créateur dans cette liste.
-            if(!userLite.getId().equals(creator.getId())){adminMembers.add(userLite);}
-
-            // On regarde si le localUser est admin
-            if(userLite.getId().equals(localUser.getId())) {
+        for (UserLite usr : this.channel.getAcceptedPersons()){
+            channelMembers.add(usr);
+        }
+        for (UserLite usr : this.channel.getAdministrators()){
+            adminMembers.add(usr);
+            if(usr.getId().equals(localUser.getId())) {
                 isLocalUserAdmin = true;
             }
-        });
-
-        this.channel.getAcceptedPersons().forEach(userLite -> {
-            if(!adminMembers.contains(userLite) && !userLite.getId().equals(creator.getId())){channelMembers.add(userLite);}
-        });
-
+        }
+        creator = this.channel.getCreator();
     }
 
     /**
@@ -69,21 +60,30 @@ public class AdminMembersListController {
      */
 
     private void displayMembers() throws IOException {
+        connectedMembersToDisplay.clear();
+        disconnectedMembersToDisplay.clear();
 
-        membersToDisplay.clear();
-        adminsToDisplay.clear();
-
-        for (UserLite usr : adminMembers){
-            adminsToDisplay.add((HBox) new MemberDisplay(usr,true,false,(connectedMembersList!=null && connectedMembersList.contains(usr)),isLocalUserAdmin ,  channel, ihmChannelController).root);
-        }
         for (UserLite usr : channelMembers){
-            membersToDisplay.add((HBox) new MemberDisplay(usr,false,false,(connectedMembersList!=null && connectedMembersList.contains(usr)),isLocalUserAdmin, channel, ihmChannelController).root);
+            if(connectedMembersList!=null && connectedMembersList.contains(usr)){
+                if(usr.getId().equals(creator.getId())){
+                    connectedMembersToDisplay.add((HBox) new MemberDisplay(usr,true,true,true,false, channel, ihmChannelController).root);
+                }else if(adminMembers.contains(usr)){
+                    connectedMembersToDisplay.add((HBox) new MemberDisplay(usr, true,false,true,isLocalUserAdmin,  channel, ihmChannelController).root);
+                }else{
+                    connectedMembersToDisplay.add((HBox) new MemberDisplay(usr, false, false,true,isLocalUserAdmin, channel, ihmChannelController).root);
+                }
+            }else{
+                if(usr.getId().equals(creator.getId())){
+                    disconnectedMembersToDisplay.add((HBox) new MemberDisplay(usr,true,true,false,false, channel, ihmChannelController).root);
+                }else if(adminMembers.contains(usr)){
+                    disconnectedMembersToDisplay.add((HBox) new MemberDisplay(usr, true,false,false,isLocalUserAdmin,  channel, ihmChannelController).root);
+                }else{
+                    disconnectedMembersToDisplay.add((HBox) new MemberDisplay(usr, false, false,false,isLocalUserAdmin, channel, ihmChannelController).root);
+                }
+            }
         }
-        creatorToDisplay.add((HBox) new MemberDisplay(creator,true,true,(connectedMembersList!=null && connectedMembersList.contains(creator)),false, channel, ihmChannelController).root);
-
-        adminList.setItems(adminsToDisplay);
-        membersList.setItems(membersToDisplay);
-        creatorList.setItems(creatorToDisplay);
+        connectedMembers.setItems(connectedMembersToDisplay);
+        disconnectedMembers.setItems(disconnectedMembersToDisplay);
     }
 
     /**
@@ -97,16 +97,15 @@ public class AdminMembersListController {
         displayMembers();
     }
 
-    public AdminMembersListController(){
+    public ConnectedMembersListController(){
 
     };
 
     public void initialize() throws IOException {
         channelMembers = FXCollections.observableArrayList();
         adminMembers = FXCollections.observableArrayList();
-        membersToDisplay = FXCollections.observableArrayList();
-        creatorToDisplay = FXCollections.observableArrayList() ;
-        adminsToDisplay= FXCollections.observableArrayList();
+        connectedMembersToDisplay = FXCollections.observableArrayList();
+        disconnectedMembersToDisplay = FXCollections.observableArrayList();
         connectedMembersList = FXCollections.observableArrayList();
     }
 
@@ -122,13 +121,11 @@ public class AdminMembersListController {
     public List<UserLite> getConnectedMembersList() {
         return connectedMembersList;
     }
-
     public void setConnectedMembersList(List<UserLite> updatedConnectedMembersList) {
         if(this.connectedMembersList != null){
             this.connectedMembersList.clear();
         }
         this.connectedMembersList = updatedConnectedMembersList;
-        // this.initConnectedMembersList();
     }
 
     public void addMemberToList(UserLite user) {

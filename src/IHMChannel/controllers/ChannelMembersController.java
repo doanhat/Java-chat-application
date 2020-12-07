@@ -1,9 +1,6 @@
 package IHMChannel.controllers;
 
-import IHMChannel.AdminMembersListDisplay;
-import IHMChannel.AlphabeticalMembersListDisplay;
-import IHMChannel.IHMChannelController;
-import IHMChannel.MemberDisplay;
+import IHMChannel.*;
 import common.sharedData.Channel;
 import common.sharedData.User;
 import common.sharedData.UserLite;
@@ -38,25 +35,12 @@ public class ChannelMembersController {
 
     ObservableList<HBox> membersToDisplay = FXCollections.observableArrayList();
     Channel channel;
-    ListChangeListener<UserLite> membersListListener;
-    ListChangeListener<UserLite> adminsListListener;
 
     AlphabeticalMembersListDisplay alphabeticalMembersListDisplay;
     AdminMembersListDisplay adminMembersListDisplay;
+    ConnectedMembersListDisplay connectedMembersListDisplay;
 
 
-    /**
-     * Initialise l'affichage de la liste des membres (acceptedPerson) contenus dans l'attribut channel de la classe
-     */
-    private void initMembersList() throws IOException {
-        membersToDisplay.removeAll(); //réinitialisation
-        for (UserLite usr : this.channel.getAcceptedPersons()){
-            //TODO à corriger (constructeur pas bon)
-            //membersToDisplay.add((HBox) new MemberDisplay(usr).root);
-        }
-        //TODO recharger l'affichage
-
-    }
 
     /**
      * Setter du channel
@@ -68,23 +52,21 @@ public class ChannelMembersController {
         this.channel = channel;
         alphabeticalMembersListDisplay.getController().setCurrentChannel(channel);
         adminMembersListDisplay.getController().setCurrentChannel(channel);
+        connectedMembersListDisplay.getController().setCurrentChannel(channel);
     }
 
     /**
      * Tri des utilisateurs par ordre alphabétique
      * @throws IOException
      */
-    public void alphabeticSort() throws IOException {
-        alphabeticalMembersListDisplay.configureController(ihmChannelController);
+    public void alphabeticSort(){
         listMembersDisplay.setCenter(alphabeticalMembersListDisplay.root);
-
     }
 
     /**
      * Tri des membres selon leur rôle
      */
     public void adminSort() {
-        adminMembersListDisplay.configureController(ihmChannelController);
         listMembersDisplay.setCenter(adminMembersListDisplay.root);
     }
 
@@ -92,10 +74,7 @@ public class ChannelMembersController {
      * Tri des membres selon s'ils sont en ligne ou non
      */
     public void onlineUserSort() {
-        /* TODO quand on pourra savoir qui est connecté.
-        channelMembers.sort(Comparator.comparing(UserLite::isConnected));
-        displayMembers();
-        */
+        listMembersDisplay.setCenter(connectedMembersListDisplay.root);
     }
 
     /**
@@ -107,6 +86,7 @@ public class ChannelMembersController {
 
         alphabeticalMembersListDisplay = new AlphabeticalMembersListDisplay();
         adminMembersListDisplay = new AdminMembersListDisplay();
+        connectedMembersListDisplay = new ConnectedMembersListDisplay();
 
         viewMode.selectToggle(alphaBtn);
         alphabeticSort();
@@ -143,5 +123,25 @@ public class ChannelMembersController {
 
     public void setIhmChannelController(IHMChannelController ihmChannelController) {
         this.ihmChannelController = ihmChannelController;
+        alphabeticalMembersListDisplay.configureController(ihmChannelController);
+        adminMembersListDisplay.configureController(ihmChannelController);
+        connectedMembersListDisplay.configureController(ihmChannelController);
+    }
+    public void setConnectedMembersList(List<UserLite> connectedMembersList) {
+        alphabeticalMembersListDisplay.setConnectedMembersList(connectedMembersList);
+        adminMembersListDisplay.setConnectedMembersList(connectedMembersList);
+        connectedMembersListDisplay.setConnectedMembersList(connectedMembersList);
+    }
+
+    public void addMemberToObservableList(UserLite user) {
+        alphabeticalMembersListDisplay.addMemberToList(user);
+        adminMembersListDisplay.addMemberToList(user);
+        connectedMembersListDisplay.addMemberToList(user);
+    }
+
+    public void removeMemberFromObservableList(UserLite user) {
+        alphabeticalMembersListDisplay.removeMemberFromList(user);
+        adminMembersListDisplay.removeMemberFromList(user);
+        connectedMembersListDisplay.removeMemberFromList(user);
     }
 }
