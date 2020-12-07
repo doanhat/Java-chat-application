@@ -2,6 +2,7 @@ package Communication.client;
 
 import Communication.common.Parameters;
 import Communication.messages.client_to_server.*;
+import Communication.messages.client_to_server.channel_modification.DeleteChannelMessage;
 import Communication.messages.client_to_server.channel_modification.proprietary_channels.SendProprietaryChannelsMessage;
 import Communication.messages.client_to_server.channel_modification.shared_channels.CreateSharedChannelMessage;
 import Communication.messages.client_to_server.chat_action.SendMessageMessage;

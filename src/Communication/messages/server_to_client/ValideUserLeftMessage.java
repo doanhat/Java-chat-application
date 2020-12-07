@@ -1,13 +1,8 @@
 package Communication.messages.server_to_client;
 
 import Communication.client.CommunicationClientController;
-import Communication.messages.abstracts.ClientToServerMessage;
 import Communication.messages.abstracts.ServerToClientMessage;
-import Communication.server.CommunicationServerController;
-import common.sharedData.Channel;
-import common.sharedData.UserLite;
 
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -31,6 +26,6 @@ public class ValideUserLeftMessage extends ServerToClientMessage {
 
     @Override
     protected void handle(CommunicationClientController commClientController) {
-        commClientController.notifyValidateDeletionChannel(channelID);
+        commClientController.notifyInvisibleChannel(channelID);
     }
 }

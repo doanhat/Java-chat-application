@@ -232,6 +232,20 @@ public class CommunicationClientController extends CommunicationController {
         mainClient.channelAdded(channel);
     }
 
+    /**
+     * Retire un channel de la liste des channels car celui-ci à été invisible
+     *
+     * @param channelID identifiant unique (UUID) du channel à supprimer
+     */
+    public void notifyInvisibleChannel(UUID channelID) {
+        if (dataClient == null) {
+            throw new NullPointerException("Data Iface est null");
+        }
+
+        // TODO INTEGRATION V2: verify which method is for delete proprietary channel and which is for delete channel from visible list
+        dataClient.removeChannelFromList(channelID, 0, "Channel supprimé");
+    }
+
     /* -------------------------------- Channel actions notifications handling ---------------------------------------*/
 
     /**
@@ -311,19 +325,6 @@ public class CommunicationClientController extends CommunicationController {
             return null;
         }
         return dataClient.getHistory(channelID);
-    }
-
-    /**
-     * Retire un channel de la liste des channels car celui-ci à été supprimé
-     *
-     * @param channelID identifiant unique (UUID) du channel à supprimer
-     */
-    public void notifyValidateDeletionChannel(UUID channelID) {
-        if (dataClient == null) {
-            System.err.println("notifyAddNewAdmin: Data Iface est null");
-            return;
-        }
-        dataClient.removeChannelFromList(channelID, 0, "Channel supprimé");
     }
 
     /**

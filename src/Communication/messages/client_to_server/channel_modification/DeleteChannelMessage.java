@@ -1,8 +1,7 @@
-package Communication.messages.client_to_server;
+package Communication.messages.client_to_server.channel_modification;
 
 import Communication.messages.abstracts.ClientToServerMessage;
-import Communication.messages.abstracts.NetworkMessage;
-import Communication.messages.server_to_client.ValidateDeletionChannelMessage;
+import Communication.messages.server_to_client.channel_modification.NewInvisibleChannelMessage;
 import Communication.server.CommunicationServerController;
 import common.sharedData.*;
 
@@ -29,7 +28,14 @@ public class DeleteChannelMessage extends ClientToServerMessage {
             return;
         }
 
-        commController.requestDeleteChannel(channel, requester);
-        commController.sendBroadcast(new ValidateDeletionChannelMessage(channel.getId()), requester);
+        if (commController.requestDeleteChannel(channel, requester)) {
+            // TODO INTEGRATION V2: verify sequence of delete proprietary channel
+            if (channel.getType() == ChannelType.OWNED) {
+                // TODO Send request delete channel to Owner
+            }
+
+            commController.sendBroadcast(new NewInvisibleChannelMessage(channel.getId()), requester);
+        }
+
     }
 }
