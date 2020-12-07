@@ -1,45 +1,39 @@
 package Communication.messages.client_to_server.channel_access.proprietary_channels;
 
 import Communication.messages.abstracts.ClientToServerMessage;
-import Communication.messages.server_to_client.AcceptJoinChannelMessage;
-import Communication.messages.server_to_client.NewUserJoinChannelMessage;
+import Communication.messages.server_to_client.channel_access.JoinChannelResponseMessage;
+import Communication.messages.server_to_client.channel_access.NewUserJoinChannelMessage;
 import Communication.server.CommunicationServerController;
 import common.sharedData.Channel;
 import common.sharedData.UserLite;
 
-import java.util.List;
+import java.util.UUID;
 
 public class UserJoinedConfirmationMessage extends ClientToServerMessage {
-    private final Channel channel;
+    private final UUID channelID;
     private final UserLite user;
 
-    /**
-     * Message de confirmation de la connection d'un utilisateur a un channel proprietaire
-     * @param user [UserLite] nouveau utilisateur connecte
-     * @param channel [Channel] channel rejoint
-     */
-    public UserJoinedConfirmationMessage(UserLite user, Channel channel) {
-        this.channel  = channel;
+    public UserJoinedConfirmationMessage(UserLite user, UUID channelID) {
+        this.channelID  = channelID;
         this.user = user;
-
     }
 
-    /**
-     * Notifie tous les utilisateurs du channel
-     * @param commController Controller du serveur
-     */
     @Override
     protected void handle(CommunicationServerController commController) {
-        List<UserLite> users = commController.getChannelConnectedUserList(channel.getId()); //Obtient la liste des utilisateurs connectes
+        // NOTE proprietary channels are already sync on server
+        Channel channel = commController.getChannel(channelID);
 
         if (channel != null)
         {
             // send Acceptation back to sender
-            commController.sendMessage(user.getId(), new AcceptJoinChannelMessage(user, channel));
+            commController.sendMessage(user.getId(), new JoinChannelResponseMessage(user, channel, true));
 
             // Notifie les utilisateurs connectes au channel qu'un nouveau utilisateur les rejoins
-            commController.sendMulticast(users,
-                    new NewUserJoinChannelMessage(user, channel.getId()));
+            commController.sendMulticast(channel.getAcceptedPersons(), new NewUserJoinChannelMessage(user, channel.getId()));
+        }
+        else
+        {
+            commController.sendMessage(user.getId(), new JoinChannelResponseMessage(user, null, false));
         }
     }
 }

@@ -1,7 +1,7 @@
 package Communication.messages.client_to_server.channel_access.proprietary_channels;
 
 import Communication.messages.abstracts.ClientToServerMessage;
-import Communication.messages.server_to_client.NewUserJoinChannelMessage;
+import Communication.messages.server_to_client.channel_access.NewUserJoinChannelMessage;
 import Communication.server.CommunicationServerController;
 import common.sharedData.UserLite;
 

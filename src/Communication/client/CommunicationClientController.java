@@ -204,7 +204,6 @@ public class CommunicationClientController extends CommunicationController {
         }
 
         mainClient.addConnectedUser(newUser);
-        //channelClient.addConnectedUser(newUser); //TODO Activer cette methode quand channel l'aura dans son interface
     }
 
     /**
@@ -218,7 +217,6 @@ public class CommunicationClientController extends CommunicationController {
         }
 
         mainClient.removeConnectedUser(user);
-        //channelClient.removeConnectedUser(user); //TODO Activer cette methode quand channel l'aura dans son interface
     }
 
     /**
@@ -231,14 +229,7 @@ public class CommunicationClientController extends CommunicationController {
             throw new NullPointerException("IHMMain Iface est null");
         }
 
-//        // TODO INTEGRATION request data createChannel receive Channel as parameter : (REMARQUE INTEG, CETTE LIGNE RAJOUTE DE LA REDONDANCE) QUE FAIRE??
-        /**
-         * TODO: IF DATA DOESN'T IMPLEMENT a ChannelList, please delete the line "dataClient.createChannel(channel)" in next integration
-         */
-//        dataClient.createChannel(channel);
         mainClient.channelAdded(channel);
-
-        // TODO handle propriety Channel
     }
 
     /* -------------------------------- Channel actions notifications handling ---------------------------------------*/
@@ -257,7 +248,6 @@ public class CommunicationClientController extends CommunicationController {
         if (isCreated) {
             logger.log(Level.FINE, "Creation channel {} est accepté", channel.getId());
             mainClient.channelCreated(channel);
-            //dataClient.addVisibleChannel(channel);
         }
         else {
             logger.log(Level.FINE, "Creation channel {} est refusé", channel.getId());
@@ -271,42 +261,47 @@ public class CommunicationClientController extends CommunicationController {
      * @param user    Utilisateur qui cherche a rejoindre le channel
      * @param channel channel rejoint
      */
-    public void notifyAcceptedToJoinChannel(UserLite user, Channel channel) {
+    public void notifyJoinChannelResponse(UserLite user, Channel channel, boolean isAccepted) {
         if (dataClient == null) {
             throw new NullPointerException("Data Iface est null");
         }
 
-        // TODO INTEGRATION verify with data what is the difference between userAddedToChannel and addUserToChannel
-        dataClient.userAddedToChannel(user, channel.getId());
-    }
-
-    /**
-     * Notifier Data que la demande de rejoindre un channel a été refusé par serveur
-     *
-     * @param user      Utilisateur qui cherche a rejoindre le channel
-     * @param channelID identifiant unique (UUID) du channel
-     */
-    public void notifyRefusedToJoinChannel(UserLite user, UUID channelID) {
-        if (dataClient == null) {
-            throw new NullPointerException("Data Iface est null");
+        if (isAccepted) {
+            dataClient.userAddedToChannel(user, channel.getId());
         }
-        // TODO INTEGRATION request data to add a method userRefusedToJoinChannel(UserLite, UUID channelID) to handle request refused
-        //dataClient.userRefusedToJoinChannel(user, channelID);
+        else {
+            logger.log(Level.FINE, "Join channel request {} est refusé");
+            //dataClient.userRefusedToJoinChannel(user, channelID);
+        }
     }
 
     /**
-     * Notifier Data qu'un autre utilisateur a rejoint un channel
+     * Demande Data d'ajouter un utilisateur a un channel proprietaire
      *
      * @param user      Utilisateur qui a rejoint le channel
      * @param channelID identifiant unique (UUID) du channel
      */
-    public void notifyNewUserAddedToJoinChannel(UserLite user, UUID channelID) {
+    public void addUserToProprietaryChannel(UserLite user, UUID channelID) {
         if (dataClient == null) {
             throw new NullPointerException("Data Iface est null");
         }
 
-        // TODO INTEGRATION verify with data what is the difference between userAddedToChannel and unbannedUserToChannel
-        dataClient.unbannedUserToChannel(user, channelID);
+        logger.log(Level.FINE, "Data add user " + user.getNickName() + " to proprietary channel " + channelID);
+        dataClient.addUserToOwnedChannel(user, channelID);
+    }
+
+    /**
+     * Notifie Application client qu'un utilisateur vient de rejoindre un channel
+     * @param user
+     * @param channelID
+     */
+    public void notifyUserJoinedChannel(UserLite user, UUID channelID) {
+        if (dataClient == null) {
+            throw new NullPointerException("Data Iface est null");
+        }
+
+        logger.log(Level.FINE, user.getNickName() + " joined channel " + channelID);
+        dataClient.userAddedToChannel(user, channelID);
     }
 
     public List<Message> requestHistory(UUID channelID) {

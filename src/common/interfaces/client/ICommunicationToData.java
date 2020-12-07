@@ -186,13 +186,18 @@ public interface ICommunicationToData {
     void saveNicknameIntoHistory(UserLite user,UUID channelId, String newNickname);
 
     /**
-     * Add user to channel .
+     * Unban user
      *
      * @param user    the user
      * @param channelId the channel
      */
     void unbannedUserToChannel(UserLite user, UUID channelId);
 
+    /**
+     * New User want to join Own Channel
+     * @param user the user
+     * @param channelId channel ID
+     */
     void addUserToOwnedChannel(UserLite user, UUID channelId);
 }
 

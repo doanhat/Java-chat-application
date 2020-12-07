@@ -1,4 +1,4 @@
-package Communication.messages.server_to_client;
+package Communication.messages.server_to_client.channel_access;
 
 import Communication.client.CommunicationClientController;
 import Communication.messages.abstracts.ServerToClientMessage;
@@ -28,6 +28,6 @@ public class NewUserJoinChannelMessage extends ServerToClientMessage {
 
     @Override
     protected void handle(CommunicationClientController commClientController) {
-        commClientController.notifyNewUserAddedToJoinChannel(user, channelID);
+        commClientController.notifyUserJoinedChannel(user, channelID);
     }
 }

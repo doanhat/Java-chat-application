@@ -1,14 +1,12 @@
 package Communication.messages.client_to_server.channel_access.shared_channels;
 
 import Communication.messages.abstracts.ClientToServerMessage;
-import Communication.messages.server_to_client.AcceptJoinChannelMessage;
-import Communication.messages.server_to_client.NewUserJoinChannelMessage;
-import Communication.messages.server_to_client.RefuseJoinChannelMessage;
+import Communication.messages.server_to_client.channel_access.JoinChannelResponseMessage;
+import Communication.messages.server_to_client.channel_access.NewUserJoinChannelMessage;
 import Communication.server.CommunicationServerController;
 import common.sharedData.Channel;
 import common.sharedData.UserLite;
 
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -28,21 +26,20 @@ public class AskToJoinSharedMessage extends ClientToServerMessage {
     @Override
     protected void handle(CommunicationServerController commController) {
         Channel channel = commController.getChannel(channelID);
-        commController.requestJoinChannel(channel, sender);
-        List<UserLite> users = commController.getChannelConnectedUserList(channelID); //Obtient la liste des utilisateurs connectes
 
+        // NOTE: c'est pas nécessaire de filtrer la liste des utilisateurs connectes parce que j'ai implémenter le DF pour qu'il filtre déjà
         if (channel != null)
         {
+            commController.requestJoinChannel(channel, sender);
             // send Acceptation back to sender
-            commController.sendMessage(sender.getId(), new AcceptJoinChannelMessage(sender, channel));
+            commController.sendMessage(sender.getId(), new JoinChannelResponseMessage(sender, channel, true));
 
             // Notifie les utilisateurs connectes au channel qu'un nouveau utilisateur les rejoins
-            commController.sendMulticast(users,
-                    new NewUserJoinChannelMessage(sender, channelID));
+            commController.sendMulticast(channel.getAcceptedPersons(), new NewUserJoinChannelMessage(sender, channelID));
         }
         else {
             // send Refusal back to sender
-            commController.sendMessage(sender.getId(), new RefuseJoinChannelMessage(sender, channelID));
+            commController.sendMessage(sender.getId(), new JoinChannelResponseMessage(sender, null, false));
         }
     }
 }

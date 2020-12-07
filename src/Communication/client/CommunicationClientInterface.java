@@ -234,5 +234,4 @@ public class CommunicationClientInterface implements IDataToCommunication,
     public void sendProprietaryChannel(Channel channel) {
         commController.sendMessage(new SendProprietaryChannelsMessage(localUser, Collections.singletonList(channel)));
     }
-
 }
