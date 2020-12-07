@@ -458,7 +458,7 @@ public class CommunicationClientController extends CommunicationController {
     }
 
     public void notifyInviteChannel(UserLite guest, UUID channelID) {
-        // TODO INTEGRATION V2 
+        // TODO INTEGRATION V2
         //dataClient.addUserToChannel(guest, channelID);
     }
 }

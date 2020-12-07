@@ -16,11 +16,6 @@ public class SendProprietaryChannelsMessage extends ClientToServerMessage {
     private final UserLite owner;
     private final List<Channel> proprietaryChannels;
 
-    /**
-     * Constructeur principal de la classe
-     * @param owner proprietaire du channel
-     * @param proprietaryChannels liste des cannaux
-     */
     public SendProprietaryChannelsMessage(UserLite owner, List<Channel> proprietaryChannels) {
         this.owner = owner;
         this.proprietaryChannels = proprietaryChannels;

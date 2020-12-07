@@ -9,6 +9,7 @@ import java.util.UUID;
 
 public class AdminAddedMessage extends ServerToClientMessage {
 
+    private static final long serialVersionUID = -19089062L;
     private final UserLite user;
     private final UUID channelID;
 

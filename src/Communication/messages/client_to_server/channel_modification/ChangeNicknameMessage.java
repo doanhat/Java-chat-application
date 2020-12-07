@@ -11,14 +11,7 @@ public class ChangeNicknameMessage extends ClientToServerMessage {
 	private final UserLite user;
 	private final Channel channel;
 	private final String newNickname;
-	
 
-	/**
-	 * Message de demande de changment de Nickname
-	 * @param user utilisateur demandant le changement
-	 * @param channel Canal pour lequel l'utilisateur demande de changer le nickname
-	 * @param newNickname nouveau nickname demandé
-	 */
 	public ChangeNicknameMessage(UserLite user, Channel channel, String newNickname) {
 		super();
 		this.user = user;

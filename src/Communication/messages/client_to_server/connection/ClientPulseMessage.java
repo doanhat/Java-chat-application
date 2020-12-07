@@ -5,9 +5,6 @@ import java.util.UUID;
 import Communication.messages.abstracts.ClientToServerMessage;
 import Communication.server.CommunicationServerController;
 
-/**
- * Message servant à la verification de l'état du serveura un instant donné
- */
 public class ClientPulseMessage extends ClientToServerMessage {
 
 	private static final long serialVersionUID = -8159868108654492827L;

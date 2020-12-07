@@ -7,9 +7,6 @@ import common.sharedData.*;
 
 import java.util.UUID;
 
-/**
- * Demande de suppression d'un channel
- */
 public class DeleteChannelMessage extends ClientToServerMessage {
 
     private static final long serialVersionUID = -22469207475665L;

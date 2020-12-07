@@ -4,10 +4,6 @@ import Communication.messages.abstracts.ClientToServerMessage;
 import Communication.server.CommunicationServerController;
 import common.sharedData.UserLite;
 
-/** 
- * Cette classe sert à indiquer au serveur que l'on vient de se connecter
- *
- */
 public class UserConnectionMessage extends ClientToServerMessage {
 
     private static final long serialVersionUID = -4369939063238047930L;

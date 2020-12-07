@@ -4,10 +4,6 @@ import java.util.UUID;
 import Communication.messages.abstracts.ClientToServerMessage;
 import Communication.server.CommunicationServerController;
 
-/**
- * Ce message sert à indiquer au serveur un souhait de déconnexion normal.
- *
- */
 public class UserDisconnectionMessage extends ClientToServerMessage {
 
 	private static final long serialVersionUID = 2970712372437347267L;
