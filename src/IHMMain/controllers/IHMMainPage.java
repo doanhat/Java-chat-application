@@ -1,7 +1,6 @@
 package IHMMain.controllers;
 
 import app.MainWindowController;
-import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
 import java.net.URL;

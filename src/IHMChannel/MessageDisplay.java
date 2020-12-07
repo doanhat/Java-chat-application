@@ -1,5 +1,6 @@
 package IHMChannel;
 
+import IHMChannel.controllers.ChannelMessagesController;
 import IHMChannel.controllers.MessageController;
 import common.sharedData.Message;
 import javafx.fxml.FXMLLoader;
@@ -20,12 +21,13 @@ public class MessageDisplay {
      * @param msg objet message pour lequel le contrôle sera créé
      * @throws IOException
      */
-    public MessageDisplay(Message msg) throws IOException {
+    public MessageDisplay(Message msg, ChannelMessagesController channelMessagesController) throws IOException {
         FXMLLoader fxmlLoader =
                 new FXMLLoader(getClass().getResource("views/Message.fxml"));
         root = fxmlLoader.load();
         messageController = fxmlLoader.getController();
         messageController.setMessageToDisplay(msg);
+        messageController.setChannelMessagesController(channelMessagesController);
     }
 
 }

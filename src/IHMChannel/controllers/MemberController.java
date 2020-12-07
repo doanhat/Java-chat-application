@@ -1,17 +1,23 @@
 package IHMChannel.controllers;
 
-import IHMChannel.MemberDisplay;
+import IHMChannel.IHMChannelController;
+import common.sharedData.Channel;
 import common.sharedData.UserLite;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import IHMChannel.switchButton.ToggleSwitch;
 
+import java.io.IOException;
+
 public class MemberController {
-    UserLite userToDisplay;
+
+    private IHMChannelController ihmChannelController;
+
+    Channel channel;
+
     @FXML
     ImageView profilePic;
     @FXML
@@ -19,16 +25,40 @@ public class MemberController {
     @FXML
     Text username;
     @FXML
-    ImageView authorizationIcon;
+    ImageView creatorIcon;
     @FXML
     Text isThatYouText;
     @FXML
-    Button banBtn;
-    @FXML
     ToggleSwitch toggleAdminBtn;
-    public void setUserToDisplay(UserLite userToDisplay) {
+    @FXML
+    Button banBtn;
+
+    // TODO actionHandler: isThatYouText, toggleAdminBtn, banBtn
+
+    UserLite userToDisplay;
+
+    boolean isAdmin;
+    boolean isCreator;
+    boolean isConnected;
+
+    public void setUserToDisplay(UserLite userToDisplay,boolean isAdmin, boolean isCreator, boolean isConnected, boolean toogleDisplay) {
         this.userToDisplay = userToDisplay;
         this.username.setText(userToDisplay.getNickName());
+
+        this.isAdmin = isAdmin;
+        this.isCreator = isCreator;
+        this.isConnected = isConnected;
+
+        // Desactivation du toogleAdmin
+        if(!toogleDisplay){toggleAdminBtn.setDisable(true);}
+
+        if(ihmChannelController.getInterfaceToData().getLocalUser().getId().equals(userToDisplay.getId())){
+            isThatYouText.setText(" (vous)");
+        }
+
+        if(isAdmin){toggleAdminBtn.setMemberController(this); }
+
+        iconsInit();
     }
 
     /**
@@ -46,25 +76,71 @@ public class MemberController {
         //TODO initialisation des icônes:
         // - utilisateur en ligne
         // - bouton bloquer
+
         toggleAdminBtn.setMemberController(this);
         Image usersImage = new Image("IHMChannel/icons/ban.png");
         ImageView usersIcon = new ImageView(usersImage);
         usersIcon.setFitHeight(15);
         usersIcon.setFitWidth(15);
         banBtn.setGraphic(usersIcon);
-    }
-    /**
-     * Méthode déclenchée au clic sur le bouton toggle de l'admin
-     */
-    public void toggleAdmin(){
-        //TODO
-        System.out.println(this.toggleAdminBtn.getCurrentRole());
+
+        if(isCreator){
+            Image creatorImage = new Image("IHMChannel/icons/crown-solid.png");
+            creatorIcon.setImage(creatorImage);
+            creatorIcon.setFitHeight(15);
+            creatorIcon.setFitWidth(15);
+        }
+
+        if(isConnected){
+            Image connectedImage = new Image("IHMChannel/icons/circle-solid.png");
+            connectedIcon.setImage(connectedImage);
+            connectedIcon.setFitHeight(10);
+            connectedIcon.setFitWidth(10);
+        }
+
     }
 
-    public void banUser(){
+    /**
+     * Méthode déclenchée au clic sur le bouton toggle de l'admin permettant de faire basculer le statut d'un membre entre administrateur et simple membre.
+     */
+    public void toggleAdmin(){
+        if(isAdmin){
+            isAdmin= false;
+            // TODO Avoir une fonction removeAdmin();
+            System.out.println("Retrait d'un  admin. ");
+        }else{
+            isAdmin = true;
+            ihmChannelController.getInterfaceToCommunication().giveAdmin(userToDisplay, channel);
+            // Pour tester le retour serveur
+            /*
+            try {
+                getIhmChannelController().getInterfaceForData().addNewAdmin(userToDisplay,channel);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            */
+        }
+
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void banHandler() {
+        //TODO
         System.out.println("ban");
     }
 
+    public IHMChannelController getIhmChannelController() {
+        return ihmChannelController;
+    }
 
+    public void setIhmChannelController(IHMChannelController ihmChannelController) {
+        this.ihmChannelController = ihmChannelController;
+    }
 
+    public void setChannel(Channel channel) {
+        this.channel = channel;
+    }
 }

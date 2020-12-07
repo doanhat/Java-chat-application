@@ -1,19 +1,17 @@
 package IHMChannel;
 
-import IHMChannel.controllers.ChannelController;
 import IHMChannel.controllers.ChannelPageController;
 import IHMChannel.interfaces.CommunicationToIHMChannel;
 import IHMChannel.interfaces.DataToIHMChannel;
 import IHMChannel.interfaces.IHMMainToIHMChannel;
 import common.interfaces.client.*;
 import common.sharedData.*;
+import javafx.collections.ObservableSet;
 import javafx.scene.Parent;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Controller principal de IHMChannel
@@ -31,6 +29,7 @@ public class IHMChannelController {
         interfaceForCommunication = new CommunicationToIHMChannel(this);
         interfaceForData = new DataToIHMChannel(this);
         interfaceForIHMMain = new IHMMainToIHMChannel(this);
+
     }
 
     /**
@@ -137,12 +136,22 @@ public class IHMChannelController {
     public void setChannelPageToDisplay(Channel channel) {
 
         try{
-
             ChannelPageDisplay channelPageDisplay = new ChannelPageDisplay(channel, this);
-            channelPageDisplay.getChannelPageController().getChannelController(channel.getId()).setChannel(channel);
-
         }catch(IOException e){
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Convertis la liste de type ObservableSet<Channel> en List<Channel>
+     * @return la liste des channels ouverts
+     */
+    public List<Channel> getOpenedChannelsList() {
+        List<Channel> list = new ArrayList<>();
+        ObservableSet<Channel> observableSet = getChannelPageController().getOpenedChannels();
+        for (Channel channel : observableSet) {
+            list.add(channel);
+        }
+        return list;
     }
 }

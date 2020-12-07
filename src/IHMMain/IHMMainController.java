@@ -3,15 +3,12 @@ package IHMMain;
 import IHMChannel.interfaces.IHMMainToIHMChannel;
 import common.interfaces.client.*;
 import Data.client.IHMMainToData;
-import IHMChannel.interfaces.IHMMainToIHMChannel;
 import IHMMain.implementations.CommunicationToIHMMain;
 import IHMMain.implementations.DataToIHMMain;
 import IHMMain.implementations.IHMChannelToIHMMain;
 import app.MainWindowController;
 import common.sharedData.Channel;
-import common.sharedData.ChannelType;
 import common.sharedData.UserLite;
-import common.sharedData.Visibility;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 

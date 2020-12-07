@@ -8,23 +8,55 @@
 
 <?import javafx.scene.text.Text?>
 <?import java.net.URL?>
+<?import javafx.geometry.Insets?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="IHMChannel.controllers.ChannelController"
             prefWidth="1400.0">
 
     <VBox fx:id="channelPage" prefWidth="1400">
-        <HBox fx:id="menuBar" alignment="CENTER_LEFT" style="-fx-background-color: #B9E6FF">
-            <!--La barre à retourner vers Main -->
-            <VBox>
-                <Text fx:id="channelName" styleClass="channel-title"/>
-                <Text fx:id="channelDescription" styleClass="channel-description"/>
-            </VBox>
-            <Pane HBox.hgrow="ALWAYS" />
-            <Button fx:id="seeMembersBtn" onAction="#seeMembers" style="-fx-background-color: transparent;"/>
-            <Button fx:id="addMemberBtn" onAction="#addUserToChannel" style="-fx-background-color: transparent;"/>
-            <Button fx:id="leaveChannelBtn" onAction="#leaveChannel" style="-fx-background-color: transparent;"/>
-        </HBox>
+        <!--<HBox alignment="CENTER_LEFT" style="-fx-background-color: #B9E6FF" prefWidth="1400">-->
+        <!--La barre à retourner vers Main -->
+        <GridPane fx:id="menuBar" style="-fx-background-color: #B9E6FF">
+            <columnConstraints>
+                <ColumnConstraints fillWidth="false" prefWidth="1300"></ColumnConstraints>
+                <ColumnConstraints halignment="CENTER" prefWidth="100"></ColumnConstraints>
+            </columnConstraints>
+            <children>
+                <VBox GridPane.columnIndex="0">
+                    <HBox alignment="CENTER_LEFT">
+                        <Label fx:id="channelName" styleClass="channel-title">
+                            <contextMenu>
+                                <ContextMenu fx:id="channelContextMenu">
+                                    <items>
+                                        <MenuItem text="Modifier les infos du channel" onAction="#modifyChannel"/>
+                                        <CheckMenuItem fx:id="seeMembersMenuCheck" text="Voir la liste des utilisateurs"
+                                                       onAction="#seeMembers"/>
+                                        <MenuItem text="Changer les droits" onAction="#changeRights"/>
+                                        <MenuItem text="Kicker un utilisateur" onAction="#kickMember"/>
+                                        <MenuItem text="Liste des utilisateurs kickés" onAction="#seeKickedMembers"/>
+                                        <MenuItem text="Supprimer channel" onAction="#deleteChannel"/>
+                                    </items>
+                                </ContextMenu>
+                            </contextMenu>
+                        </Label>
+                        <Button fx:id="contextMenuBtn" onAction="#openChannelContextMenu" styleClass="icon-bar-btn"/>
+                    </HBox>
+
+
+                    <Label fx:id="channelDescription" styleClass="channel-description"/>
+                </VBox>
+                <HBox GridPane.columnIndex="1" alignment="CENTER_RIGHT">
+                    <Button fx:id="seeMembersBtn" onAction="#seeMembers" styleClass="icon-bar-btn"/>
+                    <Button fx:id="addMemberBtn" onAction="#addUserToChannel" styleClass="icon-bar-btn"/>
+                    <Button fx:id="leaveChannelBtn" onAction="#leaveChannel" styleClass="icon-bar-btn"/>
+                </HBox>
+            </children>
+        </GridPane>
+
+        <!-- <Pane prefWidth="1200"/> -->
+
+        <!--  </HBox> -->
 
 
         <BorderPane fx:id="pageToDisplay"/>
@@ -39,7 +71,7 @@
             <TextArea fx:id="typedText"/>
             <Button fx:id="sendBtn" onAction="#sendMessage"/>
         </HBox>
-        -->
+        <BorderPane fx:id="pageToDisplay"/>-->
     </VBox>
     <stylesheets>
         <URL value="file:src/common/IHMCommon/common.css"></URL>
