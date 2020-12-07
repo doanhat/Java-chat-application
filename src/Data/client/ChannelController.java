@@ -26,7 +26,7 @@ public class ChannelController extends Controller{
     public ChannelController(IDataToCommunication comClient, IDataToIHMChannel channelClient, IDataToIHMMain mainClient) {
         super(comClient, channelClient, mainClient);
         channelList = new FileHandle<Channel>(LocationType.client, FileType.channel).readAllJSONFilesToList(Channel.class);
-        sendOwnedChannelsToServer();
+        //sendOwnedChannelsToServer(); // TODO when user connected
     }
 
     public Channel searchChannelById(UUID id) {

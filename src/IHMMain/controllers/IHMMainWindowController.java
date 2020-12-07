@@ -234,11 +234,16 @@ public class IHMMainWindowController implements Initializable{
     }
 
     public void loadIHMChannelWindow(){
-        this.mainArea.getChildren().clear(); //On efface les noeuds fils
-        this.isHomePage = false;
-        //On charge la vue d'IHM-Channel
-        this.mainArea.getChildren().addAll(ihmChannelNode); //On ajoute le noeud parent (fxml) au noeud racine de cette vue
-        IHMTools.fitSizeToParent((Region)this.mainArea,ihmChannelNode);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                mainArea.getChildren().clear(); //On efface les noeuds fils
+                isHomePage = false;
+                //On charge la vue d'IHM-Channel
+                mainArea.getChildren().addAll(ihmChannelNode); //On ajoute le noeud parent (fxml) au noeud racine de cette vue
+                IHMTools.fitSizeToParent((Region)mainArea,ihmChannelNode);
+            }
+        });
     }
 
     @FXML

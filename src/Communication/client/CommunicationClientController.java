@@ -280,9 +280,7 @@ public class CommunicationClientController extends CommunicationController {
         }
 
         if (isAccepted) {
-            // TODO INTEGRATION V2: request Data or Channel to receive Channel as parameter to receive full data of Channel
-            // and update if channel is not already visible
-            dataClient.userAddedToChannel(user, channel.getId());
+            channelClient.displayChannelHistory(channel, channel.getMessages(), activeUsers);
         }
         else {
             logger.log(Level.FINE, "Join channel request {} est refusé");

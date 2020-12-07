@@ -33,8 +33,10 @@ public class ChannelListViewCellController extends ListCell<Channel> {
     public ChannelListViewCellController(IHMMainController ihmMainController) {
         this.ihmMainController = ihmMainController;
 
-        InvalidationListener listener = observable -> this.pseudoClassStateChanged(openedPseudoClass, ihmMainController.getOpenedChannels().stream().anyMatch(c -> c.getId() == this.getItem().getId()));
-        ihmMainController.getOpenedChannels().addListener(listener);
+        if (this.getItem() != null && this.ihmMainController.getOpenedChannels() != null) {
+            InvalidationListener listener = observable -> this.pseudoClassStateChanged(openedPseudoClass, ihmMainController.getOpenedChannels().stream().anyMatch(c -> c.getId() == this.getItem().getId()));
+            ihmMainController.getOpenedChannels().addListener(listener);
+        }
     }
 
     @Override
@@ -60,13 +62,8 @@ public class ChannelListViewCellController extends ListCell<Channel> {
             description.setText(channel.getDescription());
 
             setText(null);
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    setGraphic(anchorPane);
-                }
-            });
-
+            setGraphic(anchorPane);
+            
         }
     }
 }

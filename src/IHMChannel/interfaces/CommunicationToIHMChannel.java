@@ -6,6 +6,7 @@ import common.sharedData.Channel;
 import common.sharedData.Message;
 import common.sharedData.User;
 import common.sharedData.UserLite;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableSet;
 
@@ -39,14 +40,19 @@ import java.util.UUID;
      */
     @Override
     public void displayChannelHistory(Channel channel, List<Message> history, List<UserLite> connectedUsers) {
-        try {
-            channel.setMessages(history);
-            controller.getChannelPageController().addOpenedChannel(channel);
-            controller.getChannelPageController().getChannelController(channel.getId()).setConnectedMembersList(connectedUsers);
-            controller.getInterfaceToIHMMain().setOpenedChannelsList(controller.getOpenedChannelsList());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        channel.setMessages(history);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    controller.getChannelPageController().addOpenedChannel(channel);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                controller.getChannelPageController().getChannelController(channel.getId()).setConnectedMembersList(connectedUsers);
+                controller.getInterfaceToIHMMain().setOpenedChannelsList(controller.getOpenedChannelsList());
+            }
+        });
     }
 
     @Override

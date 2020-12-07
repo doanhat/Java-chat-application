@@ -133,7 +133,16 @@ public class ConnectionController implements Initializable{
                 alert.setHeaderText("Inscription impossible");
                 alert.showAndWait();
             } else {
-                loadIHMMainWindow(0);
+                if (!ihmMainController.getIHMMainToData().localAuthentification(
+                        userSubscriptionIDTextField.getText().trim(),
+                        password)) {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Alerte");
+                    alert.setHeaderText("Connexion impossible");
+                    alert.setContentText("Identifiant ou mot de passe incorrect");
+                    alert.showAndWait();
+                };
+                //loadIHMMainWindow(0);
             }
         }
     }

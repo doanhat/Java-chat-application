@@ -62,14 +62,24 @@ public class CommunicationToIHMMain implements ICommunicationToIHMMain {
 
     @Override
     public void channelCreated(Channel channel) {
-        ihmMainController.getVisibleChannels().add(channel);
-        ihmMainWindowController.viewChannel(channel);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                ihmMainController.getVisibleChannels().add(channel);
+                ihmMainController.getMainWindowController().getIHMMainWindowController().viewChannel(channel);
+            }
+        });
     }
 
 
     @Override
     public void channelAdded(Channel channel) {
-        ihmMainController.getVisibleChannels().add(channel);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                ihmMainController.getVisibleChannels().add(channel);
+            }
+        });
     }
 
     public void setIhmMainWindowController(IHMMainWindowController ihmMainWindowController){

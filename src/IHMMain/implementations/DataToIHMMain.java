@@ -3,6 +3,7 @@ package IHMMain.implementations;
 import IHMMain.IHMMainController;
 import common.interfaces.client.IDataToIHMMain;
 import common.sharedData.Channel;
+import javafx.application.Platform;
 
 import java.util.List;
 
@@ -16,16 +17,31 @@ public class DataToIHMMain implements IDataToIHMMain {
 
     @Override
     public void removeChannel(Channel channel) {
-        ihmMainController.getVisibleChannels().remove(channel);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                ihmMainController.getVisibleChannels().remove(channel);
+            }
+        });
     }
 
     @Override
     public void addChannelToList(Channel channel) {
-        ihmMainController.getVisibleChannels().add(channel);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                ihmMainController.getVisibleChannels().add(channel);
+            }
+        });
     }
 
     @Override
     public void updateListChannel(List<Channel> channelList) {
-        ihmMainController.getVisibleChannels().setAll(channelList);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                ihmMainController.getVisibleChannels().setAll(channelList);
+            }
+        });
     }
 }
