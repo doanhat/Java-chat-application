@@ -453,8 +453,10 @@ public class CommunicationClientController extends CommunicationController {
         dataClient.saveDeletionIntoHistory(message, null, channelID);
     }
 
-    public void sendHistory(Channel channel, List<Message> history) {
-        channelClient.displayHistory(channel, history);
+    public void returnChannelHistory(UUID channelID, List<Message> history) {
+        // TODO INTEGRATION V2: Tell IHM Channel to modify parameter type from Channel to UUID
+
+        //channelClient.displayHistory(channelID, history);
     }
 
     public void notifyInviteChannel(UserLite guest, UUID channelID) {

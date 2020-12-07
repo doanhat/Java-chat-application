@@ -8,7 +8,7 @@ import Communication.messages.client_to_server.channel_modification.DeleteChanne
 import Communication.messages.client_to_server.channel_modification.proprietary_channels.SendProprietaryChannelsMessage;
 import Communication.messages.client_to_server.channel_modification.shared_channels.CreateSharedChannelMessage;
 import Communication.messages.client_to_server.chat_action.SendMessageMessage;
-import Communication.messages.client_to_server.generic.GetHistoryMessage;
+import Communication.messages.client_to_server.channel_modification.GetHistoryMessage;
 import Communication.messages.client_to_server.channel_access.proprietary_channels.AddAdminPropMessage;
 import Communication.messages.client_to_server.channel_access.SendInvitationMessage;
 import Communication.messages.client_to_server.channel_access.shared_channels.AddAdminSharedMessage;
@@ -238,15 +238,11 @@ public class CommunicationClientInterface implements IDataToCommunication,
      * Recupere l'histoique d'un serveur donnée
      *
      * @param channel [Channel] Channel dont on demande l'historique
-     * @return List<Message> Liste des messages qui compose l'historique
      **/
-    public List<Message> getHistory(Channel channel) {
-        // TODO V3
-        //sendMessage + give liste de message
-        commController.sendMessage(new GetHistoryMessage(channel.getId(), localUser));
-
-
-        return new ArrayList<>();
+    public void getHistory(Channel channel) {
+        if (channel != null) {
+            commController.sendMessage(new GetHistoryMessage(channel.getId(), localUser));
+        }
     }
 
     @Override

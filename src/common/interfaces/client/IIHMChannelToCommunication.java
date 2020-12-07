@@ -97,8 +97,6 @@ public interface IIHMChannelToCommunication
      * Recupere l'histoique d'un serveur donnée
      *
      * @param channel [Channel] Channel dont on demande l'historique
-     * @return List<Message> Liste des messages qui compose l'historique
      **/
-    List<Message> getHistory(Channel channel);
-
+    void getHistory(Channel channel);
 }

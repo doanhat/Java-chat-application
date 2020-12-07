@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.UUID;
 
 public class ReceiveHistoryMessage extends ServerToClientMessage {
+
+    private static final long serialVersionUID = 7426920747855665L;
     private UUID channelId;
     private List<Message> history;
 

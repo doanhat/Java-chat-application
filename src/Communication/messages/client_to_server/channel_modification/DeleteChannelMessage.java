@@ -12,6 +12,7 @@ import java.util.UUID;
  */
 public class DeleteChannelMessage extends ClientToServerMessage {
 
+    private static final long serialVersionUID = -22469207475665L;
     private final UUID channelID;
     private final UserLite requester;
 

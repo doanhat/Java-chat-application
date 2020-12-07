@@ -335,8 +335,7 @@ public class CommunicationServerController extends CommunicationController {
     }
 
     public void requestAddUserToChannel(UserLite guest, Channel channel) {
-		if (dataServer == null)
-		{
+		if (dataServer == null) {
 			logger.log(Level.SEVERE, "requestAddUserToChannel: Data Iface est null");
 		}
 
@@ -344,21 +343,19 @@ public class CommunicationServerController extends CommunicationController {
         this.dataServer.requestAddUser(channel, guest);
     }
 
-    public List<Message> getHistoryMessage(Channel channel, UserLite user){
+    public List<Message> getHistoryMessage(UUID channelID, UserLite user){
         if(dataServer == null){
-            System.err.println("saveNewAdmin: Data Iface est null");
+			logger.log(Level.SEVERE, "getHistoryMessage: Data Iface est null");
             return null;
         }
-        if (dataServer.checkAuthorization(channel, user)){
-            List<Message> history = dataServer.getHistory(channel);
-            if(channel.getType() == ChannelType.OWNED){
-                //TODO
 
+		Channel channel = getChannel(channelID);
 
-            }else{
-                return dataServer.getHistory(channel);
-            }
+        if (dataServer.checkAuthorization(channel, user)) {
+        	// If the implementation is correct, proprietary channel data on server should be exactly the same as the one in application client
+            return dataServer.getHistory(channel);
         }
+
         return null;
     }
     

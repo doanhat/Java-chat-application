@@ -50,7 +50,13 @@ public class ChannelsListController {
     }
 
     public List<Message> getChannelMessages(UUID channelID){
-        return searchChannelById(channelID).getMessages();
+        Channel channel = searchChannelById(channelID);
+
+        if (channel == null) {
+            return null;
+        }
+
+        return channel.getMessages();
     }
 
     public List<Channel> searchChannelByDesc(String description) {
