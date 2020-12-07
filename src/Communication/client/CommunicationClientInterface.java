@@ -3,6 +3,7 @@ package Communication.client;
 import Communication.common.Parameters;
 import Communication.messages.client_to_server.*;
 import Communication.messages.client_to_server.channel_access.proprietary_channels.LeavePropChannelMessage;
+import Communication.messages.client_to_server.channel_access.shared_channels.LeaveSharedChannelMessage;
 import Communication.messages.client_to_server.channel_modification.DeleteChannelMessage;
 import Communication.messages.client_to_server.channel_modification.proprietary_channels.SendProprietaryChannelsMessage;
 import Communication.messages.client_to_server.channel_modification.shared_channels.CreateSharedChannelMessage;
@@ -203,7 +204,16 @@ public class CommunicationClientInterface implements IDataToCommunication,
      * @param channel [Channel] Channel que l'on veut quitter
      **/
     public void leaveChannel(UserLite user, Channel channel) {
-        commController.sendMessage(new LeavePropChannelMessage(user, channel.getId()));
+        if (channel == null || user == null) {
+            return;
+        }
+
+        if (channel.getType() == ChannelType.OWNED) {
+            commController.sendMessage(new LeavePropChannelMessage(user, channel.getId(), channel.getCreator()));
+        }
+        else {
+            commController.sendMessage(new LeaveSharedChannelMessage(user, channel.getId()));
+        }
     }
 
     /**
