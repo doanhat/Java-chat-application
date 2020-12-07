@@ -2,7 +2,6 @@ package Communication.client;
 
 import Communication.common.CommunicationController;
 import Communication.messages.abstracts.NetworkMessage;
-import Communication.messages.client_to_server.ValideDeleteMessageMessage;
 import Communication.messages.client_to_server.connection.UserConnectionMessage;
 import Communication.messages.client_to_server.connection.UserDisconnectionMessage;
 import common.interfaces.client.*;
@@ -440,17 +439,17 @@ public class CommunicationClientController extends CommunicationController {
     }
 
 
-    public void notifyOwnerToDeleteMessage(Message message, UUID channelID, Boolean deleteByCreator) {
+    public void deleteMessage(Message message, UUID channelID, Boolean deleteByCreator) {
         if (dataClient == null) {
             throw new NullPointerException("Data Iface est null");
         }
 
         dataClient.saveDeletionIntoHistory(message, null, channelID);
-        sendMessage(new ValideDeleteMessageMessage(message, channelID, deleteByCreator));
     }
 
     public void notifyDeletedMessage(Message message, UUID channelID, Boolean deleteByCreator) {
-        dataClient.saveDeletionIntoHistory(message, null, channelID);
+        // TODO INTEGRATION V2: verify with Data which method for notifying IHM Channel and which is for delete proprietary message
+        dataClient.deleteMessage(message, null, deleteByCreator);
     }
 
     public void returnChannelHistory(UUID channelID, List<Message> history) {

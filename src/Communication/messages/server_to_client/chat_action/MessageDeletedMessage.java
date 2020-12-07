@@ -1,4 +1,4 @@
-package Communication.messages.server_to_client;
+package Communication.messages.server_to_client.chat_action;
 
 import Communication.client.CommunicationClientController;
 import Communication.messages.abstracts.ServerToClientMessage;
@@ -9,12 +9,14 @@ import java.util.UUID;
 /**
  * Indique au utilisateur qu'un message à été supprimé
  */
-public class DeleteMessageMessage extends ServerToClientMessage {
-    Message message;
-    UUID channelUUID;
-    Boolean deleteByCreator;
+public class MessageDeletedMessage extends ServerToClientMessage {
 
-    public DeleteMessageMessage(Message message, UUID channelID, Boolean deleteByCreator) {
+    private static final long serialVersionUID = -8527233704319742L;
+    private final Message message;
+    private final UUID channelUUID;
+    private final boolean deleteByCreator;
+
+    public MessageDeletedMessage(Message message, UUID channelID, Boolean deleteByCreator) {
         this.message = message;
         this.channelUUID = channelID;
         this.deleteByCreator = deleteByCreator;

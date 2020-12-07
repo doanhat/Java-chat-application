@@ -1,33 +1,31 @@
-package Communication.messages.client_to_server;
+package Communication.messages.client_to_server.chat_action.proprietary_channels;
 
 import Communication.messages.abstracts.ClientToServerMessage;
-import Communication.messages.server_to_client.TellOwnerToDeleteMessageMessage;
+import Communication.messages.server_to_client.chat_action.proprietary_channels.TellOwnerToDeleteMessageMessage;
 import Communication.server.CommunicationServerController;
 import common.sharedData.Channel;
 import common.sharedData.Message;
-import common.sharedData.UserLite;
 
 import java.util.UUID;
 
-/**
- * Demande de suppression d'un message prop
- */
+
 public class DeleteMessagePropMessage extends ClientToServerMessage {
+
+    private static final long serialVersionUID = 55135287105711L;
     private final UUID channelID;
-    private final UUID channelCreatorID;
+    private final UUID ownerID;
     private final Message message;
     private final Boolean deletedByCreator;
 
-    public DeleteMessagePropMessage(UserLite user, Channel channel, Message message, Boolean deletedByCreator) {
+    public DeleteMessagePropMessage(Channel channel, Message message, Boolean deletedByCreator) {
         this.channelID  = channel.getId();
-        this.channelCreatorID = channel.getCreator().getId();
+        this.ownerID = channel.getCreator().getId();
         this.message = message;
         this.deletedByCreator = deletedByCreator;
     }
 
     @Override
     protected void handle(CommunicationServerController commController) {
-        //Handle proprietary channel. Tell Owners to add admins
-        commController.sendMessage(channelCreatorID, new TellOwnerToDeleteMessageMessage(message, channelID, deletedByCreator));
+        commController.sendMessage(ownerID, new TellOwnerToDeleteMessageMessage(message, channelID, deletedByCreator));
     }
 }

@@ -1,21 +1,18 @@
-package Communication.messages.client_to_server;
+package Communication.messages.client_to_server.chat_action.shared_channels;
 
 import Communication.messages.abstracts.ClientToServerMessage;
-import Communication.messages.server_to_client.DeleteMessageMessage;
 import Communication.server.CommunicationServerController;
 import common.sharedData.Channel;
 import common.sharedData.Message;
 
 import java.util.UUID;
 
-/**
- * Demande de suppression d'un message sur un channel partagé
- */
-
 public class DeleteMessageSharedMessage extends ClientToServerMessage {
+
+    private static final long serialVersionUID = 5513528710048758221L;
     private final UUID channelID;
     private final Message message;
-    private final Boolean deleteByCreator;
+    private final boolean deleteByCreator;
 
     public DeleteMessageSharedMessage(Channel channel, Message message, Boolean deleteByCreator) {
         this.channelID = channel.getId();
@@ -25,16 +22,7 @@ public class DeleteMessageSharedMessage extends ClientToServerMessage {
 
     @Override
     protected void handle(CommunicationServerController commController) {
-        // Handle shared Channel
-        Channel channel = commController.getChannel(channelID);
-
-        if (channel == null) {
-            return;
-        }
-
-        commController.deleteMessage(message, channel, deleteByCreator);
-
-        commController.sendMulticast(channel.getAcceptedPersons(), new DeleteMessageMessage(message, channelID, deleteByCreator));
+        commController.deleteMessage(message, channelID, deleteByCreator);
     }
 }
 

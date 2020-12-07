@@ -1,7 +1,6 @@
 package Communication.client;
 
 import Communication.common.Parameters;
-import Communication.messages.client_to_server.*;
 import Communication.messages.client_to_server.channel_access.proprietary_channels.LeavePropChannelMessage;
 import Communication.messages.client_to_server.channel_access.shared_channels.LeaveSharedChannelMessage;
 import Communication.messages.client_to_server.channel_modification.DeleteChannelMessage;
@@ -15,6 +14,8 @@ import Communication.messages.client_to_server.channel_access.shared_channels.Ad
 import Communication.messages.client_to_server.channel_access.proprietary_channels.AskToJoinPropMessage;
 import Communication.messages.client_to_server.channel_access.shared_channels.AskToJoinSharedMessage;
 
+import Communication.messages.client_to_server.chat_action.proprietary_channels.DeleteMessagePropMessage;
+import Communication.messages.client_to_server.chat_action.shared_channels.DeleteMessageSharedMessage;
 import common.interfaces.client.*;
 import common.sharedData.Channel;
 import common.sharedData.ChannelType;
@@ -179,9 +180,14 @@ public class CommunicationClientInterface implements IDataToCommunication,
      * @param user    [UserLite] Utilisateur demandant la suppression
      **/
     public void suppMessage(Message msg, Channel channel, UserLite user) {
+        if (msg == null || channel == null || user == null) {
+            return;
+        }
+
         if (channel.getType() == ChannelType.OWNED) {
-            this.commController.sendMessage(new DeleteMessagePropMessage(channel.getCreator(), channel, msg, user.getId() == msg.getAuthor().getId()));
-        } else {
+            this.commController.sendMessage(new DeleteMessagePropMessage(channel, msg, user.getId() == msg.getAuthor().getId()));
+        }
+        else {
             this.commController.sendMessage(new DeleteMessageSharedMessage(channel, msg, user.getId() == msg.getAuthor().getId()));
         }
     }
