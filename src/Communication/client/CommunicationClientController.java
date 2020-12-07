@@ -21,7 +21,7 @@ public class CommunicationClientController extends CommunicationController {
     private ICommunicationToData dataClient;
     private ICommunicationToIHMMain mainClient;
     private ICommunicationToIHMChannel channelClient;
-    private CommunicationClientInterface commInterface;
+    private final CommunicationClientInterface commInterface;
 
 
     public CommunicationClientController() {
@@ -37,9 +37,9 @@ public class CommunicationClientController extends CommunicationController {
     /**
      * Démarrer Communication Client Controller par se connecter au serveur
      *
-     * @param ip
-     * @param port
-     * @param user
+     * @param ip adresse ID du serveur
+     * @param port port du serveur
+     * @param user local user
      */
     public void start(String ip, int port, UserLite user) {
         try {
@@ -48,7 +48,8 @@ public class CommunicationClientController extends CommunicationController {
             heart.start(user.getId());
 
             logger.log(Level.INFO, "Connexion au server...");
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             logger.log(Level.SEVERE, "Echec de connexion au server!");
             disconnect(null);
         }
@@ -71,7 +72,7 @@ public class CommunicationClientController extends CommunicationController {
     /**
      * Wrapper de stop()
      *
-     * @param user
+     * @param user local user
      */
     @Override
     public void disconnect(UUID user) {
@@ -85,7 +86,7 @@ public class CommunicationClientController extends CommunicationController {
     /**
      * Envoyer un message réseau au serveur
      *
-     * @param message
+     * @param message message réseau
      */
     public void sendMessage(NetworkMessage message) {
         client.sendMessage(message);
@@ -103,10 +104,10 @@ public class CommunicationClientController extends CommunicationController {
     /**
      * Installer les interfaces de Data, IHM Main et IHM Channel
      *
-     * @param dataIface
-     * @param mainIface
-     * @param channelIface
-     * @return
+     * @param dataIface interface de Data
+     * @param mainIface interface de Main
+     * @param channelIface interface de Channel
+     * @return boolean
      */
     public boolean setupInterfaces(ICommunicationToData dataIface,
                                    ICommunicationToIHMMain mainIface,
@@ -150,15 +151,15 @@ public class CommunicationClientController extends CommunicationController {
     }
 
     public IDataToCommunication getDataToCommunication() {
-        return (IDataToCommunication) commInterface;
+        return commInterface;
     }
 
     public IIHMChannelToCommunication getIHMChannelToCommunication() {
-        return (IIHMChannelToCommunication) commInterface;
+        return commInterface;
     }
 
     public IIHMMainToCommunication getIHMMainToCommunication() {
-        return (IIHMMainToCommunication) commInterface;
+        return commInterface;
     }
 
     public CommunicationClientInterface getCommunicationClientInterface() {
@@ -180,9 +181,6 @@ public class CommunicationClientController extends CommunicationController {
             throw new NullPointerException("IHMMain Iface est null");
         }
 
-        /**
-         * Donnee test pour l'integ
-         */
         mainClient.connectionAccepted();
         mainClient.setConnectedUsers(users);
         //channelClient.setConnectedUsers(users); //TODO Activer cette methode quand channel l'aura dans son interface
@@ -309,8 +307,8 @@ public class CommunicationClientController extends CommunicationController {
 
     /**
      * Notifie Application client qu'un utilisateur vient de rejoindre un channel
-     * @param user
-     * @param channelID
+     * @param user autre utilisateur connecté
+     * @param channelID ID du channel
      */
     public void notifyUserJoinedChannel(UserLite user, UUID channelID) {
         if (dataClient == null) {
@@ -323,9 +321,9 @@ public class CommunicationClientController extends CommunicationController {
 
     public List<Message> requestHistory(UUID channelID) {
         if (dataClient == null) {
-            System.err.println("notifyNewUserAddedToJoinChannel: Data Iface est null");
-            return null;
+            throw new NullPointerException("Data Iface est null");
         }
+
         return dataClient.getHistory(channelID);
     }
 
@@ -336,6 +334,10 @@ public class CommunicationClientController extends CommunicationController {
      * @param userLite  identifiant unique (UUID) de l'utilisateur qui est parti
      */
     public void notifyUserHasLeftChannel(UUID channelID, UserLite userLite) {
+        if (dataClient == null) {
+            throw new NullPointerException("Data Iface est null");
+        }
+
         dataClient.deleteUserFromChannel(userLite, channelID, 0, "has left");
     }
 
@@ -377,12 +379,17 @@ public class CommunicationClientController extends CommunicationController {
         if (dataClient == null) {
             throw new NullPointerException("Data Iface est null");
         }
+
         dataClient.newAdmin(user, channel);
         dataClient.saveNewAdminIntoHistory(user, channel);
         // TODO AdminAddedMessage
     }
 
     public void requestLeaveChannel(UUID channelID, UserLite userLite) {
+        if (dataClient == null) {
+            throw new NullPointerException("Data Iface est null");
+        }
+
         dataClient.deleteUserFromChannel(userLite, channelID, 0, "Leave");
 
         // TODO INTEGRATION V2: what happens if owner of shared channel leaves
