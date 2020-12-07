@@ -1,9 +1,7 @@
 package IHMChannel.controllers;
 
-import IHMChannel.ChannelMembersDisplay;
-import IHMChannel.ChannelMessagesDisplay;
 import IHMChannel.IHMChannelController;
-import common.sharedData.*;
+import common.shared_data.*;
 import javafx.beans.InvalidationListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableSet;
@@ -22,9 +20,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.UUID;
 
 /**

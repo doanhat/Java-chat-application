@@ -1,7 +1,7 @@
 package common.interfaces.client;
 
-import common.sharedData.User;
-import common.sharedData.UserLite;
+import common.shared_data.User;
+import common.shared_data.UserLite;
 
 import java.util.UUID;
 

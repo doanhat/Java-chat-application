@@ -1,8 +1,8 @@
 package tests.communication.interfaces_simulation;
 
 import common.interfaces.client.ICommunicationToIHMMain;
-import common.sharedData.Channel;
-import common.sharedData.UserLite;
+import common.shared_data.Channel;
+import common.shared_data.UserLite;
 
 import java.util.List;
 import java.util.Map;

@@ -1,7 +1,7 @@
-package Data.client;
+package data.client;
 
 import common.interfaces.client.IIHMMainToData;
-import common.sharedData.*;
+import common.shared_data.*;
 
 import java.util.ArrayList;
 import java.util.Date;

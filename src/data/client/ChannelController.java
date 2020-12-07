@@ -1,12 +1,12 @@
-package Data.client;
+package data.client;
 
-import Data.resourceHandle.FileHandle;
-import Data.resourceHandle.FileType;
-import Data.resourceHandle.LocationType;
+import data.resource_handle.FileHandle;
+import data.resource_handle.FileType;
+import data.resource_handle.LocationType;
 import common.interfaces.client.IDataToCommunication;
 import common.interfaces.client.IDataToIHMChannel;
 import common.interfaces.client.IDataToIHMMain;
-import common.sharedData.*;
+import common.shared_data.*;
 
 import java.util.ArrayList;
 import java.util.List;

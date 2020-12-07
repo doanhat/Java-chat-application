@@ -1,4 +1,4 @@
-package Data.server;
+package data.server;
 
 import common.interfaces.server.IServerCommunicationToData;
 

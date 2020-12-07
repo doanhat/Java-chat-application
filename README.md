@@ -6,7 +6,7 @@
 - IHMChannel : Lucas Mudinger et Vladimir Tchekovy
 - IHMMain : Louis Josselin et Stéphane Hiernard
 - Communication : Nghia Duong et Mathis Lefebvre
-- Data : Nhat-Minh DOAN et Thibault Cothenet
+- data : Nhat-Minh DOAN et Thibault Cothenet
 
 
 ## Le flow utilisé est GitFlow

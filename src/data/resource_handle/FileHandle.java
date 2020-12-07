@@ -1,4 +1,4 @@
-package Data.resourceHandle;
+package data.resource_handle;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;

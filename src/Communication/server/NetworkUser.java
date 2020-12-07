@@ -5,8 +5,8 @@ import Communication.messages.abstracts.NetworkMessage;
 import Communication.messages.client_to_server.UserConnectionMessage;
 import Communication.messages.server_to_client.AcceptationMessage;
 import Communication.messages.server_to_client.NewUserConnectedMessage;
-import common.sharedData.Channel;
-import common.sharedData.UserLite;
+import common.shared_data.Channel;
+import common.shared_data.UserLite;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

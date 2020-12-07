@@ -1,8 +1,8 @@
 package common.interfaces.client;
 
 import java.util.List;
-import common.sharedData.UserLite;
-import common.sharedData.Channel;
+import common.shared_data.UserLite;
+import common.shared_data.Channel;
 
 /**
  * Interface fournie par le module IHMMain pour le module Communication

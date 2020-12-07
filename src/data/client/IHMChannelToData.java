@@ -1,8 +1,8 @@
-package Data.client;
+package data.client;
 
 import common.interfaces.client.IIHMChannelToData;
-import common.sharedData.User;
-import common.sharedData.UserLite;
+import common.shared_data.User;
+import common.shared_data.UserLite;
 
 import java.util.UUID;
 

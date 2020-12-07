@@ -5,7 +5,7 @@ import Communication.messages.abstracts.NetworkMessage;
 import Communication.messages.client_to_server.UserConnectionMessage;
 import Communication.messages.client_to_server.UserDisconnectionMessage;
 import common.interfaces.client.*;
-import common.sharedData.*;
+import common.shared_data.*;
 
 import java.io.IOException;
 import java.util.List;

@@ -1,9 +1,7 @@
 package IHMChannel;
 
 import IHMMain.controllers.IHMMainWindowController;
-import common.IHMTools.IHMTools;
 import app.MainWindowController;
-import common.sharedData.UserLite;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -12,7 +10,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 

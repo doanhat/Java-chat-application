@@ -1,4 +1,4 @@
-package common.sharedData;
+package common.shared_data;
 
 import java.io.Serializable;
 import java.util.*;

@@ -2,8 +2,7 @@ package Communication.messages.server_to_client;
 
 import Communication.client.CommunicationClientController;
 import Communication.messages.abstracts.ServerToClientMessage;
-import common.sharedData.Channel;
-import common.sharedData.Message;
+import common.shared_data.Message;
 
 import java.util.UUID;
 

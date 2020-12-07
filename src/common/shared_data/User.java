@@ -1,4 +1,4 @@
-package common.sharedData;
+package common.shared_data;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

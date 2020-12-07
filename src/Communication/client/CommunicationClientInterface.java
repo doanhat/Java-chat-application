@@ -5,9 +5,9 @@ import Communication.messages.client_to_server.AskToJoinMessage;
 import Communication.messages.client_to_server.CreateChannelMessage;
 import Communication.messages.client_to_server.SendMessageMessage;
 import common.interfaces.client.*;
-import common.sharedData.Channel;
-import common.sharedData.Message;
-import common.sharedData.UserLite;
+import common.shared_data.Channel;
+import common.shared_data.Message;
+import common.shared_data.UserLite;
 
 import java.util.ArrayList;
 import java.util.List;

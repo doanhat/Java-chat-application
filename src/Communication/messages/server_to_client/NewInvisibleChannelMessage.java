@@ -2,9 +2,9 @@ package Communication.messages.server_to_client;
 
 import Communication.client.CommunicationClientController;
 import Communication.messages.abstracts.ServerToClientMessage;
-import common.sharedData.Channel;
-import common.sharedData.UserLite;
-import common.sharedData.Visibility;
+import common.shared_data.Channel;
+import common.shared_data.UserLite;
+import common.shared_data.Visibility;
 
 import java.util.List;
 // TODO: verify with delete channel and kick user

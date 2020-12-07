@@ -1,7 +1,7 @@
 package app;
 
 import Communication.client.CommunicationClientController;
-import Data.client.DataClientController;
+import data.client.DataClientController;
 import IHMChannel.IHMChannelController;
 import IHMMain.IHMMainController;
 import javafx.application.Application;
@@ -9,7 +9,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import Communication.client.CommunicationClientInterface;
 
 public class Main extends Application {
 
