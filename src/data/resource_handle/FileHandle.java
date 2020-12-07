@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -50,15 +49,10 @@ public class FileHandle<T> {
             File directoryPath = new File(this.path);
             //List of all files and directories
 
-            File[] filesList = directoryPath.listFiles(new FilenameFilter() {
-                @Override
-                public boolean accept(File dir, String name) {
-                    return (name.toLowerCase().endsWith(EXTENSION));
-                }
-            });
+            File[] filesList = directoryPath.listFiles((dir, name) -> (name.toLowerCase().endsWith(EXTENSION)));
             if(filesList != null) {
                 for (File file : filesList) {
-                    //System.out.println(Paths.get(file.getAbsolutePath()));
+                    // System.out.println(Paths.get(file.getAbsolutePath()));
                     T t = mapper.readValue(Paths.get(file.getAbsolutePath()).toFile(), tClass);
                     ts.add(t);
                 }

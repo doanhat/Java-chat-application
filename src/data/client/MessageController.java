@@ -26,7 +26,6 @@ public class MessageController extends Controller{
         FileHandle fileHandler = new FileHandle(LocationType.CLIENT, FileType.CHANNEL);
         if (ownedChannel!=null) {
             List<Message> listMsg = ownedChannel.getMessages();
-            //listMsg.add(message);
             if (response==null){
                 ownedChannel.addMessage(message);
             } else {
