@@ -1,6 +1,5 @@
 package IHMChannel;
 
-import IHMChannel.controllers.AlphabeticalMembersListController;
 import IHMChannel.controllers.MemberController;
 import common.sharedData.Channel;
 import common.sharedData.UserLite;

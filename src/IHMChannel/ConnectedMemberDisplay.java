@@ -1,8 +1,6 @@
 package IHMChannel;
 
 import IHMChannel.controllers.ConnectedMemberController;
-import IHMChannel.controllers.ConnectedMembersController;
-import IHMChannel.controllers.MemberController;
 import common.sharedData.UserLite;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

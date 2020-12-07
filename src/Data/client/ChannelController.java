@@ -19,7 +19,7 @@ public class ChannelController extends Controller{
      * @return List<Channel>
      */
     public List<Channel> getChannels() {
-        List<Channel> channels = new ArrayList<Channel>();
+        List<Channel> channels = new ArrayList<>();
 
         // TODO : Get real data
         for (int i = 1; i < 5; i++) {
@@ -119,11 +119,4 @@ public class ChannelController extends Controller{
         return null;
     }
 
-    /**
-     * Save message into history.
-     *
-     * @param message  the message
-     * @param channel  the channel
-     * @param response the response
-     */
 }

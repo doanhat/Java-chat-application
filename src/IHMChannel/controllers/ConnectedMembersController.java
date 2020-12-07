@@ -2,7 +2,6 @@ package IHMChannel.controllers;
 
 import IHMChannel.ConnectedMemberDisplay;
 import IHMChannel.IHMChannelController;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import common.sharedData.UserLite;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -10,7 +9,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.IOException;
 import java.util.ArrayList;

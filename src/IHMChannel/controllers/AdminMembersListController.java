@@ -97,11 +97,7 @@ public class AdminMembersListController {
         displayMembers();
     }
 
-    public AdminMembersListController(){
-
-    };
-
-    public void initialize() throws IOException {
+    public void initialize(){
         channelMembers = FXCollections.observableArrayList();
         adminMembers = FXCollections.observableArrayList();
         membersToDisplay = FXCollections.observableArrayList();

@@ -5,11 +5,14 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 import javafx.stage.Popup;
-import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.stage.WindowEvent;
 
 public class IHMTools {
+
+    private IHMTools(){
+
+    }
 
     public static void fitSizeToParent(Region parent, Region child) {
         child.prefHeightProperty().bind(parent.heightProperty());
@@ -51,10 +54,7 @@ public class IHMTools {
         dialogPane.setGraphic(null);
         alert.showAndWait();
 
-        if (alert.getResult() == confirm) {
-            return true;
-        }
-        return false;
+        return (alert.getResult() == confirm);
     }
 
     public static Popup createPopup(final String message) {

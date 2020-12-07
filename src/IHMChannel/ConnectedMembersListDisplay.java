@@ -1,9 +1,7 @@
 package IHMChannel;
 
-import IHMChannel.controllers.AdminMembersListController;
 import IHMChannel.controllers.ConnectedMembersListController;
 import common.sharedData.UserLite;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 

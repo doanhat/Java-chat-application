@@ -1,12 +1,8 @@
 package IHMChannel.controllers;
 
-import IHMChannel.ChannelMembersDisplay;
-import IHMChannel.ChannelMessagesDisplay;
 import IHMChannel.IHMChannelController;
+import common.IHMTools.IHMTools;
 import common.sharedData.*;
-import javafx.beans.InvalidationListener;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -74,7 +70,7 @@ public class ChannelPageController {
 
 
     public void addOpenedChannel(Channel channel) throws IOException {
-        //iconsInit();
+
         openedChannels.add(channel);
         currentChannel = channel.getId(); //TODO mieux gérer la mise à jour de cette valeur
         ihmChannelController.getInterfaceToIHMMain().setCurrentVisibleChannel(channel);
@@ -102,7 +98,7 @@ public class ChannelPageController {
             ihmChannelController.getInterfaceToIHMMain().setOpenedChannelsList(ihmChannelController.getOpenedChannelsList());
             /* On notifie IHM-Main avec le nouveau currentOpenedChannel dans le handler de changement de tab */
             /* On revient à la page d'accueil si plus aucun channel à afficher */
-            if(openedChannels.size() == 0){
+            if(openedChannels.isEmpty()){
                 ihmChannelController.getInterfaceToIHMMain().redirectToHomePage();
             }
         }));
@@ -139,7 +135,7 @@ public class ChannelPageController {
 
         //initialisation de oppenedChannel
         openedChannels = FXCollections.observableSet();
-        channelMap = new HashMap<UUID, ChannelController>();
+        channelMap = new HashMap<>();
 
         userTemp.setId(UUID.randomUUID());
         userTemp.setNickName("Clément");
@@ -152,21 +148,10 @@ public class ChannelPageController {
         Par exemple, le chargement des messages du channel, l'affichage de la photo de profil de l'utilisateur connecté près de la zone de message,...
         Cette méthode contient aussi les LISTENERS
         */
-        //iconsInit();
 
 
     }
 
-
-
-    private void iconsInit(){
-        //Accueil
-        Image usersImage = new Image("IHMChannel/icons/home.png");
-        ImageView usersIcon = new ImageView(usersImage);
-        usersIcon.setFitHeight(15);
-        usersIcon.setFitWidth(15);
-        back.setGraphic(usersIcon);
-    }
 
     /**
      * Méthode déclenchée au clic sur le bouton "voir les membres"
@@ -186,11 +171,10 @@ public class ChannelPageController {
      * Méthode déclenchée au clic sur le bouton "quitter le channel"
      */
     public void leaveChannel(){
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Voulez vous quitter le channel ?", ButtonType.YES, ButtonType.NO);
+        boolean result = IHMTools.confirmationPopup("Voulez vous quitter le channel ?");
 
-        alert.showAndWait();
 
-        if (alert.getResult() == ButtonType.YES) {
+        if (result) {
             /*  openedChannels.remove(channelMap.get(currentChannel));
         channelMap.remove(currentChannel)*/
         }
@@ -215,20 +199,17 @@ public class ChannelPageController {
     }
 
     public ChannelController getChannelController(UUID channelId){
-        ChannelController channelController = channelMap.get(channelId);
-        return channelController;
+        return channelMap.get(channelId);
     }
 
     @FXML
     // Test method for dev
-    void createChannel() throws IOException {
+    void createChannel(){
         String channelName = canalText.getText();
         int count = 0;
-        Channel selectChannel;
         for (Channel c : openedChannels) {
             if (c.getName().equals(channelName)) {
                 count = 1;
-                selectChannel = c;
                 break;
             }
         }

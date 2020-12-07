@@ -33,6 +33,7 @@ public class AddMemberPopUpController {
     }
 
     private ChannelController channelController;
+
     public void setChannelController(ChannelController channelController) {
         this.channelController = channelController;
         usersListView.setCellFactory(list-> new AddMemberCell(channelController));
