@@ -1,12 +1,14 @@
 package IHMMain;
 
-import IHMChannel.interfaces.IHMMainToIHMChannel;
-import common.interfaces.client.*;
 import Data.client.IHMMainToData;
 import IHMMain.implementations.CommunicationToIHMMain;
 import IHMMain.implementations.DataToIHMMain;
 import IHMMain.implementations.IHMChannelToIHMMain;
 import app.MainWindowController;
+import common.interfaces.client.ICommunicationToIHMMain;
+import common.interfaces.client.IDataToIHMMain;
+import common.interfaces.client.IIHMChannelToIHMMain;
+import common.interfaces.client.IIHMMainToCommunication;
 import common.sharedData.Channel;
 import common.sharedData.UserLite;
 import javafx.collections.FXCollections;
@@ -43,6 +45,8 @@ public class IHMMainController {
 
     private ObservableList<Channel> visibleChannels = FXCollections.observableArrayList();
 
+    private ObservableList<Channel> openedChannels = FXCollections.observableArrayList();
+
     public IHMMainController(){
         communicationToIHMMain = new CommunicationToIHMMain(this);
         dataToIHMMain = new DataToIHMMain(this);
@@ -73,7 +77,6 @@ public class IHMMainController {
         this.ihmMainToIHMChannel = ihmMainToIHMChannel;
     }
     public IHMMainToIHMChannel getIHMMainToIHMChannel() {
-
         return ihmMainToIHMChannel;
     }
 
@@ -99,5 +102,13 @@ public class IHMMainController {
 
     public ObservableList<Channel> getVisibleChannels() {
         return visibleChannels;
+    }
+
+    public ObservableList<Channel> getOpenedChannels() {
+        return openedChannels;
+    }
+    
+    public void loadIHMMainWindow(int status) {
+        mainWindowController.getConnectionController().loadIHMMainWindow(status);
     }
 }

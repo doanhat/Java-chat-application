@@ -1,8 +1,11 @@
 package IHMMain.controllers;
 
 
+import IHMMain.IHMMainController;
 import common.sharedData.Channel;
 import javafx.application.Platform;
+import javafx.beans.InvalidationListener;
+import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -22,6 +25,17 @@ public class ChannelListViewCellController extends ListCell<Channel> {
     private AnchorPane anchorPane;
 
     private FXMLLoader fxmlLoader;
+
+    private IHMMainController ihmMainController;
+
+    private PseudoClass openedPseudoClass = PseudoClass.getPseudoClass("opened");
+
+    public ChannelListViewCellController(IHMMainController ihmMainController) {
+        this.ihmMainController = ihmMainController;
+
+        InvalidationListener listener = observable -> this.pseudoClassStateChanged(openedPseudoClass, ihmMainController.getOpenedChannels().stream().anyMatch(c -> c.getId() == this.getItem().getId()));
+        ihmMainController.getOpenedChannels().addListener(listener);
+    }
 
     @Override
     protected void updateItem(Channel channel, boolean empty) {
