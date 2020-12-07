@@ -1,4 +1,4 @@
-package Communication.messages.server_to_client;
+package Communication.messages.server_to_client.channel_access.propietary_channels;
 
 import Communication.client.CommunicationClientController;
 import Communication.messages.abstracts.ServerToClientMessage;
@@ -23,7 +23,7 @@ public class TellOwnerToAddAdminMessage extends ServerToClientMessage {
 
     @Override
     protected void handle(CommunicationClientController commController) {
-        commController.saveNewAdmin(channelID, user);
+        commController.addAdminToProprietaryChannel(channelID, user);
 
         // Send Confirmation back to server
         commController.sendMessage(new NewAdminConfirmation(user, channelID));

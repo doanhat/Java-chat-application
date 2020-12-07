@@ -1,7 +1,7 @@
 package Communication.messages.client_to_server.channel_access.proprietary_channels;
 
 import Communication.messages.abstracts.ClientToServerMessage;
-import Communication.messages.server_to_client.TellOwnerToAddAdminMessage;
+import Communication.messages.server_to_client.channel_access.propietary_channels.TellOwnerToAddAdminMessage;
 import Communication.server.CommunicationServerController;
 import common.sharedData.Channel;
 import common.sharedData.UserLite;

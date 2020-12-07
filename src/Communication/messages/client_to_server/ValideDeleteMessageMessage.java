@@ -1,8 +1,6 @@
 package Communication.messages.client_to_server;
 
-import Communication.client.CommunicationClientController;
 import Communication.messages.abstracts.ClientToServerMessage;
-import Communication.messages.server_to_client.AdminAddedMessage;
 import Communication.messages.server_to_client.DeleteMessageMessage;
 import Communication.server.CommunicationServerController;
 import common.sharedData.Channel;
