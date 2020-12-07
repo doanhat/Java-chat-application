@@ -33,7 +33,7 @@ public class IHMChannelToIHMMain implements IIHMChannelToIHMMain {
 
     @Override
     public void setCurrentVisibleChannel(Channel channel) {
-
+        ihmMainController.getMainWindowController().getIHMMainWindowController().setViewChannelSelected(channel);
     }
 
     @Override

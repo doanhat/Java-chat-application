@@ -46,6 +46,8 @@ public class IHMMainWindowController implements Initializable{
     // Is true if it's home page currently display, false otherwise
     private boolean isHomePage = true;
 
+    private boolean isViewChangeSelectedChannel = false;
+
     private Region ihmChannelNode;
 
     @FXML
@@ -134,7 +136,7 @@ public class IHMMainWindowController implements Initializable{
                 new ChangeListener<Channel>() {
                     @Override
                     public void changed(ObservableValue observable, Channel oldValue, Channel newValue) {
-                        if (newValue != null) {
+                        if (newValue != null && !isViewChangeSelectedChannel) {
                             viewChannel(newValue);
                             clearSelectedChannel(publicChannels);
                         }
@@ -158,7 +160,7 @@ public class IHMMainWindowController implements Initializable{
                 new ChangeListener<Channel>() {
                     @Override
                     public void changed(ObservableValue observable, Channel oldValue, Channel newValue) {
-                        if (newValue != null) {
+                        if (newValue != null && !isViewChangeSelectedChannel) {
                             viewChannel(newValue);
                             clearSelectedChannel(privateChannels);
                         }
@@ -190,6 +192,27 @@ public class IHMMainWindowController implements Initializable{
             loadIHMChannelWindow();
         }
         this.ihmMainController.getIHMMainToIHMChannel().viewChannel(channel.getId());
+    }
+
+    /**
+     * Change the visual state of the current selected channel.
+     * Use when there a changed tab inside IHM-Channel view to maintain visual consistency
+     * @param channel Channel to view as selected
+     */
+    public void setViewChannelSelected(Channel channel) {
+        if (ihmMainController.getVisibleChannels().contains(channel)) {
+            clearSelectedChannel(privateChannels);
+            clearSelectedChannel(publicChannels);
+            isViewChangeSelectedChannel = true;
+            if (channel.getVisibility() == Visibility.PUBLIC) {
+                publicChannels.scrollTo(channel);
+                publicChannels.getSelectionModel().select(channel);
+            } else {
+                privateChannels.scrollTo(channel);
+                privateChannels.getSelectionModel().select(channel);
+            }
+            isViewChangeSelectedChannel = false;
+        }
     }
 
     public void loadIHMChannelWindow(){
