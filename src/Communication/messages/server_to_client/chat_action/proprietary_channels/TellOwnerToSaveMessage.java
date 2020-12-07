@@ -1,4 +1,4 @@
-package Communication.messages.server_to_client.chat_action;
+package Communication.messages.server_to_client.chat_action.proprietary_channels;
 
 import Communication.client.CommunicationClientController;
 import Communication.messages.abstracts.ServerToClientMessage;

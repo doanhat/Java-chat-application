@@ -267,6 +267,7 @@ public class CommunicationClientController extends CommunicationController {
         }
 
         if (isAccepted) {
+            // TODO INTEGRATION: request Data or Channel to receive Channel as parameter to receive full data of Channel
             dataClient.userAddedToChannel(user, channel.getId());
         }
         else {
@@ -349,6 +350,8 @@ public class CommunicationClientController extends CommunicationController {
             throw new NullPointerException("Data Iface est null");
         }
 
+        logger.log(Level.FINE, channelID + " has new message ");
+
         dataClient.receiveMessage(msg, channelID, response);
     }
 
@@ -363,6 +366,7 @@ public class CommunicationClientController extends CommunicationController {
         if (dataClient == null) {
             throw new NullPointerException("Data Iface est null");
         }
+
         dataClient.saveMessageIntoHistory(msg, channelID, response);
     }
 
