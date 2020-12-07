@@ -135,7 +135,7 @@ public class Channel implements Serializable {
 	public void addMessage(Message m) {
 		for (Message msg : messages) {
 			if(msg.getId().equals(m.getId())){
-				messages.remove(m);
+				messages.remove(msg);
 				break;
 			}
 		}
@@ -150,9 +150,7 @@ public class Channel implements Serializable {
 	}
 
 	public void removeAdmin(UserLite user) {
-		if (userIsAdmin(user.getId())){
-			this.administrators.remove(user);
-		}
+		this.administrators.removeIf(userLite -> userLite.getId().equals(user.getId()));
 	}
 
 	public void addUser(UserLite user) {

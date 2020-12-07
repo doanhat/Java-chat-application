@@ -117,6 +117,7 @@ public class ChannelController extends Controller{
         Channel ownedChannel = searchChannelById(channelId);
         if (ownedChannel!=null) {
             ownedChannel.removeAdmin(user);
+            //System.out.println("Deleted!");
             fileHandler.writeJSONToFile(ownedChannel.getId().toString(),ownedChannel);
         }
     }
