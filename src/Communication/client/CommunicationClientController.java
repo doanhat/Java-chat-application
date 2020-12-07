@@ -327,19 +327,47 @@ public class CommunicationClientController extends CommunicationController {
         return dataClient.getHistory(channelID);
     }
 
+
+    public void requestLeaveChannel(UUID channelID, UserLite userLite) {
+        if (dataClient == null) {
+            throw new NullPointerException("Data Iface est null");
+        }
+
+        dataClient.deleteUserFromChannel(userLite, channelID, 0, "Leave");
+
+        // TODO INTEGRATION V2: what happens if owner of shared channel leaves
+/*
+        if (channel.getType() != ChannelType.OWNED && channel.getCreator().getId() == client.getUUID()) {
+
+        }
+ */
+    }
+
     /**
      * Retire une personne d'un channel
      *
      * @param channelID identifiant unique (UUID) du channel quitté
      * @param userLite  identifiant unique (UUID) de l'utilisateur qui est parti
      */
-    public void notifyUserHasLeftChannel(UUID channelID, UserLite userLite) {
+    public void leftOwnedChannel(UUID channelID, UserLite userLite) {
         if (dataClient == null) {
             throw new NullPointerException("Data Iface est null");
         }
 
         dataClient.deleteUserFromChannel(userLite, channelID, 0, "has left");
     }
+
+    /**
+     * Retire une personne d'un channel
+     *
+     * @param channelID  identifiant unique (UUID) du channel quitté
+     * @param userLite identifiant unique (UUID) de l'utilisateur qui est parti
+     */
+    public void notifyUserHasLeftChannel(UUID channelID, UserLite userLite) {
+        // TODO INTEGRATION V2: ask IHM Main or IHM channel to add method for notifying that user left
+        //mainClient.leaveChannel(channel, userLite)
+    }
+
 
     /* ---------------------------------------- Chat Message Handling ------------------------------------------------*/
 
@@ -373,42 +401,6 @@ public class CommunicationClientController extends CommunicationController {
         }
 
         dataClient.saveMessageIntoHistory(msg, channelID, response);
-    }
-
-    public void notifyTellOwnerToAddAdmin(UserLite user, UUID channel) {
-        if (dataClient == null) {
-            throw new NullPointerException("Data Iface est null");
-        }
-
-        dataClient.newAdmin(user, channel);
-        dataClient.saveNewAdminIntoHistory(user, channel);
-        // TODO AdminAddedMessage
-    }
-
-    public void requestLeaveChannel(UUID channelID, UserLite userLite) {
-        if (dataClient == null) {
-            throw new NullPointerException("Data Iface est null");
-        }
-
-        dataClient.deleteUserFromChannel(userLite, channelID, 0, "Leave");
-
-        // TODO INTEGRATION V2: what happens if owner of shared channel leaves
-/*
-        if (channel.getType() != ChannelType.OWNED && channel.getCreator().getId() == client.getUUID()) {
-
-        }
- */
-    }
-
-    /**
-     * Retire une personne d'un channel
-     *
-     * @param channel  identifiant unique (UUID) du channel quitté
-     * @param userLite identifiant unique (UUID) de l'utilisateur qui est parti
-     */
-    public void notifyUserHasLeftChannel(Channel channel, UserLite userLite) {
-        // TODO INTEGRATION V2: ask IHM Main or IHM channel to add method for notifying that user left
-        //mainClient.leaveChannel(channel, userLite)
     }
 
     /* ---------------------------------------- Admin access right Handling ------------------------------------------*/
@@ -466,6 +458,7 @@ public class CommunicationClientController extends CommunicationController {
     }
 
     public void notifyInviteChannel(UserLite guest, UUID channelID) {
+        // TODO INTEGRATION V2 
         //dataClient.addUserToChannel(guest, channelID);
     }
 }

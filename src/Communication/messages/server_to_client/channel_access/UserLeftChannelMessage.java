@@ -2,7 +2,6 @@ package Communication.messages.server_to_client.channel_access;
 
 import Communication.client.CommunicationClientController;
 import Communication.messages.abstracts.ServerToClientMessage;
-import common.sharedData.Channel;
 import common.sharedData.UserLite;
 
 import java.util.UUID;
@@ -23,6 +22,6 @@ public class UserLeftChannelMessage extends ServerToClientMessage {
 
     @Override
     protected void handle(CommunicationClientController commClientController) {
-        commClientController.notifyUserHasLeftChannel(channelID, userLite);
+        commClientController.leftOwnedChannel(channelID, userLite);
     }
 }
