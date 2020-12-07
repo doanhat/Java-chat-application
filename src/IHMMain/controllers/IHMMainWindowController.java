@@ -95,7 +95,7 @@ public class IHMMainWindowController implements Initializable{
         nickname.setText(userL.getNickName());
 
         // Gestion de l'affichage du bouton de redirection vers la page d'accueil
-        ImageView goToHomePageButton = new ImageView("IHMMain/icons/arrow_back.png");
+        ImageView goToHomePageButton = new ImageView("IHMMain/icons/home.png");
         goToHomePageButton.setFitHeight(18);
         goToHomePageButton.setFitWidth(18);
         homePageButton.setGraphic(goToHomePageButton);
@@ -270,7 +270,7 @@ public class IHMMainWindowController implements Initializable{
     }
 
     private void updateProfileImage(){
-        if(userL.getAvatar() != ""){
+        if(!userL.getAvatar().equals("")){
             /**
              * Voir avec Data comment sont stockées les images sur le serveur,
              * faire en sorte que getAvatar renvoie une image afin de ne pas stocker trop
