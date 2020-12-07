@@ -10,7 +10,7 @@ public class DataServerController {
 
     public DataServerController() {
         this.channelsListController= new ChannelsListController();
-        this.userListController = new UserListController();
+        this.userListController = new UserListController(this.channelsListController);
         this.iServerCommunicationToData = new ServerCommunicationToData(this.userListController,this.channelsListController);
     }
 

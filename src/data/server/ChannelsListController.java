@@ -15,6 +15,7 @@ public class ChannelsListController {
     private List<Channel> ownedChannels;
     private FileHandle fileHandle;
 
+
     /**
      * SVP CREER LES FICHIER AVEC DES FONCTIONS
      */
@@ -57,6 +58,19 @@ public class ChannelsListController {
 
     public List<Channel> searchChannelByUsers(List<String> users) {
         return null;
+    }
+
+    public List<UUID> getChannelsWhereUser(UUID userID){
+        ArrayList<UUID> res = new ArrayList<UUID>();
+        for (Channel channel: ownedChannels) {
+            if(channel.userInChannel(userID))
+                res.add(channel.getId());
+        }
+        for (Channel channel: sharedChannels) {
+            if(channel.userInChannel(userID))
+                res.add(channel.getId());
+        }
+        return res;
     }
 
     public void addChannel(Channel channel) {
