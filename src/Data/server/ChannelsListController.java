@@ -8,7 +8,6 @@ import common.sharedData.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 public class ChannelsListController {
@@ -21,7 +20,7 @@ public class ChannelsListController {
      */
 
     public ChannelsListController() {
-        this.fileHandle = new FileHandle<Channel>(LocationType.server, FileType.channel);
+        this.fileHandle = new FileHandle<Channel>(LocationType.SERVER, FileType.CHANNEL);
         this.sharedChannels = createChannelListFromJSONFiles();
         ownedChannels = new ArrayList<>();
     }
@@ -93,7 +92,7 @@ public class ChannelsListController {
     }
 
     public void writeChannelDataToJSON(Channel channel){
-        this.fileHandle.writeJSONToFile(channel.getId().toString(),channel);
+        this.fileHandle.writeJSONToFile(channel);
     }
 
     public Channel readJSONToChannelData(UUID idChannel){

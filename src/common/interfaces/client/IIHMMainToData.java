@@ -35,7 +35,7 @@ public interface IIHMMainToData {
      * @param isPublic the is public
      * @param owner    the owner
      */
-    void createChannel(String name, String description, Boolean isShared, Boolean isPublic, UserLite owner);
+    void createChannel(String name, String description, boolean isShared, boolean isPublic, UserLite owner);
 
     /**
      * Search channel.

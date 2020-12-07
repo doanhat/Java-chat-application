@@ -18,13 +18,14 @@ public class ChannelController extends Controller{
     public List<Channel> getChannelList() {
         return channelList;
     }
+    public Channel getLocalChannel() { return localChannel; }
 
     public void setChannelList(List<Channel> channelList) {
         this.channelList = channelList;
     }
     public ChannelController(IDataToCommunication comClient, IDataToIHMChannel channelClient, IDataToIHMMain mainClient) {
         super(comClient, channelClient, mainClient);
-        channelList = new FileHandle<Channel>(LocationType.client, FileType.channel).readAllJSONFilesToList(Channel.class);
+        channelList = new FileHandle<Channel>(LocationType.CLIENT, FileType.CHANNEL).readAllJSONFilesToList(Channel.class);
         sendOwnedChannelsToServer();
     }
 
@@ -43,7 +44,7 @@ public class ChannelController extends Controller{
             }
         }
         channelList.add(channel);
-        new FileHandle<Channel>(LocationType.client, FileType.channel).writeJSONToFile(channel.getId().toString(),Channel.class);
+        new FileHandle<Channel>(LocationType.CLIENT, FileType.CHANNEL).writeJSONToFile(Channel.class);
 
     }
     /**
@@ -68,7 +69,7 @@ public class ChannelController extends Controller{
         for (Channel c : channels) {
             if(c.getId().equals(channelID)) {
                 c.addUser(user);
-                new FileHandle<Channel>(LocationType.client, FileType.channel).writeJSONToFile(channelID.toString(),Channel.class);
+                new FileHandle<Channel>(LocationType.CLIENT, FileType.CHANNEL).writeJSONToFile(Channel.class);
                 break;
             }
         }
@@ -81,11 +82,11 @@ public class ChannelController extends Controller{
      * @param channelId the channelId
      */
     public void saveNewAdminIntoHistory(UserLite user, UUID channelId) {
-        FileHandle fileHandler = new FileHandle(LocationType.client, FileType.channel);
+        FileHandle fileHandler = new FileHandle(LocationType.CLIENT, FileType.CHANNEL);
         Channel ownedChannel = searchChannelById(channelId);
         if (ownedChannel!=null) {
             ownedChannel.addAdmin(user);
-            fileHandler.writeJSONToFile(ownedChannel.getId().toString(),ownedChannel);
+            fileHandler.writeJSONToFile(ownedChannel);
         }
     }
 
@@ -106,7 +107,7 @@ public class ChannelController extends Controller{
      * @param explanation the explanation
      */
     public void removeChannelFromList(Channel channel, int duration, String explanation) {
-
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -117,7 +118,7 @@ public class ChannelController extends Controller{
      * @param duration the duration
      */
     public void banUserIntoHistory(User user, Channel channel, int duration) {
-
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -129,7 +130,7 @@ public class ChannelController extends Controller{
      * @param explanation the explanation
      */
     public void deleteUserFromChannel(User user, Channel channel, int duration, String explanation) {
-
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -144,7 +145,7 @@ public class ChannelController extends Controller{
                 return c.getMessages();
             }
         }
-        return null;
+        return new ArrayList<>();
     }
 
     public void sendOwnedChannelsToServer(){
@@ -159,7 +160,7 @@ public class ChannelController extends Controller{
         for (Channel c : channels) {
             if(c.getId().equals(channelId)) {
                 c.addUser(user);
-                new FileHandle<Channel>(LocationType.client, FileType.channel).writeJSONToFile(channelId.toString(),Channel.class);
+                new FileHandle<Channel>(LocationType.CLIENT, FileType.CHANNEL).writeJSONToFile(Channel.class);
                 break;
             }
         }

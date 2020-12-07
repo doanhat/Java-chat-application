@@ -69,7 +69,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void removeChannelFromList(UUID channelId, int duration, String explanation) {
-
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -81,7 +81,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void banUserIntoHistory(UserLite user, UUID channelId, int duration) {
-
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -92,7 +92,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void cancelBanOfUserIntoHistory(User user, UUID channelId) {
-
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -105,7 +105,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void deleteUserFromChannel(UserLite user, UUID channelId, int duration, String explanation) {
-
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -162,7 +162,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void saveEditionIntoHistory(Message oldMessage, Message newMessage, UUID channelId) {
-
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -174,7 +174,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void editMessage(Message message, Message newMessage, UUID channelId) {
-
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -186,7 +186,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void saveLikeIntoHistory(UUID channelId, Message message, UserLite user) {
-
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -198,7 +198,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void likeMessage(UUID channelId, Message message, UserLite user) {
-
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -210,7 +210,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void saveDeletionIntoHistory(Message oldMessage, Message newMessage, UUID channelId) {
-
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -222,7 +222,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void deleteMessage(Message message, UUID channelId, boolean deletedByCreator) {
-
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -244,7 +244,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void updateNickname(UserLite user, UUID channelId, String newNickname) {
-
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -256,7 +256,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void saveNicknameIntoHistory(UserLite user, UUID channelId, String newNickname) {
-
+        throw new UnsupportedOperationException();
     }
 
     /**

@@ -23,7 +23,7 @@ public class MessageController extends Controller{
             message.setId(UUID.randomUUID());
         }
         int responseAdded = 0;
-        FileHandle fileHandler = new FileHandle(LocationType.client, FileType.channel);
+        FileHandle fileHandler = new FileHandle(LocationType.CLIENT, FileType.CHANNEL);
         if (ownedChannel!=null) {
             List<Message> listMsg = ownedChannel.getMessages();
             //listMsg.add(message);
@@ -42,8 +42,8 @@ public class MessageController extends Controller{
                 }
             }
 
+            fileHandler.writeJSONToFile(ownedChannel);
         }
-        fileHandler.writeJSONToFile(ownedChannel.getId().toString(),ownedChannel);
     }
 
     /**
@@ -64,7 +64,7 @@ public class MessageController extends Controller{
      * @param channel    the channel
      */
     public void saveEditionIntoHistory(Message oldMessage, Message newMessage, Channel channel) {
-
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -75,7 +75,7 @@ public class MessageController extends Controller{
      * @param channel    the channel
      */
     public void editMessage(Message message, Message newMessage, Channel channel) {
-
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -86,7 +86,7 @@ public class MessageController extends Controller{
      * @param user    the user
      */
     public void saveLikeIntoHistory(Channel channel, Message message, User user) {
-
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -97,7 +97,7 @@ public class MessageController extends Controller{
      * @param user    the user
      */
     public void likeMessage(Channel channel, Message message, User user) {
-
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -108,7 +108,7 @@ public class MessageController extends Controller{
      * @param channel    the channel
      */
     public void saveDeletionIntoHistory(Message oldMessage, Message newMessage, Channel channel) {
-
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -119,6 +119,6 @@ public class MessageController extends Controller{
      * @param deletedByCreator the deleted by creator
      */
     public void deleteMessage(Message message, Channel channel, boolean deletedByCreator) {
-
+        throw new UnsupportedOperationException();
     }
 }

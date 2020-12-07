@@ -28,9 +28,9 @@ public class Message implements Serializable {
 
 	public Message(String message, UserLite author) {
 		this.id = UUID.randomUUID();
-		this.answers = new ArrayList<Message>();
+		this.answers = new ArrayList<>();
 		this.date = new Date();
-		this.likes = new ArrayList<UserLite>();
+		this.likes = new ArrayList<>();
 		this.message = message;
 		this.author = author;
 	}
