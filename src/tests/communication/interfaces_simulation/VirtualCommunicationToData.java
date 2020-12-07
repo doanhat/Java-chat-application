@@ -49,6 +49,16 @@ public class VirtualCommunicationToData implements ICommunicationToData {
     }
 
     @Override
+    public void saveAdminRemovalIntoHistory(UserLite user, UUID channelId) {
+
+    }
+
+    @Override
+    public void adminRemoved(UserLite user, UUID channelId) {
+
+    }
+
+    @Override
     public void removeChannelFromList(UUID channelId, int duration, String explanation) {
 
     }

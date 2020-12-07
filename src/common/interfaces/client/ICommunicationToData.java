@@ -50,6 +50,20 @@ public interface ICommunicationToData {
     void newAdmin(UserLite user, UUID channelId);
 
     /**
+     *
+     * @param user          the user
+     * @param channelId     the channel ID
+     */
+    void adminRemoved(UserLite user, UUID channelId);
+
+    /**
+     *
+     * @param user          the user
+     * @param channelId     the channel ID
+     */
+    void saveAdminRemovalIntoHistory(UserLite user, UUID channelId);
+
+    /**
      * Remove channel from list.
      *
      * @param channelId     the channel

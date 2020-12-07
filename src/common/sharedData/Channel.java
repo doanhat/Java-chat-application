@@ -149,6 +149,12 @@ public class Channel implements Serializable {
 		addUser(user);
 	}
 
+	public void removeAdmin(UserLite user) {
+		if (userIsAdmin(user.getId())){
+			this.administrators.remove(user);
+		}
+	}
+
 	public void addUser(UserLite user) {
 		if (!userInChannel(user.getId())){
 			this.acceptedPersons.add(user);

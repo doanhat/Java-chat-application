@@ -22,6 +22,13 @@ public interface IDataToIHMChannel {
     void addNewAdmin(UserLite user, Channel channel);
 
     /**
+     * Permet de supprimer un administrateur d'un channel
+     * @param user
+     * @param channel
+     */
+    void adminRemoved(UserLite user, Channel channel);
+
+    /**
      * Quand l'utilisateur se fait kické d'un channel, retire le channel en question de sa liste de channels.
      * Ce retrait peut, comme un kick, être temporaire.
      * @param channel channel à retirer
@@ -79,5 +86,4 @@ public interface IDataToIHMChannel {
     void deleteMessage(Message message, Channel channel, boolean deletedByCreator);
 
     Channel getChannel(UUID id);
-
 }

@@ -99,6 +99,30 @@ public class ChannelController extends Controller{
     }
 
     /**
+     *
+     * @param user
+     * @param channelId
+     */
+    public void adminRemoved(UserLite user, UUID channelId) {
+        this.channelClient.adminRemoved(user,this.channelClient.getChannel(channelId));
+    }
+
+    /**
+     *
+     * @param user
+     * @param channelId
+     */
+    public void saveAdminRemovalIntoHistory(UserLite user, UUID channelId) {
+        FileHandle fileHandler = new FileHandle(LocationType.client, FileType.channel);
+        Channel ownedChannel = searchChannelById(channelId);
+        if (ownedChannel!=null) {
+            ownedChannel.removeAdmin(user);
+            fileHandler.writeJSONToFile(ownedChannel.getId().toString(),ownedChannel);
+        }
+    }
+
+
+    /**
      * Remove channel from list.
      *
      * @param channel     the channel

@@ -38,6 +38,11 @@ public class DataToIHMChannel implements IDataToIHMChannel{
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
+    @Override
+    public void adminRemoved(UserLite user, Channel channel) {
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
+
     /**
      * Quand l'utilisateur se fait kické d'un channel, retire le channel en question de sa liste de channels.
      * Ce retrait peut, comme un kick, être temporaire.

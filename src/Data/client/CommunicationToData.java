@@ -61,6 +61,27 @@ public class CommunicationToData implements ICommunicationToData {
     }
 
     /**
+     *
+     * @param user          the user
+     * @param channelId     the channel ID
+     */
+    @Override
+    public void adminRemoved(UserLite user, UUID channelId) {
+        dataController.getChannelController().adminRemoved(user, channelId);
+    }
+
+    /**
+     *
+     * @param user          the user
+     * @param channelId     the channel ID
+     */
+    @Override
+    public void saveAdminRemovalIntoHistory(UserLite user, UUID channelId) {
+        dataController.getChannelController().saveAdminRemovalIntoHistory(user, channelId);
+    }
+
+
+    /**
      * Remove channel from list.
      *
      * @param channelId   the channel
