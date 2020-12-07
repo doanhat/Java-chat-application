@@ -8,11 +8,10 @@ import Communication.messages.client_to_server.channel_modification.shared_chann
 import Communication.messages.client_to_server.chat_action.SendMessageMessage;
 import Communication.messages.client_to_server.generic.GetHistoryMessage;
 import Communication.messages.client_to_server.channel_access.proprietary_channels.AddAdminPropMessage;
-import Communication.messages.client_to_server.channel_access.proprietary_channels.SendInvitePropMessage;
+import Communication.messages.client_to_server.channel_access.SendInvitationMessage;
 import Communication.messages.client_to_server.channel_access.shared_channels.AddAdminSharedMessage;
 import Communication.messages.client_to_server.channel_access.proprietary_channels.AskToJoinPropMessage;
 import Communication.messages.client_to_server.channel_access.shared_channels.AskToJoinSharedMessage;
-import Communication.messages.client_to_server.channel_access.shared_channels.SendInviteSharedMessage;
 
 import common.interfaces.client.*;
 import common.sharedData.Channel;
@@ -93,11 +92,18 @@ public class CommunicationClientInterface implements IDataToCommunication,
             return;
         }
 
-        if (channel.getType() == ChannelType.OWNED) {
-            commController.sendMessage(new SendInvitePropMessage(guest, channel, message));
-        }
-        else {
-            commController.sendMessage(new SendInviteSharedMessage(guest, channel, message));
+        // check if local user has the right to invite
+        if (localUser == channel.getCreator() || channel.userIsAdmin(localUser.getId())) {
+            // TODO: Verify if invitation only makes a private channel become visible or add user directly to channel
+            commController.sendMessage(new SendInvitationMessage(guest, channel, message));
+        /*
+            if (channel.getType() == ChannelType.OWNED) {
+                commController.sendMessage(new AskToJoinPropMessage(channel.getId(), guest, channel.getCreator()));
+            }
+            else {
+                commController.sendMessage(new AskToJoinSharedMessage(channel.getId(), guest));
+            }
+        */
         }
     }
 
@@ -205,6 +211,10 @@ public class CommunicationClientInterface implements IDataToCommunication,
      * @param channel [Channel] Channel que l'on veut rejoindre
      **/
     public void askToJoin(Channel channel) {
+        if (channel == null) {
+            return;
+        }
+
         if (channel.getType() == ChannelType.OWNED) {
             commController.sendMessage(new AskToJoinPropMessage(channel.getId(), localUser, channel.getCreator()));
         }
