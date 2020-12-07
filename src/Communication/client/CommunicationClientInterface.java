@@ -93,11 +93,12 @@ public class CommunicationClientInterface implements IDataToCommunication,
             return;
         }
 
+        // NOTE: reuse Join channel for invitation because the sequences are the same
         if (channel.getType() == ChannelType.OWNED) {
-            commController.sendMessage(new SendInvitePropMessage(guest, channel, message));
+            commController.sendMessage(new AskToJoinPropMessage(channel.getId(), guest, channel.getCreator()));
         }
         else {
-            commController.sendMessage(new SendInviteSharedMessage(guest, channel, message));
+            commController.sendMessage(new AskToJoinSharedMessage(channel.getId(), guest));
         }
     }
 
@@ -205,6 +206,10 @@ public class CommunicationClientInterface implements IDataToCommunication,
      * @param channel [Channel] Channel que l'on veut rejoindre
      **/
     public void askToJoin(Channel channel) {
+        if (channel == null) {
+            return;
+        }
+
         if (channel.getType() == ChannelType.OWNED) {
             commController.sendMessage(new AskToJoinPropMessage(channel.getId(), localUser, channel.getCreator()));
         }
