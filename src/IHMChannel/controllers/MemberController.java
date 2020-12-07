@@ -10,6 +10,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import IHMChannel.switchButton.ToggleSwitch;
 
+import java.io.IOException;
+
 public class MemberController {
 
     private IHMChannelController ihmChannelController;
@@ -53,6 +55,8 @@ public class MemberController {
         if(ihmChannelController.getInterfaceToData().getLocalUser().getId().equals(userToDisplay.getId())){
             isThatYouText.setText(" (vous)");
         }
+
+        if(isAdmin){toggleAdminBtn.setMemberController(this); }
 
         iconsInit();
     }
@@ -117,6 +121,10 @@ public class MemberController {
             */
         }
 
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
     }
 
     public void banHandler() {

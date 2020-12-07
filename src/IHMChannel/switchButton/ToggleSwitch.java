@@ -22,6 +22,20 @@ public class ToggleSwitch extends StackPane {
 
     public void setMemberController(MemberController memberController) {
         this.memberController = memberController;
+        this.state = memberController.isAdmin();
+        if (state) {
+            button.setStyle(buttonStyleOn);
+            back.setFill(Color.valueOf("#80C49E"));
+            setAlignment(button, Pos.CENTER_RIGHT);
+            state = true;
+            currentRole = "admin";
+        } else {
+            button.setStyle(buttonStyleOff);
+            back.setFill(Color.valueOf("#ced5da"));
+            setAlignment(button, Pos.CENTER_LEFT);
+            state = false;
+            currentRole = "member";
+        }
     }
 
     private void init() {
@@ -74,4 +88,5 @@ public class ToggleSwitch extends StackPane {
     public String getCurrentRole() {
         return currentRole;
     }
+
 }
