@@ -323,7 +323,8 @@ public class CommunicationServerController extends CommunicationController {
             return;
         }
 
-        System.err.println("new admin " + user.getNickName() + " added to channel " + channel.getId());
+		logger.log(Level.SEVERE, "new admin " + user.getNickName() + " added to channel " + channel.getId());
+
         dataServer.saveNewAdminIntoHistory(channel, user);
     }
 

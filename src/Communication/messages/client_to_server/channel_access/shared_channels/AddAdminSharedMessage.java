@@ -13,37 +13,24 @@ public class AddAdminSharedMessage extends ClientToServerMessage{
     private final UUID channelID;
     private final UserLite user;
 
-    /**
-     * Message de demande d'ajout d'admin sur le serveur.
-     * @param user [UserLite] nouveau admin
-     * @param channel [Channel] ID du channel
-     */
     public AddAdminSharedMessage(UserLite user, Channel channel) {
         this.channelID  = channel.getId();
         this.user = user;
     }
 
-    /**
-     * Si le channel est partagé, enregistre la modification, et notifie tous les utilisateurs du channel
-     * Si le channel est proprietaire, Notifie le propriétaire de la demande.
-     * @param commController Controller du serveur
-     */
     @Override
     protected void handle(CommunicationServerController commController) {
         // Handle shared Channel
         Channel channel = commController.getChannel(channelID);
 
-        if (channel != null)
+        if (channel == null)
         {
-                //System.err.println("Channel n'est pas trouvé");
-
             return;
         }
 
-            // Tell data server to save new admin
+        // Tell data server to save new admin
         commController.saveNewAdmin(channel, user);
 
-        commController.sendMulticast(channel.getAcceptedPersons(),
-                    new AdminAddedMessage(user, channelID));
+        commController.sendMulticast(channel.getAcceptedPersons(), new AdminAddedMessage(user, channelID));
     }
 }

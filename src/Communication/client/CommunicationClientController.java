@@ -372,8 +372,7 @@ public class CommunicationClientController extends CommunicationController {
 
     public void notifyTellOwnerToAddAdmin(UserLite user, UUID channel) {
         if (dataClient == null) {
-            System.err.println("notifyAddNewAdmin: Data Iface est null");
-            return;
+            throw new NullPointerException("Data Iface est null");
         }
         dataClient.newAdmin(user, channel);
         dataClient.saveNewAdminIntoHistory(user, channel);
@@ -406,11 +405,11 @@ public class CommunicationClientController extends CommunicationController {
      */
     public void notifyNewAdminAdded(UUID channelID, UserLite user) {
         if (dataClient == null) {
-            System.err.println("notifyNewAdminAdded: Data Iface est null");
-            return;
+            throw new NullPointerException("Data Iface est null");
         }
 
-        System.err.println("new admin " + user.getNickName() + " added to channel " + channelID);
+        logger.log(Level.FINE, "new admin " + user.getNickName() + " added to channel " + channelID);
+
         dataClient.newAdmin(user, channelID);
     }
 
@@ -422,8 +421,7 @@ public class CommunicationClientController extends CommunicationController {
      */
     public void saveNewAdmin(UUID channelID, UserLite user) {
         if (dataClient == null) {
-            System.err.println("saveNewAdmin: Data Iface est null");
-            return;
+            throw new NullPointerException("Data Iface est null");
         }
 
         System.err.println("request owner to add admin " + user.getNickName() + " to channel " + channelID);
@@ -433,8 +431,7 @@ public class CommunicationClientController extends CommunicationController {
 
     public void notifyOwnerToDeleteMessage(Message message, UUID channelID, Boolean deleteByCreator) {
         if (dataClient == null) {
-            System.err.println("notifyNewUserAddedToJoinChannel: Data Iface est null");
-            return;
+            throw new NullPointerException("Data Iface est null");
         }
 
         dataClient.saveDeletionIntoHistory(message, null, channelID);
