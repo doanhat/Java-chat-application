@@ -203,13 +203,17 @@ public class IHMMainWindowController implements Initializable{
      * @param channel Channel to set a in the current view
      */
     public void viewChannel(Channel channel) {
+        boolean isInit = false;
         if (ihmChannelNode == null) {
+            isInit = true;
             ihmChannelNode = ihmMainController.getIHMMainToIHMChannel().initIHMChannelWindow(channel);
         }
         if (this.isHomePage) {
             loadIHMChannelWindow();
         }
-        this.ihmMainController.getIHMMainToIHMChannel().viewChannel(channel);
+        if (!isInit) {
+            this.ihmMainController.getIHMMainToIHMChannel().viewChannel(channel);
+        }
     }
 
     /**
