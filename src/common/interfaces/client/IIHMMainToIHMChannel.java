@@ -20,7 +20,7 @@ public interface IIHMMainToIHMChannel {
     /**
      * Permet d'afficher le fil de discussion du channel.
      * Connecté l'utilisateur au channel si celui-ci ne l'était pas.
-     * @param channelId l'identifiant du channel à afficher
+     * @param channel le channel à afficher
      */
     public void viewChannel(Channel channel);
 }
