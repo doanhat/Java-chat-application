@@ -26,7 +26,12 @@ public class IHMMainToIHMChannel implements IIHMMainToIHMChannel {
 
     @Override
     public void viewChannel(Channel channel) {
-        controller.getInterfaceToCommunication().askToJoin(channel);
+        if (controller.getChannelPageController().getOpenedChannels().contains(channel)){
+            controller.getChannelPageController().changeTab(channel);
+        }
+        else{
+            controller.getInterfaceToCommunication().askToJoin(channel);
+        }
     }
 
     private IHMChannelController controller;

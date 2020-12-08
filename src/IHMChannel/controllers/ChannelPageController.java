@@ -62,14 +62,6 @@ public class ChannelPageController {
     UserLite userTemp = new UserLite();
 
 
-    /**
-     * Setter du channel
-     * Met à jour l'attribut channel du contrôleur (= celui qu'affiche la page)
-     * Met à jour le nom et la description du channel sur l'interface.
-     * @param channel
-     */
-
-
     public void addOpenedChannel(Channel channel) throws IOException {
 
         openedChannels.add(channel);
@@ -90,7 +82,7 @@ public class ChannelPageController {
         ctrl.configureMemberDisplay(ihmChannelController);
         ctrl.setChannel(channel);
         Tab tab = new Tab(channel.getName());
-        tab.setId(channel.getName());
+        tab.setId(channel.getId().toString());
         tab.setOnClosed((event->{
             this.openedChannels.remove(channel);
             /* On notifie Comm de la fermeture de l'onglet */
@@ -278,5 +270,13 @@ public class ChannelPageController {
     public void handleChangeTab(Channel channel) {
         currentChannel = channel.getId();
         ihmChannelController.getInterfaceToIHMMain().setCurrentVisibleChannel(channel);
+    }
+
+    public void changeTab(Channel channel){
+        for (Tab c : tabs.getTabs()) {
+            if (c.getId().equals(channel.getId().toString())) {
+                tabs.getSelectionModel().select(c);
+            }
+        }
     }
 }
