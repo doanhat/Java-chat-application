@@ -262,4 +262,19 @@ public class VirtualDataServer implements IServerCommunicationToData {
     public List<Channel> disconnectOwnedChannel(UserLite owner) {
         return null;
     }
+
+    @Override
+    public List<UUID> getChannelsWhereUser(UUID userID) {
+        return null;
+    }
+
+    @Override
+    public List<UUID> getChannelsWhereUserActive(UUID userID) {
+        return null;
+    }
+
+    @Override
+    public List<UserLite> getActiveUsersInChannel(UUID channelID) {
+        return null;
+    }
 }
