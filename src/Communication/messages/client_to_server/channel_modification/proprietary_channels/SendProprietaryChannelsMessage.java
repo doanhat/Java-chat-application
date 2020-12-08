@@ -39,10 +39,10 @@ public class SendProprietaryChannelsMessage extends ClientToServerMessage {
                 NetworkMessage newChannelNotification = new NewVisibleChannelMessage(registeredChannel);
 
                 if (isPublicChannel) {
-                    commController.sendBroadcast(newChannelNotification, null);
+                    commController.sendBroadcast(newChannelNotification, owner);
                 }
                 else {
-                    commController.sendMulticast(channel.getAcceptedPersons(), newChannelNotification);
+                    commController.sendMulticast(channel.getAcceptedPersons(), newChannelNotification, owner);
                 }
             }
             else {
