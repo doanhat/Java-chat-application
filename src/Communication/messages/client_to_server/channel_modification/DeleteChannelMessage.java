@@ -32,7 +32,12 @@ public class DeleteChannelMessage extends ClientToServerMessage {
                 // TODO Send request delete channel to Owner
             }
 
-            commController.sendBroadcast(new NewInvisibleChannelsMessage(channel.getId()), requester);
+            if (channel.getVisibility() == Visibility.PUBLIC) {
+                commController.sendBroadcast(new NewInvisibleChannelsMessage(channel.getId()), requester);
+            }
+            else {
+                commController.sendMulticast(channel.getAcceptedPersons(), new NewInvisibleChannelsMessage(channel.getId()));
+            }
         }
 
     }

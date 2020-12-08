@@ -264,12 +264,21 @@ public class CommunicationServerController extends CommunicationController {
 
 		Channel channel = dataServer.getChannel(channelID);
 
-		// TODO INTEGRATION V2: ask data to implement leaveChannel() to remove user from shared and from proprietary channel,
 		// since owner and server sync content of channel
 		dataServer.leaveChannel(channel.getId(), userLite);
 
 		sendMessage(userLite.getId(), new ValideUserLeftMessage(channelID, (channel.getVisibility() == Visibility.PUBLIC)));
 		sendMulticast(channel.getAcceptedPersons(), new UserLeftChannelMessage(channel.getId(), userLite));
+
+		if (channel.getType() == ChannelType.OWNED && channel.getCreator().getId() == userLite.getId()) {
+			// when owner leaves, channel become invisible
+			if (channel.getVisibility() == Visibility.PUBLIC) {
+				sendBroadcast(new NewInvisibleChannelsMessage(channel.getId()), userLite);
+			}
+			else {
+				sendMulticast(channel.getAcceptedPersons(), new NewInvisibleChannelsMessage(channel.getId()));
+			}
+		}
 	}
 
 	/**

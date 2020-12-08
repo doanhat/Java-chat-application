@@ -208,6 +208,11 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     public void leaveChannel(UUID ch, UserLite user) {
         Channel channel = channelsListController.searchChannelById(ch);
         if(channel!=null){
+            if (channel.getType() == ChannelType.OWNED && user.getId() == channel.getCreator().getId()) {
+                // remove Owned Channel from server after owner left
+                channelsListController.removeChannel(channel.getId());
+            }
+
             channel.removeUser(user.getId());
         }
     }

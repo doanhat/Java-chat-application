@@ -4,6 +4,7 @@ import Communication.messages.abstracts.ClientToServerMessage;
 import Communication.messages.server_to_client.channel_access.propietary_channels.TellOwnerUserJoinedMessage;
 import Communication.messages.server_to_client.channel_access.propietary_channels.TellOwnerUserLeftMessage;
 import Communication.server.CommunicationServerController;
+import common.sharedData.Channel;
 import common.sharedData.UserLite;
 
 import java.util.UUID;
@@ -25,6 +26,13 @@ public class LeavePropChannelMessage extends ClientToServerMessage {
 
     @Override
     protected void handle(CommunicationServerController commServerController) {
-        commServerController.sendMessage(owner.getId(), new TellOwnerUserLeftMessage(userLite, channelID));
+        if (userLite.getId() == owner.getId()) {
+            // TODO INTEGRATION V2: When owner leaves channel, ask Data Server to remove Channel from list
+            // owner leave channel
+            commServerController.leaveChannel(channelID, userLite);
+        }
+        else {
+            commServerController.sendMessage(owner.getId(), new TellOwnerUserLeftMessage(userLite, channelID));
+        }
     }
 }
