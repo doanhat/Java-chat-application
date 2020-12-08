@@ -20,27 +20,7 @@ public class IHMMainToIHMChannel implements IIHMMainToIHMChannel {
     @Override
     public Region initIHMChannelWindow(Channel channel) {
         controller.setChannelPageToDisplay(channel);
-        //controller.getInterfaceToCommunication().getChannelHistory(channel.getId()); //TODO décommenter cette ligne pour intégration avec Comm
-        //TODO: enlever cette ligne pour intégration avec Comm. Elle ne sert qu'aux tests
-        //Membres connectés
-        List<String> nickName = new ArrayList<>();
-        nickName.add("Léa");
-        nickName.add("Aida");
-        nickName.add("Lucas");
-        nickName.add("Vladimir");
-        nickName.add("Jérôme");
-        nickName.add("Van-Triet");
-        List<UserLite> connectedUsers = new ArrayList<>();
-        for(int i=0; i < nickName.size(); i++){
-            UserLite u = new UserLite();
-            u.setNickName(nickName.get(i));
-            connectedUsers.add(u);
-        }
-
-        controller.getInterfaceForCommunication().displayChannelHistory(channel, channel.getMessages(), connectedUsers);
-
-
-
+        controller.getInterfaceToCommunication().askToJoin(channel);
         return (Region)controller.getRoot();
     }
 

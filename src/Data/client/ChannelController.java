@@ -44,7 +44,7 @@ public class ChannelController extends Controller{
             }
         }
         channelList.add(channel);
-        new FileHandle<Channel>(LocationType.client, FileType.channel).writeJSONToFile(channel.getId().toString(),Channel.class);
+        new FileHandle<Channel>(LocationType.client, FileType.channel).writeJSONToFile(channel.getId().toString(), channel);
 
     }
     /**
@@ -55,7 +55,6 @@ public class ChannelController extends Controller{
     public void createChannel(Channel channel) {
         addChannelToLocalChannels(channel);
         this.mainClient.addChannelToList(channel);
-        sendOwnedChannelToServer(channel);
     }
 
     /**
@@ -69,7 +68,7 @@ public class ChannelController extends Controller{
         for (Channel c : channels) {
             if(c.getId().equals(channelID)) {
                 c.addUser(user);
-                new FileHandle<Channel>(LocationType.client, FileType.channel).writeJSONToFile(channelID.toString(),Channel.class);
+                new FileHandle<Channel>(LocationType.client, FileType.channel).writeJSONToFile(channelID.toString(), c);
                 break;
             }
         }
@@ -171,7 +170,7 @@ public class ChannelController extends Controller{
         for (Channel c : channels) {
             if(c.getId().equals(channelId)) {
                 c.addUser(user);
-                new FileHandle<Channel>(LocationType.client, FileType.channel).writeJSONToFile(channelId.toString(),Channel.class);
+                new FileHandle<Channel>(LocationType.client, FileType.channel).writeJSONToFile(channelId.toString(), c);
                 break;
             }
         }

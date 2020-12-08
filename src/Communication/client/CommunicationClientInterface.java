@@ -232,13 +232,17 @@ public class CommunicationClientInterface implements IDataToCommunication,
         if (channel == null) {
             return;
         }
+        if (channel.getCreator().getId() == localUser.getId()) {
+            sendProprietaryChannel(channel);
+        } else {
+            if (channel.getType() == ChannelType.OWNED) {
+                commController.sendMessage(new AskToJoinPropMessage(channel.getId(), localUser, channel.getCreator()));
+            }
+            else {
+                commController.sendMessage(new AskToJoinSharedMessage(channel.getId(), localUser));
+            }
+        }
 
-        if (channel.getType() == ChannelType.OWNED) {
-            commController.sendMessage(new AskToJoinPropMessage(channel.getId(), localUser, channel.getCreator()));
-        }
-        else {
-            commController.sendMessage(new AskToJoinSharedMessage(channel.getId(), localUser));
-        }
     }
 
     /**

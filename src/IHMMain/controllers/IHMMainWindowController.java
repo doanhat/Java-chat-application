@@ -323,7 +323,11 @@ public class IHMMainWindowController implements Initializable{
         System.out.println(newChannel.getCreator().getNickName());
         */
         // TODO see with Communication if they add the channel or if it's our job
-        ihmMainController.getIIHMMainToCommunication().createChannel(newChannel, newChannel.getType() == ChannelType.SHARED, newChannel.getVisibility() == Visibility.PUBLIC, newChannel.getCreator());
+        if (newChannel.getType() == ChannelType.SHARED) {
+            ihmMainController.getIIHMMainToCommunication().createChannel(newChannel, newChannel.getType() == ChannelType.SHARED, newChannel.getVisibility() == Visibility.PUBLIC, newChannel.getCreator());
+        } else {
+            ihmMainController.getIHMMainToData().createChannel(newChannel.getName(), newChannel.getDescription(), newChannel.getType() == ChannelType.SHARED, newChannel.getVisibility() == Visibility.PUBLIC, newChannel.getCreator() );
+        }
 
     }
 
