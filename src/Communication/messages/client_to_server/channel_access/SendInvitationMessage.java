@@ -38,7 +38,6 @@ public class SendInvitationMessage extends ClientToServerMessage {
                 return;
             }
 
-            // TODO INTEGRATION V2: request data to implement requestAddUserToChannel() to change visibility of a channel to invited user
             commController.requestAddUserToChannel(guest, channel);
 
             // send Invitation to guest

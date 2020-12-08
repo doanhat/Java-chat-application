@@ -297,7 +297,7 @@ public class CommunicationServerController extends CommunicationController {
 			throw new NullPointerException("Data Interface est nulle");
 		}
 
-		// TODO INTEGRATION V2 verify with Data what are the differences between requestAddUser and joinChannel
+		// TODO INTEGRATION V2: request data to implement requestAddUserToChannel() to change visibility of a channel to invited user
 		this.dataServer.requestAddUser(channel, guest);
 	}
 
