@@ -38,7 +38,6 @@ public class MainWindowController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //Mettez ici le code qui s'execute avant l'apparition de la vue
-        loadConnectionWindow();
     }
 
     public void loadConnectionWindow() {
@@ -49,6 +48,7 @@ public class MainWindowController implements Initializable {
             Parent parent = fxmlLoader.load(); //On recupère le noeud racine du fxml chargé
             connectionController = fxmlLoader.getController(); //On récupère la classe controller liée au fxml
             connectionController.setMainWindowController(this); //On donne au controller fils une référence de son controller parent;
+            connectionController.setIhmMainController(ihmMainController);
             this.root.getChildren().addAll(parent); //On ajoute le noeud parent (fxml) au noeud racine de cette vue
             IHMTools.fitSizeToParent((Region) root, (Region) parent);
         } catch (IOException exception) {

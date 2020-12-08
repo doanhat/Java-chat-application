@@ -1,6 +1,7 @@
 package Communication.client;
 
 import Communication.common.CommunicationController;
+import Communication.common.TaskManager;
 import Communication.messages.abstracts.NetworkMessage;
 import Communication.messages.client_to_server.connection.UserConnectionMessage;
 import Communication.messages.client_to_server.connection.UserDisconnectionMessage;
@@ -43,6 +44,7 @@ public class CommunicationClientController extends CommunicationController {
      */
     public void start(String ip, int port, UserLite user) {
         try {
+            taskManager = new TaskManager();
             client.connect(ip, port);
             client.sendMessage(new UserConnectionMessage(user));
             heart.start(user.getId());

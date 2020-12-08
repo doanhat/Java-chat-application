@@ -9,7 +9,7 @@ import java.util.UUID;
  *
  */
 public abstract class CommunicationController {
-    public final TaskManager taskManager = new TaskManager();
+    public TaskManager taskManager;
 
     /**
      * Déconnecte l'utilisateur passé en paramètre. Le comportement est different sur le serveur et le client

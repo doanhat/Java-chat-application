@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 import Communication.common.CommunicationController;
 import Communication.common.NetworkWriter;
+import Communication.common.TaskManager;
 import Communication.messages.abstracts.NetworkMessage;
 import Communication.messages.server_to_client.chat_action.MessageDeletedMessage;
 import Communication.messages.server_to_client.channel_modification.NewInvisibleChannelsMessage;
@@ -51,6 +52,7 @@ public class CommunicationServerController extends CommunicationController {
 	 * Démarrer Communication Server
 	 */
 	public void start() {
+		taskManager = new TaskManager();
 		server.start();
 	}
 
