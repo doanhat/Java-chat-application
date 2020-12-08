@@ -264,6 +264,7 @@ public class IHMMainWindowController implements Initializable{
         try {
             ihmMainController.getIIHMMainToCommunication().disconnect();
             ihmMainController.getMainWindowController().loadConnectionWindow();
+            ihmMainController.reset();
         } catch (Exception e) {
             e.printStackTrace();
         }
