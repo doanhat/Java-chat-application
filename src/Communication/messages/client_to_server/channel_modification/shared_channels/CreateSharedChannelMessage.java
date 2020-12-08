@@ -57,11 +57,15 @@ public class CreateSharedChannelMessage extends ClientToServerMessage {
 
             commController.sendMessage(sender.getId(), new ChannelCreationResponseMessage(newChannel, true));
 
-            // broadcast public channel to other users
-            if (newChannel.getVisibility() == Visibility.PUBLIC) {
-                NetworkMessage newChannelNotification = new NewVisibleChannelMessage(newChannel);
+            NetworkMessage newChannelNotification = new NewVisibleChannelMessage(newChannel);
 
+            if (newChannel.getVisibility() == Visibility.PUBLIC) {
+                // broadcast public channel to other users
                 commController.sendBroadcast(newChannelNotification, sender);
+            }
+            else {
+                // multicast private channel to invited users
+                commController.sendMulticast(channel.getAcceptedPersons(), newChannelNotification);
             }
         }
         else {

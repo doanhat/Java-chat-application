@@ -28,10 +28,16 @@ public class SendProprietaryChannelsMessage extends ClientToServerMessage {
             boolean isPublicChannel = channel.getVisibility() == Visibility.PUBLIC;
             Channel registeredChannel = commController.requestCreateChannel(channel, false, isPublicChannel, owner);
 
-            if (registeredChannel != null && isPublicChannel) {
+            if (registeredChannel != null)
+            {
                 NetworkMessage newChannelNotification = new NewVisibleChannelMessage(registeredChannel);
 
-                commController.sendBroadcast(newChannelNotification, owner);
+                if (isPublicChannel) {
+                    commController.sendBroadcast(newChannelNotification, null);
+                }
+                else {
+                    commController.sendMulticast(channel.getAcceptedPersons(), newChannelNotification);
+                }
             }
         }
     }
