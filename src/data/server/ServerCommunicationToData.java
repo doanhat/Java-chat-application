@@ -226,7 +226,14 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
     @Override
     public List<Channel> disconnectOwnedChannel(UserLite owner) {
-        return channelsListController.disconnectOwnedChannel(owner);
+        //Remove channels from owned Channel List in server
+        List <Channel> removedChannels = channelsListController.disconnectOwnedChannel(owner);
+
+        //Remove active users from channels that have been removed
+        for(Channel channel : removedChannels){
+            userListController.removeActiveUsersFromChannel(channel.getId());
+        }
+        return removedChannels;
     }
 
     @Override

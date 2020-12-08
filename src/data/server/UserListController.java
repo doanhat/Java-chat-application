@@ -78,6 +78,10 @@ public class UserListController {
         activeUserList.add(new ActiveUser(channelID,userID));
     }
 
+    public void removeActiveUsersFromChannel(UUID channelID){
+        activeUserList.removeIf(au ->(au.getChannelID()).equals(channelID));
+    }
+
     public List<UserLite> getConnectedUsers(){
         return this.connectedUsers;
     }

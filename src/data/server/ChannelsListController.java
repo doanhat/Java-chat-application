@@ -160,10 +160,10 @@ public class ChannelsListController {
         for (Channel channel: ownedChannels) {
             if (channel.getCreator().getId().equals(owner.getId())) {
                 userOwnedChannels.add(channel);
-                ownedChannels.remove(channel);
+
             }
         }
-
+        ownedChannels.removeIf(ch -> (ch.getCreator().getId().equals(owner.getId())));
         return userOwnedChannels;
     }
 }
