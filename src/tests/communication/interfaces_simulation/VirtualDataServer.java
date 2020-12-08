@@ -277,4 +277,10 @@ public class VirtualDataServer implements IServerCommunicationToData {
     public List<UserLite> getActiveUsersInChannel(UUID channelID) {
         return null;
     }
+
+
+    @Override
+    public void addOwnedChannelsToServerList(List<Channel> ownedChannels, UUID ownerID) {
+
+    }
 }

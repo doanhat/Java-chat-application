@@ -104,6 +104,16 @@ public class ChannelsListController {
         return this.ownedChannels;
     }
 
+    public List<Channel> getOwnedChannelsForUser(UUID user){
+        List<Channel> list = new ArrayList<>();
+        for (Channel channel: ownedChannels) {
+            if(channel.getCreator().equals(user)){
+                list.add(channel);
+            }
+        }
+        return list;
+    }
+
     public void writeChannelDataToJSON(Channel channel){
         this.fileHandle.writeJSONToFile(channel);
     }

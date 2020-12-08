@@ -245,4 +245,20 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     }
 
 
+    @Override
+    public void addOwnedChannelsToServerList(List<Channel> ownedChannels, UUID ownerID) {
+        for (Channel channel: ownedChannels) {
+            //Add channel to the server list of channels
+            channelsListController.addChannel(channel);
+
+            //Add active users for each ownedChannel when users are connected
+            for (UserLite user: channel.getAcceptedPersons()) {
+                if(userListController.userIsConnected(user.getId())){
+                    userListController.addActiveUser(user.getId(),channel.getId());
+                }
+            }
+        }
+    }
+
+
 }

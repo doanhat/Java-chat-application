@@ -262,5 +262,11 @@ public interface IServerCommunicationToData {
     List<UserLite> getActiveUsersInChannel(UUID channelID);
 
 
-
+    /**
+     * Méthode pour ajouter la liste des channels proprietaires d'un utilisateur dans la liste des channels
+     * dans le serveur
+     * @param ownedChannels Liste des channels proprietaires à ajouter
+     * @param ownerID l'identificateur de l'utilisateur proprietaire des channels
+     * */
+    void addOwnedChannelsToServerList(List<Channel> ownedChannels, UUID ownerID);
 }
