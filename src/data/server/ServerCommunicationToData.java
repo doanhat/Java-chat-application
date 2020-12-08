@@ -229,5 +229,20 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
         return channelsListController.disconnectOwnedChannel(owner);
     }
 
+    @Override
+    public List<UUID> getChannelsWhereUser(UUID userID) {
+        return channelsListController.getChannelsWhereUser(userID);
+    }
+
+    @Override
+    public List<UUID> getChannelsWhereUserActive(UUID userID) {
+        return userListController.getChannelsWhereUserActive(userID);
+    }
+
+    @Override
+    public List<UserLite> getActiveUsersInChannel(UUID channelID) {
+        return userListController.getActiveUsersInChannel(channelID);
+    }
+
 
 }

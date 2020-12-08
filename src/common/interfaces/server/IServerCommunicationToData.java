@@ -239,4 +239,28 @@ public interface IServerCommunicationToData {
     Channel getChannel(UUID channelID);
 
     List<Channel> disconnectOwnedChannel(UserLite owner);
+
+    /**
+     * Méthode pour retourner la liste des identieurs des channels auxquels appartient un utilisateur
+     * @param userID l'identificateur de l'utilisateur
+     * */
+    List<UUID> getChannelsWhereUser(UUID userID);
+
+    /**
+     * Méthode pour retourner la liste des identieurs des channels dans lesquels un utilisateur est active
+     * (liste différente à la liste de la méthode getChannelsWhereUser car les channels proprietaires peuvent
+     * pas être actives)
+     * @param userID l'identificateur de l'utilisateur
+     * */
+    List<UUID> getChannelsWhereUserActive(UUID userID);
+
+
+    /**
+     * Méthode pour retourner la liste des utilisateurs actives dans un channel
+     * @param channelID l'identificateur du channel
+     * */
+    List<UserLite> getActiveUsersInChannel(UUID channelID);
+
+
+
 }
