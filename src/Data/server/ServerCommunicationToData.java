@@ -89,7 +89,7 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
     @Override
     public void saveRemovalMessageIntoHistory(Channel ch, Message ms, Boolean deletedByCreator) {
-
+        this.channelsListController.writeRemovalMessageInChannel(ch, ms, deletedByCreator);
     }
 
     @Override

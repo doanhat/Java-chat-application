@@ -128,6 +128,20 @@ public class ChannelsListController {
         }
     }
 
+    /**
+     * Sets a message as deleted.
+     *
+     * @param channel           Le channel.
+     * @param message           Le message à supprimer.
+     * @param deletedByCreator  L'utilisateur qui demande la suppression est l'auteur.
+     */
+    public void writeRemovalMessageInChannel(Channel channel, Message message, Boolean deletedByCreator) {
+        if (channel.getType() == ChannelType.SHARED) {
+            message.delete(deletedByCreator);
+            this.writeChannelDataToJSON(channel);
+        }
+    }
+
     public List<Channel> disconnectOwnedChannel(UserLite owner) {
         List<Channel> userOwnedChannels = new ArrayList<>();
         List<Channel> ownedChannels = getOwnedChannels();
