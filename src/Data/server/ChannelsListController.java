@@ -16,10 +16,6 @@ public class ChannelsListController {
     private List<Channel> ownedChannels;
     private FileHandle fileHandle;
 
-    /**
-     * SVP CREER LES FICHIER AVEC DES FONCTIONS
-     */
-
     public ChannelsListController() {
         this.fileHandle = new FileHandle<Channel>(LocationType.server, FileType.channel);
         this.sharedChannels = createChannelListFromJSONFiles();
@@ -103,7 +99,6 @@ public class ChannelsListController {
     }
 
     public Channel readJSONToChannelData(UUID idChannel){
-        //TODO UPDATE (Espace)
         return (Channel) this.fileHandle.readJSONFileToObject(idChannel.toString(), Channel.class);
     }
 
@@ -127,6 +122,19 @@ public class ChannelsListController {
                 }
             }
 
+            this.writeChannelDataToJSON(channel);
+        }
+    }
+
+    /**
+     * Enregistre un nouveau admin dans l'historique d'un channel.
+     *
+     * @param channel   Le channel.
+     * @param user      L'admin à ajouter.
+     */
+    public void writeNewAdminInChannel(Channel channel, UserLite user) {
+        if (channel.getType() == ChannelType.SHARED) {
+            channel.addAdmin(user);
             this.writeChannelDataToJSON(channel);
         }
     }

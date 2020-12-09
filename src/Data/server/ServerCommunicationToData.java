@@ -53,7 +53,7 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
     @Override
     public void saveNewAdminIntoHistory(Channel ch, UserLite user) {
-
+        this.channelsListController.writeNewAdminInChannel(ch, user);
     }
 
     @Override
