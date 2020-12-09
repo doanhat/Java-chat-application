@@ -474,5 +474,8 @@ public class CommunicationClientController extends CommunicationController {
         dataClient.likeMessage(channelId, msg, user);
     }
 
+    public void notifyChangeNickName(UserLite user, UUID channelId, String name){
+        dataClient.updateNickname(user, channelId, name);
+    }
 
 }
