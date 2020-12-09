@@ -53,7 +53,9 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
     @Override
     public void saveNewAdminIntoHistory(Channel ch, UserLite user) {
-        this.channelsListController.writeNewAdminInChannel(ch, user);
+        Channel channel = this.channelsListController.searchChannelById(ch.getId());
+
+        this.channelsListController.writeNewAdminInChannel(channel, user);
     }
 
     @Override
@@ -68,10 +70,11 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
     @Override
     public void saveMessageIntoHistory(Channel ch, Message ms, Message response) {
-        ch.addMessage(ms);
+        Channel channel = this.channelsListController.searchChannelById(ch.getId());
+        channel.addMessage(ms);
 
-        if (ch.getType() == ChannelType.SHARED) {
-            this.channelsListController.writeMessageInChannel(ch, ms, response);
+        if (channel.getType() == ChannelType.SHARED) {
+            this.channelsListController.writeMessageInChannel(channel, ms, response);
         }
     }
 

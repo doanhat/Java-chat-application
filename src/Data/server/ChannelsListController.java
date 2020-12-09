@@ -105,9 +105,9 @@ public class ChannelsListController {
     /**
      * Enregistre un message et son parent dans l'historique d'un channel.
      *
-     * @param channel le channel.
+     * @param channel   Le channel.
      * @param message   Le message à enregistrer.
-     * @param parent  Le parent du message, s'il existe.
+     * @param parent    Le parent du message, s'il existe.
      */
     public void writeMessageInChannel(Channel channel, Message message, Message parent){
         if (channel != null) {
