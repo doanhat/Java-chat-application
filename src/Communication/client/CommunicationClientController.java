@@ -324,12 +324,13 @@ public class CommunicationClientController extends CommunicationController {
      * @param channelID ID du channel
      */
     public void notifyUserJoinedChannel(UserLite user, UUID channelID) {
-        if (dataClient == null) {
-            throw new NullPointerException("Data Iface est null");
+        if (dataClient == null || channelClient == null) {
+            throw new NullPointerException("Data Iface ou Channel Iface est null");
         }
 
         logger.log(Level.FINE, user.getNickName() + " joined channel " + channelID);
         dataClient.userAddedToChannel(user, channelID);
+        channelClient.addConnectedUser(channelID, user);
     }
 
     public List<Message> requestHistory(UUID channelID) {
@@ -363,6 +364,10 @@ public class CommunicationClientController extends CommunicationController {
      * @param userLite identifiant unique (UUID) de l'utilisateur qui est parti
      */
     public void notifyUserHasLeftChannel(UUID channelID, UserLite userLite) {
+        if (channelClient == null) {
+            throw new NullPointerException("Channel Iface est null");
+        }
+
         channelClient.removeConnectedUser(channelID, userLite);
 
         //dataClient.deleteUserFromChannel(userLite, channelID, 0, "has left");
