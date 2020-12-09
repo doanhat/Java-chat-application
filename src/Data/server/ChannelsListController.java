@@ -137,8 +137,17 @@ public class ChannelsListController {
      */
     public void writeRemovalMessageInChannel(Channel channel, Message message, Boolean deletedByCreator) {
         if (channel.getType() == ChannelType.SHARED) {
-            message.delete(deletedByCreator);
-            this.writeChannelDataToJSON(channel);
+            Channel c = this.searchChannelById(channel.getId());
+            List<Message> ms = c.getMessages();
+
+            for (Message m : ms) {
+                if (m.getId() == message.getId()) {
+                    m.delete(deletedByCreator);
+                    break;
+                }
+            }
+
+            this.writeChannelDataToJSON(c);
         }
     }
 
