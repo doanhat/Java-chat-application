@@ -9,6 +9,7 @@ import common.interfaces.client.IDataToIHMMain;
 import common.sharedData.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -124,12 +125,23 @@ public class ChannelController extends Controller{
      * Delete user from channel.
      *
      * @param user        the user
-     * @param channel     the channel
-     * @param duration    the duration
+     * @param channelId   the channel ID
+     * @param duration    the duration. -1 = permanent kick ; 0 = kick without duration ; x = duration in seconds
      * @param explanation the explanation
      */
-    public void deleteUserFromChannel(User user, Channel channel, int duration, String explanation) {
-
+    public void deleteUserFromChannel(UserLite user, UUID channelId, int duration, String explanation) {
+        for (Channel c : getChannelList()) {
+            if (c.getId().equals(channelId)) {
+                c.removeUser(user.getId());
+                if (duration >= 0) {
+                    Date now = new Date();
+                    now.setTime(now.getTime() + duration);
+                    c.kickUser(user, explanation, now);
+                } else {
+                    c.kickPermanentUser(user, explanation);
+                }
+            }
+        }
     }
 
     /**

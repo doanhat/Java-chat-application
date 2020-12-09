@@ -105,7 +105,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void deleteUserFromChannel(UserLite user, UUID channelId, int duration, String explanation) {
-
+        this.dataController.getChannelController().deleteUserFromChannel(user, channelId, duration, explanation);
     }
 
     /**

@@ -81,7 +81,7 @@ public interface ICommunicationToData {
      *
      * @param user        the user
      * @param channelId     the channel
-     * @param duration    the duration
+     * @param duration    the duration. -1 = permanent kick ; 0 = kick without duration ; x = duration in seconds
      * @param explanation the explanation
      */
     void deleteUserFromChannel(UserLite user, UUID channelId, int duration, String explanation);
