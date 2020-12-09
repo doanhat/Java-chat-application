@@ -359,26 +359,13 @@ public class CommunicationClientController extends CommunicationController {
     /**
      * Retire une personne d'un channel
      *
-     * @param channelID identifiant unique (UUID) du channel quitté
-     * @param userLite  identifiant unique (UUID) de l'utilisateur qui est parti
-     */
-    public void leftOwnedChannel(UUID channelID, UserLite userLite) {
-        if (dataClient == null) {
-            throw new NullPointerException("Data Iface est null");
-        }
-
-        dataClient.deleteUserFromChannel(userLite, channelID, 0, "has left");
-    }
-
-    /**
-     * Retire une personne d'un channel
-     *
      * @param channelID  identifiant unique (UUID) du channel quitté
      * @param userLite identifiant unique (UUID) de l'utilisateur qui est parti
      */
     public void notifyUserHasLeftChannel(UUID channelID, UserLite userLite) {
-        // TODO INTEGRATION V2: ask IHM Main or IHM channel to add method for notifying that user left
-        //mainClient.leaveChannel(channel, userLite)
+        channelClient.removeConnectedUser(channelID, userLite);
+
+        //dataClient.deleteUserFromChannel(userLite, channelID, 0, "has left");
     }
 
 
