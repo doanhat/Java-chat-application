@@ -184,7 +184,7 @@ public class CommunicationClientController extends CommunicationController {
         }
 
         mainClient.setConnectionStatus(0);
-        //mainClient.setConnectedUsers(users);
+        mainClient.setConnectedUsers(users);
         //channelClient.setConnectedUsers(users); //TODO Activer cette methode quand channel l'aura dans son interface
 
         for (Channel channel : channels) {
