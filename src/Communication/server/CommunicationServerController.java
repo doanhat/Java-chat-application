@@ -160,7 +160,7 @@ public class CommunicationServerController extends CommunicationController {
 
 		for(NetworkUser usr : server.directory().getConnections(users)) {
 			if (excludedUser != null){
-				if (usr.uuid() != excludedUser.getId()) {
+				if (!usr.uuid().equals(excludedUser.getId())) {
 					server.sendMessage(usr.preparePacket(message));
 				}
 			}
@@ -182,7 +182,7 @@ public class CommunicationServerController extends CommunicationController {
 	}
 
 	public void sendMulticast(List<UserLite> receivers, NetworkMessage message, UserLite excluded) {
-		sendMulticast(receivers.stream().filter(userLite -> userLite.getId() != excluded.getId()).collect(Collectors.toList()), message);
+		sendMulticast(receivers.stream().filter(userLite -> !userLite.getId().equals(excluded.getId())).collect(Collectors.toList()), message);
 	}
 
 	/* -------------------------------------- Connection Request handling --------------------------------------------*/

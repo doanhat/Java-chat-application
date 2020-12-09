@@ -57,8 +57,13 @@ import java.util.UUID;
 
     @Override
     public void addConnectedUser(UUID channelId, UserLite user) {
-        controller.getChannelPageController().getChannelController(channelId).addConnectedUser(user);
-        controller.getInterfaceToIHMMain().setOpenedChannelsList(controller.getOpenedChannelsList());
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                controller.getChannelPageController().getChannelController(channelId).addConnectedUser(user);
+                controller.getInterfaceToIHMMain().setOpenedChannelsList(controller.getOpenedChannelsList());
+            }
+        });
     }
 
     @Override

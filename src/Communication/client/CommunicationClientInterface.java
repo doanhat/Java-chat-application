@@ -66,6 +66,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
      */
     public void disconnect() {
         commController.disconnect(localUser.getId());
+        // TODO maybe set localUser to null;
     }
 
     /**
@@ -234,7 +235,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
         }
 
         if (channel.getType() == ChannelType.OWNED) {
-            if (channel.getCreator().getId() == localUser.getId()) {
+            if (channel.getCreator().getId().equals(localUser.getId())) {
                 sendProprietaryChannel(channel);
             }
             else {

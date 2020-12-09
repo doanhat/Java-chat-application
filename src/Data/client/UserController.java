@@ -17,11 +17,13 @@ import java.util.UUID;
 
 
 public class UserController extends Controller {
-    public UserController(IDataToCommunication comClient, IDataToIHMChannel channelClient, IDataToIHMMain mainClient) {
+    public UserController(IDataToCommunication comClient, IDataToIHMChannel channelClient, IDataToIHMMain mainClient, DataClientController controller) {
         super(comClient, channelClient, mainClient);
+        dataController = controller;
         fileHandle = new FileHandle<User>(LocationType.client, FileType.user);
         localUserList = fileHandle.readJSONFileToList("users",User.class);
     }
+    private DataClientController dataController;
     private User localUser;
     private List<User> localUserList;
     private FileHandle<User> fileHandle;
@@ -49,6 +51,10 @@ public class UserController extends Controller {
                 if (user.getNickName().equals(nickName) & user.getPassword().equals(password)){
                     this.localUser = user;
                     this.comClient.userConnect(user.getUserLite());
+                    this.dataController.getChannelController().loadProprietaryChannels(user);
+                    for (Channel channel : dataController.getChannelController().getChannelList()) {
+                        this.mainClient.addChannelToList(channel);
+                    }
                     return true;
                 }
             }

@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class ChannelController extends Controller{
     private List<Channel> channelList;
@@ -25,8 +26,6 @@ public class ChannelController extends Controller{
     }
     public ChannelController(IDataToCommunication comClient, IDataToIHMChannel channelClient, IDataToIHMMain mainClient) {
         super(comClient, channelClient, mainClient);
-        channelList = new FileHandle<Channel>(LocationType.client, FileType.channel).readAllJSONFilesToList(Channel.class);
-        //sendOwnedChannelsToServer(); // TODO when user connected
     }
 
     public Channel searchChannelById(UUID id) {
@@ -35,6 +34,17 @@ public class ChannelController extends Controller{
                 return ch;
         }
         return null;
+    }
+
+    /**
+     * Load proprietary local channels own to a specific user
+     * @param user The user concerned
+     */
+    public void loadProprietaryChannels(UserLite user) {
+        FileHandle fileHandle = new FileHandle<Channel>(LocationType.client, FileType.channel);
+        List<Channel> localChannels = fileHandle.readAllJSONFilesToList(Channel.class);
+        channelList = localChannels.stream().filter(ch -> ch.getCreator().getId().equals(user.getId()))
+                .collect(Collectors.toList());
     }
 
     public void addChannelToLocalChannels(Channel channel){
