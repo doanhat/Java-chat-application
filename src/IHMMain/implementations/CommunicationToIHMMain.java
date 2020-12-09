@@ -47,17 +47,17 @@ public class CommunicationToIHMMain implements ICommunicationToIHMMain {
 
     @Override
     public void setConnectedUsers(List<UserLite> users) {
-        ihmMainController.getConnectedUsers().setAll(users);
+        Platform.runLater(() -> ihmMainController.getConnectedUsers().setAll(users));
     }
 
     @Override
     public void addConnectedUser(UserLite user) {
-        ihmMainController.getConnectedUsers().add(user);
+        Platform.runLater(() -> ihmMainController.getConnectedUsers().add(user));
     }
 
     @Override
     public void removeConnectedUser(UserLite user) {
-        ihmMainController.getConnectedUsers().remove(user);
+        Platform.runLater(() -> ihmMainController.getConnectedUsers().remove(user));
     }
 
     @Override

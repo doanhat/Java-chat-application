@@ -59,6 +59,13 @@ public class NetworkUser {
                 List<Channel> userChannels = commController.getUserChannels(this.userInfo);
                 List<UserLite> onlineUsers = commController.onlineUsers();
 
+                /**
+                 * We add the current user on the list off onlineUsers here,
+                 * because at the moment, commController.onlineUSers() doesn't know this current user
+                 * IT's not yet register inside server connections
+                 */
+                onlineUsers.add(this.userInfo);
+
                 commController.sendMessage(preparePacket(new AcceptationMessage(userChannels, onlineUsers)));
                 commController.sendBroadcast(new NewUserConnectedMessage(this.userInfo), this.userInfo);
             }
