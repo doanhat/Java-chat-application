@@ -3,7 +3,9 @@ package Communication.client;
 import Communication.common.Parameters;
 import Communication.messages.client_to_server.channel_access.proprietary_channels.LeavePropChannelMessage;
 import Communication.messages.client_to_server.channel_access.shared_channels.LeaveSharedChannelMessage;
+import Communication.messages.client_to_server.channel_modification.ChangeNicknameMessage;
 import Communication.messages.client_to_server.channel_modification.DeleteChannelMessage;
+import Communication.messages.client_to_server.channel_modification.proprietary_channels.ChangeNicknamePropChannelMessage;
 import Communication.messages.client_to_server.channel_modification.proprietary_channels.SendProprietaryChannelsMessage;
 import Communication.messages.client_to_server.channel_modification.shared_channels.CreateSharedChannelMessage;
 import Communication.messages.client_to_server.chat_action.SendMessageMessage;
@@ -212,7 +214,16 @@ public class CommunicationClientInterface implements IDataToCommunication,
      * @param newNickname [String] Nouveau pseudo
      **/
     public void changeNickname(UserLite user, Channel channel, String newNickname) {
-        // TODO V2
+        if (channel == null || user == null || newNickname == null) {
+            return;
+        }
+
+        if (channel.getType() == ChannelType.OWNED) {
+            commController.sendMessage(new ChangeNicknamePropChannelMessage(user, channel.getId(), newNickname, channel.getCreator()));
+        }
+        else {
+            commController.sendMessage(new ChangeNicknameMessage(user, channel, newNickname));
+        }
     }
 
     /**
