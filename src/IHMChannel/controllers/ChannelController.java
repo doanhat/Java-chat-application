@@ -6,6 +6,7 @@ import IHMChannel.IHMChannelController;
 import common.IHMTools.IHMTools;
 import common.sharedData.Channel;
 import common.sharedData.Message;
+import common.sharedData.User;
 import common.sharedData.UserLite;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,6 +27,7 @@ public class ChannelController {
     private Channel currentChannel; //channel à afficher dans l'interface
     private IHMChannelController ihmChannelController;
     private List<UserLite> connectedMembersList;
+    private ChannelMessagesController channelMessagesController;
 
 
     /*
@@ -79,6 +81,7 @@ public class ChannelController {
         iconsInit();
         //Affichage de la partie "messages"
         channelMessagesDisplay = new ChannelMessagesDisplay();
+        channelMessagesController = channelMessagesDisplay.getController();
         //channelMessagesDisplay.setConnectedMembersList(connectedMembersList);
         pageToDisplay.setCenter(channelMessagesDisplay.root);
 
@@ -309,6 +312,11 @@ public class ChannelController {
         this.channelMessagesDisplay.getController().removeMemberFromObservableList(user);
         this.channelMembersDisplay.getController().removeMemberFromObservableList(user);
     }
+
+    public void likeMessage(Message message, UserLite user) {
+        channelMessagesController.likeMessage(message, user);
+    }
+
 
 
 }

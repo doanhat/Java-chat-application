@@ -114,7 +114,7 @@ public class DataToIHMChannel implements IDataToIHMChannel{
      */
     @Override
     public void likeMessage(Channel channel, Message message, User user) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        controller.getChannelPageController().getChannelController(channel.getId()).likeMessage(message, user);
     }
 
     /**
