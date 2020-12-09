@@ -26,17 +26,19 @@ public class ChannelListViewCellController extends ListCell<Channel> {
 
     private FXMLLoader fxmlLoader;
 
-    private IHMMainController ihmMainController;
-
     private PseudoClass openedPseudoClass = PseudoClass.getPseudoClass("opened");
 
     public ChannelListViewCellController(IHMMainController ihmMainController) {
-        this.ihmMainController = ihmMainController;
-
-        if (this.getItem() != null && this.ihmMainController.getOpenedChannels() != null) {
-            InvalidationListener listener = observable -> this.pseudoClassStateChanged(openedPseudoClass, ihmMainController.getOpenedChannels().stream().anyMatch(c -> c.getId() == this.getItem().getId()));
-            ihmMainController.getOpenedChannels().addListener(listener);
-        }
+        /**
+         * Add listener on the item to update style if the item (channel) became a opened channel
+         * We add pseudo class :opened on the item
+         */
+        InvalidationListener listener = observable -> pseudoClassStateChanged(
+                openedPseudoClass,
+                getItem() != null && ihmMainController.getOpenedChannels().contains(getItem())
+        );
+        ihmMainController.getOpenedChannels().addListener(listener);
+        itemProperty().addListener(listener);
     }
 
     @Override

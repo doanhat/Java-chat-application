@@ -3,12 +3,7 @@ package IHMChannel.interfaces;
 import IHMChannel.IHMChannelController;
 import common.interfaces.client.IIHMMainToIHMChannel;
 import common.sharedData.Channel;
-import common.sharedData.UserLite;
 import javafx.scene.layout.Region;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 public class IHMMainToIHMChannel implements IIHMMainToIHMChannel {
 
@@ -18,9 +13,8 @@ public class IHMMainToIHMChannel implements IIHMMainToIHMChannel {
     }
 
     @Override
-    public Region initIHMChannelWindow(Channel channel) {
-        controller.setChannelPageToDisplay(channel);
-        controller.getInterfaceToCommunication().askToJoin(channel);
+    public Region initIHMChannelWindow() {
+        controller.setChannelPageToDisplay();
         return (Region)controller.getRoot();
     }
 

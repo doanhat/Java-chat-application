@@ -29,10 +29,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-
 public class IHMMainWindowController implements Initializable{
 
     private IHMMainController ihmMainController;
@@ -203,17 +199,13 @@ public class IHMMainWindowController implements Initializable{
      * @param channel Channel to set a in the current view
      */
     public void viewChannel(Channel channel) {
-        boolean isInit = false;
         if (ihmChannelNode == null) {
-            isInit = true;
-            ihmChannelNode = ihmMainController.getIHMMainToIHMChannel().initIHMChannelWindow(channel);
+            ihmChannelNode = ihmMainController.getIHMMainToIHMChannel().initIHMChannelWindow();
         }
         if (this.isHomePage) {
             loadIHMChannelWindow();
         }
-        if (!isInit) {
-            this.ihmMainController.getIHMMainToIHMChannel().viewChannel(channel);
-        }
+        this.ihmMainController.getIHMMainToIHMChannel().viewChannel(channel);
     }
 
     /**
@@ -272,6 +264,7 @@ public class IHMMainWindowController implements Initializable{
         try {
             ihmMainController.getIIHMMainToCommunication().disconnect();
             ihmMainController.getMainWindowController().loadConnectionWindow();
+            ihmMainController.reset();
         } catch (Exception e) {
             e.printStackTrace();
         }

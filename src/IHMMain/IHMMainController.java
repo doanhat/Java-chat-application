@@ -33,9 +33,6 @@ public class IHMMainController {
     /**
      * Properties use inside IHM-Main module
      */
-
-
-
     private MainWindowController mainWindowController;
 
     private ObservableList<UserLite> connectedUsers = FXCollections.observableArrayList();
@@ -107,5 +104,15 @@ public class IHMMainController {
     
     public void loadIHMMainWindow(int status) {
         mainWindowController.getConnectionController().loadIHMMainWindow(status);
+    }
+
+    /**
+     * This method reset all the data
+     * Use to clear a previous session
+     */
+    public void reset() {
+        connectedUsers = FXCollections.observableArrayList();
+        visibleChannels = FXCollections.observableArrayList();
+        openedChannels = FXCollections.observableArrayList();
     }
 }

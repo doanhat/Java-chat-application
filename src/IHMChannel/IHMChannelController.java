@@ -133,10 +133,10 @@ public class IHMChannelController {
         this.root = root;
     }
 
-    public void setChannelPageToDisplay(Channel channel) {
+    public void setChannelPageToDisplay() {
 
         try{
-            ChannelPageDisplay channelPageDisplay = new ChannelPageDisplay(channel, this);
+            ChannelPageDisplay channelPageDisplay = new ChannelPageDisplay(this);
         }catch(IOException e){
             e.printStackTrace();
         }
