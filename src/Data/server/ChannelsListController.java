@@ -115,11 +115,8 @@ public class ChannelsListController {
      * @param parent  Le parent du message, s'il existe.
      */
     public void writeMessageInChannel(Channel channel, Message message, Message parent){
-        //Channel channel = this.readJSONToChannelData(channelId);
-
         if (channel != null) {
             List<Message> messages = channel.getMessages();
-            messages.add(message);
 
             if (parent != null) {
                 for (Message msg : messages) {
