@@ -24,6 +24,8 @@ public class MessageController {
     @FXML
     Text author;
     @FXML
+    Text isEditedText;
+    @FXML
     TextArea content;
     @FXML
     Text time;
@@ -38,6 +40,7 @@ public class MessageController {
     Button edit;
     @FXML
     Button delete;
+
 
     /**
      * Setter pour fixer le message qui sera affiché par ce widget.
@@ -71,6 +74,10 @@ public class MessageController {
 
         //TODO bouton suppression
 
+    }
+
+    public Text getIsEditedText() {
+        return isEditedText;
     }
 
     /**

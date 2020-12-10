@@ -14,7 +14,11 @@
     <Pane HBox.hgrow="NEVER"></Pane>
     <ImageView fx:id="profilePic"/>
     <VBox fx:id="main">
-        <Text fx:id="author" styleClass="user-name"/>
+        <HBox>
+            <Text fx:id="author" styleClass="user-name"/>
+            <Text fx:id="isEditedText"/>
+        </HBox>
+
         <TextArea fx:id="content" prefHeight="-Infinity" styleClass="message-content"/>
     </VBox>
     <Pane HBox.hgrow="ALWAYS" />

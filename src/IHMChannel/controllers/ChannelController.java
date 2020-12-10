@@ -318,5 +318,7 @@ public class ChannelController {
     }
 
 
-
+    public void editMessage(Message message, Message newMessage) {
+        channelMessagesController.editMessage(message,newMessage);
+    }
 }

@@ -287,4 +287,15 @@ public class ChannelMessagesController{
     public void setMapMessageController(HashMap<UUID, MessageController> mapMessageController) {
         this.mapMessageController = mapMessageController;
     }
+
+    public void editMessage(Message message, Message newMessage) {
+        for(Message m : observableMessages){
+            if(m.getId().equals(message.getId())){
+                //affichage "message édité"
+                mapMessageController.get(m.getId()).getIsEditedText().setText("message édité");
+                mapMessageController.get(message.getId()).setMessageToDisplay(m); //mise à jour de l'affichage
+                break;
+            }
+        }
+    }
 }
