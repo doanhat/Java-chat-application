@@ -4,6 +4,7 @@ import IHMChannel.IHMChannelController;
 import IHMChannel.MessageDisplay;
 import common.sharedData.Channel;
 import common.sharedData.Message;
+import common.sharedData.User;
 import common.sharedData.UserLite;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -22,7 +23,9 @@ import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Contrôleur de la vue "ChannelMessages" dans laquelle on retrouve l'affichage et la saisie de messages d'un channel
@@ -67,6 +70,8 @@ public class ChannelMessagesController{
 
     ListChangeListener<Message> messageListListener;
 
+    private HashMap<UUID, MessageController> mapMessageController = new HashMap<UUID, MessageController>();
+
     public void addMessageToObservableList(Message message){
         observableMessages.add(message);
     }
@@ -80,6 +85,7 @@ public class ChannelMessagesController{
         }
         catch (Exception e){
             System.out.println("Problème lors de l'affichage des messages");
+            e.printStackTrace();
         }
     }
 
@@ -240,5 +246,45 @@ public class ChannelMessagesController{
     void removeReponse() {
         setIsReponse(false);
         this.parentMessage = null;
+    }
+
+    public void likeMessage(Message message, UserLite user) {
+        for(Message m : observableMessages){
+            if(m.getId().equals(message.getId())){
+                List<UserLite> likeList = m.getLikes();
+                if(likeList.contains(user)){
+                    likeList.remove(user); //dislike
+                    //update icon
+                    Image likeImage = null;
+                    if(likeList.size() > 0){ //other user still like the message
+                        likeImage = new Image("IHMChannel/icons/heart-solid.png");
+                    }else{
+                        likeImage = new Image("IHMChannel/icons/heart-regular.png");
+                    }
+                    ImageView likeIcon = new ImageView(likeImage);
+                    likeIcon.setFitHeight(15);
+                    likeIcon.setFitWidth(15);
+                    mapMessageController.get(m.getId()).getLikeButton().setGraphic(likeIcon);
+                }else{
+                    likeList.add(user); //like
+                    //update icon to red heart
+                    Image likeImage = new Image("IHMChannel/icons/heart-solid-red.png");
+                    ImageView likeIcon = new ImageView(likeImage);
+                    likeIcon.setFitHeight(15);
+                    likeIcon.setFitWidth(15);
+                    mapMessageController.get(m.getId()).getLikeButton().setGraphic(likeIcon);
+                }
+                mapMessageController.get(message.getId()).setMessageToDisplay(m); //mise à jour de l'affichage
+                break;
+            }
+        }
+    }
+
+    public HashMap<UUID, MessageController> getMapMessageController() {
+        return mapMessageController;
+    }
+
+    public void setMapMessageController(HashMap<UUID, MessageController> mapMessageController) {
+        this.mapMessageController = mapMessageController;
     }
 }

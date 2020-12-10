@@ -9,6 +9,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
+import java.text.SimpleDateFormat;
+
 import java.util.UUID;
 
 /**
@@ -26,7 +28,10 @@ public class MessageController {
     @FXML
     Text time;
     @FXML
-    Button like;
+    private
+    Button likeButton;
+    @FXML
+    Text likeCounter;
     @FXML
     Button answer;
     @FXML
@@ -43,6 +48,12 @@ public class MessageController {
         this.messageToDisplay = messageToDisplay;
         author.setText(messageToDisplay.getAuthor().getNickName());
         content.setText(messageToDisplay.getMessage());
+
+        likeCounter.setText(String.valueOf(messageToDisplay.countLikes()));
+
+        //date formatting
+        String df = new SimpleDateFormat("dd/MM/yyyy HH:mm").format(messageToDisplay.getDate());
+        time.setText(df);
 
         //Gestion de l'affichage des boutons
         //bouton édition visible que c'est c'est notre message
@@ -68,7 +79,6 @@ public class MessageController {
      */
     public void initialize(){
         iconsInit();
-        time.setText("10:06");
         content.setEditable(false);
     }
 
@@ -87,7 +97,7 @@ public class MessageController {
         ImageView likeIcon = new ImageView(likeImage);
         likeIcon.setFitHeight(15);
         likeIcon.setFitWidth(15);
-        like.setGraphic(likeIcon);
+        getLikeButton().setGraphic(likeIcon);
 
         //Reply
         Image replyImage = new Image("IHMChannel/icons/reply-solid.png");
@@ -108,6 +118,15 @@ public class MessageController {
      */
     public void likeMessage(){
         System.out.println("like du message "+this.content.getText());
+        channelMessagesController.getIhmChannelController().getInterfaceToCommunication().likeMessage(
+                channelMessagesController.channel,
+                messageToDisplay,
+                channelMessagesController.getIhmChannelController().getInterfaceToData().getLocalUser());
+        //TODO à enlever pour l'intégration, ne sert qu'aux tests
+        channelMessagesController.getIhmChannelController().getInterfaceForData().likeMessage(
+                channelMessagesController.channel,
+                messageToDisplay,
+                channelMessagesController.getIhmChannelController().getInterfaceToData().getLocalUser());
     }
 
     /**
@@ -151,4 +170,11 @@ public class MessageController {
         this.channelMessagesController = channelMessagesController;
     }
 
+    public Button getLikeButton() {
+        return likeButton;
+    }
+
+    public void setLikeButton(Button likeButton) {
+        this.likeButton = likeButton;
+    }
 }
