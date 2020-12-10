@@ -1,6 +1,8 @@
 package common.interfaces.client;
 
 import common.sharedData.*;
+
+import java.io.IOException;
 import java.util.*;
 
 public interface IIHMChannelToCommunication
@@ -18,11 +20,19 @@ public interface IIHMChannelToCommunication
     /**
      * Demande l'envoie d'un message de nomination d'administrateur au serveur
      *
-     * @param us [UserLite] Utilisateur devenant admin
+     * @param user [UserLite] Utilisateur devenant admin
      * @param channel [Channel] Channel qui doit recevoir les droitsChannel
      *                sur lequel on souhait donnée les droits d'admin
      **/
-    void giveAdmin(UserLite us, Channel channel);
+    void giveAdmin(UserLite user, Channel channel);
+
+    /**
+     * Permet de retirer un administrateur pour un channel.
+     * @param user [UserLite] Utilisateur qui n'est plus un admin
+     * @param channel [Channel] channel pour lequel on a retiré un admin
+     */
+    void removeAdmin(UserLite user, Channel channel);
+
     /**
      * Demande de bannir un utilisateur d'un channel
      *

@@ -1,20 +1,20 @@
 package Communication.messages.client_to_server.channel_access.shared_channels;
 
 import Communication.messages.abstracts.ClientToServerMessage;
-import Communication.messages.server_to_client.channel_access.AdminAddedMessage;
+import Communication.messages.server_to_client.channel_access.AdminRemovedMessage;
 import Communication.server.CommunicationServerController;
 import common.sharedData.Channel;
 import common.sharedData.UserLite;
 
 import java.util.UUID;
 
-public class AddAdminSharedMessage extends ClientToServerMessage{
+public class RemoveAdminSharedMessage extends ClientToServerMessage {
 
-    private static final long serialVersionUID = -19212173314704993L;
+    private static final long serialVersionUID = -192331367334854993L;
     private final UUID channelID;
     private final UserLite user;
 
-    public AddAdminSharedMessage(UserLite user, Channel channel) {
+    public RemoveAdminSharedMessage(UserLite user, Channel channel) {
         this.channelID  = channel.getId();
         this.user = user;
     }
@@ -29,9 +29,8 @@ public class AddAdminSharedMessage extends ClientToServerMessage{
             return;
         }
 
-        // Tell data server to save new admin
-        commController.saveNewAdmin(channel, user);
+        commController.removeAdmin(channel, user);
 
-        commController.sendMulticast(channel.getJoinedPersons(), new AdminAddedMessage(user, channelID));
+        commController.sendMulticast(channel.getJoinedPersons(), new AdminRemovedMessage(user, channelID));
     }
 }
