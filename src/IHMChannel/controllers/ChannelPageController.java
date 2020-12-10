@@ -278,7 +278,7 @@ public class ChannelPageController {
     }
 
     /**
-     * Permet de retirer le channel d'ID channelID des channels s (utilisé quand un channel est fermé par son créateur)
+     * Permet de retirer le channel d'ID channelID des channels s (utilisé dans l'interface de DataToIHMChannel quand un channel est fermé par son créateur)
      * @param channelID ID du channel concerné
      */
     public void removeChannel(UUID channelID) {
@@ -287,14 +287,11 @@ public class ChannelPageController {
             if (c.getId().equals(channelID))
                 channel = c;
         }
-        /*  Je pense qu'ici il faudrait directement supprimer dans le tabs:
-            int channelIndex;
-            tabs.getTabs().forEach(tab -> {
-                // retrouver l'index du tab
-            });
-        tabs.getTabs().remove(channelIndex);
-         */
-        openedChannels.remove(channel);
+        if(channel !=null){
+            String tmp = channel.getName();
+            tabs.getTabs().removeIf(c -> c.getId().equals(tmp));
+            openedChannels.remove(channel);
+        }
         channelMap.remove(channelID);
         if(openedChannels.isEmpty()) {
             ihmChannelController.getInterfaceToIHMMain().redirectToHomePage();
