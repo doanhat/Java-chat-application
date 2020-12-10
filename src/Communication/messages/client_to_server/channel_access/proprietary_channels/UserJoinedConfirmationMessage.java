@@ -27,14 +27,15 @@ public class UserJoinedConfirmationMessage extends ClientToServerMessage {
         if (channel != null)
         {
             // send Acceptation back to sender
-            commController.sendMessage(user.getId(), new JoinChannelResponseMessage(user, channel, true));
+            commController.sendMessage(user.getId(),
+                    new JoinChannelResponseMessage(user, channel, commController.channelConnectedUsers(channel), true));
 
             // Notifie les utilisateurs connectes au channel qu'un nouveau utilisateur les rejoins
             commController.sendMulticast(channel.getAcceptedPersons(), new NewUserJoinChannelMessage(user, channel.getId()));
         }
         else
         {
-            commController.sendMessage(user.getId(), new JoinChannelResponseMessage(user, null, false));
+            commController.sendMessage(user.getId(), new JoinChannelResponseMessage(user, null, null, false));
         }
     }
 }

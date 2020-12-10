@@ -274,7 +274,7 @@ public class CommunicationClientController extends CommunicationController {
      * @param user    Utilisateur qui cherche a rejoindre le channel
      * @param channel channel rejoint
      */
-    public void notifyJoinChannelResponse(UserLite user, Channel channel, boolean isAccepted) {
+    public void notifyJoinChannelResponse(UserLite user, Channel channel, List<UserLite> activeUsers, boolean isAccepted) {
         if (dataClient == null) {
             throw new NullPointerException("Data Iface est null");
         }

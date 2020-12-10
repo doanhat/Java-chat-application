@@ -209,7 +209,7 @@ public class IHMMainWindowController implements Initializable{
         if (this.isHomePage) {
             loadIHMChannelWindow();
         }
-        this.ihmMainController.getIHMMainToIHMChannel().viewChannel(channel.getId());
+        this.ihmMainController.getIHMMainToIHMChannel().viewChannel(channel);
     }
 
     /**
