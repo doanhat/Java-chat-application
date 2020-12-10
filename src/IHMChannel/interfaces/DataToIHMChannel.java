@@ -25,12 +25,9 @@ public class DataToIHMChannel implements IDataToIHMChannel{
      */
     @Override
     public void openChannelDeleted(UUID channelID) {
-        //this.controller.getChannelPageController().removeChannel(channelID)
-        //TODO
-        // Retour serveur  pour tous ceux qui ont l'onglet d'ouvert =>
-        // closeTab() pour fermer l'onglet
-        // Si plus d'onglets ouvert => redirection IHMMain
-        // redirection home / un autre onglet.
+        // Normalement, cela revient à leaveChannel => en attendant son implémentation => création de removeChannel.
+        // this.controller.getChannelPageController().leaveChannel(channelID);
+        this.controller.getChannelPageController().removeChannel(channelID);
     }
 
     /**

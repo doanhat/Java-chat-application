@@ -277,9 +277,9 @@ public class ChannelController {
         if(this.getIhmChannelController().getInterfaceToData().getLocalUser().getId().equals(currentChannel.getCreator().getId())){
             boolean result = IHMTools.confirmationPopup("Voulez vous supprimer le channel ?");
             if (result){
-                this.getIhmChannelController().getInterfaceToCommunication().DeleteChannel(currentChannel.getId());
+                // this.getIhmChannelController().getInterfaceToCommunication().DeleteChannel(currentChannel.getId());
                 // Pour Tester le retour serveur avant intégration :
-                //this.getIhmChannelController().getInterfaceForData().openChannelDeleted(this.currentChannel.getId());
+                this.getIhmChannelController().getInterfaceForData().openChannelDeleted(this.currentChannel.getId());
             }
         }else{
             IHMTools.informationPopup("Vous n'avez pas les droits nécessaires pour effectuer cette action. Seul le créateur peut supprimer le channel.");
