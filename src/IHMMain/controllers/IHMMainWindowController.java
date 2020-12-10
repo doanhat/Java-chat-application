@@ -214,8 +214,7 @@ public class IHMMainWindowController implements Initializable{
      * @param channel Channel to view as selected
      */
     public void setViewChannelSelected(Channel channel) {
-//        if (ihmMainController.getVisibleChannels().contains(channel)) {
-        if (ihmMainController.getVisibleChannels().stream().anyMatch(c -> c.getId().equals(channel.getId()))) {
+        if (ihmMainController.getVisibleChannels().contains(channel)) {
             clearSelectedChannel(privateChannels);
             clearSelectedChannel(publicChannels);
             isViewChangeSelectedChannel = true;
