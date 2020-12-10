@@ -238,7 +238,6 @@ public class ChannelController {
      *
      */
     public void homeBtnHandler() {
-        // A voir ce que fait redirectHomePage()
         ihmChannelController.getInterfaceToIHMMain().redirectToHomePage();
     }
 
@@ -283,7 +282,7 @@ public class ChannelController {
                 //this.getIhmChannelController().getInterfaceForData().openChannelDeleted(this.currentChannel.getId());
             }
         }else{
-            boolean result = IHMTools.informationPopup("Vous n'avez pas les droits nécessaires pour effectuer cette action. Seul le créateur peut supprimer le channel.");
+            IHMTools.informationPopup("Vous n'avez pas les droits nécessaires pour effectuer cette action. Seul le créateur peut supprimer le channel.");
         }
     }
 

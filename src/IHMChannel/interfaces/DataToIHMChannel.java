@@ -25,8 +25,12 @@ public class DataToIHMChannel implements IDataToIHMChannel{
      */
     @Override
     public void openChannelDeleted(UUID channelID) {
-        // Retour serveur => // Suppression locale + redirection home / un autre onglet. (cf demander a vlad)
-        throw new UnsupportedOperationException("Not implemented yet");
+        //this.controller.getChannelPageController().removeChannel(channelID)
+        //TODO
+        // Retour serveur  pour tous ceux qui ont l'onglet d'ouvert =>
+        // closeTab() pour fermer l'onglet
+        // Si plus d'onglets ouvert => redirection IHMMain
+        // redirection home / un autre onglet.
     }
 
     /**

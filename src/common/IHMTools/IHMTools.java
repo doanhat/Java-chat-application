@@ -73,7 +73,7 @@ public class IHMTools {
 
         //Modification boutons
         Button okButton = (Button) dialogPane.lookupButton(alert.getButtonTypes().get(0));
-        okButton.getStyleClass().add("primary-btn");
+        okButton.getStyleClass().add("critical-btn");
 
         dialogPane.setHeaderText(null);
         dialogPane.setGraphic(null);
