@@ -422,7 +422,23 @@ public class CommunicationClientController extends CommunicationController {
     }
 
     /**
-     * Avertit Owner d'ajouter un nouvel admin au channel proprietaire
+     * Avertit Data de retirer d'un nouvel admin
+     *
+     * @param channelID [UUID] Channel ou un admin est ajoute
+     * @param user      [UserLite] Utilisateur devenant admin
+     */
+    public void notifyAdminRemoved(UUID channelID, UserLite user) {
+        if (dataClient == null) {
+            throw new NullPointerException("Data Iface est null");
+        }
+
+        logger.log(Level.FINE, "removed admin " + user.getNickName() + " from channel " + channelID);
+
+        // TODO INTEGRATION V3: tell Data to add method to receive admin removal notification
+    }
+
+    /**
+     * Demande Owner d'ajouter un nouvel admin au channel proprietaire
      *
      * @param channelID [UUID] Channel ou un admin est ajoute
      * @param user      [UserLite] Utilisateur devenant admin
@@ -435,6 +451,22 @@ public class CommunicationClientController extends CommunicationController {
         logger.log(Level.FINE, "request owner to add admin " + user.getNickName() + " to channel " + channelID);
 
         dataClient.saveNewAdminIntoHistory(user, channelID);
+    }
+
+    /**
+     * Demande Owner d'ajouter un nouvel admin au channel proprietaire
+     *
+     * @param channelID [UUID] Channel ou un admin est ajoute
+     * @param user      [UserLite] Utilisateur devenant admin
+     */
+    public void removeAdminFromProprietaryChannel(UUID channelID, UserLite user) {
+        if (dataClient == null) {
+            throw new NullPointerException("Data Iface est null");
+        }
+
+        logger.log(Level.FINE, "request owner to add admin " + user.getNickName() + " to channel " + channelID);
+
+        // TODO INTEGRATION V3: tell Data to add method to remove admin from proprietary channel
     }
 
 

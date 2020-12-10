@@ -2,7 +2,9 @@ package Communication.client;
 
 import Communication.common.Parameters;
 import Communication.messages.client_to_server.channel_access.proprietary_channels.LeavePropChannelMessage;
+import Communication.messages.client_to_server.channel_access.proprietary_channels.RemoveAdminPropMessage;
 import Communication.messages.client_to_server.channel_access.shared_channels.LeaveSharedChannelMessage;
+import Communication.messages.client_to_server.channel_access.shared_channels.RemoveAdminSharedMessage;
 import Communication.messages.client_to_server.channel_modification.DeleteChannelMessage;
 import Communication.messages.client_to_server.channel_modification.proprietary_channels.SendProprietaryChannelsMessage;
 import Communication.messages.client_to_server.channel_modification.shared_channels.CreateSharedChannelMessage;
@@ -24,6 +26,7 @@ import common.sharedData.ChannelType;
 import common.sharedData.Message;
 import common.sharedData.UserLite;
 
+import java.io.IOException;
 import java.util.*;
 
 public class CommunicationClientInterface implements IDataToCommunication,
@@ -123,10 +126,26 @@ public class CommunicationClientInterface implements IDataToCommunication,
         if (user == null || channel == null) {
             return;
         }
+
         if (channel.getType() == ChannelType.OWNED) {
             commController.sendMessage(new AddAdminPropMessage(user, channel));
-        } else {
+        }
+        else {
             commController.sendMessage(new AddAdminSharedMessage(user, channel));
+        }
+    }
+
+    @Override
+    public void removeAdmin(UserLite user, Channel channel) {
+        if (user == null || channel == null) {
+            return;
+        }
+
+        if (channel.getType() == ChannelType.OWNED) {
+            commController.sendMessage(new RemoveAdminPropMessage(user, channel));
+        }
+        else {
+            commController.sendMessage(new RemoveAdminSharedMessage(user, channel));
         }
     }
 

@@ -274,7 +274,7 @@ public class CommunicationServerController extends CommunicationController {
 	}
 
 	/**
-	 * Methode qui signale a Data d'ajouter un nouvel admin sur un channel partage
+	 * Methode qui signale a Data d'ajouter un nouvel admin sur un channel
 	 * @param user Utilisateur devenant admin
 	 * @param channel Channel ou l'utilisateur devient admin
 	 */
@@ -286,6 +286,21 @@ public class CommunicationServerController extends CommunicationController {
 		logger.log(Level.SEVERE, "new admin " + user.getNickName() + " added to channel " + channel.getId());
 
 		dataServer.saveNewAdminIntoHistory(channel, user);
+	}
+
+	/**
+	 * Methode qui signale a Data de retirer un admin sur un channel
+	 * @param user Utilisateur devenant admin
+	 * @param channel Channel ou l'utilisateur devient admin
+	 */
+	public void removeAdmin(Channel channel, UserLite user) {
+		if (dataServer == null) {
+			throw new NullPointerException("Data Interface est nulle");
+		}
+
+		logger.log(Level.SEVERE, "removed admin " + user.getNickName() + " from channel " + channel.getId());
+
+		// TODO INTEGRATION V3 Tell data server to remove admin
 	}
 
 	/**
