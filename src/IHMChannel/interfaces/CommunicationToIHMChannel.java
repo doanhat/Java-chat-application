@@ -26,8 +26,8 @@ import java.util.UUID;
      * @param user l'utilisateur
      */
     @Override
-    public void changeNickname(User user) {
-        throw new UnsupportedOperationException("Not implemented yet");
+    public void changeNickname(User user, UUID channel) {
+        controller.getChannelPageController().getChannelController(channel).changeNickname(user);
     }
 
     /**

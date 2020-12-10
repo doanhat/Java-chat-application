@@ -103,7 +103,6 @@ public class DataToIHMChannel implements IDataToIHMChannel{
     @Override
     public void editMessage(Message message, Message newMessage, Channel channel) {
         controller.getChannelPageController().getChannelController(channel.getId()).editMessage(message, newMessage);
-        throw new UnsupportedOperationException("Not implemented yet");
     }
 
     /**

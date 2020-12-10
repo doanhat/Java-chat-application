@@ -136,7 +136,6 @@ public class ChannelController {
     }
 
     public void receiveMessage(Message receivedMessage, Message responseTo) {
-
         currentChannel.addMessage(receivedMessage);
         channelMessagesDisplay.getController().addMessageToObservableList(receivedMessage);
     }
@@ -328,5 +327,11 @@ public class ChannelController {
         }
         //màj interface
         channelMessagesController.editMessage(message,newMessage);
+    }
+
+    public void changeNickname(User user) {
+        //TODO update la map des nicknames
+
+        // transferts aux controlleurs message et member ?
     }
 }

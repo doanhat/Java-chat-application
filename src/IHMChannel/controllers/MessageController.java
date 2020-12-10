@@ -171,7 +171,7 @@ public class MessageController {
                             newMsg,
                             channelMessagesController.channel
                     );
-                    String text = content.getText();
+
                     content.setEditable(false);
 
                     //TODO à enlever pour l'intégration, ne sert qu'aux tests
