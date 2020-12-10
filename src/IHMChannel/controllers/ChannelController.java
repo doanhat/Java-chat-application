@@ -319,6 +319,14 @@ public class ChannelController {
 
 
     public void editMessage(Message message, Message newMessage) {
+        //màj copie locale
+        for(Message m : currentChannel.getMessages()){
+            if(message.getId()==message.getId()){
+                m.setMessage(newMessage.getMessage());
+                m.setEdited(true);
+            }
+        }
+        //màj interface
         channelMessagesController.editMessage(message,newMessage);
     }
 }

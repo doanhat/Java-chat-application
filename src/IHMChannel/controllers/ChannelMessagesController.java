@@ -291,6 +291,7 @@ public class ChannelMessagesController{
     public void editMessage(Message message, Message newMessage) {
         for(Message m : observableMessages){
             if(m.getId().equals(message.getId())){
+                // pas besoin de màj le content ici car on l'a màj dans la copie locale du channel, ça se répercute automatiquement sur l'affichage
                 //affichage "message édité"
                 mapMessageController.get(m.getId()).getIsEditedText().setText("message édité");
                 mapMessageController.get(message.getId()).setMessageToDisplay(m); //mise à jour de l'affichage

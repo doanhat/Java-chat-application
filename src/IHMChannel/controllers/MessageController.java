@@ -173,6 +173,13 @@ public class MessageController {
                     );
                     String text = content.getText();
                     content.setEditable(false);
+
+                    //TODO à enlever pour l'intégration, ne sert qu'aux tests
+                    channelMessagesController.getIhmChannelController().getInterfaceForData().editMessage(
+                            messageToDisplay,
+                            newMsg,
+                            channelMessagesController.channel
+                    );
                 }
             }
         });
@@ -205,5 +212,9 @@ public class MessageController {
 
     public void setLikeButton(Button likeButton) {
         this.likeButton = likeButton;
+    }
+
+    public TextArea getContent() {
+        return content;
     }
 }
