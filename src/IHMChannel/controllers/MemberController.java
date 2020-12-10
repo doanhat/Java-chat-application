@@ -128,7 +128,23 @@ public class MemberController {
     }
 
     public void banHandler() {
-        //TODO
+       /*TODO
+           1. Vérifier les droits admins de la personne qui appuie sur le bouton
+           2. Si ok :
+            - Pop up de confirmation avec la durée de ban
+            -> confirmation : this.getIhmChannelController().getInterfaceToCommunication().banUserFromChannel();
+
+            Retour Serveur :
+                - Pour l'admin : confirmation du kick.
+                - Pour la personne kické : notification qu'elle a été kick
+                - Pour tout le monde : notification du ban
+
+             Autre :
+                - vérifier que l'accès à un channel n'est pas possible pour un utilisateur kické pour la durée mentionner.
+                - Vérifier que quand la date est passé, il a reacces au channel
+        */
+
+
         System.out.println("ban");
     }
 

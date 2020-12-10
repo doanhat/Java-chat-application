@@ -11,9 +11,9 @@ import java.util.UUID;
 public interface IDataToIHMChannel {
     /**
      * Permet de traiter la suppression du channel actuellement ouvert sur l'interface.
-     * @param channel channel supprimé
+     * @param channelID ID du channel supprimé
      */
-    void openChannelDeleted(Channel channel);
+    void openChannelDeleted(UUID channelID);
 
     /**
      * Permet d'ajouter un administrateur pour un channel.

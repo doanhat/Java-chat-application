@@ -277,12 +277,21 @@ public class ChannelController {
      * Clic sur "supprimer channel" depuis le menu contextuel
      */
     public void deleteChannel() {
+    // TODO Check si localuser est créateur.
+        //Si oui on continue
+            // Pop up
+            // Suppression locale
+            // Envoie au serveur
+            // Retour serveur => redirection home / un autre onglet. (cf demander a vlad)
+        //Si non on lui dis qu'il ne peut pas
 
         boolean result = IHMTools.confirmationPopup("Voulez vous supprimer le channel ?");
 
         if (result){
-            //appel interface /!\ UnsupportedOperationException : not implemented yet pour le moment (sera réglé avec integ)
-            this.getIhmChannelController().getInterfaceForData().openChannelDeleted(this.currentChannel);
+            //this.getIhmChannelController().getInterfaceToCommunication().
+
+            // Teste du retour serveur :
+            this.getIhmChannelController().getInterfaceForData().openChannelDeleted(this.currentChannel.getId());
         }
     }
 

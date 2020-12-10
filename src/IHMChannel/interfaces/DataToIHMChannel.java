@@ -21,10 +21,11 @@ public class DataToIHMChannel implements IDataToIHMChannel{
 
     /**
      * Permet de traiter la suppression du channel actuellement ouvert sur l'interface.
-     * @param channel channel supprimé
+     * @param channelID id du channel supprimé
      */
     @Override
-    public void openChannelDeleted(Channel channel) {
+    public void openChannelDeleted(UUID channelID) {
+
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
