@@ -2,11 +2,14 @@ package IHMChannel.controllers;
 
 import common.IHMTools.IHMTools;
 import common.sharedData.Message;
+import common.sharedData.UserLite;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
+
+import java.util.UUID;
 
 /**
  * Classe Contrôleur du contrôle (widget) "Message".
@@ -40,6 +43,23 @@ public class MessageController {
         this.messageToDisplay = messageToDisplay;
         author.setText(messageToDisplay.getAuthor().getNickName());
         content.setText(messageToDisplay.getMessage());
+
+        //Gestion de l'affichage des boutons
+        //bouton édition visible que c'est c'est notre message
+
+        //TODO à décommenter pour l'intégration
+        //Pour le moment, le getUser() est null
+        /*
+        if(this.channelMessagesController.getIhmChannelController().getInterfaceToData().getLocalUser().getId()==messageToDisplay.getAuthor().getId()){
+            edit.setVisible(true);
+        }
+        else{
+            edit.setVisible(false);
+        }
+         */
+
+        //TODO bouton suppression
+
     }
 
     /**
