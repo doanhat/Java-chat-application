@@ -3,10 +3,13 @@ package IHMChannel.controllers;
 import common.IHMTools.IHMTools;
 import common.sharedData.Message;
 import common.sharedData.UserLite;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 
 import java.text.SimpleDateFormat;
@@ -153,7 +156,26 @@ public class MessageController {
      * Méthode appelée au clic sur le bouton d'édition
      */
     public void editMessage(){
-        System.out.println("édition du message "+this.content.getText());
+        //Zone de texte editable
+        this.content.setEditable(true);
+
+        //Handler pour valider la modification à l'appui sur entrée
+        content.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if (keyEvent.getCode() == KeyCode.ENTER)  {
+                    Message newMsg = new Message();
+                    newMsg.setMessage(content.getText());
+                    channelMessagesController.getIhmChannelController().getInterfaceToCommunication().editMessage(
+                            messageToDisplay,
+                            newMsg,
+                            channelMessagesController.channel
+                    );
+                    String text = content.getText();
+                    content.setEditable(false);
+                }
+            }
+        });
     }
 
     /**
