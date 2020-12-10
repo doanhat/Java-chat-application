@@ -275,22 +275,15 @@ public class ChannelController {
      * Après confirmation, le traitement de suppression est effectué.
      */
     public void deleteChannel() {
-        //Si oui on continue
-            // Pop up
-            // Suppression locale
-            // Envoie au serveur
-            // Retour serveur => redirection home / un autre onglet. (cf demander a vlad)
-
         if(this.getIhmChannelController().getInterfaceToData().getLocalUser().getId().equals(currentChannel.getCreator().getId())){
             boolean result = IHMTools.confirmationPopup("Voulez vous supprimer le channel ?");
             if (result){
-                //this.getIhmChannelController().getInterfaceToCommunication().
-
-                // Teste du retour serveur :
-                this.getIhmChannelController().getInterfaceForData().openChannelDeleted(this.currentChannel.getId());
+                this.getIhmChannelController().getInterfaceToCommunication().DeleteChannel(currentChannel.getId());
+                // Pour Tester le retour serveur avant intégration :
+                //this.getIhmChannelController().getInterfaceForData().openChannelDeleted(this.currentChannel.getId());
             }
         }else{
-            boolean result = IHMTools.informationPopup("Vous n'avez pas les droits nécessaires pour effectuer cette action.");
+            boolean result = IHMTools.informationPopup("Vous n'avez pas les droits nécessaires pour effectuer cette action. Seul le créateur peut supprimer le channel.");
         }
     }
 

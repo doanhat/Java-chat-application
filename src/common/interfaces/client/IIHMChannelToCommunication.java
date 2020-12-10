@@ -108,4 +108,9 @@ public interface IIHMChannelToCommunication
      */
     void closeChannel(UUID channelId);
 
+    /**
+     * Demande la suppression du channel d'ID channelId.
+     * @param channelId
+     */
+    void DeleteChannel(UUID channelId);
 }
