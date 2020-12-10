@@ -10,10 +10,7 @@ import common.sharedData.UserLite;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckMenuItem;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -274,24 +271,26 @@ public class ChannelController {
     }
 
     /**
-     * Clic sur "supprimer channel" depuis le menu contextuel
+     * Clic sur "supprimer channel" depuis le menu contextuel. Si l'utilisateur est bien le créteur, alors une pop-up de confirmation s'ouvre.
+     * Après confirmation, le traitement de suppression est effectué.
      */
     public void deleteChannel() {
-    // TODO Check si localuser est créateur.
         //Si oui on continue
             // Pop up
             // Suppression locale
             // Envoie au serveur
             // Retour serveur => redirection home / un autre onglet. (cf demander a vlad)
-        //Si non on lui dis qu'il ne peut pas
 
-        boolean result = IHMTools.confirmationPopup("Voulez vous supprimer le channel ?");
+        if(this.getIhmChannelController().getInterfaceToData().getLocalUser().getId().equals(currentChannel.getCreator().getId())){
+            boolean result = IHMTools.confirmationPopup("Voulez vous supprimer le channel ?");
+            if (result){
+                //this.getIhmChannelController().getInterfaceToCommunication().
 
-        if (result){
-            //this.getIhmChannelController().getInterfaceToCommunication().
-
-            // Teste du retour serveur :
-            this.getIhmChannelController().getInterfaceForData().openChannelDeleted(this.currentChannel.getId());
+                // Teste du retour serveur :
+                this.getIhmChannelController().getInterfaceForData().openChannelDeleted(this.currentChannel.getId());
+            }
+        }else{
+            boolean result = IHMTools.informationPopup("Vous n'avez pas les droits nécessaires pour effectuer cette action.");
         }
     }
 
