@@ -1,4 +1,4 @@
-package Data.server;
+package data.server;
 
 import java.util.UUID;
 

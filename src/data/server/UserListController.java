@@ -1,7 +1,6 @@
 package data.server;
 
 import common.shared_data.UserLite;
-import common.shared_data.Channel;
 
 import java.util.ArrayList;
 import java.util.List;
