@@ -4,9 +4,10 @@ import IHMChannel.ChannelMembersDisplay;
 import IHMChannel.ChannelMessagesDisplay;
 import IHMChannel.IHMChannelController;
 import common.IHMTools.IHMTools;
-import common.shared_data.Channel;
-import common.shared_data.Message;
-import common.shared_data.UserLite;
+import common.sharedData.Channel;
+import common.sharedData.Message;
+import common.sharedData.UserLite;
+import common.sharedData.ChannelType;
 import common.shared_data.Visibility;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -66,6 +67,7 @@ public class ChannelController {
     ChannelMembersDisplay channelMembersDisplay;
 
     Boolean seeMessages = true;
+    Boolean leavePossible = true;
 
     public Channel getCurrentChannel() {
         return currentChannel;
@@ -78,9 +80,12 @@ public class ChannelController {
     public ChannelMembersDisplay getChannelMembersDisplay() {
         return channelMembersDisplay;
     }
+    public void setLeavePossible(Boolean b) {
+        leavePossible = b;
+    }
 
     public void initialize() throws IOException {
-        iconsInit();
+
         //Affichage de la partie "messages"
         channelMessagesDisplay = new ChannelMessagesDisplay();
         //channelMessagesDisplay.setConnectedMembersList(connectedMembersList);
@@ -121,12 +126,16 @@ public class ChannelController {
         addUserIcon.setFitWidth(15);
         addMemberBtn.setGraphic(addUserIcon);
 
-        //Quitter
-        Image exitImage = new Image("IHMChannel/icons/exit.png");
-        ImageView exitIcon = new ImageView(exitImage);
-        exitIcon.setFitHeight(15);
-        exitIcon.setFitWidth(15);
-        leaveChannelBtn.setGraphic(exitIcon);
+        if (leavePossible) {
+            //Quitter
+            Image exitImage = new Image("IHMChannel/icons/exit.png");
+            ImageView exitIcon = new ImageView(exitImage);
+            exitIcon.setFitHeight(15);
+            exitIcon.setFitWidth(15);
+            leaveChannelBtn.setGraphic(exitIcon);
+        }else {
+            leaveChannelBtn.setVisible(false);
+        }
 
         //Menu Contextuel
         Image contextMenuImage = new Image("IHMChannel/icons/chevron_down.png");
@@ -194,6 +203,10 @@ public class ChannelController {
         this.setCurrentChannel(channel);
         channelName.setText(channel.getName());
         channelDescription.setText(channel.getDescription());
+        if (channel.getType().equals(ChannelType.SHARED)) {
+            setLeavePossible(false);
+        }
+        iconsInit();
 
         //Restrictions sur l'affichage du bouton d'invitation
         //Visible si channel privé + utilisateur connecté = admin
@@ -219,12 +232,15 @@ public class ChannelController {
      */
     public void leaveChannel() {
 
-        boolean result = IHMTools.confirmationPopup("Voulez vous quitter le channel ?");
+            boolean result = IHMTools.confirmationPopup("Voulez vous quitter le channel ?");
 
-        if (result) {
-            /*  openedChannels.remove(channelMap.get(currentChannel));
-        channelMap.remove(currentChannel)*/
-        }
+            if (result) {
+                UserLite localUser = ihmChannelController.getInterfaceToData().getLocalUser();
+                ihmChannelController.getInterfaceToCommunication().leaveChannel(localUser, getCurrentChannel());
+            }
+
+
+
     }
     
 
