@@ -48,7 +48,10 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
     @Override
     public void requestAddUser(Channel ch, UserLite user) {
-
+        Channel channel = channelsListController.searchChannelById(ch.getId());
+        if(channel!=null){
+            channel.addInvitedUser(user);
+        }
     }
 
     @Override
