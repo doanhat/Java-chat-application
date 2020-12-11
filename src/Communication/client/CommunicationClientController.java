@@ -319,6 +319,21 @@ public class CommunicationClientController extends CommunicationController {
     }
 
     /**
+     * Demande Data d'ajouter un utilisateur a la liste invitée un channel proprietaire
+     *
+     * @param user      Utilisateur qui a rejoint le channel
+     * @param channelID identifiant unique (UUID) du channel
+     */
+    public void inviteUserToProprietaryChannel(UserLite user, UUID channelID) {
+        if (dataClient == null) {
+            throw new NullPointerException("Data Iface est null");
+        }
+
+        logger.log(Level.FINE, "Data invite user " + user.getNickName() + " to proprietary channel " + channelID);
+        dataClient.inviteUserToOwnedChannel(user, channelID);
+    }
+
+    /**
      * Notifie Application client qu'un utilisateur vient de rejoindre un channel
      * @param user autre utilisateur connecté
      * @param channelID ID du channel
@@ -340,7 +355,6 @@ public class CommunicationClientController extends CommunicationController {
 
         return dataClient.getHistory(channelID);
     }
-
 
     public void requestLeaveChannel(UUID channelID, UserLite userLite) {
         if (dataClient == null) {

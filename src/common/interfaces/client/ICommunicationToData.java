@@ -199,5 +199,12 @@ public interface ICommunicationToData {
      * @param channelId channel ID
      */
     void addUserToOwnedChannel(UserLite user, UUID channelId);
+
+    /**
+     * User want to invite new user Own Channel
+     * @param user the user
+     * @param channelId channel ID
+     */
+    void inviteUserToOwnedChannel(UserLite user, UUID channelId);
 }
 

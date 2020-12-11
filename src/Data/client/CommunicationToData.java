@@ -35,7 +35,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void userAddedToChannel(UserLite user, UUID channelId) {
-        dataController.getChannelController().userAddedToChannel(user, channelId);
+                dataController.getChannelController().userAddedToChannel(user, channelId);
     }
 
     /**
@@ -277,6 +277,11 @@ public class CommunicationToData implements ICommunicationToData {
     @Override
     public void addUserToOwnedChannel(UserLite user, UUID channelId) {
         dataController.getChannelController().addUserToOwnedChannel(user,channelId);
+    }
+
+    @Override
+    public void inviteUserToOwnedChannel(UserLite user, UUID channelId) {
+        dataController.getChannelController().userInvitedToChannel(user,channelId);
     }
 
 }

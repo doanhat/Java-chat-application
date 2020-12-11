@@ -150,4 +150,9 @@ public class VirtualCommunicationToData implements ICommunicationToData {
 
     }
 
+    @Override
+    public void inviteUserToOwnedChannel(UserLite user, UUID channelId) {
+
+    }
+
 }

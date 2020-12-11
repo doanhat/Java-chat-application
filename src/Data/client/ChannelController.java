@@ -78,6 +78,7 @@ public class ChannelController extends Controller{
         for (Channel c : channels) {
             if(c.getId().equals(channelID)) {
                 c.addUser(user);
+                c.addInvitedUser(user);
                 new FileHandle<Channel>(LocationType.client, FileType.channel).writeJSONToFile(channelID.toString(), c);
                 break;
             }
@@ -90,6 +91,23 @@ public class ChannelController extends Controller{
          *  Voir donc si cela ne pose pas de problème ailleur
          */
         //this.mainClient.updateListChannel(channels);
+    }
+
+    /**
+     * User Invited to channel.
+     *
+     * @param user    the user
+     * @param channelID the channel
+     */
+    public void userInvitedToChannel(UserLite user, UUID channelID) {
+        List<Channel> channels = getChannelList();
+        for (Channel c : channels) {
+            if(c.getId().equals(channelID)) {
+                c.addInvitedUser(user);
+                new FileHandle<Channel>(LocationType.client, FileType.channel).writeJSONToFile(channelID.toString(), c);
+                break;
+            }
+        }
     }
 
     /**

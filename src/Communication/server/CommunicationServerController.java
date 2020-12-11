@@ -12,6 +12,8 @@ import Communication.common.CommunicationController;
 import Communication.common.NetworkWriter;
 import Communication.common.TaskManager;
 import Communication.messages.abstracts.NetworkMessage;
+import Communication.messages.server_to_client.channel_access.propietary_channels.TellOwnerToAddAdminMessage;
+import Communication.messages.server_to_client.channel_access.propietary_channels.TellOwnerUserInvitedMessage;
 import Communication.messages.server_to_client.chat_action.MessageDeletedMessage;
 import Communication.messages.server_to_client.channel_modification.NewInvisibleChannelsMessage;
 import Communication.messages.server_to_client.connection.UserDisconnectedMessage;
@@ -318,8 +320,12 @@ public class CommunicationServerController extends CommunicationController {
 			throw new NullPointerException("Data Interface est nulle");
 		}
 
-		// TODO INTEGRATION V2: request data to implement requestAddUserToChannel() to change visibility of a channel to invited user
-		this.dataServer.requestAddUser(channel, guest);
+		dataServer.requestAddUser(channel, guest);
+
+		if (channel.getType() == ChannelType.OWNED) {
+			// Tell owner uer invited
+			sendMessage(channel.getCreator().getId(), new TellOwnerUserInvitedMessage(guest, channel.getId()));
+		}
 	}
 
 	/**
