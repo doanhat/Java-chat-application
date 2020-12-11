@@ -123,7 +123,7 @@ public class AddMemberCell extends ListCell<UserLite> {
         }
         else {
             username.setText(item.getNickName());
-            profilePicture.setImage(new Image(item.getAvatar()));
+            //profilePicture.setImage(new Image(item.getAvatar()));
             setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         }
     }

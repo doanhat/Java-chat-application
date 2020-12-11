@@ -65,12 +65,12 @@ public class CreateSharedChannelMessage extends ClientToServerMessage {
             }
             else {
                 // multicast private channel to invited users
-                commController.sendMulticast(channel.getJoinedPersons(), newChannelNotification);
+                commController.sendMulticast(channel.getJoinedPersons(), newChannelNotification, sender);
             }
         }
         else {
             // Request Refused
-        	logger.log(Level.WARNING, "Serveur réfuse la creation du channel {}" , channel.getId());
+        	logger.log(Level.WARNING, "Serveur refuse la creation du channel {}" , channel.getId());
 
             commController.sendMessage(sender.getId(), new ChannelCreationResponseMessage(channel, false));
         }
