@@ -5,6 +5,7 @@ import java.util.*;
 
 public class Channel implements Serializable {
 	public Channel() {
+		invitedPersons = new ArrayList<>();
 	}
 
 	private UUID id;
@@ -30,7 +31,7 @@ public class Channel implements Serializable {
 		this.administrators = new ArrayList<>();
 		this.administrators.add(creator);
 		this.acceptedPersons = new ArrayList<>();
-		this.acceptedPersons = new ArrayList<>();
+		this.invitedPersons = new ArrayList<>();
 		this.acceptedPersons.add(creator);
 		this.nickNames = new HashMap<>();
 		this.nickNames.put(creator.getId().toString(), creator.getNickName());
