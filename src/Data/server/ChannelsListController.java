@@ -19,7 +19,7 @@ public class ChannelsListController {
     public ChannelsListController() {
         this.fileHandle = new FileHandle<Channel>(LocationType.server, FileType.channel);
         this.sharedChannels = createChannelListFromJSONFiles();
-        ownedChannels = new ArrayList<>();
+        this.ownedChannels = new ArrayList<>();
     }
 
     public List<Channel> createChannelListFromJSONFiles(){

@@ -15,6 +15,7 @@ public class Channel implements Serializable {
 	private ChannelType type;
 	private List<UserLite> administrators;
 	private List<UserLite> acceptedPersons;
+	private List<UserLite> invitedPersons;
 	private Map<String, String> nickNames;
 	private List<Kick> kicked;
 	private List<Message> messages;
@@ -28,6 +29,7 @@ public class Channel implements Serializable {
 		this.type = type;
 		this.administrators = new ArrayList<>();
 		this.administrators.add(creator);
+		this.acceptedPersons = new ArrayList<>();
 		this.acceptedPersons = new ArrayList<>();
 		this.acceptedPersons.add(creator);
 		this.nickNames = new HashMap<>();
@@ -108,6 +110,14 @@ public class Channel implements Serializable {
 		this.acceptedPersons = acceptedPersons;
 	}
 
+	public List<UserLite> getInvitedPersons() {
+		return invitedPersons;
+	}
+
+	public void setInvitedPersons(List<UserLite> invitedPersons) {
+		this.invitedPersons = invitedPersons;
+	}
+
 	public Map<String, String> getNickNames() {
 		return nickNames;
 	}
@@ -152,11 +162,28 @@ public class Channel implements Serializable {
 	public void addUser(UserLite user) {
 		if (!userInChannel(user.getId())){
 			this.acceptedPersons.add(user);
+			if(userInInvitedList(user.getId())) {
+				removeUserFromInvited(user.getId());
+			}
+		}
+	}
+
+	public void addInvitedUser(UserLite user) {
+		if (!userInChannel(user.getId()) && !userInInvitedList(user.getId())) {
+			this.invitedPersons.add(user);
 		}
 	}
 
 	public boolean userInChannel(UUID userID){
 		for (UserLite user : acceptedPersons) {
+			if(user.getId().equals(userID))
+				return true;
+		}
+		return false;
+	}
+
+	public boolean userInInvitedList(UUID userID){
+		for (UserLite user : invitedPersons) {
 			if(user.getId().equals(userID))
 				return true;
 		}
@@ -173,6 +200,10 @@ public class Channel implements Serializable {
 
 	public void removeUser(UUID idUser){
 		this.acceptedPersons.removeIf(person ->(person.getId().equals(idUser)));
+	}
+
+	public void removeUserFromInvited(UUID idUser){
+		this.invitedPersons.removeIf(person ->(person.getId().equals(idUser)));
 	}
 
 	public void kickPermanentUser(UserLite user, String reason) {
