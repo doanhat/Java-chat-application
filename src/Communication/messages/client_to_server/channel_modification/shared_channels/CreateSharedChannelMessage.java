@@ -65,7 +65,7 @@ public class CreateSharedChannelMessage extends ClientToServerMessage {
             }
             else {
                 // multicast private channel to invited users
-                commController.sendMulticast(channel.getJoinedPersons(), newChannelNotification, sender);
+                commController.sendMulticast(channel.getAuthorizedPersons(), newChannelNotification, sender);
             }
         }
         else {

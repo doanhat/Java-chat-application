@@ -41,7 +41,7 @@ public class SendProprietaryChannelsMessage extends ClientToServerMessage {
                     commController.sendBroadcast(newChannelNotification, owner);
                 }
                 else {
-                    commController.sendMulticast(channel.getJoinedPersons(), newChannelNotification, owner);
+                    commController.sendMulticast(channel.getAuthorizedPersons(), newChannelNotification, owner);
                 }
             }
             else {
