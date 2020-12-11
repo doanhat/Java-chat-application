@@ -71,7 +71,7 @@ public class VirtualDataServer implements IServerCommunicationToData {
             return;
         }
 
-        correctChannel.addUser(user);
+        correctChannel.addJoinedUser(user);
         mapUserChannels.get(user).add(channel.getId());
     }
 
@@ -214,7 +214,7 @@ public class VirtualDataServer implements IServerCommunicationToData {
             System.err.println("Cannot find channel");
         }
 
-        correctChannel.addUser(user);
+        correctChannel.addJoinedUser(user);
 
     }
 

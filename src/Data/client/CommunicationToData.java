@@ -269,7 +269,7 @@ public class CommunicationToData implements ICommunicationToData {
     public void unbannedUserToChannel(UserLite user, UUID channelId) {
         Channel ownedChannel = dataController.getChannelController().searchChannelById(channelId);
         if (ownedChannel != null) {
-            ownedChannel.addUser(user);
+            ownedChannel.addJoinedUser(user);
             dataController.getUserController().unbannedUserTochannel(user,channelId);
         }
     }

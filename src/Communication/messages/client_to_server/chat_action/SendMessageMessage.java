@@ -40,7 +40,7 @@ public class SendMessageMessage extends ClientToServerMessage {
             commController.sendMessage(channel.getCreator().getId(), new TellOwnerToSaveMessage(message, channelID, response));
         }
 
-        commController.sendMulticast(channel.getAcceptedPersons(),
+        commController.sendMulticast(channel.getJoinedPersons(),
                                      new ReceiveMessageMessage(message, channelID, response));
     }
 }

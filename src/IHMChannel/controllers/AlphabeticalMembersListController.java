@@ -36,7 +36,7 @@ public class AlphabeticalMembersListController {
      */
     private void initMembersList() {
         channelMembers.clear();
-        for (UserLite usr : this.channel.getAcceptedPersons()){
+        for (UserLite usr : this.channel.getJoinedPersons()){
             channelMembers.add(usr);
         }
         adminMembers.clear();

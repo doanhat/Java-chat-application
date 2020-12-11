@@ -14,8 +14,8 @@ public class Channel implements Serializable {
 	private Visibility visibility;
 	private ChannelType type;
 	private List<UserLite> administrators;
-	private List<UserLite> acceptedPersons;
-	private List<UserLite> invitedPersons;
+	private List<UserLite> joinedPersons;
+	private List<UserLite> authorizedPersons;
 	private Map<String, String> nickNames;
 	private List<Kick> kicked;
 	private List<Message> messages;
@@ -29,9 +29,9 @@ public class Channel implements Serializable {
 		this.type = type;
 		this.administrators = new ArrayList<>();
 		this.administrators.add(creator);
-		this.acceptedPersons = new ArrayList<>();
-		this.acceptedPersons = new ArrayList<>();
-		this.acceptedPersons.add(creator);
+		this.joinedPersons = new ArrayList<>();
+		this.joinedPersons = new ArrayList<>();
+		this.joinedPersons.add(creator);
 		this.nickNames = new HashMap<>();
 		this.nickNames.put(creator.getId().toString(), creator.getNickName());
 		this.kicked = new ArrayList<>();
@@ -66,7 +66,7 @@ public class Channel implements Serializable {
 		if (getCreator() == null || !getCreator().getId().equals(creator.getId())){
 			this.creator = creator;
 			this.administrators.add(creator);
-			this.acceptedPersons.add(creator);
+			this.joinedPersons.add(creator);
 			this.nickNames.put(creator.getId().toString(), creator.getNickName());
 		}
 	}
@@ -102,20 +102,20 @@ public class Channel implements Serializable {
 		this.administrators = administrators;
 	}
 
-	public List<UserLite> getAcceptedPersons() {
-		return acceptedPersons;
+	public List<UserLite> getJoinedPersons() {
+		return joinedPersons;
 	}
 
-	public void setAcceptedPersons(List<UserLite> acceptedPersons) {
-		this.acceptedPersons = acceptedPersons;
+	public void setJoinedPersons(List<UserLite> joinedPersons) {
+		this.joinedPersons = joinedPersons;
 	}
 
-	public List<UserLite> getInvitedPersons() {
-		return invitedPersons;
+	public List<UserLite> getAuthorizedPersons() {
+		return authorizedPersons;
 	}
 
-	public void setInvitedPersons(List<UserLite> invitedPersons) {
-		this.invitedPersons = invitedPersons;
+	public void setAuthorizedPersons(List<UserLite> authorizedPersons) {
+		this.authorizedPersons = authorizedPersons;
 	}
 
 	public Map<String, String> getNickNames() {
@@ -156,34 +156,31 @@ public class Channel implements Serializable {
 		if (!userIsAdmin(user.getId())){
 			this.administrators.add(user);
 		}
-		addUser(user);
+		addJoinedUser(user);
 	}
 
-	public void addUser(UserLite user) {
-		if (!userInChannel(user.getId())){
-			this.acceptedPersons.add(user);
-			if(userInInvitedList(user.getId())) {
-				removeUserFromInvited(user.getId());
-			}
+	public void addJoinedUser(UserLite user) {
+		if (!userJoinedChannel(user.getId())){
+			this.joinedPersons.add(user);
 		}
 	}
 
-	public void addInvitedUser(UserLite user) {
-		if (!userInChannel(user.getId()) && !userInInvitedList(user.getId())) {
-			this.invitedPersons.add(user);
+	public void addAuthorizedUser(UserLite user) {
+		if (!userIsAuthorized(user.getId())) {
+			this.authorizedPersons.add(user);
 		}
 	}
 
-	public boolean userInChannel(UUID userID){
-		for (UserLite user : acceptedPersons) {
+	public boolean userJoinedChannel(UUID userID){
+		for (UserLite user : joinedPersons) {
 			if(user.getId().equals(userID))
 				return true;
 		}
 		return false;
 	}
 
-	public boolean userInInvitedList(UUID userID){
-		for (UserLite user : invitedPersons) {
+	public boolean userIsAuthorized(UUID userID){
+		for (UserLite user : authorizedPersons) {
 			if(user.getId().equals(userID))
 				return true;
 		}
@@ -199,11 +196,11 @@ public class Channel implements Serializable {
 	}
 
 	public void removeUser(UUID idUser){
-		this.acceptedPersons.removeIf(person ->(person.getId().equals(idUser)));
+		this.joinedPersons.removeIf(person ->(person.getId().equals(idUser)));
 	}
 
-	public void removeUserFromInvited(UUID idUser){
-		this.invitedPersons.removeIf(person ->(person.getId().equals(idUser)));
+	public void removeUserAuthorization(UUID idUser){
+		this.authorizedPersons.removeIf(person ->(person.getId().equals(idUser)));
 	}
 
 	public void kickPermanentUser(UserLite user, String reason) {

@@ -9,7 +9,6 @@ import common.interfaces.client.IDataToIHMMain;
 import common.sharedData.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -77,8 +76,8 @@ public class ChannelController extends Controller{
         List<Channel> channels = getChannelList();
         for (Channel c : channels) {
             if(c.getId().equals(channelID)) {
-                c.addUser(user);
-                c.addInvitedUser(user);
+                c.addJoinedUser(user);
+                c.addAuthorizedUser(user);
                 new FileHandle<Channel>(LocationType.client, FileType.channel).writeJSONToFile(channelID.toString(), c);
                 break;
             }
@@ -103,7 +102,7 @@ public class ChannelController extends Controller{
         List<Channel> channels = getChannelList();
         for (Channel c : channels) {
             if(c.getId().equals(channelID)) {
-                c.addInvitedUser(user);
+                c.addAuthorizedUser(user);
                 new FileHandle<Channel>(LocationType.client, FileType.channel).writeJSONToFile(channelID.toString(), c);
                 break;
             }
@@ -197,7 +196,7 @@ public class ChannelController extends Controller{
         List<Channel> channels = getChannelList();
         for (Channel c : channels) {
             if(c.getId().equals(channelId)) {
-                c.addUser(user);
+                c.addJoinedUser(user);
                 new FileHandle<Channel>(LocationType.client, FileType.channel).writeJSONToFile(channelId.toString(), c);
                 break;
             }

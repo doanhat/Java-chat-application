@@ -36,7 +36,7 @@ public class DeleteChannelMessage extends ClientToServerMessage {
                 commController.sendBroadcast(new NewInvisibleChannelsMessage(channel.getId()), requester);
             }
             else {
-                commController.sendMulticast(channel.getAcceptedPersons(), new NewInvisibleChannelsMessage(channel.getId()));
+                commController.sendMulticast(channel.getJoinedPersons(), new NewInvisibleChannelsMessage(channel.getId()));
             }
         }
 

@@ -3,7 +3,6 @@ package Communication.messages.client_to_server.channel_modification.proprietary
 import Communication.messages.abstracts.ClientToServerMessage;
 import Communication.messages.abstracts.NetworkMessage;
 import Communication.messages.server_to_client.channel_access.JoinChannelResponseMessage;
-import Communication.messages.server_to_client.channel_access.NewUserJoinChannelMessage;
 import Communication.messages.server_to_client.channel_modification.NewVisibleChannelMessage;
 import Communication.server.CommunicationServerController;
 import common.sharedData.Channel;
@@ -42,7 +41,7 @@ public class SendProprietaryChannelsMessage extends ClientToServerMessage {
                     commController.sendBroadcast(newChannelNotification, owner);
                 }
                 else {
-                    commController.sendMulticast(channel.getAcceptedPersons(), newChannelNotification, owner);
+                    commController.sendMulticast(channel.getJoinedPersons(), newChannelNotification, owner);
                 }
             }
             else {

@@ -42,7 +42,7 @@ public class ConnectedMembersListController {
         channelMembers.clear();
         adminMembers.clear();
 
-        for (UserLite usr : this.channel.getAcceptedPersons()){
+        for (UserLite usr : this.channel.getJoinedPersons()){
             channelMembers.add(usr);
         }
         for (UserLite usr : this.channel.getAdministrators()){

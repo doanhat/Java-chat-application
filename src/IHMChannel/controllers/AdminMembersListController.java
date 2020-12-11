@@ -57,7 +57,7 @@ public class AdminMembersListController {
             }
         });
 
-        this.channel.getAcceptedPersons().forEach(userLite -> {
+        this.channel.getJoinedPersons().forEach(userLite -> {
             if(!adminMembers.contains(userLite) && !userLite.getId().equals(creator.getId())){channelMembers.add(userLite);}
         });
 

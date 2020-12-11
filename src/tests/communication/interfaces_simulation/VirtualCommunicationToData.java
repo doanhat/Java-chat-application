@@ -34,7 +34,7 @@ public class VirtualCommunicationToData implements ICommunicationToData {
         Channel channel = channels.get(channelId);
 
         if (channel != null) {
-            channel.addUser(user);
+            channel.addJoinedUser(user);
         }
     }
 
@@ -141,7 +141,7 @@ public class VirtualCommunicationToData implements ICommunicationToData {
         Channel channel = channels.get(channelId);
 
         if (channel != null) {
-            channel.addUser(user);
+            channel.addJoinedUser(user);
         }
     }
 

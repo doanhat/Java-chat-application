@@ -12,7 +12,6 @@ import Communication.common.CommunicationController;
 import Communication.common.NetworkWriter;
 import Communication.common.TaskManager;
 import Communication.messages.abstracts.NetworkMessage;
-import Communication.messages.server_to_client.channel_access.propietary_channels.TellOwnerToAddAdminMessage;
 import Communication.messages.server_to_client.channel_access.propietary_channels.TellOwnerUserInvitedMessage;
 import Communication.messages.server_to_client.chat_action.MessageDeletedMessage;
 import Communication.messages.server_to_client.channel_modification.NewInvisibleChannelsMessage;
@@ -282,7 +281,7 @@ public class CommunicationServerController extends CommunicationController {
 		dataServer.leaveChannel(channel.getId(), userLite);
 
 		sendMessage(userLite.getId(), new ValideUserLeftMessage(channelID, (channel.getVisibility() == Visibility.PUBLIC)));
-		sendMulticast(channel.getAcceptedPersons(), new UserLeftChannelMessage(channel.getId(), userLite));
+		sendMulticast(channel.getJoinedPersons(), new UserLeftChannelMessage(channel.getId(), userLite));
 
 		if (channel.getType() == ChannelType.OWNED && channel.getCreator().getId() == userLite.getId()) {
 			// when owner leaves, channel become invisible
@@ -290,7 +289,7 @@ public class CommunicationServerController extends CommunicationController {
 				sendBroadcast(new NewInvisibleChannelsMessage(channel.getId()), userLite);
 			}
 			else {
-				sendMulticast(channel.getAcceptedPersons(), new NewInvisibleChannelsMessage(channel.getId()));
+				sendMulticast(channel.getJoinedPersons(), new NewInvisibleChannelsMessage(channel.getId()));
 			}
 		}
 	}
@@ -352,7 +351,7 @@ public class CommunicationServerController extends CommunicationController {
 	public List<UserLite> channelConnectedUsers(Channel channel) {
 		List<UserLite> activeUsers = new ArrayList<>();
 
-		for (UserLite usr: channel.getAcceptedPersons()) {
+		for (UserLite usr: channel.getJoinedPersons()) {
 			NetworkUser user = server.directory().getConnection(usr.getId());
 
 			if (user != null) {
@@ -395,7 +394,7 @@ public class CommunicationServerController extends CommunicationController {
 		logger.log(Level.SEVERE, "Message " + message.getId() + " deleted on channel " + channelID);
         dataServer.saveRemovalMessageIntoHistory(channel, message, deleteByCreator);
 
-		sendMulticast(channel.getAcceptedPersons(), new MessageDeletedMessage(message, channelID, deleteByCreator));
+		sendMulticast(channel.getJoinedPersons(), new MessageDeletedMessage(message, channelID, deleteByCreator));
     }
     
     /**

@@ -50,7 +50,7 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     public void requestAddUser(Channel ch, UserLite user) {
         Channel channel = channelsListController.searchChannelById(ch.getId());
         if(channel!=null){
-            channel.addInvitedUser(user);
+            channel.addAuthorizedUser(user);
         }
     }
 
@@ -111,13 +111,13 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
         List<Channel> ownedChannels = channelsListController.getOwnedChannels();
 
         for (Channel channel: sharedChannels) {
-            if ((channel.getVisibility() == Visibility.PUBLIC) || (channel.userInChannel(user.getId()))) {
+            if ((channel.getVisibility() == Visibility.PUBLIC) || (channel.userIsAuthorized(user.getId()))) {
                 visibleChannels.add(channel);
             }
         }
 
         for (Channel channel: ownedChannels) {
-            if ((channel.getVisibility() == Visibility.PUBLIC) || (channel.userInChannel(user.getId()))) {
+            if ((channel.getVisibility() == Visibility.PUBLIC) || (channel.userIsAuthorized(user.getId()))) {
                 visibleChannels.add(channel);
             }
         }
@@ -206,8 +206,8 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     public void joinChannel(UUID ch, UserLite user) {
         Channel channel = channelsListController.searchChannelById(ch);
         if(channel!=null){
-            channel.addUser(user);
-            channel.addInvitedUser(user);
+            channel.addJoinedUser(user);
+            channel.addAuthorizedUser(user);
         }
     }
 
