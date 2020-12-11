@@ -5,7 +5,6 @@ import java.util.*;
 
 public class Channel implements Serializable {
 	public Channel() {
-		invitedPersons = new ArrayList<>();
 	}
 
 	private UUID id;
