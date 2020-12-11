@@ -348,6 +348,20 @@ public class CommunicationClientController extends CommunicationController {
         channelClient.addConnectedUser(channelID, user);
     }
 
+    /**
+     * Notifie Application client qu'un utilisateur vient d'etre autoriser dans un channel
+     * @param user autre utilisateur connecté
+     * @param channelID ID du channel
+     */
+    public void notifyUserAuthorizeChannel(UserLite user, UUID channelID) {
+        if (dataClient == null || channelClient == null) {
+            throw new NullPointerException("Data Iface ou Channel Iface est null");
+        }
+
+        logger.log(Level.FINE, user.getNickName() + " authorized channel " + channelID);
+        channelClient.addAuthorizedUser(channelID, user);
+    }
+
     public List<Message> requestHistory(UUID channelID) {
         if (dataClient == null) {
             throw new NullPointerException("Data Iface est null");

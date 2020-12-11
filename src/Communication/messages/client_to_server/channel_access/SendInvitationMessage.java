@@ -1,6 +1,8 @@
 package Communication.messages.client_to_server.channel_access;
 
 import Communication.messages.abstracts.ClientToServerMessage;
+import Communication.messages.server_to_client.channel_access.NewUserJoinChannelMessage;
+import Communication.messages.server_to_client.channel_modification.NewUserAuthorizeChannelMessage;
 import Communication.messages.server_to_client.channel_modification.NewVisibleChannelMessage;
 import Communication.server.CommunicationServerController;
 import common.sharedData.Channel;
@@ -42,6 +44,9 @@ public class SendInvitationMessage extends ClientToServerMessage {
 
             // send Invitation to guest
             commController.sendMessage(guest.getId(), new NewVisibleChannelMessage(channel));
+
+            // Notifie les utilisateurs connectes au channel qu'un nouveau utilisateur à été authorisé
+            commController.sendMulticast(channel.getJoinedPersons(), new NewUserAuthorizeChannelMessage(guest, channelID));
         }
     }
 }
