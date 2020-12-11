@@ -29,4 +29,8 @@ public class VirtualCommunicationToIHMChannel implements ICommunicationToIHMChan
     public void removeConnectedUser(UUID channelId, UserLite user) {
 
     }
+    @Override
+    public void leaveChannel(UUID channelID, UserLite user) {
+
+    }
 }

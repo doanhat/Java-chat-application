@@ -61,6 +61,13 @@ import java.util.UUID;
         controller.getInterfaceToIHMMain().setOpenedChannelsList(controller.getOpenedChannelsList());
     }
 
+    @Override
+    public void leaveChannel(UUID channelID, UserLite user) {
+        controller.getChannelPageController().leaveChannel(channelID, user);
+        controller.getInterfaceToIHMMain().setOpenedChannelsList(controller.getOpenedChannelsList());
+
+    }
+
     private IHMChannelController controller;
 
 }
