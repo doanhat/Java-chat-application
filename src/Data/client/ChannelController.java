@@ -9,6 +9,7 @@ import common.interfaces.client.IDataToIHMMain;
 import common.sharedData.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -44,6 +45,9 @@ public class ChannelController extends Controller{
         List<Channel> localChannels = fileHandle.readAllJSONFilesToList(Channel.class);
         channelList = localChannels.stream().filter(ch -> ch.getCreator().getId().equals(user.getId()))
                 .collect(Collectors.toList());
+        for( Channel c : channelList){
+            c.setJoinedPersons(new ArrayList<>()); //init : au chargement aucun utilisateur n'a rejoint le channel
+        }
     }
 
     public void addChannelToLocalChannels(Channel channel){

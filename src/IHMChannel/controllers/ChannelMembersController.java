@@ -49,6 +49,10 @@ public class ChannelMembersController {
         connectedMembersListDisplay.getController().setCurrentChannel(channel);
     }
 
+    public ConnectedMembersListDisplay getConnectedMembersListDisplay() {
+        return connectedMembersListDisplay;
+    }
+
     /**
      * Tri des utilisateurs par ordre alphabétique
      * @throws IOException

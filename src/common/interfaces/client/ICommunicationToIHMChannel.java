@@ -43,4 +43,21 @@ public interface ICommunicationToIHMChannel {
      * @param user user qui vient de se déconnecter
      */
     void removeConnectedUser(UUID channelId, UserLite user);
+
+    /**
+     * Ajouter un membre à la liste des utilisateurs autorisés du channel
+     * @param channel channel concerné par l'ajout
+     * @param user utilisateur ajouté
+     */
+    void addAuthorizedUser(UUID channel, UserLite user);
+
+    /**
+     * Supprimer un membre de la liste des utilisateurs autorisés du channel
+     * @param channel channel concerné par la suppression
+     * @param user utilisateur supprimé
+     */
+    void removeAuthorizedUser(UUID channel, UserLite user);
+
+
+
 }

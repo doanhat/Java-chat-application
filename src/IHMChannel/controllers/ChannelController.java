@@ -74,6 +74,9 @@ public class ChannelController {
         this.currentChannel = currentChannel;
     }
 
+    public ChannelMembersDisplay getChannelMembersDisplay() {
+        return channelMembersDisplay;
+    }
 
     public void initialize() throws IOException {
         iconsInit();

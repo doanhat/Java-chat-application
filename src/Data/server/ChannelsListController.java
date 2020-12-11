@@ -24,6 +24,9 @@ public class ChannelsListController {
 
     public List<Channel> createChannelListFromJSONFiles(){
         List<Channel> list = fileHandle.readAllJSONFilesToList(Channel.class);
+        for( Channel c : list){
+            c.setJoinedPersons(new ArrayList<>()); //init pour éviter la liste null
+        }
         return list;
     }
 
