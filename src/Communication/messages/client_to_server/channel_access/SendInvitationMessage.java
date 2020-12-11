@@ -38,7 +38,7 @@ public class SendInvitationMessage extends ClientToServerMessage {
                 return;
             }
 
-            commController.requestAddUserToChannel(guest, channel);
+            commController.requestInviteUserToChannel(guest, channel);
 
             // send Invitation to guest
             commController.sendMessage(guest.getId(), new NewVisibleChannelMessage(channel));

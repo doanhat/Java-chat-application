@@ -313,7 +313,7 @@ public class CommunicationServerController extends CommunicationController {
 	 * @param guest invitateur
 	 * @param channel channel
 	 */
-	public void requestAddUserToChannel(UserLite guest, Channel channel) {
+	public void requestInviteUserToChannel(UserLite guest, Channel channel) {
 		if (dataServer == null) {
 			throw new NullPointerException("Data Interface est nulle");
 		}
