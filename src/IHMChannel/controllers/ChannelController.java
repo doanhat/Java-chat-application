@@ -298,6 +298,7 @@ public class ChannelController {
         this.channelMessagesDisplay.setConnectedMembersList(connectedMembersList);
         this.channelMembersDisplay.setConnectedMembersList(connectedMembersList);
 
+        System.err.println("Channel connected member list: " + connectedMembersList);
     }
 
     public void addConnectedUser(UserLite user) {
@@ -305,6 +306,8 @@ public class ChannelController {
         this.channelMessagesDisplay.getController().addMemberToObservableList(user);
         //this.channelMessagesDisplay.setConnectedMembersList(this.connectedMembersList);
         this.channelMembersDisplay.getController().addMemberToObservableList(user);
+
+        System.err.println("Channel connected member list: " + connectedMembersList);
     }
 
     public void removeConnectedUser(UserLite user) {

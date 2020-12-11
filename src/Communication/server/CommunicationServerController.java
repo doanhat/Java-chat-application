@@ -359,6 +359,8 @@ public class CommunicationServerController extends CommunicationController {
 			}
 		}
 
+		System.err.println("Comm channel connected user: " + activeUsers);
+
 		return activeUsers;
 	}
 
