@@ -1,5 +1,9 @@
 package common.shared_data;
 
+import data.resource_handle.FileHandle;
+import data.resource_handle.FileType;
+import data.resource_handle.LocationType;
+
 import java.io.Serializable;
 import java.util.*;
 
@@ -18,6 +22,7 @@ public class Channel implements Serializable {
 	private Map<String, String> nickNames;
 	private List<Kick> kicked;
 	private List<Message> messages;
+	private FileHandle<UserLite> fileHandle;
 
 	public Channel(String name, UserLite creator, String description, Visibility visibility, ChannelType type) {
 		this.id = UUID.randomUUID();
@@ -34,6 +39,7 @@ public class Channel implements Serializable {
 		this.nickNames.put(creator.getId().toString(), creator.getNickName());
 		this.kicked = new ArrayList<>();
 		this.messages = new ArrayList<>();
+		this.fileHandle = new FileHandle<>(LocationType.SERVER, FileType.CHANNEL);
 	}
 
 	public UUID getId() {
@@ -171,8 +177,13 @@ public class Channel implements Serializable {
 		return false;
 	}
 
+	public void writeAcceptedUserDataToJSON(List<UserLite> acceptedUsers){
+		this.fileHandle.writeJSONToFile(acceptedUsers);
+	}
+
 	public void removeUser(UUID idUser){
 		this.acceptedPersons.removeIf(person ->(person.getId().equals(idUser)));
+		this.writeAcceptedUserDataToJSON(this.acceptedPersons);
 	}
 
 	public void kickPermanentUser(UserLite user, String reason) {
