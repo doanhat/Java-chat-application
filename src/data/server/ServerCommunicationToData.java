@@ -110,7 +110,7 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
     @Override
     public List<Message> getHistory(Channel ch) {
-        return null;
+        return this.channelsListController.getChannelMessages(ch.getId());
     }
 
 
