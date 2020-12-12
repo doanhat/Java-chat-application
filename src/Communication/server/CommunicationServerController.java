@@ -20,6 +20,7 @@ import Communication.messages.server_to_client.channel_modification.NewInvisible
 import Communication.messages.server_to_client.chat_action.ReceiveEditMessage;
 import Communication.messages.server_to_client.connection.UserDisconnectedMessage;
 import Communication.messages.server_to_client.channel_access.UserLeftChannelMessage;
+import Communication.messages.server_to_client.chat_action.ReceiveEditMessage;
 
 import Communication.messages.server_to_client.channel_access.ValideUserLeftMessage;
 import common.interfaces.server.IServerCommunicationToData;
