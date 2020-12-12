@@ -68,7 +68,7 @@ public class IHMMainWindowController implements Initializable{
     private ImageView profileImage, avatarUser;
 
     @FXML
-    private Text nickname, nicknameUser, surnameUser, nameUser
+    private Text nickname, nicknameUser, surnameUser, nameUser;
     private Text birthDateUser;
 
     @FXML
