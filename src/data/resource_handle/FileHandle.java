@@ -4,11 +4,11 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 public class FileHandle<T> {
@@ -25,6 +25,7 @@ public class FileHandle<T> {
         String filePath = System.getProperty("user.dir") + "/resource/"+location+"/"+fileType+"/";
         if (!Paths.get(filePath).toFile().exists() || !Paths.get(filePath).toFile().isDirectory()) {
             Paths.get(filePath).toFile().mkdirs();
+            //System.out.println("Folder created");
         }
         this.path = filePath;
     }
@@ -75,18 +76,19 @@ public class FileHandle<T> {
         return null;
     }
 
-    public void writeJSONToFile(Object object){
+    public void writeJSONToFile(String fileName, Object object){
         try {
-            mapper.writeValue(Paths.get(path).toFile(), object);
+            mapper.writeValue(Paths.get(this.path + fileName + EXTENSION).toFile(), object);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+
     public void addObjectToFile(String fileName, Object object, Class<T> tClass){
         List<T> list = readJSONFileToList(fileName,tClass);
         list.add((T) object);
-        writeJSONToFile(list);
+        writeJSONToFile(fileName,list);
     }
 
     public boolean deleteJSONFile(String fileName){
@@ -98,6 +100,34 @@ public class FileHandle<T> {
             e.printStackTrace();
         }
         return false;
+    }
+
+    //Seulement JPG en ce moment
+    public String readAvatarAsBase64String(String userId) throws IOException {
+        String sysPath = this.path + userId + ".jpg";
+        File image = Paths.get(sysPath).toFile();
+        byte[] bytes;
+        try (FileInputStream fileInputStreamReader = new FileInputStream(image)) {
+            bytes = new byte[(int) image.length()];
+            fileInputStreamReader.read(bytes);
+        }
+        return new String(Base64.getEncoder().encode(bytes), "UTF-8");
+    }
+
+    public String getAvatarPath(String userId) {
+        String sysPath = this.path + userId + ".jpg";
+        File image = Paths.get(sysPath).toFile();
+        return image.getPath();
+    }
+
+    public void writeEncodedStringToFile(String encodedString, String fileName) throws IOException {
+        String sysPath = this.path + fileName + ".jpg";
+        byte[] decodedBytes = Base64
+                .getDecoder()
+                .decode(encodedString);
+        try (FileOutputStream stream = new FileOutputStream(Paths.get(sysPath).toFile())) {
+            stream.write(decodedBytes);
+        }
     }
 
     public void setPath(String path) {

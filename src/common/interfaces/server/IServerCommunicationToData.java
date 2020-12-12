@@ -239,4 +239,20 @@ public interface IServerCommunicationToData {
     Channel getChannel(UUID channelID);
 
     List<Channel> disconnectOwnedChannel(UserLite owner);
+
+    /**
+     * Envoyer une image encodée en string Base64 au server pour stocker
+     *
+     * @param user          utilisateur ayant l'image comme avatar
+     * @param encodedString le string encodée en Base64
+     */
+    void saveAvatarToServer(UserLite user, String encodedString);
+
+    /**
+     * Récupérer le chemin vers l'avatar de l'utilisateur dans le serveur
+     *
+     * @param user utilisateur
+     * @return
+     */
+    String getAvatarPath(UserLite user);
 }
