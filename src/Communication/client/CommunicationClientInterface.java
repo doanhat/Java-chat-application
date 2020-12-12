@@ -19,6 +19,8 @@ import Communication.messages.client_to_server.channel_access.proprietary_channe
 import Communication.messages.client_to_server.channel_access.shared_channels.AskToJoinSharedMessage;
 
 import Communication.messages.client_to_server.chat_action.proprietary_channels.DeleteMessagePropMessage;
+import Communication.messages.client_to_server.chat_action.proprietary_channels.EditMessagePropMessage;
+import Communication.messages.client_to_server.chat_action.shared_channels.EditMessageSharedMessage;
 import Communication.messages.client_to_server.chat_action.proprietary_channels.SaveLikeMessageProp;
 import Communication.messages.client_to_server.chat_action.shared_channels.DeleteMessageSharedMessage;
 import Communication.messages.client_to_server.chat_action.shared_channels.SaveLikeMessageShared;
@@ -182,7 +184,15 @@ public class CommunicationClientInterface implements IDataToCommunication,
      * @param channel [Channel] Channel du message a modifier
      **/
     public void editMessage(Message msg, Message new_msg, Channel channel) {
-        // TODO V2
+        if (msg == null || channel == null || new_msg == null) {
+            return;
+        }
+        if (channel.getType() == ChannelType.OWNED) {
+            this.commController.sendMessage(new EditMessagePropMessage(msg, new_msg, channel.getId(), channel.getCreator()));
+        }
+        else {
+            this.commController.sendMessage(new EditMessageSharedMessage(msg, new_msg, channel.getId()));
+        }
     }
 
     /**

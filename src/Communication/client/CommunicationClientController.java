@@ -567,6 +567,15 @@ public class CommunicationClientController extends CommunicationController {
         dataClient.updateNickname(user, channelId, name);
     }
 
+    /**
+     * Sauvegarde une edition de message sur le client
+     * @param message ancien message
+     * @param newMessage nouveau message
+     * @param channelID channel concerne
+     */
+    public void saveEdit(Message message, Message newMessage, UUID channelID){
+        dataClient.saveEditionIntoHistory(message, newMessage, channelID);
+    }
     public void notifyEditMessage(Message msg, Message newMsg, UUID channelID) {
         dataClient.editMessage(msg, newMsg, channelID);
     }

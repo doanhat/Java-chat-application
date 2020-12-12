@@ -17,6 +17,7 @@ import Communication.messages.server_to_client.channel_modification.sendNewNickn
 import Communication.messages.server_to_client.chat_action.LikeSavedMessage;
 import Communication.messages.server_to_client.chat_action.MessageDeletedMessage;
 import Communication.messages.server_to_client.channel_modification.NewInvisibleChannelsMessage;
+import Communication.messages.server_to_client.chat_action.ReceiveEditMessage;
 import Communication.messages.server_to_client.connection.UserDisconnectedMessage;
 import Communication.messages.server_to_client.channel_access.UserLeftChannelMessage;
 
@@ -444,5 +445,17 @@ public class CommunicationServerController extends CommunicationController {
 		dataServer.saveLikeIntoHistory(channel, msg, user);
 
 		sendMulticast(channel.getJoinedPersons(), new LikeSavedMessage(channelID, msg, user));
+	}
+
+	/**
+	 * Sauvegarde un edit sur le serveur
+	 * @param message ancien message
+	 * @param newMessage nouveau message
+	 * @param channelID channel concerné
+	 */
+	public void saveEdit(Message message, Message newMessage, UUID channelID){
+    	dataServer.editMessage(this.getChannel(channelID), newMessage);
+
+		sendMulticast(this.getChannel(channelID).getJoinedPersons(), new ReceiveEditMessage(message, newMessage, channelID));
 	}
 }
