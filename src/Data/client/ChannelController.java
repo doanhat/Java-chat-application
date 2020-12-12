@@ -8,6 +8,7 @@ import common.interfaces.client.IDataToIHMChannel;
 import common.interfaces.client.IDataToIHMMain;
 import common.sharedData.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -95,7 +96,11 @@ public class ChannelController extends Controller{
      * @param channelId the channelId
      */
     public void newAdmin(UserLite user, UUID channelId) {
-        this.channelClient.addNewAdmin(user,this.channelClient.getChannel(channelId));
+        try {
+            this.channelClient.addNewAdmin(user,this.channelClient.getChannel(channelId));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

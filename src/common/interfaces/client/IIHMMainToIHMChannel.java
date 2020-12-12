@@ -22,5 +22,5 @@ public interface IIHMMainToIHMChannel {
      * Connecté l'utilisateur au channel si celui-ci ne l'était pas.
      * @param channelId l'identifiant du channel à afficher
      */
-    public void viewChannel(UUID channelId);
+    public void viewChannel(Channel channel);
 }
