@@ -68,11 +68,7 @@ public class IHMMainWindowController implements Initializable{
     private ImageView profileImage, avatarUser;
 
     @FXML
-    private Text nickname, nicknameUser, surnameUser, nameUser;
-    private Text birthDateUser;
-
-    @FXML
-    private ListView<Channel> listChannelsUser;
+    private Text nickname;
 
     @FXML
     private Button homePageButton;
@@ -280,8 +276,10 @@ public class IHMMainWindowController implements Initializable{
              * faire en sorte que getAvatar renvoie une image afin de ne pas stocker trop
              * d'images en local
              */
-            //Image image = new Image(userL.getAvatar());
-            Image image = new Image("IHMMain/icons/willsmith.png");
+
+            //String avatarPath = parentController.getIhmMainController().getIIHMMainToCommunication().getAvatarPath(u.getUserLite());
+            String avatarPath = "IHMMain/icons/willsmith.png";
+            Image image = new Image(avatarPath);
             profileImage.setImage(image);
         }
     }
@@ -346,20 +344,32 @@ public class IHMMainWindowController implements Initializable{
     }
 
     @FXML
-    public void loadUserInfos(User u){
-        /**
-        TODO avatar to be set when data changes the way of storing images
-         */
-        Image image = new Image("IHMMain/icons/willsmith.png");
-        avatarUser.setImage(image);
+    private void loadUserInfosPopup() throws IOException {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../views/UserInfos.fxml"));
+            Parent root = fxmlLoader.load();
 
-        nicknameUser.setText(u.getNickName());
-        surnameUser.setText(u.getFirstName());
-        nameUser.setText(u.getLastName());
+            UserInfosController userInfosController = fxmlLoader.getController();
+            try {
+                userInfosController.setParentController(this);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
-        DateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
-        birthDateUser.setText(dateFormat.format(u.getBirthDate()));
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+
+            stage.setTitle("Informations Utilisateur");
+            stage.setScene(new Scene(root, 600, 400));
+            stage.setResizable(false);
+
+            stage.show();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
 
     public StackPane getMainArea() {
         return this.mainArea;
