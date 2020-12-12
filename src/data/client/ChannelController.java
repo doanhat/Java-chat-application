@@ -44,7 +44,7 @@ public class ChannelController extends Controller{
             }
         }
         channelList.add(channel);
-        new FileHandle<Channel>(LocationType.CLIENT, FileType.CHANNEL).writeJSONToFile(Channel.class);
+        new FileHandle<Channel>(LocationType.CLIENT, FileType.CHANNEL).writeJSONToFile(channel.getId().toString(),Channel.class);
 
     }
     /**
@@ -69,7 +69,7 @@ public class ChannelController extends Controller{
         for (Channel c : channels) {
             if(c.getId().equals(channelID)) {
                 c.addUser(user);
-                new FileHandle<Channel>(LocationType.CLIENT, FileType.CHANNEL).writeJSONToFile(Channel.class);
+                new FileHandle<Channel>(LocationType.CLIENT, FileType.CHANNEL).writeJSONToFile(c.getId().toString(),c);
                 break;
             }
         }
@@ -86,7 +86,7 @@ public class ChannelController extends Controller{
         Channel ownedChannel = searchChannelById(channelId);
         if (ownedChannel!=null) {
             ownedChannel.addAdmin(user);
-            fileHandler.writeJSONToFile(ownedChannel);
+            fileHandler.writeJSONToFile(ownedChannel.getId().toString(),ownedChannel);
         }
     }
 
@@ -160,7 +160,7 @@ public class ChannelController extends Controller{
         for (Channel c : channels) {
             if(c.getId().equals(channelId)) {
                 c.addUser(user);
-                new FileHandle<Channel>(LocationType.CLIENT, FileType.CHANNEL).writeJSONToFile(Channel.class);
+                new FileHandle<Channel>(LocationType.CLIENT, FileType.CHANNEL).writeJSONToFile(c.getId().toString(),c);
                 break;
             }
         }

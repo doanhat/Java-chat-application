@@ -2,7 +2,11 @@ package data.server;
 
 import common.interfaces.server.IServerCommunicationToData;
 import common.shared_data.*;
+import data.resource_handle.FileHandle;
+import data.resource_handle.FileType;
+import data.resource_handle.LocationType;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -39,8 +43,21 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
 
     @Override
-    public List<UserLite> updateChannel(Channel channel) {
-        return null;
+    public void updateChannel(UUID channelID, UUID userID, String name, String description, Visibility visibility) {
+        Channel channel = channelsListController.searchChannelById(channelID);
+        if(channel != null){
+            if(channel.userIsAdmin(userID)){
+                if (name!=null)
+                    channel.setName(name);
+                if(description!= null)
+                    channel.setDescription(description);
+                if(visibility!=null)
+                    channel.setVisibility(visibility);
+                if(channel.getType().equals(ChannelType.SHARED)){
+                    channelsListController.writeChannelDataToJSON(channel);
+                }
+            }
+        }
     }
 
 
@@ -267,5 +284,33 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
         }
     }
 
+    /**
+     * Envoyer une image encodée en string Base64 au server pour stocker
+     *
+     * @param user          utilisateur ayant l'image comme avatar
+     * @param encodedString le string encodée en Base64
+     */
+    @Override
+    public void saveAvatarToServer(UserLite user, String encodedString) {
+        FileHandle fileHandle = new FileHandle(LocationType.SERVER, FileType.AVATAR);
+        try {
+            fileHandle.writeEncodedStringToFile(encodedString,user.getId().toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * Récupérer le chemin vers l'avatar de l'utilisateur dans le serveur
+     *
+     * @param user utilisateur
+     * @return
+     */
+    @Override
+    public String getAvatarPath(UserLite user) {
+        FileHandle fileHandle = new FileHandle(LocationType.SERVER, FileType.AVATAR);
+        return fileHandle.getAvatarPath(user.getId().toString());
+    }
 
 }

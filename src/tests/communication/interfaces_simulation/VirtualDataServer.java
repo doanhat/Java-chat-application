@@ -4,6 +4,7 @@ import common.interfaces.server.IServerCommunicationToData;
 import common.shared_data.Channel;
 import common.shared_data.Message;
 import common.shared_data.UserLite;
+import common.shared_data.Visibility;
 
 import java.util.*;
 
@@ -68,8 +69,8 @@ public class VirtualDataServer implements IServerCommunicationToData {
 
 
     @Override
-    public List<UserLite> updateChannel(Channel channel) {
-        return null;
+    public void updateChannel(UUID channelID, UUID userID, String name, String description, Visibility visibility) {
+
     }
 
     @Override
@@ -282,5 +283,27 @@ public class VirtualDataServer implements IServerCommunicationToData {
     @Override
     public void addOwnedChannelsToServerList(List<Channel> ownedChannels, UUID ownerID) {
 
+    }
+
+    /**
+     * Envoyer une image encodée en string Base64 au server pour stocker
+     *
+     * @param user          utilisateur ayant l'image comme avatar
+     * @param encodedString le string encodée en Base64
+     */
+    @Override
+    public void saveAvatarToServer(UserLite user, String encodedString) {
+
+    }
+
+    /**
+     * Récupérer le chemin vers l'avatar de l'utilisateur dans le serveur
+     *
+     * @param user utilisateur
+     * @return
+     */
+    @Override
+    public String getAvatarPath(UserLite user) {
+        return null;
     }
 }

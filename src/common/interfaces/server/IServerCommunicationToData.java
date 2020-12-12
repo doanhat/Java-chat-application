@@ -3,6 +3,8 @@ package common.interfaces.server;
 import common.shared_data.Channel;
 import common.shared_data.Message;
 import common.shared_data.UserLite;
+import common.shared_data.Visibility;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -34,9 +36,13 @@ public interface IServerCommunicationToData {
     /**
      * Méthode pour mettre à jour les informations d'un channel dans la liste des channels
      *
-     * @param channel le channel concerné avec les modifications déjà faites
+     * @param channelID l'identificateur du channel concerné
+     * @param userID l'identificateur qui veut faire les changes sur le channel
+     * @param name nouvel nom du channel, mettre à null si pas besoin de le changer
+     * @param description nouvelle description du channel, mettre à null si pas besoin de la changer
+     * @param visibility nouvelle visibilité du channel, mettre à null si pas besoin de la changer
      * */
-    List<UserLite> updateChannel(Channel channel);
+    void updateChannel(UUID channelID, UUID userID, String name, String description, Visibility visibility);
 
     /**
      * NOTE: Suggestion de Comm: utiliser channelID et retouner un boolean pour indiqué succès ou échec
@@ -269,4 +275,20 @@ public interface IServerCommunicationToData {
      * @param ownerID l'identificateur de l'utilisateur proprietaire des channels
      * */
     void addOwnedChannelsToServerList(List<Channel> ownedChannels, UUID ownerID);
+
+    /**
+     * Envoyer une image encodée en string Base64 au server pour stocker
+     *
+     * @param user          utilisateur ayant l'image comme avatar
+     * @param encodedString le string encodée en Base64
+     */
+    void saveAvatarToServer(UserLite user, String encodedString);
+
+    /**
+     * Récupérer le chemin vers l'avatar de l'utilisateur dans le serveur
+     *
+     * @param user utilisateur
+     * @return
+     */
+    String getAvatarPath(UserLite user);
 }
