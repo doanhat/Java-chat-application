@@ -14,11 +14,5 @@ public class MainServer {
         CommunicationServerController commServerController = new CommunicationServerController();
         commServerController.setIServerCommunicationToData(dataServerController.getIServerCommunicationToData());
         commServerController.start(); //lancement du server
-
-        UserLite oss = new UserLite("Oss",null);
-
-        Channel channel = new Channel("Channel 1", oss,"description test", Visibility.PUBLIC, ChannelType.SHARED);
-        dataServerController.getIServerCommunicationToData().requestChannelCreation(channel,true,true,oss);
-        dataServerController.getIServerCommunicationToData().updateChannel(channel.getId(),oss.getId(),"Nuevo nombre","nueva desc",null);
     }
 }
