@@ -16,6 +16,7 @@ import Communication.messages.server_to_client.chat_action.MessageDeletedMessage
 import Communication.messages.server_to_client.channel_modification.NewInvisibleChannelsMessage;
 import Communication.messages.server_to_client.connection.UserDisconnectedMessage;
 import Communication.messages.server_to_client.channel_access.UserLeftChannelMessage;
+import Communication.messages.server_to_client.chat_action.ReceiveEditMessage;
 
 import Communication.messages.server_to_client.channel_access.ValideUserLeftMessage;
 import common.interfaces.server.IServerCommunicationToData;
@@ -424,6 +425,6 @@ public class CommunicationServerController extends CommunicationController {
 	public void saveEdit(Message message, Message newMessage, UUID channelID){
     	dataServer.editMessage(this.getChannel(channelID), newMessage);
 
-		sendMulticast(this.getChannel(channelID).getAcceptedPersons(), new receiveEditMessage(message, newMessage, channelID));
+		sendMulticast(this.getChannel(channelID).getAcceptedPersons(), new ReceiveEditMessage(message, newMessage, channelID));
 	}
 }
