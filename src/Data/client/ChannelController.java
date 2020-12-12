@@ -67,7 +67,7 @@ public class ChannelController extends Controller{
      */
     public void createChannel(Channel channel) {
         addChannelToLocalChannels(channel);
-        this.mainClient.addChannelToList(channel);
+        this.mainClient.addChannel(channel);
     }
 
     /**

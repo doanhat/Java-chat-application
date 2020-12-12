@@ -7,6 +7,7 @@ import IHMMain.implementations.IHMChannelToIHMMain;
 import app.MainWindowController;
 import common.interfaces.client.*;
 import common.sharedData.Channel;
+import common.sharedData.ConnectionStatus;
 import common.sharedData.UserLite;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -102,7 +103,7 @@ public class IHMMainController {
         return openedChannels;
     }
     
-    public void loadIHMMainWindow(int status) {
+    public void loadIHMMainWindow(ConnectionStatus status) {
         mainWindowController.getConnectionController().loadIHMMainWindow(status);
     }
 

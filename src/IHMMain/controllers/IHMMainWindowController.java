@@ -263,6 +263,7 @@ public class IHMMainWindowController implements Initializable{
     public void onSeDeconnecterButtonClick(){
         try {
             ihmMainController.getIIHMMainToCommunication().disconnect();
+            ihmMainController.getIHMMainToData().disconnect();
             ihmMainController.getMainWindowController().loadConnectionWindow();
             ihmMainController.reset();
         } catch (Exception e) {

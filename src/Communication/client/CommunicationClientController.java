@@ -183,13 +183,11 @@ public class CommunicationClientController extends CommunicationController {
             throw new NullPointerException("IHMMain Iface est null");
         }
 
-        mainClient.setConnectionStatus(0);
+        mainClient.setConnectionStatus(ConnectionStatus.CONNECTED);
         mainClient.setConnectedUsers(users);
         //channelClient.setConnectedUsers(users); //TODO Activer cette methode quand channel l'aura dans son interface
 
-        for (Channel channel : channels) {
-            notifyVisibleChannel(channel);
-        }
+        notifyVisibleChannels(channels);
     }
 
     /**
@@ -202,7 +200,7 @@ public class CommunicationClientController extends CommunicationController {
             throw new NullPointerException("IHMMain Iface est null");
         }
 
-        mainClient.setConnectionStatus(1);
+        mainClient.setConnectionStatus(ConnectionStatus.LOST);
     }
 
     /**
@@ -242,6 +240,19 @@ public class CommunicationClientController extends CommunicationController {
         }
 
         mainClient.channelAdded(channel);
+    }
+
+    /**
+     * Notifier IHM Main, Data qu'une liste de channels vient d'etre visible au utilisateur local
+     *
+     * @param channels La liste de channels a notifié
+     */
+    public void notifyVisibleChannels(List<Channel> channels) {
+        if (mainClient == null) {
+            throw new NullPointerException("IHMMain Iface est null");
+        }
+
+        mainClient.channelAddedAll(channels);
     }
 
     /**

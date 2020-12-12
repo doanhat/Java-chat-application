@@ -4,6 +4,7 @@ import IHMMain.IHMMainController;
 import IHMMain.controllers.IHMMainWindowController;
 import common.interfaces.client.ICommunicationToIHMMain;
 import common.sharedData.Channel;
+import common.sharedData.ConnectionStatus;
 import common.sharedData.UserLite;
 import javafx.application.Platform;
 
@@ -13,36 +14,16 @@ public class CommunicationToIHMMain implements ICommunicationToIHMMain {
 
     private IHMMainController ihmMainController;
 
-    private IHMMainWindowController ihmMainWindowController;
-
     public CommunicationToIHMMain(IHMMainController ihmMainController) {
         this.ihmMainController = ihmMainController;
     }
 
     @Override
-    public void connectionAccepted() {
+    public void setConnectionStatus(ConnectionStatus status) {
         /**
          * N'étant pas sur le thread principal il faut execute le load plus tard
          */
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                ihmMainController.getMainWindowController().loadIHMMainWindow();
-            }
-        });
-    }
-
-    @Override
-    public void setConnectionStatus(int status) {
-        /**
-         * N'étant pas sur le thread principal il faut execute le load plus tard
-         */
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                ihmMainController.loadIHMMainWindow(status);
-            }
-        });
+        Platform.runLater(() -> ihmMainController.loadIHMMainWindow(status));
     }
 
     @Override
@@ -71,7 +52,6 @@ public class CommunicationToIHMMain implements ICommunicationToIHMMain {
         });
     }
 
-
     @Override
     public void channelAdded(Channel channel) {
         Platform.runLater(new Runnable() {
@@ -82,7 +62,13 @@ public class CommunicationToIHMMain implements ICommunicationToIHMMain {
         });
     }
 
-    public void setIhmMainWindowController(IHMMainWindowController ihmMainWindowController){
-        this.ihmMainWindowController = ihmMainWindowController;
+    @Override
+    public void channelAddedAll(List<Channel> channels) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                ihmMainController.getVisibleChannels().addAll(channels);
+            }
+        });
     }
 }

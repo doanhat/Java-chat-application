@@ -13,6 +13,11 @@ import java.util.List;
  */
 public interface IIHMMainToData {
     /**
+     * Déconnecter application
+     */
+    void disconnect();
+
+    /**
      * Gets connected users.
      *
      * @return the connected users

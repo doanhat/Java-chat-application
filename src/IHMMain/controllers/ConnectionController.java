@@ -2,6 +2,7 @@ package IHMMain.controllers;
 
 import IHMMain.IHMMainController;
 import app.MainWindowController;
+import common.sharedData.ConnectionStatus;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -205,8 +206,8 @@ public class ConnectionController implements Initializable{
         return true;
     }
 
-    public void loadIHMMainWindow(int status) {
-        if (status != 0) {
+    public void loadIHMMainWindow(ConnectionStatus status) {
+        if (status != ConnectionStatus.CONNECTED) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Alerte");
             alert.setHeaderText("Connexion impossible");

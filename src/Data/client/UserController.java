@@ -52,9 +52,7 @@ public class UserController extends Controller {
                     this.localUser = user;
                     this.comClient.userConnect(user.getUserLite());
                     this.dataController.getChannelController().loadProprietaryChannels(user);
-                    for (Channel channel : dataController.getChannelController().getChannelList()) {
-                        this.mainClient.addChannelToList(channel);
-                    }
+                    this.mainClient.addAllChannels(dataController.getChannelController().getChannelList());
                     return true;
                 }
             }

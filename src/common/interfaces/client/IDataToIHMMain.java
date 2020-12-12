@@ -8,21 +8,20 @@ import common.sharedData.Channel;
  */
 public interface IDataToIHMMain {
     /**
-     * Supprime le channel de l'interface
+     * Supprime le channel de la liste des channels visibles
      * @param channel
      */
     public void removeChannel(Channel channel);
 
     /**
-     * Ajoute le channel à la liste des channels de l'interface
-     * @param channel
+     * Ajoute le channel à la liste des channels visibles
+     * @param channel Le channel à ajouter
      */
-    public void addChannelToList(Channel channel);
+    public void addChannel(Channel channel);
 
     /**
-     * Met à jour l'affichage de la liste des channels
-     * @param channelList
+     * Ajoute une liste de channels à la liste des channels visibles
+     * @param channels La liste à ajouter
      */
-    public void updateListChannel(List<Channel> channelList);
-
+    public void addAllChannels(List<Channel> channels);
 }
