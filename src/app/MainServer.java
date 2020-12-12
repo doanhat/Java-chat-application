@@ -1,8 +1,4 @@
 package app;
-import common.shared_data.Channel;
-import common.shared_data.ChannelType;
-import common.shared_data.UserLite;
-import common.shared_data.Visibility;
 import data.server.DataServerController;
 import Communication.server.CommunicationServerController;
 
