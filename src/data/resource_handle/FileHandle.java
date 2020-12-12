@@ -13,6 +13,7 @@ import java.util.List;
 
 public class FileHandle<T> {
     public static final String EXTENSION = ".json";
+    public static final String EXTENSION_IMAGE = ".jpg";
 
     ObjectMapper mapper = new ObjectMapper();
     private String path;
@@ -104,7 +105,7 @@ public class FileHandle<T> {
 
     //Seulement JPG en ce moment
     public String readAvatarAsBase64String(String userId) throws IOException {
-        String sysPath = this.path + userId + ".jpg";
+        String sysPath = this.path + userId + EXTENSION_IMAGE;
         File image = Paths.get(sysPath).toFile();
         byte[] bytes;
         try (FileInputStream fileInputStreamReader = new FileInputStream(image)) {
@@ -115,13 +116,13 @@ public class FileHandle<T> {
     }
 
     public String getAvatarPath(String userId) {
-        String sysPath = this.path + userId + ".jpg";
+        String sysPath = this.path + userId + EXTENSION_IMAGE;
         File image = Paths.get(sysPath).toFile();
         return image.getPath();
     }
 
     public void writeEncodedStringToFile(String encodedString, String fileName) throws IOException {
-        String sysPath = this.path + fileName + ".jpg";
+        String sysPath = this.path + fileName + EXTENSION_IMAGE;
         byte[] decodedBytes = Base64
                 .getDecoder()
                 .decode(encodedString);
