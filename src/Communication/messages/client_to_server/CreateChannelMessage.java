@@ -6,11 +6,9 @@ import Communication.messages.server_to_client.NewVisibleChannelMessage;
 import Communication.messages.server_to_client.RefuseCreationChannelMessage;
 import Communication.messages.server_to_client.ValidateCreationChannelMessage;
 import Communication.server.CommunicationServerController;
-import common.sharedData.Channel;
-import common.sharedData.UserLite;
-import common.sharedData.Visibility;
-
-import java.util.List;
+import common.shared_data.Channel;
+import common.shared_data.UserLite;
+import common.shared_data.Visibility;
 
 public class CreateChannelMessage extends ClientToServerMessage {
 

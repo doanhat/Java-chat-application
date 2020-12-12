@@ -5,8 +5,8 @@ import Communication.messages.server_to_client.AcceptJoinChannelMessage;
 import Communication.messages.server_to_client.NewUserJoinChannelMessage;
 import Communication.messages.server_to_client.RefuseJoinChannelMessage;
 import Communication.server.CommunicationServerController;
-import common.sharedData.Channel;
-import common.sharedData.UserLite;
+import common.shared_data.Channel;
+import common.shared_data.UserLite;
 
 import java.util.UUID;
 

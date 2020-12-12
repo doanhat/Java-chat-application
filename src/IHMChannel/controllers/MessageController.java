@@ -1,6 +1,6 @@
 package IHMChannel.controllers;
 
-import common.sharedData.Message;
+import common.shared_data.Message;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;

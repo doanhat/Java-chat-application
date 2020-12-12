@@ -1,14 +1,13 @@
-package Data.server;
+package data.server;
 
-import Data.resourceHandle.FileHandle;
-import Data.resourceHandle.FileType;
-import Data.resourceHandle.LocationType;
-import common.sharedData.*;
+import data.resource_handle.FileHandle;
+import data.resource_handle.FileType;
+import data.resource_handle.LocationType;
+import common.shared_data.*;
 
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 public class ChannelsListController {
@@ -16,19 +15,19 @@ public class ChannelsListController {
     private List<Channel> ownedChannels;
     private FileHandle fileHandle;
 
+
     /**
      * SVP CREER LES FICHIER AVEC DES FONCTIONS
      */
 
     public ChannelsListController() {
-        this.fileHandle = new FileHandle<Channel>(LocationType.server, FileType.channel);
+        this.fileHandle = new FileHandle<Channel>(LocationType.SERVER, FileType.CHANNEL);
         this.sharedChannels = createChannelListFromJSONFiles();
         ownedChannels = new ArrayList<>();
     }
 
     public List<Channel> createChannelListFromJSONFiles(){
-        List<Channel> list = fileHandle.readAllJSONFilesToList(Channel.class);
-        return list;
+        return fileHandle.readAllJSONFilesToList(Channel.class);
     }
 
     public List<Channel> searchChannelByName(String nom) {
@@ -61,6 +60,19 @@ public class ChannelsListController {
         return null;
     }
 
+    public List<UUID> getChannelsWhereUser(UUID userID){
+        ArrayList<UUID> res = new ArrayList<UUID>();
+        for (Channel channel: ownedChannels) {
+            if(channel.userInChannel(userID))
+                res.add(channel.getId());
+        }
+        for (Channel channel: sharedChannels) {
+            if(channel.userInChannel(userID))
+                res.add(channel.getId());
+        }
+        return res;
+    }
+
     public void addChannel(Channel channel) {
         if(searchChannelById(channel.getId())==null) {
             if(channel.getType().equals(ChannelType.SHARED)) {
@@ -90,6 +102,16 @@ public class ChannelsListController {
 
     public List<Channel> getOwnedChannels() {
         return this.ownedChannels;
+    }
+
+    public List<Channel> getOwnedChannelsForUser(UUID user){
+        List<Channel> list = new ArrayList<>();
+        for (Channel channel: ownedChannels) {
+            if(channel.getCreator().equals(user)){
+                list.add(channel);
+            }
+        }
+        return list;
     }
 
     public void writeChannelDataToJSON(Channel channel){
@@ -153,7 +175,6 @@ public class ChannelsListController {
 
     public List<Channel> disconnectOwnedChannel(UserLite owner) {
         List<Channel> userOwnedChannels = new ArrayList<>();
-        List<Channel> ownedChannels = getOwnedChannels();
 
         if (ownedChannels == null) {
             return null;
@@ -162,10 +183,10 @@ public class ChannelsListController {
         for (Channel channel: ownedChannels) {
             if (channel.getCreator().getId().equals(owner.getId())) {
                 userOwnedChannels.add(channel);
-                ownedChannels.remove(channel);
+
             }
         }
-
+        ownedChannels.removeIf(ch -> (ch.getCreator().getId().equals(owner.getId())));
         return userOwnedChannels;
     }
 }

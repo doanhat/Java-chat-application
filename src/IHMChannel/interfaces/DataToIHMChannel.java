@@ -3,10 +3,10 @@ package IHMChannel.interfaces;
 import IHMChannel.IHMChannelController;
 import IHMChannel.controllers.ChannelController;
 import common.interfaces.client.IDataToIHMChannel;
-import common.sharedData.Channel;
-import common.sharedData.Message;
-import common.sharedData.User;
-import common.sharedData.UserLite;
+import common.shared_data.Channel;
+import common.shared_data.Message;
+import common.shared_data.User;
+import common.shared_data.UserLite;
 
 import java.util.UUID;
 

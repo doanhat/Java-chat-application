@@ -2,9 +2,9 @@ package IHMChannel.interfaces;
 
 import IHMChannel.IHMChannelController;
 import common.interfaces.client.ICommunicationToIHMChannel;
-import common.sharedData.Channel;
-import common.sharedData.Message;
-import common.sharedData.User;
+import common.shared_data.Channel;
+import common.shared_data.Message;
+import common.shared_data.User;
 
 import java.util.List;
 

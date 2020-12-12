@@ -1,7 +1,6 @@
 package IHMChannel.controllers;
 
-import IHMChannel.MemberDisplay;
-import common.sharedData.UserLite;
+import common.shared_data.UserLite;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;

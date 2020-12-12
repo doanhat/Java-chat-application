@@ -1,6 +1,6 @@
 package common.interfaces.client;
 
-import common.sharedData.*;
+import common.shared_data.*;
 import java.util.*;
 
 public interface IIHMChannelToCommunication
@@ -45,10 +45,10 @@ public interface IIHMChannelToCommunication
      * Envoie une demande d'édite au serveur
      *
      * @param msg [Message] Message d'origine
-     * @param new_msg [Message] Message modifier
+     * @param newMsg [Message] Message modifier
      * @param channel [Channel] Channel du message a modifier
      **/
-    void editMessage(Message msg, Message new_msg, Channel channel);
+    void editMessage(Message msg, Message newMsg, Channel channel);
 
     /**
      * Envoie une demande de like d'un message au serveur

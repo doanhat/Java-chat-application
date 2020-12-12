@@ -1,6 +1,6 @@
 package Communication.server;
 
-import common.sharedData.UserLite;
+import common.shared_data.UserLite;
 
 import java.io.IOException;
 import java.net.Socket;

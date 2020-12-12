@@ -1,6 +1,6 @@
 package Communication.server;
 
-import common.sharedData.UserLite;
+import common.shared_data.UserLite;
 
 import java.net.Socket;
 import java.util.List;

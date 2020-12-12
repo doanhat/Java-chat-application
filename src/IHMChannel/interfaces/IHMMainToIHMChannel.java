@@ -2,7 +2,7 @@ package IHMChannel.interfaces;
 
 import IHMChannel.IHMChannelController;
 import common.interfaces.client.IIHMMainToIHMChannel;
-import common.sharedData.Channel;
+import common.shared_data.Channel;
 import javafx.scene.layout.Region;
 
 import java.util.UUID;

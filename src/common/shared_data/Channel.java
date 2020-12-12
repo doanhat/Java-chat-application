@@ -1,4 +1,4 @@
-package common.sharedData;
+package common.shared_data;
 
 import java.io.Serializable;
 import java.util.*;
@@ -26,14 +26,14 @@ public class Channel implements Serializable {
 		this.description = description;
 		this.visibility = visibility;
 		this.type = type;
-		this.administrators = new ArrayList<UserLite>();
+		this.administrators = new ArrayList<>();
 		this.administrators.add(creator);
-		this.acceptedPersons = new ArrayList<UserLite>();
+		this.acceptedPersons = new ArrayList<>();
 		this.acceptedPersons.add(creator);
-		this.nickNames = new HashMap<String, String>();
+		this.nickNames = new HashMap<>();
 		this.nickNames.put(creator.getId().toString(), creator.getNickName());
-		this.kicked = new ArrayList<Kick>();
-		this.messages = new ArrayList<Message>();
+		this.kicked = new ArrayList<>();
+		this.messages = new ArrayList<>();
 	}
 
 	public UUID getId() {

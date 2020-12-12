@@ -1,9 +1,9 @@
 package common.interfaces.client;
 
-import common.sharedData.Channel;
-import common.sharedData.User;
-import common.sharedData.UserLite;
-import common.sharedData.Visibility;
+import common.shared_data.Channel;
+import common.shared_data.User;
+import common.shared_data.UserLite;
+import common.shared_data.Visibility;
 
 import java.util.Date;
 import java.util.List;
@@ -35,7 +35,7 @@ public interface IIHMMainToData {
      * @param isPublic the is public
      * @param owner    the owner
      */
-    void createChannel(String name, String description, Boolean isShared, Boolean isPublic, UserLite owner);
+    void createChannel(String name, String description, boolean isShared, boolean isPublic, UserLite owner);
 
     /**
      * Search channel.

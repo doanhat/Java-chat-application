@@ -2,12 +2,7 @@ package Communication.messages.server_to_client;
 
 import Communication.client.CommunicationClientController;
 import Communication.messages.abstracts.ServerToClientMessage;
-import common.sharedData.Channel;
-import common.sharedData.UserLite;
-import common.sharedData.Visibility;
-
-import java.io.Serializable;
-import java.util.List;
+import common.shared_data.Channel;
 
 public class NewVisibleChannelMessage extends ServerToClientMessage {
 

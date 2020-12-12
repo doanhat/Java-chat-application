@@ -2,7 +2,7 @@ package Communication.messages.client_to_server;
 
 import Communication.messages.abstracts.ClientToServerMessage;
 import Communication.server.CommunicationServerController;
-import common.sharedData.UserLite;
+import common.shared_data.UserLite;
 
 public class ClientPulseMessage extends ClientToServerMessage {
 

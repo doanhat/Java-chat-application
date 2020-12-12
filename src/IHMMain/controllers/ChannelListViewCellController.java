@@ -1,7 +1,7 @@
 package IHMMain.controllers;
 
 
-import common.sharedData.Channel;
+import common.shared_data.Channel;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

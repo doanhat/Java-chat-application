@@ -1,17 +1,15 @@
 package IHMChannel;
 
-import IHMChannel.controllers.ChannelPageController;
-import common.sharedData.*;
+import common.shared_data.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import common.sharedData.Visibility;
+import common.shared_data.Visibility;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Cette classe est utilisée pour lancer uniquement la partie "channel" de l'interface, notamment pendant le développement.

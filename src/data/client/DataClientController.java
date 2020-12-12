@@ -1,4 +1,4 @@
-package Data.client;
+package data.client;
 
 import common.interfaces.client.IDataToCommunication;
 import common.interfaces.client.IDataToIHMChannel;

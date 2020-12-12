@@ -5,9 +5,9 @@ import Communication.messages.client_to_server.AskToJoinMessage;
 import Communication.messages.client_to_server.CreateChannelMessage;
 import Communication.messages.client_to_server.SendMessageMessage;
 import common.interfaces.client.*;
-import common.sharedData.Channel;
-import common.sharedData.Message;
-import common.sharedData.UserLite;
+import common.shared_data.Channel;
+import common.shared_data.Message;
+import common.shared_data.UserLite;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,6 +86,17 @@ public class CommunicationClientInterface implements IDataToCommunication,
     public void createChannel(Channel channel, Boolean isShared, Boolean isPublic, UserLite owner) {
         //TODO INTEGRATION /!\ probleme isShared alors que ChannelMessage attend l'inverse
         this.commController.sendMessage(new CreateChannelMessage(owner, channel, !isShared, isPublic));
+    }
+
+    @Override
+    public void saveAvatarToServer(UserLite user, String encodedString) {
+        //TODO Note Data : Appeler saveAvatarToServer(UserLite user, String avatarBase64) dans IServerCommunicationToData
+    }
+
+    @Override
+    public String getAvatarPath(UserLite user) {
+        //TODO Note Data : Appeler getAvatarPath(UserLite user) dans IServerCommunicationToData
+        return null;
     }
 
     /* -------------------------- IIHMChannelToCommunication interface implementations -------------------------------*/

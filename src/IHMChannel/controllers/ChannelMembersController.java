@@ -1,8 +1,8 @@
 package IHMChannel.controllers;
 
 import IHMChannel.MemberDisplay;
-import common.sharedData.Channel;
-import common.sharedData.UserLite;
+import common.shared_data.Channel;
+import common.shared_data.UserLite;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
 
 /**
  * Contrôleur de la vue "ChannelMembers" qui contient la liste des membres d'un channel et les options d'affichage de cette liste
