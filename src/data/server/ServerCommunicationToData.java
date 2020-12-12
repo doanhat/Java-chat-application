@@ -43,8 +43,21 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
 
     @Override
-    public List<UserLite> updateChannel(Channel channel) {
-        return null;
+    public void updateChannel(UUID channelID, UUID userID, String name, String description, Visibility visibility) {
+        Channel channel = channelsListController.searchChannelById(channelID);
+        if(channel != null){
+            if(channel.userIsAdmin(userID)){
+                if (name!=null)
+                    channel.setName(name);
+                if(description!= null)
+                    channel.setDescription(description);
+                if(visibility!=null)
+                    channel.setVisibility(visibility);
+                if(channel.getType().equals(ChannelType.SHARED)){
+                    channelsListController.writeChannelDataToJSON(channel);
+                }
+            }
+        }
     }
 
 

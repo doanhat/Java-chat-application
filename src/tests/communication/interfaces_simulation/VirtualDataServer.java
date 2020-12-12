@@ -4,6 +4,7 @@ import common.interfaces.server.IServerCommunicationToData;
 import common.shared_data.Channel;
 import common.shared_data.Message;
 import common.shared_data.UserLite;
+import common.shared_data.Visibility;
 
 import java.util.*;
 
@@ -68,8 +69,8 @@ public class VirtualDataServer implements IServerCommunicationToData {
 
 
     @Override
-    public List<UserLite> updateChannel(Channel channel) {
-        return null;
+    public void updateChannel(UUID channelID, UUID userID, String name, String description, Visibility visibility) {
+
     }
 
     @Override
