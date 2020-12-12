@@ -510,4 +510,7 @@ public class CommunicationClientController extends CommunicationController {
         dataClient.updateNickname(user, channelId, name);
     }
 
+    public void notifyEditMessage(Message msg, Message newMsg, UUID channelID) {
+        dataClient.editMessage(msg, newMsg, channelID);
+    }
 }
