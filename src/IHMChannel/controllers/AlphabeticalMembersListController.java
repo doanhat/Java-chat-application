@@ -3,6 +3,7 @@ package IHMChannel.controllers;
 import IHMChannel.IHMChannelController;
 import IHMChannel.MemberDisplay;
 import common.sharedData.Channel;
+import common.sharedData.User;
 import common.sharedData.UserLite;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,7 +12,10 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 
 import java.io.IOException;
+import java.lang.reflect.Member;
+import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public class AlphabeticalMembersListController {
     private IHMChannelController ihmChannelController;
@@ -30,6 +34,13 @@ public class AlphabeticalMembersListController {
     boolean isLocalUserAdmin = false;
 
     ObservableList<HBox> membersToDisplay;
+
+    //Link Member's UUID and MemberController of the user's HBox
+    private HashMap<UUID, MemberController> mapMemberController = new HashMap<UUID, MemberController>();
+
+    public HashMap<UUID, MemberController> getMapMemberController() {
+        return mapMemberController;
+    }
 
     /**
      * Initialise la liste des membres contenus dans l'attribut channel de la classe
@@ -53,16 +64,22 @@ public class AlphabeticalMembersListController {
      * Permet l'affichage de la liste des membres en faisant une conversion en Hbox.
      * @throws IOException
      */
-
     private void displayMembers() throws IOException {
         membersToDisplay.clear();
+        mapMemberController.clear();
         for (UserLite usr : channelMembers){
             if(usr.getId().equals(creator.getId())){
-                membersToDisplay.add((HBox) new MemberDisplay(usr,true,true,(connectedMembersList!=null && connectedMembersList.contains(usr)),false, channel, ihmChannelController).root);
+                MemberDisplay memberDisplay = new MemberDisplay(usr,true,true,(connectedMembersList!=null && connectedMembersList.contains(usr)),false, channel, ihmChannelController);
+                membersToDisplay.add((HBox)memberDisplay.root);
+                mapMemberController.put(usr.getId(),memberDisplay.getController());
             }else if(adminMembers.contains(usr)){
-                membersToDisplay.add((HBox) new MemberDisplay(usr, true,false,(connectedMembersList!=null && connectedMembersList.contains(usr)),isLocalUserAdmin,  channel, ihmChannelController).root);
+                MemberDisplay memberDisplay = new MemberDisplay(usr, true,false,(connectedMembersList!=null && connectedMembersList.contains(usr)),isLocalUserAdmin,  channel, ihmChannelController);
+                membersToDisplay.add((HBox) memberDisplay.root);
+                mapMemberController.put(usr.getId(),memberDisplay.getController());
             }else{
-                membersToDisplay.add((HBox) new MemberDisplay(usr, false, false,(connectedMembersList!=null && connectedMembersList.contains(usr)),isLocalUserAdmin, channel, ihmChannelController).root);
+                MemberDisplay memberDisplay = new MemberDisplay(usr, false, false,(connectedMembersList!=null && connectedMembersList.contains(usr)),isLocalUserAdmin, channel, ihmChannelController);
+                membersToDisplay.add((HBox) memberDisplay.root);
+                mapMemberController.put(usr.getId(),memberDisplay.getController());
             }
         }
         membersList.setItems(membersToDisplay);
@@ -114,5 +131,9 @@ public class AlphabeticalMembersListController {
 
     public void removeMemberFromList(UserLite user) {
         connectedMembersList.remove(user);
+    }
+
+    public void changeNickname(UserLite user) {
+        mapMemberController.get(user.getId()).changeNickname(user.getNickName());
     }
 }

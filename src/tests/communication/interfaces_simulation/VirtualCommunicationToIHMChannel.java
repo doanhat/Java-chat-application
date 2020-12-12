@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public class VirtualCommunicationToIHMChannel implements ICommunicationToIHMChannel {
     @Override
-    public void changeNickname(User user, UUID channel) {
+    public void changeNickname(UserLite user, UUID channel) {
 
     }
 

@@ -159,6 +159,7 @@ public class MemberController {
 
     public void editNickname() {
         username.setEditable(true);
+        username.requestFocus();
 
         //Handler pour valider la modification à l'appui sur entrée
         username.setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -175,16 +176,17 @@ public class MemberController {
                     username.setEditable(false);
 
                     //TODO appel interface test
-                    /*
+
                     //TODO à enlever pour l'intégration, ne sert qu'aux tests
-                    channelMessagesController.getIhmChannelController().getInterfaceForData().editMessage(
-                            messageToDisplay,
-                            newMsg,
-                            channelMessagesController.channel
-                    );
-                     */
+                    userToDisplay.setNickName(username.getText());
+                    ihmChannelController.getInterfaceForCommunication().changeNickname(userToDisplay,channel.getId());
+
                 }
             }
         });
+    }
+
+    public void changeNickname(String nickname) {
+        username.setText(nickname);
     }
 }

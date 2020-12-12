@@ -19,7 +19,7 @@ public interface ICommunicationToIHMChannel {
      * @param user l'utilisateur
      * @param channel channel concerné par la mise à jour de nickname
      */
-    void changeNickname(User user, UUID channel);
+    void changeNickname(UserLite user, UUID channel);
 
     /**
      * Méthode permettant d'afficher l'historique des messages

@@ -26,7 +26,7 @@ import java.util.UUID;
      * @param user l'utilisateur
      */
     @Override
-    public void changeNickname(User user, UUID channel) {
+    public void changeNickname(UserLite user, UUID channel) {
         controller.getChannelPageController().getChannelController(channel).changeNickname(user);
     }
 

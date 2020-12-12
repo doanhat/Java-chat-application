@@ -329,9 +329,13 @@ public class ChannelController {
         channelMessagesController.editMessage(message,newMessage);
     }
 
-    public void changeNickname(User user) {
-        //TODO update la map des nicknames
+    public void changeNickname(UserLite user) {
+        currentChannel.getNickNames().replace(user.getId().toString(),user.getNickName());
 
-        // transferts aux controlleurs message et member ?
+        //Transfert vue messages
+        channelMessagesController.changeNickname(user);
+
+        //Transfert vue members
+        channelMembersDisplay.getController().changeNickname(user);
     }
 }

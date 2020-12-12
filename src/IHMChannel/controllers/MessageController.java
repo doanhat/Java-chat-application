@@ -217,4 +217,8 @@ public class MessageController {
     public TextArea getContent() {
         return content;
     }
+
+    public void setAuthorNickname(String nickName) {
+        author.setText(nickName);
+    }
 }

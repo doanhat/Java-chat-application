@@ -2,6 +2,7 @@ package IHMChannel.controllers;
 
 import IHMChannel.*;
 import common.sharedData.Channel;
+import common.sharedData.User;
 import common.sharedData.UserLite;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -109,5 +110,12 @@ public class ChannelMembersController {
         alphabeticalMembersListDisplay.removeMemberFromList(user);
         adminMembersListDisplay.removeMemberFromList(user);
         connectedMembersListDisplay.removeMemberFromList(user);
+    }
+
+    public void changeNickname(UserLite user) {
+        //Update all views
+        alphabeticalMembersListDisplay.getController().changeNickname(user);
+        connectedMembersListDisplay.getController().changeNickname(user);
+        adminMembersListDisplay.getController().changeNickname(user);
     }
 }

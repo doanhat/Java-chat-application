@@ -3,6 +3,7 @@ package IHMChannel.controllers;
 import IHMChannel.IHMChannelController;
 import IHMChannel.MemberDisplay;
 import common.sharedData.Channel;
+import common.sharedData.User;
 import common.sharedData.UserLite;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,7 +12,10 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 
 import java.io.IOException;
+import java.lang.reflect.Member;
+import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public class AdminMembersListController {
 
@@ -36,6 +40,9 @@ public class AdminMembersListController {
     ObservableList<HBox> creatorToDisplay;
     ObservableList<HBox> adminsToDisplay;
     ObservableList<HBox> membersToDisplay;
+
+    //Link Member's UUID and MemberController of the user's HBox
+    private HashMap<UUID, MemberController> mapMemberController = new HashMap<UUID, MemberController>();
 
     /**
      * Initialise la liste des membres (acceptedPerson) contenus dans l'attribut channel de la classe
@@ -72,14 +79,22 @@ public class AdminMembersListController {
 
         membersToDisplay.clear();
         adminsToDisplay.clear();
+        mapMemberController.clear();
 
         for (UserLite usr : adminMembers){
-            adminsToDisplay.add((HBox) new MemberDisplay(usr,true,false,(connectedMembersList!=null && connectedMembersList.contains(usr)),isLocalUserAdmin ,  channel, ihmChannelController).root);
+            MemberDisplay memberDisplay = new MemberDisplay(usr,true,false,(connectedMembersList!=null && connectedMembersList.contains(usr)),isLocalUserAdmin ,  channel, ihmChannelController);
+            adminsToDisplay.add((HBox) memberDisplay.root);
+            mapMemberController.put(usr.getId(),memberDisplay.getController());
         }
         for (UserLite usr : channelMembers){
-            membersToDisplay.add((HBox) new MemberDisplay(usr,false,false,(connectedMembersList!=null && connectedMembersList.contains(usr)),isLocalUserAdmin, channel, ihmChannelController).root);
+            MemberDisplay memberDisplay = new MemberDisplay(usr,false,false,(connectedMembersList!=null && connectedMembersList.contains(usr)),isLocalUserAdmin, channel, ihmChannelController);
+            membersToDisplay.add((HBox) memberDisplay.root);
+            mapMemberController.put(usr.getId(),memberDisplay.getController());
         }
-        creatorToDisplay.add((HBox) new MemberDisplay(creator,true,true,(connectedMembersList!=null && connectedMembersList.contains(creator)),false, channel, ihmChannelController).root);
+        //Creator
+        MemberDisplay memberDisplay = new MemberDisplay(creator,true,true,(connectedMembersList!=null && connectedMembersList.contains(creator)),false, channel, ihmChannelController);
+        creatorToDisplay.add((HBox) memberDisplay.root);
+        mapMemberController.put(creator.getId(),memberDisplay.getController());
 
         adminList.setItems(adminsToDisplay);
         membersList.setItems(membersToDisplay);
@@ -133,5 +148,9 @@ public class AdminMembersListController {
 
     public void removeMemberFromList(UserLite user) {
         connectedMembersList.remove(user);
+    }
+
+    public void changeNickname(UserLite user) {
+        mapMemberController.get(user.getId()).changeNickname(user.getNickName());
     }
 }
