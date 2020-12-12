@@ -7,6 +7,7 @@ import common.IHMTools.IHMTools;
 import common.sharedData.Channel;
 import common.sharedData.Message;
 import common.sharedData.UserLite;
+import common.sharedData.Visibility;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
@@ -193,6 +194,14 @@ public class ChannelController {
         this.setCurrentChannel(channel);
         channelName.setText(channel.getName());
         channelDescription.setText(channel.getDescription());
+
+        //Restrictions sur l'affichage du bouton d'invitation
+        //Visible si channel privé + utilisateur connecté = admin
+        System.out.println("Visibility = "+currentChannel.getVisibility());
+        System.out.println("Admin ? = "+currentChannel.userIsAdmin(ihmChannelController.getInterfaceToData().getLocalUser().getId()));
+        if(currentChannel.getVisibility()== Visibility.PRIVATE && currentChannel.userIsAdmin(ihmChannelController.getInterfaceToData().getLocalUser().getId())){
+            addMemberBtn.setVisible(true);
+        }
 
         try {
             //On transmet aux 2 "sous-vues" le channel à afficher et chacune fait le traitement nécessaire
