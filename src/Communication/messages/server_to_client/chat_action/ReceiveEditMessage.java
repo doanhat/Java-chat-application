@@ -6,12 +6,15 @@ import common.sharedData.Message;
 
 import java.util.UUID;
 
+/**
+ * Indique au utilisateur qu'un message à été édité
+ */
 public class ReceiveEditMessage extends ServerToClientMessage {
 
-    Message msg;
-    Message newMsg;
-    UUID channelID;
-
+    private static final long serialVersionUID = -8527237423704319L;
+    private final Message msg;
+    private final Message newMsg;
+    private final UUID channelID;
 
     public ReceiveEditMessage(Message msg, Message newMsg, UUID channelID) {
         this.msg = msg;
