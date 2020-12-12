@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class JoinChannelResponseMessage extends ServerToClientMessage {
 
-	private static final long serialVersionUID = -5922382684107438936L;
+	private static final long serialVersionUID = -65167438936L;
 	private final UserLite user;
     private final Channel channel;
     private final List<UserLite> activeUsers;

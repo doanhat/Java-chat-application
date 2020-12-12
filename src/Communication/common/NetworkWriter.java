@@ -96,7 +96,7 @@ public class NetworkWriter extends CyclicTask {
         public void send() throws IOException {
             LOGGER.log(Level.FINE, "Send message {}", message.getClass());
             //System.err.println("send msg " + message.getClass());
-
+            receiver.reset();
             receiver.writeObject(message);
         }
     }
