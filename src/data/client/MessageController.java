@@ -41,7 +41,7 @@ public class MessageController extends Controller{
                 }
             }
 
-            fileHandler.writeJSONToFile(ownedChannel);
+            fileHandler.writeJSONToFile(ownedChannel.getId().toString(),ownedChannel);
         }
     }
 

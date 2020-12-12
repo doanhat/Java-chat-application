@@ -75,18 +75,21 @@ public class FileHandle<T> {
         return null;
     }
 
-    public void writeJSONToFile(Object object){
+    public void writeJSONToFile(String fileName,Object object){
+        ObjectMapper mapper = new ObjectMapper();
+        String path = this.path + fileName + ".json";
         try {
             mapper.writeValue(Paths.get(path).toFile(), object);
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     public void addObjectToFile(String fileName, Object object, Class<T> tClass){
         List<T> list = readJSONFileToList(fileName,tClass);
         list.add((T) object);
-        writeJSONToFile(list);
+        writeJSONToFile(fileName,list);
     }
 
     public boolean deleteJSONFile(String fileName){

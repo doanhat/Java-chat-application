@@ -91,7 +91,7 @@ public class ChannelsListController {
     }
 
     public void writeChannelDataToJSON(Channel channel){
-        this.fileHandle.writeJSONToFile(channel);
+        this.fileHandle.writeJSONToFile(channel.getId().toString(),channel);
     }
 
     public Channel readJSONToChannelData(UUID idChannel){
