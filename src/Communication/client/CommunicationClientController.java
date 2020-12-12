@@ -386,7 +386,7 @@ public class CommunicationClientController extends CommunicationController {
             throw new NullPointerException("Data Iface est null");
         }
 
-        dataClient.deleteUserFromChannel(userLite, channelID, 0, "Leave");
+        dataClient.removeUserFromJoinedUserChannel(userLite, channelID, 0, "Leave");
 
         // TODO INTEGRATION V2: what happens if owner of shared channel leaves
 /*

@@ -26,14 +26,6 @@ public interface IServerCommunicationToData {
     List<UserLite> updateChannel(Channel channel);
 
     /**
-     * Méthode pour ajouter un utilisateur à la liste des utilisateurs abonnés d'un channel
-     *
-     * @param channel le channel dans lequel l'utilisateur va s'abonner
-     * @param user l'utilisateur à être ajouté à la liste
-     * */
-    void requestAddUser(Channel channel, UserLite user);
-
-    /**
      * Méthode pour ajouter un administrateur à la liste des administrateurs d'un channel
      *
      * @param channel le channel dans lequel l'administrateur sera ajouté
@@ -203,6 +195,22 @@ public interface IServerCommunicationToData {
      * @param user l'utilisateur qui va se désabonner
      * */
     void leaveChannel(UUID channelID, UserLite user);
+
+    /**
+     * Méthode pour ajouter un utilisateur à la liste des utilisateurs abonnés d'un channel
+     *
+     * @param channel le channel dans lequel l'utilisateur va s'abonner
+     * @param user l'utilisateur à être ajouté à la liste
+     * */
+    void requestAddUser(Channel channel, UserLite user);
+
+    /**
+     * Méthode pour se retirer de la liste des authaurizedUsers d'un channel volontairement
+     *
+     * @param channelID l'identificatuer du channel auquel l'utilisateur va se désabonner
+     * @param user l'utilisateur qui va se désabonner
+     * */
+    void quitChannel(UUID channelID, UserLite user);
 
     /**
      * Méthode qui renvoie l'adresse de l'utilisateur

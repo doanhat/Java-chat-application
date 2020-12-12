@@ -87,6 +87,11 @@ public class CommunicationServerController extends CommunicationController {
 				logger.log(Level.INFO, "Serveur déconnecte client {}" , userID);
 				sendBroadcast(new UserDisconnectedMessage(userInfo), userInfo);
 
+				List<Channel> userAuthorizedChannels = dataServer.getVisibleChannels(userInfo);
+
+				for (Channel channel: userAuthorizedChannels) {
+					leaveChannel(channel.getId(), userInfo);
+				}
 
 				List<Channel> userProprietaryChannel = dataServer.disconnectOwnedChannel(userInfo);
 
@@ -97,7 +102,6 @@ public class CommunicationServerController extends CommunicationController {
 						channelsID.add(channel.getId());
 					}
 
-					// TODO INTEGRATION V2: review if it a broadcast or multicast under some specific rules
 					// broadcast invisible channel
 					sendBroadcast(new NewInvisibleChannelsMessage(channelsID), userInfo);
 				}
@@ -289,7 +293,7 @@ public class CommunicationServerController extends CommunicationController {
 				sendBroadcast(new NewInvisibleChannelsMessage(channel.getId()), userLite);
 			}
 			else {
-				sendMulticast(channel.getJoinedPersons(), new NewInvisibleChannelsMessage(channel.getId()));
+				sendMulticast(channel.getAuthorizedPersons(), new NewInvisibleChannelsMessage(channel.getId()));
 			}
 		}
 	}

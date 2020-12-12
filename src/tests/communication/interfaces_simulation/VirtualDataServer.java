@@ -76,6 +76,11 @@ public class VirtualDataServer implements IServerCommunicationToData {
     }
 
     @Override
+    public void quitChannel(UUID channelID, UserLite user) {
+
+    }
+
+    @Override
     public void saveNewAdminIntoHistory(Channel channel, UserLite user) {
 
     }

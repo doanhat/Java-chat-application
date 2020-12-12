@@ -55,6 +55,19 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     }
 
     @Override
+    public void quitChannel(UUID channelID, UserLite user) {
+        Channel channel = channelsListController.searchChannelById(channelID);
+        if(channel!=null){
+            if (channel.getType() == ChannelType.OWNED && user.getId() == channel.getCreator().getId()) {
+                // TODO verify proprietary quit channel
+                channelsListController.removeChannel(channel.getId());
+            }
+
+            channel.removeUserAuthorization(user.getId());
+        }
+    }
+
+    @Override
     public void saveNewAdminIntoHistory(Channel ch, UserLite user) {
         Channel channel = this.channelsListController.searchChannelById(ch.getId());
 

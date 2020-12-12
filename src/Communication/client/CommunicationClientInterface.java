@@ -208,19 +208,18 @@ public class CommunicationClientInterface implements IDataToCommunication,
     /**
      * Demande de quitter un channel au serveur
      *
-     * @param user    [UserLite] Utilisateur concerné
      * @param channel [Channel] Channel que l'on veut quitter
      **/
-    public void leaveChannel(UserLite user, Channel channel) {
-        if (channel == null || user == null) {
+    public void leaveChannel(Channel channel) {
+        if (channel == null) {
             return;
         }
 
         if (channel.getType() == ChannelType.OWNED) {
-            commController.sendMessage(new LeavePropChannelMessage(user, channel.getId(), channel.getCreator()));
+            commController.sendMessage(new LeavePropChannelMessage(localUser, channel.getId(), channel.getCreator()));
         }
         else {
-            commController.sendMessage(new LeaveSharedChannelMessage(user, channel.getId()));
+            commController.sendMessage(new LeaveSharedChannelMessage(localUser, channel.getId()));
         }
     }
 

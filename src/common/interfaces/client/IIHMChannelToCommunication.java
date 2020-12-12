@@ -78,15 +78,14 @@ public interface IIHMChannelToCommunication
     void changeNickname(UserLite user, Channel channel, String newNickname);
 
     /**
-     * Demande de quitter un channel au serveur
+     * Demande de déconnecter un channel au serveur
      *
-     * @param user [UserLite] Utilisateur concerné
      * @param channel [Channel] Channel que l'on veut quitter
      **/
-    void leaveChannel(UserLite user, Channel channel);
+    void leaveChannel(Channel channel);
 
     /**
-     * Demande de rejoindre channel au serveur
+     * Demande de d'etre connecté à channel au serveur
      *
      * @param channel [Channel] Channel que l'on veut rejoindre
      **/
@@ -100,5 +99,9 @@ public interface IIHMChannelToCommunication
      **/
     void getHistory(Channel channel);
 
-    void closeChannel(UUID channelId); // TODo check if it's not leaveChannel
+    /**
+     * Remove user from authorized user list in Channel
+     * @param channelId
+     */
+    void closeChannel(UUID channelId);
 }

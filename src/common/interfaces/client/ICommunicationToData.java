@@ -71,14 +71,24 @@ public interface ICommunicationToData {
 
 
     /**
-     * Delete user from channel.
+     * Delete user from Connected users list of channel.
      *
      * @param user        the user
      * @param channelId     the channel
      * @param duration    the duration
      * @param explanation the explanation
      */
-    void deleteUserFromChannel(UserLite user, UUID channelId, int duration, String explanation);
+    void removeUserFromJoinedUserChannel(UserLite user, UUID channelId, int duration, String explanation);
+
+    /**
+     * Delete user from Authorized users list of channel.
+     *
+     * @param user        the user
+     * @param channelId     the channel
+     * @param duration    the duration
+     * @param explanation the explanation
+     */
+    void removeUserFromAuthorizedUserChannel(UserLite user, UUID channelId, int duration, String explanation);
 
     /**
      * Gets history.
@@ -194,14 +204,14 @@ public interface ICommunicationToData {
     void unbannedUserToChannel(UserLite user, UUID channelId);
 
     /**
-     * New User want to join Own Channel
+     * Add user to JoinedUsers in Owned channel
      * @param user the user
      * @param channelId channel ID
      */
     void addUserToOwnedChannel(UserLite user, UUID channelId);
 
     /**
-     * User want to invite new user Own Channel
+     * Add user to authorizedUsers in Owned Channel
      * @param user the user
      * @param channelId channel ID
      */

@@ -64,7 +64,12 @@ public class VirtualCommunicationToData implements ICommunicationToData {
     }
 
     @Override
-    public void deleteUserFromChannel(UserLite user, UUID channelId, int duration, String explanation) {
+    public void removeUserFromJoinedUserChannel(UserLite user, UUID channelId, int duration, String explanation) {
+
+    }
+
+    @Override
+    public void removeUserFromAuthorizedUserChannel(UserLite user, UUID channelId, int duration, String explanation) {
 
     }
 
