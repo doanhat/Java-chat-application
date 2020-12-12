@@ -412,4 +412,16 @@ public class CommunicationServerController extends CommunicationController {
 		sendMulticast(channel.getAcceptedPersons(), new LikeSavedMessage(channelID, msg, user));
 
 	}
+
+	/**
+	 * Sauvegarde un edit sur le serveur
+	 * @param message ancien message
+	 * @param newMessage nouveau message
+	 * @param channelID channel concerné
+	 */
+	public void saveEdit(Message message, Message newMessage, UUID channelID){
+    	dataServer.editMessage(this.getChannel(channelID), newMessage);
+
+		sendMulticast(this.getChannel(channelID).getAcceptedPersons(), new receiveEditMessage(message, newMessage, channelID));
+	}
 }
