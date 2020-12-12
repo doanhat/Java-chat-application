@@ -259,7 +259,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
     }
 
     @Override
-    public void closeChannel(UUID channelID) {
+    public void quitChannel(UUID channelID) {
 
     }
 

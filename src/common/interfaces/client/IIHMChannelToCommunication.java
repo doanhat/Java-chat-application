@@ -103,5 +103,5 @@ public interface IIHMChannelToCommunication
      * Remove user from authorized user list in Channel
      * @param channelId
      */
-    void closeChannel(UUID channelId);
+    void quitChannel(UUID channelId);
 }
