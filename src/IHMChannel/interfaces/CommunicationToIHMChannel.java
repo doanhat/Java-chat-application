@@ -68,8 +68,13 @@ import java.util.UUID;
 
     @Override
     public void removeConnectedUser(UUID channelId, UserLite user) {
-        controller.getChannelPageController().getChannelController(channelId).removeConnectedUser(user);
-        controller.getInterfaceToIHMMain().setOpenedChannelsList(controller.getOpenedChannelsList());
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                controller.getChannelPageController().getChannelController(channelId).removeConnectedUser(user);
+                controller.getInterfaceToIHMMain().setOpenedChannelsList(controller.getOpenedChannelsList());
+            }
+        });
     }
 
 

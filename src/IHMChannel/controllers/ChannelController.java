@@ -306,17 +306,17 @@ public class ChannelController {
         this.connectedMembersList = connectedMembersList;
         this.channelMessagesDisplay.setConnectedMembersList(connectedMembersList);
         this.channelMembersDisplay.setConnectedMembersList(connectedMembersList);
-
-        System.err.println("Channel connected member list: " + connectedMembersList);
     }
 
     public void addConnectedUser(UserLite user) {
+        System.err.println("Channel connected member list addConnectedUser 1: " + connectedMembersList);
         this.connectedMembersList.add(user);
         this.channelMessagesDisplay.getController().addMemberToObservableList(user);
+        System.err.println("Channel connected member list addConnectedUser 2: " + connectedMembersList);
         //this.channelMessagesDisplay.setConnectedMembersList(this.connectedMembersList);
-        this.channelMembersDisplay.getController().addMemberToObservableList(user);
+        this.channelMembersDisplay.getController().addMemberToObservableList(user); // TODO CHANNEL, ici l'utilisateur à l'air d'être ajouté plusieurs fois dans la liste connectedMembersList
 
-        System.err.println("Channel connected member list: " + connectedMembersList);
+        System.err.println("Channel connected member list addConnectedUser: 3" + connectedMembersList);
     }
 
     public void removeConnectedUser(UserLite user) {

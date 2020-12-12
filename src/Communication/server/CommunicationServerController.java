@@ -135,7 +135,8 @@ public class CommunicationServerController extends CommunicationController {
 			server.sendMessage(receiver.preparePacket(message));
 		}
 		else {
-			throw new IllegalArgumentException("CommunicationServerController.sendMessage: receiver est null");
+			logger.log(Level.INFO, "Serveur envoie message client deconnecte {}", receiverID);
+//			throw new IllegalArgumentException("CommunicationServerController.sendMessage: receiver est null");
 		}
 	}
 
