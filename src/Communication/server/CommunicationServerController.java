@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import Communication.common.CommunicationController;
 import Communication.common.NetworkWriter;
 import Communication.messages.abstracts.NetworkMessage;
+import Communication.messages.server_to_client.channel_modification.sendNewNicknameMessage;
 import Communication.messages.server_to_client.chat_action.LikeSavedMessage;
 import Communication.messages.server_to_client.chat_action.MessageDeletedMessage;
 import Communication.messages.server_to_client.channel_modification.NewInvisibleChannelsMessage;
@@ -398,8 +399,9 @@ public class CommunicationServerController extends CommunicationController {
     	 if (dataServer == null) {
            throw new NullPointerException("Data Interface est nulle");
          }
-
     	 dataServer.updateNickname(channel, user, newNickname);
+
+		sendMulticast(channel.getAcceptedPersons(), new sendNewNicknameMessage(user, channel.getId(), newNickname));
     }
 
     public void saveLikeMessage(UUID channelID, Message msg, UserLite user){

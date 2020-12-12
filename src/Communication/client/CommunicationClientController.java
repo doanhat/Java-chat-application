@@ -516,5 +516,11 @@ public class CommunicationClientController extends CommunicationController {
         dataClient.saveEditionIntoHistory(message, newMessage, channelID);
     }
 
+    public void notifyChangeNickName(UserLite user, UUID channelId, String name){
+        dataClient.updateNickname(user, channelId, name);
+    }
 
+    public void notifyEditMessage(Message msg, Message newMsg, UUID channelID) {
+        dataClient.editMessage(msg, newMsg, channelID);
+    }
 }

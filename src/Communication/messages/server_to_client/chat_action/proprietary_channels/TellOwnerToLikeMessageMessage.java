@@ -27,6 +27,5 @@ public class TellOwnerToLikeMessageMessage extends ServerToClientMessage {
     protected void handle(CommunicationClientController commClientController) {
         commClientController.saveLike(channelId, msg, user);
         commClientController.sendMessage(new ValidateSaveLikeMessageMessage(channelId, user, msg));
-
     }
 }
