@@ -69,7 +69,7 @@ public class ChannelController extends Controller{
         for (Channel c : channels) {
             if(c.getId().equals(channelID)) {
                 c.addUser(user);
-                new FileHandle<Channel>(LocationType.CLIENT, FileType.CHANNEL).writeJSONToFile(c.getId().toString(),Channel.class);
+                new FileHandle<Channel>(LocationType.CLIENT, FileType.CHANNEL).writeJSONToFile(c.getId().toString(),c);
                 break;
             }
         }
@@ -160,7 +160,7 @@ public class ChannelController extends Controller{
         for (Channel c : channels) {
             if(c.getId().equals(channelId)) {
                 c.addUser(user);
-                new FileHandle<Channel>(LocationType.CLIENT, FileType.CHANNEL).writeJSONToFile(c.getId().toString(),Channel.class);
+                new FileHandle<Channel>(LocationType.CLIENT, FileType.CHANNEL).writeJSONToFile(c.getId().toString(),c);
                 break;
             }
         }
