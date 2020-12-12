@@ -264,6 +264,27 @@ public class VirtualDataServer implements IServerCommunicationToData {
         return null;
     }
 
+    @Override
+    public List<UUID> getChannelsWhereUser(UUID userID) {
+        return null;
+    }
+
+    @Override
+    public List<UUID> getChannelsWhereUserActive(UUID userID) {
+        return null;
+    }
+
+    @Override
+    public List<UserLite> getActiveUsersInChannel(UUID channelID) {
+        return null;
+    }
+
+
+    @Override
+    public void addOwnedChannelsToServerList(List<Channel> ownedChannels, UUID ownerID) {
+
+    }
+
     /**
      * Envoyer une image encodée en string Base64 au server pour stocker
      *

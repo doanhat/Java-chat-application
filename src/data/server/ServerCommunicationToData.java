@@ -213,6 +213,7 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
         Channel channel = channelsListController.searchChannelById(ch);
         if(channel!=null){
             channel.addUser(user);
+            userListController.addConnectedUser(user);
         }
     }
 
@@ -242,7 +243,45 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
     @Override
     public List<Channel> disconnectOwnedChannel(UserLite owner) {
-        return channelsListController.disconnectOwnedChannel(owner);
+        //Remove channels from owned Channel List in server
+        List <Channel> removedChannels = channelsListController.disconnectOwnedChannel(owner);
+
+        //Remove active users from channels that have been removed
+        for(Channel channel : removedChannels){
+            userListController.removeActiveUsersFromChannel(channel.getId());
+        }
+        return removedChannels;
+    }
+
+    @Override
+    public List<UUID> getChannelsWhereUser(UUID userID) {
+        return channelsListController.getChannelsWhereUser(userID);
+    }
+
+    @Override
+    public List<UUID> getChannelsWhereUserActive(UUID userID) {
+        return userListController.getChannelsWhereUserActive(userID);
+    }
+
+    @Override
+    public List<UserLite> getActiveUsersInChannel(UUID channelID) {
+        return userListController.getActiveUsersInChannel(channelID);
+    }
+
+
+    @Override
+    public void addOwnedChannelsToServerList(List<Channel> ownedChannels, UUID ownerID) {
+        for (Channel channel: ownedChannels) {
+            //Add channel to the server list of channels
+            channelsListController.addChannel(channel);
+
+            //Add active users for each ownedChannel when users are connected
+            for (UserLite user: channel.getAcceptedPersons()) {
+                if(userListController.userIsConnected(user.getId())){
+                    userListController.addActiveUser(user.getId(),channel.getId());
+                }
+            }
+        }
     }
 
     /**

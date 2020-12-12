@@ -247,6 +247,36 @@ public interface IServerCommunicationToData {
     List<Channel> disconnectOwnedChannel(UserLite owner);
 
     /**
+     * Méthode pour retourner la liste des identieurs des channels auxquels appartient un utilisateur
+     * @param userID l'identificateur de l'utilisateur
+     * */
+    List<UUID> getChannelsWhereUser(UUID userID);
+
+    /**
+     * Méthode pour retourner la liste des identieurs des channels dans lesquels un utilisateur est active
+     * (liste différente à la liste de la méthode getChannelsWhereUser car les channels proprietaires peuvent
+     * pas être actives)
+     * @param userID l'identificateur de l'utilisateur
+     * */
+    List<UUID> getChannelsWhereUserActive(UUID userID);
+
+
+    /**
+     * Méthode pour retourner la liste des utilisateurs actives dans un channel
+     * @param channelID l'identificateur du channel
+     * */
+    List<UserLite> getActiveUsersInChannel(UUID channelID);
+
+
+    /**
+     * Méthode pour ajouter la liste des channels proprietaires d'un utilisateur dans la liste des channels
+     * dans le serveur
+     * @param ownedChannels Liste des channels proprietaires à ajouter
+     * @param ownerID l'identificateur de l'utilisateur proprietaire des channels
+     * */
+    void addOwnedChannelsToServerList(List<Channel> ownedChannels, UUID ownerID);
+
+    /**
      * Envoyer une image encodée en string Base64 au server pour stocker
      *
      * @param user          utilisateur ayant l'image comme avatar
