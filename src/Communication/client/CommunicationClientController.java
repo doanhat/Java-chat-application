@@ -301,7 +301,7 @@ public class CommunicationClientController extends CommunicationController {
      * @param channel channel rejoint
      */
     public void notifyJoinChannelResponse(UserLite user, Channel channel, List<UserLite> activeUsers, boolean isAccepted) {
-        if (dataClient == null) {
+        if (channelClient == null) {
             throw new NullPointerException("Data Iface est null");
         }
 
@@ -310,7 +310,6 @@ public class CommunicationClientController extends CommunicationController {
         }
         else {
             logger.log(Level.FINE, "Join channel request {} est refusé");
-            //dataClient.userRefusedToJoinChannel(user, channelID);
         }
     }
 
@@ -363,12 +362,11 @@ public class CommunicationClientController extends CommunicationController {
      * @param channelID ID du channel
      */
     public void notifyUserJoinedChannel(UserLite user, UUID channelID) {
-        if (dataClient == null || channelClient == null) {
+        if (channelClient == null) {
             throw new NullPointerException("Data Iface ou Channel Iface est null");
         }
 
         logger.log(Level.FINE, user.getNickName() + " joined channel " + channelID);
-        dataClient.userAddedToChannel(user, channelID);
         channelClient.addConnectedUser(channelID, user);
     }
 
@@ -378,7 +376,7 @@ public class CommunicationClientController extends CommunicationController {
      * @param channelID ID du channel
      */
     public void notifyUserAuthorizeChannel(UserLite user, UUID channelID) {
-        if (dataClient == null || channelClient == null) {
+        if (channelClient == null) {
             throw new NullPointerException("Data Iface ou Channel Iface est null");
         }
 
@@ -400,13 +398,6 @@ public class CommunicationClientController extends CommunicationController {
         }
 
         dataClient.removeUserFromJoinedUserChannel(userLite, channelID, 0, "Leave");
-
-        // TODO INTEGRATION V2: what happens if owner of shared channel leaves
-/*
-        if (channel.getType() != ChannelType.OWNED && channel.getCreator().getId().equals(client.getUUID())) {
-
-        }
- */
     }
 
     /**
@@ -421,8 +412,6 @@ public class CommunicationClientController extends CommunicationController {
         }
 
         channelClient.removeConnectedUser(channelID, userLite);
-
-        //dataClient.deleteUserFromChannel(userLite, channelID, 0, "has left");
     }
 
 
@@ -548,11 +537,6 @@ public class CommunicationClientController extends CommunicationController {
         // TODO INTEGRATION V2: Tell IHM Channel to modify parameter type from Channel to UUID
 
         //channelClient.displayHistory(channelID, history);
-    }
-
-    public void notifyInviteChannel(UserLite guest, UUID channelID) {
-        // TODO INTEGRATION V2
-        //dataClient.addUserToChannel(guest, channelID);
     }
 
     public void saveLike(UUID channelId, Message msg, UserLite user){

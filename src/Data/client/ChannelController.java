@@ -202,6 +202,7 @@ public class ChannelController extends Controller{
         for (Channel c : channels) {
             if(c.getId().equals(channelId)) {
                 c.addJoinedUser(user);
+                c.addAuthorizedUser(user);
                 new FileHandle<Channel>(LocationType.client, FileType.channel).writeJSONToFile(channelId.toString(), c);
                 break;
             }
