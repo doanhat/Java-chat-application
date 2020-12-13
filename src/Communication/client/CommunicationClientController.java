@@ -536,6 +536,10 @@ public class CommunicationClientController extends CommunicationController {
     }
 
     public void notifyDeletedMessage(Message message, UUID channelID, Boolean deleteByCreator) {
+        if (dataClient == null) {
+            throw new NullPointerException("Data Iface est null");
+        }
+
         // TODO INTEGRATION V2: verify with Data which method for notifying IHM Channel and which is for delete proprietary message
         dataClient.deleteMessage(message, null, deleteByCreator);
     }
@@ -560,10 +564,18 @@ public class CommunicationClientController extends CommunicationController {
     }
 
     public void notifyLikedMessage(UUID channelId, Message msg, UserLite user){
+        if (dataClient == null) {
+            throw new NullPointerException("Data Iface est null");
+        }
+
         dataClient.likeMessage(channelId, msg, user);
     }
 
     public void notifyChangeNickName(UserLite user, UUID channelId, String name){
+        if (dataClient == null) {
+            throw new NullPointerException("Data Iface est null");
+        }
+
         dataClient.updateNickname(user, channelId, name);
     }
 
@@ -574,9 +586,18 @@ public class CommunicationClientController extends CommunicationController {
      * @param channelID channel concerne
      */
     public void saveEdit(Message message, Message newMessage, UUID channelID){
+        if (dataClient == null) {
+            throw new NullPointerException("Data Iface est null");
+        }
+
         dataClient.saveEditionIntoHistory(message, newMessage, channelID);
     }
+
     public void notifyEditMessage(Message msg, Message newMsg, UUID channelID) {
+        if (dataClient == null) {
+            throw new NullPointerException("Data Iface est null");
+        }
+
         dataClient.editMessage(msg, newMsg, channelID);
     }
 }

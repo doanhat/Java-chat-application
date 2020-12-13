@@ -134,8 +134,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
 
         if (channel.getType() == ChannelType.OWNED) {
             commController.sendMessage(new AddAdminPropMessage(user, channel));
-        }
-        else {
+        } else {
             commController.sendMessage(new AddAdminSharedMessage(user, channel));
         }
     }
