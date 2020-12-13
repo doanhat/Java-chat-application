@@ -39,7 +39,7 @@ public class CommClientCreateChannelTest {
         /* ------------------------------------------- Test Communication interface ----------------------------------*/
         CommunicationClientController commControler = new CommunicationClientController();
         CommunicationClientInterface commInterface = commControler.getCommunicationClientInterface();
-        commInterface.setupInterfaces(dataIface, mainIface, channelIface);
+        commControler.setupInterfaces(dataIface, mainIface, channelIface);
 
         commInterface.userConnect(localUser);
 
@@ -74,7 +74,7 @@ public class CommClientCreateChannelTest {
             Channel requestChannel = getChannel(channelID);
 
             if (requestChannel == null) {
-                System.err.println("Cannot find channel requester");
+                System.err.println("Cannot find requested channel");
             }
             else {
                 commInterface.askToJoin(channel);

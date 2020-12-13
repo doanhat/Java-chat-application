@@ -34,7 +34,7 @@ public class VirtualCommunicationToData implements ICommunicationToData {
         Channel channel = channels.get(channelId);
 
         if (channel != null) {
-            channel.addUser(user);
+            channel.addJoinedUser(user);
         }
     }
 
@@ -64,7 +64,17 @@ public class VirtualCommunicationToData implements ICommunicationToData {
     }
 
     @Override
-    public void deleteUserFromChannel(UserLite user, UUID channelId, int duration, String explanation) {
+    public void removeUserFromJoinedUserChannel(UserLite user, UUID channelId, int duration, String explanation) {
+
+    }
+
+    @Override
+    public void removeAllUserFromJoinedUserChannel(UUID channelId, int duration, String explanation) {
+
+    }
+
+    @Override
+    public void removeUserFromAuthorizedUserChannel(UserLite user, UUID channelId, int duration, String explanation) {
 
     }
 
@@ -141,12 +151,17 @@ public class VirtualCommunicationToData implements ICommunicationToData {
         Channel channel = channels.get(channelId);
 
         if (channel != null) {
-            channel.addUser(user);
+            channel.addJoinedUser(user);
         }
     }
 
     @Override
     public void addUserToOwnedChannel(UserLite user, UUID channelId) {
+
+    }
+
+    @Override
+    public void inviteUserToOwnedChannel(UserLite user, UUID channelId) {
 
     }
 

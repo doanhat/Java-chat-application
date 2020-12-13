@@ -5,8 +5,6 @@ import common.interfaces.client.IIHMMainToIHMChannel;
 import common.shared_data.Channel;
 import javafx.scene.layout.Region;
 
-import java.util.UUID;
-
 public class IHMMainToIHMChannel implements IIHMMainToIHMChannel {
 
     public IHMMainToIHMChannel(IHMChannelController controller){
@@ -15,14 +13,19 @@ public class IHMMainToIHMChannel implements IIHMMainToIHMChannel {
     }
 
     @Override
-    public Region initIHMChannelWindow(Channel channel) {
-        controller.setChannelPageToDisplay(channel);
+    public Region initIHMChannelWindow() {
+        controller.setChannelPageToDisplay();
         return (Region)controller.getRoot();
     }
 
     @Override
-    public void viewChannel(UUID channelId) {
-
+    public void viewChannel(Channel channel) {
+        if (controller.getChannelPageController().getOpenedChannels().contains(channel)){
+            controller.getChannelPageController().changeTab(channel);
+        }
+        else{
+            controller.getInterfaceToCommunication().askToJoin(channel);
+        }
     }
 
     private IHMChannelController controller;

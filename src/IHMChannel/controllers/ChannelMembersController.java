@@ -1,113 +1,117 @@
 package IHMChannel.controllers;
 
-import IHMChannel.MemberDisplay;
+import IHMChannel.*;
 import common.shared_data.Channel;
 import common.shared_data.UserLite;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.ListView;
-import javafx.scene.control.Toggle;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Contrôleur de la vue "ChannelMembers" qui contient la liste des membres d'un channel et les options d'affichage de cette liste
  */
 public class ChannelMembersController {
+
+    private IHMChannelController ihmChannelController;
+
     @FXML
-    ListView membersList;
+    ToggleGroup viewMode;
     @FXML
-    ToggleGroup modeAffichage;
+    RadioButton alphaBtn;
     @FXML
-    Toggle alphaBtn;
+    BorderPane listMembersDisplay;
 
     ObservableList<HBox> membersToDisplay = FXCollections.observableArrayList();
     Channel channel;
-    ListChangeListener<UserLite> membersListListener;
-    ListChangeListener<UserLite> adminsListListener;
 
-    /**
-     * Initialise l'affichage de la liste des membres (acceptedPerson) contenus dans l'attribut channel de la classe
-     */
-    private void initMembersList() throws IOException {
-        membersToDisplay.removeAll(); //réinitialisation
-        for (UserLite usr : this.channel.getAcceptedPersons()){
-            membersToDisplay.add((HBox) new MemberDisplay(usr).root);
-        }
-        membersList.setItems(membersToDisplay);
-    }
+    AlphabeticalMembersListDisplay alphabeticalMembersListDisplay;
+    AdminMembersListDisplay adminMembersListDisplay;
+    ConnectedMembersListDisplay connectedMembersListDisplay;
+
+
 
     /**
      * Setter du channel
      * Met à jour la liste des membres en conséquence
+     *
      * @param channel
      */
-    public void setChannel(Channel channel){
+    public void setCurrentChannel(Channel channel) throws IOException {
         this.channel = channel;
-        try {
-            initMembersList();
-        } catch (IOException e) {
-            System.out.println("Erreur lors de l'affichage des membres du channel");
-            e.printStackTrace();
-        }
-        //TODO implémenter ces méthodes dans Channel
-//        this.channel.getAcceptedPersons().addListener(membersListListener);
-//        this.channel.getAdministrators().addListener(adminsListListener);
+        alphabeticalMembersListDisplay.getController().setCurrentChannel(channel);
+        adminMembersListDisplay.getController().setCurrentChannel(channel);
+        connectedMembersListDisplay.getController().setCurrentChannel(channel);
     }
 
-
-    //TODO gérer les radio buttons /!\ listener
-
-    public ChannelMembersController(){
-
+    public ConnectedMembersListDisplay getConnectedMembersListDisplay() {
+        return connectedMembersListDisplay;
     }
 
+    /**
+     * Tri des utilisateurs par ordre alphabétique
+     * @throws IOException
+     */
+    public void alphabeticSort(){
+        listMembersDisplay.setCenter(alphabeticalMembersListDisplay.root);
+    }
+
+    /**
+     * Tri des membres selon leur rôle
+     */
+    public void adminSort() {
+        listMembersDisplay.setCenter(adminMembersListDisplay.root);
+    }
+
+    /**
+     * Tri des membres selon s'ils sont en ligne ou non
+     */
+    public void onlineUserSort() {
+        listMembersDisplay.setCenter(connectedMembersListDisplay.root);
+    }
+
+    /**
+     * Méthode appelée automatiquement par le FXMLLoader
+     * Lance l'affichage par ordre alphabétique par défaut
+     * @throws IOException
+     */
     public void initialize() throws IOException {
-        //Membres
-        List<String> nickName = new ArrayList<>();
-        nickName.add("Léa");
-        nickName.add("Aida");
-        nickName.add("Lucas");
-        nickName.add("Vladimir");
-        nickName.add("Jérôme");
-        nickName.add("Van-Triet");
-        nickName.add("Benjamin");
-        nickName.add("Stéphane");
 
-        for (int i = 0; i < 6; i++) {
-            int d = new Random().nextInt(nickName.size());
-            UserLite tmpUser = new UserLite();
-            tmpUser.setNickName(nickName.get(d));
-            nickName.remove(d);
-            HBox tmp = (HBox) new MemberDisplay(tmpUser).root;
-            tmp.setMaxWidth(membersList.getMaxWidth());
-            tmp.setMinWidth(membersList.getMinWidth());
-            tmp.setMaxHeight(membersList.getMaxHeight());
-            tmp.setMinHeight(membersList.getMinHeight());
-            membersToDisplay.add(tmp);
-        }
-//        tmpUser.setNickName("Aida");
-//        tmp = (HBox) new MemberDisplay(tmpUser).root;
-//        membersToDisplay.add(tmp);
-//        tmpUser.setNickName("Lucas");
-//        tmp = (HBox) new MemberDisplay(tmpUser).root;
-//        membersToDisplay.add(tmp);
-//        tmpUser.setNickName("Vladimir");
-//        tmp = (HBox) new MemberDisplay(tmpUser).root;
-//        membersToDisplay.add(tmp);
-//        tmpUser.setNickName("Jérôme");
-//        tmp = (HBox) new MemberDisplay(tmpUser).root;
-//        membersToDisplay.add(tmp);
-//        tmpUser.setNickName("Van-Triet");
-//        tmp = (HBox) new MemberDisplay(tmpUser).root;
-//        membersToDisplay.add(tmp);
-        membersList.setItems(membersToDisplay);
+        alphabeticalMembersListDisplay = new AlphabeticalMembersListDisplay();
+        adminMembersListDisplay = new AdminMembersListDisplay();
+        connectedMembersListDisplay = new ConnectedMembersListDisplay();
+
+        viewMode.selectToggle(alphaBtn);
+        alphabeticSort();
+
+    }
+
+    public void setIhmChannelController(IHMChannelController ihmChannelController) {
+        this.ihmChannelController = ihmChannelController;
+        alphabeticalMembersListDisplay.configureController(ihmChannelController);
+        adminMembersListDisplay.configureController(ihmChannelController);
+        connectedMembersListDisplay.configureController(ihmChannelController);
+    }
+    public void setConnectedMembersList(List<UserLite> connectedMembersList) {
+        alphabeticalMembersListDisplay.setConnectedMembersList(connectedMembersList);
+        adminMembersListDisplay.setConnectedMembersList(connectedMembersList);
+        connectedMembersListDisplay.setConnectedMembersList(connectedMembersList);
+    }
+
+    public void addMemberToObservableList(UserLite user) {
+        alphabeticalMembersListDisplay.addMemberToList(user);
+        adminMembersListDisplay.addMemberToList(user);
+        connectedMembersListDisplay.addMemberToList(user);
+    }
+
+    public void removeMemberFromObservableList(UserLite user) {
+        alphabeticalMembersListDisplay.removeMemberFromList(user);
+        adminMembersListDisplay.removeMemberFromList(user);
+        connectedMembersListDisplay.removeMemberFromList(user);
     }
 }

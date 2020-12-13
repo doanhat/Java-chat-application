@@ -4,7 +4,6 @@ import common.shared_data.Channel;
 import common.shared_data.Message;
 import common.shared_data.UserLite;
 import common.shared_data.Visibility;
-
 import java.util.List;
 import java.util.UUID;
 
@@ -20,20 +19,6 @@ public interface IServerCommunicationToData {
     boolean requestChannelRemoval(UUID channelID, UserLite user);
 
     /**
-     * NOTE: Suggestion de Comm: utiliser seulement channelID pour diminuer la taille du paquet réseau,
-     * ou une classe supplémentaire qui contient seulement les méta-données d'un channel
-     * (un objet channel peut contient un objet de méta-données, et les contenues comme les message, user info, ...)
-     *
-     * Et cette méthode devrait retouner l'objet channel créé ou un objet null si le channel n'est pas créé
-     */
-
-
-    /**
-     * NOTE: Suggestion de Comm: utiliser une classe supplémentaire qui contient seulement les méta-données d'un channel
-     * car c'est innécessaire d'envoyer tous les messages et utilisateurs d'un channel pour modifier seulement les parametres
-     */
-
-    /**
      * Méthode pour mettre à jour les informations d'un channel dans la liste des channels
      *
      * @param channelID l'identificateur du channel concerné
@@ -43,18 +28,6 @@ public interface IServerCommunicationToData {
      * @param visibility nouvelle visibilité du channel, mettre à null si pas besoin de la changer
      * */
     void updateChannel(UUID channelID, UUID userID, String name, String description, Visibility visibility);
-
-    /**
-     * NOTE: Suggestion de Comm: utiliser channelID et retouner un boolean pour indiqué succès ou échec
-     */
-
-    /**
-     * Méthode pour ajouter un utilisateur à la liste des utilisateurs abonnés d'un channel
-     *
-     * @param channel le channel dans lequel l'utilisateur va s'abonner
-     * @param user l'utilisateur à être ajouté à la liste
-     * */
-    void requestAddUser(Channel channel, UserLite user);
 
     /**
      * Méthode pour ajouter un administrateur à la liste des administrateurs d'un channel
@@ -226,6 +199,22 @@ public interface IServerCommunicationToData {
      * @param user l'utilisateur qui va se désabonner
      * */
     void leaveChannel(UUID channelID, UserLite user);
+
+    /**
+     * Méthode pour ajouter un utilisateur à la liste des utilisateurs abonnés d'un channel
+     *
+     * @param channel le channel dans lequel l'utilisateur va s'abonner
+     * @param user l'utilisateur à être ajouté à la liste
+     * */
+    void requestAddUser(Channel channel, UserLite user);
+
+    /**
+     * Méthode pour se retirer de la liste des authaurizedUsers d'un channel volontairement
+     *
+     * @param channelID l'identificatuer du channel auquel l'utilisateur va se désabonner
+     * @param user l'utilisateur qui va se désabonner
+     * */
+    void quitChannel(UUID channelID, UserLite user);
 
     /**
      * Méthode qui renvoie l'adresse de l'utilisateur

@@ -5,6 +5,7 @@ import common.shared_data.Message;
 import common.shared_data.User;
 import common.shared_data.UserLite;
 
+import java.io.IOException;
 import java.util.UUID;
 
 public interface IDataToIHMChannel {
@@ -19,16 +20,16 @@ public interface IDataToIHMChannel {
      * @param user user qui devient admin
      * @param channel channel pour lequel on a ajouté un admin
      */
-    void addNewAdmin(UserLite user, Channel channel);
+    void addNewAdmin(UserLite user, Channel channel) throws IOException;
 
     /**
      * Quand l'utilisateur se fait kické d'un channel, retire le channel en question de sa liste de channels.
      * Ce retrait peut, comme un kick, être temporaire.
-     * @param channel channel à retirer
+     * @param channelID id du channel à retirer
      * @param duration durée du kick
      * @param explanation motif du kick
      */
-    void removeChannelFromList(Channel channel, int duration, String explanation);
+    void removeChannelFromList(UUID channelID, int duration, String explanation);
 
     /**
      * Notification pour les membres restants d'un channel qu'un utilisateur a été kické.

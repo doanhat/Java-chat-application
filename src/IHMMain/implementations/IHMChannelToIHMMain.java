@@ -5,7 +5,6 @@ import common.interfaces.client.IIHMChannelToIHMMain;
 import common.shared_data.Channel;
 import common.shared_data.UserLite;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class IHMChannelToIHMMain implements IIHMChannelToIHMMain {
@@ -18,7 +17,7 @@ public class IHMChannelToIHMMain implements IIHMChannelToIHMMain {
 
     @Override
     public void redirectToHomePage() {
-
+        ihmMainController.getMainWindowController().getIHMMainWindowController().loadUserListView();
     }
 
     @Override
@@ -28,16 +27,16 @@ public class IHMChannelToIHMMain implements IIHMChannelToIHMMain {
 
     @Override
     public void setOpenedChannelsList(List<Channel> openedChannels) {
-
+        ihmMainController.getOpenedChannels().setAll(openedChannels);
     }
 
     @Override
     public void setCurrentVisibleChannel(Channel channel) {
-
+        ihmMainController.getMainWindowController().getIHMMainWindowController().setViewChannelSelected(channel);
     }
 
     @Override
     public List<UserLite> getConnectedUsersList() {
-        return new ArrayList<>();
+        return ihmMainController.getConnectedUsers();
     }
 }
