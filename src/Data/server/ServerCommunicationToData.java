@@ -58,7 +58,7 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     public void quitChannel(UUID channelID, UserLite user) {
         Channel channel = channelsListController.searchChannelById(channelID);
         if(channel!=null){
-            if (channel.getType() == ChannelType.OWNED && user.getId() == channel.getCreator().getId()) {
+            if (channel.getType() == ChannelType.OWNED && user.getId().equals(channel.getCreator().getId())) {
                 // TODO verify proprietary quit channel
                 channelsListController.removeChannel(channel.getId());
             }
@@ -228,7 +228,7 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     public void leaveChannel(UUID ch, UserLite user) {
         Channel channel = channelsListController.searchChannelById(ch);
         if(channel!=null){
-            if (channel.getType() == ChannelType.OWNED && user.getId() == channel.getCreator().getId()) {
+            if (channel.getType() == ChannelType.OWNED && user.getId().equals(channel.getCreator().getId())) {
                 // remove Owned Channel from server after owner left
                 channelsListController.removeChannel(channel.getId());
             }

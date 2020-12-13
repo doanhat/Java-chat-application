@@ -26,6 +26,8 @@ public class UserJoinedConfirmationMessage extends ClientToServerMessage {
 
         if (channel != null)
         {
+            // Even to own channel, we add in join list inside server because it's need it send is message
+            commController.requestJoinChannel(channel, user);
             // send Acceptation back to sender
             commController.sendMessage(user.getId(),
                     new JoinChannelResponseMessage(user, channel, commController.channelConnectedUsers(channel), true));

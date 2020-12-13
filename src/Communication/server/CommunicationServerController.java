@@ -264,7 +264,6 @@ public class CommunicationServerController extends CommunicationController {
 			throw new NullPointerException("Data Interface est nulle");
 		}
 
-		// TODO INTEGRATION V2 verify with Data what are the differences between requestAddUser and joinChannel
 		dataServer.joinChannel(channel.getId(), user);
 
 		return true;
@@ -285,16 +284,16 @@ public class CommunicationServerController extends CommunicationController {
 		// since owner and server sync content of channel
 		dataServer.leaveChannel(channel.getId(), userLite);
 
-		sendMessage(userLite.getId(), new ValideUserLeftMessage(channelID, (channel.getVisibility() == Visibility.PUBLIC)));
+		sendMessage(userLite.getId(), new ValideUserLeftMessage(channelID, userLite.getId(), channel.getCreator().getId(), channel.getType() == ChannelType.OWNED));
 		sendMulticast(channel.getJoinedPersons(), new UserLeftChannelMessage(channel.getId(), userLite));
 
-		if (channel.getType() == ChannelType.OWNED && channel.getCreator().getId() == userLite.getId()) {
+		if (channel.getType() == ChannelType.OWNED && channel.getCreator().getId().equals(userLite.getId())) {
 			// when owner leaves, channel become invisible
 			if (channel.getVisibility() == Visibility.PUBLIC) {
 				sendBroadcast(new NewInvisibleChannelsMessage(channel.getId()), userLite);
 			}
 			else {
-				sendMulticast(channel.getAuthorizedPersons(), new NewInvisibleChannelsMessage(channel.getId()));
+				sendMulticast(channel.getAuthorizedPersons(), new NewInvisibleChannelsMessage(channel.getId()), userLite);
 			}
 		}
 	}

@@ -47,7 +47,7 @@ public class VirtualDataServer implements IServerCommunicationToData {
 
         Channel correctChannel = channels.get(channel);
 
-        if (correctChannel != null && correctChannel.getCreator().getId() == user.getId()) {
+        if (correctChannel != null && correctChannel.getCreator().getId().equals(user.getId())) {
             channels.remove(correctChannel.getId());
 
             return true;
@@ -172,7 +172,7 @@ public class VirtualDataServer implements IServerCommunicationToData {
     @Override
     public void disconnectUser(UUID userID) {
         for (UserLite usr: users) {
-            if (usr.getId() == userID) {
+            if (usr.getId().equals(userID)) {
                 users.remove(usr);
             }
         }

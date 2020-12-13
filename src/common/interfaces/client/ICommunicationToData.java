@@ -80,6 +80,16 @@ public interface ICommunicationToData {
      */
     void removeUserFromJoinedUserChannel(UserLite user, UUID channelId, int duration, String explanation);
 
+
+    /**
+     * Delete all user from Connected users list of channel.
+     *
+     * @param channelId     the channel
+     * @param duration    the duration
+     * @param explanation the explanation
+     */
+    void removeAllUserFromJoinedUserChannel(UUID channelId, int duration, String explanation);
+
     /**
      * Delete user from Authorized users list of channel.
      *

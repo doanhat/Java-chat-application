@@ -200,6 +200,10 @@ public class Channel implements Serializable {
 		this.joinedPersons.removeIf(person ->(person.getId().equals(idUser)));
 	}
 
+	public void removeAllUser(){
+		this.joinedPersons.clear();
+	}
+
 	public void removeUserAuthorization(UUID idUser){
 		this.authorizedPersons.removeIf(person ->(person.getId().equals(idUser)));
 	}

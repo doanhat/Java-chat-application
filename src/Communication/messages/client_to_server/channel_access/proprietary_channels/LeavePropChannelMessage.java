@@ -27,7 +27,6 @@ public class LeavePropChannelMessage extends ClientToServerMessage {
     @Override
     protected void handle(CommunicationServerController commServerController) {
         if (userLite.getId().equals(owner.getId())) {
-            // TODO INTEGRATION V2: When owner leaves channel, ask Data Server to remove Channel from list
             // owner leave channel
             commServerController.leaveChannel(channelID, userLite);
         }

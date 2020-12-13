@@ -315,6 +315,19 @@ public class CommunicationClientController extends CommunicationController {
     }
 
     /**
+     * Notifier que la demande de se deconecter d'un channel a été accepté
+     *
+     * @param channelID  identifiant unique (UUID) du channel deconnecté
+     * @param ownerID identifiant unique (UUID) de l'utilisateur qui est parti
+     */
+    public void removeAllJoinsPersonsToProprietaryChannel(UUID channelID, UUID ownerID) {
+        if (dataClient == null) {
+            throw new NullPointerException("Data Iface est null");
+        }
+        dataClient.removeAllUserFromJoinedUserChannel(channelID, 0, "Owner disconnected");
+    }
+
+    /**
      * Demande Data d'ajouter un utilisateur a un channel proprietaire
      *
      * @param user      Utilisateur qui a rejoint le channel
@@ -390,7 +403,7 @@ public class CommunicationClientController extends CommunicationController {
 
         // TODO INTEGRATION V2: what happens if owner of shared channel leaves
 /*
-        if (channel.getType() != ChannelType.OWNED && channel.getCreator().getId() == client.getUUID()) {
+        if (channel.getType() != ChannelType.OWNED && channel.getCreator().getId().equals(client.getUUID())) {
 
         }
  */

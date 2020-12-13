@@ -1,6 +1,8 @@
 package common.interfaces.client;
 
 import java.util.List;
+import java.util.UUID;
+
 import common.sharedData.Channel;
 
 /**
@@ -9,9 +11,15 @@ import common.sharedData.Channel;
 public interface IDataToIHMMain {
     /**
      * Supprime le channel de la liste des channels visibles
-     * @param channel
+     * @param channel Le channel à retirer
      */
     public void removeChannel(Channel channel);
+
+    /**
+     * Supprime le channel de la liste des channels visibles
+     * @param channelID L'ID du channel à retirer
+     */
+    public void removeChannel(UUID channelID);
 
     /**
      * Ajoute le channel à la liste des channels visibles

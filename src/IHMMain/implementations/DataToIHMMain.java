@@ -6,6 +6,7 @@ import common.sharedData.Channel;
 import javafx.application.Platform;
 
 import java.util.List;
+import java.util.UUID;
 
 public class DataToIHMMain implements IDataToIHMMain {
 
@@ -18,6 +19,11 @@ public class DataToIHMMain implements IDataToIHMMain {
     @Override
     public void removeChannel(Channel channel) {
         Platform.runLater(() -> ihmMainController.getVisibleChannels().remove(channel));
+    }
+
+    @Override
+    public void removeChannel(UUID channelID) {
+        Platform.runLater(() -> ihmMainController.getVisibleChannels().removeIf(channel -> channel.getId().equals(channelID)));
     }
 
     @Override

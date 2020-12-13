@@ -31,6 +31,9 @@ public class SendProprietaryChannelsMessage extends ClientToServerMessage {
 
             if (registeredChannel != null)
             {
+                // Even to own channel, we add in join list inside server because it's need it send is message
+                commController.requestJoinChannel(channel, owner);
+
                 // send Acceptation back to sender
                 commController.sendMessage(owner.getId(),
                         new JoinChannelResponseMessage(owner, channel, commController.channelConnectedUsers(channel), true));

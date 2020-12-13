@@ -43,14 +43,14 @@ public class DataToIHMChannel implements IDataToIHMChannel{
     /**
      * Quand l'utilisateur se fait kické d'un channel, retire le channel en question de sa liste de channels.
      * Ce retrait peut, comme un kick, être temporaire.
-     *
-     * @param channel     channel à retirer
+     * Cela peut être aussi du au fait que le propriétaire du channel se soit déconnecté
+     *  @param channelID     channel à retirer
      * @param duration    durée du kick
      * @param explanation motif du kick
      */
     @Override
-    public void removeChannelFromList(Channel channel, int duration, String explanation) {
-        throw new UnsupportedOperationException("Not implemented yet");
+    public void removeChannelFromList(UUID channelID, int duration, String explanation) {
+        controller.getChannelPageController().removeTab(channelID);
     }
 
     /**

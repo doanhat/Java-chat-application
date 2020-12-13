@@ -5,6 +5,7 @@ import common.sharedData.Channel;
 import common.sharedData.Message;
 import common.sharedData.User;
 import common.sharedData.UserLite;
+import javafx.application.Platform;
 
 import java.util.List;
 import java.util.UUID;
@@ -69,7 +70,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void removeChannelFromList(UUID channelId, int duration, String explanation) {
-
+        Platform.runLater(() -> dataController.getChannelController().removeChannelFromList(channelId, duration, explanation));
     }
 
     /**
@@ -95,17 +96,14 @@ public class CommunicationToData implements ICommunicationToData {
 
     }
 
-    /**
-     * Delete user from channel.
-     *
-     * @param user        the user
-     * @param channelId   the channel
-     * @param duration    the duration
-     * @param explanation the explanation
-     */
     @Override
     public void removeUserFromJoinedUserChannel(UserLite user, UUID channelId, int duration, String explanation) {
+        dataController.getChannelController().removeUserFromJoinedUserChannel(user,channelId);
+    }
 
+    @Override
+    public void removeAllUserFromJoinedUserChannel(UUID channelId, int duration, String explanation) {
+        dataController.getChannelController().removeAllUserFromJoinedUserChannel(channelId);
     }
 
     @Override

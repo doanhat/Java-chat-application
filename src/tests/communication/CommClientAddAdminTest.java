@@ -105,7 +105,7 @@ public class CommClientAddAdminTest {
         }
 
         for (UserLite user: otherUsers) {
-            if (user.getId() == id) {
+            if (user.getId().equals(id)) {
                 return user;
             }
         }

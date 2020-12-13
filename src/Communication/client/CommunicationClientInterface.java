@@ -187,10 +187,10 @@ public class CommunicationClientInterface implements IDataToCommunication,
         }
 
         if (channel.getType() == ChannelType.OWNED) {
-            this.commController.sendMessage(new DeleteMessagePropMessage(channel, msg, user.getId() == msg.getAuthor().getId()));
+            this.commController.sendMessage(new DeleteMessagePropMessage(channel, msg, user.getId().equals(msg.getAuthor().getId())));
         }
         else {
-            this.commController.sendMessage(new DeleteMessageSharedMessage(channel, msg, user.getId() == msg.getAuthor().getId()));
+            this.commController.sendMessage(new DeleteMessageSharedMessage(channel, msg, user.getId().equals(msg.getAuthor().getId())));
         }
     }
 

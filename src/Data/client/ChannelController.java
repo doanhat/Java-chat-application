@@ -143,12 +143,13 @@ public class ChannelController extends Controller{
     /**
      * Remove channel from list.
      *
-     * @param channel     the channel
+     * @param channelId     the channel
      * @param duration    the duration
      * @param explanation the explanation
      */
-    public void removeChannelFromList(Channel channel, int duration, String explanation) {
-
+    public void removeChannelFromList(UUID channelId, int duration, String explanation) {
+        mainClient.removeChannel(channelId);
+        channelClient.removeChannelFromList(channelId, duration, explanation);
     }
 
     /**
@@ -201,6 +202,28 @@ public class ChannelController extends Controller{
         for (Channel c : channels) {
             if(c.getId().equals(channelId)) {
                 c.addJoinedUser(user);
+                new FileHandle<Channel>(LocationType.client, FileType.channel).writeJSONToFile(channelId.toString(), c);
+                break;
+            }
+        }
+    }
+
+    public void removeUserFromJoinedUserChannel(UserLite user, UUID channelId) {
+        List<Channel> channels = getChannelList();
+        for (Channel c : channels) {
+            if(c.getId().equals(channelId)) {
+                c.removeUser(user.getId());
+                new FileHandle<Channel>(LocationType.client, FileType.channel).writeJSONToFile(channelId.toString(), c);
+                break;
+            }
+        }
+    }
+
+    public void removeAllUserFromJoinedUserChannel(UUID channelId) {
+        List<Channel> channels = getChannelList();
+        for (Channel c : channels) {
+            if(c.getId().equals(channelId)) {
+                c.removeAllUser();
                 new FileHandle<Channel>(LocationType.client, FileType.channel).writeJSONToFile(channelId.toString(), c);
                 break;
             }

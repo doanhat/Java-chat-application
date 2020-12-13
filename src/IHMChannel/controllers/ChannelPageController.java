@@ -3,15 +3,12 @@ package IHMChannel.controllers;
 import IHMChannel.IHMChannelController;
 import common.IHMTools.IHMTools;
 import common.sharedData.*;
-import javafx.application.Platform;
 import javafx.collections.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 
@@ -277,6 +274,26 @@ public class ChannelPageController {
             if (c.getId().equals(channel.getId().toString())) {
                 tabs.getSelectionModel().select(c);
             }
+        }
+    }
+
+    /**
+     * Supprime une tab d'un channel
+     * Par exemple lors que le propriétaire du channel disparait ou que l'on ai kick du channel
+     * @param channelID
+     */
+    public void removeTab(UUID channelID){
+        tabs.getTabs().removeIf(tab -> tab.getId().equals(channelID.toString()));
+        this.openedChannels.removeIf(channel -> channel.getId().equals(channelID));
+        /* On notifie IHM-Main avec la nouvelle liste de channels ouverts */
+        ihmChannelController.getInterfaceToIHMMain().setOpenedChannelsList(ihmChannelController.getOpenedChannelsList());
+        /* On revient à la page d'accueil si plus aucun channel à afficher */
+        if(openedChannels.isEmpty()){
+            ihmChannelController.getInterfaceToIHMMain().redirectToHomePage();
+        }
+        /* On revient à la page d'accueil si plus aucun channel à afficher */
+        if(openedChannels.isEmpty()){
+            ihmChannelController.getInterfaceToIHMMain().redirectToHomePage();
         }
     }
 }
