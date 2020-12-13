@@ -41,13 +41,10 @@ public class ConnectedMembersListController {
     private void initMembersList() {
         channelMembers.clear();
         adminMembers.clear();
-
         for (UserLite usr : this.channel.getAuthorizedPersons()){
-            System.out.print("(auth) : " + usr.getNickName() +"\n");
             channelMembers.add(usr);
         }
         for (UserLite usr : this.channel.getAdministrators()){
-            System.out.print("(admin) : " + usr.getNickName() +"\n");
             adminMembers.add(usr);
             if(usr.getId().equals(localUser.getId())) {
                 isLocalUserAdmin = true;
@@ -93,7 +90,7 @@ public class ConnectedMembersListController {
      * Met à jour la liste des membres en conséquence
      * @param channel
      */
-    public void setCurrentChannel(Channel channel) throws IOException {
+    public void setCurrentChannel(Channel channel)  {
         this.channel = channel;
         initMembersList();
         displayMembers();
@@ -103,7 +100,7 @@ public class ConnectedMembersListController {
 
     };
 
-    public void initialize() throws IOException {
+    public void initialize() {
         channelMembers = FXCollections.observableArrayList();
         adminMembers = FXCollections.observableArrayList();
         connectedMembersToDisplay = FXCollections.observableArrayList();

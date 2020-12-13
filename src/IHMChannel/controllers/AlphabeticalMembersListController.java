@@ -55,9 +55,6 @@ public class AlphabeticalMembersListController {
      */
 
     private void displayMembers() {
-        for (UserLite usr : connectedMembersList){
-            System.out.print("(connected) : " + usr.getNickName() +"\n");
-        }
         membersToDisplay.clear();
         for (UserLite usr : channelMembers){
             if(usr.getId().equals(creator.getId())){
@@ -76,14 +73,14 @@ public class AlphabeticalMembersListController {
      * Met à jour la liste des membres en conséquence
      * @param channel
      */
-    public void setCurrentChannel(Channel channel) throws IOException {
+    public void setCurrentChannel(Channel channel) {
         this.channel = channel;
         initMembersList();
         displayMembers();
     }
 
 
-    public void initialize() throws IOException {
+    public void initialize() {
         channelMembers = FXCollections.observableArrayList();
         adminMembers = FXCollections.observableArrayList();
         membersToDisplay = FXCollections.observableArrayList();

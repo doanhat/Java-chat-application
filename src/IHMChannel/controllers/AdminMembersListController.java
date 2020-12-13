@@ -38,17 +38,15 @@ public class AdminMembersListController {
     ObservableList<HBox> membersToDisplay;
 
     /**
-     * Initialise la liste des membres (acceptedPerson) contenus dans l'attribut channel de la classe
+     * Initialise la liste des membres contenus dans l'attribut channel de la classe
      */
     private void initMembersList() {
         channelMembers.clear();
         adminMembers.clear();
-
         creator = this.channel.getCreator();
 
         isLocalUserAdmin = false;
         this.channel.getAdministrators().forEach(userLite -> {
-            System.out.print("(admin) : " + userLite.getNickName() +"\n");
             // On n'ajoute pas le créateur dans cette liste.
             if(!userLite.getId().equals(creator.getId())){adminMembers.add(userLite);}
 
@@ -58,7 +56,6 @@ public class AdminMembersListController {
             }
         });
         this.channel.getAuthorizedPersons().forEach(userLite -> {
-            System.out.print("(auth) : " + userLite.getNickName() +"\n");
             if(!adminMembers.contains(userLite) && !userLite.getId().equals(creator.getId())){channelMembers.add(userLite);}
         });
 
@@ -70,7 +67,6 @@ public class AdminMembersListController {
      */
 
     private void displayMembers() {
-
         membersToDisplay.clear();
         adminsToDisplay.clear();
         creatorToDisplay.clear();
