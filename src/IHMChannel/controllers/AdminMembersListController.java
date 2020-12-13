@@ -48,6 +48,7 @@ public class AdminMembersListController {
 
         isLocalUserAdmin = false;
         this.channel.getAdministrators().forEach(userLite -> {
+            System.out.print("(admin) : " + userLite.getNickName() +"\n");
             // On n'ajoute pas le créateur dans cette liste.
             if(!userLite.getId().equals(creator.getId())){adminMembers.add(userLite);}
 
@@ -56,8 +57,8 @@ public class AdminMembersListController {
                 isLocalUserAdmin = true;
             }
         });
-
-        this.channel.getJoinedPersons().forEach(userLite -> {
+        this.channel.getAuthorizedPersons().forEach(userLite -> {
+            System.out.print("(auth) : " + userLite.getNickName() +"\n");
             if(!adminMembers.contains(userLite) && !userLite.getId().equals(creator.getId())){channelMembers.add(userLite);}
         });
 
@@ -68,10 +69,11 @@ public class AdminMembersListController {
      * @throws IOException
      */
 
-    private void displayMembers() throws IOException {
+    private void displayMembers() {
 
         membersToDisplay.clear();
         adminsToDisplay.clear();
+        creatorToDisplay.clear();
 
         for (UserLite usr : adminMembers){
             adminsToDisplay.add((HBox) new MemberDisplay(usr,true,false,(connectedMembersList!=null && connectedMembersList.contains(usr)),isLocalUserAdmin ,  channel, ihmChannelController).root);
@@ -124,14 +126,16 @@ public class AdminMembersListController {
             this.connectedMembersList.clear();
         }
         this.connectedMembersList = updatedConnectedMembersList;
-        // this.initConnectedMembersList();
+        displayMembers();
     }
 
     public void addMemberToList(UserLite user) {
         connectedMembersList.add(user);
+        displayMembers();
     }
 
     public void removeMemberFromList(UserLite user) {
         connectedMembersList.remove(user);
+        displayMembers();
     }
 }

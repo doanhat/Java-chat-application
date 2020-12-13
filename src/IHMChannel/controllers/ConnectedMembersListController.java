@@ -42,10 +42,12 @@ public class ConnectedMembersListController {
         channelMembers.clear();
         adminMembers.clear();
 
-        for (UserLite usr : this.channel.getJoinedPersons()){
+        for (UserLite usr : this.channel.getAuthorizedPersons()){
+            System.out.print("(auth) : " + usr.getNickName() +"\n");
             channelMembers.add(usr);
         }
         for (UserLite usr : this.channel.getAdministrators()){
+            System.out.print("(admin) : " + usr.getNickName() +"\n");
             adminMembers.add(usr);
             if(usr.getId().equals(localUser.getId())) {
                 isLocalUserAdmin = true;
@@ -59,7 +61,7 @@ public class ConnectedMembersListController {
      * @throws IOException
      */
 
-    private void displayMembers() throws IOException {
+    private void displayMembers() {
         connectedMembersToDisplay.clear();
         disconnectedMembersToDisplay.clear();
 
@@ -126,13 +128,16 @@ public class ConnectedMembersListController {
             this.connectedMembersList.clear();
         }
         this.connectedMembersList = updatedConnectedMembersList;
+        displayMembers();
     }
 
     public void addMemberToList(UserLite user) {
         connectedMembersList.add(user);
+        displayMembers();
     }
 
     public void removeMemberFromList(UserLite user) {
         connectedMembersList.remove(user);
+        displayMembers();
     }
 }

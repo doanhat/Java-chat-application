@@ -36,7 +36,7 @@ public class AlphabeticalMembersListController {
      */
     private void initMembersList() {
         channelMembers.clear();
-        for (UserLite usr : this.channel.getJoinedPersons()){
+        for (UserLite usr : this.channel.getAuthorizedPersons()){
             channelMembers.add(usr);
         }
         adminMembers.clear();
@@ -54,7 +54,10 @@ public class AlphabeticalMembersListController {
      * @throws IOException
      */
 
-    private void displayMembers() throws IOException {
+    private void displayMembers() {
+        for (UserLite usr : connectedMembersList){
+            System.out.print("(connected) : " + usr.getNickName() +"\n");
+        }
         membersToDisplay.clear();
         for (UserLite usr : channelMembers){
             if(usr.getId().equals(creator.getId())){
@@ -105,14 +108,16 @@ public class AlphabeticalMembersListController {
             this.connectedMembersList.clear();
         }
         this.connectedMembersList = updatedConnectedMembersList;
-        // this.initConnectedMembersList();
+            displayMembers();
     }
 
     public void addMemberToList(UserLite user) {
         connectedMembersList.add(user);
+        displayMembers();
     }
 
     public void removeMemberFromList(UserLite user) {
         connectedMembersList.remove(user);
+        displayMembers();
     }
 }
