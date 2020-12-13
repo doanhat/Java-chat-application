@@ -360,4 +360,11 @@ public class IHMMainWindowController implements Initializable{
         this.ihmMainController = ihmMainController;
     }
 
+    public ListView<Channel> getPrivateChannels() {
+        return privateChannels;
+    }
+
+    public ListView<Channel> getPublicChannels() {
+        return publicChannels;
+    }
 }

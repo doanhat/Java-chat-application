@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
@@ -23,6 +24,8 @@ public class UserListViewController implements Initializable{
     private ListView<UserLite> connectedUsersListView;
     @FXML
     private TextField filteredInput;
+    @FXML
+    private CheckBox filtrerChannelCheckBox;
 
     public void setMainWindowController(MainWindowController mainWindowController) {
         this.mainWindowController = mainWindowController;
@@ -39,8 +42,11 @@ public class UserListViewController implements Initializable{
                 } else
                     return false;
             });
+            //Added for channel filter
+            if(filtrerChannelCheckBox.isSelected()){
+                
+            }
         });
-
         connectedUsersListView.setItems(filteredData.sorted());
     }
 
