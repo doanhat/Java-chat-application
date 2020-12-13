@@ -41,8 +41,7 @@ public class ConnectedMembersListController {
     private void initMembersList() {
         channelMembers.clear();
         adminMembers.clear();
-
-        for (UserLite usr : this.channel.getJoinedPersons()){
+        for (UserLite usr : this.channel.getAuthorizedPersons()){
             channelMembers.add(usr);
         }
         for (UserLite usr : this.channel.getAdministrators()){
@@ -59,7 +58,7 @@ public class ConnectedMembersListController {
      * @throws IOException
      */
 
-    private void displayMembers() throws IOException {
+    private void displayMembers() {
         connectedMembersToDisplay.clear();
         disconnectedMembersToDisplay.clear();
 
@@ -91,7 +90,7 @@ public class ConnectedMembersListController {
      * Met à jour la liste des membres en conséquence
      * @param channel
      */
-    public void setCurrentChannel(Channel channel) throws IOException {
+    public void setCurrentChannel(Channel channel)  {
         this.channel = channel;
         initMembersList();
         displayMembers();
@@ -101,7 +100,7 @@ public class ConnectedMembersListController {
 
     };
 
-    public void initialize() throws IOException {
+    public void initialize() {
         channelMembers = FXCollections.observableArrayList();
         adminMembers = FXCollections.observableArrayList();
         connectedMembersToDisplay = FXCollections.observableArrayList();
@@ -126,13 +125,16 @@ public class ConnectedMembersListController {
             this.connectedMembersList.clear();
         }
         this.connectedMembersList = updatedConnectedMembersList;
+        displayMembers();
     }
 
     public void addMemberToList(UserLite user) {
         connectedMembersList.add(user);
+        displayMembers();
     }
 
     public void removeMemberFromList(UserLite user) {
         connectedMembersList.remove(user);
+        displayMembers();
     }
 }

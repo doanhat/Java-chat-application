@@ -12,7 +12,7 @@
             fx:controller="IHMChannel.controllers.ConnectedMembersListController">
     <VBox>
         <Label text="Membres connectés :" />
-        <ListView fx:id="connectedMembers" maxHeight="50" />
+        <ListView fx:id="connectedMembers" maxHeight="150" />
         <Label text="Membres déconnectés :" />
         <ListView fx:id="disconnectedMembers" maxHeight="150" />
     </VBox>

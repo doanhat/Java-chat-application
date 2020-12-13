@@ -58,7 +58,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void newAdmin(UserLite user, UUID channelId) {
-        dataController.getChannelController().newAdmin(user, channelId);
+        Platform.runLater(() -> dataController.getChannelController().newAdmin(user, channelId));
     }
 
     /**
