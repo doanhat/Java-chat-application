@@ -1,6 +1,7 @@
 package IHMChannel.controllers;
 
 import IHMChannel.IHMChannelController;
+import common.IHMTools.IHMTools;
 import common.sharedData.Channel;
 import common.sharedData.UserLite;
 import javafx.fxml.FXML;
@@ -128,8 +129,23 @@ public class MemberController {
     }
 
     public void banHandler() {
+        // Check localUser =admin
+        if(channel.getAdministrators().contains(this.ihmChannelController.getInterfaceToData().getLocalUser())){
+            //check user kick pas le createur. Peut-on kick un autre admin?
+            if(!channel.getCreator().getId().equals(userToDisplay.getId())){
+                if(IHMTools.confirmationPopup("Voulez vous kicker cet utilisateur ?")){
+                    // Kicker l'utilisateur
+                    //this.getIhmChannelController().getInterfaceToCommunication().banUserFromChannel();
+                }
+            }else{
+                IHMTools.informationPopup("Vous ne pouvez pas kick le créateur.");
+            }
+        }else{
+            IHMTools.informationPopup("Vous n'avez pas les droits pour réaliser cette action. Vous devez être administrateur.");
+        }
+
        /*TODO
-           1. Vérifier les droits admins de la personne qui appuie sur le bouton
+           1. Vérifier les droits admins de la personne qui appuie sur le bouton + de celle qui est kicker
            2. Si ok :
             - Pop up de confirmation avec la durée de ban
             -> confirmation : this.getIhmChannelController().getInterfaceToCommunication().banUserFromChannel();
