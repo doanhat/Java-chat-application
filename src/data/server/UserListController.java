@@ -1,6 +1,6 @@
-package Data.server;
+package data.server;
 
-import common.sharedData.UserLite;
+import common.shared_data.UserLite;
 
 import java.util.ArrayList;
 import java.util.List;

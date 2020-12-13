@@ -1,11 +1,10 @@
 package IHMMain.implementations;
 
 import IHMMain.IHMMainController;
-import IHMMain.controllers.IHMMainWindowController;
 import common.interfaces.client.ICommunicationToIHMMain;
-import common.sharedData.Channel;
-import common.sharedData.ConnectionStatus;
-import common.sharedData.UserLite;
+import common.shared_data.Channel;
+import common.shared_data.ConnectionStatus;
+import common.shared_data.UserLite;
 import javafx.application.Platform;
 
 import java.util.List;

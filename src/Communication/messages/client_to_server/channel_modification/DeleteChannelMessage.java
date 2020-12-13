@@ -3,7 +3,7 @@ package Communication.messages.client_to_server.channel_modification;
 import Communication.messages.abstracts.ClientToServerMessage;
 import Communication.messages.server_to_client.channel_modification.NewInvisibleChannelsMessage;
 import Communication.server.CommunicationServerController;
-import common.sharedData.*;
+import common.shared_data.*;
 
 import java.util.UUID;
 

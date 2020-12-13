@@ -3,8 +3,8 @@ package Communication.messages.client_to_server.channel_modification;
 import Communication.messages.abstracts.ClientToServerMessage;
 import Communication.messages.server_to_client.channel_modification.SendHistoryMessage;
 import Communication.server.CommunicationServerController;
-import common.sharedData.Message;
-import common.sharedData.UserLite;
+import common.shared_data.Message;
+import common.shared_data.UserLite;
 
 import java.util.List;
 import java.util.UUID;

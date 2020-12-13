@@ -1,8 +1,8 @@
 package common.interfaces.client;
 
-import common.sharedData.Channel;
-import common.sharedData.ConnectionStatus;
-import common.sharedData.UserLite;
+import common.shared_data.Channel;
+import common.shared_data.ConnectionStatus;
+import common.shared_data.UserLite;
 
 import java.util.List;
 

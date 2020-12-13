@@ -2,7 +2,7 @@ package Communication.messages.server_to_client.channel_access.propietary_channe
 
 import Communication.client.CommunicationClientController;
 import Communication.messages.abstracts.ServerToClientMessage;
-import common.sharedData.UserLite;
+import common.shared_data.UserLite;
 
 import java.util.UUID;
 

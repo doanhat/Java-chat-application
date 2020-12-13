@@ -2,10 +2,9 @@ package IHMMain.implementations;
 
 import IHMMain.IHMMainController;
 import common.interfaces.client.IIHMChannelToIHMMain;
-import common.sharedData.Channel;
-import common.sharedData.UserLite;
+import common.shared_data.Channel;
+import common.shared_data.UserLite;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class IHMChannelToIHMMain implements IIHMChannelToIHMMain {

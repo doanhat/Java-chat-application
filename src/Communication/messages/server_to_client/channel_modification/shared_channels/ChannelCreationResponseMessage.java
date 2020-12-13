@@ -2,7 +2,7 @@ package Communication.messages.server_to_client.channel_modification.shared_chan
 
 import Communication.client.CommunicationClientController;
 import Communication.messages.abstracts.ServerToClientMessage;
-import common.sharedData.Channel;
+import common.shared_data.Channel;
 
 /**
  * Message validant la création d'un canal particulier

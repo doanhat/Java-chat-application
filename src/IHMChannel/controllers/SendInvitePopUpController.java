@@ -1,8 +1,7 @@
 package IHMChannel.controllers;
 
-import common.sharedData.Channel;
-import common.sharedData.UserLite;
-import javafx.event.ActionEvent;
+import common.shared_data.Channel;
+import common.shared_data.UserLite;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;

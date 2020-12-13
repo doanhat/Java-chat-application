@@ -2,8 +2,7 @@ package IHMMain.controllers;
 
 
 import IHMMain.IHMMainController;
-import common.sharedData.Channel;
-import javafx.application.Platform;
+import common.shared_data.Channel;
 import javafx.beans.InvalidationListener;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;

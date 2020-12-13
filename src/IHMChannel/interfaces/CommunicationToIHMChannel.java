@@ -2,16 +2,13 @@ package IHMChannel.interfaces;
 
 import IHMChannel.IHMChannelController;
 import common.interfaces.client.ICommunicationToIHMChannel;
-import common.sharedData.Channel;
-import common.sharedData.Message;
-import common.sharedData.User;
-import common.sharedData.UserLite;
+import common.shared_data.Channel;
+import common.shared_data.Message;
+import common.shared_data.User;
+import common.shared_data.UserLite;
 import javafx.application.Platform;
-import javafx.collections.ObservableList;
-import javafx.collections.ObservableSet;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 

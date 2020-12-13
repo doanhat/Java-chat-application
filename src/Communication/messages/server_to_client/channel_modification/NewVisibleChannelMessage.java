@@ -2,7 +2,7 @@ package Communication.messages.server_to_client.channel_modification;
 
 import Communication.client.CommunicationClientController;
 import Communication.messages.abstracts.ServerToClientMessage;
-import common.sharedData.Channel;
+import common.shared_data.Channel;
 
 /**
  * Cette classe indique au client qu'un nouveau canal vient d'être créé

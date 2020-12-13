@@ -1,11 +1,9 @@
 package Communication.messages.client_to_server.channel_access.proprietary_channels;
 
 import Communication.messages.abstracts.ClientToServerMessage;
-import Communication.messages.server_to_client.channel_access.propietary_channels.TellOwnerUserJoinedMessage;
 import Communication.messages.server_to_client.channel_access.propietary_channels.TellOwnerUserLeftMessage;
 import Communication.server.CommunicationServerController;
-import common.sharedData.Channel;
-import common.sharedData.UserLite;
+import common.shared_data.UserLite;
 
 import java.util.UUID;
 

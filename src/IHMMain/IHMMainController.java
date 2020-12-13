@@ -1,14 +1,14 @@
 package IHMMain;
 
-import Data.client.IHMMainToData;
+import data.client.IHMMainToData;
 import IHMMain.implementations.CommunicationToIHMMain;
 import IHMMain.implementations.DataToIHMMain;
 import IHMMain.implementations.IHMChannelToIHMMain;
 import app.MainWindowController;
 import common.interfaces.client.*;
-import common.sharedData.Channel;
-import common.sharedData.ConnectionStatus;
-import common.sharedData.UserLite;
+import common.shared_data.Channel;
+import common.shared_data.ConnectionStatus;
+import common.shared_data.UserLite;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
