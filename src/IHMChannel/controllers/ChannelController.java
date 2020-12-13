@@ -11,10 +11,7 @@ import common.sharedData.UserLite;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckMenuItem;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -257,7 +254,6 @@ public class ChannelController {
      *
      */
     public void homeBtnHandler() {
-        // A voir ce que fait redirectHomePage()
         ihmChannelController.getInterfaceToIHMMain().redirectToHomePage();
     }
 
@@ -290,15 +286,19 @@ public class ChannelController {
     }
 
     /**
-     * Clic sur "supprimer channel" depuis le menu contextuel
+     * Clic sur "supprimer channel" depuis le menu contextuel. Si l'utilisateur est bien le créteur, alors une pop-up de confirmation s'ouvre.
+     * Après confirmation, le traitement de suppression est effectué.
      */
     public void deleteChannel() {
-
-        boolean result = IHMTools.confirmationPopup("Voulez vous supprimer le channel ?");
-
-        if (result){
-            //appel interface /!\ UnsupportedOperationException : not implemented yet pour le moment (sera réglé avec integ)
-            this.getIhmChannelController().getInterfaceForData().openChannelDeleted(this.currentChannel);
+        if(this.getIhmChannelController().getInterfaceToData().getLocalUser().getId().equals(currentChannel.getCreator().getId())){
+            boolean result = IHMTools.confirmationPopup("Voulez vous supprimer le channel ?");
+            if (result){
+                // this.getIhmChannelController().getInterfaceToCommunication().DeleteChannel(currentChannel.getId());
+                // Pour Tester le retour serveur avant intégration :
+                this.getIhmChannelController().getInterfaceForData().openChannelDeleted(this.currentChannel.getId());
+            }
+        }else{
+            IHMTools.informationPopup("Vous n'avez pas les droits nécessaires pour effectuer cette action. Seul le créateur peut supprimer le channel.");
         }
     }
 
