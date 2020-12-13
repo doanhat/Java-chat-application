@@ -14,6 +14,8 @@ import common.shared_data.Visibility;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -46,6 +48,8 @@ public class IHMMainWindowController implements Initializable{
 
     private Region ihmChannelNode;
 
+    private ObservableList<Channel> visibleChannelsObservableList ;
+
     @FXML
     private AnchorPane root;
 
@@ -72,6 +76,9 @@ public class IHMMainWindowController implements Initializable{
 
     @FXML
     private Button disconnectButton;
+
+    @FXML
+    private TextField channelSearchTextField;
 
 
     public MainWindowController getMainWindowController() {
@@ -134,11 +141,28 @@ public class IHMMainWindowController implements Initializable{
     }
 
     private void initChannelsListView() {
+
+        visibleChannelsObservableList = mainWindowController.getIhmMainController().getVisibleChannels();
+        FilteredList<Channel> filteredChannels = new FilteredList<>(visibleChannelsObservableList, b-> true);
+        channelSearchTextField.textProperty().addListener((observable,oldValue,newValue) -> {
+            filteredChannels.setPredicate(channel -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                String lowerCaseFilter = newValue.toLowerCase();
+                if(channel.getName().toLowerCase().indexOf(lowerCaseFilter) != -1
+                        || channel.getDescription().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                } else
+                    return false;
+            });
+        });
+
         /**
          * Bind the ListView with the list of private channels.
          * And use the ChannelListViewCellController to display each item.
          */
-        privateChannels.setItems(ihmMainController.getVisibleChannels().filtered(channel -> channel.getVisibility() == Visibility.PRIVATE));
+        privateChannels.setItems(filteredChannels.filtered(channel -> channel.getVisibility() == Visibility.PRIVATE));
         privateChannels.setCellFactory(privateChannelsListView -> new ChannelListViewCellController(ihmMainController));
 
         /**
@@ -162,7 +186,7 @@ public class IHMMainWindowController implements Initializable{
          * Bind the ListView with the list of public channels.
          * And use the ChannelListViewCellController to display each item.
          */
-        publicChannels.setItems(ihmMainController.getVisibleChannels().filtered(channel -> channel.getVisibility() == Visibility.PUBLIC));
+        publicChannels.setItems(filteredChannels.filtered(channel -> channel.getVisibility() == Visibility.PUBLIC));
         publicChannels.setCellFactory(privateChannelsListView -> new ChannelListViewCellController(ihmMainController));
 
         /**
