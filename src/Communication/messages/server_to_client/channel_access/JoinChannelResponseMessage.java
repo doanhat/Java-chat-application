@@ -14,13 +14,11 @@ import java.util.List;
 public class JoinChannelResponseMessage extends ServerToClientMessage {
 
 	private static final long serialVersionUID = -65167438936L;
-	private final UserLite user;
     private final Channel channel;
     private final List<UserLite> activeUsers;
     private final boolean accepted;
 
-    public JoinChannelResponseMessage(UserLite receiver, Channel channel, List<UserLite> activeUsers, boolean accepted) {
-        this.user = receiver;
+    public JoinChannelResponseMessage(Channel channel, List<UserLite> activeUsers, boolean accepted) {
         this.channel = channel;
         this.accepted = accepted;
         this.activeUsers = activeUsers;
@@ -28,6 +26,6 @@ public class JoinChannelResponseMessage extends ServerToClientMessage {
 
     @Override
     protected void handle(CommunicationClientController commClientController) {
-        commClientController.notifyJoinChannelResponse(user, channel, activeUsers, accepted);
+        commClientController.notifyJoinChannelResponse(channel, activeUsers, accepted);
     }
 }

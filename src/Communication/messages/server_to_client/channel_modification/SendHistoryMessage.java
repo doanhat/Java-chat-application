@@ -4,27 +4,25 @@ import Communication.client.CommunicationClientController;
 import Communication.messages.abstracts.ServerToClientMessage;
 import common.sharedData.Channel;
 import common.sharedData.Message;
+import common.sharedData.UserLite;
 
 import java.util.List;
 import java.util.UUID;
 
 public class SendHistoryMessage extends ServerToClientMessage {
 
+    // Pretty similar to JoinChannelResponseMessage
     private static final long serialVersionUID = -1351564319089062L;
-    private UUID channelID;
-    private List<Message> history;
+    private final Channel channel;
+    private final List<UserLite> activeUsers;
 
-    public List<Message> getHistory() {
-        return history;
-    }
-
-    public SendHistoryMessage(UUID channelID, List<Message> history){
-        this.channelID = channelID;
-        this.history = history;
+    public SendHistoryMessage(Channel channel, List<UserLite> activeUsers){
+        this.channel = channel;
+        this.activeUsers = activeUsers;
     }
 
     @Override
     protected void handle(CommunicationClientController commClientController) {
-        commClientController.returnChannelHistory(channelID, history);
+        commClientController.returnChannelHistory(channel, activeUsers);
     }
 }

@@ -356,7 +356,7 @@ public class CommunicationServerController extends CommunicationController {
 	 * @param user demandeur
 	 * @return liste des messages du channel
 	 */
-	public List<Message> getHistoryMessage(UUID channelID, UserLite user){
+	public Channel getHistoryMessage(UUID channelID, UserLite user){
 		if(dataServer == null) {
 			throw new NullPointerException("Data Interface est nulle");
 		}
@@ -365,7 +365,7 @@ public class CommunicationServerController extends CommunicationController {
 
 		if (dataServer.checkAuthorization(channel, user)) {
 			// If the implementation is correct, proprietary channel data on server should be exactly the same as the one in application client
-			return dataServer.getHistory(channel);
+			return channel;
 		}
 
 		return null;

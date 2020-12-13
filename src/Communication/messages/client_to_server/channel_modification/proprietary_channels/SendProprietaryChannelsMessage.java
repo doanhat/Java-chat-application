@@ -36,7 +36,7 @@ public class SendProprietaryChannelsMessage extends ClientToServerMessage {
 
                 // send Acceptation back to sender
                 commController.sendMessage(owner.getId(),
-                        new JoinChannelResponseMessage(owner, channel, commController.channelConnectedUsers(channel), true));
+                        new JoinChannelResponseMessage(channel, commController.channelConnectedUsers(channel), true));
 
                 NetworkMessage newChannelNotification = new NewVisibleChannelMessage(registeredChannel);
 
@@ -49,7 +49,7 @@ public class SendProprietaryChannelsMessage extends ClientToServerMessage {
             }
             else {
                 // send Refusal back to sender
-                commController.sendMessage(owner.getId(), new JoinChannelResponseMessage(owner, null, null, false));
+                commController.sendMessage(owner.getId(), new JoinChannelResponseMessage(null, null, false));
             }
         }
     }

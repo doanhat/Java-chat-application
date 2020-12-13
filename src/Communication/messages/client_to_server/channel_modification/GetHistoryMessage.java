@@ -3,6 +3,7 @@ package Communication.messages.client_to_server.channel_modification;
 import Communication.messages.abstracts.ClientToServerMessage;
 import Communication.messages.server_to_client.channel_modification.SendHistoryMessage;
 import Communication.server.CommunicationServerController;
+import common.sharedData.Channel;
 import common.sharedData.Message;
 import common.sharedData.UserLite;
 
@@ -24,10 +25,10 @@ public class GetHistoryMessage extends ClientToServerMessage {
     protected void handle(CommunicationServerController commController) {
 
         // NOTE : Server should have the list of all active channels, proprietary and shared
-        List<Message> channelMessages = commController.getHistoryMessage(channelID, sender);
+        Channel channel = commController.getHistoryMessage(channelID, sender);
 
-        if(channelMessages != null) {
-            commController.sendMessage(sender.getId(), new SendHistoryMessage(channelID, channelMessages));
+        if(channel != null) {
+            commController.sendMessage(sender.getId(), new SendHistoryMessage(channel, commController.channelConnectedUsers(channel)));
         }
     }
 }

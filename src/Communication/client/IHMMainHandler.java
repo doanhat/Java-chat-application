@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class IHMMainClientHandler {
+public class IHMMainHandler {
 
     private final Logger logger = Logger.getLogger(this.getClass().getName());
     private ICommunicationToIHMMain mainClient;

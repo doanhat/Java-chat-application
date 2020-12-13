@@ -297,10 +297,11 @@ public class CommunicationClientController extends CommunicationController {
     /**
      * Notifier Data que la demande de rejoindre un channel a été accepté par serveur
      *
-     * @param user    Utilisateur qui cherche a rejoindre le channel
      * @param channel channel rejoint
+     * @param activeUsers liste de users actifs d'un channels
+     * @param isAccepted (boolean) réponse du serveur
      */
-    public void notifyJoinChannelResponse(UserLite user, Channel channel, List<UserLite> activeUsers, boolean isAccepted) {
+    public void notifyJoinChannelResponse(Channel channel, List<UserLite> activeUsers, boolean isAccepted) {
         if (channelClient == null) {
             throw new NullPointerException("Data Iface est null");
         }
@@ -533,10 +534,8 @@ public class CommunicationClientController extends CommunicationController {
         dataClient.deleteMessage(message, null, deleteByCreator);
     }
 
-    public void returnChannelHistory(UUID channelID, List<Message> history) {
-        // TODO INTEGRATION V2: Tell IHM Channel to modify parameter type from Channel to UUID
-
-        //channelClient.displayHistory(channelID, history);
+    public void returnChannelHistory(Channel channel, List<UserLite> activeUsers) {
+        channelClient.displayChannelHistory(channel, channel.getMessages(), activeUsers);
     }
 
     public void saveLike(UUID channelId, Message msg, UserLite user){
