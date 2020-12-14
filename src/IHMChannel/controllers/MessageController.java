@@ -177,8 +177,7 @@ public class MessageController {
 
         messageToDisplay.delete(deletedByCreator);
         this.content.setText(messageToDisplay.getMessage());
-
-
+        
     }
 
     public void setChannelMessagesController(ChannelMessagesController channelMessagesController) {
