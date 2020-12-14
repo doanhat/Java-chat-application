@@ -68,6 +68,7 @@ public class ChannelController {
     ChannelMembersDisplay channelMembersDisplay;
 
     Boolean seeMessages = true;
+    Boolean changeRight = true;
     Boolean leavePossible = true;
 
     public Channel getCurrentChannel() {
@@ -285,7 +286,9 @@ public class ChannelController {
      * Clic sur "Changer les droits" depuis le menu contextuel
      */
     public void changeRights() {
-        //TODO implémenter la méthode
+        pageToDisplay.setCenter(channelMembersDisplay.root);
+        channelMembersDisplay.getController().viewMode.selectToggle(channelMembersDisplay.getController().adminBtn);
+        channelMembersDisplay.getController().adminSort();
     }
 
     /**
