@@ -4,9 +4,9 @@ import Communication.messages.abstracts.ClientToServerMessage;
 import Communication.messages.server_to_client.chat_action.proprietary_channels.TellOwnerToDeleteMessageMessage;
 import Communication.messages.server_to_client.chat_action.proprietary_channels.TellOwnerToLikeMessageMessage;
 import Communication.server.CommunicationServerController;
-import common.sharedData.Channel;
-import common.sharedData.Message;
-import common.sharedData.UserLite;
+import common.shared_data.Channel;
+import common.shared_data.Message;
+import common.shared_data.UserLite;
 
 import java.util.UUID;
 

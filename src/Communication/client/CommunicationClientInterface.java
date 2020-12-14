@@ -179,7 +179,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
      * Envoie une demande d'édite au serveur
      *
      * @param msg     [Message] Message d'origine
-     * @param new_msg [Message] Message modifier
+     * @param newMsg [Message] Message modifier
      * @param channel [Channel] Channel du message a modifier
      **/
     public void editMessage(Message msg, Message newMsg, Channel channel) {

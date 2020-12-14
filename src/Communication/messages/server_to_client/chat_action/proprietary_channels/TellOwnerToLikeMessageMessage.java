@@ -4,8 +4,8 @@ import Communication.client.CommunicationClientController;
 import Communication.messages.abstracts.ServerToClientMessage;
 import Communication.messages.client_to_server.chat_action.proprietary_channels.ValidateSaveLikeMessageMessage;
 import Communication.messages.client_to_server.chat_action.proprietary_channels.ValideDeleteMessageMessage;
-import common.sharedData.Message;
-import common.sharedData.UserLite;
+import common.shared_data.Message;
+import common.shared_data.UserLite;
 
 import java.util.UUID;
 
