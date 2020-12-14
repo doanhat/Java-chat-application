@@ -1,6 +1,5 @@
 package IHMMain.controllers;
 
-
 import IHMMain.IHMMainController;
 import common.shared_data.Channel;
 import javafx.beans.InvalidationListener;

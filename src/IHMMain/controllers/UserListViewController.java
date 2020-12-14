@@ -13,13 +13,7 @@ import javafx.scene.control.TextField;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class UserListViewController implements Initializable{
-
-    private MainWindowController mainWindowController;
-
-    private ObservableList<UserLite> connectedUsersObservableList ;
-
-
+public class UserListViewController implements Initializable {
     @FXML
     private ListView<UserLite> connectedUsersListView;
     @FXML
@@ -28,7 +22,8 @@ public class UserListViewController implements Initializable{
     private CheckBox filtrerChannelCheckBox;
 
     public void setMainWindowController(MainWindowController mainWindowController) {
-        this.mainWindowController = mainWindowController;
+        ObservableList<UserLite> connectedUsersObservableList ;
+
         connectedUsersObservableList= mainWindowController.getIhmMainController().getConnectedUsers();
         FilteredList<UserLite> filteredData = new FilteredList<>(connectedUsersObservableList, b-> true);
         filteredInput.textProperty().addListener((observable,oldValue,newValue) -> {
@@ -37,13 +32,10 @@ public class UserListViewController implements Initializable{
                     return true;
                 }
                 String lowerCaseFilter = newValue.toLowerCase();
-                if(userLite.getNickName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
-                    return true;
-                } else
-                    return false;
+                return (userLite.getNickName().toLowerCase().indexOf(lowerCaseFilter) != -1);
             });
             //Added for channel filter
-            if(filtrerChannelCheckBox.isSelected()){
+            if(filtrerChannelCheckBox.isSelected()) {
                 
             }
         });
