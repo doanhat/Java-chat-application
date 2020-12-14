@@ -4,6 +4,7 @@ import Communication.client.CommunicationClientController;
 import Communication.messages.abstracts.ServerToClientMessage;
 import common.shared_data.UserLite;
 
+import java.io.IOException;
 import java.util.UUID;
 
 public class NewUserAuthorizeChannelMessage extends ServerToClientMessage {
@@ -25,6 +26,10 @@ public class NewUserAuthorizeChannelMessage extends ServerToClientMessage {
 
     @Override
     protected void handle(CommunicationClientController commClientController) {
-        commClientController.notifyUserAuthorizeChannel(user, channelID);
+        try {
+            commClientController.notifyUserAuthorizeChannel(user, channelID);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -10,6 +10,7 @@ import common.shared_data.Message;
 import common.shared_data.UserLite;
 import common.shared_data.ChannelType;
 import common.shared_data.Visibility;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
@@ -68,6 +69,7 @@ public class ChannelController {
     ChannelMembersDisplay channelMembersDisplay;
 
     Boolean seeMessages = true;
+    Boolean changeRight = true;
     Boolean leavePossible = true;
 
     public Channel getCurrentChannel() {
@@ -152,13 +154,19 @@ public class ChannelController {
         channelMessagesDisplay.getController().addMessageToObservableList(receivedMessage);
     }
 
+    public void addUser(UserLite user) throws IOException {
+        currentChannel.addAuthorizedUser(user);
+        channelMembersDisplay.getController().setCurrentChannel(currentChannel);
+    }
+    public void removeUser(UserLite user) throws IOException {
+        currentChannel.removeUser(user.getId());
+        channelMembersDisplay.getController().setCurrentChannel(currentChannel);
+    }
 
     public void addNewAdmin(UserLite user) throws IOException {
         currentChannel.addAdmin(user);
         channelMembersDisplay.getController().setCurrentChannel(currentChannel);
-        // Faut-il mettre a jour nous même le channel dans les composants fils?
     }
-
     /**
      * Méthode déclenchée au clic sur le bouton "voir les membres"
      */
@@ -181,14 +189,21 @@ public class ChannelController {
     public void addUserToChannel() {
         //Affiche le FXML "AddMemberPopUp" dans une pop-up
         //En JavaFX, pop-up = fenêtre transparente sans aucun style.
-
         Popup popup = new Popup();
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../views/AddMemberPopUp.fxml"));
             popup.getContent().add(fxmlLoader.load());
             AddMemberPopUpController addMemberPopUpController = fxmlLoader.getController();
             addMemberPopUpController.setChannelController(this);
-            addMemberPopUpController.setUsersObservableList(this.getIhmChannelController().getInterfaceToIHMMain().getConnectedUsersList());
+
+            List<UserLite> usersToInvite = FXCollections.observableArrayList();
+            this.getIhmChannelController().getInterfaceToIHMMain().getConnectedUsersList().forEach(userLite -> {
+                if(!currentChannel.getAuthorizedPersons().contains(userLite)){
+                    usersToInvite.add(userLite);
+                }
+            });
+
+            addMemberPopUpController.setUsersObservableList(usersToInvite);
             popup.setAutoHide(true); //disparaît si on clique ailleurs
             Bounds screenBounds = addMemberBtn.localToScreen(addMemberBtn.getBoundsInLocal()); //alignement pop up et bouton
             popup.show(addMemberBtn.getScene().getWindow(), screenBounds.getMinX(), screenBounds.getMaxY());
@@ -285,7 +300,9 @@ public class ChannelController {
      * Clic sur "Changer les droits" depuis le menu contextuel
      */
     public void changeRights() {
-        //TODO implémenter la méthode
+        pageToDisplay.setCenter(channelMembersDisplay.root);
+        channelMembersDisplay.getController().viewMode.selectToggle(channelMembersDisplay.getController().adminBtn);
+        channelMembersDisplay.getController().adminSort();
     }
 
     /**
@@ -346,4 +363,5 @@ public class ChannelController {
     public void deleteMessage(Message message, boolean deletedByCreator) {
         channelMessagesDisplay.getController().getMessagesMap().get(message.getId()).replaceDeletedMessage(deletedByCreator);
     }
+
 }
