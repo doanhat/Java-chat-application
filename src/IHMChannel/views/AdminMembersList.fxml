@@ -12,7 +12,7 @@
             fx:controller="IHMChannel.controllers.AdminMembersListController">
     <VBox prefWidth="1400">
         <Label text="Créateur :" />
-        <ListView fx:id="creatorList" maxHeight="50" />
+        <ListView fx:id="creatorList" maxHeight="75" />
         <Label text="Administrateur :" />
         <ListView fx:id="adminList" maxHeight="150" />
         <Label text="Liste des membres :"  />

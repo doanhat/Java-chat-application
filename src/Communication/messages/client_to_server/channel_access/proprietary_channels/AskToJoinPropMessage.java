@@ -1,0 +1,26 @@
+package Communication.messages.client_to_server.channel_access.proprietary_channels;
+
+import Communication.messages.abstracts.ClientToServerMessage;
+import Communication.server.CommunicationServerController;
+import Communication.messages.server_to_client.channel_access.propietary_channels.TellOwnerUserJoinedMessage;
+import common.shared_data.UserLite;
+
+import java.util.UUID;
+
+public class AskToJoinPropMessage extends ClientToServerMessage {
+    private static final long serialVersionUID = -1923313673314704993L;
+    private final UserLite sender;
+    private final UserLite channelOwner;
+    private final UUID channelID;
+
+    public AskToJoinPropMessage(UUID channelID, UserLite requester, UserLite owner) {
+        this.sender = requester;
+        this.channelID = channelID;
+        this.channelOwner = owner;
+    }
+
+    @Override
+    protected void handle(CommunicationServerController commController) {
+        commController.sendMessage(channelOwner.getId(), new TellOwnerUserJoinedMessage(sender, channelID));
+    }
+}

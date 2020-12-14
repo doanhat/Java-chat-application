@@ -1,7 +1,7 @@
 package app;
 
 import Communication.client.CommunicationClientController;
-import Data.client.DataClientController;
+import data.client.DataClientController;
 import IHMChannel.IHMChannelController;
 import IHMMain.IHMMainController;
 import javafx.application.Application;
@@ -9,7 +9,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import Communication.client.CommunicationClientInterface;
 
 public class Main extends Application {
 
@@ -51,11 +50,11 @@ public class Main extends Application {
 
 
         MainWindowController mainWindowController = loader.getController();
-        mainWindowController.getConnectionController().setIhmMainController(ihmMainController);
+        mainWindowController.setPrimaryStage(primaryStage);
         mainWindowController.setIhmMainController(ihmMainController);
         ihmMainController.setMainWindowController(mainWindowController);
 
-
+        mainWindowController.loadConnectionWindow();
 
         primaryStage.setTitle("LO23-Chat-Application");
         primaryStage.setScene(new Scene(root));

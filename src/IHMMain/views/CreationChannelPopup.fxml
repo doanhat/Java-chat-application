@@ -14,18 +14,18 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="ap" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IHMMain.controllers.CreationChannelPopupController">
+<AnchorPane fx:id="ap" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../../common/IHMCommon/common.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IHMMain.controllers.CreationChannelPopupController">
    <children>
-      <VBox alignment="CENTER" layoutX="250.0" layoutY="42.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox alignment="CENTER" layoutX="250.0" layoutY="42.0" stylesheets="@../style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label alignment="CENTER" prefHeight="17.0" prefWidth="193.0" text="Création d'un nouveau channel" textAlignment="CENTER">
+            <Label alignment="CENTER" prefHeight="74.0" prefWidth="629.0" styleClass="secondary-title" text="Création d'un nouveau channel" textAlignment="CENTER" textFill="#a63a49">
                <padding>
                   <Insets bottom="10.0" top="10.0" />
                </padding>
             </Label>
             <HBox prefHeight="60.0" prefWidth="600.0">
                <children>
-                  <Label text="Nom du channel*" />
+                  <Label prefHeight="40.0" prefWidth="134.0" styleClass="form-label" text="Nom du channel*" />
                   <TextField fx:id="channelName" prefHeight="25.0" prefWidth="470.0" HBox.hgrow="ALWAYS">
                      <opaqueInsets>
                         <Insets />
@@ -41,7 +41,7 @@
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Label prefHeight="39.0" prefWidth="93.0" text="Description du channel" wrapText="true" HBox.hgrow="NEVER" />
+                  <Label prefHeight="66.0" prefWidth="139.0" styleClass="form-label" text="Description du channel" textOverrun="CLIP" wrapText="true" HBox.hgrow="NEVER" />
                   <TextArea fx:id="channelDescription" prefHeight="68.0" prefWidth="476.0" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets left="10.0" />
@@ -65,43 +65,43 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label text="Channel partagé" textAlignment="CENTER" GridPane.columnIndex="1">
+                  <Label styleClass="form-label" text="Channel partagé" textAlignment="CENTER" GridPane.columnIndex="1">
                      <GridPane.margin>
                         <Insets />
                      </GridPane.margin>
                   </Label>
-                  <Label text="Channel propriétaire" textAlignment="CENTER" GridPane.columnIndex="3" />
-                  <Label text="Channel public" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Label text="Channel privé" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                  <RadioButton fx:id="sharedChannelButton" mnemonicParsing="false" selected="true" GridPane.columnIndex="2">
+                  <Label styleClass="form-label" text="Channel propriétaire" textAlignment="CENTER" GridPane.columnIndex="3" />
+                  <Label styleClass="form-label" text="Channel public" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Label styleClass="form-label" text="Channel privé" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                  <RadioButton fx:id="sharedChannelButton" mnemonicParsing="false" selected="true" styleClass="btn-radio" GridPane.columnIndex="2">
                      <toggleGroup>
                         <ToggleGroup fx:id="TypeHostChannel" />
                      </toggleGroup>
                   </RadioButton>
-                  <RadioButton fx:id="publicChannelButton" mnemonicParsing="false" selected="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                  <RadioButton fx:id="publicChannelButton" mnemonicParsing="false" selected="true" styleClass="btn-radio" GridPane.columnIndex="2" GridPane.rowIndex="1">
                      <toggleGroup>
                         <ToggleGroup fx:id="TypeVisibilityChannel" />
                      </toggleGroup>
                   </RadioButton>
-                  <RadioButton mnemonicParsing="false" toggleGroup="$TypeHostChannel" GridPane.columnIndex="4" />
-                  <RadioButton mnemonicParsing="false" toggleGroup="$TypeVisibilityChannel" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-                  <Label text="Type de host" />
-                  <Label text="Visibilité du channel" GridPane.rowIndex="1" />
+                  <RadioButton mnemonicParsing="false" styleClass="btn-radio" toggleGroup="$TypeHostChannel" GridPane.columnIndex="4" />
+                  <RadioButton mnemonicParsing="false" styleClass="btn-radio" toggleGroup="$TypeVisibilityChannel" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                  <Label styleClass="form-label" text="Type de host" />
+                  <Label styleClass="form-label" text="Visibilité du channel" GridPane.rowIndex="1" />
                </children>
             </GridPane>
-            <Label fx:id="errorLabel" textFill="RED">
+            <Label fx:id="errorLabel" styleClass="form-label" textFill="RED">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
             </Label>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#confirmCreation" text="Confirmer">
+                  <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#confirmCreation" styleClass="primary-btn" text="Confirmer">
                      <HBox.margin>
                         <Insets right="50.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelCreation" text="Annuler">
+                  <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelCreation" styleClass="critical-btn" text="Annuler">
                      <HBox.margin>
                         <Insets left="50.0" />
                      </HBox.margin>

@@ -2,6 +2,7 @@ package IHMMain.controllers;
 
 import IHMMain.IHMMainController;
 import app.MainWindowController;
+import common.shared_data.ConnectionStatus;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -88,15 +89,18 @@ public class ConnectionController implements Initializable{
             errors.append("Veuillez saisir un identifiant\n");
         }
         if (password.isEmpty()) {
-            errors.append("Veuillez saisir un mot de passe\n"); 
+            errors.append("Veuillez saisir un mot de passe\n");
         }
         if (checkMandatoryFields(errors)) {
-            // TODO uncomment when integration is done
-            ihmMainController.getIHMMainToData().localAuthentification(
+            if (!ihmMainController.getIHMMainToData().localAuthentification(
                     userConnectionIDTextField.getText().trim(),
-                    password);
-            // Manque vérification de la connexion : localAuthentification() devrait renvoyer une valeur booléenne à tester avant d'afficher IHMMainWindow
-            mainWindowController.loadIHMMainWindow();
+                    password)) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Alerte");
+                alert.setHeaderText("Connexion impossible");
+                alert.setContentText("Identifiant ou mot de passe incorrect");
+                alert.showAndWait();
+            };
         }
     }
 
@@ -118,17 +122,29 @@ public class ConnectionController implements Initializable{
             errors.append("Veuillez saisir un mot de passe\n");
         }
         if (checkMandatoryFields(errors)) {
-            ihmMainController.getIHMMainToData().createAccount(
+            if (!ihmMainController.getIHMMainToData().createAccount(
                     userSubscriptionIDTextField.getText().trim(),
                     chooseFileTextField.getText(),
                     password,
                     surnameTextField.getText(),
                     nameTextField.getText(),
-                    dateOfBirth);
-            // Manque vérification de l'inscription : createAccount() devrait renvoyer une valeur booléenne à tester avant d'afficher IHMMainWindow
-
-            mainWindowController.loadIHMMainWindow();
-
+                    dateOfBirth)) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Alerte");
+                alert.setHeaderText("Inscription impossible");
+                alert.showAndWait();
+            } else {
+                if (!ihmMainController.getIHMMainToData().localAuthentification(
+                        userSubscriptionIDTextField.getText().trim(),
+                        password)) {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Alerte");
+                    alert.setHeaderText("Connexion impossible");
+                    alert.setContentText("Identifiant ou mot de passe incorrect");
+                    alert.showAndWait();
+                };
+                //loadIHMMainWindow(0);
+            }
         }
     }
 
@@ -188,5 +204,17 @@ public class ConnectionController implements Initializable{
             return false;
         }
         return true;
+    }
+
+    public void loadIHMMainWindow(ConnectionStatus status) {
+        if (status != ConnectionStatus.CONNECTED) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Alerte");
+            alert.setHeaderText("Connexion impossible");
+            alert.setContentText("Erreur de connexion au serveur");
+            alert.showAndWait();
+        } else {
+            mainWindowController.loadIHMMainWindow();
+        }
     }
 }

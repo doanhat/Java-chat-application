@@ -2,8 +2,8 @@ package tests.communication;
 
 import Communication.server.CommunicationServerController;
 import common.interfaces.server.IServerCommunicationToData;
-import common.sharedData.Channel;
-import common.sharedData.UserLite;
+import common.shared_data.Channel;
+import common.shared_data.UserLite;
 import tests.communication.interfaces_simulation.VirtualDataServer;
 
 import java.util.*;
