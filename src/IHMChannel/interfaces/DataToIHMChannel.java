@@ -19,6 +19,7 @@ public class DataToIHMChannel implements IDataToIHMChannel{
         this.controller = controller;
     }
 
+    
     /**
      * Permet de traiter la suppression du channel actuellement ouvert sur l'interface.
      * @param channelId channel supprimé
