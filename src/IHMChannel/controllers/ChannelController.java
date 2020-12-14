@@ -328,7 +328,7 @@ public class ChannelController {
 
         if (result){
             //appel interface /!\ UnsupportedOperationException : not implemented yet pour le moment (sera réglé avec integ)
-            this.getIhmChannelController().getInterfaceForData().openChannelDeleted(this.currentChannel);
+            this.getIhmChannelController().getInterfaceForData().openChannelDeleted(this.currentChannel.getId());
         }
     }
 
