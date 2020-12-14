@@ -93,6 +93,17 @@ public class CommunicationClientInterface implements IDataToCommunication,
         this.commController.sendMessage(new CreateSharedChannelMessage(owner, channel, isShared, isPublic));
     }
 
+    @Override
+    public void saveAvatarToServer(UserLite user, String encodedString) {
+        //TODO Note Data : Appeler saveAvatarToServer(UserLite user, String avatarBase64) dans IServerCommunicationToData
+    }
+
+    @Override
+    public String getAvatarPath(UserLite user) {
+        //TODO Note Data : Appeler getAvatarPath(UserLite user) dans IServerCommunicationToData
+        return null;
+    }
+
     /* -------------------------- IIHMChannelToCommunication interface implementations -------------------------------*/
 
     /**

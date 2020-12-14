@@ -2,7 +2,10 @@ package data.server;
 
 import common.interfaces.server.IServerCommunicationToData;
 import common.shared_data.*;
-
+import data.resource_handle.FileHandle;
+import data.resource_handle.FileType;
+import data.resource_handle.LocationType;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -30,19 +33,30 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     @Override
     public boolean requestChannelRemoval(UUID channelID, UserLite user) {
         Channel channel = channelsListController.searchChannelById(channelID);
-        if(channel!=null){
-            if(channel.userIsAdmin(user.getId())) {
-                channelsListController.removeChannel(channelID);
-                return true;
-            }
+        if(channel!=null && channel.userIsAdmin(user.getId())){
+            channelsListController.removeChannel(channelID);
+            return true;
         }
         return false;
     }
 
 
     @Override
-    public List<UserLite> updateChannel(Channel channel) {
-        return null;
+    public void updateChannel(UUID channelID, UUID userID, String name, String description, Visibility visibility) {
+        Channel channel = channelsListController.searchChannelById(channelID);
+        if(channel != null){
+            if(channel.userIsAdmin(userID)){
+                if (name!=null)
+                    channel.setName(name);
+                if(description!= null)
+                    channel.setDescription(description);
+                if(visibility!=null)
+                    channel.setVisibility(visibility);
+                if(channel.getType().equals(ChannelType.SHARED)){
+                    channelsListController.writeChannelDataToJSON(channel);
+                }
+            }
+        }
     }
 
 
@@ -70,7 +84,6 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     @Override
     public void saveNewAdminIntoHistory(Channel ch, UserLite user) {
         Channel channel = this.channelsListController.searchChannelById(ch.getId());
-
         this.channelsListController.writeNewAdminInChannel(channel, user);
     }
 
@@ -97,18 +110,19 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
     @Override
     public void editMessage(Channel channel, Message ms) {
-
+        throw new UnsupportedOperationException("Unimplemented method editMessage.");
     }
 
 
     @Override
     public void saveLikeIntoHistory(Channel ch, Message ms, UserLite user) {
+        throw new UnsupportedOperationException("Unimplemented method saveLikeIntoHistory.");
     }
 
 
     @Override
     public void saveRemovalMessageIntoHistory(Channel ch, Message ms, Boolean deletedByCreator) {
-
+        this.channelsListController.writeRemovalMessageInChannel(ch, ms, deletedByCreator);
     }
 
     @Override
@@ -178,20 +192,16 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
     @Override
     public void disconnectUser(UUID userID) {
-        if(userID!=null){
-            if(userListController.userIsConnected(userID)){
-                userListController.removeConnectedUser(userID);
-            }
+        if(userID!=null && userListController.userIsConnected(userID)){
+            userListController.removeConnectedUser(userID);
         }
     }
 
 
     @Override
     public void newConnection(UserLite user) {
-        if(user.getId()!=null){
-            if(!userListController.userIsConnected(user.getId())){
-                userListController.addConnectedUser(user);
-            }
+        if(user.getId()!=null && !userListController.userIsConnected(user.getId())){
+            userListController.addConnectedUser(user);
         }
     }
 
@@ -202,12 +212,12 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
     @Override
     public void updateNickname(Channel ch, UserLite user, String newNickname) {
-
+        throw new UnsupportedOperationException("Unimplemented method updateNickname.");
     }
 
     @Override
     public void sendChannelInvitation(UserLite sender, UserLite receiver, String message) {
-
+        throw new UnsupportedOperationException("Unimplemented method sendChannelInvitation.");
     }
 
     @Override
@@ -255,8 +265,74 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
     @Override
     public List<Channel> disconnectOwnedChannel(UserLite owner) {
-        return channelsListController.disconnectOwnedChannel(owner);
+        //Remove channels from owned Channel List in server
+        List <Channel> removedChannels = channelsListController.disconnectOwnedChannel(owner);
+
+        //Remove active users from channels that have been removed
+        for(Channel channel : removedChannels){
+            userListController.removeActiveUsersFromChannel(channel.getId());
+        }
+        return removedChannels;
     }
 
+    @Override
+    public List<UUID> getChannelsWhereUser(UUID userID) {
+        return channelsListController.getChannelsWhereUser(userID);
+    }
+
+    @Override
+    public List<UUID> getChannelsWhereUserActive(UUID userID) {
+        return userListController.getChannelsWhereUserActive(userID);
+    }
+
+    @Override
+    public List<UserLite> getActiveUsersInChannel(UUID channelID) {
+        return userListController.getActiveUsersInChannel(channelID);
+    }
+
+
+    @Override
+    public void addOwnedChannelsToServerList(List<Channel> ownedChannels, UUID ownerID) {
+        for (Channel channel: ownedChannels) {
+            //Add channel to the server list of channels
+            channelsListController.addChannel(channel);
+
+            //Add active users for each ownedChannel when users are connected
+            for (UserLite user: channel.getJoinedPersons()) {
+                if(userListController.userIsConnected(user.getId())){
+                    userListController.addActiveUser(user.getId(),channel.getId());
+                }
+            }
+        }
+    }
+
+    /**
+     * Envoyer une image encodée en string Base64 au server pour stocker
+     *
+     * @param user          utilisateur ayant l'image comme avatar
+     * @param encodedString le string encodée en Base64
+     */
+    @Override
+    public void saveAvatarToServer(UserLite user, String encodedString) {
+        FileHandle fileHandle = new FileHandle(LocationType.SERVER, FileType.AVATAR);
+        try {
+            fileHandle.writeEncodedStringToFile(encodedString,user.getId().toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * Récupérer le chemin vers l'avatar de l'utilisateur dans le serveur
+     *
+     * @param user utilisateur
+     * @return
+     */
+    @Override
+    public String getAvatarPath(UserLite user) {
+        FileHandle fileHandle = new FileHandle(LocationType.SERVER, FileType.AVATAR);
+        return fileHandle.getAvatarPath(user.getId().toString());
+    }
 
 }

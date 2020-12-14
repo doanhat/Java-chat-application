@@ -163,7 +163,8 @@ public class DataClientHandler {
                 dataClient.saveLikeIntoHistory(chatPackage.channelID, chatPackage.message, chatPackage.sender);
                 break;
             case DELETE_MESSAGE:
-                dataClient.saveDeletionIntoHistory(chatPackage.message, null, chatPackage.channelID);
+                // TODO Integ V3 Data : il manque une paramètre
+                //dataClient.saveDeletionIntoHistory(chatPackage.message, null, chatPackage.channelID);
                 break;
             case EDIT_NICKNAME:
                 dataClient.saveNicknameIntoHistory(chatPackage.sender, chatPackage.channelID, chatPackage.nickname);
