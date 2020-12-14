@@ -1,6 +1,6 @@
 package Communication.common;
 
-public enum ChatOperation {
+public enum ChannelOperation {
     SEND_MESSAGE,
     EDIT_MESSAGE,
     LIKE_MESSAGE,

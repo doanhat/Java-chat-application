@@ -310,32 +310,32 @@ public class CommunicationServerController extends CommunicationController {
 	/* ----------------------------------------- Chat action handling ------------------------------------------------*/
 
 
-	public void handleChat(ChatOperation operation, ChatPackage chatPackage) {
-		Channel channel = getChannel(chatPackage.channelID);
+	public void handleChat(ChannelOperation operation, InfoPackage infoPackage) {
+		Channel channel = getChannel(infoPackage.channelID);
 
-		logger.log(Level.INFO, "Chat action: " + operation + " on channel " + chatPackage.channelID);
+		logger.log(Level.INFO, "Chat action: " + operation + " on channel " + infoPackage.channelID);
 
 		// Tell data server to save message for both shared and proprietary channels, in order to update active Channel on server
 		switch (operation) {
 			case SEND_MESSAGE:
-				dataServer.saveMessageIntoHistory(channel, chatPackage.message, chatPackage.messageResponseTo);
+				dataServer.saveMessageIntoHistory(channel, infoPackage.message, infoPackage.messageResponseTo);
 				break;
 			case EDIT_MESSAGE:
-				dataServer.editMessage(channel, chatPackage.editedMessage);
+				dataServer.editMessage(channel, infoPackage.editedMessage);
 				break;
 			case LIKE_MESSAGE:
-				dataServer.saveLikeIntoHistory(channel, chatPackage.message, chatPackage.user);
+				dataServer.saveLikeIntoHistory(channel, infoPackage.message, infoPackage.user);
 				break;
 			case DELETE_MESSAGE:
 				dataServer.saveRemovalMessageIntoHistory(channel,
-														 chatPackage.message,
-														 chatPackage.user.getId().equals(chatPackage.message.getAuthor().getId()));
+														 infoPackage.message,
+														 infoPackage.user.getId().equals(infoPackage.message.getAuthor().getId()));
 				break;
 			case EDIT_NICKNAME:
-				dataServer.updateNickname(channel, chatPackage.user, chatPackage.nickname);
+				dataServer.updateNickname(channel, infoPackage.user, infoPackage.nickname);
 				break;
 			case ADD_ADMIN:
-				dataServer.saveNewAdminIntoHistory(channel, chatPackage.user);
+				dataServer.saveNewAdminIntoHistory(channel, infoPackage.user);
 				break;
 			case REMOVE_ADMIN:
 				// TODO INTEGRATION V3 Tell data server to remove admin
@@ -344,6 +344,6 @@ public class CommunicationServerController extends CommunicationController {
 				logger.log(Level.WARNING, "ChatMessage: opetration inconnue");
 		}
 
-		sendMulticast(channel.getJoinedPersons(), new ReceiveChatMessage(operation, chatPackage));
+		sendMulticast(channel.getJoinedPersons(), new ReceiveChatMessage(operation, infoPackage));
 	}
 }

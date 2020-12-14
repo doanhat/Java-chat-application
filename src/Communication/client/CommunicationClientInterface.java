@@ -1,7 +1,7 @@
 package Communication.client;
 
-import Communication.common.ChatOperation;
-import Communication.common.ChatPackage;
+import Communication.common.ChannelOperation;
+import Communication.common.InfoPackage;
 import Communication.common.Parameters;
 import Communication.messages.client_to_server.channel_access.proprietary_channels.LeavePropChannelMessage;
 import Communication.messages.client_to_server.channel_access.shared_channels.LeaveSharedChannelMessage;
@@ -133,11 +133,11 @@ public class CommunicationClientInterface implements IDataToCommunication,
             return;
         }
 
-        ChatPackage chatPackage = new ChatPackage();
-        chatPackage.user = user;
-        chatPackage.channelID = channel.getId();
+        InfoPackage infoPackage = new InfoPackage();
+        infoPackage.user = user;
+        infoPackage.channelID = channel.getId();
 
-        this.commController.sendMessage(new ChatMessage(ChatOperation.ADD_ADMIN, chatPackage));
+        this.commController.sendMessage(new ChatMessage(ChannelOperation.ADD_ADMIN, infoPackage));
     }
 
     @Override
@@ -146,11 +146,11 @@ public class CommunicationClientInterface implements IDataToCommunication,
             return;
         }
 
-        ChatPackage chatPackage = new ChatPackage();
-        chatPackage.user = user;
-        chatPackage.channelID = channel.getId();
+        InfoPackage infoPackage = new InfoPackage();
+        infoPackage.user = user;
+        infoPackage.channelID = channel.getId();
 
-        this.commController.sendMessage(new ChatMessage(ChatOperation.REMOVE_ADMIN, chatPackage));
+        this.commController.sendMessage(new ChatMessage(ChannelOperation.REMOVE_ADMIN, infoPackage));
     }
 
     /**
@@ -176,13 +176,13 @@ public class CommunicationClientInterface implements IDataToCommunication,
             return;
         }
 
-        ChatPackage chatPackage = new ChatPackage();
-        chatPackage.user = localUser;
-        chatPackage.message = msg;
-        chatPackage.channelID = channel.getId();
-        chatPackage.messageResponseTo = response;
+        InfoPackage infoPackage = new InfoPackage();
+        infoPackage.user = localUser;
+        infoPackage.message = msg;
+        infoPackage.channelID = channel.getId();
+        infoPackage.messageResponseTo = response;
 
-        this.commController.sendMessage(new ChatMessage(ChatOperation.SEND_MESSAGE, chatPackage));
+        this.commController.sendMessage(new ChatMessage(ChannelOperation.SEND_MESSAGE, infoPackage));
     }
 
     /**
@@ -197,13 +197,13 @@ public class CommunicationClientInterface implements IDataToCommunication,
             return;
         }
 
-        ChatPackage chatPackage = new ChatPackage();
-        chatPackage.user = localUser;
-        chatPackage.message = msg;
-        chatPackage.channelID = channel.getId();
-        chatPackage.editedMessage = newMsg;
+        InfoPackage infoPackage = new InfoPackage();
+        infoPackage.user = localUser;
+        infoPackage.message = msg;
+        infoPackage.channelID = channel.getId();
+        infoPackage.editedMessage = newMsg;
 
-        this.commController.sendMessage(new ChatMessage(ChatOperation.EDIT_MESSAGE, chatPackage));
+        this.commController.sendMessage(new ChatMessage(ChannelOperation.EDIT_MESSAGE, infoPackage));
     }
 
     /**
@@ -218,12 +218,12 @@ public class CommunicationClientInterface implements IDataToCommunication,
             return;
         }
 
-        ChatPackage chatPackage = new ChatPackage();
-        chatPackage.user = user;
-        chatPackage.message = msg;
-        chatPackage.channelID = channel.getId();
+        InfoPackage infoPackage = new InfoPackage();
+        infoPackage.user = user;
+        infoPackage.message = msg;
+        infoPackage.channelID = channel.getId();
 
-        this.commController.sendMessage(new ChatMessage(ChatOperation.LIKE_MESSAGE, chatPackage));
+        this.commController.sendMessage(new ChatMessage(ChannelOperation.LIKE_MESSAGE, infoPackage));
     }
 
     /**
@@ -238,12 +238,12 @@ public class CommunicationClientInterface implements IDataToCommunication,
             return;
         }
 
-        ChatPackage chatPackage = new ChatPackage();
-        chatPackage.user = user;
-        chatPackage.message = msg;
-        chatPackage.channelID = channel.getId();
+        InfoPackage infoPackage = new InfoPackage();
+        infoPackage.user = user;
+        infoPackage.message = msg;
+        infoPackage.channelID = channel.getId();
 
-        this.commController.sendMessage(new ChatMessage(ChatOperation.DELETE_MESSAGE, chatPackage));
+        this.commController.sendMessage(new ChatMessage(ChannelOperation.DELETE_MESSAGE, infoPackage));
     }
 
     /**
@@ -258,12 +258,12 @@ public class CommunicationClientInterface implements IDataToCommunication,
             return;
         }
 
-        ChatPackage chatPackage = new ChatPackage();
-        chatPackage.user = user;
-        chatPackage.nickname = newNickname;
-        chatPackage.channelID = channel.getId();
+        InfoPackage infoPackage = new InfoPackage();
+        infoPackage.user = user;
+        infoPackage.nickname = newNickname;
+        infoPackage.channelID = channel.getId();
 
-        this.commController.sendMessage(new ChatMessage(ChatOperation.EDIT_MESSAGE, chatPackage));
+        this.commController.sendMessage(new ChatMessage(ChannelOperation.EDIT_MESSAGE, infoPackage));
     }
 
     /**

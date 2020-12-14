@@ -1,7 +1,7 @@
 package Communication.client;
 
-import Communication.common.ChatOperation;
-import Communication.common.ChatPackage;
+import Communication.common.ChannelOperation;
+import Communication.common.InfoPackage;
 import common.interfaces.client.ICommunicationToData;
 import common.shared_data.Message;
 import common.shared_data.UserLite;
@@ -42,31 +42,31 @@ public class DataClientHandler {
     /**
      * Notifier Data l'action de chat sur un channel
      * @param operation chat operation
-     * @param chatPackage package de chat
+     * @param infoPackage package de chat
      */
-    public void notifyChat(ChatOperation operation, ChatPackage chatPackage) {
-        logger.log(Level.FINE, chatPackage.channelID + " a nouvelle notification de chat: " + operation);
+    public void notifyChat(ChannelOperation operation, InfoPackage infoPackage) {
+        logger.log(Level.FINE, infoPackage.channelID + " a nouvelle notification de chat: " + operation);
 
         switch (operation) {
             case SEND_MESSAGE:
-                dataClient.receiveMessage(chatPackage.message, chatPackage.channelID, chatPackage.messageResponseTo);
+                dataClient.receiveMessage(infoPackage.message, infoPackage.channelID, infoPackage.messageResponseTo);
                 break;
             case EDIT_MESSAGE:
-                dataClient.editMessage(chatPackage.message, chatPackage.editedMessage, chatPackage.channelID);
+                dataClient.editMessage(infoPackage.message, infoPackage.editedMessage, infoPackage.channelID);
                 break;
             case LIKE_MESSAGE:
-                dataClient.likeMessage(chatPackage.channelID, chatPackage.message, chatPackage.user);
+                dataClient.likeMessage(infoPackage.channelID, infoPackage.message, infoPackage.user);
                 break;
             case DELETE_MESSAGE:
-                dataClient.deleteMessage(chatPackage.message,
-                                         chatPackage.channelID,
-                                         chatPackage.user.getId().equals(chatPackage.message.getAuthor().getId()));
+                dataClient.deleteMessage(infoPackage.message,
+                                         infoPackage.channelID,
+                                         infoPackage.user.getId().equals(infoPackage.message.getAuthor().getId()));
                 break;
             case EDIT_NICKNAME:
-                dataClient.updateNickname(chatPackage.user, chatPackage.channelID, chatPackage.nickname);
+                dataClient.updateNickname(infoPackage.user, infoPackage.channelID, infoPackage.nickname);
                 break;
             case ADD_ADMIN:
-                dataClient.newAdmin(chatPackage.user, chatPackage.channelID);
+                dataClient.newAdmin(infoPackage.user, infoPackage.channelID);
                 break;
             case REMOVE_ADMIN:
                 // TODO INTEGRATION V3: tell Data to add method to receive admin removal notification
@@ -131,28 +131,28 @@ public class DataClientHandler {
     /**
      * Sauvegarde l'action de chat sur channel proprietaire
      * @param operation
-     * @param chatPackage
+     * @param infoPackage
      */
-    public void saveChat(ChatOperation operation, ChatPackage chatPackage) {
+    public void saveChat(ChannelOperation operation, InfoPackage infoPackage) {
         switch (operation) {
             case SEND_MESSAGE:
-                dataClient.saveMessageIntoHistory(chatPackage.message, chatPackage.channelID, chatPackage.messageResponseTo);
+                dataClient.saveMessageIntoHistory(infoPackage.message, infoPackage.channelID, infoPackage.messageResponseTo);
                 break;
             case EDIT_MESSAGE:
-                dataClient.saveEditionIntoHistory(chatPackage.message, chatPackage.editedMessage, chatPackage.channelID);
+                dataClient.saveEditionIntoHistory(infoPackage.message, infoPackage.editedMessage, infoPackage.channelID);
                 break;
             case LIKE_MESSAGE:
-                dataClient.saveLikeIntoHistory(chatPackage.channelID, chatPackage.message, chatPackage.user);
+                dataClient.saveLikeIntoHistory(infoPackage.channelID, infoPackage.message, infoPackage.user);
                 break;
             case DELETE_MESSAGE:
                 // TODO Integ V3 Data : il manque une paramètre
                 //dataClient.saveDeletionIntoHistory(chatPackage.message, null, chatPackage.channelID);
                 break;
             case EDIT_NICKNAME:
-                dataClient.saveNicknameIntoHistory(chatPackage.user, chatPackage.channelID, chatPackage.nickname);
+                dataClient.saveNicknameIntoHistory(infoPackage.user, infoPackage.channelID, infoPackage.nickname);
                 break;
             case ADD_ADMIN:
-                dataClient.saveNewAdminIntoHistory(chatPackage.user, chatPackage.channelID);
+                dataClient.saveNewAdminIntoHistory(infoPackage.user, infoPackage.channelID);
                 break;
             case REMOVE_ADMIN:
                 // TODO INTEGRATION V3: tell Data to add method to remove admin from proprietary channel
