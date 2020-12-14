@@ -18,6 +18,7 @@ import Communication.messages.server_to_client.channel_access.UserLeftChannelMes
 
 import Communication.messages.server_to_client.channel_access.ValideUserLeftMessage;
 import common.interfaces.server.IServerCommunicationToData;
+import common.interfaces.server.IServerDataToCommunication;
 import common.shared_data.*;
 
 /**
@@ -29,10 +30,12 @@ public class CommunicationServerController extends CommunicationController {
 	private final NetworkServer server;
 	private IServerCommunicationToData dataServer;
 	private final Logger logger = Logger.getLogger(this.getClass().getName());
+	private  final IServerDataToCommunication commInterface;
 
 	public CommunicationServerController() {
 		super();
 		server = new NetworkServer(this);
+		commInterface = new CommunicationServerInterface(this);
 	}
 
 	/* -------------------------------------------- Setup interfaces -------------------------------------------------*/
@@ -67,6 +70,10 @@ public class CommunicationServerController extends CommunicationController {
 		catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public IServerDataToCommunication getDataToCommunication() {
+		return commInterface;
 	}
 
 	/**

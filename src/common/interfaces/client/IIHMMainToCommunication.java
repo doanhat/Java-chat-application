@@ -8,6 +8,18 @@ import common.shared_data.*;
 public interface IIHMMainToCommunication
 {
     /**
+     * Mettre adresse du serveur
+     * @param addressIP
+     */
+    public void setIP(String addressIP);
+
+    /**
+     * Mettre port du serveur
+     * @param port
+     */
+    public void setPort(int port);
+
+    /**
      * Déconnecter application
      */
     void disconnect();

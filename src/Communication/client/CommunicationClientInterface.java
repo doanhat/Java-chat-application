@@ -63,6 +63,16 @@ public class CommunicationClientInterface implements IDataToCommunication,
 
     /* ---------------------------- IIHMMainToCommunication interface implementations --------------------------------*/
 
+    @Override
+    public void setIP(String addressIP) {
+        Parameters.SERVER_IP = addressIP;
+    }
+
+    @Override
+    public void setPort(int port) {
+        Parameters.PORT = port;
+    }
+
     /**
      * Demande de deconnexion du client
      */

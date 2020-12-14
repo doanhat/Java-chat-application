@@ -9,6 +9,10 @@
     -fx-font-size: 24px;
 }
 
+.channel-list {
+    -fx-background-color: #03254f;
+}
+
 .channel-list-header {
     -fx-background-color: #b9e6ff;
     -fx-padding: 4;
