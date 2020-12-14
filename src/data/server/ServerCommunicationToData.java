@@ -122,7 +122,7 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
     @Override
     public void saveRemovalMessageIntoHistory(Channel ch, Message ms, Boolean deletedByCreator) {
-        throw new UnsupportedOperationException("Unimplemented method saveRemovalMessageIntoHistory.");
+        this.channelsListController.writeRemovalMessageInChannel(ch, ms, deletedByCreator);
     }
 
     @Override

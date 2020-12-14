@@ -18,10 +18,5 @@ public interface IDataToCommunication
      *
      * @param channelID ID de l'objet à supprimer
      **/
-    void delete(UUID channelID);
-
-    void sendProprietaryChannels(List<Channel> channels);
-
-    void sendProprietaryChannel(Channel channel);
-
+    void deleteChannel(UUID channelID);
 }

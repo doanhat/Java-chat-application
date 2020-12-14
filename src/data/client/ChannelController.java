@@ -205,18 +205,12 @@ public class ChannelController extends Controller{
         return new ArrayList<>();
     }
 
-    public void sendOwnedChannelsToServer(){
-        this.comClient.sendProprietaryChannels(this.channelList);
-    }
-    public void sendOwnedChannelToServer(Channel channel){
-        this.comClient.sendProprietaryChannel(channel);
-    }
-
     public void addUserToOwnedChannel(UserLite user, UUID channelId) {
         List<Channel> channels = getChannelList();
         for (Channel c : channels) {
             if(c.getId().equals(channelId)) {
                 c.addJoinedUser(user);
+                c.addAuthorizedUser(user);
                 new FileHandle<Channel>(LocationType.CLIENT, FileType.CHANNEL).writeJSONToFile(channelId.toString(), c);
                 break;
             }

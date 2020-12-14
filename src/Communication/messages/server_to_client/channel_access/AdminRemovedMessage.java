@@ -6,19 +6,19 @@ import common.shared_data.UserLite;
 
 import java.util.UUID;
 
-public class AdminAddedMessage extends ServerToClientMessage {
+public class AdminRemovedMessage extends ServerToClientMessage {
 
-    private static final long serialVersionUID = -19089062L;
+    private static final long serialVersionUID = -19021313562L;
     private final UserLite user;
     private final UUID channelID;
 
-    public AdminAddedMessage(UserLite user, UUID channelID){
+    public AdminRemovedMessage(UserLite user, UUID channelID){
         this.user = user;
         this.channelID = channelID;
     }
 
     @Override
     protected void handle(CommunicationClientController commController) {
-        commController.dataClientHandler().notifyNewAdminAdded(channelID, user);
+        commController.dataClientHandler().notifyAdminRemoved(channelID, user);
     }
 }

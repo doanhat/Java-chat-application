@@ -152,6 +152,30 @@ public class ChannelsListController {
     }
 
     /**
+     * Sets a message as deleted.
+     *
+     * @param channel           Le channel.
+     * @param message           Le message à supprimer.
+     * @param deletedByCreator  L'utilisateur qui demande la suppression est l'auteur.
+     */
+    public void writeRemovalMessageInChannel(Channel channel, Message message, Boolean deletedByCreator) {
+        if (channel.getType() == ChannelType.SHARED) {
+            Channel c = this.searchChannelById(channel.getId());
+            List<Message> ms = c.getMessages();
+
+            for (Message m : ms) {
+                if (m.getId() == message.getId()) {
+                    m.setMessage("");
+                    m.delete(deletedByCreator);
+                    break;
+                }
+            }
+
+            this.writeChannelDataToJSON(c);
+        }
+    }
+
+    /**
      * Enregistre un nouveau admin dans l'historique d'un channel.
      *
      * @param channel   Le channel.
