@@ -10,6 +10,7 @@ import common.shared_data.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -176,7 +177,7 @@ public class ChannelController extends Controller{
      */
     public void deleteUserFromChannel(User user, Channel channel, int duration, String explanation) {
         for (Channel c : getChannelList()) {
-            if (c.getId().equals(channelId)) {
+            if (c.getId().equals(channel.getId())) {
                 c.removeUser(user.getId());
                 if (duration >= 0) {
                     Date now = new Date();
