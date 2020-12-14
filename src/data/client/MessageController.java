@@ -60,10 +60,23 @@ public class MessageController extends Controller{
      *
      * @param oldMessage the old message
      * @param newMessage the new message
-     * @param channel    the channel
+     * @param channelId    the channel
      */
-    public void saveEditionIntoHistory(Message oldMessage, Message newMessage, Channel channel) {
-        throw new UnsupportedOperationException();
+    public void saveEditionIntoHistory(Message oldMessage, Message newMessage, UUID channelId) {
+        FileHandle fileHandler = new FileHandle(LocationType.CLIENT, FileType.CHANNEL);
+        Channel channel = this.channelClient.getChannel(channelId);
+        if (channel != null) {
+            List<Message> listMsg = channel.getMessages();
+            for (Message msg : listMsg) {
+                if(msg.equals(oldMessage)) {
+                    msg.setEdited(true);
+                    msg.setMessage(newMessage.getMessage());
+                    break;
+                }
+            }
+            channel.setMessages(listMsg);
+            fileHandler.writeJSONToFile(channel.getId().toString(), channel);
+        }
     }
 
     /**
@@ -71,10 +84,11 @@ public class MessageController extends Controller{
      *
      * @param message    the message
      * @param newMessage the new message
-     * @param channel    the channel
+     * @param channelId    the channel ID
      */
-    public void editMessage(Message message, Message newMessage, Channel channel) {
-        throw new UnsupportedOperationException();
+    public void editMessage(Message message, Message newMessage, UUID channelId) {
+        //Commentaire à supprimer une fois le changement effectué dans IDataToIHMChannel
+        //channelClient.editMessage(message, newMessage, channelId);
     }
 
     /**

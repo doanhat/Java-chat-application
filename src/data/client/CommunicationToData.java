@@ -165,7 +165,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void saveEditionIntoHistory(Message oldMessage, Message newMessage, UUID channelId) {
-        throw new UnsupportedOperationException();
+        this.dataController.getMessageController().saveEditionIntoHistory(oldMessage, newMessage, channelId);
     }
 
     /**
@@ -177,7 +177,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void editMessage(Message message, Message newMessage, UUID channelId) {
-        throw new UnsupportedOperationException();
+        this.dataController.getMessageController().editMessage(message, newMessage, channelId);
     }
 
     /**
