@@ -16,21 +16,12 @@ public class UserListController {
         this.channelsListController= channelsListController;
         activeUserList = new ArrayList<>();
     }
-
     public boolean userIsConnected(UUID userID){
         for(UserLite user : connectedUsers){
             if(user.getId().equals(userID))
                 return true;
         }
         return false;
-    }
-
-    public UserLite getConnectedUserInfo(UUID userID){
-        for (UserLite user: connectedUsers) {
-            if (user.getId().equals(userID))
-                return user;
-        }
-        return null;
     }
 
     public void addConnectedUser(UserLite newUser){
@@ -45,16 +36,6 @@ public class UserListController {
             activeUserList.add(au);
         }
     }
-
-    public List<UUID> getChannelsWhereUserActive(UUID userID){
-        List <UUID> res = new ArrayList<>();
-        for (ActiveUser au: activeUserList) {
-            if(au.getUserID().equals(userID))
-                res.add(au.getChannelID());
-        }
-        return res;
-    }
-
     public List<UserLite> getActiveUsersInChannel(UUID channelID){
         List <UserLite> res = new ArrayList<>();
         for (ActiveUser au: activeUserList) {
@@ -73,15 +54,31 @@ public class UserListController {
         activeUserList.removeIf(au -> (au.getUserID().equals(userID)));
     }
 
+    public List<UserLite> getConnectedUsers(){
+        return this.connectedUsers;
+    }
+
+    public UserLite getConnectedUserInfo(UUID userID){
+        for (UserLite user: connectedUsers) {
+            if (user.getId().equals(userID))
+                return user;
+        }
+        return null;
+    }
+    public List<UUID> getChannelsWhereUserActive(UUID userID){
+        List <UUID> res = new ArrayList<>();
+        for (ActiveUser au: activeUserList) {
+            if(au.getUserID().equals(userID))
+                res.add(au.getChannelID());
+        }
+        return res;
+    }
+
     public void addActiveUser(UUID userID, UUID channelID){
         activeUserList.add(new ActiveUser(channelID,userID));
     }
 
     public void removeActiveUsersFromChannel(UUID channelID){
         activeUserList.removeIf(au ->(au.getChannelID()).equals(channelID));
-    }
-
-    public List<UserLite> getConnectedUsers(){
-        return this.connectedUsers;
     }
 }

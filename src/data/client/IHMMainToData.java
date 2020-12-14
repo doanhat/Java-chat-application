@@ -15,6 +15,11 @@ public class IHMMainToData implements IIHMMainToData {
         this.dataController = dataClientController;
     }
 
+    @Override
+    public void disconnect() {
+
+    }
+
     /**
      * Gets connected users.
      *

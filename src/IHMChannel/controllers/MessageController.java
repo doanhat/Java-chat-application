@@ -1,9 +1,9 @@
 package IHMChannel.controllers;
 
+import common.IHMTools.IHMTools;
 import common.shared_data.Message;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
@@ -13,7 +13,7 @@ import javafx.scene.text.Text;
  */
 public class MessageController {
     Message messageToDisplay;
-
+    private ChannelMessagesController channelMessagesController;
     @FXML
     ImageView profilePic;
     @FXML
@@ -97,6 +97,10 @@ public class MessageController {
         // TODO: préparer l'edit de la réponse : dire à ChannelMessageController d'afficher le message parent au dessus de la barre de saisie
         // getChannelMessagesController.setParentMessage(messageToDisplay);
         // getChannelMessagesController.setResponseView();
+        this.channelMessagesController.setIsReponse(true);
+        this.channelMessagesController.userNameReceiver.setText(messageToDisplay.getAuthor().getNickName() + " a dit :");
+        this.channelMessagesController.messageReceiver.setText(messageToDisplay.getMessage());
+        this.channelMessagesController.setParentMessage(messageToDisplay);
     }
 
     /**
@@ -110,10 +114,21 @@ public class MessageController {
      * Méthode appelée au clic sur le bouton de suppresion
      */
     public void deleteMessage(){
-        System.out.println("suppression du message "+this.content.getText());
-        this.content.setText("message supprimé");
+
+
+
+        boolean result = IHMTools.confirmationPopup("Voulez vous supprimer le message ?");
+
+        if (result){
+            System.out.println("suppression du message "+this.content.getText());
+            this.content.setText("message supprimé");
+        }
+
         //Attention, ici on ne màj que l'affichage, les data ne sont pas impactées.
     }
 
+    public void setChannelMessagesController(ChannelMessagesController channelMessagesController) {
+        this.channelMessagesController = channelMessagesController;
+    }
 
 }

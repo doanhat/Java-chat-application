@@ -5,6 +5,7 @@ import common.shared_data.Channel;
 import common.shared_data.Message;
 import common.shared_data.User;
 import common.shared_data.UserLite;
+import javafx.application.Platform;
 
 import java.util.List;
 import java.util.UUID;
@@ -35,7 +36,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void userAddedToChannel(UserLite user, UUID channelId) {
-        dataController.getChannelController().userAddedToChannel(user, channelId);
+                dataController.getChannelController().userAddedToChannel(user, channelId);
     }
 
     /**
@@ -57,7 +58,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void newAdmin(UserLite user, UUID channelId) {
-        dataController.getChannelController().newAdmin(user, channelId);
+        Platform.runLater(() -> dataController.getChannelController().newAdmin(user, channelId));
     }
 
     /**
@@ -69,7 +70,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void removeChannelFromList(UUID channelId, int duration, String explanation) {
-        throw new UnsupportedOperationException();
+        Platform.runLater(() -> dataController.getChannelController().removeChannelFromList(channelId, duration, explanation));
     }
 
     /**
@@ -95,17 +96,19 @@ public class CommunicationToData implements ICommunicationToData {
         throw new UnsupportedOperationException();
     }
 
-    /**
-     * Delete user from channel.
-     *
-     * @param user        the user
-     * @param channelId   the channel
-     * @param duration    the duration
-     * @param explanation the explanation
-     */
     @Override
-    public void deleteUserFromChannel(UserLite user, UUID channelId, int duration, String explanation) {
-        throw new UnsupportedOperationException();
+    public void removeUserFromJoinedUserChannel(UserLite user, UUID channelId, int duration, String explanation) {
+        dataController.getChannelController().removeUserFromJoinedUserChannel(user,channelId);
+    }
+
+    @Override
+    public void removeAllUserFromJoinedUserChannel(UUID channelId, int duration, String explanation) {
+        dataController.getChannelController().removeAllUserFromJoinedUserChannel(channelId);
+    }
+
+    @Override
+    public void removeUserFromAuthorizedUserChannel(UserLite user, UUID channelId, int duration, String explanation) {
+
     }
 
     /**
@@ -204,13 +207,13 @@ public class CommunicationToData implements ICommunicationToData {
     /**
      * Save deletion into history.
      *
-     * @param oldMessage the old message
-     * @param newMessage the new message
-     * @param channelId  the channel
+     * @param message the message
+     * @param channelId  the channel ID
+     * @param deletedByCreator the boolean that indicates if the message is deleted by its creator or not
      */
     @Override
-    public void saveDeletionIntoHistory(Message oldMessage, Message newMessage, UUID channelId) {
-        throw new UnsupportedOperationException();
+    public void saveDeletionIntoHistory(Message message, UUID channelId, boolean deletedByCreator) {
+        this.dataController.getMessageController().saveDeletionIntoHistory(message, channelId, deletedByCreator);
     }
 
     /**
@@ -222,7 +225,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void deleteMessage(Message message, UUID channelId, boolean deletedByCreator) {
-        throw new UnsupportedOperationException();
+        this.dataController.getMessageController().deleteMessage(message, channelId, deletedByCreator);
     }
 
     /**
@@ -269,7 +272,7 @@ public class CommunicationToData implements ICommunicationToData {
     public void unbannedUserToChannel(UserLite user, UUID channelId) {
         Channel ownedChannel = dataController.getChannelController().searchChannelById(channelId);
         if (ownedChannel != null) {
-            ownedChannel.addUser(user);
+            ownedChannel.addJoinedUser(user);
             dataController.getUserController().unbannedUserTochannel(user,channelId);
         }
     }
@@ -277,6 +280,11 @@ public class CommunicationToData implements ICommunicationToData {
     @Override
     public void addUserToOwnedChannel(UserLite user, UUID channelId) {
         dataController.getChannelController().addUserToOwnedChannel(user,channelId);
+    }
+
+    @Override
+    public void inviteUserToOwnedChannel(UserLite user, UUID channelId) {
+        dataController.getChannelController().userInvitedToChannel(user,channelId);
     }
 
 }
