@@ -11,16 +11,16 @@ import java.util.UUID;
 public interface IDataToIHMChannel {
     /**
      * Permet de traiter la suppression du channel actuellement ouvert sur l'interface.
-     * @param channel channel supprimé
+     * @param channelId id du channel supprimé
      */
-    void openChannelDeleted(Channel channel);
+    void openChannelDeleted(UUID channelId);
 
     /**
      * Permet d'ajouter un administrateur pour un channel.
      * @param user user qui devient admin
-     * @param channel channel pour lequel on a ajouté un admin
+     * @param channelId id du channel pour lequel on a ajouté un admin
      */
-    void addNewAdmin(UserLite user, Channel channel) throws IOException;
+    void addNewAdmin(UserLite user, UUID channelId) throws IOException;
 
     /**
      * Quand l'utilisateur se fait kické d'un channel, retire le channel en question de sa liste de channels.
@@ -34,11 +34,11 @@ public interface IDataToIHMChannel {
     /**
      * Notification pour les membres restants d'un channel qu'un utilisateur a été kické.
      * @param user utilisateur kické
-     * @param channel channel concerné
+     * @param channelId id du channel concerné
      * @param duration durée du kick
      * @param explanation motif du kick
      */
-    void userBanNotification(UserLite user, Channel channel, int duration, String explanation);
+    void userBanNotification(UserLite user, UUID channelId, int duration, String explanation);
 
     /**
      * Notifie d'un retour d'un utilisateur précédemment kické.
@@ -50,34 +50,34 @@ public interface IDataToIHMChannel {
     /**
      * Permet la réception d'un message sur un channel.
      * @param message message reçu
-     * @param channel channel sur lequel le message a été reçu
+     * @param channelId id du channel sur lequel le message a été reçu
      * @param responseTo message parent
      */
-    void receiveMessage(Message message, UUID channel, Message responseTo);
+    void receiveMessage(Message message, UUID channelId, Message responseTo);
 
     /**
      * Permet la modification d'un message.
      * @param message message d'origine
      * @param newMessage nouveau message
-     * @param channel channel sur lequel le message a été modifié
+     * @param channelId id du channel sur lequel le message a été modifié
      */
-    void editMessage(Message message, Message newMessage, Channel channel);
+    void editMessage(Message message, Message newMessage, UUID channelId);
 
     /**
      * Permet de liker un message.
-     * @param channel channel du message
+     * @param channelId id du channel du message
      * @param message message liké
      * @param user utilisateur à l'origine du like
      */
-    void likeMessage(Channel channel, Message message, User user);
+    void likeMessage(UUID channelId, Message message, User user);
 
     /**
      * Permet la suppression d'un message.
      * @param message message supprimé
-     * @param channel channel sur lequel le message a été supprimé
+     * @param channelId channel sur lequel le message a été supprimé
      * @param deletedByCreator booléen indiquant si la suppression a été faite par le propriétaire du message
      */
-    void deleteMessage(Message message, Channel channel, boolean deletedByCreator);
+    void deleteMessage(Message message, UUID channelId, boolean deletedByCreator);
 
     Channel getChannel(UUID id);
 
