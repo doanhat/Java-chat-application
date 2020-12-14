@@ -264,6 +264,9 @@ public class IHMMainWindowController implements Initializable{
     @FXML
     public void onSeDeconnecterButtonClick(){
         try {
+            Stage primaryStage = mainWindowController.getPrimaryStage();
+            Platform.setImplicitExit(false);
+            primaryStage.setOnCloseRequest(event -> {});
             ihmMainController.getIIHMMainToCommunication().disconnect();
             ihmMainController.getIHMMainToData().disconnect();
             ihmMainController.getMainWindowController().loadConnectionWindow();
