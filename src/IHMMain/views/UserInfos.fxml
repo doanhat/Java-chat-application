@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -64,7 +64,7 @@
                </rowConstraints>
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Canaux rejoints" />
-                  <ListView fx:id="listChannelsUser" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" />
+                  <ChoiceBox fx:id="listChannelsUser" prefWidth="150.0" GridPane.columnIndex="1" />
                </children>
             </GridPane>
          </children>
