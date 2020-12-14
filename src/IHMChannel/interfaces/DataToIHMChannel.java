@@ -126,7 +126,7 @@ public class DataToIHMChannel implements IDataToIHMChannel{
      */
     @Override
     public void deleteMessage(Message message, Channel channel, boolean deletedByCreator) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        controller.getChannelPageController().getChannelController(channel.getId()).deleteMessage(message, deletedByCreator);
     }
 
     @Override

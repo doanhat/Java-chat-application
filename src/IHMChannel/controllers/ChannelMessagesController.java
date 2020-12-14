@@ -21,7 +21,10 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Contrôleur de la vue "ChannelMessages" dans laquelle on retrouve l'affichage et la saisie de messages d'un channel
@@ -33,6 +36,7 @@ public class ChannelMessagesController{
     private ConnectedMembersController connectedMembersController;
     private Message parentMessage = null;
     private boolean isReponse = false;
+    private HashMap<UUID, MessageController> messagesMap = new HashMap<>();
     @FXML
     ImageView imgReceiver;
 
@@ -79,6 +83,7 @@ public class ChannelMessagesController{
         }
         catch (Exception e){
             System.out.println("Problème lors de l'affichage des messages");
+            e.printStackTrace();
         }
     }
 
@@ -239,5 +244,13 @@ public class ChannelMessagesController{
     void removeReponse() {
         setIsReponse(false);
         this.parentMessage = null;
+    }
+
+    public HashMap<UUID, MessageController> getMessagesMap() {
+        return messagesMap;
+    }
+
+    public void setMessagesMap(HashMap<UUID, MessageController> messagesMap) {
+        this.messagesMap = messagesMap;
     }
 }
