@@ -21,6 +21,6 @@ public class ChannelCreationResponseMessage extends ServerToClientMessage {
 
     @Override
     protected void handle(CommunicationClientController commController) {
-        commController.notifyChannelCreationResponse(newChannel, isCreated);
+        commController.mainHandler().notifyChannelCreationResponse(newChannel, isCreated);
     }
 }

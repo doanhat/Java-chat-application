@@ -23,6 +23,6 @@ public class AcceptationMessage extends ServerToClientMessage {
 
     @Override
     protected void handle(CommunicationClientController commController) {
-        commController.notifyConnectionSuccess(usersList, channelsList);
+        commController.mainHandler().notifyConnectionSuccess(usersList, channelsList);
     }
 }

@@ -20,7 +20,7 @@ public class TellOwnerToRemoveAdminMessage extends ServerToClientMessage {
 
     @Override
     protected void handle(CommunicationClientController commController) {
-        commController.removeAdminFromProprietaryChannel(channelID, user);
+        commController.dataClientHandler().removeAdminFromProprietaryChannel(channelID, user);
 
         // Send Confirmation back to server
         commController.sendMessage(new AdminRemovedConfirmation(user, channelID));

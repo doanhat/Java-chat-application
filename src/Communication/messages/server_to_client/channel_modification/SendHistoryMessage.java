@@ -23,6 +23,6 @@ public class SendHistoryMessage extends ServerToClientMessage {
 
     @Override
     protected void handle(CommunicationClientController commClientController) {
-        commClientController.returnChannelHistory(channel, activeUsers);
+        commClientController.channelHandler().returnChannelHistory(channel, activeUsers);
     }
 }

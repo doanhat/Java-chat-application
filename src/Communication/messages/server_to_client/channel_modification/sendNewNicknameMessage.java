@@ -22,6 +22,6 @@ public class sendNewNicknameMessage extends ServerToClientMessage {
 
     @Override
     protected void handle(CommunicationClientController commController) {
-        commController.notifyChangeNickName(user, channelID, name);
+        commController.dataClientHandler().notifyChangeNickName(user, channelID, name);
     }
 }

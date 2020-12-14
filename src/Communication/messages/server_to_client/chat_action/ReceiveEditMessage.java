@@ -24,6 +24,6 @@ public class ReceiveEditMessage extends ServerToClientMessage {
 
     @Override
     protected void handle(CommunicationClientController commClientController) {
-        commClientController.notifyEditMessage(msg, newMsg, channelID);
+        commClientController.dataClientHandler().notifyEditMessage(msg, newMsg, channelID);
     }
 }

@@ -3,7 +3,6 @@ package Communication.messages.server_to_client.chat_action.proprietary_channels
 import Communication.client.CommunicationClientController;
 import Communication.messages.abstracts.ServerToClientMessage;
 import Communication.messages.client_to_server.chat_action.proprietary_channels.ValidateSaveLikeMessageMessage;
-import Communication.messages.client_to_server.chat_action.proprietary_channels.ValideDeleteMessageMessage;
 import common.sharedData.Message;
 import common.sharedData.UserLite;
 
@@ -21,11 +20,9 @@ public class TellOwnerToLikeMessageMessage extends ServerToClientMessage {
         this.msg = msg;
     }
 
-
-
     @Override
     protected void handle(CommunicationClientController commClientController) {
-        commClientController.saveLike(channelId, msg, user);
+        commClientController.dataClientHandler().saveLike(channelId, msg, user);
         commClientController.sendMessage(new ValidateSaveLikeMessageMessage(channelId, user, msg));
     }
 }

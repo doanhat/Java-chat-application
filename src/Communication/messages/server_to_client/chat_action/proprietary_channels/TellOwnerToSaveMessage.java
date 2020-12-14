@@ -25,6 +25,6 @@ public class TellOwnerToSaveMessage extends ServerToClientMessage {
 
     @Override
     protected void handle(CommunicationClientController commClientController) {
-        commClientController.saveMessage(message, channelID, response);
+        commClientController.dataClientHandler().saveMessage(message, channelID, response);
     }
 }

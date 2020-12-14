@@ -26,6 +26,6 @@ public class JoinChannelResponseMessage extends ServerToClientMessage {
 
     @Override
     protected void handle(CommunicationClientController commClientController) {
-        commClientController.notifyJoinChannelResponse(channel, activeUsers, accepted);
+        commClientController.channelHandler().notifyJoinChannelResponse(channel, activeUsers, accepted);
     }
 }

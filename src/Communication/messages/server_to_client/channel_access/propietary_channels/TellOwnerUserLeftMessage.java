@@ -19,7 +19,7 @@ public class TellOwnerUserLeftMessage extends ServerToClientMessage {
 
     @Override
     protected void handle(CommunicationClientController commClientController) {
-        commClientController.requestLeaveChannel(channelID, user);
+        commClientController.dataClientHandler().requestLeaveChannel(channelID, user);
 
         // Give permission to Server to remove user from channel
         commClientController.sendMessage(new UserLeftConfirmationMessage(user, channelID));

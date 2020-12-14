@@ -2,7 +2,6 @@ package Communication.client;
 
 import common.interfaces.client.ICommunicationToIHMChannel;
 import common.sharedData.Channel;
-import common.sharedData.Message;
 import common.sharedData.UserLite;
 
 import java.util.List;
@@ -29,10 +28,11 @@ public class IHMChannelHandler {
     /**
      * Notifier Data que la demande de rejoindre un channel a été accepté par serveur
      *
-     * @param user    Utilisateur qui cherche a rejoindre le channel
      * @param channel channel rejoint
+     * @param activeUsers liste de users actifs d'un channels
+     * @param isAccepted (boolean) réponse du serveur
      */
-    public void notifyJoinChannelResponse(UserLite user, Channel channel, List<UserLite> activeUsers, boolean isAccepted) {
+    public void notifyJoinChannelResponse(Channel channel, List<UserLite> activeUsers, boolean isAccepted) {
         if (isAccepted) {
             returnChannelHistory(channel, activeUsers);
         }

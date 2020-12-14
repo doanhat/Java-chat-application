@@ -22,7 +22,7 @@ public class TellOwnerToDeleteMessageMessage extends ServerToClientMessage {
 
     @Override
     protected void handle(CommunicationClientController commClientController) {
-        commClientController.deleteMessage(message, channelID, deletedByCreator);
+        commClientController.dataClientHandler().deleteMessage(message, channelID, deletedByCreator);
         commClientController.sendMessage(new ValideDeleteMessageMessage(message, channelID, deletedByCreator));
     }
 }

@@ -21,7 +21,7 @@ public class TellOwnerToUpdateNicknameMessage extends ServerToClientMessage {
 
     @Override
     protected void handle(CommunicationClientController commClientController) {
-        commClientController.notifyChangeNickName(user, channelID, name);
+        commClientController.dataClientHandler().notifyChangeNickName(user, channelID, name);
         commClientController.sendMessage(new ValidateChangeNickNameMessage(user, channelID, name));
     }
 }

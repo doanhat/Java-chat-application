@@ -19,7 +19,7 @@ public class TellOwnerToAddAdminMessage extends ServerToClientMessage {
 
     @Override
     protected void handle(CommunicationClientController commController) {
-        commController.addAdminToProprietaryChannel(channelID, user);
+        commController.dataClientHandler().addAdminToProprietaryChannel(channelID, user);
 
         // Send Confirmation back to server
         commController.sendMessage(new NewAdminConfirmation(user, channelID));

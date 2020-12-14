@@ -21,6 +21,6 @@ public class ReceiveMessageMessage extends ServerToClientMessage {
 
     @Override
     protected void handle(CommunicationClientController commController) {
-        commController.notifyReceiveMessage(message, channelID, response);
+        commController.dataClientHandler().notifyReceiveMessage(message, channelID, response);
     }
 }

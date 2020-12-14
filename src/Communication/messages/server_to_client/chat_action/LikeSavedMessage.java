@@ -21,6 +21,6 @@ public class LikeSavedMessage extends ServerToClientMessage {
 
     @Override
     protected void handle(CommunicationClientController commClientController) {
-        commClientController.notifyLikedMessage(channelId, msg, user);
+        commClientController.dataClientHandler().notifyLikedMessage(channelId, msg, user);
     }
 }

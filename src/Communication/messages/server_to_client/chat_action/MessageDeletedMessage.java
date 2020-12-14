@@ -24,6 +24,6 @@ public class MessageDeletedMessage extends ServerToClientMessage {
 
     @Override
     protected void handle(CommunicationClientController commClientController) {
-        commClientController.notifyDeletedMessage(message, channelUUID, deleteByCreator);
+        commClientController.dataClientHandler().notifyDeletedMessage(message, channelUUID, deleteByCreator);
     }
 }

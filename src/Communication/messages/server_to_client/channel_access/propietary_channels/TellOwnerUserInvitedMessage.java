@@ -18,6 +18,6 @@ public class TellOwnerUserInvitedMessage extends ServerToClientMessage {
 
     @Override
     protected void handle(CommunicationClientController commClientController) {
-        commClientController.inviteUserToProprietaryChannel(user, channelID);
+        commClientController.dataClientHandler().inviteUserToProprietaryChannel(user, channelID);
     }
 }

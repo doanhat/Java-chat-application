@@ -19,6 +19,6 @@ public class AdminRemovedMessage extends ServerToClientMessage {
 
     @Override
     protected void handle(CommunicationClientController commController) {
-        commController.notifyAdminRemoved(channelID, user);
+        commController.dataClientHandler().notifyAdminRemoved(channelID, user);
     }
 }

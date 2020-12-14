@@ -28,6 +28,6 @@ public class NewUserJoinChannelMessage extends ServerToClientMessage {
 
     @Override
     protected void handle(CommunicationClientController commClientController) {
-        commClientController.notifyUserJoinedChannel(user, channelID);
+        commClientController.channelHandler().notifyUserJoinedChannel(user, channelID);
     }
 }
