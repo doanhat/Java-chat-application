@@ -2,7 +2,7 @@ package IHMChannel.controllers;
 
 import IHMChannel.IHMChannelController;
 import common.IHMTools.IHMTools;
-import common.sharedData.*;
+import common.shared_data.*;
 import javafx.application.Platform;
 import javafx.collections.*;
 import javafx.fxml.FXML;

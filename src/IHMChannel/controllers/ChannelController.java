@@ -4,11 +4,11 @@ import IHMChannel.ChannelMembersDisplay;
 import IHMChannel.ChannelMessagesDisplay;
 import IHMChannel.IHMChannelController;
 import common.IHMTools.IHMTools;
-import common.sharedData.Channel;
-import common.sharedData.ChannelType;
-import common.sharedData.Message;
-import common.sharedData.UserLite;
-import common.sharedData.ChannelType;
+import common.shared_data.Channel;
+import common.shared_data.ChannelType;
+import common.shared_data.Message;
+import common.shared_data.UserLite;
+import common.shared_data.ChannelType;
 import common.shared_data.Visibility;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -237,7 +237,7 @@ public class ChannelController {
 
             if (result) {
                 UserLite localUser = ihmChannelController.getInterfaceToData().getLocalUser();
-                ihmChannelController.getInterfaceToCommunication().leaveChannel(localUser, getCurrentChannel());
+                ihmChannelController.getInterfaceToCommunication().leaveChannel(getCurrentChannel());
             }
 
 
