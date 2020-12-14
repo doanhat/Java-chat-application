@@ -69,6 +69,16 @@ public class CommunicationClientInterface implements IDataToCommunication,
         Parameters.PORT = port;
     }
 
+    @Override
+    public String getIP() {
+        return Parameters.SERVER_IP;
+    }
+
+    @Override
+    public int getPort() {
+        return Parameters.PORT;
+    }
+
     /**
      * Demande de deconnexion du client
      */
