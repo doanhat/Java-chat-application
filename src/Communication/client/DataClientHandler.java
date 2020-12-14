@@ -55,43 +55,25 @@ public class DataClientHandler {
                 dataClient.editMessage(chatPackage.message, chatPackage.editedMessage, chatPackage.channelID);
                 break;
             case LIKE_MESSAGE:
-                dataClient.likeMessage(chatPackage.channelID, chatPackage.message, chatPackage.sender);
+                dataClient.likeMessage(chatPackage.channelID, chatPackage.message, chatPackage.user);
                 break;
             case DELETE_MESSAGE:
                 dataClient.deleteMessage(chatPackage.message,
                                          chatPackage.channelID,
-                                         chatPackage.sender.getId().equals(chatPackage.message.getAuthor().getId()));
+                                         chatPackage.user.getId().equals(chatPackage.message.getAuthor().getId()));
                 break;
             case EDIT_NICKNAME:
-                dataClient.updateNickname(chatPackage.sender, chatPackage.channelID, chatPackage.nickname);
+                dataClient.updateNickname(chatPackage.user, chatPackage.channelID, chatPackage.nickname);
+                break;
+            case ADD_ADMIN:
+                dataClient.newAdmin(chatPackage.user, chatPackage.channelID);
+                break;
+            case REMOVE_ADMIN:
+                // TODO INTEGRATION V3: tell Data to add method to receive admin removal notification
                 break;
             default:
                 logger.log(Level.WARNING, "ChatMessage: opetration inconnue");
         }
-    }
-
-    /**
-     * Avertit Data de l'ajout d'un nouvel admin
-     *
-     * @param channelID [UUID] Channel ou un admin est ajoute
-     * @param user      [UserLite] Utilisateur devenant admin
-     */
-    public void notifyNewAdminAdded(UUID channelID, UserLite user) {
-        logger.log(Level.FINE, "new admin " + user.getNickName() + " added to channel " + channelID);
-
-        dataClient.newAdmin(user, channelID);
-    }
-
-    /**
-     * Avertit Data de retirer d'un nouvel admin
-     *
-     * @param channelID [UUID] Channel ou un admin est ajoute
-     * @param user      [UserLite] Utilisateur devenant admin
-     */
-    public void notifyAdminRemoved(UUID channelID, UserLite user) {
-        logger.log(Level.FINE, "removed admin " + user.getNickName() + " from channel " + channelID);
-
-        // TODO INTEGRATION V3: tell Data to add method to receive admin removal notification
     }
 
     /* ------------------------------------- Proprietary Channel handling ---------------------------------------*/
@@ -160,40 +142,22 @@ public class DataClientHandler {
                 dataClient.saveEditionIntoHistory(chatPackage.message, chatPackage.editedMessage, chatPackage.channelID);
                 break;
             case LIKE_MESSAGE:
-                dataClient.saveLikeIntoHistory(chatPackage.channelID, chatPackage.message, chatPackage.sender);
+                dataClient.saveLikeIntoHistory(chatPackage.channelID, chatPackage.message, chatPackage.user);
                 break;
             case DELETE_MESSAGE:
                 dataClient.saveDeletionIntoHistory(chatPackage.message, null, chatPackage.channelID);
                 break;
             case EDIT_NICKNAME:
-                dataClient.saveNicknameIntoHistory(chatPackage.sender, chatPackage.channelID, chatPackage.nickname);
+                dataClient.saveNicknameIntoHistory(chatPackage.user, chatPackage.channelID, chatPackage.nickname);
+                break;
+            case ADD_ADMIN:
+                dataClient.saveNewAdminIntoHistory(chatPackage.user, chatPackage.channelID);
+                break;
+            case REMOVE_ADMIN:
+                // TODO INTEGRATION V3: tell Data to add method to remove admin from proprietary channel
                 break;
             default:
                 logger.log(Level.WARNING, "ChatMessage: opetration inconnue");
         }
-    }
-
-    /**
-     * Demande Owner d'ajouter un nouvel admin au channel proprietaire
-     *
-     * @param channelID [UUID] Channel ou un admin est ajoute
-     * @param user      [UserLite] Utilisateur devenant admin
-     */
-    public void addAdminToProprietaryChannel(UUID channelID, UserLite user) {
-        logger.log(Level.FINE, "request owner to add admin " + user.getNickName() + " to channel " + channelID);
-
-        dataClient.saveNewAdminIntoHistory(user, channelID);
-    }
-
-    /**
-     * Demande Owner d'ajouter un nouvel admin au channel proprietaire
-     *
-     * @param channelID [UUID] Channel ou un admin est ajoute
-     * @param user      [UserLite] Utilisateur devenant admin
-     */
-    public void removeAdminFromProprietaryChannel(UUID channelID, UserLite user) {
-        logger.log(Level.FINE, "request owner to add admin " + user.getNickName() + " to channel " + channelID);
-
-        // TODO INTEGRATION V3: tell Data to add method to remove admin from proprietary channel
     }
 }

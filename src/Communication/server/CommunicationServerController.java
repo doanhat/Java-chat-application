@@ -280,28 +280,6 @@ public class CommunicationServerController extends CommunicationController {
 	}
 
 	/**
-	 * Methode qui signale a Data d'ajouter un nouvel admin sur un channel
-	 * @param user Utilisateur devenant admin
-	 * @param channel Channel ou l'utilisateur devient admin
-	 */
-	public void saveNewAdmin(Channel channel, UserLite user) {
-		logger.log(Level.SEVERE, "new admin " + user.getNickName() + " added to channel " + channel.getId());
-
-		dataServer.saveNewAdminIntoHistory(channel, user);
-	}
-
-	/**
-	 * Methode qui signale a Data de retirer un admin sur un channel
-	 * @param user Utilisateur devenant admin
-	 * @param channel Channel ou l'utilisateur devient admin
-	 */
-	public void removeAdmin(Channel channel, UserLite user) {
-		logger.log(Level.SEVERE, "removed admin " + user.getNickName() + " from channel " + channel.getId());
-
-		// TODO INTEGRATION V3 Tell data server to remove admin
-	}
-
-	/**
 	 * Demande d'ajouter un utilisateur à un channel
 	 * @param guest invitateur
 	 * @param channel channel
@@ -346,15 +324,21 @@ public class CommunicationServerController extends CommunicationController {
 				dataServer.editMessage(channel, chatPackage.editedMessage);
 				break;
 			case LIKE_MESSAGE:
-				dataServer.saveLikeIntoHistory(channel, chatPackage.message, chatPackage.sender);
+				dataServer.saveLikeIntoHistory(channel, chatPackage.message, chatPackage.user);
 				break;
 			case DELETE_MESSAGE:
 				dataServer.saveRemovalMessageIntoHistory(channel,
 														 chatPackage.message,
-														 chatPackage.sender.getId().equals(chatPackage.message.getAuthor().getId()));
+														 chatPackage.user.getId().equals(chatPackage.message.getAuthor().getId()));
 				break;
 			case EDIT_NICKNAME:
-				dataServer.updateNickname(channel, chatPackage.sender, chatPackage.nickname);
+				dataServer.updateNickname(channel, chatPackage.user, chatPackage.nickname);
+				break;
+			case ADD_ADMIN:
+				dataServer.saveNewAdminIntoHistory(channel, chatPackage.user);
+				break;
+			case REMOVE_ADMIN:
+				// TODO INTEGRATION V3 Tell data server to remove admin
 				break;
 			default:
 				logger.log(Level.WARNING, "ChatMessage: opetration inconnue");

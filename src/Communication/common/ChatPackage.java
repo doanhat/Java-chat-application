@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.UUID;
 
 public class ChatPackage implements Serializable {
-    public UserLite sender;
+    public UserLite user;
     public UUID channelID;
     public Message message;
     public Message messageResponseTo;
