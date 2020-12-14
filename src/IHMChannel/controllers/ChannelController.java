@@ -154,13 +154,19 @@ public class ChannelController {
         channelMessagesDisplay.getController().addMessageToObservableList(receivedMessage);
     }
 
+    public void addUser(UserLite user) throws IOException {
+        currentChannel.addAuthorizedUser(user);
+        channelMembersDisplay.getController().setCurrentChannel(currentChannel);
+    }
+    public void removeUser(UserLite user) throws IOException {
+        currentChannel.removeUser(user.getId());
+        channelMembersDisplay.getController().setCurrentChannel(currentChannel);
+    }
 
     public void addNewAdmin(UserLite user) throws IOException {
         currentChannel.addAdmin(user);
         channelMembersDisplay.getController().setCurrentChannel(currentChannel);
-        // Faut-il mettre a jour nous même le channel dans les composants fils?
     }
-
     /**
      * Méthode déclenchée au clic sur le bouton "voir les membres"
      */
@@ -357,4 +363,5 @@ public class ChannelController {
     public void deleteMessage(Message message, boolean deletedByCreator) {
         channelMessagesDisplay.getController().getMessagesMap().get(message.getId()).replaceDeletedMessage(deletedByCreator);
     }
+
 }

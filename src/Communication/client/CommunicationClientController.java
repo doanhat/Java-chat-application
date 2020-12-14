@@ -377,7 +377,7 @@ public class CommunicationClientController extends CommunicationController {
      * @param user autre utilisateur connecté
      * @param channelID ID du channel
      */
-    public void notifyUserAuthorizeChannel(UserLite user, UUID channelID) {
+    public void notifyUserAuthorizeChannel(UserLite user, UUID channelID) throws IOException {
         if (dataClient == null || channelClient == null) {
             throw new NullPointerException("Data Iface ou Channel Iface est null");
         }
