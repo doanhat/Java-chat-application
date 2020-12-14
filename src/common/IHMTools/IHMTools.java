@@ -57,6 +57,33 @@ public class IHMTools {
         return (alert.getResult() == confirm);
     }
 
+    public static boolean InformationPopup(String text) {
+        ButtonType confirm = new ButtonType("OK");
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, text, confirm);
+
+        //récupération du CSS
+        DialogPane dialogPane = alert.getDialogPane();
+        String url = IHMTools.class.getResource("../../common/IHMCommon/dialog.css").toExternalForm();
+        dialogPane.getStylesheets().add(url);
+
+        url = IHMTools.class.getResource("../../common/IHMCommon/common.css").toExternalForm();
+        dialogPane.getStylesheets().add(url);
+
+        dialogPane.getStyleClass().add("myDialog");
+
+        //Modification boutons
+
+        Button confirmButton = (Button) dialogPane.lookupButton(alert.getButtonTypes().get(0));
+        confirmButton.getStyleClass().add("primary-btn");
+
+        dialogPane.setHeaderText(null);
+        dialogPane.setGraphic(null);
+        alert.showAndWait();
+
+        return (alert.getResult() == confirm);
+    }
+
     public static Popup createPopup(final String message) {
         final Popup popup = new Popup();
         popup.setAutoFix(true);
