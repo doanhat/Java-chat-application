@@ -2,7 +2,7 @@ package Communication.messages.server_to_client.connection;
 
 import Communication.client.CommunicationClientController;
 import Communication.messages.abstracts.ServerToClientMessage;
-import common.sharedData.UserLite;
+import common.shared_data.UserLite;
 /**
  * Classe signalant au client qu'un utilisateur s'est déconnecté du serveur
  *

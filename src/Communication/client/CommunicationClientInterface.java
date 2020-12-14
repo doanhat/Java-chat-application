@@ -25,10 +25,10 @@ import Communication.messages.client_to_server.chat_action.proprietary_channels.
 import Communication.messages.client_to_server.chat_action.shared_channels.DeleteMessageSharedMessage;
 import Communication.messages.client_to_server.chat_action.shared_channels.SaveLikeMessageShared;
 import common.interfaces.client.*;
-import common.sharedData.Channel;
-import common.sharedData.ChannelType;
-import common.sharedData.Message;
-import common.sharedData.UserLite;
+import common.shared_data.Channel;
+import common.shared_data.ChannelType;
+import common.shared_data.Message;
+import common.shared_data.UserLite;
 
 import java.io.IOException;
 import java.util.*;
@@ -40,8 +40,8 @@ public class CommunicationClientInterface implements IDataToCommunication,
     private final CommunicationClientController commController;
     private UserLite localUser;
 
-    public CommunicationClientInterface(CommunicationClientController CommunicationClientController) {
-        this.commController = CommunicationClientController;
+    public CommunicationClientInterface(CommunicationClientController communicationClientController) {
+        this.commController = communicationClientController;
     }
 
     /* ---------------------------- IDataToCommunication interface implementations -----------------------------------*/
@@ -179,18 +179,18 @@ public class CommunicationClientInterface implements IDataToCommunication,
      * Envoie une demande d'édite au serveur
      *
      * @param msg     [Message] Message d'origine
-     * @param new_msg [Message] Message modifier
+     * @param newMsg [Message] Message modifier
      * @param channel [Channel] Channel du message a modifier
      **/
-    public void editMessage(Message msg, Message new_msg, Channel channel) {
-        if (msg == null || channel == null || new_msg == null) {
+    public void editMessage(Message msg, Message newMsg, Channel channel) {
+        if (msg == null || channel == null || newMsg == null) {
             return;
         }
         if (channel.getType() == ChannelType.OWNED) {
-            this.commController.sendMessage(new EditMessagePropMessage(msg, new_msg, channel.getId(), channel.getCreator()));
+            this.commController.sendMessage(new EditMessagePropMessage(msg, newMsg, channel.getId(), channel.getCreator()));
         }
         else {
-            this.commController.sendMessage(new EditMessageSharedMessage(msg, new_msg, channel.getId()));
+            this.commController.sendMessage(new EditMessageSharedMessage(msg, newMsg, channel.getId()));
         }
     }
 

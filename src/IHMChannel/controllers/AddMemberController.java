@@ -1,7 +1,7 @@
 package IHMChannel.controllers;
 
 import IHMChannel.IHMChannelController;
-import common.sharedData.UserLite;
+import common.shared_data.UserLite;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

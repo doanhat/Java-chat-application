@@ -1,9 +1,9 @@
 package Communication.client;
 
 import common.interfaces.client.ICommunicationToIHMMain;
-import common.sharedData.Channel;
-import common.sharedData.ConnectionStatus;
-import common.sharedData.UserLite;
+import common.shared_data.Channel;
+import common.shared_data.ConnectionStatus;
+import common.shared_data.UserLite;
 
 import java.util.List;
 import java.util.logging.Level;

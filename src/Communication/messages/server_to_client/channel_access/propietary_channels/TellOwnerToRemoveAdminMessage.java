@@ -4,7 +4,7 @@ import Communication.client.CommunicationClientController;
 import Communication.messages.abstracts.ServerToClientMessage;
 import Communication.messages.client_to_server.channel_access.proprietary_channels.AdminRemovedConfirmation;
 import Communication.messages.client_to_server.channel_access.proprietary_channels.NewAdminConfirmation;
-import common.sharedData.UserLite;
+import common.shared_data.UserLite;
 
 import java.util.UUID;
 

@@ -2,7 +2,7 @@ package IHMMain.controllers;
 
 import IHMMain.IHMMainController;
 import app.MainWindowController;
-import common.sharedData.ConnectionStatus;
+import common.shared_data.ConnectionStatus;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

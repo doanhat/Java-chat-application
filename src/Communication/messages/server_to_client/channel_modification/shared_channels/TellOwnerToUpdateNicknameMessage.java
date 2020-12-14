@@ -3,7 +3,7 @@ package Communication.messages.server_to_client.channel_modification.shared_chan
 import Communication.client.CommunicationClientController;
 import Communication.messages.abstracts.ServerToClientMessage;
 import Communication.messages.client_to_server.chat_action.proprietary_channels.ValidateChangeNickNameMessage;
-import common.sharedData.UserLite;
+import common.shared_data.UserLite;
 
 import java.util.UUID;
 

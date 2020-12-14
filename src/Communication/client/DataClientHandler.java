@@ -1,8 +1,8 @@
 package Communication.client;
 
 import common.interfaces.client.ICommunicationToData;
-import common.sharedData.Message;
-import common.sharedData.UserLite;
+import common.shared_data.Message;
+import common.shared_data.UserLite;
 
 import java.util.List;
 import java.util.UUID;

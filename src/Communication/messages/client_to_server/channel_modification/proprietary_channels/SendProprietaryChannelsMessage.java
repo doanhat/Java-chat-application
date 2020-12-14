@@ -5,9 +5,9 @@ import Communication.messages.abstracts.NetworkMessage;
 import Communication.messages.server_to_client.channel_access.JoinChannelResponseMessage;
 import Communication.messages.server_to_client.channel_modification.NewVisibleChannelMessage;
 import Communication.server.CommunicationServerController;
-import common.sharedData.Channel;
-import common.sharedData.UserLite;
-import common.sharedData.Visibility;
+import common.shared_data.Channel;
+import common.shared_data.UserLite;
+import common.shared_data.Visibility;
 
 import java.util.List;
 

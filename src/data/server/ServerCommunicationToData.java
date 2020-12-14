@@ -1,7 +1,7 @@
-package Data.server;
+package data.server;
 
 import common.interfaces.server.IServerCommunicationToData;
-import common.sharedData.*;
+import common.shared_data.*;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,19 +1,15 @@
 package IHMMain.controllers;
 
 import app.MainWindowController;
-import common.sharedData.Channel;
-import common.sharedData.UserLite;
-import javafx.collections.FXCollections;
+import common.shared_data.UserLite;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class UserListViewController implements Initializable{

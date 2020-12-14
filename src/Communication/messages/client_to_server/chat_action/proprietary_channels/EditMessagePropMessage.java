@@ -3,8 +3,8 @@ package Communication.messages.client_to_server.chat_action.proprietary_channels
 import Communication.messages.abstracts.ClientToServerMessage;
 import Communication.server.CommunicationServerController;
 import Communication.messages.server_to_client.chat_action.proprietary_channels.TellOwnerToSaveEditMessage;
-import common.sharedData.UserLite;
-import common.sharedData.Message;
+import common.shared_data.UserLite;
+import common.shared_data.Message;
 
 import java.util.UUID;
 

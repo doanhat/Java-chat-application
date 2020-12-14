@@ -1,6 +1,6 @@
 package common.interfaces.client;
 
-import common.sharedData.*;
+import common.shared_data.*;
 
 import java.io.IOException;
 import java.util.*;

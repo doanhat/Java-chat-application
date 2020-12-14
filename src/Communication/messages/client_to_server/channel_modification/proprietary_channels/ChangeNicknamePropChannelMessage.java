@@ -3,8 +3,8 @@ package Communication.messages.client_to_server.channel_modification.proprietary
 import Communication.messages.abstracts.ClientToServerMessage;
 import Communication.messages.server_to_client.channel_modification.shared_channels.TellOwnerToUpdateNicknameMessage;
 import Communication.server.CommunicationServerController;
-import common.sharedData.Channel;
-import common.sharedData.UserLite;
+import common.shared_data.Channel;
+import common.shared_data.UserLite;
 
 import java.util.UUID;
 

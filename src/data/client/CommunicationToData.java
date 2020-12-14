@@ -1,10 +1,10 @@
-package Data.client;
+package data.client;
 
 import common.interfaces.client.ICommunicationToData;
-import common.sharedData.Channel;
-import common.sharedData.Message;
-import common.sharedData.User;
-import common.sharedData.UserLite;
+import common.shared_data.Channel;
+import common.shared_data.Message;
+import common.shared_data.User;
+import common.shared_data.UserLite;
 import javafx.application.Platform;
 
 import java.util.List;

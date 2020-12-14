@@ -6,9 +6,9 @@ import Communication.messages.abstracts.ClientToServerMessage;
 import Communication.messages.server_to_client.chat_action.ReceiveMessageMessage;
 import Communication.messages.server_to_client.chat_action.proprietary_channels.TellOwnerToSaveMessage;
 import Communication.server.CommunicationServerController;
-import common.sharedData.Channel;
-import common.sharedData.ChannelType;
-import common.sharedData.Message;
+import common.shared_data.Channel;
+import common.shared_data.ChannelType;
+import common.shared_data.Message;
 
 public class SendMessageMessage extends ClientToServerMessage {
 

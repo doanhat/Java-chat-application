@@ -23,7 +23,7 @@ import Communication.messages.server_to_client.channel_access.UserLeftChannelMes
 
 import Communication.messages.server_to_client.channel_access.ValideUserLeftMessage;
 import common.interfaces.server.IServerCommunicationToData;
-import common.sharedData.*;
+import common.shared_data.*;
 
 /**
  * Classe principale de gestion des communications côté serveur. Cette classe implemente le design patern singleton
