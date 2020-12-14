@@ -84,7 +84,7 @@
                      </toggleGroup>
                   </RadioButton>
                   <RadioButton mnemonicParsing="false" styleClass="btn-radio" toggleGroup="$TypeHostChannel" GridPane.columnIndex="4" />
-                  <RadioButton mnemonicParsing="false" styleClass="btn-radio" toggleGroup="$TypeVisibilityChannel" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                  <RadioButton fx:id="privateChannelButton" mnemonicParsing="false" styleClass="btn-radio" toggleGroup="$TypeVisibilityChannel" GridPane.columnIndex="4" GridPane.rowIndex="1" />
                   <Label styleClass="form-label" text="Type de host" />
                   <Label styleClass="form-label" text="Visibilité du channel" GridPane.rowIndex="1" />
                </children>

@@ -310,7 +310,6 @@ public class IHMMainWindowController implements Initializable{
     }
 
     private void loadCreationChannelPopup(Visibility type) throws IOException {
-        // TODO check correct button depending of parameter visibility
         Parent root;
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../views/CreationChannelPopup.fxml"));
@@ -318,6 +317,7 @@ public class IHMMainWindowController implements Initializable{
 
             CreationChannelPopupController creationController = fxmlLoader.getController();
             creationController.setParentController(this);
+            creationController.setVisibility(type);
 
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -334,13 +334,6 @@ public class IHMMainWindowController implements Initializable{
     }
 
     public void createChannel(Channel newChannel) throws IOException {
-        /* --------- Debug -----------
-        System.out.println(newChannel.getId());
-        System.out.println(newChannel.getName());
-        System.out.println(newChannel.getDescription());
-        System.out.println(newChannel.getCreator().getNickName());
-        */
-        // TODO see with Communication if they add the channel or if it's our job
         if (newChannel.getType() == ChannelType.SHARED) {
             ihmMainController.getIIHMMainToCommunication().createChannel(newChannel, newChannel.getType() == ChannelType.SHARED, newChannel.getVisibility() == Visibility.PUBLIC, newChannel.getCreator());
         } else {

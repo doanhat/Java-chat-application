@@ -33,6 +33,9 @@ public class CreationChannelPopupController {
     private RadioButton publicChannelButton;
 
     @FXML
+    private RadioButton privateChannelButton;
+
+    @FXML
     private Label errorLabel;
 
     private Channel newChannel;
@@ -71,6 +74,14 @@ public class CreationChannelPopupController {
 
             Stage stage = (Stage) ap.getScene().getWindow();
             stage.close();
+        }
+    }
+
+    public void setVisibility(Visibility visibility) {
+        if (visibility == Visibility.PUBLIC) {
+            publicChannelButton.setSelected(true);
+        } else {
+            privateChannelButton.setSelected(true);
         }
     }
 
