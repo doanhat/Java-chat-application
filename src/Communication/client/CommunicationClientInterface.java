@@ -25,10 +25,10 @@ import Communication.messages.client_to_server.chat_action.proprietary_channels.
 import Communication.messages.client_to_server.chat_action.shared_channels.DeleteMessageSharedMessage;
 import Communication.messages.client_to_server.chat_action.shared_channels.SaveLikeMessageShared;
 import common.interfaces.client.*;
-import common.sharedData.Channel;
-import common.sharedData.ChannelType;
-import common.sharedData.Message;
-import common.sharedData.UserLite;
+import common.shared_data.Channel;
+import common.shared_data.ChannelType;
+import common.shared_data.Message;
+import common.shared_data.UserLite;
 
 import java.io.IOException;
 import java.util.*;

@@ -2,7 +2,7 @@ package Communication.messages.server_to_client.connection;
 
 import Communication.client.CommunicationClientController;
 import Communication.messages.abstracts.ServerToClientMessage;
-import common.sharedData.UserLite;
+import common.shared_data.UserLite;
 
 /**
  * Cette classe permet d'indiquer au client l'arrivée d'un autre client sur le serveur

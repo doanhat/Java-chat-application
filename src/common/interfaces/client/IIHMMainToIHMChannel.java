@@ -1,6 +1,6 @@
 package common.interfaces.client;
 
-import common.sharedData.Channel;
+import common.shared_data.Channel;
 import javafx.scene.layout.Region;
 
 /**

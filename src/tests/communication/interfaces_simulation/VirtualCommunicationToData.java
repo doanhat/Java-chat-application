@@ -1,7 +1,7 @@
 package tests.communication.interfaces_simulation;
 
 import common.interfaces.client.ICommunicationToData;
-import common.sharedData.*;
+import common.shared_data.*;
 
 import java.util.*;
 

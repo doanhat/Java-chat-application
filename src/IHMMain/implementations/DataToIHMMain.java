@@ -2,7 +2,7 @@ package IHMMain.implementations;
 
 import IHMMain.IHMMainController;
 import common.interfaces.client.IDataToIHMMain;
-import common.sharedData.Channel;
+import common.shared_data.Channel;
 import javafx.application.Platform;
 
 import java.util.List;

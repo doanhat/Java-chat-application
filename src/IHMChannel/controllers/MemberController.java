@@ -1,16 +1,14 @@
 package IHMChannel.controllers;
 
 import IHMChannel.IHMChannelController;
-import common.sharedData.Channel;
-import common.sharedData.UserLite;
+import common.shared_data.Channel;
+import common.shared_data.UserLite;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import IHMChannel.switchButton.ToggleSwitch;
-
-import java.io.IOException;
 
 public class MemberController {
 

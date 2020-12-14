@@ -1,12 +1,11 @@
 package Communication.messages.client_to_server.channel_access;
 
 import Communication.messages.abstracts.ClientToServerMessage;
-import Communication.messages.server_to_client.channel_access.NewUserJoinChannelMessage;
 import Communication.messages.server_to_client.channel_modification.NewUserAuthorizeChannelMessage;
 import Communication.messages.server_to_client.channel_modification.NewVisibleChannelMessage;
 import Communication.server.CommunicationServerController;
-import common.sharedData.Channel;
-import common.sharedData.UserLite;
+import common.shared_data.Channel;
+import common.shared_data.UserLite;
 
 import java.util.UUID;
 

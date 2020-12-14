@@ -1,14 +1,13 @@
-package Data.server;
+package data.server;
 
-import Data.resourceHandle.FileHandle;
-import Data.resourceHandle.FileType;
-import Data.resourceHandle.LocationType;
-import common.sharedData.*;
+import data.resource_handle.FileHandle;
+import data.resource_handle.FileType;
+import data.resource_handle.LocationType;
+import common.shared_data.*;
 
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 public class ChannelsListController {

@@ -1,9 +1,9 @@
 package tests.communication.interfaces_simulation;
 
 import common.interfaces.server.IServerCommunicationToData;
-import common.sharedData.Channel;
-import common.sharedData.Message;
-import common.sharedData.UserLite;
+import common.shared_data.Channel;
+import common.shared_data.Message;
+import common.shared_data.UserLite;
 
 import java.util.*;
 

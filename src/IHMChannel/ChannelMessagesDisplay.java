@@ -1,8 +1,8 @@
 package IHMChannel;
 
 import IHMChannel.controllers.ChannelMessagesController;
-import common.sharedData.Channel;
-import common.sharedData.UserLite;
+import common.shared_data.Channel;
+import common.shared_data.UserLite;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 

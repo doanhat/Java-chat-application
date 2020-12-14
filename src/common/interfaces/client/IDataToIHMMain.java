@@ -3,7 +3,7 @@ package common.interfaces.client;
 import java.util.List;
 import java.util.UUID;
 
-import common.sharedData.Channel;
+import common.shared_data.Channel;
 
 /**
  * Interface fournie par le module IHMMain pour le module Data

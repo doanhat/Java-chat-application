@@ -1,7 +1,7 @@
 package IHMChannel.controllers;
 
 import common.IHMTools.IHMTools;
-import common.sharedData.Message;
+import common.shared_data.Message;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
