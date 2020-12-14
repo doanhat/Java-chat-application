@@ -46,6 +46,11 @@ public class ConnectionController implements Initializable{
     private Button showSubscriptionPasswordButton;
     @FXML
     private Button showConnectionPasswordButton;
+    @FXML
+    private TextField IPTextField;
+    @FXML
+    private TextField portTextField;
+
 
     // Variables pour gérer l'affichage du mot de passe (TextField ou PasswordField)
     private boolean isPasswordFieldSubscription = true;
@@ -64,6 +69,39 @@ public class ConnectionController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        //Gère le changement d'adresse IP
+        IPTextField.textProperty().addListener((observable,oldValue,newValue) -> {
+            try {
+                ihmMainController.getIIHMMainToCommunication().setIP(newValue);
+            }catch(Exception e){
+                e.printStackTrace();
+                try {
+                    throw new Exception("Erreur de saisie d'IP");
+                }catch(Exception ex){
+                    ex.printStackTrace();
+                }
+            }
+        });
+
+        //Gère le changement de port
+        portTextField.textProperty().addListener((observable,oldValue,newValue) -> {
+            try {
+                //Vérifie que l'on rentre bien un nombre
+                if (!newValue.matches("\\d*")) {
+                    portTextField.setText(newValue.replaceAll("[^\\d]", ""));
+                }else{
+                    ihmMainController.getIIHMMainToCommunication().setPort(Integer.parseInt(newValue));
+                }
+            }catch(Exception e){
+                e.printStackTrace();
+                try {
+                    throw new Exception("Erreur de saisie de port");
+                }catch(Exception ex){
+                    ex.printStackTrace();
+                }
+            }
+        });
 
         // Gestion de l'affichage du bouton d'affichage/masquage du mot de passe lors de l'inscription
         ImageView eyeButtonSubscription = new ImageView("IHMMain/icons/eye.png");
