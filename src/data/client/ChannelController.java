@@ -175,7 +175,18 @@ public class ChannelController extends Controller{
      * @param explanation the explanation
      */
     public void deleteUserFromChannel(User user, Channel channel, int duration, String explanation) {
-        throw new UnsupportedOperationException();
+        for (Channel c : getChannelList()) {
+            if (c.getId().equals(channelId)) {
+                c.removeUser(user.getId());
+                if (duration >= 0) {
+                    Date now = new Date();
+                    now.setTime(now.getTime() + duration);
+                    c.kickUser(user, explanation, now);
+                } else {
+                    c.kickPermanentUser(user, explanation);
+                }
+            }
+        }
     }
 
     /**
