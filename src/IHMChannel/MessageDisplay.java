@@ -2,7 +2,7 @@ package IHMChannel;
 
 import IHMChannel.controllers.ChannelMessagesController;
 import IHMChannel.controllers.MessageController;
-import common.sharedData.Message;
+import common.shared_data.Message;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 

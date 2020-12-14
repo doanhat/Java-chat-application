@@ -1,9 +1,9 @@
 package common.interfaces.client;
 
-import common.sharedData.Channel;
-import common.sharedData.Message;
-import common.sharedData.User;
-import common.sharedData.UserLite;
+import common.shared_data.Channel;
+import common.shared_data.Message;
+import common.shared_data.User;
+import common.shared_data.UserLite;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -25,11 +25,11 @@ public interface IDataToIHMChannel {
     /**
      * Quand l'utilisateur se fait kické d'un channel, retire le channel en question de sa liste de channels.
      * Ce retrait peut, comme un kick, être temporaire.
-     * @param channel channel à retirer
+     * @param channelID id du channel à retirer
      * @param duration durée du kick
      * @param explanation motif du kick
      */
-    void removeChannelFromList(Channel channel, int duration, String explanation);
+    void removeChannelFromList(UUID channelID, int duration, String explanation);
 
     /**
      * Notification pour les membres restants d'un channel qu'un utilisateur a été kické.
