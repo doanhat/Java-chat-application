@@ -55,11 +55,12 @@ public interface ICommunicationToData {
     /**
      * Ban user into history.
      *
-     * @param user     the user
-     * @param channelId  the channel
-     * @param duration the duration
+     * @param user      the user
+     * @param channelId the channel
+     * @param duration  the duration
+     * @param explanation reason of ban
      */
-    void banUserIntoHistory(UserLite user, UUID channelId, int duration);
+    void banUserIntoHistory(UserLite user, UUID channelId, int duration, String explanation);
 
     /**
      * Cancel ban of user into history.

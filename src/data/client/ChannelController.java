@@ -163,21 +163,9 @@ public class ChannelController extends Controller{
      * @param channel  the channel
      * @param duration the duration
      */
-    public void banUserIntoHistory(User user, Channel channel, int duration) {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Delete user from channel.
-     *
-     * @param user        the user
-     * @param channel     the channel
-     * @param duration    the duration
-     * @param explanation the explanation
-     */
-    public void deleteUserFromChannel(User user, Channel channel, int duration, String explanation) {
+    public void banUserIntoHistory(UserLite user, UUID channel, int duration, String explanation) {
         for (Channel c : getChannelList()) {
-            if (c.getId().equals(channel.getId())) {
+            if (c.getId().equals(channel)) {
                 c.removeUser(user.getId());
                 if (duration >= 0) {
                     Date now = new Date();
@@ -186,8 +174,18 @@ public class ChannelController extends Controller{
                 } else {
                     c.kickPermanentUser(user, explanation);
                 }
+                this.channelClient.userBanNotification(user, c, duration, explanation);
             }
         }
+    }
+
+    public void cancelBanUserIntoHistory(User user, UUID channelId) {
+        for (Channel c : getChannelList()) {
+            if (c.getId().equals(channelId)) {
+                c.removeKick(user);
+            }
+        }
+
     }
 
     /**

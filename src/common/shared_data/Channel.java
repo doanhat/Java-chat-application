@@ -215,6 +215,7 @@ public class Channel implements Serializable {
 	public void kickUser(UserLite user, String reason, Date end) {
 		this.kicked.add(new Kick(user, this, reason, end));
 	}
+	public void removeKick(UserLite user) { this.kicked.removeIf(k -> k.getUser().getId() == user.getId()); }
 
 	@Override
 	public boolean equals(Object o) {

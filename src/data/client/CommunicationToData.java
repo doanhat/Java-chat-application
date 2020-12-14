@@ -79,10 +79,11 @@ public class CommunicationToData implements ICommunicationToData {
      * @param user      the user
      * @param channelId the channel
      * @param duration  the duration
+     * @param explanation reason of ban
      */
     @Override
-    public void banUserIntoHistory(UserLite user, UUID channelId, int duration) {
-        throw new UnsupportedOperationException();
+    public void banUserIntoHistory(UserLite user, UUID channelId, int duration, String explanation) {
+        this.dataController.getChannelController().banUserIntoHistory(user, channelId, duration, explanation);
     }
 
     /**
@@ -93,7 +94,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void cancelBanOfUserIntoHistory(User user, UUID channelId) {
-        throw new UnsupportedOperationException();
+        this.dataController.getChannelController().cancelBanUserIntoHistory(user, channelId);
     }
 
     @Override
