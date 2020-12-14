@@ -1,34 +1,34 @@
 package Communication.client;
 
 import Communication.common.CommunicationController;
-import Communication.common.TaskManager;
 import Communication.messages.abstracts.NetworkMessage;
-import Communication.messages.client_to_server.connection.UserConnectionMessage;
-import Communication.messages.client_to_server.connection.UserDisconnectionMessage;
+import Communication.messages.client_to_server.UserConnectionMessage;
+import Communication.messages.client_to_server.UserDisconnectionMessage;
 import common.interfaces.client.*;
-import common.shared_data.*;
+import common.sharedData.*;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class CommunicationClientController extends CommunicationController {
 
     private final NetworkClient client;
-    private final HeartBeat heart;
-    private final Logger logger = Logger.getLogger(this.getClass().getName());
     private ICommunicationToData dataClient;
     private ICommunicationToIHMMain mainClient;
     private ICommunicationToIHMChannel channelClient;
-    private final CommunicationClientInterface commInterface;
+    private CommunicationClientInterface commInterface;
 
+    /**
+     * INTEGRATION:
+     * SINGLETON A VIRER (REMARQUE DE B.LUSSIER)
+     * Et une interface qui sert d'interface pour tous c'est pas ouf (contre principe de classe courte, pas de modularite)
+     *
+     */
 
     public CommunicationClientController() {
         super();
         client = new NetworkClient(this);
-        heart = new HeartBeat(this);
         commInterface = new CommunicationClientInterface(this);
     }
 
@@ -37,22 +37,20 @@ public class CommunicationClientController extends CommunicationController {
 
     /**
      * Démarrer Communication Client Controller par se connecter au serveur
-     *
-     * @param ip adresse ID du serveur
-     * @param port port du serveur
-     * @param user local user
+     * @param ip
+     * @param port
+     * @param user
      */
     public void start(String ip, int port, UserLite user) {
         try {
-            taskManager = new TaskManager();
             client.connect(ip, port);
             client.sendMessage(new UserConnectionMessage(user));
-            heart.start(user.getId());
 
-            logger.log(Level.INFO, "Connexion au server...");
+            System.err.println("Connexion au server...");
         }
         catch (IOException e) {
-            logger.log(Level.SEVERE, "Echec de connexion au server!");
+            System.err.println("Echec de connexion au server!");
+
             disconnect(null);
         }
     }
@@ -62,54 +60,44 @@ public class CommunicationClientController extends CommunicationController {
      */
     public void stop() {
         taskManager.shutdown();
-        heart.stop();
 
         try {
             client.close();
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     /**
      * Wrapper de stop()
-     *
-     * @param user local user
+     * @param user
      */
     @Override
     public void disconnect(UUID user) {
         sendMessage(new UserDisconnectionMessage(user));
 
-        logger.log(Level.INFO, "Communication Controller déconnecté");
+        System.err.println("Communication Controller déconnecté");
 
         stop();
     }
 
     /**
      * Envoyer un message réseau au serveur
-     *
-     * @param message message réseau
+     * @param message
      */
     public void sendMessage(NetworkMessage message) {
         client.sendMessage(message);
-    }
-
-    /**
-     * Recevoir la réponse du server
-     */
-    public void receiveServerHeartBeat() {
-        heart.handleServerReply();
     }
 
     /* -------------------------------------------- Setup interfaces -------------------------------------------------*/
 
     /**
      * Installer les interfaces de Data, IHM Main et IHM Channel
-     *
-     * @param dataIface interface de Data
-     * @param mainIface interface de Main
-     * @param channelIface interface de Channel
-     * @return boolean
+     * @param dataIface
+     * @param mainIface
+     * @param channelIface
+     * @return
      */
     public boolean setupInterfaces(ICommunicationToData dataIface,
                                    ICommunicationToIHMMain mainIface,
@@ -127,8 +115,7 @@ public class CommunicationClientController extends CommunicationController {
 
     /**
      * Installer l'interfaces de Data
-     *
-     * @param dataIface interface de Data
+     * @param dataIface
      */
     public void setICommunicationToData(ICommunicationToData dataIface) {
         dataClient = dataIface;
@@ -136,8 +123,7 @@ public class CommunicationClientController extends CommunicationController {
 
     /**
      * Installer l'interfaces de IHM Main
-     *
-     * @param mainIface interface de IHM Main
+     * @param mainIface
      */
     public void setICommunicationToIHMMain(ICommunicationToIHMMain mainIface) {
         mainClient = mainIface;
@@ -145,72 +131,66 @@ public class CommunicationClientController extends CommunicationController {
 
     /**
      * Installer l'interfaces de IHM Channel
-     *
-     * @param channelIface Interface de IHMChannel
+     * @param channelIface
      */
     public void setICommunicationToIHMChannel(ICommunicationToIHMChannel channelIface) {
         channelClient = channelIface;
     }
 
     public IDataToCommunication getDataToCommunication() {
-        return commInterface;
+        return (IDataToCommunication) commInterface;
     }
 
     public IIHMChannelToCommunication getIHMChannelToCommunication() {
-        return commInterface;
+        return (IIHMChannelToCommunication) commInterface;
     }
 
     public IIHMMainToCommunication getIHMMainToCommunication() {
-        return commInterface;
+        return (IIHMMainToCommunication) commInterface;
     }
 
-    public CommunicationClientInterface getCommunicationClientInterface() {
-        return commInterface;
+    public CommunicationClientInterface getCommunicationClientInterface(){
+        return  commInterface;
     }
 
     /* ------------------------------------- Connection Notifications handling ---------------------------------------*/
 
     /**
      * Notifier IHM Main que la connexion a été établie, en donnant les listes de utilisateurs en-lignes et channels visibles
-     *
-     * @param users    Liste des utilisateurs en ligne
-     * @param channels Liste des channels visibles
+     * @param users
+     * @param channels
      */
     public void notifyConnectionSuccess(List<UserLite> users, List<Channel> channels) {
-        logger.log(Level.INFO, "Connecté au serveur");
+        System.err.println("Connecté au serveur");
 
-        if (mainClient == null) {
-            throw new NullPointerException("IHMMain Iface est null");
+        if (mainClient == null)
+        {
+            System.err.println("notifyConnectionSuccess: IHMMain Iface est null");
+            return;
         }
 
-        mainClient.setConnectionStatus(ConnectionStatus.CONNECTED);
+        /**
+         * Donnee test pour l'integ
+         */
+
+
+        mainClient.connectionAccepted();
         mainClient.setConnectedUsers(users);
-        //channelClient.setConnectedUsers(users); //TODO Activer cette methode quand channel l'aura dans son interface
 
-        notifyVisibleChannels(channels);
-    }
-
-    /**
-     * Notifier IHM Main que la connexion a été perdue
-     */
-    public void notifyLostConnection() {
-        logger.log(Level.INFO, "Déconnecté au serveur");
-
-        if (mainClient == null) {
-            throw new NullPointerException("IHMMain Iface est null");
+        for (Channel channel: channels) {
+            notifyVisibleChannel(channel);
         }
-
-        mainClient.setConnectionStatus(ConnectionStatus.LOST);
     }
 
     /**
      * Notifier IHM Main qu'un autre utilisateur est connecté
-     *
-     * @param newUser Nouvel utilisateur connecté que l'on notifie
+     * @param newUser
      */
     public void notifyUserConnected(UserLite newUser) {
-        if (mainClient == null) {
-            throw new NullPointerException("IHMMain Iface est null");
+        if (mainClient == null)
+        {
+            System.err.println("notifyUserConnected: IHMMain Iface est null");
+            return;
         }
 
         mainClient.addConnectedUser(newUser);
@@ -218,12 +198,13 @@ public class CommunicationClientController extends CommunicationController {
 
     /**
      * Notifier IHM Main qu'un autre utilisateur est déconnecté
-     *
-     * @param user Utilisateur déconnecté
+     * @param user
      */
     public void notifyUserDisconnected(UserLite user) {
-        if (mainClient == null) {
-            throw new NullPointerException("IHMMain Iface est null");
+        if (mainClient == null)
+        {
+            System.err.println("notifyUserDisconnected: IHMMain Iface est null");
+            return;
         }
 
         mainClient.removeConnectedUser(user);
@@ -231,373 +212,136 @@ public class CommunicationClientController extends CommunicationController {
 
     /**
      * Notifier IHM Main, Data qu'un channel vient d'etre visible au utilisateur local
-     *
-     * @param channel Channel a notifié
+     * @param channel
      */
     public void notifyVisibleChannel(Channel channel) {
-        if (mainClient == null) {
-            throw new NullPointerException("IHMMain Iface est null");
+        if (mainClient == null)
+        {
+            System.err.println("notifyVisibleChannel: IHMMain Iface est null");
+            return;
         }
 
+//        // TODO INTEGRATION request data addVisibleChannel receive Channel as parameter : (REMARQUE INTEG, CETTE LIGNE RAJOUTE DE LA REDONDANCE) QUE FAIRE??
+        /**
+         * TODO: IF DATA DOESN'T IMPLEMENT a ChannelList, please delete the line "dataClient.addVisibleChannel(channel)" in next integration
+         */
+//        dataClient.addVisibleChannel(channel);
         mainClient.channelAdded(channel);
-    }
 
-    /**
-     * Notifier IHM Main, Data qu'une liste de channels vient d'etre visible au utilisateur local
-     *
-     * @param channels La liste de channels a notifié
-     */
-    public void notifyVisibleChannels(List<Channel> channels) {
-        if (mainClient == null) {
-            throw new NullPointerException("IHMMain Iface est null");
-        }
-
-        mainClient.channelAddedAll(channels);
-    }
-
-    /**
-     * Retire un channel de la liste des channels car celui-ci à été invisible
-     *
-     * @param channelIDs liste identifiant unique (UUID) des channels à supprimer
-     */
-    public void notifyInvisibleChannels(List<UUID> channelIDs) {
-        if (dataClient == null) {
-            throw new NullPointerException("Data Iface est null");
-        }
-
-        // TODO INTEGRATION V2: verify which method is for delete proprietary channel and which is for delete channel from visible list
-        for (UUID channelID: channelIDs) {
-            dataClient.removeChannelFromList(channelID, 0, "Channel supprimé");
-        }
+        // TODO handle propriety Channel
     }
 
     /* -------------------------------- Channel actions notifications handling ---------------------------------------*/
 
     /**
-     * Notifier IHM Main que l'action de création d'un channel a été accepté ou réfusé par serveur
-     *
-     * @param channel channel à notifier à passer à la notification
-     * @param isCreated indique si le channel a été bien créé.
+     * Notifier IHM Main que l'action de création d'un channel a été accepté par serveur
+     * @param channel
      */
-    public void notifyChannelCreationResponse(Channel channel, boolean isCreated) {
-        if (mainClient == null) {
-            throw new NullPointerException("IHMMain Iface est null");
+    public void notifyChannelCreated(Channel channel) {
+        if (mainClient == null)
+        {
+            System.err.println("notifyChannelCreated: IHMMain Iface est null");
+            return;
         }
 
-        if (isCreated) {
-            logger.log(Level.FINE, "Creation channel {} est accepté", channel.getId());
-            mainClient.channelCreated(channel);
+        mainClient.channelCreated(channel);
+
+        // TODO INTEGRATION verify with Data if new created Channel is control by Data Client and fill missing sequence diagram
+        //dataClient.addVisibleChannel(channel);
+    }
+
+    /**
+     * Notifier IHM Main que l'action de création d'un channel a été refusé par serveur
+     * @param channel
+     */
+    public void notifyCreationChannelRefused(Channel channel) {
+        if (mainClient == null)
+        {
+            System.err.println("notifyCreationChannelRefused: IHMMain Iface est null");
+            return;
         }
-        else {
-            logger.log(Level.FINE, "Creation channel {} est refusé", channel.getId());
-            //mainClient.channelCreationRefused(channel);
-        }
+
+        // TODO INTEGRATION request IHM Main to add channelCreationRefused(Channel) method to ICommunicationToIHMMain interface
+        //mainClient.channelCreationRefused(channel);
     }
 
     /**
      * Notifier Data que la demande de rejoindre un channel a été accepté par serveur
-     *
-     * @param user    Utilisateur qui cherche a rejoindre le channel
-     * @param channel channel rejoint
+     * @param user
+     * @param channelID
      */
-    public void notifyJoinChannelResponse(UserLite user, Channel channel, List<UserLite> activeUsers, boolean isAccepted) {
-        if (dataClient == null) {
-            throw new NullPointerException("Data Iface est null");
+    public void notifyAcceptedToJoinChannel (UserLite user, UUID channelID) {
+        if (dataClient == null)
+        {
+            System.err.println("notifyAcceptedToJoinChannel: Data Iface est null");
+            return;
         }
-
-        if (isAccepted) {
-            channelClient.displayChannelHistory(channel, channel.getMessages(), activeUsers);
-        }
-        else {
-            logger.log(Level.FINE, "Join channel request {} est refusé");
-            //dataClient.userRefusedToJoinChannel(user, channelID);
-        }
-    }
-
-    /**
-     * Notifier que la demande de se deconecter d'un channel a été accepté
-     *
-     * @param channelID  identifiant unique (UUID) du channel deconnecté
-     * @param ownerID identifiant unique (UUID) de l'utilisateur qui est parti
-     */
-    public void removeAllJoinsPersonsToProprietaryChannel(UUID channelID, UUID ownerID) {
-        if (dataClient == null) {
-            throw new NullPointerException("Data Iface est null");
-        }
-        dataClient.removeAllUserFromJoinedUserChannel(channelID, 0, "Owner disconnected");
-    }
-
-    /**
-     * Demande Data d'ajouter un utilisateur a un channel proprietaire
-     *
-     * @param user      Utilisateur qui a rejoint le channel
-     * @param channelID identifiant unique (UUID) du channel
-     */
-    public void addUserToProprietaryChannel(UserLite user, UUID channelID) {
-        if (dataClient == null) {
-            throw new NullPointerException("Data Iface est null");
-        }
-
-        logger.log(Level.FINE, "Data add user " + user.getNickName() + " to proprietary channel " + channelID);
-        dataClient.addUserToOwnedChannel(user, channelID);
-    }
-
-    /**
-     * Demande Data d'ajouter un utilisateur a la liste invitée un channel proprietaire
-     *
-     * @param user      Utilisateur qui a rejoint le channel
-     * @param channelID identifiant unique (UUID) du channel
-     */
-    public void inviteUserToProprietaryChannel(UserLite user, UUID channelID) {
-        if (dataClient == null) {
-            throw new NullPointerException("Data Iface est null");
-        }
-
-        logger.log(Level.FINE, "Data invite user " + user.getNickName() + " to proprietary channel " + channelID);
-        dataClient.inviteUserToOwnedChannel(user, channelID);
-    }
-
-    /**
-     * Notifie Application client qu'un utilisateur vient de rejoindre un channel
-     * @param user autre utilisateur connecté
-     * @param channelID ID du channel
-     */
-    public void notifyUserJoinedChannel(UserLite user, UUID channelID) {
-        if (dataClient == null || channelClient == null) {
-            throw new NullPointerException("Data Iface ou Channel Iface est null");
-        }
-
-        logger.log(Level.FINE, user.getNickName() + " joined channel " + channelID);
+        // TODO INTEGRATION verify with data what is the difference between userAddedToChannel and addUserToChannel
         dataClient.userAddedToChannel(user, channelID);
-        channelClient.addConnectedUser(channelID, user);
     }
 
     /**
-     * Notifie Application client qu'un utilisateur vient d'etre autoriser dans un channel
-     * @param user autre utilisateur connecté
-     * @param channelID ID du channel
+     * Notifier Data que la demande de rejoindre un channel a été refusé par serveur
+     * @param user
+     * @param channelID
      */
-    public void notifyUserAuthorizeChannel(UserLite user, UUID channelID) throws IOException {
-        if (dataClient == null || channelClient == null) {
-            throw new NullPointerException("Data Iface ou Channel Iface est null");
+    public void notifyRefusedToJoinChannel(UserLite user, UUID channelID) {
+        if (dataClient == null)
+        {
+            System.err.println("notifyRefusedToJoinChannel: Data Iface est null");
+            return;
         }
-
-        logger.log(Level.FINE, user.getNickName() + " authorized channel " + channelID);
-        channelClient.addAuthorizedUser(channelID, user);
-    }
-
-    public List<Message> requestHistory(UUID channelID) {
-        if (dataClient == null) {
-            throw new NullPointerException("Data Iface est null");
-        }
-
-        return dataClient.getHistory(channelID);
-    }
-
-    public void requestLeaveChannel(UUID channelID, UserLite userLite) {
-        if (dataClient == null) {
-            throw new NullPointerException("Data Iface est null");
-        }
-
-        dataClient.removeUserFromJoinedUserChannel(userLite, channelID, 0, "Leave");
-
-        // TODO INTEGRATION V2: what happens if owner of shared channel leaves
-/*
-        if (channel.getType() != ChannelType.OWNED && channel.getCreator().getId().equals(client.getUUID())) {
-
-        }
- */
+        // TODO INTEGRATION request data to add a method userRefusedToJoinChannel(UserLite, UUID channelID) to handle request refused
+        //dataClient.userRefusedToJoinChannel(user, channelID);
     }
 
     /**
-     * Retire une personne d'un channel
-     *
-     * @param channelID  identifiant unique (UUID) du channel quitté
-     * @param userLite identifiant unique (UUID) de l'utilisateur qui est parti
+     * Notifier Data qu'un autre utilisateur a rejoint un channel
+     * @param user
+     * @param channelID
      */
-    public void notifyUserHasLeftChannel(UUID channelID, UserLite userLite) {
-        if (channelClient == null) {
-            throw new NullPointerException("Channel Iface est null");
+    public void notifyNewUserAddedToJoinChannel (UserLite user, UUID channelID) {
+        if (dataClient == null)
+        {
+            System.err.println("notifyNewUserAddedToJoinChannel: Data Iface est null");
+            return;
         }
 
-        channelClient.removeConnectedUser(channelID, userLite);
-
-        //dataClient.deleteUserFromChannel(userLite, channelID, 0, "has left");
+        // TODO INTEGRATION verify with data what is the difference between userAddedToChannel and addUserToChannel
+        dataClient.addUserToChannel(user, channelID);
     }
 
 
     /* ---------------------------------------- Chat Message Handling ------------------------------------------------*/
-
     /**
      * Notifier Data l'arrivée d'un message de chat
-     *
-     * @param msg       message reçu
-     * @param channelID identifiant unique (UUID) du channel dans lequel le message à été reçu
-     * @param response  Message auquel ce message à répondu
+     * @param msg
+     * @param channelID
+     * @param response
      */
-    public void notifyReceiveMessage(Message msg, UUID channelID, Message response) {
-        if (dataClient == null) {
-            throw new NullPointerException("Data Iface est null");
+    public void notifyReceiveMessage (Message msg, UUID channelID, Message response) {
+        if (dataClient == null)
+        {
+            System.err.println("notifyReceiveMessage: Data Iface est null");
+            return;
         }
-
-        logger.log(Level.FINE, channelID + " has new message ");
 
         dataClient.receiveMessage(msg, channelID, response);
     }
 
     /**
      * Déclencher Data de faire l'action de sauvegarde d'un message
-     *
-     * @param msg       message reçu
-     * @param channelID identifiant unique (UUID) du channel dans lequel le message à été reçu
-     * @param response  Message auquel ce message à répondu
+     * @param msg
+     * @param channelID
+     * @param response
      */
     public void saveMessage(Message msg, UUID channelID, Message response) {
-        if (dataClient == null) {
-            throw new NullPointerException("Data Iface est null");
+        if (dataClient == null)
+        {
+            System.err.println("saveMessage: Data Iface est null");
+            return;
         }
 
         dataClient.saveMessageIntoHistory(msg, channelID, response);
-    }
-
-    /* ---------------------------------------- Admin access right Handling ------------------------------------------*/
-
-    /**
-     * Avertit Data de l'ajout d'un nouvel admin
-     *
-     * @param channelID [UUID] Channel ou un admin est ajoute
-     * @param user      [UserLite] Utilisateur devenant admin
-     */
-    public void notifyNewAdminAdded(UUID channelID, UserLite user) {
-        if (dataClient == null) {
-            throw new NullPointerException("Data Iface est null");
-        }
-
-        logger.log(Level.FINE, "new admin " + user.getNickName() + " added to channel " + channelID);
-
-        dataClient.newAdmin(user, channelID);
-    }
-
-    /**
-     * Avertit Data de retirer d'un nouvel admin
-     *
-     * @param channelID [UUID] Channel ou un admin est ajoute
-     * @param user      [UserLite] Utilisateur devenant admin
-     */
-    public void notifyAdminRemoved(UUID channelID, UserLite user) {
-        if (dataClient == null) {
-            throw new NullPointerException("Data Iface est null");
-        }
-
-        logger.log(Level.FINE, "removed admin " + user.getNickName() + " from channel " + channelID);
-
-        // TODO INTEGRATION V3: tell Data to add method to receive admin removal notification
-    }
-
-    /**
-     * Demande Owner d'ajouter un nouvel admin au channel proprietaire
-     *
-     * @param channelID [UUID] Channel ou un admin est ajoute
-     * @param user      [UserLite] Utilisateur devenant admin
-     */
-    public void addAdminToProprietaryChannel(UUID channelID, UserLite user) {
-        if (dataClient == null) {
-            throw new NullPointerException("Data Iface est null");
-        }
-
-        logger.log(Level.FINE, "request owner to add admin " + user.getNickName() + " to channel " + channelID);
-
-        dataClient.saveNewAdminIntoHistory(user, channelID);
-    }
-
-    /**
-     * Demande Owner d'ajouter un nouvel admin au channel proprietaire
-     *
-     * @param channelID [UUID] Channel ou un admin est ajoute
-     * @param user      [UserLite] Utilisateur devenant admin
-     */
-    public void removeAdminFromProprietaryChannel(UUID channelID, UserLite user) {
-        if (dataClient == null) {
-            throw new NullPointerException("Data Iface est null");
-        }
-
-        logger.log(Level.FINE, "request owner to add admin " + user.getNickName() + " to channel " + channelID);
-
-        // TODO INTEGRATION V3: tell Data to add method to remove admin from proprietary channel
-    }
-
-
-    public void deleteMessage(Message message, UUID channelID, Boolean deleteByCreator) {
-        if (dataClient == null) {
-            throw new NullPointerException("Data Iface est null");
-        }
-
-        dataClient.saveDeletionIntoHistory(message, null, channelID);
-    }
-
-    public void notifyDeletedMessage(Message message, UUID channelID, Boolean deleteByCreator) {
-        if (dataClient == null) {
-            throw new NullPointerException("Data Iface est null");
-        }
-
-        // TODO INTEGRATION V2: verify with Data which method for notifying IHM Channel and which is for delete proprietary message
-        dataClient.deleteMessage(message, null, deleteByCreator);
-    }
-
-    public void returnChannelHistory(UUID channelID, List<Message> history) {
-        // TODO INTEGRATION V2: Tell IHM Channel to modify parameter type from Channel to UUID
-
-        //channelClient.displayHistory(channelID, history);
-    }
-
-    public void notifyInviteChannel(UserLite guest, UUID channelID) {
-        // TODO INTEGRATION V2
-        //dataClient.addUserToChannel(guest, channelID);
-    }
-
-    public void saveLike(UUID channelId, Message msg, UserLite user){
-        if (dataClient == null) {
-            throw new NullPointerException("Data Iface est null");
-        }
-
-        dataClient.saveLikeIntoHistory(channelId, msg, user);
-    }
-
-    public void notifyLikedMessage(UUID channelId, Message msg, UserLite user){
-        if (dataClient == null) {
-            throw new NullPointerException("Data Iface est null");
-        }
-
-        dataClient.likeMessage(channelId, msg, user);
-    }
-
-    public void notifyChangeNickName(UserLite user, UUID channelId, String name){
-        if (dataClient == null) {
-            throw new NullPointerException("Data Iface est null");
-        }
-
-        dataClient.updateNickname(user, channelId, name);
-    }
-
-    /**
-     * Sauvegarde une edition de message sur le client
-     * @param message ancien message
-     * @param newMessage nouveau message
-     * @param channelID channel concerne
-     */
-    public void saveEdit(Message message, Message newMessage, UUID channelID){
-        if (dataClient == null) {
-            throw new NullPointerException("Data Iface est null");
-        }
-
-        dataClient.saveEditionIntoHistory(message, newMessage, channelID);
-    }
-
-    public void notifyEditMessage(Message msg, Message newMsg, UUID channelID) {
-        if (dataClient == null) {
-            throw new NullPointerException("Data Iface est null");
-        }
-
-        dataClient.editMessage(msg, newMsg, channelID);
     }
 }

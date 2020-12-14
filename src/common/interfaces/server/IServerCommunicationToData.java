@@ -1,21 +1,55 @@
 package common.interfaces.server;
 
-import common.shared_data.Channel;
-import common.shared_data.Message;
-import common.shared_data.UserLite;
+import common.sharedData.Channel;
+import common.sharedData.Message;
+import common.sharedData.UserLite;
 import java.util.List;
 import java.util.UUID;
 
 public interface IServerCommunicationToData {
+    /**
+     * NOTE: Suggestion de Comm: ajouter une méthode: 'Channel getChannel(int channelID)' pour retrouver un channel selon son ID
+     */
 
-    Channel requestChannelCreation(Channel channel,boolean isShared, boolean isPublic, UserLite owner);
+
+    /**
+     * NOTE: Suggestion de Comm: utiliser seulement channelID pour diminuer la taille du paquet réseau,
+     * ou une classe supplémentaire qui contient seulement les méta-données d'un channel
+     * (un objet channel peut contient un objet de méta-données, et les contenues comme les message, user info, ...)
+     *
+     * Et cette méthode devrait retouner un boolean indiqué si le channel est bien supprimé
+     */
+
     /**
      * Méthode pour faire la suppression d'un channel
      *
-     * @param channelID l'identificateur du channel à supprimer
+     * @param channel le channel à être supprime
      * @param user l'utilisateur qui fait la demande de suppression
      * */
-    boolean requestChannelRemoval(UUID channelID, UserLite user);
+    List<Channel> requestChannelRemoval(Channel channel, UserLite user);
+
+    /**
+     * NOTE: Suggestion de Comm: utiliser seulement channelID pour diminuer la taille du paquet réseau,
+     * ou une classe supplémentaire qui contient seulement les méta-données d'un channel
+     * (un objet channel peut contient un objet de méta-données, et les contenues comme les message, user info, ...)
+     *
+     * Et cette méthode devrait retouner l'objet channel créé ou un objet null si le channel n'est pas créé
+     */
+
+    /**
+     * Méthode pour ajouter un channel à la liste des channels actifs du serveur
+     *
+     * @param channel le channel à être ajouté
+     * @param typeOwner indique si le channel est de type propriétaire
+     * @param typePublic indique si le channel est de type public
+     * @param user l'utilisateur qui fait la demande
+     * */
+    List<Channel> requestChannelCreation(Channel channel, Boolean typeOwner, Boolean typePublic, UserLite user);
+
+    /**
+     * NOTE: Suggestion de Comm: utiliser une classe supplémentaire qui contient seulement les méta-données d'un channel
+     * car c'est innécessaire d'envoyer tous les messages et utilisateurs d'un channel pour modifier seulement les parametres
+     */
 
     /**
      * Méthode pour mettre à jour les informations d'un channel dans la liste des channels
@@ -23,6 +57,18 @@ public interface IServerCommunicationToData {
      * @param channel le channel concerné avec les modifications déjà faites
      * */
     List<UserLite> updateChannel(Channel channel);
+
+    /**
+     * NOTE: Suggestion de Comm: utiliser channelID et retouner un boolean pour indiqué succès ou échec
+     */
+
+    /**
+     * Méthode pour ajouter un utilisateur à la liste des utilisateurs abonnés d'un channel
+     *
+     * @param channel le channel dans lequel l'utilisateur va s'abonner
+     * @param user l'utilisateur à être ajouté à la liste
+     * */
+    void requestAddUser(Channel channel, UserLite user);
 
     /**
      * Méthode pour ajouter un administrateur à la liste des administrateurs d'un channel
@@ -109,24 +155,6 @@ public interface IServerCommunicationToData {
     Channel createPublicSharedChannel(String name, UserLite creator, String description);
 
     /**
-     * Méthode pour créer un channel privé proprietaire
-     *
-     * @param name le nom du channel
-     * @param creator l'utilisateur créateur du channel
-     * @param description la description du channel
-     * */
-    Channel createPrivateOwnedChannel(String name, UserLite creator, String description);
-
-    /**
-     * Méthode pour créer un channel public proprietaire
-     *
-     * @param name le nom du channel
-     * @param creator l'utilisateur créateur du channel
-     * @param description la description du channel
-     * */
-    Channel createPublicOwnedChannel(String name, UserLite creator, String description);
-
-    /**
      * Méthode pour créer un channel privé partagé
      *
      * @param name le nom du channel
@@ -185,31 +213,15 @@ public interface IServerCommunicationToData {
      * @param channel le channel auquel l'utilisateur va s'abonner
      * @param user l'utilisateur qui va s'abonner au channel
      * */
-    void joinChannel(UUID channel, UserLite user);
+    List<UserLite> joinChannel(Channel channel, UserLite user);
 
     /**
-     * Méthode pour se désabonner d'un channel volontairement 
+     * Méthode pour se désabonner d'un channel
      *
-     * @param channelID l'identificatuer du channel auquel l'utilisateur va se désabonner
+     * @param channel le channel duquel l'utilisateur va se désabonner
      * @param user l'utilisateur qui va se désabonner
      * */
-    void leaveChannel(UUID channelID, UserLite user);
-
-    /**
-     * Méthode pour ajouter un utilisateur à la liste des utilisateurs abonnés d'un channel
-     *
-     * @param channel le channel dans lequel l'utilisateur va s'abonner
-     * @param user l'utilisateur à être ajouté à la liste
-     * */
-    void requestAddUser(Channel channel, UserLite user);
-
-    /**
-     * Méthode pour se retirer de la liste des authaurizedUsers d'un channel volontairement
-     *
-     * @param channelID l'identificatuer du channel auquel l'utilisateur va se désabonner
-     * @param user l'utilisateur qui va se désabonner
-     * */
-    void quitChannel(UUID channelID, UserLite user);
+    void leaveChannel(Channel channel, UserLite user);
 
     /**
      * Méthode qui renvoie l'adresse de l'utilisateur
@@ -226,7 +238,5 @@ public interface IServerCommunicationToData {
      * */
     Boolean checkAuthorization(Channel channel, UserLite user);
 
-    Channel getChannel(UUID channelID);
-
-    List<Channel> disconnectOwnedChannel(UserLite owner);
+     Channel getChannel(UUID channelID);
 }

@@ -47,8 +47,8 @@
                     <Label fx:id="channelDescription" styleClass="channel-description"/>
                 </VBox>
                 <HBox GridPane.columnIndex="1" alignment="CENTER_RIGHT">
-                    <Button fx:id="addMemberBtn" onAction="#addUserToChannel" styleClass="icon-bar-btn" visible="false"/>
                     <Button fx:id="seeMembersBtn" onAction="#seeMembers" styleClass="icon-bar-btn"/>
+                    <Button fx:id="addMemberBtn" onAction="#addUserToChannel" styleClass="icon-bar-btn"/>
                     <Button fx:id="leaveChannelBtn" onAction="#leaveChannel" styleClass="icon-bar-btn"/>
                 </HBox>
             </children>
@@ -74,6 +74,6 @@
         <BorderPane fx:id="pageToDisplay"/>-->
     </VBox>
     <stylesheets>
-        <URL value="@../../common/IHMCommon/common.css"></URL>
+        <URL value="file:src/common/IHMCommon/common.css"></URL>
     </stylesheets>
 </AnchorPane>

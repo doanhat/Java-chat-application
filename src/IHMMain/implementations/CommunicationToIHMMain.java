@@ -1,10 +1,10 @@
 package IHMMain.implementations;
 
 import IHMMain.IHMMainController;
+import IHMMain.controllers.IHMMainWindowController;
 import common.interfaces.client.ICommunicationToIHMMain;
-import common.shared_data.Channel;
-import common.shared_data.ConnectionStatus;
-import common.shared_data.UserLite;
+import common.sharedData.Channel;
+import common.sharedData.UserLite;
 import javafx.application.Platform;
 
 import java.util.List;
@@ -13,61 +13,54 @@ public class CommunicationToIHMMain implements ICommunicationToIHMMain {
 
     private IHMMainController ihmMainController;
 
+    private IHMMainWindowController ihmMainWindowController;
+
     public CommunicationToIHMMain(IHMMainController ihmMainController) {
         this.ihmMainController = ihmMainController;
     }
 
     @Override
-    public void setConnectionStatus(ConnectionStatus status) {
+    public void connectionAccepted() {
         /**
-         * N'étant pas sur le thread principal il faut execute le load plus tard
+         * N'étant pas sur le threadprincipal il faut execute le load plus tard
          */
-        Platform.runLater(() -> ihmMainController.loadIHMMainWindow(status));
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                ihmMainWindowController = ihmMainController.getMainWindowController().getIHMMainWindowController();
+                ihmMainWindowController.getMainWindowController().loadIHMMainWindow();
+            }
+        });
     }
 
     @Override
     public void setConnectedUsers(List<UserLite> users) {
-        Platform.runLater(() -> ihmMainController.getConnectedUsers().setAll(users));
+        ihmMainController.getConnectedUsers().setAll(users);
     }
 
     @Override
     public void addConnectedUser(UserLite user) {
-        Platform.runLater(() -> ihmMainController.getConnectedUsers().add(user));
+        ihmMainController.getConnectedUsers().add(user);
     }
 
     @Override
     public void removeConnectedUser(UserLite user) {
-        Platform.runLater(() -> ihmMainController.getConnectedUsers().remove(user));
+        ihmMainController.getConnectedUsers().remove(user);
     }
 
     @Override
     public void channelCreated(Channel channel) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                ihmMainController.getVisibleChannels().add(channel);
-                ihmMainController.getMainWindowController().getIHMMainWindowController().viewChannel(channel);
-            }
-        });
+        ihmMainController.getVisibleChannels().add(channel);
+        ihmMainWindowController.loadIHMChannelWindow(channel);
     }
+
 
     @Override
     public void channelAdded(Channel channel) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                ihmMainController.getVisibleChannels().add(channel);
-            }
-        });
+        ihmMainController.getVisibleChannels().add(channel);
     }
 
-    @Override
-    public void channelAddedAll(List<Channel> channels) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                ihmMainController.getVisibleChannels().addAll(channels);
-            }
-        });
+    public void setIhmMainWindowController(IHMMainWindowController ihmMainWindowController){
+        this.ihmMainWindowController = ihmMainWindowController;
     }
 }

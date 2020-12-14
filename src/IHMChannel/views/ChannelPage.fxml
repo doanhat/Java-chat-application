@@ -40,6 +40,6 @@
         -->
     </VBox>
     <stylesheets>
-        <URL value="@../../common/IHMCommon/common.css"></URL>
+        <URL value="file:src/common/IHMCommon/common.css"></URL>
     </stylesheets>
 </AnchorPane>

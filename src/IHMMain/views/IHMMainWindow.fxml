@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -13,10 +11,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="/IHMMain/style.css" xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml/1">
+            xmlns:fx="http://javafx.com/fxml/1" >
    <children>
       <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <columnConstraints>
@@ -27,23 +24,21 @@
             <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <StackPane fx:id="stackMenu" styleClass="app-bar">
+            <StackPane fx:id="stackMenu" style="-fx-background-color: lightgreen;">
                <children>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="8.0">
+                  <GridPane>
+                     <columnConstraints>
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="20.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
                      <children>
-                        <ImageView fx:id="profileImage" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" />
-                        <Text fx:id="nickname" styleClass="app-bar-username" strokeType="OUTSIDE" strokeWidth="0.0" text="Username" />
-                        <Button fx:id="homePageButton" mnemonicParsing="false" onAction="#loadUserListView">
-                           <HBox.margin>
-                              <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
-                           </HBox.margin></Button>
-                        <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-                        <Button fx:id="disconnectButton" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#onSeDeconnecterButtonClick" />
+                        <Label text="Ici sera la barre de navigation" GridPane.columnIndex="1" />
+                        <Button mnemonicParsing="false" onAction="#loadUserListView" text="&lt;" />
                      </children>
-                     <StackPane.margin>
-                        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
-                     </StackPane.margin>
-                  </HBox>
+                  </GridPane>
                </children>
             </StackPane>
             <GridPane GridPane.rowIndex="1">

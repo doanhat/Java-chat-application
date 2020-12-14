@@ -1,10 +1,10 @@
 package tests.communication.interfaces_simulation;
 
 import common.interfaces.client.ICommunicationToIHMChannel;
-import common.shared_data.Channel;
-import common.shared_data.Message;
-import common.shared_data.User;
-import common.shared_data.UserLite;
+import common.sharedData.Channel;
+import common.sharedData.Message;
+import common.sharedData.User;
+import common.sharedData.UserLite;
 
 import java.util.List;
 import java.util.UUID;
@@ -27,20 +27,6 @@ public class VirtualCommunicationToIHMChannel implements ICommunicationToIHMChan
 
     @Override
     public void removeConnectedUser(UUID channelId, UserLite user) {
-
-    }
-
-    @Override
-    public void addAuthorizedUser(UUID channel, UserLite user) {
-
-    }
-
-    @Override
-    public void removeAuthorizedUser(UUID channel, UserLite user) {
-
-    }
-    @Override
-    public void leaveChannel(UUID channelID, UserLite user) {
 
     }
 }

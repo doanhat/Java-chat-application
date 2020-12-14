@@ -1,14 +1,12 @@
 package common.interfaces.client;
 
-import common.shared_data.*;
-
-import java.io.IOException;
+import common.sharedData.*;
 import java.util.*;
 
 public interface IIHMChannelToCommunication
 {
     /**
-     * Transfert au serveur l'envoi d'un message d'invitation au serveur'envoi
+     * Transfert au serveur l'envoie d'un message d'invitation au serveur'envoi
      * d'une invitation a rejoindre un channel
      *
      * @param guest [UserLite] Utilisateur invité au channel
@@ -20,19 +18,11 @@ public interface IIHMChannelToCommunication
     /**
      * Demande l'envoie d'un message de nomination d'administrateur au serveur
      *
-     * @param user [UserLite] Utilisateur devenant admin
+     * @param us [UserLite] Utilisateur devenant admin
      * @param channel [Channel] Channel qui doit recevoir les droitsChannel
      *                sur lequel on souhait donnée les droits d'admin
      **/
-    void giveAdmin(UserLite user, Channel channel);
-
-    /**
-     * Permet de retirer un administrateur pour un channel.
-     * @param user [UserLite] Utilisateur qui n'est plus un admin
-     * @param channel [Channel] channel pour lequel on a retiré un admin
-     */
-    void removeAdmin(UserLite user, Channel channel);
-
+    void giveAdmin(UserLite us, Channel channel);
     /**
      * Demande de bannir un utilisateur d'un channel
      *
@@ -88,30 +78,33 @@ public interface IIHMChannelToCommunication
     void changeNickname(UserLite user, Channel channel, String newNickname);
 
     /**
-     * Demande de déconnecter un channel au serveur
+     * Demande de quitter un channel au serveur
      *
+     * @param user [UserLite] Utilisateur concerné
      * @param channel [Channel] Channel que l'on veut quitter
      **/
-    void leaveChannel(Channel channel);
+    void leaveChannel(UserLite user, Channel channel);
 
     /**
-     * Demande de d'etre connecté à channel au serveur
+     * Demande de rejoindre channel au serveur
      *
      * @param channel [Channel] Channel que l'on veut rejoindre
      **/
     void askToJoin(Channel channel);
 
-
     /**
      * Recupere l'histoique d'un serveur donnée
      *
-     * @param channel [Channel] Channel dont on demande l'historique
+     * @param channelId [Channel] Channel dont on demande l'historique
+     * @return List<Message> Liste des messages qui compose l'historique
      **/
-    void getHistory(Channel channel);
+    List<Message> getChannelHistory(UUID channelId);
 
     /**
-     * Remove user from authorized user list in Channel
-     * @param channelId
+     * Signale que le client a fermé l'onglet du channel d'ID channelId.
+     * Cela signifie qu'il s'est déconnecté du channel mais ne l'a pas quitté pour autant.
+     * @param channelId ID du channel fermé
+     * @param user user ayant quitté le channel
      */
     void closeChannel(UUID channelId);
 

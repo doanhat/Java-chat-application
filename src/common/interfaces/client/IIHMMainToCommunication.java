@@ -1,6 +1,7 @@
 package common.interfaces.client;
 
-import common.shared_data.*;
+import common.sharedData.*;
+import java.util.*;
 
 public interface IIHMMainToCommunication
 {

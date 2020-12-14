@@ -1,14 +1,17 @@
 package IHMChannel;
 
+import IHMMain.controllers.UserListViewController;
 import common.IHMTools.IHMTools;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import IHMMain.controllers.IHMMainWindowController;
 import app.MainWindowController;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
-
+import IHMMain.controllers.IHMMainPage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -55,29 +58,29 @@ public class IHMChannelPageController implements Initializable {
 
     @FXML
     void loadUserListView() {
-//        this.StackMenu.getChildren().clear(); //On efface les noeuds fils
-//        //On charge la vue UserListView
-//        try {
-//            FXMLLoader fxmlLoader = new
-//                    FXMLLoader(getClass().getResource("../IHMMain/views/IHMMainPage.fxml"));
-//            Parent parent = fxmlLoader.load(); //On recupère le noeud racine du fxml chargé
-//            IHMMainPage ihmMainPage = fxmlLoader.getController(); //On récupère la classe controller liée au fxml
-//            ihmMainPage.setMainWindowController(this.mainWindowController); //On donne au controller fils une référence de son controller grand-parent
-//            this.StackMenu.getChildren().addAll(parent); //On ajoute le noeud parent (fxml) au noeud racine de cette vue
-//            IHMTools.fitSizeToParent((Region)this.StackMenu,(Region)parent);
-//
-//            FXMLLoader loader = new
-//                    FXMLLoader(getClass().getResource("../IHMMain/views/UserListView.fxml"));
-//            Parent parentUserList = loader.load();
-//            UserListViewController userListViewController = loader.getController(); //On récupère la classe controller liée au fxml
-//            userListViewController.setMainWindowController(this.mainWindowController); //On donne au controller fils une référence de son controller grand-parent
-//            this.ihmMainWindowController.getMainArea().getChildren().clear();
-//            this.ihmMainWindowController.getMainArea().getChildren().addAll(parentUserList); //On ajoute le noeud parent (fxml) au noeud racine de cette vue
-//            IHMTools.fitSizeToParent((Region)this.ihmMainWindowController.getMainArea(),(Region)parentUserList);
-//
-//        } catch (IOException exception) {
-//            throw new RuntimeException(exception);
-//        }
+        this.StackMenu.getChildren().clear(); //On efface les noeuds fils
+        //On charge la vue UserListView
+        try {
+            FXMLLoader fxmlLoader = new
+                    FXMLLoader(getClass().getResource("../IHMMain/views/IHMMainPage.fxml"));
+            Parent parent = fxmlLoader.load(); //On recupère le noeud racine du fxml chargé
+            IHMMainPage ihmMainPage = fxmlLoader.getController(); //On récupère la classe controller liée au fxml
+            ihmMainPage.setMainWindowController(this.mainWindowController); //On donne au controller fils une référence de son controller grand-parent
+            this.StackMenu.getChildren().addAll(parent); //On ajoute le noeud parent (fxml) au noeud racine de cette vue
+            IHMTools.fitSizeToParent((Region)this.StackMenu,(Region)parent);
+
+            FXMLLoader loader = new
+                    FXMLLoader(getClass().getResource("../IHMMain/views/UserListView.fxml"));
+            Parent parentUserList = loader.load();
+            UserListViewController userListViewController = loader.getController(); //On récupère la classe controller liée au fxml
+            userListViewController.setMainWindowController(this.mainWindowController); //On donne au controller fils une référence de son controller grand-parent
+            this.ihmMainWindowController.getMainArea().getChildren().clear();
+            this.ihmMainWindowController.getMainArea().getChildren().addAll(parentUserList); //On ajoute le noeud parent (fxml) au noeud racine de cette vue
+            IHMTools.fitSizeToParent((Region)this.ihmMainWindowController.getMainArea(),(Region)parentUserList);
+
+        } catch (IOException exception) {
+            throw new RuntimeException(exception);
+        }
     }
 
     @FXML
@@ -87,29 +90,29 @@ public class IHMChannelPageController implements Initializable {
 
     @FXML
     void quitChannel() {
-//        this.StackMenu.getChildren().clear(); //On efface les noeuds fils
-//        //On charge la vue UserListView
-//        try {
-//            FXMLLoader fxmlLoader = new
-//                    FXMLLoader(getClass().getResource("../IHMMain/views/IHMMainPage.fxml"));
-//            Parent parent = fxmlLoader.load(); //On recupère le noeud racine du fxml chargé
-//            IHMMainPage ihmMainPage = fxmlLoader.getController(); //On récupère la classe controller liée au fxml
-//            ihmMainPage.setMainWindowController(this.mainWindowController); //On donne au controller fils une référence de son controller grand-parent
-//            this.StackMenu.getChildren().addAll(parent); //On ajoute le noeud parent (fxml) au noeud racine de cette vue
-//            IHMTools.fitSizeToParent((Region)this.StackMenu,(Region)parent);
-//
-//            FXMLLoader loader = new
-//                    FXMLLoader(getClass().getResource("../IHMMain/views/UserListView.fxml"));
-//            Parent parentUserList = loader.load();
-//            UserListViewController userListViewController = loader.getController(); //On récupère la classe controller liée au fxml
-//            userListViewController.setMainWindowController(this.mainWindowController); //On donne au controller fils une référence de son controller grand-parent
-//            this.ihmMainWindowController.getMainArea().getChildren().clear();
-//            this.ihmMainWindowController.getMainArea().getChildren().addAll(parentUserList); //On ajoute le noeud parent (fxml) au noeud racine de cette vue
-//            IHMTools.fitSizeToParent((Region)this.ihmMainWindowController.getMainArea(),(Region)parentUserList);
-//
-//        } catch (IOException exception) {
-//            throw new RuntimeException(exception);
-//        }
+        this.StackMenu.getChildren().clear(); //On efface les noeuds fils
+        //On charge la vue UserListView
+        try {
+            FXMLLoader fxmlLoader = new
+                    FXMLLoader(getClass().getResource("../IHMMain/views/IHMMainPage.fxml"));
+            Parent parent = fxmlLoader.load(); //On recupère le noeud racine du fxml chargé
+            IHMMainPage ihmMainPage = fxmlLoader.getController(); //On récupère la classe controller liée au fxml
+            ihmMainPage.setMainWindowController(this.mainWindowController); //On donne au controller fils une référence de son controller grand-parent
+            this.StackMenu.getChildren().addAll(parent); //On ajoute le noeud parent (fxml) au noeud racine de cette vue
+            IHMTools.fitSizeToParent((Region)this.StackMenu,(Region)parent);
+
+            FXMLLoader loader = new
+                    FXMLLoader(getClass().getResource("../IHMMain/views/UserListView.fxml"));
+            Parent parentUserList = loader.load();
+            UserListViewController userListViewController = loader.getController(); //On récupère la classe controller liée au fxml
+            userListViewController.setMainWindowController(this.mainWindowController); //On donne au controller fils une référence de son controller grand-parent
+            this.ihmMainWindowController.getMainArea().getChildren().clear();
+            this.ihmMainWindowController.getMainArea().getChildren().addAll(parentUserList); //On ajoute le noeud parent (fxml) au noeud racine de cette vue
+            IHMTools.fitSizeToParent((Region)this.ihmMainWindowController.getMainArea(),(Region)parentUserList);
+
+        } catch (IOException exception) {
+            throw new RuntimeException(exception);
+        }
     }
 
     @FXML

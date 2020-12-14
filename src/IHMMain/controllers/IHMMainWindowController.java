@@ -2,30 +2,23 @@ package IHMMain.controllers;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Optional;
 import java.util.ResourceBundle;
+
 import IHMMain.IHMMainController;
 import app.MainWindowController;
-import common.IHMTools.IHMTools;
-import common.shared_data.Channel;
-import common.shared_data.ChannelType;
-import common.shared_data.UserLite;
-import common.shared_data.Visibility;
-import javafx.application.Platform;
+import common.IHMTools.*;
+import common.sharedData.Channel;
+import common.sharedData.ChannelType;
+import common.sharedData.Visibility;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
+import javafx.fxml.*;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.control.ListView;
+import javafx.scene.control.MultipleSelectionModel;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -34,20 +27,6 @@ public class IHMMainWindowController implements Initializable{
     private IHMMainController ihmMainController;
 
     private MainWindowController mainWindowController;
-
-    private ConnectionController connectionController;
-
-    private UserLite userL;
-    
-    // Is true if it's home page currently display, false otherwise
-    private boolean isHomePage = true;
-
-    private boolean isViewChangeSelectedChannel = false;
-
-    private Region ihmChannelNode;
-
-    @FXML
-    private AnchorPane root;
 
     @FXML
     private ListView<Channel> privateChannels;
@@ -61,19 +40,6 @@ public class IHMMainWindowController implements Initializable{
     @FXML
     private StackPane mainArea;
 
-    @FXML
-    private ImageView profileImage;
-
-    @FXML
-    private Text nickname;
-
-    @FXML
-    private Button homePageButton;
-
-    @FXML
-    private Button disconnectButton;
-
-
     public MainWindowController getMainWindowController() {
         return mainWindowController;
     }
@@ -86,60 +52,13 @@ public class IHMMainWindowController implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
         //Mettez ici le code qui s'execute avant l'apparition de la vue
         loadUserListView();
-        userL = ihmMainController.getIHMMainToData().getUser().getUserLite();
-        updateProfileImage();
-        nickname.setText(userL.getNickName());
 
-        // Gestion de l'affichage du bouton de redirection vers la page d'accueil
-        ImageView goToHomePageButton = new ImageView("IHMMain/icons/arrow_back.png");
-        goToHomePageButton.setFitHeight(18);
-        goToHomePageButton.setFitWidth(18);
-        homePageButton.setGraphic(goToHomePageButton);
-
-        // Gestion de l'affichage du bouton de déconnexion
-        ImageView exitButtonConnection = new ImageView("IHMMain/icons/exit_to_app.png");
-        exitButtonConnection.setFitHeight(18);
-        exitButtonConnection.setFitWidth(18);
-        disconnectButton.setGraphic(exitButtonConnection);
-
-        Stage primaryStage = mainWindowController.getPrimaryStage();
-        Platform.setImplicitExit(false);
-        primaryStage.setOnCloseRequest(event -> {
-            // Save file
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Fermer l'application");
-            alert.setHeaderText("Voulez-vous fermer l'application?");
-
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == ButtonType.OK){
-                // ... user chose OK
-                try {
-                    try {
-                        ihmMainController.getIIHMMainToCommunication().disconnect();
-                        Platform.exit();
-                    }catch(Exception e){
-                        throw new Exception("Impossible de se déconnecter du serveur lors de la fermeture de l'application", e);
-                    }
-                }catch(Exception e){
-                    e.printStackTrace();
-                    Platform.exit();
-                }
-            } else {
-                // ... user chose CANCEL or closed the dialog
-                event.consume();
-            }
-        });
-
-        initChannelsListView();
-    }
-
-    private void initChannelsListView() {
         /**
          * Bind the ListView with the list of private channels.
          * And use the ChannelListViewCellController to display each item.
          */
         privateChannels.setItems(ihmMainController.getVisibleChannels().filtered(channel -> channel.getVisibility() == Visibility.PRIVATE));
-        privateChannels.setCellFactory(privateChannelsListView -> new ChannelListViewCellController(ihmMainController));
+        privateChannels.setCellFactory(privateChannelsListView -> new ChannelListViewCellController());
 
         /**
          * When a channel is selected, we display is channel view
@@ -150,8 +69,8 @@ public class IHMMainWindowController implements Initializable{
                 new ChangeListener<Channel>() {
                     @Override
                     public void changed(ObservableValue observable, Channel oldValue, Channel newValue) {
-                        if (newValue != null && !isViewChangeSelectedChannel) {
-                            viewChannel(newValue);
+                        if (newValue != null) {
+                            loadIHMChannelWindow(newValue);
                             clearSelectedChannel(publicChannels);
                         }
                     }
@@ -163,7 +82,7 @@ public class IHMMainWindowController implements Initializable{
          * And use the ChannelListViewCellController to display each item.
          */
         publicChannels.setItems(ihmMainController.getVisibleChannels().filtered(channel -> channel.getVisibility() == Visibility.PUBLIC));
-        publicChannels.setCellFactory(privateChannelsListView -> new ChannelListViewCellController(ihmMainController));
+        publicChannels.setCellFactory(privateChannelsListView -> new ChannelListViewCellController());
 
         /**
          * When a channel is selected, we display is channel view
@@ -174,8 +93,8 @@ public class IHMMainWindowController implements Initializable{
                 new ChangeListener<Channel>() {
                     @Override
                     public void changed(ObservableValue observable, Channel oldValue, Channel newValue) {
-                        if (newValue != null && !isViewChangeSelectedChannel) {
-                            viewChannel(newValue);
+                        if (newValue != null) {
+                            loadIHMChannelWindow(newValue);
                             clearSelectedChannel(privateChannels);
                         }
                     }
@@ -194,52 +113,14 @@ public class IHMMainWindowController implements Initializable{
         }
     }
 
-    /**
-     * Use to show the thread of this channel
-     * @param channel Channel to set a in the current view
-     */
-    public void viewChannel(Channel channel) {
-        if (ihmChannelNode == null) {
-            ihmChannelNode = ihmMainController.getIHMMainToIHMChannel().initIHMChannelWindow();
-        }
-        if (this.isHomePage) {
-            loadIHMChannelWindow();
-        }
-        this.ihmMainController.getIHMMainToIHMChannel().viewChannel(channel);
-    }
-
-    /**
-     * Change the visual state of the current selected channel.
-     * Use when there a changed tab inside IHM-Channel view to maintain visual consistency
-     * @param channel Channel to view as selected
-     */
-    public void setViewChannelSelected(Channel channel) {
-        if (ihmMainController.getVisibleChannels().contains(channel)) {
-            clearSelectedChannel(privateChannels);
-            clearSelectedChannel(publicChannels);
-            isViewChangeSelectedChannel = true;
-            if (channel.getVisibility() == Visibility.PUBLIC) {
-                publicChannels.scrollTo(channel);
-                publicChannels.getSelectionModel().select(channel);
-            } else {
-                privateChannels.scrollTo(channel);
-                privateChannels.getSelectionModel().select(channel);
-            }
-            isViewChangeSelectedChannel = false;
-        }
-    }
-
-    public void loadIHMChannelWindow(){
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                mainArea.getChildren().clear(); //On efface les noeuds fils
-                isHomePage = false;
-                //On charge la vue d'IHM-Channel
-                mainArea.getChildren().addAll(ihmChannelNode); //On ajoute le noeud parent (fxml) au noeud racine de cette vue
-                IHMTools.fitSizeToParent((Region)mainArea,ihmChannelNode);
-            }
-        });
+    @FXML
+    public void loadIHMChannelWindow(Channel channel){
+        this.mainArea.getChildren().clear(); //On efface les noeuds fils
+        //On charge la vue IHMMainWindow
+        //Region ihmChannelNode = ihmMainController.getIHMMainToIHMChannel().getIHMChannelWindow();
+        Region ihmChannelNode = ihmMainController.getIHMMainToIHMChannel().initIHMChannelWindow(channel); // TODO lors du merge avec IHM-Channel, utiliser cette ligne plutot que celle au dessus
+        this.mainArea.getChildren().addAll(ihmChannelNode); //On ajoute le noeud parent (fxml) au noeud racine de cette vue
+        IHMTools.fitSizeToParent((Region)this.mainArea,ihmChannelNode);
     }
 
     @FXML
@@ -257,31 +138,6 @@ public class IHMMainWindowController implements Initializable{
             loadCreationChannelPopup(Visibility.PUBLIC);
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-    @FXML
-    public void onSeDeconnecterButtonClick(){
-        try {
-            ihmMainController.getIIHMMainToCommunication().disconnect();
-            ihmMainController.getIHMMainToData().disconnect();
-            ihmMainController.getMainWindowController().loadConnectionWindow();
-            ihmMainController.reset();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    private void updateProfileImage(){
-        if(userL.getAvatar() != ""){
-            /**
-             * Voir avec Data comment sont stockées les images sur le serveur,
-             * faire en sorte que getAvatar renvoie une image afin de ne pas stocker trop
-             * d'images en local
-             */
-            //Image image = new Image(userL.getAvatar());
-            Image image = new Image("IHMMain/icons/willsmith.png");
-            profileImage.setImage(image);
         }
     }
 
@@ -317,18 +173,13 @@ public class IHMMainWindowController implements Initializable{
         System.out.println(newChannel.getCreator().getNickName());
         */
         // TODO see with Communication if they add the channel or if it's our job
-        if (newChannel.getType() == ChannelType.SHARED) {
-            ihmMainController.getIIHMMainToCommunication().createChannel(newChannel, newChannel.getType() == ChannelType.SHARED, newChannel.getVisibility() == Visibility.PUBLIC, newChannel.getCreator());
-        } else {
-            ihmMainController.getIHMMainToData().createChannel(newChannel.getName(), newChannel.getDescription(), newChannel.getType() == ChannelType.SHARED, newChannel.getVisibility() == Visibility.PUBLIC, newChannel.getCreator() );
-        }
+        ihmMainController.getIIHMMainToCommunication().createChannel(newChannel, newChannel.getType() == ChannelType.SHARED, newChannel.getVisibility() == Visibility.PUBLIC, newChannel.getCreator());
 
     }
 
     @FXML
     public void loadUserListView(){
         this.mainArea.getChildren().clear(); //On efface les noeuds fils
-        this.isHomePage = true;
 
         // Unselect both ListView
         clearSelectedChannel(privateChannels);

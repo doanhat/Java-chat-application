@@ -1,6 +1,6 @@
 package IHMChannel.controllers;
 
-import common.shared_data.UserLite;
+import common.sharedData.UserLite;
 import javafx.fxml.FXML;
 import javafx.scene.text.Text;
 

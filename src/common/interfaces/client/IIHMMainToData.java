@@ -1,9 +1,9 @@
 package common.interfaces.client;
 
-import common.shared_data.Channel;
-import common.shared_data.User;
-import common.shared_data.UserLite;
-import common.shared_data.Visibility;
+import common.sharedData.Channel;
+import common.sharedData.User;
+import common.sharedData.UserLite;
+import common.sharedData.Visibility;
 
 import java.util.Date;
 import java.util.List;
@@ -12,11 +12,6 @@ import java.util.List;
  * The interface Iihm main to data.
  */
 public interface IIHMMainToData {
-    /**
-     * Déconnecter application
-     */
-    void disconnect();
-
     /**
      * Gets connected users.
      *
@@ -71,7 +66,7 @@ public interface IIHMMainToData {
      * @param nickName   the pseudo
      * @param password the password
      */
-    boolean localAuthentification(String nickName, String password);
+    void localAuthentification(String nickName, String password);
 
     /**
      * Create account.
@@ -83,7 +78,7 @@ public interface IIHMMainToData {
      * @param firstName the first name
      * @param birthDate the birth date
      */
-    boolean createAccount(String nickName, String avatar, String password, String lastName, String firstName, Date birthDate);
+    void createAccount(String nickName, String avatar, String password, String lastName, String firstName, Date birthDate);
 
     /**
      * Get connected User.

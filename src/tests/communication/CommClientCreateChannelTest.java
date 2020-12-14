@@ -5,10 +5,10 @@ import Communication.client.CommunicationClientInterface;
 import common.interfaces.client.ICommunicationToData;
 import common.interfaces.client.ICommunicationToIHMChannel;
 import common.interfaces.client.ICommunicationToIHMMain;
-import common.shared_data.Channel;
-import common.shared_data.ChannelType;
-import common.shared_data.UserLite;
-import common.shared_data.Visibility;
+import common.sharedData.Channel;
+import common.sharedData.ChannelType;
+import common.sharedData.UserLite;
+import common.sharedData.Visibility;
 import tests.communication.interfaces_simulation.VirtualCommunicationToData;
 import tests.communication.interfaces_simulation.VirtualCommunicationToIHMChannel;
 import tests.communication.interfaces_simulation.VirtualCommunicationToIHMMain;
@@ -39,7 +39,7 @@ public class CommClientCreateChannelTest {
         /* ------------------------------------------- Test Communication interface ----------------------------------*/
         CommunicationClientController commControler = new CommunicationClientController();
         CommunicationClientInterface commInterface = commControler.getCommunicationClientInterface();
-        commControler.setupInterfaces(dataIface, mainIface, channelIface);
+        commInterface.setupInterfaces(dataIface, mainIface, channelIface);
 
         commInterface.userConnect(localUser);
 
@@ -74,7 +74,7 @@ public class CommClientCreateChannelTest {
             Channel requestChannel = getChannel(channelID);
 
             if (requestChannel == null) {
-                System.err.println("Cannot find requested channel");
+                System.err.println("Cannot find channel requester");
             }
             else {
                 commInterface.askToJoin(channel);

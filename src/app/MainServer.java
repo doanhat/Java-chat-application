@@ -1,5 +1,5 @@
 package app;
-import data.server.DataServerController;
+import Data.server.DataServerController;
 import Communication.server.CommunicationServerController;
 
 public class MainServer {

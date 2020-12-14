@@ -15,8 +15,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Separator?>
 <AnchorPane xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IHMChannel.controllers.ChannelMessagesController">
     <GridPane>
         <columnConstraints>
@@ -29,17 +27,14 @@
                     <ListView fx:id="listMessages" prefWidth="1200" />
                     <BorderPane fx:id="connectedMembers" prefWidth="200" styleClass="connectedMembersList" />
                 </HBox>
-                <HBox fx:id="reponseArea" prefHeight="NaN" alignment="CENTER_LEFT" style="-fx-background-color: #B9E6FF;">
-                   <children>
-                      <Pane  prefWidth="50"/>
-                      <ImageView fx:id="imgReceiver"/>
-                      <Text fx:id="userNameReceiver" />
-                      <TextArea fx:id="messageReceiver" prefHeight="100"/>
-                      <Pane HBox.hgrow="ALWAYS"/>
-                      <Button fx:id="removeBtn" onAction="#removeReponse" style="-fx-background-color: transparent"/>
-                      <Pane HBox.hgrow="ALWAYS" />
-                   </children>
-                </HBox>
+            <HBox fx:id="reponseArea" prefHeight="NaN">
+               <children>
+                  <ImageView fx:id="imgReceiver"/>
+                  <Text fx:id="userNameReceiver" />
+                  <TextArea fx:id="messageReceiver" />
+                  <Button fx:id="removeBtn" onAction="#removeReponse" text="remove" />
+               </children>
+            </HBox>
 
                 <HBox alignment="BOTTOM_LEFT" prefHeight="-Infinity" styleClass="envoi-message">
                     <Pane HBox.hgrow="ALWAYS" />
@@ -62,6 +57,6 @@
 
 
     <stylesheets>
-        <URL value="@../../common/IHMCommon/common.css" />
+        <URL value="file:src/common/IHMCommon/common.css" />
     </stylesheets>
 </AnchorPane>

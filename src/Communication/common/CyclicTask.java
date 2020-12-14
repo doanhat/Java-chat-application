@@ -1,9 +1,5 @@
 package Communication.common;
 
-/**
- * Classe abstraite d'une tache cyclique implementant {@link java.lang.Runnable} et permettant de la lancer comme thread
- *
- */
 public abstract class CyclicTask implements Runnable {
     protected Boolean cancel = false;
 

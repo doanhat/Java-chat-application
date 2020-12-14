@@ -1,9 +1,8 @@
 package tests.communication.interfaces_simulation;
 
 import common.interfaces.client.ICommunicationToIHMMain;
-import common.shared_data.Channel;
-import common.shared_data.ConnectionStatus;
-import common.shared_data.UserLite;
+import common.sharedData.Channel;
+import common.sharedData.UserLite;
 
 import java.util.List;
 import java.util.Map;
@@ -20,7 +19,9 @@ public class VirtualCommunicationToIHMMain implements ICommunicationToIHMMain {
     }
 
     @Override
-    public void setConnectionStatus(ConnectionStatus status) { }
+    public void connectionAccepted() {
+        System.err.println("Connected to server");
+    }
 
     @Override
     public void setConnectedUsers(List<UserLite> users) {
@@ -70,14 +71,5 @@ public class VirtualCommunicationToIHMMain implements ICommunicationToIHMMain {
         channels.put(channel.getId(), channel);
 
         System.err.println("Channel " + channel.getId() + " added");
-    }
-
-    @Override
-    public void channelAddedAll(List<Channel> channelsList) {
-        for (Channel channel : channelsList) {
-            channels.put(channel.getId(), channel);
-
-            System.err.println("Channel " + channel.getId() + " added");
-        }
     }
 }

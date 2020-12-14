@@ -2,7 +2,7 @@ package IHMChannel;
 
 import IHMChannel.controllers.ChannelMessagesController;
 import IHMChannel.controllers.MessageController;
-import common.shared_data.Message;
+import common.sharedData.Message;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
@@ -28,7 +28,6 @@ public class MessageDisplay {
         messageController = fxmlLoader.getController();
         messageController.setMessageToDisplay(msg);
         messageController.setChannelMessagesController(channelMessagesController);
-        channelMessagesController.getMessagesMap().put(msg.getId(), messageController);
     }
 
 }

@@ -2,8 +2,8 @@ package IHMChannel.controllers;
 
 import IHMChannel.IHMChannelController;
 import IHMChannel.MemberDisplay;
-import common.shared_data.Channel;
-import common.shared_data.UserLite;
+import common.sharedData.Channel;
+import common.sharedData.UserLite;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -36,7 +36,7 @@ public class AlphabeticalMembersListController {
      */
     private void initMembersList() {
         channelMembers.clear();
-        for (UserLite usr : this.channel.getAuthorizedPersons()){
+        for (UserLite usr : this.channel.getAcceptedPersons()){
             channelMembers.add(usr);
         }
         adminMembers.clear();
@@ -54,7 +54,7 @@ public class AlphabeticalMembersListController {
      * @throws IOException
      */
 
-    private void displayMembers() {
+    private void displayMembers() throws IOException {
         membersToDisplay.clear();
         for (UserLite usr : channelMembers){
             if(usr.getId().equals(creator.getId())){
@@ -73,14 +73,14 @@ public class AlphabeticalMembersListController {
      * Met à jour la liste des membres en conséquence
      * @param channel
      */
-    public void setCurrentChannel(Channel channel) {
+    public void setCurrentChannel(Channel channel) throws IOException {
         this.channel = channel;
         initMembersList();
         displayMembers();
     }
 
 
-    public void initialize() {
+    public void initialize() throws IOException {
         channelMembers = FXCollections.observableArrayList();
         adminMembers = FXCollections.observableArrayList();
         membersToDisplay = FXCollections.observableArrayList();
@@ -105,16 +105,14 @@ public class AlphabeticalMembersListController {
             this.connectedMembersList.clear();
         }
         this.connectedMembersList = updatedConnectedMembersList;
-            displayMembers();
+        // this.initConnectedMembersList();
     }
 
     public void addMemberToList(UserLite user) {
         connectedMembersList.add(user);
-        displayMembers();
     }
 
     public void removeMemberFromList(UserLite user) {
         connectedMembersList.remove(user);
-        displayMembers();
     }
 }

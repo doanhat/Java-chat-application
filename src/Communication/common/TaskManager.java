@@ -1,22 +1,17 @@
 package Communication.common;
 
-import static java.util.concurrent.Executors.newCachedThreadPool;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
-/**
- * Class gérant l'execution de taches cycliques et Uniques avec un thread pool permettant une execution d'une multitudes d'actions avec un pool de thread limité.
- *
- */
+import static java.util.concurrent.Executors.newCachedThreadPool;
+
 public class TaskManager {
 
     private final ExecutorService pool;
     private final List<CyclicTask> cyclicTasks;
-    private final Logger logger = Logger.getLogger(this.getClass().getName());
 
     public TaskManager() {
         pool = newCachedThreadPool();
@@ -26,7 +21,7 @@ public class TaskManager {
     /**
      * Executer action cyclique au thread pool
      *
-     * @param task tache à executer
+     * @param task
      */
     public void appendCyclicTask(CyclicTask task) {
         cyclicTasks.add(task);
@@ -36,20 +31,22 @@ public class TaskManager {
     /**
      * Executer action one-shot au thread pool
      *
-     * @param oneShot tache à executer
+     * @param oneShot
      */
     public void appendTask(Runnable oneShot) {
         pool.execute(oneShot);
     }
 
     /**
-     * Arrête tous les threads et stop le pool de threads.
+     * Terminate all thread and shutdown thread pool
      */
     public void shutdown() {
-        logger.log(Level.WARNING, "Task manager doit être arreté, annulant {} taches", cyclicTasks.size());
+        System.err.println("Task manager s'arrete, annuler " + cyclicTasks.size() + " taches !");
+
         for (CyclicTask t : cyclicTasks) {
             t.stop();
         }
+
         pool.shutdownNow();
     }
 }

@@ -1,8 +1,8 @@
 package IHMChannel.controllers;
 
 import IHMChannel.*;
-import common.shared_data.Channel;
-import common.shared_data.UserLite;
+import common.sharedData.Channel;
+import common.sharedData.UserLite;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -24,8 +24,6 @@ public class ChannelMembersController {
     ToggleGroup viewMode;
     @FXML
     RadioButton alphaBtn;
-    @FXML
-    RadioButton adminBtn;
     @FXML
     BorderPane listMembersDisplay;
 
@@ -51,10 +49,6 @@ public class ChannelMembersController {
         connectedMembersListDisplay.getController().setCurrentChannel(channel);
     }
 
-    public ConnectedMembersListDisplay getConnectedMembersListDisplay() {
-        return connectedMembersListDisplay;
-    }
-
     /**
      * Tri des utilisateurs par ordre alphabétique
      * @throws IOException
@@ -67,7 +61,6 @@ public class ChannelMembersController {
      * Tri des membres selon leur rôle
      */
     public void adminSort() {
-        System.out.print("hello");
         listMembersDisplay.setCenter(adminMembersListDisplay.root);
     }
 
