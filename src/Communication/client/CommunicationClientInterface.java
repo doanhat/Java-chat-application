@@ -323,4 +323,15 @@ public class CommunicationClientInterface implements IDataToCommunication,
     public void quitChannel(UUID channelID) {
         // TODO V4
     }
+
+    /**
+     * Demande la suppression du channel d'ID channelId.
+     *
+     * @param channelId
+     */
+    @Override
+    public void DeleteChannel(UUID channelId) {
+        // TODO intégration
+    }
+
 }
