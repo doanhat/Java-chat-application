@@ -12,4 +12,5 @@ public class ChatPackage implements Serializable {
     public Message message;
     public Message messageResponseTo;
     public Message editedMessage;
+    public String nickname;
 }

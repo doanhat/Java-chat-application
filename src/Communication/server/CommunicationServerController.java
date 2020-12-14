@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 import Communication.common.*;
 import Communication.messages.abstracts.NetworkMessage;
 import Communication.messages.server_to_client.channel_access.propietary_channels.TellOwnerUserInvitedMessage;
-import Communication.messages.server_to_client.channel_modification.sendNewNicknameMessage;
 import Communication.messages.server_to_client.channel_modification.NewInvisibleChannelsMessage;
 import Communication.messages.server_to_client.chat_action.ReceiveChatMessage;
 import Communication.messages.server_to_client.connection.UserDisconnectedMessage;
@@ -324,19 +323,7 @@ public class CommunicationServerController extends CommunicationController {
 	}
 
 	/* ----------------------------------------- Chat action handling ------------------------------------------------*/
-    
-    /**
-     * Demande a dataserver à changer le nickname d'un utilisateur dans un canal
-     * @param user utilisateur demandant le changement
-     * @param channel canal dans lequel changer le nickname de l'utilisateur
-     * @param newNickname nouveau nom d'utilisateur demandé
-     * @throws NullPointerException Si l'interface de dataServer n'est pas acccessible.
-     */
-    public void requestNicknameChange(UserLite user, Channel channel, String newNickname){
-    	 dataServer.updateNickname(channel, user, newNickname);
 
-		sendMulticast(channel.getJoinedPersons(), new sendNewNicknameMessage(user, channel.getId(), newNickname));
-    }
 
 	public void handleChat(ChatOperation operation, ChatPackage chatPackage) {
 		Channel channel = getChannel(chatPackage.channelID);
@@ -358,6 +345,9 @@ public class CommunicationServerController extends CommunicationController {
 				dataServer.saveRemovalMessageIntoHistory(channel,
 														 chatPackage.message,
 														 chatPackage.sender.getId().equals(chatPackage.message.getAuthor().getId()));
+				break;
+			case EDIT_NICKNAME:
+				dataServer.updateNickname(channel, chatPackage.sender, chatPackage.nickname);
 				break;
 			default:
 				logger.log(Level.WARNING, "ChatMessage: opetration inconnue");

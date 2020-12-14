@@ -5,4 +5,5 @@ public enum ChatOperation {
     EDIT_MESSAGE,
     LIKE_MESSAGE,
     DELETE_MESSAGE,
+    EDIT_NICKNAME,
 }

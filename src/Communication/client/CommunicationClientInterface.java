@@ -6,10 +6,8 @@ import Communication.common.Parameters;
 import Communication.messages.client_to_server.channel_access.proprietary_channels.LeavePropChannelMessage;
 import Communication.messages.client_to_server.channel_access.proprietary_channels.RemoveAdminPropMessage;
 import Communication.messages.client_to_server.channel_access.shared_channels.LeaveSharedChannelMessage;
-import Communication.messages.client_to_server.channel_modification.ChangeNicknameMessage;
 import Communication.messages.client_to_server.channel_access.shared_channels.RemoveAdminSharedMessage;
 import Communication.messages.client_to_server.channel_modification.DeleteChannelMessage;
-import Communication.messages.client_to_server.channel_modification.proprietary_channels.ChangeNicknamePropChannelMessage;
 import Communication.messages.client_to_server.channel_modification.proprietary_channels.SendProprietaryChannelsMessage;
 import Communication.messages.client_to_server.channel_modification.shared_channels.CreateSharedChannelMessage;
 import Communication.messages.client_to_server.chat_action.ChatMessage;
@@ -244,12 +242,12 @@ public class CommunicationClientInterface implements IDataToCommunication,
             return;
         }
 
-        if (channel.getType() == ChannelType.OWNED) {
-            commController.sendMessage(new ChangeNicknamePropChannelMessage(user, channel.getId(), newNickname, channel.getCreator()));
-        }
-        else {
-            commController.sendMessage(new ChangeNicknameMessage(user, channel, newNickname));
-        }
+        ChatPackage chatPackage = new ChatPackage();
+        chatPackage.sender = user;
+        chatPackage.nickname = newNickname;
+        chatPackage.channelID = channel.getId();
+
+        this.commController.sendMessage(new ChatMessage(ChatOperation.EDIT_MESSAGE, chatPackage));
     }
 
     /**

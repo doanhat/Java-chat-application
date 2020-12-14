@@ -62,6 +62,9 @@ public class DataClientHandler {
                                          chatPackage.channelID,
                                          chatPackage.sender.getId().equals(chatPackage.message.getAuthor().getId()));
                 break;
+            case EDIT_NICKNAME:
+                dataClient.updateNickname(chatPackage.sender, chatPackage.channelID, chatPackage.nickname);
+                break;
             default:
                 logger.log(Level.WARNING, "ChatMessage: opetration inconnue");
         }
@@ -89,16 +92,6 @@ public class DataClientHandler {
         logger.log(Level.FINE, "removed admin " + user.getNickName() + " from channel " + channelID);
 
         // TODO INTEGRATION V3: tell Data to add method to receive admin removal notification
-    }
-
-    /**
-     * Avertit Data de changer nickname d'un utilisateur
-     * @param user [UserLite] Utilisateur change nickname
-     * @param channelId identifiant unique (UUID) du channel
-     * @param name nouvel nickname (String)
-     */
-    public void notifyChangeNickName(UserLite user, UUID channelId, String name){
-        dataClient.updateNickname(user, channelId, name);
     }
 
     /* ------------------------------------- Proprietary Channel handling ---------------------------------------*/
@@ -171,6 +164,9 @@ public class DataClientHandler {
                 break;
             case DELETE_MESSAGE:
                 dataClient.saveDeletionIntoHistory(chatPackage.message, null, chatPackage.channelID);
+                break;
+            case EDIT_NICKNAME:
+                dataClient.saveNicknameIntoHistory(chatPackage.sender, chatPackage.channelID, chatPackage.nickname);
                 break;
             default:
                 logger.log(Level.WARNING, "ChatMessage: opetration inconnue");
