@@ -83,6 +83,9 @@ public class IHMMainWindowController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //Mettez ici le code qui s'execute avant l'apparition de la vue
+        if (ihmChannelNode == null) {
+            ihmChannelNode = ihmMainController.getIHMMainToIHMChannel().initIHMChannelWindow();
+        }
         loadUserListView();
         userL = ihmMainController.getIHMMainToData().getUser().getUserLite();
         updateProfileImage();
@@ -136,14 +139,18 @@ public class IHMMainWindowController implements Initializable{
 
         visibleChannelsObservableList = mainWindowController.getIhmMainController().getVisibleChannels();
         FilteredList<Channel> filteredChannels = new FilteredList<>(visibleChannelsObservableList, b-> true);
-        channelSearchTextField.textProperty().addListener((observable,oldValue,newValue) -> filteredChannels.setPredicate(channel -> {
-            if (newValue == null || newValue.isEmpty()) {
-                return true;
-            }
-            String lowerCaseFilter = newValue.toLowerCase();
-            return (channel.getName().toLowerCase().indexOf(lowerCaseFilter) != -1
-                    || channel.getDescription().toLowerCase().indexOf(lowerCaseFilter) != -1);
-        }));
+        channelSearchTextField.textProperty().addListener((observable,oldValue,newValue) -> {
+            filteredChannels.setPredicate(channel -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                String lowerCaseFilter = newValue.toLowerCase();
+                return (channel.getName().toLowerCase().indexOf(lowerCaseFilter) != -1
+                        || channel.getDescription().toLowerCase().indexOf(lowerCaseFilter) != -1);
+            });
+            privateChannels.setItems(filteredChannels.filtered(channel -> channel.getVisibility() == Visibility.PRIVATE));
+            publicChannels.setItems(filteredChannels.filtered(channel -> channel.getVisibility() == Visibility.PUBLIC));
+        });
 
         /**
          * Bind the ListView with the list of private channels.

@@ -1,6 +1,7 @@
 package IHMChannel.interfaces;
 
 import IHMChannel.IHMChannelController;
+import IHMChannel.controllers.ChannelPageController;
 import common.interfaces.client.IIHMMainToIHMChannel;
 import common.shared_data.Channel;
 import common.shared_data.UserLite;
@@ -35,7 +36,15 @@ public class IHMMainToIHMChannel implements IIHMMainToIHMChannel {
 
     @Override
     public List<UserLite> getConnectedUsers(UUID channelId) {
-        return controller.getChannelPageController().getChannelController(channelId).getConnectedMembersList();
+        ChannelPageController channelPageController = controller.getChannelPageController();
+            try {
+                if(channelPageController == null) {
+                    throw new Exception("ChannelPageController non instancié");
+                }
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+        return channelPageController.getChannelController(channelId).getConnectedMembersList();
     }
 
 
