@@ -500,7 +500,7 @@ public class CommunicationClientController extends CommunicationController {
             throw new NullPointerException("Data Iface est null");
         }
 
-        dataClient.saveDeletionIntoHistory(message, null, channelID);
+        dataClient.saveDeletionIntoHistory(message, channelID, deleteByCreator);
     }
 
     public void notifyDeletedMessage(Message message, UUID channelID, Boolean deleteByCreator) {
