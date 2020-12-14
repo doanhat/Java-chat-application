@@ -204,13 +204,13 @@ public class CommunicationToData implements ICommunicationToData {
     /**
      * Save deletion into history.
      *
-     * @param oldMessage the old message
-     * @param newMessage the new message
-     * @param channelId  the channel
+     * @param message the message
+     * @param channelId  the channel ID
+     * @param deletedByCreator the boolean that indicates if the message is deleted by its creator or not
      */
     @Override
-    public void saveDeletionIntoHistory(Message oldMessage, Message newMessage, UUID channelId) {
-        throw new UnsupportedOperationException();
+    public void saveDeletionIntoHistory(Message message, UUID channelId, boolean deletedByCreator) {
+        this.dataController.getMessageController().saveDeletionIntoHistory(message, channelId, deletedByCreator);
     }
 
     /**
@@ -222,7 +222,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void deleteMessage(Message message, UUID channelId, boolean deletedByCreator) {
-        throw new UnsupportedOperationException();
+        this.dataController.getMessageController().deleteMessage(message, channelId, deletedByCreator);
     }
 
     /**

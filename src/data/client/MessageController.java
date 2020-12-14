@@ -102,22 +102,37 @@ public class MessageController extends Controller{
     /**
      * Save deletion into history.
      *
-     * @param oldMessage the old message
-     * @param newMessage the new message
-     * @param channel    the channel
+     * @param message the message
+     * @param channelId  the channel ID
+     * @param deletedByCreator the boolean that indicates if the message is deleted by its creator or not
      */
-    public void saveDeletionIntoHistory(Message oldMessage, Message newMessage, Channel channel) {
-        throw new UnsupportedOperationException();
+    public void saveDeletionIntoHistory(Message message, UUID channelId, boolean deletedByCreator) {
+        FileHandle fileHandler = new FileHandle(LocationType.CLIENT, FileType.CHANNEL);
+        Channel channel = this.channelClient.getChannel(channelId);
+        Message messageToDelete = new Message();
+        if (channel != null) {
+            List<Message> listMsg = channel.getMessages();
+            for (Message msg : listMsg) {
+                if(msg.equals(message)) {
+                    messageToDelete = msg;
+                    break;
+                }
+            }
+            listMsg.remove(messageToDelete);
+            channel.setMessages(listMsg);
+            fileHandler.writeJSONToFile(channel);
+        }
     }
 
     /**
      * Delete message.
      *
      * @param message          the message
-     * @param channel          the channel
+     * @param channelID             the channel ID
      * @param deletedByCreator the deleted by creator
      */
-    public void deleteMessage(Message message, Channel channel, boolean deletedByCreator) {
-        throw new UnsupportedOperationException();
+    public void deleteMessage(Message message, UUID channelID, boolean deletedByCreator) {
+        //La ligne ci-dessous est commentée en attendant que IHM-Channel modifie l'interface IDataToIHMChannel
+        //channelClient.deleteMessage(message, channelID, deletedByCreator);
     }
 }

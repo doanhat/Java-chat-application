@@ -110,7 +110,7 @@ public class VirtualCommunicationToData implements ICommunicationToData {
     }
 
     @Override
-    public void saveDeletionIntoHistory(Message oldMessage, Message newMessage, UUID channelId) {
+    public void saveDeletionIntoHistory(Message message, UUID channelId, boolean deletedByCreator) {
 
     }
 
