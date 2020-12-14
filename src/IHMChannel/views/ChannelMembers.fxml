@@ -1,28 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import java.net.URL?>
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="IHMChannel.controllers.ChannelMembersController">
-    <VBox>
-        <HBox fx:id="channelMember">
+    <VBox prefWidth="1400">
+        <HBox fx:id="channelMember" prefWidth="1400"  alignment="CENTER" >
+            <Label fx:id="Tri" styleClass="TextField" text="Trier par ordre : "/>
             <fx:define>
                 <ToggleGroup fx:id="viewMode" />
             </fx:define>
-            <RadioButton fx:id="alphaBtn" text="alphabétique" toggleGroup="$viewMode" onAction="#alphabeticSort" styleClass="btn-radio"/>
-            <RadioButton fx:id="adminBtn" text="autorisations" toggleGroup="$viewMode" onAction="#adminSort"/>
-            <RadioButton fx:id="onlineBtn" text="utilisateurs connectés" toggleGroup="$viewMode" onAction="#onlineUserSort"/>
+            <RadioButton fx:id="alphaBtn" text="Alphabétique" toggleGroup="$viewMode" onAction="#alphabeticSort" styleClass="btn-radio" />
+            <RadioButton fx:id="adminBtn" text="Autorisations" toggleGroup="$viewMode" onAction="#adminSort" styleClass="btn-radio" />
+            <RadioButton fx:id="onlineBtn" text="Utilisateurs connectés" toggleGroup="$viewMode" onAction="#onlineUserSort" styleClass="btn-radio" />
         </HBox>
-        <!--CONFLICT ??? ListView ou BorderPane ? --> 
-        <!--<ListView fx:id="membersList" style="-fx-background-color: #ffffff;" styleClass="list-cell"/>-->
-        <BorderPane fx:id="listMembersDisplay"/>
+        <BorderPane fx:id="listMembersDisplay" prefWidth="1400"/>
     </VBox>
     <stylesheets>
         <URL value="@../css/style.css" />

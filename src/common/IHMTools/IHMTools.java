@@ -57,10 +57,9 @@ public class IHMTools {
         return (alert.getResult() == confirm);
     }
 
-    public static boolean InformationPopup(String text) {
-        ButtonType confirm = new ButtonType("OK");
-
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, text, confirm);
+    public static boolean informationPopup(String text) {
+        ButtonType ok = new ButtonType("ok");
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, text, ok);
 
         //récupération du CSS
         DialogPane dialogPane = alert.getDialogPane();
@@ -73,15 +72,14 @@ public class IHMTools {
         dialogPane.getStyleClass().add("myDialog");
 
         //Modification boutons
-
-        Button confirmButton = (Button) dialogPane.lookupButton(alert.getButtonTypes().get(0));
-        confirmButton.getStyleClass().add("primary-btn");
+        Button okButton = (Button) dialogPane.lookupButton(alert.getButtonTypes().get(0));
+        okButton.getStyleClass().add("critical-btn");
 
         dialogPane.setHeaderText(null);
         dialogPane.setGraphic(null);
         alert.showAndWait();
 
-        return (alert.getResult() == confirm);
+        return (alert.getResult() == ok);
     }
 
     public static Popup createPopup(final String message) {

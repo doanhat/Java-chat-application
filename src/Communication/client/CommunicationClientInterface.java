@@ -312,6 +312,11 @@ public class CommunicationClientInterface implements IDataToCommunication,
     }
 
     @Override
+    public void DeleteChannel(UUID channelId) {
+
+    }
+
+    @Override
     public void sendProprietaryChannels(List<Channel> channels) {
         commController.sendMessage(new SendProprietaryChannelsMessage(localUser, channels));
     }
