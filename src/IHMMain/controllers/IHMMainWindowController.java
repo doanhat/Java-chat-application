@@ -1,9 +1,5 @@
 package IHMMain.controllers;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.Optional;
-import java.util.ResourceBundle;
 import IHMMain.IHMMainController;
 import app.MainWindowController;
 import common.IHMTools.IHMTools;
@@ -12,8 +8,6 @@ import common.shared_data.ChannelType;
 import common.shared_data.UserLite;
 import common.shared_data.Visibility;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
@@ -24,20 +18,22 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.Optional;
+import java.util.ResourceBundle;
+
 public class IHMMainWindowController implements Initializable{
 
     private IHMMainController ihmMainController;
 
     private MainWindowController mainWindowController;
-
-    private ConnectionController connectionController;
 
     private UserLite userL;
     
@@ -47,11 +43,6 @@ public class IHMMainWindowController implements Initializable{
     private boolean isViewChangeSelectedChannel = false;
 
     private Region ihmChannelNode;
-
-    private ObservableList<Channel> visibleChannelsObservableList ;
-
-    @FXML
-    private AnchorPane root;
 
     @FXML
     private ListView<Channel> privateChannels;
@@ -124,10 +115,10 @@ public class IHMMainWindowController implements Initializable{
                     try {
                         ihmMainController.getIIHMMainToCommunication().disconnect();
                         Platform.exit();
-                    }catch(Exception e){
+                    } catch(Exception e){
                         throw new Exception("Impossible de se déconnecter du serveur lors de la fermeture de l'application", e);
                     }
-                }catch(Exception e){
+                } catch(Exception e){
                     e.printStackTrace();
                     Platform.exit();
                 }
@@ -141,22 +132,18 @@ public class IHMMainWindowController implements Initializable{
     }
 
     private void initChannelsListView() {
+        ObservableList<Channel> visibleChannelsObservableList ;
 
         visibleChannelsObservableList = mainWindowController.getIhmMainController().getVisibleChannels();
         FilteredList<Channel> filteredChannels = new FilteredList<>(visibleChannelsObservableList, b-> true);
-        channelSearchTextField.textProperty().addListener((observable,oldValue,newValue) -> {
-            filteredChannels.setPredicate(channel -> {
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
-                }
-                String lowerCaseFilter = newValue.toLowerCase();
-                if(channel.getName().toLowerCase().indexOf(lowerCaseFilter) != -1
-                        || channel.getDescription().toLowerCase().indexOf(lowerCaseFilter) != -1) {
-                    return true;
-                } else
-                    return false;
-            });
-        });
+        channelSearchTextField.textProperty().addListener((observable,oldValue,newValue) -> filteredChannels.setPredicate(channel -> {
+            if (newValue == null || newValue.isEmpty()) {
+                return true;
+            }
+            String lowerCaseFilter = newValue.toLowerCase();
+            return (channel.getName().toLowerCase().indexOf(lowerCaseFilter) != -1
+                    || channel.getDescription().toLowerCase().indexOf(lowerCaseFilter) != -1);
+        }));
 
         /**
          * Bind the ListView with the list of private channels.
@@ -171,13 +158,10 @@ public class IHMMainWindowController implements Initializable{
          * We only deselect from the opposite list, because on the same list, it's automatic
          */
         privateChannels.getSelectionModel().selectedItemProperty().addListener(
-                new ChangeListener<Channel>() {
-                    @Override
-                    public void changed(ObservableValue observable, Channel oldValue, Channel newValue) {
-                        if (newValue != null && !isViewChangeSelectedChannel) {
-                            viewChannel(newValue);
-                            clearSelectedChannel(publicChannels);
-                        }
+                (observable, oldValue, newValue) -> {
+                    if (newValue != null && !isViewChangeSelectedChannel) {
+                        viewChannel(newValue);
+                        clearSelectedChannel(publicChannels);
                     }
                 }
         );
@@ -195,13 +179,10 @@ public class IHMMainWindowController implements Initializable{
          * We only deselect from the opposite list, because on the same list, it's automatic
          */
         publicChannels.getSelectionModel().selectedItemProperty().addListener(
-                new ChangeListener<Channel>() {
-                    @Override
-                    public void changed(ObservableValue observable, Channel oldValue, Channel newValue) {
-                        if (newValue != null && !isViewChangeSelectedChannel) {
-                            viewChannel(newValue);
-                            clearSelectedChannel(privateChannels);
-                        }
+                (observable, oldValue, newValue) -> {
+                    if (newValue != null && !isViewChangeSelectedChannel) {
+                        viewChannel(newValue);
+                        clearSelectedChannel(privateChannels);
                     }
                 }
         );
@@ -212,7 +193,7 @@ public class IHMMainWindowController implements Initializable{
      * @param listChannels ListView to unselect
      */
     private void clearSelectedChannel(ListView<Channel> listChannels) {
-        MultipleSelectionModel multipleSelectionModel = listChannels.getSelectionModel();
+        MultipleSelectionModel<Channel> multipleSelectionModel = listChannels.getSelectionModel();
         if (multipleSelectionModel.selectedItemProperty().getValue() != null) {
             multipleSelectionModel.clearSelection();
         }
@@ -254,15 +235,12 @@ public class IHMMainWindowController implements Initializable{
     }
 
     public void loadIHMChannelWindow(){
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                mainArea.getChildren().clear(); //On efface les noeuds fils
-                isHomePage = false;
-                //On charge la vue d'IHM-Channel
-                mainArea.getChildren().addAll(ihmChannelNode); //On ajoute le noeud parent (fxml) au noeud racine de cette vue
-                IHMTools.fitSizeToParent((Region)mainArea,ihmChannelNode);
-            }
+        Platform.runLater(() -> {
+            mainArea.getChildren().clear(); //On efface les noeuds fils
+            isHomePage = false;
+            //On charge la vue d'IHM-Channel
+            mainArea.getChildren().addAll(ihmChannelNode); //On ajoute le noeud parent (fxml) au noeud racine de cette vue
+            IHMTools.fitSizeToParent((Region)mainArea,ihmChannelNode);
         });
     }
 
@@ -303,7 +281,6 @@ public class IHMMainWindowController implements Initializable{
              * faire en sorte que getAvatar renvoie une image afin de ne pas stocker trop
              * d'images en local
              */
-            //Image image = new Image(userL.getAvatar());
             Image image = new Image("IHMMain/icons/willsmith.png");
             profileImage.setImage(image);
         }
@@ -339,7 +316,6 @@ public class IHMMainWindowController implements Initializable{
         } else {
             ihmMainController.getIHMMainToData().createChannel(newChannel.getName(), newChannel.getDescription(), newChannel.getType() == ChannelType.SHARED, newChannel.getVisibility() == Visibility.PUBLIC, newChannel.getCreator() );
         }
-
     }
 
     @FXML

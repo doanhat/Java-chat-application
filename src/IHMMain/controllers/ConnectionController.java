@@ -17,6 +17,9 @@ import java.util.Date;
 import java.util.ResourceBundle;
 
 public class ConnectionController implements Initializable{
+    static final String ALERT = "Alerte";
+    static final String IMPOSSIBLE_CONNECTION = "Connexion impossible";
+
     @FXML
     private Button chooseFileButton;
     @FXML
@@ -91,16 +94,12 @@ public class ConnectionController implements Initializable{
         if (password.isEmpty()) {
             errors.append("Veuillez saisir un mot de passe\n");
         }
-        if (checkMandatoryFields(errors)) {
-            if (!ihmMainController.getIHMMainToData().localAuthentification(
-                    userConnectionIDTextField.getText().trim(),
-                    password)) {
+        if (checkMandatoryFields(errors) && !ihmMainController.getIHMMainToData().localAuthentification(userConnectionIDTextField.getText().trim(), password)) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Alerte");
-                alert.setHeaderText("Connexion impossible");
+                alert.setTitle(ALERT);
+                alert.setHeaderText(IMPOSSIBLE_CONNECTION);
                 alert.setContentText("Identifiant ou mot de passe incorrect");
                 alert.showAndWait();
-            };
         }
     }
 
@@ -130,7 +129,7 @@ public class ConnectionController implements Initializable{
                     nameTextField.getText(),
                     dateOfBirth)) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Alerte");
+                alert.setTitle(ALERT);
                 alert.setHeaderText("Inscription impossible");
                 alert.showAndWait();
             } else {
@@ -138,12 +137,11 @@ public class ConnectionController implements Initializable{
                         userSubscriptionIDTextField.getText().trim(),
                         password)) {
                     Alert alert = new Alert(Alert.AlertType.WARNING);
-                    alert.setTitle("Alerte");
-                    alert.setHeaderText("Connexion impossible");
+                    alert.setTitle(ALERT);
+                    alert.setHeaderText(IMPOSSIBLE_CONNECTION);
                     alert.setContentText("Identifiant ou mot de passe incorrect");
                     alert.showAndWait();
-                };
-                //loadIHMMainWindow(0);
+                }
             }
         }
     }
@@ -197,7 +195,7 @@ public class ConnectionController implements Initializable{
     private boolean checkMandatoryFields(StringBuilder errors) {
         if (errors.length() > 0) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Alerte");
+            alert.setTitle(ALERT);
             alert.setHeaderText("Champs obligatoires non renseignés !");
             alert.setContentText(errors.toString());
             alert.showAndWait();
@@ -209,8 +207,8 @@ public class ConnectionController implements Initializable{
     public void loadIHMMainWindow(ConnectionStatus status) {
         if (status != ConnectionStatus.CONNECTED) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Alerte");
-            alert.setHeaderText("Connexion impossible");
+            alert.setTitle(ALERT);
+            alert.setHeaderText(IMPOSSIBLE_CONNECTION);
             alert.setContentText("Erreur de connexion au serveur");
             alert.showAndWait();
         } else {
