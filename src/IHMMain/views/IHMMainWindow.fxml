@@ -45,7 +45,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <StackPane style="-fx-background-color: #B9E6FF;">
+                        <StackPane styleClass="app-bar">
                            <children>
                               <GridPane>
                                  <columnConstraints>
@@ -83,7 +83,7 @@
                               </GridPane>
                            </children>
                         </StackPane>
-                         <VBox GridPane.rowIndex="1">
+                         <VBox GridPane.rowIndex="1" styleClass="channel-list">
                            <TextField fx:id="channelSearchTextField" promptText="Rechercher un channel (titre, description) ..." />
                              <HBox fx:id="privatePane" alignment="CENTER" styleClass="channel-list-header">
                                  <Label text="Canaux privés" />
@@ -92,7 +92,7 @@
                              </HBox>
                              <ListView fx:id="privateChannels" styleClass="list-view-channel" />
                          </VBox>
-                        <VBox GridPane.rowIndex="2">
+                        <VBox GridPane.rowIndex="2" styleClass="channel-list">
                            <children>
                                <HBox fx:id="publicPane" alignment="CENTER" styleClass="channel-list-header">
                                    <Label text="Canaux publiques" />
