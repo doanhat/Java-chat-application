@@ -2,6 +2,8 @@ package IHMMain.controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import IHMMain.IHMMainController;
@@ -66,7 +68,7 @@ public class IHMMainWindowController implements Initializable{
     private StackPane mainArea;
 
     @FXML
-    private ImageView profileImage;
+    private ImageView profileImage, avatarUser;
 
     @FXML
     private Text nickname;
@@ -303,8 +305,10 @@ public class IHMMainWindowController implements Initializable{
              * faire en sorte que getAvatar renvoie une image afin de ne pas stocker trop
              * d'images en local
              */
-            //Image image = new Image(userL.getAvatar());
-            Image image = new Image("IHMMain/icons/willsmith.png");
+
+            //String avatarPath = parentController.getIhmMainController().getIIHMMainToCommunication().getAvatarPath(u.getUserLite());
+            String avatarPath = "IHMMain/icons/willsmith.png";
+            Image image = new Image(avatarPath);
             profileImage.setImage(image);
         }
     }
@@ -364,6 +368,34 @@ public class IHMMainWindowController implements Initializable{
             throw new RuntimeException(exception);
         }
     }
+
+    @FXML
+    private void loadUserInfosPopup() throws IOException {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../views/UserInfos.fxml"));
+            Parent root = fxmlLoader.load();
+
+            UserInfosController userInfosController = fxmlLoader.getController();
+            try {
+                userInfosController.setParentController(this);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+
+            stage.setTitle("Informations Utilisateur");
+            stage.setScene(new Scene(root, 600, 400));
+            stage.setResizable(false);
+
+            stage.show();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public StackPane getMainArea() {
         return this.mainArea;

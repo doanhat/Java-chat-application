@@ -59,8 +59,8 @@
                                  <children>
                                     <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="8.0">
                                        <children>
-                                          <ImageView fx:id="profileImage" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" />
-                                          <Text fx:id="nickname" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="app-bar-username" text="Username" />
+                                           <ImageView fx:id="profileImage" fitHeight="35.0" fitWidth="35.0" onMouseClicked="#loadUserInfosPopup" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;" />
+                                           <Text fx:id="nickname" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="app-bar-username" text="Username" />
                                        </children>
                                        <GridPane.margin>
                                           <Insets left="5.0" />
