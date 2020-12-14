@@ -5,6 +5,7 @@ import IHMChannel.ChannelMessagesDisplay;
 import IHMChannel.IHMChannelController;
 import common.IHMTools.IHMTools;
 import common.sharedData.Channel;
+import common.sharedData.ChannelType;
 import common.sharedData.Message;
 import common.sharedData.UserLite;
 import common.sharedData.ChannelType;
