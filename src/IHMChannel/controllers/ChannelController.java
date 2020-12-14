@@ -343,4 +343,7 @@ public class ChannelController {
     }
 
 
+    public void deleteMessage(Message message, boolean deletedByCreator) {
+        channelMessagesDisplay.getController().getMessagesMap().get(message.getId()).replaceDeletedMessage(deletedByCreator);
+    }
 }
