@@ -1,5 +1,7 @@
 package Communication.client;
 
+import Communication.common.ChatOperation;
+import Communication.common.ChatPackage;
 import Communication.common.Parameters;
 import Communication.messages.client_to_server.channel_access.proprietary_channels.LeavePropChannelMessage;
 import Communication.messages.client_to_server.channel_access.proprietary_channels.RemoveAdminPropMessage;
@@ -10,7 +12,7 @@ import Communication.messages.client_to_server.channel_modification.DeleteChanne
 import Communication.messages.client_to_server.channel_modification.proprietary_channels.ChangeNicknamePropChannelMessage;
 import Communication.messages.client_to_server.channel_modification.proprietary_channels.SendProprietaryChannelsMessage;
 import Communication.messages.client_to_server.channel_modification.shared_channels.CreateSharedChannelMessage;
-import Communication.messages.client_to_server.chat_action.SendMessageMessage;
+import Communication.messages.client_to_server.chat_action.ChatMessage;
 import Communication.messages.client_to_server.channel_modification.GetHistoryMessage;
 import Communication.messages.client_to_server.channel_access.proprietary_channels.AddAdminPropMessage;
 import Communication.messages.client_to_server.channel_access.SendInvitationMessage;
@@ -18,19 +20,12 @@ import Communication.messages.client_to_server.channel_access.shared_channels.Ad
 import Communication.messages.client_to_server.channel_access.proprietary_channels.AskToJoinPropMessage;
 import Communication.messages.client_to_server.channel_access.shared_channels.AskToJoinSharedMessage;
 
-import Communication.messages.client_to_server.chat_action.proprietary_channels.DeleteMessagePropMessage;
-import Communication.messages.client_to_server.chat_action.proprietary_channels.EditMessagePropMessage;
-import Communication.messages.client_to_server.chat_action.shared_channels.EditMessageSharedMessage;
-import Communication.messages.client_to_server.chat_action.proprietary_channels.SaveLikeMessageProp;
-import Communication.messages.client_to_server.chat_action.shared_channels.DeleteMessageSharedMessage;
-import Communication.messages.client_to_server.chat_action.shared_channels.SaveLikeMessageShared;
 import common.interfaces.client.*;
 import common.shared_data.Channel;
 import common.shared_data.ChannelType;
 import common.shared_data.Message;
 import common.shared_data.UserLite;
 
-import java.io.IOException;
 import java.util.*;
 
 public class CommunicationClientInterface implements IDataToCommunication,
@@ -163,7 +158,17 @@ public class CommunicationClientInterface implements IDataToCommunication,
      * @param response Message auquel le nouveau message repond sinon null
      **/
     public void sendMessage(Message msg, Channel channel, Message response) {
-        this.commController.sendMessage(new SendMessageMessage(msg, channel.getId(), response));
+        if (msg == null || channel == null) {
+            return;
+        }
+
+        ChatPackage chatPackage = new ChatPackage();
+        chatPackage.sender = localUser;
+        chatPackage.message = msg;
+        chatPackage.channelID = channel.getId();
+        chatPackage.messageResponseTo = response;
+
+        this.commController.sendMessage(new ChatMessage(ChatOperation.SEND_MESSAGE, chatPackage));
     }
 
     /**
@@ -177,12 +182,14 @@ public class CommunicationClientInterface implements IDataToCommunication,
         if (msg == null || channel == null || newMsg == null) {
             return;
         }
-        if (channel.getType() == ChannelType.OWNED) {
-            this.commController.sendMessage(new EditMessagePropMessage(msg, newMsg, channel.getId(), channel.getCreator()));
-        }
-        else {
-            this.commController.sendMessage(new EditMessageSharedMessage(msg, newMsg, channel.getId()));
-        }
+
+        ChatPackage chatPackage = new ChatPackage();
+        chatPackage.sender = localUser;
+        chatPackage.message = msg;
+        chatPackage.channelID = channel.getId();
+        chatPackage.editedMessage = newMsg;
+
+        this.commController.sendMessage(new ChatMessage(ChatOperation.EDIT_MESSAGE, chatPackage));
     }
 
     /**
@@ -196,12 +203,13 @@ public class CommunicationClientInterface implements IDataToCommunication,
         if (msg == null || channel == null || user == null) {
             return;
         }
-        if (channel.getType() == ChannelType.OWNED) {
-            this.commController.sendMessage(new SaveLikeMessageProp(channel, msg, user));
-        }
-        else {
-            this.commController.sendMessage(new SaveLikeMessageShared(channel.getId(), msg, user));
-        }
+
+        ChatPackage chatPackage = new ChatPackage();
+        chatPackage.sender = user;
+        chatPackage.message = msg;
+        chatPackage.channelID = channel.getId();
+
+        this.commController.sendMessage(new ChatMessage(ChatOperation.LIKE_MESSAGE, chatPackage));
     }
 
     /**
@@ -216,12 +224,12 @@ public class CommunicationClientInterface implements IDataToCommunication,
             return;
         }
 
-        if (channel.getType() == ChannelType.OWNED) {
-            this.commController.sendMessage(new DeleteMessagePropMessage(channel, msg, user.getId().equals(msg.getAuthor().getId())));
-        }
-        else {
-            this.commController.sendMessage(new DeleteMessageSharedMessage(channel, msg, user.getId().equals(msg.getAuthor().getId())));
-        }
+        ChatPackage chatPackage = new ChatPackage();
+        chatPackage.sender = user;
+        chatPackage.message = msg;
+        chatPackage.channelID = channel.getId();
+
+        this.commController.sendMessage(new ChatMessage(ChatOperation.DELETE_MESSAGE, chatPackage));
     }
 
     /**

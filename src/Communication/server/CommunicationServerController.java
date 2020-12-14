@@ -8,16 +8,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import Communication.common.CommunicationController;
-import Communication.common.NetworkWriter;
-import Communication.common.TaskManager;
+import Communication.common.*;
 import Communication.messages.abstracts.NetworkMessage;
 import Communication.messages.server_to_client.channel_access.propietary_channels.TellOwnerUserInvitedMessage;
 import Communication.messages.server_to_client.channel_modification.sendNewNicknameMessage;
-import Communication.messages.server_to_client.chat_action.LikeSavedMessage;
-import Communication.messages.server_to_client.chat_action.MessageDeletedMessage;
 import Communication.messages.server_to_client.channel_modification.NewInvisibleChannelsMessage;
-import Communication.messages.server_to_client.chat_action.ReceiveEditMessage;
+import Communication.messages.server_to_client.chat_action.ReceiveChatMessage;
 import Communication.messages.server_to_client.connection.UserDisconnectedMessage;
 import Communication.messages.server_to_client.channel_access.UserLeftChannelMessage;
 
@@ -110,11 +106,8 @@ public class CommunicationServerController extends CommunicationController {
 				}
 			}
 			else {
-				logger.log(Level.SEVERE, "Serveur à echoué à déconnecter le client {}" , userID);
+				logger.log(Level.SEVERE, "Serveur à echoué à déconnecter le client");
 			}
-		}
-		else {
-			logger.log(Level.WARNING, "le serveur à echoué à déconnecter le client {}, cet user n'est pas enregistré", userID);
 		}
 	}
 
@@ -138,8 +131,7 @@ public class CommunicationServerController extends CommunicationController {
 			server.sendMessage(receiver.preparePacket(message));
 		}
 		else {
-			logger.log(Level.INFO, "Serveur envoie message client deconnecte {}", receiverID);
-//			throw new IllegalArgumentException("CommunicationServerController.sendMessage: receiver est null");
+			logger.log(Level.WARNING, "Serveur envoie message client deconnecte " + receiverID);
 		}
 	}
 
@@ -354,8 +346,6 @@ public class CommunicationServerController extends CommunicationController {
 
 		logger.log(Level.SEVERE, "Message " + message.getId() + " deleted on channel " + channelID);
         dataServer.saveRemovalMessageIntoHistory(channel, message, deleteByCreator);
-
-		sendMulticast(channel.getJoinedPersons(), new MessageDeletedMessage(message, channelID, deleteByCreator));
     }
     
     /**
@@ -374,9 +364,7 @@ public class CommunicationServerController extends CommunicationController {
     public void saveLikeMessage(UUID channelID, Message msg, UserLite user){
 		Channel channel = getChannel(channelID);
 		dataServer.saveLikeIntoHistory(channel, msg, user);
-
-		sendMulticast(channel.getJoinedPersons(), new LikeSavedMessage(channelID, msg, user));
-	}
+    }
 
 	/**
 	 * Sauvegarde un edit sur le serveur
@@ -386,7 +374,29 @@ public class CommunicationServerController extends CommunicationController {
 	 */
 	public void saveEdit(Message message, Message newMessage, UUID channelID){
     	dataServer.editMessage(this.getChannel(channelID), newMessage);
+	}
 
-		sendMulticast(this.getChannel(channelID).getJoinedPersons(), new ReceiveEditMessage(message, newMessage, channelID));
+	public void handleChat(ChatOperation operation, ChatPackage chatPackage) {
+		Channel channel = getChannel(chatPackage.channelID);
+
+		// Tell data server to save message for both shared and proprietary channels, in order to update active Channel on server
+		switch (operation) {
+			case SEND_MESSAGE:
+				saveMessage(chatPackage.message, channel, chatPackage.messageResponseTo);
+				break;
+			case EDIT_MESSAGE:
+				saveEdit(chatPackage.message, chatPackage.editedMessage, chatPackage.channelID);
+				break;
+			case LIKE_MESSAGE:
+				saveLikeMessage(chatPackage.channelID, chatPackage.message, chatPackage.sender);
+				break;
+			case DELETE_MESSAGE:
+				deleteMessage(chatPackage.message, chatPackage.channelID, chatPackage.sender.getId().equals(chatPackage.message.getAuthor().getId()));
+				break;
+			default:
+				logger.log(Level.WARNING, "ChatMessage: opetration inconnue");
+		}
+
+		sendMulticast(channel.getJoinedPersons(), new ReceiveChatMessage(operation, chatPackage));
 	}
 }

@@ -1,5 +1,7 @@
 package Communication.client;
 
+import Communication.common.ChatOperation;
+import Communication.common.ChatPackage;
 import common.interfaces.client.ICommunicationToData;
 import common.shared_data.Message;
 import common.shared_data.UserLite;
@@ -59,7 +61,7 @@ public class DataClientHandler {
      */
     public void notifyDeletedMessage(Message message, UUID channelID, Boolean deleteByCreator) {
         // TODO INTEGRATION V3: verify with Data which method for notifying IHM Channel and which is for delete proprietary message
-        dataClient.deleteMessage(message, null, deleteByCreator);
+        dataClient.deleteMessage(message, channelID, deleteByCreator);
     }
 
     /**
@@ -82,6 +84,30 @@ public class DataClientHandler {
      */
     public void notifyEditMessage(Message msg, Message newMsg, UUID channelID) {
         dataClient.editMessage(msg, newMsg, channelID);
+    }
+
+    /**
+     * Notifier Data l'action de chat sur un channel
+     * @param operation
+     * @param chatPackage
+     */
+    public void notifyChat(ChatOperation operation, ChatPackage chatPackage) {
+        switch (operation) {
+            case SEND_MESSAGE:
+                notifyReceiveMessage(chatPackage.message, chatPackage.channelID, chatPackage.messageResponseTo);
+                break;
+            case EDIT_MESSAGE:
+                notifyEditMessage(chatPackage.message, chatPackage.editedMessage, chatPackage.channelID);
+                break;
+            case LIKE_MESSAGE:
+                notifyLikedMessage(chatPackage.channelID, chatPackage.message, chatPackage.sender);
+                break;
+            case DELETE_MESSAGE:
+                notifyDeletedMessage(chatPackage.message, chatPackage.channelID, chatPackage.sender.getId().equals(chatPackage.message.getAuthor().getId()));
+                break;
+            default:
+                logger.log(Level.WARNING, "ChatMessage: opetration inconnue");
+        }
     }
 
     /**
@@ -209,6 +235,30 @@ public class DataClientHandler {
      */
     public void saveEdit(Message message, Message newMessage, UUID channelID){
         dataClient.saveEditionIntoHistory(message, newMessage, channelID);
+    }
+
+    /**
+     * Sauvegarde l'action de chat sur channel proprietaire
+     * @param operation
+     * @param chatPackage
+     */
+    public void saveChat(ChatOperation operation, ChatPackage chatPackage) {
+        switch (operation) {
+            case SEND_MESSAGE:
+                saveMessage(chatPackage.message, chatPackage.channelID, chatPackage.messageResponseTo);
+                break;
+            case EDIT_MESSAGE:
+                saveEdit(chatPackage.message, chatPackage.editedMessage, chatPackage.channelID);
+                break;
+            case LIKE_MESSAGE:
+                saveLike(chatPackage.channelID, chatPackage.message, chatPackage.sender);
+                break;
+            case DELETE_MESSAGE:
+                deleteMessage(chatPackage.message, chatPackage.channelID, null);
+                break;
+            default:
+                logger.log(Level.WARNING, "ChatMessage: opetration inconnue");
+        }
     }
 
     /**
