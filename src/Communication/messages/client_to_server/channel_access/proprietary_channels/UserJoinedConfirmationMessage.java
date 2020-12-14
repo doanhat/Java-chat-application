@@ -1,8 +1,8 @@
 package Communication.messages.client_to_server.channel_access.proprietary_channels;
 
 import Communication.messages.abstracts.ClientToServerMessage;
-import Communication.messages.server_to_client.channel_access.JoinChannelResponseMessage;
 import Communication.messages.server_to_client.channel_access.NewUserJoinChannelMessage;
+import Communication.messages.server_to_client.channel_modification.SendHistoryMessage;
 import Communication.server.CommunicationServerController;
 import common.shared_data.Channel;
 import common.shared_data.UserLite;
@@ -30,14 +30,10 @@ public class UserJoinedConfirmationMessage extends ClientToServerMessage {
             commController.requestJoinChannel(channel, user);
             // send Acceptation back to sender
             commController.sendMessage(user.getId(),
-                    new JoinChannelResponseMessage(channel, commController.channelConnectedUsers(channel), true));
+                    new SendHistoryMessage(channel, commController.channelConnectedUsers(channel)));
 
             // Notifie les utilisateurs connectes au channel qu'un nouveau utilisateur les rejoins
             commController.sendMulticast(channel.getJoinedPersons(), new NewUserJoinChannelMessage(user, channel.getId()), user);
-        }
-        else
-        {
-            commController.sendMessage(user.getId(), new JoinChannelResponseMessage(null, null, false));
         }
     }
 }

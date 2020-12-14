@@ -9,7 +9,6 @@ import java.util.List;
 
 public class SendHistoryMessage extends ServerToClientMessage {
 
-    // Pretty similar to JoinChannelResponseMessage
     private static final long serialVersionUID = -1351564319089062L;
     private final Channel channel;
     private final List<UserLite> activeUsers;

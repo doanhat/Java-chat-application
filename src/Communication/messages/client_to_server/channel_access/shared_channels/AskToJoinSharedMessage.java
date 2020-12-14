@@ -1,8 +1,8 @@
 package Communication.messages.client_to_server.channel_access.shared_channels;
 
 import Communication.messages.abstracts.ClientToServerMessage;
-import Communication.messages.server_to_client.channel_access.JoinChannelResponseMessage;
 import Communication.messages.server_to_client.channel_access.NewUserJoinChannelMessage;
+import Communication.messages.server_to_client.channel_modification.SendHistoryMessage;
 import Communication.server.CommunicationServerController;
 import common.shared_data.Channel;
 import common.shared_data.UserLite;
@@ -28,18 +28,16 @@ public class AskToJoinSharedMessage extends ClientToServerMessage {
         Channel channel = commController.getChannel(channelID);
 
         // NOTE: c'est pas nécessaire de filtrer la liste des utilisateurs connectes parce que j'ai implémenter le DF pour qu'il filtre déjà
-        if (channel != null && commController.requestJoinChannel(channel, sender))
+        if (channel != null)
         {
+            commController.requestJoinChannel(channel, sender);
+
             // send Acceptation back to sender
             commController.sendMessage(sender.getId(),
-                    new JoinChannelResponseMessage(channel, commController.channelConnectedUsers(channel), true));
+                    new SendHistoryMessage(channel, commController.channelConnectedUsers(channel)));
 
             // Notifie les utilisateurs connectes au channel qu'un nouveau utilisateur les rejoins
             commController.sendMulticast(channel.getJoinedPersons(), new NewUserJoinChannelMessage(sender, channelID), sender);
-        }
-        else {
-            // send Refusal back to sender
-            commController.sendMessage(sender.getId(), new JoinChannelResponseMessage(null, null, false));
         }
     }
 }

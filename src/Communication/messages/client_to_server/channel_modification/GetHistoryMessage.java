@@ -23,7 +23,7 @@ public class GetHistoryMessage extends ClientToServerMessage {
     protected void handle(CommunicationServerController commController) {
 
         // NOTE : Server should have the list of all active channels, proprietary and shared
-        Channel channel = commController.getHistoryMessage(channelID, sender);
+        Channel channel = commController.getChannel(channelID);
 
         if(channel != null) {
             commController.sendMessage(sender.getId(), new SendHistoryMessage(channel, commController.channelConnectedUsers(channel)));

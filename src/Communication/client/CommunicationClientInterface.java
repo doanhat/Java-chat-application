@@ -75,7 +75,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
      */
     public void disconnect() {
         commController.disconnect(localUser.getId());
-        // TODO maybe set localUser to null;
+        // TODO RECONNECTION APPLICATION maybe set localUser to null;
     }
 
     /**
@@ -107,16 +107,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
 
         // check if local user has the right to invite
         if (localUser == channel.getCreator() || channel.userIsAdmin(localUser.getId())) {
-            // TODO: Verify if invitation only makes a private channel become visible or add user directly to channel
             commController.sendMessage(new SendInvitationMessage(guest, channel, message));
-        /*
-            if (channel.getType() == ChannelType.OWNED) {
-                commController.sendMessage(new AskToJoinPropMessage(channel.getId(), guest, channel.getCreator()));
-            }
-            else {
-                commController.sendMessage(new AskToJoinSharedMessage(channel.getId(), guest));
-            }
-        */
         }
     }
 
@@ -161,7 +152,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
      * @param explanation Chaine de caractere justifiant le ban
      **/
     public void banUserFromChannel(UserLite user, int duration, String explanation) {
-        // TODO V3
+        // TODO V4
     }
 
     /**

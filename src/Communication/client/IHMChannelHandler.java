@@ -26,22 +26,6 @@ public class IHMChannelHandler {
     /* -------------------------------- Channel actions notifications handling ---------------------------------------*/
 
     /**
-     * Notifier Data que la demande de rejoindre un channel a été accepté par serveur
-     *
-     * @param channel channel rejoint
-     * @param activeUsers liste de users actifs d'un channels
-     * @param isAccepted (boolean) réponse du serveur
-     */
-    public void notifyJoinChannelResponse(Channel channel, List<UserLite> activeUsers, boolean isAccepted) {
-        if (isAccepted) {
-            returnChannelHistory(channel, activeUsers);
-        }
-        else {
-            logger.log(Level.FINE, "Join channel request est refusé");
-        }
-    }
-
-    /**
      * Notifie Application client qu'un utilisateur vient de rejoindre un channel
      * @param user autre utilisateur connecté
      * @param channelID ID du channel

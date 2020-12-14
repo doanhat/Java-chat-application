@@ -190,8 +190,16 @@ public class CommunicationServerController extends CommunicationController {
 		}
 	}
 
+	/**
+	 * Multicast messages aux tous les clients avec user exclut (principalement l'émetteur)
+	 * @param receivers liste de recepteurs
+	 * @param message message réseau
+	 * @param excluded client exclut
+	 */
 	public void sendMulticast(List<UserLite> receivers, NetworkMessage message, UserLite excluded) {
-		sendMulticast(receivers.stream().filter(userLite -> !userLite.getId().equals(excluded.getId())).collect(Collectors.toList()), message);
+		sendMulticast(receivers.stream().filter(
+				userLite -> !userLite.getId().equals(excluded.getId())).collect(Collectors.toList()),
+				message);
 	}
 
 	/* -------------------------------------- Connection Request handling --------------------------------------------*/
@@ -243,13 +251,9 @@ public class CommunicationServerController extends CommunicationController {
 	 * Demande Data server à rejoindre un utilisateur à un channel
 	 * @param channel cannal que l'utilisateur demande à rejoindre
 	 * @param user utilisateur qui demande a rejoindre
-	 * @return <code>true</code> si l'utilisateur à bien rejoint le channel
-	 *         <code>false</code> si il n'a pas pu le rejoindre 
 	 */
-	public boolean requestJoinChannel(Channel channel, UserLite user){
+	public void requestJoinChannel(Channel channel, UserLite user){
 		dataServer.joinChannel(channel.getId(), user);
-
-		return true;
 	}
 
 	/**
@@ -313,23 +317,6 @@ public class CommunicationServerController extends CommunicationController {
 		}
 	}
 
-	/**
-	 * Recuperer l'historique de message d'un channel
-	 * @param channelID ID du channel
-	 * @param user demandeur
-	 * @return liste des messages du channel
-	 */
-	public Channel getHistoryMessage(UUID channelID, UserLite user){
-		Channel channel = getChannel(channelID);
-
-		if (dataServer.checkAuthorization(channel, user)) {
-			// If the implementation is correct, proprietary channel data on server should be exactly the same as the one in application client
-			return channel;
-		}
-
-		return null;
-	}
-
 	public List<UserLite> channelConnectedUsers(Channel channel) {
 		List<UserLite> activeUsers = new ArrayList<>();
 
@@ -340,8 +327,6 @@ public class CommunicationServerController extends CommunicationController {
 				activeUsers.add(usr);
 			}
 		}
-
-		System.err.println("Comm channel connected user: " + activeUsers);
 
 		return activeUsers;
 	}
@@ -354,7 +339,7 @@ public class CommunicationServerController extends CommunicationController {
 	 * @param channel canal du message
 	 * @param response message auquel le nouveau message est une réponse
 	 */
-	public void saveMessage (Message msg, Channel channel, Message response) {
+	public void saveMessage(Message msg, Channel channel, Message response) {
 		dataServer.saveMessageIntoHistory(channel, msg, response);
 	}
 

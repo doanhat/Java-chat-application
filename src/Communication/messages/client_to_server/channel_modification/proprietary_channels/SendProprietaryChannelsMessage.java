@@ -2,8 +2,8 @@ package Communication.messages.client_to_server.channel_modification.proprietary
 
 import Communication.messages.abstracts.ClientToServerMessage;
 import Communication.messages.abstracts.NetworkMessage;
-import Communication.messages.server_to_client.channel_access.JoinChannelResponseMessage;
 import Communication.messages.server_to_client.channel_modification.NewVisibleChannelMessage;
+import Communication.messages.server_to_client.channel_modification.SendHistoryMessage;
 import Communication.server.CommunicationServerController;
 import common.shared_data.Channel;
 import common.shared_data.UserLite;
@@ -36,7 +36,7 @@ public class SendProprietaryChannelsMessage extends ClientToServerMessage {
 
                 // send Acceptation back to sender
                 commController.sendMessage(owner.getId(),
-                        new JoinChannelResponseMessage(channel, commController.channelConnectedUsers(channel), true));
+                        new SendHistoryMessage(channel, commController.channelConnectedUsers(channel)));
 
                 NetworkMessage newChannelNotification = new NewVisibleChannelMessage(registeredChannel);
 
@@ -46,10 +46,6 @@ public class SendProprietaryChannelsMessage extends ClientToServerMessage {
                 else {
                     commController.sendMulticast(channel.getAuthorizedPersons(), newChannelNotification, owner);
                 }
-            }
-            else {
-                // send Refusal back to sender
-                commController.sendMessage(owner.getId(), new JoinChannelResponseMessage(null, null, false));
             }
         }
     }
