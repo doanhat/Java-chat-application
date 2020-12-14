@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="475.0" minWidth="700.0" prefHeight="525.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IHMMain.controllers.ConnectionController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="475.0" minWidth="700.0" prefHeight="525.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IHMMain.controllers.ConnectionController">
    <children>
       <GridPane style="-fx-background-color: #023254;">
         <columnConstraints>

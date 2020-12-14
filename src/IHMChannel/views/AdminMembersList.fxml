@@ -10,7 +10,7 @@
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="IHMChannel.controllers.AdminMembersListController">
-    <VBox >
+    <VBox prefWidth="1400">
         <Label text="Créateur :" />
         <ListView fx:id="creatorList" maxHeight="75" />
         <Label text="Administrateur :" />

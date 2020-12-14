@@ -138,7 +138,7 @@ public class ChannelController extends Controller{
      */
     public void newAdmin(UserLite user, UUID channelId) {
         try {
-            this.channelClient.addNewAdmin(user,this.channelClient.getChannel(channelId));
+            this.channelClient.addNewAdmin(user, channelId);
         } catch (IOException e) {
             e.printStackTrace();
         }
