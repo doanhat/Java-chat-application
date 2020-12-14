@@ -40,70 +40,27 @@ public class DataClientHandler {
     }
 
     /**
-     * Notifier Data l'arrivée d'un message de chat
-     *
-     * @param msg       message reçu
-     * @param channelID identifiant unique (UUID) du channel dans lequel le message à été reçu
-     * @param response  Message auquel ce message à répondu
-     */
-    public void notifyReceiveMessage(Message msg, UUID channelID, Message response) {
-        logger.log(Level.FINE, channelID + " has new message ");
-
-        dataClient.receiveMessage(msg, channelID, response);
-    }
-
-    /**
-     * Notifier Data un message de chat est supprimé
-     *
-     * @param message message supprimé
-     * @param channelID identifiant unique (UUID) du channel
-     * @param deleteByCreator (Boolean) si le message a supprimé par Createur
-     */
-    public void notifyDeletedMessage(Message message, UUID channelID, Boolean deleteByCreator) {
-        // TODO INTEGRATION V3: verify with Data which method for notifying IHM Channel and which is for delete proprietary message
-        dataClient.deleteMessage(message, channelID, deleteByCreator);
-    }
-
-    /**
-     * Notifier Data un message de chat est liké
-     *
-     * @param channelId identifiant unique (UUID) du channel
-     * @param message message liké
-     * @param user [UserLite] Utilisateur like message
-     */
-    public void notifyLikedMessage(UUID channelId, Message message, UserLite user){
-        dataClient.likeMessage(channelId, message, user);
-    }
-
-    /**
-     * Notifier Data un message de chat est modifié
-     *
-     * @param msg ancien message
-     * @param newMsg message modifié
-     * @param channelID identifiant unique (UUID) du channel
-     */
-    public void notifyEditMessage(Message msg, Message newMsg, UUID channelID) {
-        dataClient.editMessage(msg, newMsg, channelID);
-    }
-
-    /**
      * Notifier Data l'action de chat sur un channel
-     * @param operation
-     * @param chatPackage
+     * @param operation chat operation
+     * @param chatPackage package de chat
      */
     public void notifyChat(ChatOperation operation, ChatPackage chatPackage) {
+        logger.log(Level.FINE, chatPackage.channelID + " a nouvelle notification de chat: " + operation);
+
         switch (operation) {
             case SEND_MESSAGE:
-                notifyReceiveMessage(chatPackage.message, chatPackage.channelID, chatPackage.messageResponseTo);
+                dataClient.receiveMessage(chatPackage.message, chatPackage.channelID, chatPackage.messageResponseTo);
                 break;
             case EDIT_MESSAGE:
-                notifyEditMessage(chatPackage.message, chatPackage.editedMessage, chatPackage.channelID);
+                dataClient.editMessage(chatPackage.message, chatPackage.editedMessage, chatPackage.channelID);
                 break;
             case LIKE_MESSAGE:
-                notifyLikedMessage(chatPackage.channelID, chatPackage.message, chatPackage.sender);
+                dataClient.likeMessage(chatPackage.channelID, chatPackage.message, chatPackage.sender);
                 break;
             case DELETE_MESSAGE:
-                notifyDeletedMessage(chatPackage.message, chatPackage.channelID, chatPackage.sender.getId().equals(chatPackage.message.getAuthor().getId()));
+                dataClient.deleteMessage(chatPackage.message,
+                                         chatPackage.channelID,
+                                         chatPackage.sender.getId().equals(chatPackage.message.getAuthor().getId()));
                 break;
             default:
                 logger.log(Level.WARNING, "ChatMessage: opetration inconnue");
@@ -197,47 +154,6 @@ public class DataClientHandler {
     }
 
     /**
-     * Déclencher Data de faire l'action de sauvegarde d'un message d'un channel proprietaire
-     *
-     * @param msg       message reçu
-     * @param channelID identifiant unique (UUID) du channel dans lequel le message à été reçu
-     * @param response  Message auquel ce message à répondu
-     */
-    public void saveMessage(Message msg, UUID channelID, Message response) {
-        dataClient.saveMessageIntoHistory(msg, channelID, response);
-    }
-
-    /**
-     * Déclencher Data de faire l'action de supprimer d'un message d'un channel proprietaire
-     * @param message
-     * @param channelID
-     * @param deleteByCreator
-     */
-    public void deleteMessage(Message message, UUID channelID, Boolean deleteByCreator) {
-        dataClient.saveDeletionIntoHistory(message, null, channelID);
-    }
-
-    /**
-     * Déclencher Data de faire l'action de liker d'un message d'un channel proprietaire
-     * @param channelId
-     * @param msg
-     * @param user
-     */
-    public void saveLike(UUID channelId, Message msg, UserLite user){
-        dataClient.saveLikeIntoHistory(channelId, msg, user);
-    }
-
-    /**
-     * Sauvegarde une edition de message sur le client
-     * @param message ancien message
-     * @param newMessage nouveau message
-     * @param channelID channel concerne
-     */
-    public void saveEdit(Message message, Message newMessage, UUID channelID){
-        dataClient.saveEditionIntoHistory(message, newMessage, channelID);
-    }
-
-    /**
      * Sauvegarde l'action de chat sur channel proprietaire
      * @param operation
      * @param chatPackage
@@ -245,16 +161,16 @@ public class DataClientHandler {
     public void saveChat(ChatOperation operation, ChatPackage chatPackage) {
         switch (operation) {
             case SEND_MESSAGE:
-                saveMessage(chatPackage.message, chatPackage.channelID, chatPackage.messageResponseTo);
+                dataClient.saveMessageIntoHistory(chatPackage.message, chatPackage.channelID, chatPackage.messageResponseTo);
                 break;
             case EDIT_MESSAGE:
-                saveEdit(chatPackage.message, chatPackage.editedMessage, chatPackage.channelID);
+                dataClient.saveEditionIntoHistory(chatPackage.message, chatPackage.editedMessage, chatPackage.channelID);
                 break;
             case LIKE_MESSAGE:
-                saveLike(chatPackage.channelID, chatPackage.message, chatPackage.sender);
+                dataClient.saveLikeIntoHistory(chatPackage.channelID, chatPackage.message, chatPackage.sender);
                 break;
             case DELETE_MESSAGE:
-                deleteMessage(chatPackage.message, chatPackage.channelID, null);
+                dataClient.saveDeletionIntoHistory(chatPackage.message, null, chatPackage.channelID);
                 break;
             default:
                 logger.log(Level.WARNING, "ChatMessage: opetration inconnue");

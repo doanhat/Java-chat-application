@@ -324,29 +324,6 @@ public class CommunicationServerController extends CommunicationController {
 	}
 
 	/* ----------------------------------------- Chat action handling ------------------------------------------------*/
-
-	/**
-	 * Demande Data server à enregistrer un message
-	 * @param msg message à enregistrer
-	 * @param channel canal du message
-	 * @param response message auquel le nouveau message est une réponse
-	 */
-	public void saveMessage(Message msg, Channel channel, Message response) {
-		dataServer.saveMessageIntoHistory(channel, msg, response);
-	}
-
-	/**
-	 * Demande a dataserver à supprimer d'un message
-	 * @param message le message à suppriper
-	 * @param channelID ID du channel
-	 * @param deleteByCreator boolean indique si le message a été supprimé par le proprietaire
-	 */
-    public void deleteMessage(Message message, UUID channelID, boolean deleteByCreator){
-        Channel channel = getChannel(channelID);
-
-		logger.log(Level.SEVERE, "Message " + message.getId() + " deleted on channel " + channelID);
-        dataServer.saveRemovalMessageIntoHistory(channel, message, deleteByCreator);
-    }
     
     /**
      * Demande a dataserver à changer le nickname d'un utilisateur dans un canal
@@ -361,37 +338,26 @@ public class CommunicationServerController extends CommunicationController {
 		sendMulticast(channel.getJoinedPersons(), new sendNewNicknameMessage(user, channel.getId(), newNickname));
     }
 
-    public void saveLikeMessage(UUID channelID, Message msg, UserLite user){
-		Channel channel = getChannel(channelID);
-		dataServer.saveLikeIntoHistory(channel, msg, user);
-    }
-
-	/**
-	 * Sauvegarde un edit sur le serveur
-	 * @param message ancien message
-	 * @param newMessage nouveau message
-	 * @param channelID channel concerné
-	 */
-	public void saveEdit(Message message, Message newMessage, UUID channelID){
-    	dataServer.editMessage(this.getChannel(channelID), newMessage);
-	}
-
 	public void handleChat(ChatOperation operation, ChatPackage chatPackage) {
 		Channel channel = getChannel(chatPackage.channelID);
+
+		logger.log(Level.INFO, "Chat action: " + operation + " on channel " + chatPackage.channelID);
 
 		// Tell data server to save message for both shared and proprietary channels, in order to update active Channel on server
 		switch (operation) {
 			case SEND_MESSAGE:
-				saveMessage(chatPackage.message, channel, chatPackage.messageResponseTo);
+				dataServer.saveMessageIntoHistory(channel, chatPackage.message, chatPackage.messageResponseTo);
 				break;
 			case EDIT_MESSAGE:
-				saveEdit(chatPackage.message, chatPackage.editedMessage, chatPackage.channelID);
+				dataServer.editMessage(channel, chatPackage.editedMessage);
 				break;
 			case LIKE_MESSAGE:
-				saveLikeMessage(chatPackage.channelID, chatPackage.message, chatPackage.sender);
+				dataServer.saveLikeIntoHistory(channel, chatPackage.message, chatPackage.sender);
 				break;
 			case DELETE_MESSAGE:
-				deleteMessage(chatPackage.message, chatPackage.channelID, chatPackage.sender.getId().equals(chatPackage.message.getAuthor().getId()));
+				dataServer.saveRemovalMessageIntoHistory(channel,
+														 chatPackage.message,
+														 chatPackage.sender.getId().equals(chatPackage.message.getAuthor().getId()));
 				break;
 			default:
 				logger.log(Level.WARNING, "ChatMessage: opetration inconnue");
