@@ -4,17 +4,13 @@ import Communication.common.ChatOperation;
 import Communication.common.ChatPackage;
 import Communication.common.Parameters;
 import Communication.messages.client_to_server.channel_access.proprietary_channels.LeavePropChannelMessage;
-import Communication.messages.client_to_server.channel_access.proprietary_channels.RemoveAdminPropMessage;
 import Communication.messages.client_to_server.channel_access.shared_channels.LeaveSharedChannelMessage;
-import Communication.messages.client_to_server.channel_access.shared_channels.RemoveAdminSharedMessage;
 import Communication.messages.client_to_server.channel_modification.DeleteChannelMessage;
 import Communication.messages.client_to_server.channel_modification.proprietary_channels.SendProprietaryChannelsMessage;
 import Communication.messages.client_to_server.channel_modification.shared_channels.CreateSharedChannelMessage;
 import Communication.messages.client_to_server.chat_action.ChatMessage;
 import Communication.messages.client_to_server.channel_modification.GetHistoryMessage;
-import Communication.messages.client_to_server.channel_access.proprietary_channels.AddAdminPropMessage;
 import Communication.messages.client_to_server.channel_access.SendInvitationMessage;
-import Communication.messages.client_to_server.channel_access.shared_channels.AddAdminSharedMessage;
 import Communication.messages.client_to_server.channel_access.proprietary_channels.AskToJoinPropMessage;
 import Communication.messages.client_to_server.channel_access.shared_channels.AskToJoinSharedMessage;
 
@@ -137,11 +133,11 @@ public class CommunicationClientInterface implements IDataToCommunication,
             return;
         }
 
-        if (channel.getType() == ChannelType.OWNED) {
-            commController.sendMessage(new AddAdminPropMessage(user, channel));
-        } else {
-            commController.sendMessage(new AddAdminSharedMessage(user, channel));
-        }
+        ChatPackage chatPackage = new ChatPackage();
+        chatPackage.user = user;
+        chatPackage.channelID = channel.getId();
+
+        this.commController.sendMessage(new ChatMessage(ChatOperation.ADD_ADMIN, chatPackage));
     }
 
     @Override
@@ -150,12 +146,11 @@ public class CommunicationClientInterface implements IDataToCommunication,
             return;
         }
 
-        if (channel.getType() == ChannelType.OWNED) {
-            commController.sendMessage(new RemoveAdminPropMessage(user, channel));
-        }
-        else {
-            commController.sendMessage(new RemoveAdminSharedMessage(user, channel));
-        }
+        ChatPackage chatPackage = new ChatPackage();
+        chatPackage.user = user;
+        chatPackage.channelID = channel.getId();
+
+        this.commController.sendMessage(new ChatMessage(ChatOperation.REMOVE_ADMIN, chatPackage));
     }
 
     /**
@@ -182,7 +177,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
         }
 
         ChatPackage chatPackage = new ChatPackage();
-        chatPackage.sender = localUser;
+        chatPackage.user = localUser;
         chatPackage.message = msg;
         chatPackage.channelID = channel.getId();
         chatPackage.messageResponseTo = response;
@@ -203,7 +198,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
         }
 
         ChatPackage chatPackage = new ChatPackage();
-        chatPackage.sender = localUser;
+        chatPackage.user = localUser;
         chatPackage.message = msg;
         chatPackage.channelID = channel.getId();
         chatPackage.editedMessage = newMsg;
@@ -224,7 +219,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
         }
 
         ChatPackage chatPackage = new ChatPackage();
-        chatPackage.sender = user;
+        chatPackage.user = user;
         chatPackage.message = msg;
         chatPackage.channelID = channel.getId();
 
@@ -244,7 +239,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
         }
 
         ChatPackage chatPackage = new ChatPackage();
-        chatPackage.sender = user;
+        chatPackage.user = user;
         chatPackage.message = msg;
         chatPackage.channelID = channel.getId();
 
@@ -264,7 +259,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
         }
 
         ChatPackage chatPackage = new ChatPackage();
-        chatPackage.sender = user;
+        chatPackage.user = user;
         chatPackage.nickname = newNickname;
         chatPackage.channelID = channel.getId();
 
