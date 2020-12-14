@@ -164,7 +164,7 @@ public class MessageController {
             }
 
         } else {
-            IHMTools.InformationPopup("Vous n'avez pas les droits nécessaires pour supprimer ce message.");
+            IHMTools.informationPopup("Vous n'avez pas les droits nécessaires pour supprimer ce message.");
         }
 
         //Attention, ici on ne màj que l'affichage, les data ne sont pas impactées.
