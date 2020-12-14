@@ -102,6 +102,14 @@ public class Message implements Serializable {
 		return deletedByAdmin;
 	}
 
+	public void setDeletedByUser(boolean deletedByUser) {
+		this.deletedByUser = deletedByUser;
+	}
+
+	public void setDeletedByAdmin(boolean deletedByAdmin) {
+		this.deletedByAdmin = deletedByAdmin;
+	}
+
 	public UUID getParentMessageId() {
 		return parentMessageId;
 	}

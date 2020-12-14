@@ -118,6 +118,12 @@ public class MessageController extends Controller{
                     break;
                 }
             }
+            if (deletedByCreator) {
+                messageToDelete.setDeletedByUser(true);
+            }
+            else {
+                messageToDelete.setDeletedByAdmin(true);
+            }
             listMsg.remove(messageToDelete);
             channel.setMessages(listMsg);
             fileHandler.writeJSONToFile(channel.getId().toString(), channel);
