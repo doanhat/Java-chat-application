@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.io.File;
@@ -82,6 +83,13 @@ public class ConnectionController implements Initializable{
         uploadFileButton.setFitHeight(18);
         uploadFileButton.setFitWidth(18);
         chooseFileButton.setGraphic(uploadFileButton);
+
+        // Set event when Enter key is press on connection password field, onSeConnecterButtonClick is call
+        userConnectionPasswordPasswordField.setOnKeyPressed(event -> {
+            if (event.getCode().equals(KeyCode.ENTER)) {
+                onSeConnecterButtonClick();
+            }
+        });
     }
 
     @FXML
