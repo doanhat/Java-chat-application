@@ -164,6 +164,7 @@ public class ChannelsListController {
 
             for (Message m : ms) {
                 if (m.getId() == message.getId()) {
+                    m.setMessage("");
                     m.delete(deletedByCreator);
                     break;
                 }
