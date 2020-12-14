@@ -20,6 +20,6 @@ public class NewUserConnectedMessage extends ServerToClientMessage {
 
     @Override
     protected void handle(CommunicationClientController commController) {
-        commController.notifyUserConnected(newUser);
+        commController.mainHandler().notifyUserConnected(newUser);
     }
 }

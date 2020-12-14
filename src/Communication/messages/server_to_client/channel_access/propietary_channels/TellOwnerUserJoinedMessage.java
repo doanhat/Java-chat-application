@@ -19,7 +19,7 @@ public class TellOwnerUserJoinedMessage extends ServerToClientMessage {
 
     @Override
     protected void handle(CommunicationClientController commClientController) {
-        commClientController.addUserToProprietaryChannel(user, channelID);
+        commClientController.dataClientHandler().addUserToProprietaryChannel(user, channelID);
         // Give permission to Server
         commClientController.sendMessage(new UserJoinedConfirmationMessage(user, channelID));
     }

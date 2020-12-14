@@ -25,6 +25,6 @@ public class NewUserAuthorizeChannelMessage extends ServerToClientMessage {
 
     @Override
     protected void handle(CommunicationClientController commClientController) {
-        commClientController.notifyUserAuthorizeChannel(user, channelID);
+        commClientController.channelHandler().notifyUserAuthorizeChannel(user, channelID);
     }
 }

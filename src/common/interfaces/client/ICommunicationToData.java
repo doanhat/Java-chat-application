@@ -18,6 +18,7 @@ public interface ICommunicationToData {
      */
     //void createChannel(Channel channel);
 
+    // TODO INTEGRATION V3: remove unused method, cet méthode est appelelé chez Channel, pas Data
     /**
      * User added to channel.
      *

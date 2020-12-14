@@ -45,7 +45,7 @@ public class HeartBeat {
                     logger.log(Level.WARNING, "Server n'a pas répondu");
 
                     // Inform controller of disconnection
-                    commController.notifyLostConnection();
+                    commController.mainHandler().notifyLostConnection();
                     commController.stop();
                 }
 

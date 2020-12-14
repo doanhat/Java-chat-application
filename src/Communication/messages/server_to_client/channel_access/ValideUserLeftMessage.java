@@ -25,13 +25,8 @@ public class ValideUserLeftMessage extends ServerToClientMessage {
 
     @Override
     protected void handle(CommunicationClientController commClientController) {
-        // TODO interfation team'comment : WHY ???? Pourquoi quand un l'utilisateur se deconnecte d'un channel, si celui-ci n'est pas publique, il faut l'enlever ?????
-//        // TODO INTEGRATION V2, Check if it do more than this
-//        if (!isPublicChannel) {
-//            commClientController.notifyInvisibleChannels(Collections.singletonList(channelID));
-//        }
         if (isOwned && user.equals(owner)) {
-            commClientController.removeAllJoinsPersonsToProprietaryChannel(channelID, owner);
+            commClientController.dataClientHandler().removeAllJoinsPersonsToProprietaryChannel(channelID, owner);
         }
     }
 }
