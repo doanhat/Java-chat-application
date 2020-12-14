@@ -33,9 +33,10 @@ public class CreationChannelPopupController {
     private RadioButton publicChannelButton;
 
     @FXML
-    private Label errorLabel;
+    private RadioButton privateChannelButton;
 
-    private Channel newChannel;
+    @FXML
+    private Label errorLabel;
 
     private IHMMainWindowController parentController;
 
@@ -47,6 +48,8 @@ public class CreationChannelPopupController {
 
     @FXML
     private void confirmCreation(){
+        Channel newChannel;
+
         if (channelName.getText().isEmpty()) {
             System.out.println("Il faut ajouter un nom de channel");
             errorLabel.setText("Il faut ajouter un nom de channel");
@@ -55,9 +58,9 @@ public class CreationChannelPopupController {
             Boolean isPublic = publicChannelButton.isSelected();
 
             UserLite user = parentController.getIhmMainController().getIHMMainToData().getUser().getUserLite();
-            Visibility channelVisibility = isPublic ? Visibility.PUBLIC : Visibility.PRIVATE;
+            Visibility channelVisibility = Boolean.TRUE.equals(isPublic) ? Visibility.PUBLIC : Visibility.PRIVATE;
 
-            if(isShared){
+            if(Boolean.TRUE.equals(isShared)){
                 newChannel = new Channel(channelName.getText(), user, channelDescription.getText(), channelVisibility,ChannelType.SHARED);
             } else {
                 newChannel = new Channel(channelName.getText(), user, channelDescription.getText(), channelVisibility,ChannelType.OWNED);
@@ -71,6 +74,14 @@ public class CreationChannelPopupController {
 
             Stage stage = (Stage) ap.getScene().getWindow();
             stage.close();
+        }
+    }
+
+    public void setVisibility(Visibility visibility) {
+        if (visibility == Visibility.PUBLIC) {
+            publicChannelButton.setSelected(true);
+        } else {
+            privateChannelButton.setSelected(true);
         }
     }
 
