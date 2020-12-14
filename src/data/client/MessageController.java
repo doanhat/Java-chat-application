@@ -109,22 +109,19 @@ public class MessageController extends Controller{
     public void saveDeletionIntoHistory(Message message, UUID channelId, boolean deletedByCreator) {
         FileHandle fileHandler = new FileHandle(LocationType.CLIENT, FileType.CHANNEL);
         Channel channel = this.channelClient.getChannel(channelId);
-        Message messageToDelete = new Message();
         if (channel != null) {
             List<Message> listMsg = channel.getMessages();
             for (Message msg : listMsg) {
                 if(msg.equals(message)) {
-                    messageToDelete = msg;
+                    if (deletedByCreator) {
+                        msg.setDeletedByUser(true);
+                    }
+                    else {
+                        msg.setDeletedByAdmin(true);
+                    }
                     break;
                 }
             }
-            if (deletedByCreator) {
-                messageToDelete.setDeletedByUser(true);
-            }
-            else {
-                messageToDelete.setDeletedByAdmin(true);
-            }
-            listMsg.remove(messageToDelete);
             channel.setMessages(listMsg);
             fileHandler.writeJSONToFile(channel.getId().toString(), channel);
         }
