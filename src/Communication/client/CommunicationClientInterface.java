@@ -40,8 +40,8 @@ public class CommunicationClientInterface implements IDataToCommunication,
     private final CommunicationClientController commController;
     private UserLite localUser;
 
-    public CommunicationClientInterface(CommunicationClientController CommunicationClientController) {
-        this.commController = CommunicationClientController;
+    public CommunicationClientInterface(CommunicationClientController communicationClientController) {
+        this.commController = communicationClientController;
     }
 
     /* ---------------------------- IDataToCommunication interface implementations -----------------------------------*/
@@ -182,15 +182,15 @@ public class CommunicationClientInterface implements IDataToCommunication,
      * @param new_msg [Message] Message modifier
      * @param channel [Channel] Channel du message a modifier
      **/
-    public void editMessage(Message msg, Message new_msg, Channel channel) {
-        if (msg == null || channel == null || new_msg == null) {
+    public void editMessage(Message msg, Message newMsg, Channel channel) {
+        if (msg == null || channel == null || newMsg == null) {
             return;
         }
         if (channel.getType() == ChannelType.OWNED) {
-            this.commController.sendMessage(new EditMessagePropMessage(msg, new_msg, channel.getId(), channel.getCreator()));
+            this.commController.sendMessage(new EditMessagePropMessage(msg, newMsg, channel.getId(), channel.getCreator()));
         }
         else {
-            this.commController.sendMessage(new EditMessageSharedMessage(msg, new_msg, channel.getId()));
+            this.commController.sendMessage(new EditMessageSharedMessage(msg, newMsg, channel.getId()));
         }
     }
 
