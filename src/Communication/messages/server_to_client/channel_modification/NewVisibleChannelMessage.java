@@ -19,6 +19,6 @@ public class NewVisibleChannelMessage extends ServerToClientMessage {
 
     @Override
     protected void handle(CommunicationClientController commClientController) {
-        commClientController.notifyVisibleChannel(channel);
+        commClientController.mainHandler().notifyVisibleChannel(channel);
     }
 }
