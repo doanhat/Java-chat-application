@@ -1,8 +1,8 @@
 package IHMMain.controllers;
 
 
-import common.sharedData.Channel;
-import common.sharedData.User;
+import common.shared_data.Channel;
+import common.shared_data.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
