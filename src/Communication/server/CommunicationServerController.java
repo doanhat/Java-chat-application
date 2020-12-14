@@ -20,7 +20,6 @@ import Communication.messages.server_to_client.channel_modification.NewInvisible
 import Communication.messages.server_to_client.chat_action.ReceiveEditMessage;
 import Communication.messages.server_to_client.connection.UserDisconnectedMessage;
 import Communication.messages.server_to_client.channel_access.UserLeftChannelMessage;
-import Communication.messages.server_to_client.chat_action.ReceiveEditMessage;
 
 import Communication.messages.server_to_client.channel_access.ValideUserLeftMessage;
 import common.interfaces.server.IServerCommunicationToData;
@@ -203,10 +202,6 @@ public class CommunicationServerController extends CommunicationController {
 	 * @return Liste des cannaux auquel l'utilisateur à accès
 	 */
 	public List<Channel> getUserChannels(UserLite user) {
-		if (dataServer == null) {
-			throw new NullPointerException("Data Interface est nulle");
-		}
-
 		return dataServer.getVisibleChannels(user);
 	}
 
@@ -216,10 +211,6 @@ public class CommunicationServerController extends CommunicationController {
 	 * @return channel corresponde au ID
 	 */
 	public Channel getChannel(UUID channelID) {
-		if (dataServer == null) {
-			throw new NullPointerException("Data Interface est nulle");
-		}
-
 		return dataServer.getChannel(channelID);
 	}
 
@@ -234,10 +225,6 @@ public class CommunicationServerController extends CommunicationController {
 	 * @return Channel si le canal est autorisé à la création, null si c'est faux
 	 */
 	public Channel requestCreateChannel(Channel channel, boolean isShared, boolean isPublic, UserLite requester) {
-		if (dataServer == null) {
-			throw new NullPointerException("Data Interface est nulle");
-		}
-
 		return dataServer.requestChannelCreation(channel, isShared, isPublic, requester);
 	}
 
@@ -249,10 +236,6 @@ public class CommunicationServerController extends CommunicationController {
 	 * 		   <code>false</code> sinon
 	 */
 	public boolean requestDeleteChannel(Channel channel, UserLite requester) {
-		if (dataServer == null) {
-			throw new NullPointerException("Data Interface est nulle");
-		}
-
 		return dataServer.requestChannelRemoval(channel.getId(), requester);
 	}
 
@@ -264,10 +247,6 @@ public class CommunicationServerController extends CommunicationController {
 	 *         <code>false</code> si il n'a pas pu le rejoindre 
 	 */
 	public boolean requestJoinChannel(Channel channel, UserLite user){
-		if (dataServer == null) {
-			throw new NullPointerException("Data Interface est nulle");
-		}
-
 		dataServer.joinChannel(channel.getId(), user);
 
 		return true;
@@ -279,10 +258,6 @@ public class CommunicationServerController extends CommunicationController {
 	 * @param userLite demandeur
 	 */
 	public void leaveChannel(UUID channelID, UserLite userLite) {
-		if (dataServer == null) {
-			throw new NullPointerException("Data Interface est nulle");
-		}
-
 		Channel channel = dataServer.getChannel(channelID);
 
 		// since owner and server sync content of channel
@@ -308,10 +283,6 @@ public class CommunicationServerController extends CommunicationController {
 	 * @param channel Channel ou l'utilisateur devient admin
 	 */
 	public void saveNewAdmin(Channel channel, UserLite user) {
-		if (dataServer == null) {
-			throw new NullPointerException("Data Interface est nulle");
-		}
-
 		logger.log(Level.SEVERE, "new admin " + user.getNickName() + " added to channel " + channel.getId());
 
 		dataServer.saveNewAdminIntoHistory(channel, user);
@@ -323,10 +294,6 @@ public class CommunicationServerController extends CommunicationController {
 	 * @param channel Channel ou l'utilisateur devient admin
 	 */
 	public void removeAdmin(Channel channel, UserLite user) {
-		if (dataServer == null) {
-			throw new NullPointerException("Data Interface est nulle");
-		}
-
 		logger.log(Level.SEVERE, "removed admin " + user.getNickName() + " from channel " + channel.getId());
 
 		// TODO INTEGRATION V3 Tell data server to remove admin
@@ -338,10 +305,6 @@ public class CommunicationServerController extends CommunicationController {
 	 * @param channel channel
 	 */
 	public void requestInviteUserToChannel(UserLite guest, Channel channel) {
-		if (dataServer == null) {
-			throw new NullPointerException("Data Interface est nulle");
-		}
-
 		dataServer.requestAddUser(channel, guest);
 
 		if (channel.getType() == ChannelType.OWNED) {
@@ -357,10 +320,6 @@ public class CommunicationServerController extends CommunicationController {
 	 * @return liste des messages du channel
 	 */
 	public Channel getHistoryMessage(UUID channelID, UserLite user){
-		if(dataServer == null) {
-			throw new NullPointerException("Data Interface est nulle");
-		}
-
 		Channel channel = getChannel(channelID);
 
 		if (dataServer.checkAuthorization(channel, user)) {
@@ -396,10 +355,6 @@ public class CommunicationServerController extends CommunicationController {
 	 * @param response message auquel le nouveau message est une réponse
 	 */
 	public void saveMessage (Message msg, Channel channel, Message response) {
-		if (dataServer == null) {
-			throw new NullPointerException("Data Interface est nulle");
-		}
-
 		dataServer.saveMessageIntoHistory(channel, msg, response);
 	}
 
@@ -410,10 +365,6 @@ public class CommunicationServerController extends CommunicationController {
 	 * @param deleteByCreator boolean indique si le message a été supprimé par le proprietaire
 	 */
     public void deleteMessage(Message message, UUID channelID, boolean deleteByCreator){
-        if (dataServer == null) {
-			throw new NullPointerException("Data Interface est nulle");
-        }
-
         Channel channel = getChannel(channelID);
 
 		logger.log(Level.SEVERE, "Message " + message.getId() + " deleted on channel " + channelID);
@@ -430,18 +381,12 @@ public class CommunicationServerController extends CommunicationController {
      * @throws NullPointerException Si l'interface de dataServer n'est pas acccessible.
      */
     public void requestNicknameChange(UserLite user, Channel channel, String newNickname){
-    	 if (dataServer == null) {
-           throw new NullPointerException("Data Interface est nulle");
-         }
     	 dataServer.updateNickname(channel, user, newNickname);
 
 		sendMulticast(channel.getJoinedPersons(), new sendNewNicknameMessage(user, channel.getId(), newNickname));
     }
 
     public void saveLikeMessage(UUID channelID, Message msg, UserLite user){
-		if (dataServer == null) {
-			throw new NullPointerException("Data Interface est nulle");
-		}
 		Channel channel = getChannel(channelID);
 		dataServer.saveLikeIntoHistory(channel, msg, user);
 
