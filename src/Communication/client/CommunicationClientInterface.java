@@ -64,7 +64,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
      * @implNote
      **/
     @Override
-    public void delete(UUID channelID) {
+    public void deleteChannel(UUID channelID) {
         commController.sendMessage(new DeleteChannelMessage(channelID, localUser));
     }
 
@@ -274,7 +274,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
 
         if (channel.getType() == ChannelType.OWNED) {
             if (channel.getCreator().getId().equals(localUser.getId())) {
-                sendProprietaryChannel(channel);
+                commController.sendMessage(new SendProprietaryChannelsMessage(localUser, Collections.singletonList(channel)));
             }
             else {
                 commController.sendMessage(new AskToJoinPropMessage(channel.getId(), localUser, channel.getCreator()));
@@ -299,16 +299,6 @@ public class CommunicationClientInterface implements IDataToCommunication,
 
     @Override
     public void quitChannel(UUID channelID) {
-
-    }
-
-    @Override
-    public void sendProprietaryChannels(List<Channel> channels) {
-        commController.sendMessage(new SendProprietaryChannelsMessage(localUser, channels));
-    }
-
-    @Override
-    public void sendProprietaryChannel(Channel channel) {
-        commController.sendMessage(new SendProprietaryChannelsMessage(localUser, Collections.singletonList(channel)));
+        // TODO V4
     }
 }
