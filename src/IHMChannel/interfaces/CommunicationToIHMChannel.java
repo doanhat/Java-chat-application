@@ -78,10 +78,14 @@ import java.util.UUID;
     public void leaveChannel(UUID channelID, UserLite user) {
         controller.getChannelPageController().leaveChannel(channelID, user);
         controller.getInterfaceToIHMMain().setOpenedChannelsList(controller.getOpenedChannelsList());
-
     }
 
-    private IHMChannelController controller;
+    @Override
+    public void quitChannel(UUID channelId) {
+        controller.getChannelPageController().quitChannel(channelId);
+    }
+
+        private IHMChannelController controller;
 
     @Override
     public void addAuthorizedUser(UUID channel, UserLite user) {

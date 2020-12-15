@@ -68,4 +68,10 @@ public interface ICommunicationToIHMChannel {
      */
     void leaveChannel(UUID ChannelId, UserLite user);
 
+    /**
+     * Méthode permettant de signaler à IHM-Channel que l'utilisateur local est bien considéré comme ayant quitté un channel.
+     * @param channelId id du channel à quitter
+     */
+    void quitChannel(UUID channelId);
+
 }
