@@ -43,4 +43,9 @@ public class VirtualCommunicationToIHMChannel implements ICommunicationToIHMChan
     public void leaveChannel(UUID channelID, UserLite user) {
 
     }
+
+    @Override
+    public void quitChannel(UUID channelId) {
+
+    }
 }
