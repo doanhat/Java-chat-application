@@ -79,6 +79,11 @@ public class VirtualCommunicationToData implements ICommunicationToData {
     }
 
     @Override
+    public void removeUserFromAuthorizedUserChannel(UserLite user, UUID channelId) {
+        
+    }
+
+    @Override
     public List<Message> getHistory(UUID channelId) {
         Channel channel = channels.get(channelId);
 
