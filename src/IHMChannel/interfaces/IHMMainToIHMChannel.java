@@ -39,7 +39,7 @@ public class IHMMainToIHMChannel implements IIHMMainToIHMChannel {
 
     @Override
     public void removeChannel(UUID channelId) {
-        controller.getChannelPageController().removeChannel(channelId);
+        controller.getChannelPageController().quitChannel(channelId);
     }
 
 
