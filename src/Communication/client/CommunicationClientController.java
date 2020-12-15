@@ -178,4 +178,5 @@ public class CommunicationClientController extends CommunicationController {
     public void quitChannel(UUID channelID) {
         channelIfaceHandler.quitChannel(channelID);
     }
+
 }

@@ -114,7 +114,7 @@ public class DataClientHandler {
      * @param userLite
      */
     public void requestQuitChannel(UUID channelID, UserLite userLite) {
-        dataClient.removeUserFromAuthorizedUserChannel(userLite, channelID, 0, "Quit");
+        dataClient.removeUserFromAuthorizedUserChannel(userLite, channelID);
     }
 
     /**

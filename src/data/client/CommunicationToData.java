@@ -107,13 +107,13 @@ public class CommunicationToData implements ICommunicationToData {
     }
 
     @Override
-    public void removeUserFromAuthorizedUserChannel(UserLite user, UUID channelId, int duration, String explanation) {
-
+    public void  removeUserFromAuthorizedUserChannel(UserLite user, UUID channelId, int duration, String explanation) {
+        // TODO HERE
     }
 
     @Override
     public void removeUserFromAuthorizedUserChannel(UserLite user, UUID channelId) {
-        dataController.getChannelController().removeUserFromJoinedUserChannel(user, channelId);
+        dataController.getChannelController().removeUserFromAuthorizationUserChannel(user, channelId);
     }
 
     /**

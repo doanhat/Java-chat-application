@@ -100,7 +100,7 @@ import java.util.UUID;
     @Override
     public void removeAuthorizedUser(UUID channel, UserLite user) {
         try {
-            controller.getChannelPageController().getChannelController(channel).removeUser(user);
+            controller.getChannelPageController().getChannelController(channel).removeUserAuthorization(user);
         } catch (IOException e) {
             e.printStackTrace();
         }

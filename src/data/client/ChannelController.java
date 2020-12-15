@@ -238,4 +238,15 @@ public class ChannelController extends Controller{
             }
         }
     }
+
+    public void removeUserFromAuthorizationUserChannel(UserLite user, UUID channelId) {
+        List<Channel> channels = getChannelList();
+        for (Channel c : channels) {
+            if(c.getId().equals(channelId)) {
+                c.removeUserAuthorization(user.getId());
+                new FileHandle<Channel>(LocationType.CLIENT, FileType.CHANNEL).writeJSONToFile(channelId.toString(), c);
+                break;
+            }
+        }
+    }
 }

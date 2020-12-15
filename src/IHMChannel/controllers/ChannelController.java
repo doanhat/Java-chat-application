@@ -144,7 +144,6 @@ public class ChannelController {
     }
 
     public void receiveMessage(Message receivedMessage, Message responseTo) {
-
         currentChannel.addMessage(receivedMessage);
         channelMessagesDisplay.getController().addMessageToObservableList(receivedMessage);
     }
@@ -155,6 +154,11 @@ public class ChannelController {
     }
     public void removeUser(UserLite user) throws IOException {
         currentChannel.removeUser(user.getId());
+        channelMembersDisplay.getController().setCurrentChannel(currentChannel);
+    }
+
+    public void removeUserAuthorization(UserLite user) throws IOException {
+        currentChannel.removeUserAuthorization(user.getId());
         channelMembersDisplay.getController().setCurrentChannel(currentChannel);
     }
 
