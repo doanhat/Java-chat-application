@@ -247,7 +247,7 @@ public class ChannelController {
 
             if (result) {
                 UserLite localUser = ihmChannelController.getInterfaceToData().getLocalUser();
-                ihmChannelController.getInterfaceToCommunication().quitChannel(getCurrentChannel().getId());
+                ihmChannelController.getInterfaceToCommunication().quitChannel(getCurrentChannel());
                 //attendre le retour de comm
                 //getChannelPageController().leaveChannel(getCurrentChannel().getId(), localUser);
                 //ihmChannelController.getInterfaceToCommunication().leaveChannel(getCurrentChannel());
