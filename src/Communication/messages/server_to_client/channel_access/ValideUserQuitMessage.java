@@ -19,6 +19,6 @@ public class ValideUserQuitMessage extends ServerToClientMessage {
 
     @Override
     protected void handle(CommunicationClientController commClientController) {
-            commClientController.getIHMChannelToCommunication().quitChannel(channelID);
+            commClientController.quitChannel(channelID);
     }
 }

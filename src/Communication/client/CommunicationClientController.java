@@ -174,4 +174,8 @@ public class CommunicationClientController extends CommunicationController {
     public IHMMainHandler mainHandler() {
         return mainIfaceHandler;
     }
+
+    public void quitChannel(UUID channelID) {
+        channelIfaceHandler.quitChannel(channelID);
+    }
 }
