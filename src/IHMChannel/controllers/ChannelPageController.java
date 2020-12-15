@@ -79,6 +79,7 @@ public class ChannelPageController {
         ctrl.configureMessageDisplay(ihmChannelController);
         ctrl.configureMemberDisplay(ihmChannelController);
         ctrl.setChannel(channel);
+        ctrl.setChannelPageController(this);
 
 
         Tab tab = new Tab(channel.getName());
@@ -279,10 +280,6 @@ public class ChannelPageController {
         channelMap.remove(channelID);
 
 
-        if(openedChannels.size() == 0) { //rediriger vers la main page
-            ihmChannelController.getInterfaceToIHMMain().redirectToHomePage();
-        }
-
     }
 
     /**
@@ -341,5 +338,14 @@ public class ChannelPageController {
         if(openedChannels.isEmpty()) {
             ihmChannelController.getInterfaceToIHMMain().redirectToHomePage();
         }
+    }
+
+    public void quitChannel(UUID channelId) {
+        removeChannel(channelId);
+
+        /* On notifie IHM-Main avec la nouvelle liste de channels ouverts */
+        ihmChannelController.getInterfaceToIHMMain().setOpenedChannelsList(ihmChannelController.getOpenedChannelsList());
+        /* On notifie IHM-Main avec le nouveau currentOpenedChannel dans le handler de changement de tab */
+
     }
 }

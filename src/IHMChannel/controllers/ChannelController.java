@@ -5,10 +5,8 @@ import IHMChannel.ChannelMessagesDisplay;
 import IHMChannel.IHMChannelController;
 import common.IHMTools.IHMTools;
 import common.shared_data.Channel;
-import common.shared_data.ChannelType;
 import common.shared_data.Message;
 import common.shared_data.UserLite;
-import common.shared_data.ChannelType;
 import common.shared_data.Visibility;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -216,7 +214,7 @@ public class ChannelController {
         this.setCurrentChannel(channel);
         channelName.setText(channel.getName());
         channelDescription.setText(channel.getDescription());
-        if (channel.getType().equals(ChannelType.SHARED)) {
+        if (channel.getVisibility().equals(Visibility.PUBLIC)) {
             setLeavePossible(false);
         }
         iconsInit();
@@ -243,16 +241,17 @@ public class ChannelController {
     /**
      * Méthode déclenchée au clic sur le bouton "quitter le channel"
      */
-    public void leaveChannel() {
+    public void quitChannel() {
 
             boolean result = IHMTools.confirmationPopup("Voulez vous quitter le channel ?");
 
             if (result) {
                 UserLite localUser = ihmChannelController.getInterfaceToData().getLocalUser();
-                ihmChannelController.getInterfaceToCommunication().leaveChannel(getCurrentChannel());
+                ihmChannelController.getInterfaceToCommunication().quitChannel(getCurrentChannel().getId());
+                //attendre le retour de comm
+                //getChannelPageController().leaveChannel(getCurrentChannel().getId(), localUser);
+                //ihmChannelController.getInterfaceToCommunication().leaveChannel(getCurrentChannel());
             }
-
-
 
     }
     
@@ -364,4 +363,11 @@ public class ChannelController {
         channelMessagesDisplay.getController().getMessagesMap().get(message.getId()).replaceDeletedMessage(deletedByCreator);
     }
 
+    public ChannelPageController getChannelPageController() {
+        return channelPageController;
+    }
+
+    public void setChannelPageController(ChannelPageController channelPageController) {
+        this.channelPageController = channelPageController;
+    }
 }
