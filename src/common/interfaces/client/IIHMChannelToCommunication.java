@@ -111,9 +111,9 @@ public interface IIHMChannelToCommunication
 
     /**
      * Remove user from authorized user list in Channel
-     * @param channelId
+     * @param channel
      */
-    void quitChannel(UUID channelId);
+    void quitChannel(Channel channel);
     
     /**
      * Demande la suppression du channel d'ID channelId.

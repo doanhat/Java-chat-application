@@ -109,6 +109,15 @@ public class DataClientHandler {
     }
 
     /**
+     * Informer Channel proprietaire qu'un utilisateur vient de se quitter un channel
+     * @param channelID
+     * @param userLite
+     */
+    public void requestQuitChannel(UUID channelID, UserLite userLite) {
+        dataClient.removeUserFromAuthorizedUserChannel(userLite, channelID, 0, "Quit");
+    }
+
+    /**
      * Demande Data d'ajouter un utilisateur a la liste invitée un channel proprietaire
      *
      * @param user      Utilisateur qui a rejoint le channel
