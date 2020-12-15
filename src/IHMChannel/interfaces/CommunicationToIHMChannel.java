@@ -80,10 +80,6 @@ import java.util.UUID;
         controller.getInterfaceToIHMMain().setOpenedChannelsList(controller.getOpenedChannelsList());
     }
 
-    @Override
-    public void quitChannel(UUID channelId) {
-        controller.getChannelPageController().quitChannel(channelId);
-    }
 
         private IHMChannelController controller;
 

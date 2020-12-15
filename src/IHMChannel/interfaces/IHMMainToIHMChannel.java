@@ -37,6 +37,11 @@ public class IHMMainToIHMChannel implements IIHMMainToIHMChannel {
         return controller.getChannelPageController().getChannelController(channelId).getConnectedMembersList();
     }
 
+    @Override
+    public void removeChannel(UUID channelId) {
+        controller.getChannelPageController().quitChannel(channelId);
+    }
+
 
     private IHMChannelController controller;
 }
