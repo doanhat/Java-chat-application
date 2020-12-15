@@ -64,10 +64,6 @@ public class IHMChannelHandler {
         channelClient.displayChannelHistory(channel, channel.getMessages(), activeUsers);
     }
 
-    public void quitChannel(UUID channelID) {
-        channelClient.quitChannel(channelID);
-    }
-
     public void hasQuitedChannel(UUID channelID, UserLite user) {
         channelClient.removeAuthorizedUser(channelID, user);
     }
