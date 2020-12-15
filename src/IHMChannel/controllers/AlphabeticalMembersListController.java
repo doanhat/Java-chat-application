@@ -11,6 +11,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.List;
 
 public class AlphabeticalMembersListController {
@@ -56,6 +57,8 @@ public class AlphabeticalMembersListController {
 
     private void displayMembers() {
         membersToDisplay.clear();
+        //TODO : le tri fonctionne, mais il devrait y avoir moyen de faire cela automatiquement avec JavaFX (possiblement s'inspirer de la liste dans homepage)
+        channelMembers.sort(Comparator.comparing(UserLite::getNickName));
         for (UserLite usr : channelMembers){
             if(usr.getId().equals(creator.getId())){
                 membersToDisplay.add((HBox) new MemberDisplay(usr,true,true,(connectedMembersList!=null && connectedMembersList.contains(usr)),false, channel, ihmChannelController).root);
@@ -105,7 +108,8 @@ public class AlphabeticalMembersListController {
             this.connectedMembersList.clear();
         }
         this.connectedMembersList = updatedConnectedMembersList;
-            displayMembers();
+
+        displayMembers();
     }
 
     public void addMemberToList(UserLite user) {
