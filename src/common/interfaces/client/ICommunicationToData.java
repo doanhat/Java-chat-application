@@ -91,7 +91,7 @@ public interface ICommunicationToData {
     void removeAllUserFromJoinedUserChannel(UUID channelId, int duration, String explanation);
 
     /**
-     * Delete user from Authorized users list of channel.
+     * Delete user from Authorized users list of channel after ban.
      *
      * @param user        the user
      * @param channelId     the channel
@@ -99,6 +99,13 @@ public interface ICommunicationToData {
      * @param explanation the explanation
      */
     void removeUserFromAuthorizedUserChannel(UserLite user, UUID channelId, int duration, String explanation);
+
+    /**
+     * Delete user from Authorized users list of channel.
+     * @param user user that left
+     * @param channelId id of the channel
+     */
+    void removeUserFromAuthorizedUserChannel(UserLite user, UUID channelId);
 
     /**
      * Gets history.
