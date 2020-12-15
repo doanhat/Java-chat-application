@@ -346,4 +346,8 @@ public class CommunicationServerController extends CommunicationController {
 
 		sendMulticast(channel.getJoinedPersons(), new ReceiveChatMessage(operation, infoPackage));
 	}
+
+	public void quitChannel(UUID channel, UserLite userLite) {
+		dataServer.quitChannel(channel, userLite);
+	}
 }
