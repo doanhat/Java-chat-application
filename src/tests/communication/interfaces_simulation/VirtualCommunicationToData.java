@@ -80,7 +80,7 @@ public class VirtualCommunicationToData implements ICommunicationToData {
 
     @Override
     public void removeUserFromAuthorizedUserChannel(UserLite user, UUID channelId) {
-        
+
     }
 
     @Override

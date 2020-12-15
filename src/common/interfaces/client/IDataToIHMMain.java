@@ -11,12 +11,6 @@ import common.shared_data.Channel;
 public interface IDataToIHMMain {
     /**
      * Supprime le channel de la liste des channels visibles
-     * @param channel Le channel à retirer
-     */
-    public void removeChannel(Channel channel);
-
-    /**
-     * Supprime le channel de la liste des channels visibles
      * @param channelID L'ID du channel à retirer
      */
     public void removeChannel(UUID channelID);

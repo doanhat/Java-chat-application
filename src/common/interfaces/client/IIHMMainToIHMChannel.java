@@ -31,4 +31,6 @@ public interface IIHMMainToIHMChannel {
      * @return liste de UserLite des utilisateurs connectés
      */
     public List<UserLite> getConnectedUsers(UUID channelId);
+
+    public void removeChannel(UUID channelId);
 }
