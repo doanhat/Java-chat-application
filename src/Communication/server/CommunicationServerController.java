@@ -307,6 +307,11 @@ public class CommunicationServerController extends CommunicationController {
 		return activeUsers;
 	}
 
+	public void requestUpdateChannel(UUID channelID, UUID userID, String name, String description, Visibility visibility) {
+
+	}
+
+
 	/* ----------------------------------------- Chat action handling ------------------------------------------------*/
 
 

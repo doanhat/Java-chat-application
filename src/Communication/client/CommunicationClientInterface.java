@@ -6,6 +6,7 @@ import Communication.common.Parameters;
 import Communication.messages.client_to_server.channel_access.proprietary_channels.LeavePropChannelMessage;
 import Communication.messages.client_to_server.channel_access.shared_channels.LeaveSharedChannelMessage;
 import Communication.messages.client_to_server.channel_modification.DeleteChannelMessage;
+import Communication.messages.client_to_server.channel_modification.UpdateChannelMessage;
 import Communication.messages.client_to_server.channel_modification.proprietary_channels.SendProprietaryChannelsMessage;
 import Communication.messages.client_to_server.channel_modification.shared_channels.CreateSharedChannelMessage;
 import Communication.messages.client_to_server.chat_action.ChatMessage;
@@ -15,10 +16,7 @@ import Communication.messages.client_to_server.channel_access.proprietary_channe
 import Communication.messages.client_to_server.channel_access.shared_channels.AskToJoinSharedMessage;
 
 import common.interfaces.client.*;
-import common.shared_data.Channel;
-import common.shared_data.ChannelType;
-import common.shared_data.Message;
-import common.shared_data.UserLite;
+import common.shared_data.*;
 
 import java.util.*;
 
@@ -332,5 +330,18 @@ public class CommunicationClientInterface implements IDataToCommunication,
     @Override
     public void quitChannel(UUID channelID) {
         // TODO V4
+    }
+
+    /**
+     * Demande de modification des caractériqtiques d'un channel
+     *
+     * @param channelID [UUID] ID du channel dont on demande la modification
+     * @param userID [UUID] ID de l'utilisateur qui demande la modification
+     * @param name [String] Nouveau nom du channel
+     * @param description [String] Nouvelle description du channel
+     * @param visibility [Visibility] Nouvelle visibilité du channel (public / privé)
+     */
+    public void updateChannel(UUID channelID, UUID userID, String name, String description, Visibility visibility) {
+        commController.sendMessage(new UpdateChannelMessage(channelID, userID, name, description, visibility));
     }
 }

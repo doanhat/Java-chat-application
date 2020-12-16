@@ -114,4 +114,15 @@ public interface IIHMChannelToCommunication
      * @param channelId
      */
     void quitChannel(UUID channelId);
+
+    /**
+     * Demande de modification des caractériqtiques d'un channel
+     *
+     * @param channelID [UUID] ID du channel dont on demande la modification
+     * @param userID [UUID] ID de l'utilisateur qui demande la modification
+     * @param name [String] Nouveau nom du channel
+     * @param description [String] Nouvelle description du channel
+     * @param visibility [Visibility] Nouvelle visibilité du channel (public / privé)
+     */
+    void updateChannel(UUID channelID, UUID userID, String name, String description, Visibility visibility);
 }
