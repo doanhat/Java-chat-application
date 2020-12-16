@@ -3,6 +3,7 @@ package data.client;
 import common.interfaces.client.IIHMMainToData;
 import common.shared_data.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -48,7 +49,7 @@ public class IHMMainToData implements IIHMMainToData {
      * @param owner    the owner
      */
     @Override
-    public void createChannel(String name, String description, Boolean isShared, Boolean isPublic, UserLite owner) {
+    public void createChannel(String name, String description, boolean isShared, boolean isPublic, UserLite owner) {
         Channel channel;
         channel = new Channel(name, owner, description, isPublic ? Visibility.PUBLIC : Visibility.PRIVATE, isShared ? ChannelType.SHARED : ChannelType.OWNED);
         this.dataController.getChannelController().createChannel(channel);
@@ -64,7 +65,7 @@ public class IHMMainToData implements IIHMMainToData {
      */
     @Override
     public List<Channel> searchChannel(String name, UserLite creator, String description, Visibility visibility) {
-        return null;
+        return new ArrayList<>();
     }
 
     /**
@@ -80,7 +81,7 @@ public class IHMMainToData implements IIHMMainToData {
      */
     @Override
     public void editProfile(String nickName, String avatar, String password, String lastName, String firstName, Date birthDate, User user) {
-
+        throw new UnsupportedOperationException();
     }
 
     /**

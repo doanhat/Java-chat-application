@@ -11,9 +11,13 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Separator;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -21,7 +25,10 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Contrôleur de la vue "ChannelMessages" dans laquelle on retrouve l'affichage et la saisie de messages d'un channel
@@ -33,6 +40,7 @@ public class ChannelMessagesController{
     private ConnectedMembersController connectedMembersController;
     private Message parentMessage = null;
     private boolean isReponse = false;
+    private HashMap<UUID, MessageController> messagesMap = new HashMap<>();
     @FXML
     ImageView imgReceiver;
 
@@ -79,6 +87,7 @@ public class ChannelMessagesController{
         }
         catch (Exception e){
             System.out.println("Problème lors de l'affichage des messages");
+            e.printStackTrace();
         }
     }
 
@@ -92,7 +101,14 @@ public class ChannelMessagesController{
         sendIcon.setFitHeight(15);
         sendIcon.setFitWidth(15);
         sendBtn.setGraphic(sendIcon);
+        Image closeImage = new Image("IHMChannel/icons/close_icon.png");
+        ImageView closeIcon = new ImageView(closeImage);
+        closeIcon.setFitHeight(15);
+        closeIcon.setFitWidth(15);
+        removeBtn.setGraphic(closeIcon);
         reponseArea.setVisible(false);
+        HBox.setMargin(removeBtn, new Insets(0, 50, 0, 0));
+
         messageReceiver.setEditable(false);
         // Définition listener sur la liste de messages
         messageListListener = changed -> {
@@ -109,6 +125,9 @@ public class ChannelMessagesController{
                                     }
                                     else {
                                         HBox rpArea = new HBox();
+                                        Pane pn = new Pane();
+                                        pn.setPrefWidth(50);
+                                        rpArea.setPrefHeight(50);
                                         rpArea.setVisible(true);
                                         ImageView newImgReceiver = new ImageView();
                                         Text newUserNameReceiver = new Text();
@@ -116,10 +135,16 @@ public class ChannelMessagesController{
                                         newUserNameReceiver.setText(userNameReceiver.getText());
                                         newMessageReceiver.setText(messageReceiver.getText());
                                         newMessageReceiver.setEditable(false);
-                                        rpArea.getChildren().addAll(newImgReceiver, newUserNameReceiver, newMessageReceiver);
+                                        newMessageReceiver.setStyle("-fx-control-inner-background: #E5E5E5");
+                                        rpArea.getChildren().addAll(pn, newImgReceiver, newUserNameReceiver, newMessageReceiver);
+                                        rpArea.setAlignment(Pos.CENTER_LEFT);
                                         getMessagesToDisplay().add(rpArea);
                                         HBox msg = (HBox) new MessageDisplay(msgAdded, that).root;
                                         HBox.setHgrow(msg.getChildren().get(0), Priority.ALWAYS);
+                                        Separator separator = new Separator();
+                                        separator.setOrientation(Orientation.VERTICAL);
+                                        separator.setStyle("-fx-background-color: #B9E6FF;  -fx-background-radius: 2;");
+                                        msg.getChildren().add(1, separator);
                                         getMessagesToDisplay().add(msg);
                                         setIsReponse(false);
                                     }
@@ -179,8 +204,41 @@ public class ChannelMessagesController{
      */
     private void displayMessagesList() throws IOException {
         getMessagesToDisplay().clear(); //réinitialisation
-        for (Message msg : observableMessages){
-            getMessagesToDisplay().add((HBox) new MessageDisplay(msg, this).root);
+        for (Message msg : observableMessages) {
+            if (msg.getParentMessageId() == null) {
+                getMessagesToDisplay().add((HBox) new MessageDisplay(msg, this).root);
+            }
+            else {
+                Message prtMessage = null;
+                for (Message prt : observableMessages) {
+                    if (prt.getId().equals(msg.getParentMessageId())) {
+                        prtMessage = prt;
+                        break;
+                    }
+                }
+                HBox rpArea = new HBox();
+                rpArea.setVisible(true);
+                rpArea.setPrefHeight(50);
+                Pane pn = new Pane();
+                pn.setPrefWidth(50);
+                ImageView newImgReceiver = new ImageView();
+                Text newUserNameReceiver = new Text();
+                TextArea newMessageReceiver = new TextArea();
+                newUserNameReceiver.setText(prtMessage.getAuthor().getNickName() + " a dit :     ");
+                newMessageReceiver.setText(prtMessage.getMessage());
+                newMessageReceiver.setEditable(false);
+                newMessageReceiver.setStyle("-fx-control-inner-background: #E5E5E5");
+                rpArea.getChildren().addAll(pn, newImgReceiver, newUserNameReceiver, newMessageReceiver);
+                rpArea.setAlignment(Pos.CENTER_LEFT);
+                getMessagesToDisplay().add(rpArea);
+                HBox msg1 = (HBox) new MessageDisplay(msg, this).root;
+                HBox.setHgrow(msg1.getChildren().get(0), Priority.ALWAYS);
+                Separator separator = new Separator();
+                separator.setOrientation(Orientation.VERTICAL);
+                separator.setStyle("-fx-background-color: #B9E6FF;  -fx-background-radius: 2;");
+                msg1.getChildren().add(1, separator);
+                getMessagesToDisplay().add(msg1);
+            }
         }
         listMessages.setItems(getMessagesToDisplay());
     }
@@ -239,5 +297,13 @@ public class ChannelMessagesController{
     void removeReponse() {
         setIsReponse(false);
         this.parentMessage = null;
+    }
+
+    public HashMap<UUID, MessageController> getMessagesMap() {
+        return messagesMap;
+    }
+
+    public void setMessagesMap(HashMap<UUID, MessageController> messagesMap) {
+        this.messagesMap = messagesMap;
     }
 }

@@ -5,16 +5,16 @@ import IHMChannel.ChannelMessagesDisplay;
 import IHMChannel.IHMChannelController;
 import common.IHMTools.IHMTools;
 import common.shared_data.Channel;
+import common.shared_data.ChannelType;
 import common.shared_data.Message;
 import common.shared_data.UserLite;
+import common.shared_data.ChannelType;
 import common.shared_data.Visibility;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckMenuItem;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -66,6 +66,8 @@ public class ChannelController {
     ChannelMembersDisplay channelMembersDisplay;
 
     Boolean seeMessages = true;
+    Boolean changeRight = true;
+    Boolean leavePossible = true;
 
     public Channel getCurrentChannel() {
         return currentChannel;
@@ -78,9 +80,12 @@ public class ChannelController {
     public ChannelMembersDisplay getChannelMembersDisplay() {
         return channelMembersDisplay;
     }
+    public void setLeavePossible(Boolean b) {
+        leavePossible = b;
+    }
 
     public void initialize() throws IOException {
-        iconsInit();
+
         //Affichage de la partie "messages"
         channelMessagesDisplay = new ChannelMessagesDisplay();
         //channelMessagesDisplay.setConnectedMembersList(connectedMembersList);
@@ -121,12 +126,16 @@ public class ChannelController {
         addUserIcon.setFitWidth(15);
         addMemberBtn.setGraphic(addUserIcon);
 
-        //Quitter
-        Image exitImage = new Image("IHMChannel/icons/exit.png");
-        ImageView exitIcon = new ImageView(exitImage);
-        exitIcon.setFitHeight(15);
-        exitIcon.setFitWidth(15);
-        leaveChannelBtn.setGraphic(exitIcon);
+        if (leavePossible) {
+            //Quitter
+            Image exitImage = new Image("IHMChannel/icons/exit.png");
+            ImageView exitIcon = new ImageView(exitImage);
+            exitIcon.setFitHeight(15);
+            exitIcon.setFitWidth(15);
+            leaveChannelBtn.setGraphic(exitIcon);
+        }else {
+            leaveChannelBtn.setVisible(false);
+        }
 
         //Menu Contextuel
         Image contextMenuImage = new Image("IHMChannel/icons/chevron_down.png");
@@ -142,13 +151,19 @@ public class ChannelController {
         channelMessagesDisplay.getController().addMessageToObservableList(receivedMessage);
     }
 
+    public void addUser(UserLite user) throws IOException {
+        currentChannel.addAuthorizedUser(user);
+        channelMembersDisplay.getController().setCurrentChannel(currentChannel);
+    }
+    public void removeUser(UserLite user) throws IOException {
+        currentChannel.removeUser(user.getId());
+        channelMembersDisplay.getController().setCurrentChannel(currentChannel);
+    }
 
     public void addNewAdmin(UserLite user) throws IOException {
         currentChannel.addAdmin(user);
         channelMembersDisplay.getController().setCurrentChannel(currentChannel);
-        // Faut-il mettre a jour nous même le channel dans les composants fils?
     }
-
     /**
      * Méthode déclenchée au clic sur le bouton "voir les membres"
      */
@@ -171,14 +186,21 @@ public class ChannelController {
     public void addUserToChannel() {
         //Affiche le FXML "AddMemberPopUp" dans une pop-up
         //En JavaFX, pop-up = fenêtre transparente sans aucun style.
-
         Popup popup = new Popup();
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../views/AddMemberPopUp.fxml"));
             popup.getContent().add(fxmlLoader.load());
             AddMemberPopUpController addMemberPopUpController = fxmlLoader.getController();
             addMemberPopUpController.setChannelController(this);
-            addMemberPopUpController.setUsersObservableList(this.getIhmChannelController().getInterfaceToIHMMain().getConnectedUsersList());
+
+            List<UserLite> usersToInvite = FXCollections.observableArrayList();
+            this.getIhmChannelController().getInterfaceToIHMMain().getConnectedUsersList().forEach(userLite -> {
+                if(!currentChannel.getAuthorizedPersons().contains(userLite)){
+                    usersToInvite.add(userLite);
+                }
+            });
+
+            addMemberPopUpController.setUsersObservableList(usersToInvite);
             popup.setAutoHide(true); //disparaît si on clique ailleurs
             Bounds screenBounds = addMemberBtn.localToScreen(addMemberBtn.getBoundsInLocal()); //alignement pop up et bouton
             popup.show(addMemberBtn.getScene().getWindow(), screenBounds.getMinX(), screenBounds.getMaxY());
@@ -194,6 +216,10 @@ public class ChannelController {
         this.setCurrentChannel(channel);
         channelName.setText(channel.getName());
         channelDescription.setText(channel.getDescription());
+        if (channel.getType().equals(ChannelType.SHARED)) {
+            setLeavePossible(false);
+        }
+        iconsInit();
 
         //Restrictions sur l'affichage du bouton d'invitation
         //Visible si channel privé + utilisateur connecté = admin
@@ -219,12 +245,15 @@ public class ChannelController {
      */
     public void leaveChannel() {
 
-        boolean result = IHMTools.confirmationPopup("Voulez vous quitter le channel ?");
+            boolean result = IHMTools.confirmationPopup("Voulez vous quitter le channel ?");
 
-        if (result) {
-            /*  openedChannels.remove(channelMap.get(currentChannel));
-        channelMap.remove(currentChannel)*/
-        }
+            if (result) {
+                UserLite localUser = ihmChannelController.getInterfaceToData().getLocalUser();
+                ihmChannelController.getInterfaceToCommunication().leaveChannel(getCurrentChannel());
+            }
+
+
+
     }
     
 
@@ -253,7 +282,6 @@ public class ChannelController {
      *
      */
     public void homeBtnHandler() {
-        // A voir ce que fait redirectHomePage()
         ihmChannelController.getInterfaceToIHMMain().redirectToHomePage();
     }
 
@@ -268,7 +296,9 @@ public class ChannelController {
      * Clic sur "Changer les droits" depuis le menu contextuel
      */
     public void changeRights() {
-        //TODO implémenter la méthode
+        pageToDisplay.setCenter(channelMembersDisplay.root);
+        channelMembersDisplay.getController().viewMode.selectToggle(channelMembersDisplay.getController().adminBtn);
+        channelMembersDisplay.getController().adminSort();
     }
 
     /**
@@ -286,15 +316,19 @@ public class ChannelController {
     }
 
     /**
-     * Clic sur "supprimer channel" depuis le menu contextuel
+     * Clic sur "supprimer channel" depuis le menu contextuel. Si l'utilisateur est bien le créteur, alors une pop-up de confirmation s'ouvre.
+     * Après confirmation, le traitement de suppression est effectué.
      */
     public void deleteChannel() {
-
-        boolean result = IHMTools.confirmationPopup("Voulez vous supprimer le channel ?");
-
-        if (result){
-            //appel interface /!\ UnsupportedOperationException : not implemented yet pour le moment (sera réglé avec integ)
-            this.getIhmChannelController().getInterfaceForData().openChannelDeleted(this.currentChannel);
+        if(this.getIhmChannelController().getInterfaceToData().getLocalUser().getId().equals(currentChannel.getCreator().getId())){
+            boolean result = IHMTools.confirmationPopup("Voulez vous supprimer le channel ?");
+            if (result){
+                // this.getIhmChannelController().getInterfaceToCommunication().DeleteChannel(currentChannel.getId());
+                // Pour Tester le retour serveur avant intégration :
+                this.getIhmChannelController().getInterfaceForData().openChannelDeleted(this.currentChannel.getId());
+            }
+        }else{
+            IHMTools.informationPopup("Vous n'avez pas les droits nécessaires pour effectuer cette action. Seul le créateur peut supprimer le channel.");
         }
     }
 
@@ -325,5 +359,9 @@ public class ChannelController {
         this.channelMembersDisplay.getController().removeMemberFromObservableList(user);
     }
 
+
+    public void deleteMessage(Message message, boolean deletedByCreator) {
+        channelMessagesDisplay.getController().getMessagesMap().get(message.getId()).replaceDeletedMessage(deletedByCreator);
+    }
 
 }

@@ -60,4 +60,12 @@ public interface ICommunicationToIHMChannel {
 
 
 
+    /**
+     *Méthode permettant de signaler à tous les utilisateurs d'un channel qu'un membre a quitté le channel
+     * Déclenche une notification informant que le user a quitté le channel
+     * @param ChannelId id du channel concerné
+     * @param user user qui quitte le channel
+     */
+    void leaveChannel(UUID ChannelId, UserLite user);
+
 }

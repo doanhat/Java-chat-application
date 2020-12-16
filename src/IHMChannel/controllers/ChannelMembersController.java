@@ -25,6 +25,8 @@ public class ChannelMembersController {
     @FXML
     RadioButton alphaBtn;
     @FXML
+    RadioButton adminBtn;
+    @FXML
     BorderPane listMembersDisplay;
 
     ObservableList<HBox> membersToDisplay = FXCollections.observableArrayList();
@@ -65,6 +67,7 @@ public class ChannelMembersController {
      * Tri des membres selon leur rôle
      */
     public void adminSort() {
+        System.out.print("hello");
         listMembersDisplay.setCenter(adminMembersListDisplay.root);
     }
 

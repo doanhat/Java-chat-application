@@ -2,11 +2,11 @@ package common.interfaces.server;
 
 public interface IServerDataToCommunication {
 
-    public void setIP(String addressIP);
+    void setIP(String addressIP);
 
-    public void setPort(int port);
+    void setPort(int port);
 
-    public void start();
+    void start();
 
-    public void stop();
+    void stop();
 }
