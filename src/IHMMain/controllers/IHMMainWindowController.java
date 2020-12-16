@@ -3,10 +3,7 @@ package IHMMain.controllers;
 import IHMMain.IHMMainController;
 import app.MainWindowController;
 import common.IHMTools.IHMTools;
-import common.shared_data.Channel;
-import common.shared_data.ChannelType;
-import common.shared_data.UserLite;
-import common.shared_data.Visibility;
+import common.shared_data.*;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -348,14 +345,14 @@ public class IHMMainWindowController implements Initializable{
     }
 
     @FXML
-    private void loadUserInfosPopup() throws IOException {
+    private void loadUserInfosPopup(User u) throws IOException {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../views/UserInfos.fxml"));
             Parent root = fxmlLoader.load();
 
             UserInfosController userInfosController = fxmlLoader.getController();
             try {
-                userInfosController.setParentController(this);
+                userInfosController.setParentController(this, u);
             } catch (Exception e) {
                 e.printStackTrace();
             }
