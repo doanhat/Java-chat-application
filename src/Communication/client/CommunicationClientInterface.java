@@ -6,7 +6,7 @@ import Communication.common.Parameters;
 import Communication.messages.client_to_server.channel_access.proprietary_channels.LeavePropChannelMessage;
 import Communication.messages.client_to_server.channel_access.proprietary_channels.QuitPropChannelMessage;
 import Communication.messages.client_to_server.channel_access.shared_channels.LeaveSharedChannelMessage;
-import Communication.messages.client_to_server.channel_access.shared_channels.QuitSharedChannelMessage;
+import Communication.messages.client_to_server.channel_access.QuitChannelMessage;
 import Communication.messages.client_to_server.channel_modification.DeleteChannelMessage;
 import Communication.messages.client_to_server.channel_modification.proprietary_channels.SendProprietaryChannelsMessage;
 import Communication.messages.client_to_server.channel_modification.shared_channels.CreateSharedChannelMessage;
@@ -331,7 +331,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
                 commController.sendMessage(new QuitPropChannelMessage(localUser, channel.getId(), channel.getCreator()));
             }
         } else {
-            commController.sendMessage(new QuitSharedChannelMessage(localUser, channel.getId()));
+            commController.sendMessage(new QuitChannelMessage(localUser, channel.getId()));
         }
     }
 
