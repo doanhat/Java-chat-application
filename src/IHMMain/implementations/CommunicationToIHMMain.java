@@ -62,6 +62,6 @@ public class CommunicationToIHMMain implements ICommunicationToIHMMain {
 
     @Override
     public void channelConnectedUsers(UUID channelID, List<UserLite> connectedUsers) {
-        // TODO: implement this method
+        Platform.runLater(() -> ihmMainController.getConnectedUserByChannels().put(channelID,connectedUsers));
     }
 }
