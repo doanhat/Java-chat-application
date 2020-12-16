@@ -6,6 +6,7 @@ import Communication.common.Parameters;
 import Communication.messages.client_to_server.channel_access.proprietary_channels.LeavePropChannelMessage;
 import Communication.messages.client_to_server.channel_access.shared_channels.LeaveSharedChannelMessage;
 import Communication.messages.client_to_server.channel_modification.DeleteChannelMessage;
+import Communication.messages.client_to_server.channel_modification.GetChannelUsersMessage;
 import Communication.messages.client_to_server.channel_modification.proprietary_channels.SendProprietaryChannelsMessage;
 import Communication.messages.client_to_server.channel_modification.shared_channels.CreateSharedChannelMessage;
 import Communication.messages.client_to_server.chat_action.ChatMessage;
@@ -108,6 +109,13 @@ public class CommunicationClientInterface implements IDataToCommunication,
     public String getAvatarPath(UserLite user) {
         //TODO Note Data : Appeler getAvatarPath(UserLite user) dans IServerCommunicationToData
         return null;
+    }
+
+    @Override
+    public void getConnectedUsers(UUID channelID) {
+        if (channelID != null) {
+            commController.sendMessage(new GetChannelUsersMessage(channelID, localUser));
+        }
     }
 
     /* -------------------------- IIHMChannelToCommunication interface implementations -------------------------------*/
