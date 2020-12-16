@@ -6,8 +6,8 @@ import common.shared_data.UserLite;
 import java.io.Serializable;
 import java.util.UUID;
 
-public class ChatPackage implements Serializable {
-    public UserLite sender;
+public class InfoPackage implements Serializable {
+    public UserLite user;
     public UUID channelID;
     public Message message;
     public Message messageResponseTo;

@@ -10,10 +10,10 @@
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="IHMChannel.controllers.ConnectedMembersListController">
-    <VBox>
-        <Label text="Membres connectés :" />
+    <VBox prefWidth="1400">
+        <Label text="Membres connectés :" styleClass="Textfield"/>
         <ListView fx:id="connectedMembers" maxHeight="150" />
-        <Label text="Membres déconnectés :" />
+        <Label text="Membres déconnectés :" styleClass="Textfield"/>
         <ListView fx:id="disconnectedMembers" maxHeight="150" />
     </VBox>
     <stylesheets>
