@@ -3,6 +3,7 @@ package IHMMain.controllers;
 import IHMMain.IHMMainController;
 import app.MainWindowController;
 import common.shared_data.ConnectionStatus;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -70,6 +71,10 @@ public class ConnectionController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        //Affiche l'adresse IP à l'affichage
+        Platform.runLater(() -> {
+            IPTextField.setText(ihmMainController.getIIHMMainToCommunication().getIP());
+        });
         //Gère le changement d'adresse IP
         IPTextField.textProperty().addListener((observable,oldValue,newValue) -> {
             try {
@@ -84,6 +89,10 @@ public class ConnectionController implements Initializable{
             }
         });
 
+        //Affiche le port à l'affichage
+        Platform.runLater(() -> {
+            portTextField.setText(String.valueOf(ihmMainController.getIIHMMainToCommunication().getPort()));
+        });
         //Gère le changement de port
         portTextField.textProperty().addListener((observable,oldValue,newValue) -> {
             try {
