@@ -6,6 +6,7 @@ import common.shared_data.ConnectionStatus;
 import common.shared_data.UserLite;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -103,5 +104,9 @@ public class IHMMainHandler {
             logger.log(Level.FINE, "Creation channel {} est refusé", channel.getId());
             //mainClient.channelCreationRefused(channel);
         }
+    }
+
+    public void deliverChannelUsersList(UUID channelID, List<UserLite> connectedUsers) {
+        mainClient.channelConnectedUsers(channelID, connectedUsers);
     }
 }

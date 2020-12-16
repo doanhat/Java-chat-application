@@ -3,6 +3,7 @@ package tests.communication.interfaces_simulation;
 import common.interfaces.client.ICommunicationToIHMMain;
 import common.shared_data.Channel;
 import common.shared_data.ConnectionStatus;
+import common.shared_data.User;
 import common.shared_data.UserLite;
 
 import java.util.List;
@@ -79,5 +80,10 @@ public class VirtualCommunicationToIHMMain implements ICommunicationToIHMMain {
 
             System.err.println("Channel " + channel.getId() + " added");
         }
+    }
+
+    @Override
+    public void channelConnectedUsers(UUID channelID, List<UserLite> connectedUsers) {
+
     }
 }

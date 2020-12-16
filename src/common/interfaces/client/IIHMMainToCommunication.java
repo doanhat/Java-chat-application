@@ -2,6 +2,9 @@ package common.interfaces.client;
 
 import common.shared_data.*;
 
+import java.util.List;
+import java.util.UUID;
+
 /**
  * The interface Iihm main to communication.
  */
@@ -59,4 +62,6 @@ public interface IIHMMainToCommunication
      * @return
      */
     String getAvatarPath(UserLite user);
+
+    void getConnectedUsers(UUID channelID);
 }
