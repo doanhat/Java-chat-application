@@ -4,10 +4,12 @@ import IHMMain.IHMMainController;
 import common.interfaces.client.ICommunicationToIHMMain;
 import common.shared_data.Channel;
 import common.shared_data.ConnectionStatus;
+import common.shared_data.User;
 import common.shared_data.UserLite;
 import javafx.application.Platform;
 
 import java.util.List;
+import java.util.UUID;
 
 public class CommunicationToIHMMain implements ICommunicationToIHMMain {
 
@@ -56,5 +58,10 @@ public class CommunicationToIHMMain implements ICommunicationToIHMMain {
     @Override
     public void channelAddedAll(List<Channel> channels) {
         Platform.runLater(() -> ihmMainController.getVisibleChannels().addAll(channels));
+    }
+
+    @Override
+    public void channelConnectedUsers(UUID channelID, List<UserLite> connectedUsers) {
+        Platform.runLater(() -> ihmMainController.getConnectedUserByChannels().put(channelID,connectedUsers));
     }
 }
