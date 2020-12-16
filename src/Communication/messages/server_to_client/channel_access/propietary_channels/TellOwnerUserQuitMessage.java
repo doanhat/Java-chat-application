@@ -2,8 +2,7 @@ package Communication.messages.server_to_client.channel_access.propietary_channe
 
 import Communication.client.CommunicationClientController;
 import Communication.messages.abstracts.ServerToClientMessage;
-import Communication.messages.client_to_server.channel_access.proprietary_channels.UserLeftConfirmationMessage;
-import Communication.messages.client_to_server.channel_access.proprietary_channels.UserQuitConfirmationMessage;
+import Communication.messages.client_to_server.channel_access.QuitChannelMessage;
 import common.shared_data.UserLite;
 
 import java.util.UUID;
@@ -23,6 +22,6 @@ public class TellOwnerUserQuitMessage extends ServerToClientMessage {
         commClientController.dataClientHandler().requestQuitChannel(channelID, user);
 
         // Give permission to Server to remove user from channel
-        commClientController.sendMessage(new UserQuitConfirmationMessage(user, channelID));
+        commClientController.sendMessage(new QuitChannelMessage(user, channelID));
     }
 }

@@ -1,4 +1,4 @@
-package Communication.messages.client_to_server.channel_access.shared_channels;
+package Communication.messages.client_to_server.channel_access;
 
 import Communication.messages.abstracts.ClientToServerMessage;
 import Communication.messages.server_to_client.channel_access.UserQuitedChannelMessage;
@@ -12,11 +12,12 @@ import java.util.UUID;
 /**
  * Cette classe permet de quitter un channel privé partagé
  */
-public class QuitSharedChannelMessage extends ClientToServerMessage {
+public class QuitChannelMessage extends ClientToServerMessage {
+    private static final long serialVersionUID = -1923313673314074993L;
     private final UserLite userLite;
     private final UUID channelID;
 
-    public QuitSharedChannelMessage(UserLite userLite, UUID channelID) {
+    public QuitChannelMessage(UserLite userLite, UUID channelID) {
         this.userLite = userLite;
         this.channelID = channelID;
     }
