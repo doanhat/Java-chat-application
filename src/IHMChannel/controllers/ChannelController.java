@@ -164,6 +164,9 @@ public class ChannelController {
 
     public void addNewAdmin(UserLite user) throws IOException {
         currentChannel.addAdmin(user);
+        System.out.printf("{} has this admin list : {}",
+                ihmChannelController.getInterfaceToData().getLocalUser(),
+                currentChannel.getAdministrators());
         channelMembersDisplay.getController().setCurrentChannel(currentChannel);
     }
     /**
