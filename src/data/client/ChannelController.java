@@ -40,6 +40,8 @@ public class ChannelController extends Controller{
         return null;
     }
 
+
+
     /**
      * Load proprietary local channels own to a specific user
      * @param user The user concerned

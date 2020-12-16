@@ -204,4 +204,23 @@ public class ChannelsListController {
         ownedChannels.removeIf(ch -> (ch.getCreator().getId().equals(owner.getId())));
         return userOwnedChannels;
     }
+
+
+    /**
+     * Save deletion into history.
+     *
+     * @param channelId  the channel ID
+     */
+    public void saveDeletionIntoHistory(UUID channelId) {
+        Channel channel = searchChannelById(channelId);
+        if(channel!=null) {
+            FileHandle fileHandler;
+            if (channel.getType().equals(ChannelType.OWNED))
+                fileHandler = new FileHandle<Channel>(LocationType.CLIENT, FileType.CHANNEL);
+            else
+                fileHandler = new FileHandle<Channel>(LocationType.SERVER, FileType.CHANNEL);
+
+            fileHandler.deleteJSONFile(channel.getId().toString());
+        }
+    }
 }

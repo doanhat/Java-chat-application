@@ -34,6 +34,7 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     public boolean requestChannelRemoval(UUID channelID, UserLite user) {
         Channel channel = channelsListController.searchChannelById(channelID);
         if(channel!=null && channel.userIsAdmin(user.getId())){
+            channelsListController.saveDeletionIntoHistory(channelID);
             channelsListController.removeChannel(channelID);
             return true;
         }
