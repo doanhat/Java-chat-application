@@ -2,6 +2,7 @@ package IHMChannel.interfaces;
 
 import IHMChannel.IHMChannelController;
 import IHMChannel.controllers.ChannelController;
+import common.IHMTools.IHMTools;
 import common.interfaces.client.IDataToIHMChannel;
 import common.shared_data.Channel;
 import common.shared_data.Message;
@@ -52,6 +53,9 @@ public class DataToIHMChannel implements IDataToIHMChannel{
      */
     @Override
     public void removeChannelFromList(UUID channelID, int duration, String explanation) {
+
+        IHMTools.informationPopup(String.format("Vous avez été banni pendant %d secondes pour la raison suivante : %s", duration, explanation));
+
         controller.getChannelPageController().removeTab(channelID);
     }
 
@@ -64,7 +68,7 @@ public class DataToIHMChannel implements IDataToIHMChannel{
      */
     @Override
     public void userBanNotification(UserLite user, UUID channelId, int duration, String explanation) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        controller.getInterfaceForCommunication().removeConnectedUser(channelId, user);
     }
 
     /**
