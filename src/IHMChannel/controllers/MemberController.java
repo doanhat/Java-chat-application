@@ -1,6 +1,7 @@
 package IHMChannel.controllers;
 
 import IHMChannel.IHMChannelController;
+import common.IHMTools.IHMTools;
 import common.shared_data.Channel;
 import common.shared_data.UserLite;
 import javafx.fxml.FXML;
@@ -9,6 +10,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import IHMChannel.switchButton.ToggleSwitch;
+
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MemberController {
 
@@ -119,7 +122,31 @@ public class MemberController {
     }
 
     public void banHandler() {
+        // Check localUser =admin
+        AtomicBoolean isLocalUserAdmin = new AtomicBoolean(false);
+        channel.getAdministrators().forEach(userLite -> {
+            if(userLite.getId().equals(this.ihmChannelController.getInterfaceToData().getLocalUser().getId())){
+                isLocalUserAdmin.set(true);
+            }
+        });
+
+        if(isLocalUserAdmin.get()){
+            //check user kick pas le createur. Peut-on kick un autre admin?
+            if(!channel.getCreator().getId().equals(userToDisplay.getId())){
+                if(IHMTools.confirmationPopup("Voulez vous kicker cet utilisateur ?")){
+                    // Kicker l'utilisateur
+                    //this.getIhmChannelController().getInterfaceToCommunication().banUserFromChannel();
+                    System.out.print("ban");
+                }
+            }else{
+                IHMTools.informationPopup("Vous ne pouvez pas kicker le créateur.");
+            }
+        }else{
+            IHMTools.informationPopup("Vous n'avez pas les droits pour réaliser cette action. Vous devez être administrateur.");
+        }
+
        /*TODO
+           1. Vérifier les droits admins de la personne qui appuie sur le bouton + de celle qui est kicker
            1. Vérifier les droits admins de la personne qui appuie sur le bouton
            2. Si ok :
             - Pop up de confirmation avec la durée de ban
@@ -134,9 +161,6 @@ public class MemberController {
                 - vérifier que l'accès à un channel n'est pas possible pour un utilisateur kické pour la durée mentionner.
                 - Vérifier que quand la date est passé, il a reacces au channel
         */
-
-
-        System.out.println("ban");
     }
 
     public IHMChannelController getIhmChannelController() {
