@@ -223,4 +223,15 @@ public class ChannelsListController {
             fileHandler.deleteJSONFile(channel.getId().toString());
         }
     }
+
+    /**
+     * Enregistre la suppression d'un admin dans l'historique d'un channel.
+     *
+     * @param channel   Le channel.
+     */
+    public void writeRemoveAdminInChannel(Channel channel) {
+        if (channel.getType() == ChannelType.SHARED) {
+            this.writeChannelDataToJSON(channel);
+        }
+    }
 }

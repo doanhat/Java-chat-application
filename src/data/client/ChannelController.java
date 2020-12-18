@@ -219,6 +219,19 @@ public class ChannelController extends Controller{
         }
     }
 
+
+    /**
+     * Save remove admin into history.
+     * @param channelId the channelId
+     */
+    public void saveRemoveAdminIntoHistory(UUID channelId) {
+        FileHandle fileHandler = new FileHandle(LocationType.CLIENT, FileType.CHANNEL);
+        Channel ownedChannel = searchChannelById(channelId);
+        if (ownedChannel!=null) {
+            fileHandler.writeJSONToFile(ownedChannel.getId().toString(),ownedChannel);
+        }
+    }
+
     public void removeUserFromJoinedUserChannel(UserLite user, UUID channelId) {
         List<Channel> channels = getChannelList();
         for (Channel c : channels) {

@@ -336,4 +336,14 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
         return fileHandle.getAvatarPath(user.getId().toString());
     }
 
+    @Override
+    public void requestRemoveAdmin(UUID channelID, UUID adminID) {
+        Channel channel = channelsListController.searchChannelById(channelID);
+        if(channel!=null){
+            if(channel.userIsAdmin(adminID) && !channel.getCreator().getId().equals(adminID)){
+                channel.removeAdmin(adminID);
+            }
+        }
+    }
+
 }
