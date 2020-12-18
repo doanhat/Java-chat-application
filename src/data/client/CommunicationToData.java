@@ -187,7 +187,13 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void saveLikeIntoHistory(UUID channelId, Message message, UserLite user) {
-        throw new UnsupportedOperationException();
+        Channel ownedChannel = dataController.getChannelController().searchChannelById(channelId);
+        if (ownedChannel != null) {
+            dataController.getMessageController().saveLikeIntoHistory(
+                    ownedChannel,
+                    message,
+                    user);
+        }
     }
 
     /**

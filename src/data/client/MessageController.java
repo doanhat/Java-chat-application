@@ -1,19 +1,20 @@
 package data.client;
 
-import data.resource_handle.FileHandle;
-import data.resource_handle.FileType;
-import data.resource_handle.LocationType;
 import common.interfaces.client.IDataToCommunication;
 import common.interfaces.client.IDataToIHMChannel;
 import common.interfaces.client.IDataToIHMMain;
 import common.shared_data.Channel;
 import common.shared_data.Message;
 import common.shared_data.User;
+import common.shared_data.UserLite;
+import data.resource_handle.FileHandle;
+import data.resource_handle.FileType;
+import data.resource_handle.LocationType;
 
 import java.util.List;
 import java.util.UUID;
 
-public class MessageController extends Controller{
+public class MessageController extends Controller {
     public MessageController(IDataToCommunication comClient, IDataToIHMChannel channelClient, IDataToIHMMain mainClient) {
         super(comClient, channelClient, mainClient);
     }
@@ -24,9 +25,9 @@ public class MessageController extends Controller{
         }
         int responseAdded = 0;
         FileHandle fileHandler = new FileHandle(LocationType.CLIENT, FileType.CHANNEL);
-        if (ownedChannel!=null) {
+        if (ownedChannel != null) {
             List<Message> listMsg = ownedChannel.getMessages();
-            if (response==null){
+            if (response == null) {
                 ownedChannel.addMessage(message);
             } else {
                 for (Message msg : listMsg) {
@@ -41,18 +42,19 @@ public class MessageController extends Controller{
                 }
             }
 
-            fileHandler.writeJSONToFile(ownedChannel.getId().toString(),ownedChannel);
+            fileHandler.writeJSONToFile(ownedChannel.getId().toString(), ownedChannel);
         }
     }
 
     /**
      * Receive message.
-     *  @param message  the message
+     *
+     * @param message  the message
      * @param channel  the channel
      * @param response the response
      */
     public void receiveMessage(Message message, Channel channel, Message response) {
-        channelClient.receiveMessage(message,channel.getId(),response);
+        channelClient.receiveMessage(message, channel.getId(), response);
     }
 
     /**
@@ -80,12 +82,21 @@ public class MessageController extends Controller{
     /**
      * Save like into history.
      *
-     * @param channel the channel
-     * @param message the message
-     * @param user    the user
+     * @param ownedChannel the ownedChannel
+     * @param message      the message
+     * @param user         the user
      */
-    public void saveLikeIntoHistory(Channel channel, Message message, User user) {
-        throw new UnsupportedOperationException();
+    public void saveLikeIntoHistory(Channel ownedChannel, Message message, UserLite user) {
+        FileHandle<Channel> fileHandler = new FileHandle<>(LocationType.CLIENT, FileType.CHANNEL);
+        if (ownedChannel != null) {
+            List<Message> listMsg = ownedChannel.getMessages();
+            for (Message msg : listMsg) {
+                if (msg.getId().toString().equals(message.getId().toString())) {
+                    msg.addLike(user);
+                }
+            }
+            fileHandler.writeJSONToFile(ownedChannel.getId().toString(), ownedChannel);
+        }
     }
 
     /**
@@ -102,8 +113,8 @@ public class MessageController extends Controller{
     /**
      * Save deletion into history.
      *
-     * @param message the message
-     * @param channelId  the channel ID
+     * @param message          the message
+     * @param channelId        the channel ID
      * @param deletedByCreator the boolean that indicates if the message is deleted by its creator or not
      */
     public void saveDeletionIntoHistory(Message message, UUID channelId, boolean deletedByCreator) {
@@ -113,11 +124,10 @@ public class MessageController extends Controller{
         if (channel != null) {
             List<Message> listMsg = channel.getMessages();
             for (Message msg : listMsg) {
-                if(msg.equals(message)) {
+                if (msg.equals(message)) {
                     if (deletedByCreator) {
                         msg.setDeletedByUser(true);
-                    }
-                    else {
+                    } else {
                         msg.setDeletedByAdmin(true);
                     }
                     break;
@@ -132,7 +142,7 @@ public class MessageController extends Controller{
      * Delete message.
      *
      * @param message          the message
-     * @param channelID             the channel ID
+     * @param channelID        the channel ID
      * @param deletedByCreator the deleted by creator
      */
     public void deleteMessage(Message message, UUID channelID, boolean deletedByCreator) {

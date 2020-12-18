@@ -93,6 +93,20 @@ public class Message implements Serializable {
 		return deletedByUser;
 	}
 
+	public void addLike(UserLite userLite){
+		if (!likedByUser(userLite.getId())){
+			likes.add(userLite);
+		}
+	}
+
+	public boolean likedByUser(UUID userID){
+		for (UserLite user : likes) {
+			if(user.getId().equals(userID))
+				return true;
+		}
+		return false;
+	}
+
 	public void delete(boolean deletedByUser) {
 		this.deletedByUser = deletedByUser;
 		this.deletedByAdmin = !deletedByUser;
