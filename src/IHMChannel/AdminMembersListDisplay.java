@@ -33,6 +33,7 @@ public class AdminMembersListDisplay {
     public void addMemberToList(UserLite user) {
         adminMembersController.addMemberToList(user);
     }
+
     public void removeMemberFromList(UserLite user) {
         adminMembersController.removeMemberFromList(user);
     }

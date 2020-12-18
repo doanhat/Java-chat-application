@@ -50,6 +50,15 @@ public class AlphabeticalMembersListController {
         creator = this.channel.getCreator();
     }
 
+    private boolean containsUser(List<UserLite> list, UserLite user){
+        for(UserLite u : list){
+            if(u.getId().equals(user.getId())){
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Permet l'affichage de la liste des membres en faisant une conversion en Hbox.
      * @throws IOException
@@ -61,11 +70,11 @@ public class AlphabeticalMembersListController {
         channelMembers.sort(Comparator.comparing(UserLite::getNickName));
         for (UserLite usr : channelMembers){
             if(usr.getId().equals(creator.getId())){
-                membersToDisplay.add((HBox) new MemberDisplay(usr,true,true,(connectedMembersList!=null && connectedMembersList.contains(usr)),false, channel, ihmChannelController).root);
+                membersToDisplay.add((HBox) new MemberDisplay(usr,true,true,(connectedMembersList!=null && containsUser(connectedMembersList, usr)),false, channel, ihmChannelController).root);
             }else if(adminMembers.contains(usr)){
-                membersToDisplay.add((HBox) new MemberDisplay(usr, true,false,(connectedMembersList!=null && connectedMembersList.contains(usr)),isLocalUserAdmin,  channel, ihmChannelController).root);
+                membersToDisplay.add((HBox) new MemberDisplay(usr, true,false,(connectedMembersList!=null && containsUser(connectedMembersList, usr)),isLocalUserAdmin,  channel, ihmChannelController).root);
             }else{
-                membersToDisplay.add((HBox) new MemberDisplay(usr, false, false,(connectedMembersList!=null && connectedMembersList.contains(usr)),isLocalUserAdmin, channel, ihmChannelController).root);
+                membersToDisplay.add((HBox) new MemberDisplay(usr, false, false,(connectedMembersList!=null && containsUser(connectedMembersList, usr)),isLocalUserAdmin, channel, ihmChannelController).root);
             }
         }
         membersList.setItems(membersToDisplay);

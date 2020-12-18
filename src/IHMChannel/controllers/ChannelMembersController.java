@@ -55,6 +55,15 @@ public class ChannelMembersController {
         return connectedMembersListDisplay;
     }
 
+    public boolean containsUser(List<UserLite> list, UserLite user){
+        for(UserLite u : list){
+            if(u.getId().equals(user.getId())){
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Tri des utilisateurs par ordre alphabétique
      * @throws IOException

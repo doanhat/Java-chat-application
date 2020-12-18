@@ -53,6 +53,15 @@ public class ConnectedMembersListController {
         creator = this.channel.getCreator();
     }
 
+    private boolean containsUser(List<UserLite> list, UserLite user){
+        for(UserLite u : list){
+            if(u.getId().equals(user.getId())){
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Permet l'affichage de la liste des membres en faisant une conversion en Hbox.
      * @throws IOException
@@ -63,7 +72,7 @@ public class ConnectedMembersListController {
         disconnectedMembersToDisplay.clear();
 
         for (UserLite usr : channelMembers){
-            if(connectedMembersList!=null && connectedMembersList.contains(usr)){
+            if(connectedMembersList!=null && containsUser(connectedMembersList, usr)){
                 if(usr.getId().equals(creator.getId())){
                     connectedMembersToDisplay.add((HBox) new MemberDisplay(usr,true,true,true,false, channel, ihmChannelController).root);
                 }else if(adminMembers.contains(usr)){
