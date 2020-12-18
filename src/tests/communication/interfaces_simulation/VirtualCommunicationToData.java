@@ -1,7 +1,7 @@
 package tests.communication.interfaces_simulation;
 
 import common.interfaces.client.ICommunicationToData;
-import common.sharedData.*;
+import common.shared_data.*;
 
 import java.util.*;
 
@@ -17,15 +17,15 @@ public class VirtualCommunicationToData implements ICommunicationToData {
         this.channels = channels;
     }
 
-    @Override
-    public void addVisibleChannel(Channel channel) { //TO-DO : Remplacer l'UUID par l'objet Channel
+    /*@Override
+    public void createChannel(Channel channel) { //TO-DO : Remplacer l'UUID par l'objet Channel
         System.err.println("New visible channel " + channel.getId());
 
-        /*Channel newChannel = new Channel("channel", localUser, "test", Visibility.PUBLIC,ChannelType.SHARED);
-        newChannel.setId(channelId);*/
+        *//*Channel newChannel = new Channel("channel", localUser, "test", Visibility.PUBLIC,ChannelType.SHARED);
+        newChannel.setId(channelId);*//*
 
         channels.put(channel.getId(), channel);
-    }
+    }*/
 
     @Override
     public void userAddedToChannel(UserLite user, UUID channelId) {
@@ -34,7 +34,7 @@ public class VirtualCommunicationToData implements ICommunicationToData {
         Channel channel = channels.get(channelId);
 
         if (channel != null) {
-            channel.addUser(user);
+            channel.addJoinedUser(user);
         }
     }
 
@@ -64,7 +64,17 @@ public class VirtualCommunicationToData implements ICommunicationToData {
     }
 
     @Override
-    public void deleteUserFromChannel(UserLite user, UUID channelId, int duration, String explanation) {
+    public void removeUserFromJoinedUserChannel(UserLite user, UUID channelId, int duration, String explanation) {
+
+    }
+
+    @Override
+    public void removeAllUserFromJoinedUserChannel(UUID channelId, int duration, String explanation) {
+
+    }
+
+    @Override
+    public void removeUserFromAuthorizedUserChannel(UserLite user, UUID channelId, int duration, String explanation) {
 
     }
 
@@ -135,14 +145,24 @@ public class VirtualCommunicationToData implements ICommunicationToData {
     }
 
     @Override
-    public void addUserToChannel(UserLite user, UUID channelId) {
+    public void unbannedUserToChannel(UserLite user, UUID channelId) {
         System.err.println("New user added to Channel " + channelId);
 
         Channel channel = channels.get(channelId);
 
         if (channel != null) {
-            channel.addUser(user);
+            channel.addJoinedUser(user);
         }
+    }
+
+    @Override
+    public void addUserToOwnedChannel(UserLite user, UUID channelId) {
+
+    }
+
+    @Override
+    public void inviteUserToOwnedChannel(UserLite user, UUID channelId) {
+
     }
 
 }

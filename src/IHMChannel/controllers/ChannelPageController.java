@@ -2,15 +2,14 @@ package IHMChannel.controllers;
 
 import IHMChannel.IHMChannelController;
 import common.IHMTools.IHMTools;
-import common.sharedData.*;
+import common.shared_data.*;
+import javafx.application.Platform;
 import javafx.collections.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 
@@ -61,14 +60,6 @@ public class ChannelPageController {
     UserLite userTemp = new UserLite();
 
 
-    /**
-     * Setter du channel
-     * Met à jour l'attribut channel du contrôleur (= celui qu'affiche la page)
-     * Met à jour le nom et la description du channel sur l'interface.
-     * @param channel
-     */
-
-
     public void addOpenedChannel(Channel channel) throws IOException {
 
         openedChannels.add(channel);
@@ -88,12 +79,15 @@ public class ChannelPageController {
         ctrl.configureMessageDisplay(ihmChannelController);
         ctrl.configureMemberDisplay(ihmChannelController);
         ctrl.setChannel(channel);
+
+
         Tab tab = new Tab(channel.getName());
-        tab.setId(channel.getName());
+        tab.setId(channel.getId().toString());
         tab.setOnClosed((event->{
             this.openedChannels.remove(channel);
+            this.channelMap.remove(channel.getId());
             /* On notifie Comm de la fermeture de l'onglet */
-            ihmChannelController.getInterfaceToCommunication().closeChannel(channel.getId());
+            ihmChannelController.getInterfaceToCommunication().leaveChannel(channel);
             /* On notifie IHM-Main avec la nouvelle liste de channels ouverts */
             ihmChannelController.getInterfaceToIHMMain().setOpenedChannelsList(ihmChannelController.getOpenedChannelsList());
             /* On notifie IHM-Main avec le nouveau currentOpenedChannel dans le handler de changement de tab */
@@ -104,13 +98,13 @@ public class ChannelPageController {
         }));
 
         tab.setOnSelectionChanged (e ->
-            {
-                if (tab.isSelected()) {
-                    handleChangeTab(channel);
-                } else {
-                    System.out.println("Unselected");
+                {
+                    if (tab.isSelected()) {
+                        handleChangeTab(channel);
+                    } else {
+                        System.out.println("Unselected");
+                    }
                 }
-            }
         );
 
 
@@ -121,6 +115,7 @@ public class ChannelPageController {
 
 
         channelMap.put(channel.getId(), ctrl);
+
     }
 
     /**
@@ -168,20 +163,6 @@ public class ChannelPageController {
     }
 
     /**
-     * Méthode déclenchée au clic sur le bouton "quitter le channel"
-     */
-    public void leaveChannel(){
-        boolean result = IHMTools.confirmationPopup("Voulez vous quitter le channel ?");
-
-
-        if (result) {
-            /*  openedChannels.remove(channelMap.get(currentChannel));
-        channelMap.remove(currentChannel)*/
-        }
-
-    }
-
-    /**
      * Méthode de test déclenchée à l'appui sur le bouton "test réception"
      * Génère l'ajout d'un message dans la liste de messages du channel.
      */
@@ -203,7 +184,7 @@ public class ChannelPageController {
     }
 
     @FXML
-    // Test method for dev
+        // Test method for dev
     void createChannel(){
         String channelName = canalText.getText();
         int count = 0;
@@ -270,6 +251,40 @@ public class ChannelPageController {
         return this.openedChannels;
     }
 
+    public void leaveChannel(UUID channelID, UserLite u) {
+        /**
+         * TODO: Vérifier si cela fonctionne
+         * Si il y'a une pool exeception rajouter Platform.RunLater(new Runnable() { .... })
+         */
+        Channel channel = null;
+        //On recupere le channel en question
+        for(Channel c: openedChannels) {
+            if (c.getId().equals(channelID))
+                channel = c;
+        }
+
+        TabPane toRemove = new TabPane();
+
+        if (channel.getCreator().getId().equals(u.getId())) { //si celui qui quitte le channel est le proprio on ferme le channel
+
+            for (Tab t : tabs.getTabs()) {
+                    if(t.getId().equals(channel.getId().toString())){
+                        toRemove.getTabs().add(t);
+                    }
+            }
+            tabs.getTabs().removeAll(toRemove.getTabs());
+        }
+
+        openedChannels.remove(channel);
+        channelMap.remove(channelID);
+
+
+        if(openedChannels.size() == 0) { //rediriger vers la main page
+            ihmChannelController.getInterfaceToIHMMain().redirectToHomePage();
+        }
+
+    }
+
     /**
      * Handler pour le changement de Tab
      * @param channel
@@ -277,5 +292,54 @@ public class ChannelPageController {
     public void handleChangeTab(Channel channel) {
         currentChannel = channel.getId();
         ihmChannelController.getInterfaceToIHMMain().setCurrentVisibleChannel(channel);
+    }
+
+    public void changeTab(Channel channel){
+        for (Tab c : tabs.getTabs()) {
+            if (c.getId().equals(channel.getId().toString())) {
+                tabs.getSelectionModel().select(c);
+            }
+        }
+    }
+
+    /**
+     * Supprime une tab d'un channel
+     * Par exemple lors que le propriétaire du channel disparait ou que l'on ai kick du channel
+     * @param channelID
+     */
+    public void removeTab(UUID channelID){
+        tabs.getTabs().removeIf(tab -> tab.getId().equals(channelID.toString()));
+        this.openedChannels.removeIf(channel -> channel.getId().equals(channelID));
+        /* On notifie IHM-Main avec la nouvelle liste de channels ouverts */
+        ihmChannelController.getInterfaceToIHMMain().setOpenedChannelsList(ihmChannelController.getOpenedChannelsList());
+        /* On revient à la page d'accueil si plus aucun channel à afficher */
+        if(openedChannels.isEmpty()){
+            ihmChannelController.getInterfaceToIHMMain().redirectToHomePage();
+        }
+        /* On revient à la page d'accueil si plus aucun channel à afficher */
+        if(openedChannels.isEmpty()){
+            ihmChannelController.getInterfaceToIHMMain().redirectToHomePage();
+        }
+    }
+
+    /**
+     * Permet de retirer le channel d'ID channelID des channels s (utilisé dans l'interface de DataToIHMChannel quand un channel est fermé par son créateur)
+     * @param channelID ID du channel concerné
+     */
+    public void removeChannel(UUID channelID) {
+        Channel channel = null;
+        for(Channel c: openedChannels) {
+            if (c.getId().equals(channelID))
+                channel = c;
+        }
+        if(channel !=null){
+            String tmp = channel.getName();
+            tabs.getTabs().removeIf(c -> c.getId().equals(tmp));
+            openedChannels.remove(channel);
+        }
+        channelMap.remove(channelID);
+        if(openedChannels.isEmpty()) {
+            ihmChannelController.getInterfaceToIHMMain().redirectToHomePage();
+        }
     }
 }

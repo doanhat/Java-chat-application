@@ -47,7 +47,7 @@ public class AlphabeticalMembersListController {
      */
     private void initMembersList() {
         channelMembers.clear();
-        for (UserLite usr : this.channel.getAcceptedPersons()){
+        for (UserLite usr : this.channel.getAuthorizedPersons()){
             channelMembers.add(usr);
         }
         adminMembers.clear();
@@ -64,7 +64,8 @@ public class AlphabeticalMembersListController {
      * Permet l'affichage de la liste des membres en faisant une conversion en Hbox.
      * @throws IOException
      */
-    private void displayMembers() throws IOException {
+
+    private void displayMembers() {
         membersToDisplay.clear();
         mapMemberController.clear();
         for (UserLite usr : channelMembers){
@@ -90,14 +91,14 @@ public class AlphabeticalMembersListController {
      * Met à jour la liste des membres en conséquence
      * @param channel
      */
-    public void setCurrentChannel(Channel channel) throws IOException {
+    public void setCurrentChannel(Channel channel) {
         this.channel = channel;
         initMembersList();
         displayMembers();
     }
 
 
-    public void initialize() throws IOException {
+    public void initialize() {
         channelMembers = FXCollections.observableArrayList();
         adminMembers = FXCollections.observableArrayList();
         membersToDisplay = FXCollections.observableArrayList();
@@ -122,15 +123,17 @@ public class AlphabeticalMembersListController {
             this.connectedMembersList.clear();
         }
         this.connectedMembersList = updatedConnectedMembersList;
-        // this.initConnectedMembersList();
+            displayMembers();
     }
 
     public void addMemberToList(UserLite user) {
         connectedMembersList.add(user);
+        displayMembers();
     }
 
     public void removeMemberFromList(UserLite user) {
         connectedMembersList.remove(user);
+        displayMembers();
     }
 
     public void changeNickname(UserLite user) {

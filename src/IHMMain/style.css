@@ -1,4 +1,14 @@
 
+.app-bar {
+    -fx-background-color: #b9e6ff;
+}
+
+.app-bar-username {
+    -fx-text-fill: #03254f;
+    -fx-font-weight: bold;
+    -fx-font-size: 24px;
+}
+
 .channel-list-header {
     -fx-background-color: #b9e6ff;
     -fx-padding: 4;
@@ -40,6 +50,11 @@
     -fx-border-style: hidden hidden solid hidden;
     -fx-border-with: 5;
     -fx-border-color: #ffffff;
+}
+
+.list-view-channel .list-cell:opened > .list-cell-channel {
+    -fx-background-color: #ffffff, #03254f;
+    -fx-background-insets: 0, 0 0 0 6;
 }
 
 .list-view-channel .channel-cell-content {

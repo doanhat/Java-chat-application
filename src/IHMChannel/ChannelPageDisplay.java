@@ -1,7 +1,6 @@
 package IHMChannel;
 
 import IHMChannel.controllers.ChannelPageController;
-import common.sharedData.Channel;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,7 +20,7 @@ public class ChannelPageDisplay {
     /**
      * Constructeur de la classe de création de la "page" ChannelPage
      */
-    public ChannelPageDisplay(Channel channel, IHMChannelController ihmChannelController) throws IOException {
+    public ChannelPageDisplay(IHMChannelController ihmChannelController) throws IOException {
 
         FXMLLoader fxmlLoader =
                 new FXMLLoader(getClass().getResource("views/ChannelPage.fxml"));

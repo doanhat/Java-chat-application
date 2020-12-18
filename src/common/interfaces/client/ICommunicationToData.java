@@ -1,9 +1,8 @@
 package common.interfaces.client;
 
-import common.sharedData.Channel;
-import common.sharedData.Message;
-import common.sharedData.User;
-import common.sharedData.UserLite;
+import common.shared_data.Message;
+import common.shared_data.User;
+import common.shared_data.UserLite;
 
 import java.util.List;
 import java.util.UUID;
@@ -13,17 +12,11 @@ import java.util.UUID;
  */
 public interface ICommunicationToData {
     /**
-     * NOTE: Suggestion de Comm: utiliser seulement channelID pour diminuer la taille du paquet réseau,
-     * ou une classe supplémentaire qui contient seulement les méta-données d'un channel
-     * (un objet channel peut contient un objet de méta-données, et les contenues comme les message, user info, ...)
-     */
-
-    /**
      * Add visible channel.
      *
      * @param channel the channel
      */
-    void addVisibleChannel(Channel channel);
+    //void createChannel(Channel channel);
 
     /**
      * User added to channel.
@@ -77,14 +70,34 @@ public interface ICommunicationToData {
 
 
     /**
-     * Delete user from channel.
+     * Delete user from Connected users list of channel.
      *
      * @param user        the user
      * @param channelId     the channel
      * @param duration    the duration
      * @param explanation the explanation
      */
-    void deleteUserFromChannel(UserLite user, UUID channelId, int duration, String explanation);
+    void removeUserFromJoinedUserChannel(UserLite user, UUID channelId, int duration, String explanation);
+
+
+    /**
+     * Delete all user from Connected users list of channel.
+     *
+     * @param channelId     the channel
+     * @param duration    the duration
+     * @param explanation the explanation
+     */
+    void removeAllUserFromJoinedUserChannel(UUID channelId, int duration, String explanation);
+
+    /**
+     * Delete user from Authorized users list of channel.
+     *
+     * @param user        the user
+     * @param channelId     the channel
+     * @param duration    the duration
+     * @param explanation the explanation
+     */
+    void removeUserFromAuthorizedUserChannel(UserLite user, UUID channelId, int duration, String explanation);
 
     /**
      * Gets history.
@@ -192,12 +205,25 @@ public interface ICommunicationToData {
     void saveNicknameIntoHistory(UserLite user,UUID channelId, String newNickname);
 
     /**
-     * Add user to channel.
+     * Unban user
      *
      * @param user    the user
      * @param channelId the channel
      */
-    void addUserToChannel(UserLite user, UUID channelId);
+    void unbannedUserToChannel(UserLite user, UUID channelId);
 
+    /**
+     * Add user to JoinedUsers in Owned channel
+     * @param user the user
+     * @param channelId channel ID
+     */
+    void addUserToOwnedChannel(UserLite user, UUID channelId);
+
+    /**
+     * Add user to authorizedUsers in Owned Channel
+     * @param user the user
+     * @param channelId channel ID
+     */
+    void inviteUserToOwnedChannel(UserLite user, UUID channelId);
 }
 

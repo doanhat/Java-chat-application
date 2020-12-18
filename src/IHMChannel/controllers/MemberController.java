@@ -16,8 +16,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 import IHMChannel.switchButton.ToggleSwitch;
 
-import java.io.IOException;
-
 public class MemberController {
 
     private IHMChannelController ihmChannelController;
@@ -120,18 +118,11 @@ public class MemberController {
         if(isAdmin){
             isAdmin= false;
             // TODO Avoir une fonction removeAdmin();
-            System.out.println("Retrait d'un  admin. ");
+            //ihmChannelController.getInterfaceToCommunication().removeAdmin(userToDisplay, channel);
+            System.out.println("Retrait d'un  admin. (TODO : Ajouter l'interface removeAdmin.)");
         }else{
             isAdmin = true;
             ihmChannelController.getInterfaceToCommunication().giveAdmin(userToDisplay, channel);
-            // Pour tester le retour serveur
-            /*
-            try {
-                getIhmChannelController().getInterfaceForData().addNewAdmin(userToDisplay,channel);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            */
         }
 
     }
@@ -141,7 +132,23 @@ public class MemberController {
     }
 
     public void banHandler() {
-        //TODO
+       /*TODO
+           1. Vérifier les droits admins de la personne qui appuie sur le bouton
+           2. Si ok :
+            - Pop up de confirmation avec la durée de ban
+            -> confirmation : this.getIhmChannelController().getInterfaceToCommunication().banUserFromChannel();
+
+            Retour Serveur :
+                - Pour l'admin : confirmation du kick.
+                - Pour la personne kické : notification qu'elle a été kick
+                - Pour tout le monde : notification du ban
+
+             Autre :
+                - vérifier que l'accès à un channel n'est pas possible pour un utilisateur kické pour la durée mentionner.
+                - Vérifier que quand la date est passé, il a reacces au channel
+        */
+
+
         System.out.println("ban");
     }
 

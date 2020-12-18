@@ -5,7 +5,7 @@ import IHMChannel.interfaces.CommunicationToIHMChannel;
 import IHMChannel.interfaces.DataToIHMChannel;
 import IHMChannel.interfaces.IHMMainToIHMChannel;
 import common.interfaces.client.*;
-import common.sharedData.*;
+import common.shared_data.*;
 import javafx.collections.ObservableSet;
 import javafx.scene.Parent;
 
@@ -133,10 +133,10 @@ public class IHMChannelController {
         this.root = root;
     }
 
-    public void setChannelPageToDisplay(Channel channel) {
+    public void setChannelPageToDisplay() {
 
         try{
-            ChannelPageDisplay channelPageDisplay = new ChannelPageDisplay(channel, this);
+            ChannelPageDisplay channelPageDisplay = new ChannelPageDisplay(this);
         }catch(IOException e){
             e.printStackTrace();
         }
