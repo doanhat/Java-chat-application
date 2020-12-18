@@ -384,4 +384,8 @@ public class ChannelController {
     public void setChannelPageController(ChannelPageController channelPageController) {
         this.channelPageController = channelPageController;
     }
+
+    public void removeAdmin(UserLite user) {
+        channelMembersDisplay.channelMembersController.adminMembersListDisplay.adminMembersController.removeMemberFromList(user);
+    }
 }

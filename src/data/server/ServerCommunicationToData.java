@@ -342,6 +342,8 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
         if(channel!=null){
             if(channel.userIsAdmin(adminID) && !channel.getCreator().getId().equals(adminID)){
                 channel.removeAdmin(adminID);
+                channelsListController.writeRemoveAdminInChannel(channel);
+                
             }
         }
     }
