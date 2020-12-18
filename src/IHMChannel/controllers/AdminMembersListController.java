@@ -126,12 +126,12 @@ public class AdminMembersListController {
     }
 
     public void addMemberToList(UserLite user) {
-        connectedMembersList.add(user);
+        adminMembers.add(user);
         displayMembers();
     }
 
     public void removeMemberFromList(UserLite user) {
-        connectedMembersList.remove(user);
+        adminMembers.remove(user);
         displayMembers();
     }
 }
