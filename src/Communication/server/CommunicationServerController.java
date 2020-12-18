@@ -348,7 +348,7 @@ public class CommunicationServerController extends CommunicationController {
 				dataServer.saveNewAdminIntoHistory(channel, infoPackage.user);
 				break;
 			case REMOVE_ADMIN:
-				// TODO INTEGRATION V3 Tell data server to remove admin
+				dataServer.requestRemoveAdmin(channel.getId(), infoPackage.user.getId());
 				break;
 			default:
 				logger.log(Level.WARNING, "ChatMessage: opetration inconnue");

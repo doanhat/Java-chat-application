@@ -69,7 +69,7 @@ public class DataClientHandler {
                 dataClient.newAdmin(infoPackage.user, infoPackage.channelID);
                 break;
             case REMOVE_ADMIN:
-                // TODO INTEGRATION V3: tell Data to add method to receive admin removal notification
+                dataClient.requestRemoveAdmin(infoPackage.channelID, infoPackage.user.getId());
                 break;
             default:
                 logger.log(Level.WARNING, "ChatMessage: opetration inconnue");
@@ -164,7 +164,7 @@ public class DataClientHandler {
                 dataClient.saveNewAdminIntoHistory(infoPackage.user, infoPackage.channelID);
                 break;
             case REMOVE_ADMIN:
-                // TODO INTEGRATION V3: tell Data to add method to remove admin from proprietary channel
+                dataClient.requestRemoveAdmin(infoPackage.channelID, infoPackage.user.getId());
                 break;
             default:
                 logger.log(Level.WARNING, "ChatMessage: opetration inconnue");

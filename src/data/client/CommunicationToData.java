@@ -294,13 +294,18 @@ public class CommunicationToData implements ICommunicationToData {
 
     @Override
     public void requestRemoveAdmin(UUID channelID, UUID adminID) {
-        Channel channel = dataController.getChannelController().searchChannelById(channelID);
-        if(channel!=null){
-            if(channel.userIsAdmin(adminID) && !channel.getCreator().getId().equals(adminID)){
-                channel.removeAdmin(adminID);
-                dataController.getChannelController().saveRemoveAdminIntoHistory(channelID);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                Channel channel = dataController.getChannelController().searchChannelById(channelID);
+                if(channel!=null){
+                    if(channel.userIsAdmin(adminID) && !channel.getCreator().getId().equals(adminID)){
+                        channel.removeAdmin(adminID);
+                        dataController.getChannelController().saveRemoveAdminIntoHistory(channelID);
+                    }
+                }
             }
-        }
+        });
     }
 
 }
