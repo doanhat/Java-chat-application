@@ -2,6 +2,7 @@ package common.interfaces.client;
 
 import common.shared_data.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -51,13 +52,13 @@ public interface ICommunicationToData {
     void removeChannelFromList(UUID channelId, int duration, String explanation);
 
     /**
-     * Ban user into history.
+     * Bannir un utilisateur et mettre à jour les données
      *
-     * @param user     the user
-     * @param channelId  the channel
-     * @param duration the duration
+     * @param user     utilisateur
+     * @param channelId  l'id du channel
+     * @param end date de termination, si elle est null alors l'utilisateur est banni définitivement
      */
-    void banUserIntoHistory(UserLite user, UUID channelId, int duration);
+    void banUserIntoHistory(UserLite user, UUID channelId, Date end, String explanation);
 
     /**
      * Cancel ban of user into history.

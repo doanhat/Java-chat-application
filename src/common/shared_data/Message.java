@@ -12,7 +12,6 @@ public class Message implements Serializable {
 	private UUID id;
 	@JsonFormat
 		(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy@HH:mm:ss")
-
 	private Date date;
 	private String message;
 	private boolean edited;

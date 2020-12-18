@@ -267,4 +267,18 @@ public class ChannelController extends Controller{
             fileHandler.writeJSONToFile(ownedChannel.getId().toString(),ownedChannel);
         }
     }
+
+    public void banUserIntoHistory(UserLite user, UUID channelId, Date end, String explanation) {
+        Channel ownedChannel = searchChannelById(channelId);
+        List<Kick> kicked = ownedChannel.getKicked();
+        if (ownedChannel!=null) {
+            kicked.removeIf(k -> k.getUser().getId().equals(user.getId()));
+            if (end!=null){
+                kicked.add(new Kick(user,channelId,explanation,end));
+            } else {
+                kicked.add(new Kick(user,channelId,explanation,true));
+            }
+            fileHandler.writeJSONToFile(ownedChannel.getId().toString(),ownedChannel);
+        }
+    }
 }

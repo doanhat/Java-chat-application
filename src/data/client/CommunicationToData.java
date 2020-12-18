@@ -4,6 +4,7 @@ import common.interfaces.client.ICommunicationToData;
 import common.shared_data.*;
 import javafx.application.Platform;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -70,16 +71,9 @@ public class CommunicationToData implements ICommunicationToData {
         Platform.runLater(() -> dataController.getChannelController().removeChannelFromList(channelId, duration, explanation));
     }
 
-    /**
-     * Ban user into history.
-     *
-     * @param user      the user
-     * @param channelId the channel
-     * @param duration  the duration
-     */
     @Override
-    public void banUserIntoHistory(UserLite user, UUID channelId, int duration) {
-        throw new UnsupportedOperationException();
+    public void banUserIntoHistory(UserLite user, UUID channelId, Date end, String explanation) {
+        dataController.getChannelController().banUserIntoHistory(user,channelId,end,explanation);
     }
 
     /**

@@ -209,11 +209,11 @@ public class Channel implements Serializable {
 	}
 
 	public void kickPermanentUser(UserLite user, String reason) {
-		this.kicked.add(new Kick(user, this, reason, true));
+		this.kicked.add(new Kick(user, this.id, reason, true));
 	}
 
 	public void kickUser(UserLite user, String reason, Date end) {
-		this.kicked.add(new Kick(user, this, reason, end));
+		this.kicked.add(new Kick(user, this.id, reason, end));
 	}
 
 	@Override
