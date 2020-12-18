@@ -280,6 +280,16 @@ public class CommunicationServerController extends CommunicationController {
 	}
 
 	/**
+	 * Demande de retirer un utilisateur d'un channel sur ça liste d'autorisation et sur la liste des utilisateurs connectées
+	 * @param userLite utilisateur
+	 * @param channel channel
+	 */
+	public void quitChannel(UUID channel, UserLite userLite) {
+		dataServer.quitChannel(channel, userLite);
+		dataServer.leaveChannel(channel, userLite);
+	}
+
+	/**
 	 * Demande d'ajouter un utilisateur à un channel
 	 * @param guest invitateur
 	 * @param channel channel
@@ -338,7 +348,7 @@ public class CommunicationServerController extends CommunicationController {
 				dataServer.saveNewAdminIntoHistory(channel, infoPackage.user);
 				break;
 			case REMOVE_ADMIN:
-				// TODO INTEGRATION V3 Tell data server to remove admin
+				dataServer.requestRemoveAdmin(channel.getId(), infoPackage.user.getId());
 				break;
 			default:
 				logger.log(Level.WARNING, "ChatMessage: opetration inconnue");

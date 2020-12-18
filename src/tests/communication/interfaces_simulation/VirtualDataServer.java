@@ -300,4 +300,9 @@ public class VirtualDataServer implements IServerCommunicationToData {
     public String getAvatarPath(UserLite user) {
         return null;
     }
+
+    @Override
+    public void requestRemoveAdmin(UUID channelID, UUID adminID) {
+
+    }
 }

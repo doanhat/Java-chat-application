@@ -42,6 +42,12 @@ public class DataToIHMChannel implements IDataToIHMChannel{
         channelController.addNewAdmin(user);
     }
 
+    @Override
+    public void removeAdmin(UserLite user, UUID channelId) throws IOException {
+        ChannelController channelController = controller.getChannelPageController().getChannelController(channelId);
+        channelController.removeAdmin(user);
+    }
+
     /**
      * Quand l'utilisateur se fait kické d'un channel, retire le channel en question de sa liste de channels.
      * Ce retrait peut, comme un kick, être temporaire.

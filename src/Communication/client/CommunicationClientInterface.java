@@ -4,7 +4,9 @@ import Communication.common.ChannelOperation;
 import Communication.common.InfoPackage;
 import Communication.common.Parameters;
 import Communication.messages.client_to_server.channel_access.proprietary_channels.LeavePropChannelMessage;
+import Communication.messages.client_to_server.channel_access.proprietary_channels.QuitPropChannelMessage;
 import Communication.messages.client_to_server.channel_access.shared_channels.LeaveSharedChannelMessage;
+import Communication.messages.client_to_server.channel_access.QuitChannelMessage;
 import Communication.messages.client_to_server.channel_modification.DeleteChannelMessage;
 import Communication.messages.client_to_server.channel_modification.GetChannelUsersMessage;
 import Communication.messages.client_to_server.channel_modification.proprietary_channels.SendProprietaryChannelsMessage;
@@ -338,18 +340,18 @@ public class CommunicationClientInterface implements IDataToCommunication,
     }
 
     @Override
-    public void quitChannel(UUID channelID) {
-        // TODO V4
+    public void quitChannel(Channel channel) {
+        if (channel.getType() == ChannelType.OWNED) {
+            if (channel.getCreator().getId().equals(localUser.getId())) {
+                commController.sendMessage(new DeleteChannelMessage(channel.getId(), localUser));
+            }
+            else {
+                commController.sendMessage(new QuitPropChannelMessage(localUser, channel.getId(), channel.getCreator()));
+            }
+        } else {
+            commController.sendMessage(new QuitChannelMessage(localUser, channel.getId()));
+        }
     }
 
-    /**
-     * Demande la suppression du channel d'ID channelId.
-     *
-     * @param channelId
-     */
-    @Override
-    public void DeleteChannel(UUID channelId) {
-        // TODO intégration
-    }
 
 }
