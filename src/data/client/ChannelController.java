@@ -261,9 +261,9 @@ public class ChannelController extends Controller{
     public void updateChannel(UUID channelId, UUID userID, String name, String description, Visibility visibility) {
         Channel ownedChannel = searchChannelById(channelId);
         if (ownedChannel!=null && ownedChannel.userIsAdmin(userID)) {
-            ownedChannel.setName(name);
+            if (name!=null) ownedChannel.setName(name);
             ownedChannel.setDescription(description);
-            ownedChannel.setVisibility(visibility);
+            if (visibility!=null)ownedChannel.setVisibility(visibility);
             fileHandler.writeJSONToFile(ownedChannel.getId().toString(),ownedChannel);
         }
     }

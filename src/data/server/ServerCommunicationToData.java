@@ -46,12 +46,9 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
         Channel channel = channelsListController.searchChannelById(channelID);
         if(channel != null){
             if(channel.userIsAdmin(userID)){
-                if (name!=null)
-                    channel.setName(name);
-                if(description!= null)
-                    channel.setDescription(description);
-                if(visibility!=null)
-                    channel.setVisibility(visibility);
+                if (name!=null) channel.setName(name);
+                channel.setDescription(description);
+                if(visibility!=null) channel.setVisibility(visibility);
                 if(channel.getType().equals(ChannelType.SHARED)){
                     channelsListController.writeChannelDataToJSON(channel);
                 }
