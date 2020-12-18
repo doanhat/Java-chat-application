@@ -4,6 +4,8 @@ import IHMChannel.IHMChannelController;
 import common.IHMTools.IHMTools;
 import common.shared_data.Channel;
 import common.shared_data.UserLite;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,6 +19,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MemberController {
@@ -39,8 +43,6 @@ public class MemberController {
     ToggleSwitch toggleAdminBtn;
     @FXML
     Button banBtn;
-
-    // TODO actionHandler: isThatYouText, toggleAdminBtn, banBtn
 
     UserLite userToDisplay;
 
@@ -147,37 +149,39 @@ public class MemberController {
                     e.printStackTrace();
                 }
 
+                KickPopUpController kickPopUpController = fxmlLoader.getController();
+                kickPopUpController.setPopupText(userToDisplay.getNickName(), channel.getName());
+
                 Stage popUpWindow = new Stage();
                 popUpWindow.initModality(Modality.APPLICATION_MODAL);
-                //popUpWindow.setTitle("Envoyer une invitation");
+                popUpWindow.setTitle("Kicker un utilisateur");
                 popUpWindow.setScene(new Scene(root));
                 popUpWindow.setResizable(false);
                 popUpWindow.show();
 
-                    //this.getIhmChannelController().getInterfaceToCommunication().banUserFromChannel();
+                kickPopUpController.getCancelBtn().setOnAction(new EventHandler<ActionEvent>() {
+                    public void handle(ActionEvent e){
+                        popUpWindow.close();
+                    }
+                });
+
+                kickPopUpController.getConfirmBtn().setOnAction(new EventHandler<ActionEvent>() {
+                    public void handle(ActionEvent e) {
+                        String explanation = kickPopUpController.getExplanationMessage();
+                        LocalDate kickDate = kickPopUpController.getDatePick();
+                        Boolean isPermanent = kickPopUpController.getIsPermanent();
+                        System.out.print("Ban de :" + userToDisplay.getNickName() + " Pour " + explanation + " jusqu'au " + kickDate + " , Ispermanent = " +isPermanent);
+                        // Interface à ajouter
+                        //getIhmChannelController().getInterfaceToCommunication().banUserFromChannel(userToDisplay,kickDate,isPermanent,explanation);
+                        popUpWindow.close();
+                    }
+                });
             }else{
                 IHMTools.informationPopup("Vous ne pouvez pas kicker le créateur.");
             }
         }else{
             IHMTools.informationPopup("Vous n'avez pas les droits pour réaliser cette action. Vous devez être administrateur.");
         }
-
-       /*TODO
-           1. Vérifier les droits admins de la personne qui appuie sur le bouton + de celle qui est kicker
-           1. Vérifier les droits admins de la personne qui appuie sur le bouton
-           2. Si ok :
-            - Pop up de confirmation avec la durée de ban
-            -> confirmation : this.getIhmChannelController().getInterfaceToCommunication().banUserFromChannel();
-
-            Retour Serveur :
-                - Pour l'admin : confirmation du kick.
-                - Pour la personne kické : notification qu'elle a été kick
-                - Pour tout le monde : notification du ban
-
-             Autre :
-                - vérifier que l'accès à un channel n'est pas possible pour un utilisateur kické pour la durée mentionner.
-                - Vérifier que quand la date est passé, il a reacces au channel
-        */
     }
 
     public IHMChannelController getIhmChannelController() {

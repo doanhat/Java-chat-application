@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Text?>
 <?import java.net.URL?>
 
-<VBox xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IHMChannel.controllers.KickPopUpController" styleClass="kick-popup-">
+<VBox xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IHMChannel.controllers.KickPopUpController" styleClass="kick-popup">
     <HBox styleClass="kick-popup-section">
         <Text fx:id="informationText" strokeType="OUTSIDE" strokeWidth="0.0" text="Voulez vous kicker cet utilisateur ?"  styleClass="kick-popup-title"/>
     </HBox>
@@ -16,7 +16,7 @@
         <DatePicker fx:id="datePick" />
     </HBox>
     <HBox alignment="BASELINE_LEFT" styleClass="kick-popup-section">
-        <CheckBox fx:id="isPermanentBtn" />
+        <CheckBox fx:id="PermanentBox" onAction="#permanentBoxHandler"/>
         <Text fx:id="permanentText" strokeType="OUTSIDE" strokeWidth="0.0" text=" Permanent" styleClass="kick-popup-text" />
     </HBox>
     <VBox styleClass="kick-popup-section">
