@@ -5,12 +5,18 @@ import common.IHMTools.IHMTools;
 import common.shared_data.Channel;
 import common.shared_data.UserLite;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import IHMChannel.switchButton.ToggleSwitch;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MemberController {
@@ -122,7 +128,7 @@ public class MemberController {
     }
 
     public void banHandler() {
-        // Check localUser =admin
+
         AtomicBoolean isLocalUserAdmin = new AtomicBoolean(false);
         channel.getAdministrators().forEach(userLite -> {
             if(userLite.getId().equals(this.ihmChannelController.getInterfaceToData().getLocalUser().getId())){
@@ -131,13 +137,24 @@ public class MemberController {
         });
 
         if(isLocalUserAdmin.get()){
-            //check user kick pas le createur. Peut-on kick un autre admin?
             if(!channel.getCreator().getId().equals(userToDisplay.getId())){
-                if(IHMTools.confirmationPopup("Voulez vous kicker cet utilisateur ?")){
-                    // Kicker l'utilisateur
-                    //this.getIhmChannelController().getInterfaceToCommunication().banUserFromChannel();
-                    System.out.print("ban");
+
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../views/KickPopUp.fxml"));
+                Parent root = null;
+                try {
+                    root = fxmlLoader.load();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+
+                Stage popUpWindow = new Stage();
+                popUpWindow.initModality(Modality.APPLICATION_MODAL);
+                //popUpWindow.setTitle("Envoyer une invitation");
+                popUpWindow.setScene(new Scene(root));
+                popUpWindow.setResizable(false);
+                popUpWindow.show();
+
+                    //this.getIhmChannelController().getInterfaceToCommunication().banUserFromChannel();
             }else{
                 IHMTools.informationPopup("Vous ne pouvez pas kicker le créateur.");
             }

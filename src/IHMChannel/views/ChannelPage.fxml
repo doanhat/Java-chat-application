@@ -41,5 +41,6 @@
     </VBox>
     <stylesheets>
         <URL value="@../../common/IHMCommon/common.css"></URL>
+        <URL value="@../../common/IHMCommon/dialog.css"></URL>
     </stylesheets>
 </AnchorPane>

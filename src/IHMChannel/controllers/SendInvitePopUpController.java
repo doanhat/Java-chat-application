@@ -21,6 +21,7 @@ public class SendInvitePopUpController {
     @FXML
     Text text;
 
+
     public String getInvitationMessage(){
         return inviteText.getText();
     }
