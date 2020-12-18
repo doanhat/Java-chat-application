@@ -1,8 +1,6 @@
 package common.interfaces.client;
 
-import common.shared_data.Message;
-import common.shared_data.User;
-import common.shared_data.UserLite;
+import common.shared_data.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -226,5 +224,16 @@ public interface ICommunicationToData {
      * @param channelId channel ID
      */
     void inviteUserToOwnedChannel(UserLite user, UUID channelId);
+
+    /**
+     * Méthode pour mettre à jour les informations d'un channel dans la liste des channels
+     *
+     * @param channelID l'identificateur du channel concerné
+     * @param userID l'identificateur qui veut faire les changes sur le channel
+     * @param name nouvel nom du channel, mettre à null si pas besoin de le changer
+     * @param description nouvelle description du channel, mettre à null si pas besoin de la changer
+     * @param visibility nouvelle visibilité du channel, mettre à null si pas besoin de la changer
+     * */
+    void updateChannel(UUID channelID, UUID userID, String name, String description, Visibility visibility);
 }
 

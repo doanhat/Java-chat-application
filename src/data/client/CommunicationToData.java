@@ -1,10 +1,7 @@
 package data.client;
 
 import common.interfaces.client.ICommunicationToData;
-import common.shared_data.Channel;
-import common.shared_data.Message;
-import common.shared_data.User;
-import common.shared_data.UserLite;
+import common.shared_data.*;
 import javafx.application.Platform;
 
 import java.util.List;
@@ -286,6 +283,11 @@ public class CommunicationToData implements ICommunicationToData {
     @Override
     public void inviteUserToOwnedChannel(UserLite user, UUID channelId) {
         dataController.getChannelController().userInvitedToChannel(user,channelId);
+    }
+
+    @Override
+    public void updateChannel(UUID channelId, UUID userID, String name, String description, Visibility visibility) {
+        dataController.getChannelController().updateChannel(channelId,userID,name,description,visibility);
     }
 
 }
