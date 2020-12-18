@@ -81,7 +81,7 @@ public class IHMMainToData implements IIHMMainToData {
      */
     @Override
     public void editProfile(String nickName, String avatar, String password, String lastName, String firstName, Date birthDate, User user) {
-        throw new UnsupportedOperationException();
+        dataController.getUserController().editProfile(user,nickName,avatar,password,lastName,firstName,birthDate);
     }
 
     /**

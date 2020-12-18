@@ -10,10 +10,7 @@ import common.shared_data.Channel;
 import common.shared_data.User;
 import common.shared_data.UserLite;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 
 public class UserController extends Controller {
@@ -106,11 +103,25 @@ public class UserController extends Controller {
     }
 
     private void addUserToLocalUsers(User user) {
-        for (UserLite userLite : localUserList){
-            if (userLite.getId().equals(user.getId())){
-                localUserList.remove(userLite);
+        localUserList.removeIf(u -> u.getId().equals(user.getId()));
+        localUserList.add(user);
+    }
+
+    private User searchUserById(UUID userId){
+        for (User u : localUserList){
+            if (u.getId().equals(userId)){
+                return u;
             }
         }
-        localUserList.add(user);
+        return null;
+    }
+    public void editProfile(User user, String nickName, String avatar, String password, String lastName, String firstName, Date birthDate) {
+        User u = searchUserById(user.getId());
+        if (nickName!=null) Objects.requireNonNull(u).setNickName(nickName);
+        if (avatar!=null) Objects.requireNonNull(u).setAvatar(avatar);
+        if (password!=null) Objects.requireNonNull(u).setPassword(nickName);
+        if (lastName!=null) Objects.requireNonNull(u).setLastName(lastName);
+        if (firstName!=null) Objects.requireNonNull(u).setFirstName(firstName);
+        if (birthDate!=null) Objects.requireNonNull(u).setBirthDate(birthDate);
     }
 }
