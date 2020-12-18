@@ -1,23 +1,23 @@
 package Communication.messages.client_to_server.chat_action.proprietary_channels;
 
-import Communication.common.ChatOperation;
-import Communication.common.ChatPackage;
+import Communication.common.ChannelOperation;
+import Communication.common.InfoPackage;
 import Communication.messages.abstracts.ClientToServerMessage;
 import Communication.server.CommunicationServerController;
 
 public class OwnerValidateChatMessage extends ClientToServerMessage {
 
     private static final long serialVersionUID = 5135287100487841L;
-    private final ChatOperation operation;
-    private final ChatPackage chatPackage;
+    private final ChannelOperation operation;
+    private final InfoPackage infoPackage;
 
-    public OwnerValidateChatMessage(ChatOperation operation, ChatPackage chatPackage) {
+    public OwnerValidateChatMessage(ChannelOperation operation, InfoPackage infoPackage) {
         this.operation = operation;
-        this.chatPackage = chatPackage;
+        this.infoPackage = infoPackage;
     }
 
     @Override
     protected void handle(CommunicationServerController commController) {
-        commController.handleChat(operation, chatPackage);
+        commController.handleChat(operation, infoPackage);
     }
 }

@@ -1,20 +1,17 @@
 package Communication.client;
 
-import Communication.common.ChatOperation;
-import Communication.common.ChatPackage;
+import Communication.common.ChannelOperation;
+import Communication.common.InfoPackage;
 import Communication.common.Parameters;
 import Communication.messages.client_to_server.channel_access.proprietary_channels.LeavePropChannelMessage;
-import Communication.messages.client_to_server.channel_access.proprietary_channels.RemoveAdminPropMessage;
 import Communication.messages.client_to_server.channel_access.shared_channels.LeaveSharedChannelMessage;
-import Communication.messages.client_to_server.channel_access.shared_channels.RemoveAdminSharedMessage;
 import Communication.messages.client_to_server.channel_modification.DeleteChannelMessage;
+import Communication.messages.client_to_server.channel_modification.GetChannelUsersMessage;
 import Communication.messages.client_to_server.channel_modification.proprietary_channels.SendProprietaryChannelsMessage;
 import Communication.messages.client_to_server.channel_modification.shared_channels.CreateSharedChannelMessage;
 import Communication.messages.client_to_server.chat_action.ChatMessage;
 import Communication.messages.client_to_server.channel_modification.GetHistoryMessage;
-import Communication.messages.client_to_server.channel_access.proprietary_channels.AddAdminPropMessage;
 import Communication.messages.client_to_server.channel_access.SendInvitationMessage;
-import Communication.messages.client_to_server.channel_access.shared_channels.AddAdminSharedMessage;
 import Communication.messages.client_to_server.channel_access.proprietary_channels.AskToJoinPropMessage;
 import Communication.messages.client_to_server.channel_access.shared_channels.AskToJoinSharedMessage;
 
@@ -73,6 +70,16 @@ public class CommunicationClientInterface implements IDataToCommunication,
         Parameters.PORT = port;
     }
 
+    @Override
+    public String getIP() {
+        return Parameters.SERVER_IP;
+    }
+
+    @Override
+    public int getPort() {
+        return Parameters.PORT;
+    }
+
     /**
      * Demande de deconnexion du client
      */
@@ -102,6 +109,13 @@ public class CommunicationClientInterface implements IDataToCommunication,
     public String getAvatarPath(UserLite user) {
         //TODO Note Data : Appeler getAvatarPath(UserLite user) dans IServerCommunicationToData
         return null;
+    }
+
+    @Override
+    public void getConnectedUsers(UUID channelID) {
+        if (channelID != null) {
+            commController.sendMessage(new GetChannelUsersMessage(channelID, localUser));
+        }
     }
 
     /* -------------------------- IIHMChannelToCommunication interface implementations -------------------------------*/
@@ -137,11 +151,11 @@ public class CommunicationClientInterface implements IDataToCommunication,
             return;
         }
 
-        if (channel.getType() == ChannelType.OWNED) {
-            commController.sendMessage(new AddAdminPropMessage(user, channel));
-        } else {
-            commController.sendMessage(new AddAdminSharedMessage(user, channel));
-        }
+        InfoPackage infoPackage = new InfoPackage();
+        infoPackage.user = user;
+        infoPackage.channelID = channel.getId();
+
+        this.commController.sendMessage(new ChatMessage(ChannelOperation.ADD_ADMIN, infoPackage));
     }
 
     @Override
@@ -150,12 +164,11 @@ public class CommunicationClientInterface implements IDataToCommunication,
             return;
         }
 
-        if (channel.getType() == ChannelType.OWNED) {
-            commController.sendMessage(new RemoveAdminPropMessage(user, channel));
-        }
-        else {
-            commController.sendMessage(new RemoveAdminSharedMessage(user, channel));
-        }
+        InfoPackage infoPackage = new InfoPackage();
+        infoPackage.user = user;
+        infoPackage.channelID = channel.getId();
+
+        this.commController.sendMessage(new ChatMessage(ChannelOperation.REMOVE_ADMIN, infoPackage));
     }
 
     /**
@@ -181,13 +194,13 @@ public class CommunicationClientInterface implements IDataToCommunication,
             return;
         }
 
-        ChatPackage chatPackage = new ChatPackage();
-        chatPackage.sender = localUser;
-        chatPackage.message = msg;
-        chatPackage.channelID = channel.getId();
-        chatPackage.messageResponseTo = response;
+        InfoPackage infoPackage = new InfoPackage();
+        infoPackage.user = localUser;
+        infoPackage.message = msg;
+        infoPackage.channelID = channel.getId();
+        infoPackage.messageResponseTo = response;
 
-        this.commController.sendMessage(new ChatMessage(ChatOperation.SEND_MESSAGE, chatPackage));
+        this.commController.sendMessage(new ChatMessage(ChannelOperation.SEND_MESSAGE, infoPackage));
     }
 
     /**
@@ -202,13 +215,13 @@ public class CommunicationClientInterface implements IDataToCommunication,
             return;
         }
 
-        ChatPackage chatPackage = new ChatPackage();
-        chatPackage.sender = localUser;
-        chatPackage.message = msg;
-        chatPackage.channelID = channel.getId();
-        chatPackage.editedMessage = newMsg;
+        InfoPackage infoPackage = new InfoPackage();
+        infoPackage.user = localUser;
+        infoPackage.message = msg;
+        infoPackage.channelID = channel.getId();
+        infoPackage.editedMessage = newMsg;
 
-        this.commController.sendMessage(new ChatMessage(ChatOperation.EDIT_MESSAGE, chatPackage));
+        this.commController.sendMessage(new ChatMessage(ChannelOperation.EDIT_MESSAGE, infoPackage));
     }
 
     /**
@@ -223,12 +236,12 @@ public class CommunicationClientInterface implements IDataToCommunication,
             return;
         }
 
-        ChatPackage chatPackage = new ChatPackage();
-        chatPackage.sender = user;
-        chatPackage.message = msg;
-        chatPackage.channelID = channel.getId();
+        InfoPackage infoPackage = new InfoPackage();
+        infoPackage.user = user;
+        infoPackage.message = msg;
+        infoPackage.channelID = channel.getId();
 
-        this.commController.sendMessage(new ChatMessage(ChatOperation.LIKE_MESSAGE, chatPackage));
+        this.commController.sendMessage(new ChatMessage(ChannelOperation.LIKE_MESSAGE, infoPackage));
     }
 
     /**
@@ -243,12 +256,12 @@ public class CommunicationClientInterface implements IDataToCommunication,
             return;
         }
 
-        ChatPackage chatPackage = new ChatPackage();
-        chatPackage.sender = user;
-        chatPackage.message = msg;
-        chatPackage.channelID = channel.getId();
+        InfoPackage infoPackage = new InfoPackage();
+        infoPackage.user = user;
+        infoPackage.message = msg;
+        infoPackage.channelID = channel.getId();
 
-        this.commController.sendMessage(new ChatMessage(ChatOperation.DELETE_MESSAGE, chatPackage));
+        this.commController.sendMessage(new ChatMessage(ChannelOperation.DELETE_MESSAGE, infoPackage));
     }
 
     /**
@@ -263,12 +276,12 @@ public class CommunicationClientInterface implements IDataToCommunication,
             return;
         }
 
-        ChatPackage chatPackage = new ChatPackage();
-        chatPackage.sender = user;
-        chatPackage.nickname = newNickname;
-        chatPackage.channelID = channel.getId();
+        InfoPackage infoPackage = new InfoPackage();
+        infoPackage.user = user;
+        infoPackage.nickname = newNickname;
+        infoPackage.channelID = channel.getId();
 
-        this.commController.sendMessage(new ChatMessage(ChatOperation.EDIT_MESSAGE, chatPackage));
+        this.commController.sendMessage(new ChatMessage(ChannelOperation.EDIT_MESSAGE, infoPackage));
     }
 
     /**
@@ -328,4 +341,15 @@ public class CommunicationClientInterface implements IDataToCommunication,
     public void quitChannel(UUID channelID) {
         // TODO V4
     }
+
+    /**
+     * Demande la suppression du channel d'ID channelId.
+     *
+     * @param channelId
+     */
+    @Override
+    public void DeleteChannel(UUID channelId) {
+        // TODO intégration
+    }
+
 }

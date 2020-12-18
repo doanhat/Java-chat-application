@@ -109,6 +109,7 @@ public class MessageController extends Controller{
     public void saveDeletionIntoHistory(Message message, UUID channelId, boolean deletedByCreator) {
         FileHandle fileHandler = new FileHandle(LocationType.CLIENT, FileType.CHANNEL);
         Channel channel = this.channelClient.getChannel(channelId);
+
         if (channel != null) {
             List<Message> listMsg = channel.getMessages();
             for (Message msg : listMsg) {
