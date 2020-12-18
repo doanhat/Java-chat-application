@@ -2,6 +2,7 @@ package IHMMain.controllers;
 
 import IHMMain.IHMMainController;
 import app.MainWindowController;
+import common.shared_data.ConnectionStatus;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,6 +17,9 @@ import java.util.Date;
 import java.util.ResourceBundle;
 
 public class ConnectionController implements Initializable{
+    static final String ALERT = "Alerte";
+    static final String IMPOSSIBLE_CONNECTION = "Connexion impossible";
+
     @FXML
     private Button chooseFileButton;
     @FXML
@@ -88,15 +92,14 @@ public class ConnectionController implements Initializable{
             errors.append("Veuillez saisir un identifiant\n");
         }
         if (password.isEmpty()) {
-            errors.append("Veuillez saisir un mot de passe\n"); 
+            errors.append("Veuillez saisir un mot de passe\n");
         }
-        if (checkMandatoryFields(errors)) {
-            // TODO uncomment when integration is done
-            ihmMainController.getIHMMainToData().localAuthentification(
-                    userConnectionIDTextField.getText().trim(),
-                    password);
-            // Manque vérification de la connexion : localAuthentification() devrait renvoyer une valeur booléenne à tester avant d'afficher IHMMainWindow
-            mainWindowController.loadIHMMainWindow();
+        if (checkMandatoryFields(errors) && !ihmMainController.getIHMMainToData().localAuthentification(userConnectionIDTextField.getText().trim(), password)) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle(ALERT);
+                alert.setHeaderText(IMPOSSIBLE_CONNECTION);
+                alert.setContentText("Identifiant ou mot de passe incorrect");
+                alert.showAndWait();
         }
     }
 
@@ -118,17 +121,28 @@ public class ConnectionController implements Initializable{
             errors.append("Veuillez saisir un mot de passe\n");
         }
         if (checkMandatoryFields(errors)) {
-            ihmMainController.getIHMMainToData().createAccount(
+            if (!ihmMainController.getIHMMainToData().createAccount(
                     userSubscriptionIDTextField.getText().trim(),
                     chooseFileTextField.getText(),
                     password,
                     surnameTextField.getText(),
                     nameTextField.getText(),
-                    dateOfBirth);
-            // Manque vérification de l'inscription : createAccount() devrait renvoyer une valeur booléenne à tester avant d'afficher IHMMainWindow
-
-            mainWindowController.loadIHMMainWindow();
-
+                    dateOfBirth)) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle(ALERT);
+                alert.setHeaderText("Inscription impossible");
+                alert.showAndWait();
+            } else {
+                if (!ihmMainController.getIHMMainToData().localAuthentification(
+                        userSubscriptionIDTextField.getText().trim(),
+                        password)) {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle(ALERT);
+                    alert.setHeaderText(IMPOSSIBLE_CONNECTION);
+                    alert.setContentText("Identifiant ou mot de passe incorrect");
+                    alert.showAndWait();
+                }
+            }
         }
     }
 
@@ -181,12 +195,24 @@ public class ConnectionController implements Initializable{
     private boolean checkMandatoryFields(StringBuilder errors) {
         if (errors.length() > 0) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Alerte");
+            alert.setTitle(ALERT);
             alert.setHeaderText("Champs obligatoires non renseignés !");
             alert.setContentText(errors.toString());
             alert.showAndWait();
             return false;
         }
         return true;
+    }
+
+    public void loadIHMMainWindow(ConnectionStatus status) {
+        if (status != ConnectionStatus.CONNECTED) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle(ALERT);
+            alert.setHeaderText(IMPOSSIBLE_CONNECTION);
+            alert.setContentText("Erreur de connexion au serveur");
+            alert.showAndWait();
+        } else {
+            mainWindowController.loadIHMMainWindow();
+        }
     }
 }

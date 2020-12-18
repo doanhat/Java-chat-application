@@ -1,8 +1,9 @@
 package IHMMain.controllers;
 
-
+import IHMMain.IHMMainController;
 import common.shared_data.Channel;
-import javafx.application.Platform;
+import javafx.beans.InvalidationListener;
+import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -22,6 +23,21 @@ public class ChannelListViewCellController extends ListCell<Channel> {
     private AnchorPane anchorPane;
 
     private FXMLLoader fxmlLoader;
+
+    private PseudoClass openedPseudoClass = PseudoClass.getPseudoClass("opened");
+
+    public ChannelListViewCellController(IHMMainController ihmMainController) {
+        /**
+         * Add listener on the item to update style if the item (channel) became a opened channel
+         * We add pseudo class :opened on the item
+         */
+        InvalidationListener listener = observable -> pseudoClassStateChanged(
+                openedPseudoClass,
+                getItem() != null && ihmMainController.getOpenedChannels().contains(getItem())
+        );
+        ihmMainController.getOpenedChannels().addListener(listener);
+        itemProperty().addListener(listener);
+    }
 
     @Override
     protected void updateItem(Channel channel, boolean empty) {
@@ -46,13 +62,8 @@ public class ChannelListViewCellController extends ListCell<Channel> {
             description.setText(channel.getDescription());
 
             setText(null);
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    setGraphic(anchorPane);
-                }
-            });
-
+            setGraphic(anchorPane);
+            
         }
     }
 }

@@ -5,7 +5,6 @@ import common.shared_data.*;
 import data.resource_handle.FileHandle;
 import data.resource_handle.FileType;
 import data.resource_handle.LocationType;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,12 +62,29 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
     @Override
     public void requestAddUser(Channel ch, UserLite user) {
-        throw new UnsupportedOperationException("Unimplemented method requestAddUser.");
+        Channel channel = channelsListController.searchChannelById(ch.getId());
+        if(channel!=null){
+            channel.addAuthorizedUser(user);
+        }
+    }
+
+    @Override
+    public void quitChannel(UUID channelID, UserLite user) {
+        Channel channel = channelsListController.searchChannelById(channelID);
+        if(channel!=null){
+            if (channel.getType() == ChannelType.OWNED && user.getId().equals(channel.getCreator().getId())) {
+                // TODO verify proprietary quit channel
+                channelsListController.removeChannel(channel.getId());
+            }
+
+            channel.removeUserAuthorization(user.getId());
+        }
     }
 
     @Override
     public void saveNewAdminIntoHistory(Channel ch, UserLite user) {
-        throw new UnsupportedOperationException("Unimplemented method saveNewAdminIntoHistory.");
+        Channel channel = this.channelsListController.searchChannelById(ch.getId());
+        this.channelsListController.writeNewAdminInChannel(channel, user);
     }
 
     @Override
@@ -83,10 +99,11 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
     @Override
     public void saveMessageIntoHistory(Channel ch, Message ms, Message response) {
-        ch.addMessage(ms);
+        Channel channel = this.channelsListController.searchChannelById(ch.getId());
+        channel.addMessage(ms);
 
-        if (ch.getType() == ChannelType.SHARED) {
-            this.channelsListController.writeMessageInChannel(ch, ms, response);
+        if (channel.getType() == ChannelType.SHARED) {
+            this.channelsListController.writeMessageInChannel(channel, ms, response);
         }
     }
 
@@ -105,12 +122,12 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
     @Override
     public void saveRemovalMessageIntoHistory(Channel ch, Message ms, Boolean deletedByCreator) {
-        throw new UnsupportedOperationException("Unimplemented method saveRemovalMessageIntoHistory.");
+        this.channelsListController.writeRemovalMessageInChannel(ch, ms, deletedByCreator);
     }
 
     @Override
     public List<Message> getHistory(Channel ch) {
-        return null;
+        return channelsListController.getChannelMessages(ch.getId());
     }
 
 
@@ -121,13 +138,13 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
         List<Channel> ownedChannels = channelsListController.getOwnedChannels();
 
         for (Channel channel: sharedChannels) {
-            if ((channel.getVisibility() == Visibility.PUBLIC) || (channel.userInChannel(user.getId()))) {
+            if ((channel.getVisibility() == Visibility.PUBLIC) || (channel.userIsAuthorized(user.getId()))) {
                 visibleChannels.add(channel);
             }
         }
 
         for (Channel channel: ownedChannels) {
-            if ((channel.getVisibility() == Visibility.PUBLIC) || (channel.userInChannel(user.getId()))) {
+            if ((channel.getVisibility() == Visibility.PUBLIC) || (channel.userIsAuthorized(user.getId()))) {
                 visibleChannels.add(channel);
             }
         }
@@ -195,7 +212,7 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
     @Override
     public void updateNickname(Channel ch, UserLite user, String newNickname) {
-        throw new UnsupportedOperationException("Unimplemented method updateNickname.");
+        userListController.updateNickname(ch, user, newNickname);
     }
 
     @Override
@@ -212,7 +229,8 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     public void joinChannel(UUID ch, UserLite user) {
         Channel channel = channelsListController.searchChannelById(ch);
         if(channel!=null){
-            channel.addUser(user);
+            channel.addJoinedUser(user);
+            channel.addAuthorizedUser(user);
         }
     }
 
@@ -220,6 +238,11 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     public void leaveChannel(UUID ch, UserLite user) {
         Channel channel = channelsListController.searchChannelById(ch);
         if(channel!=null){
+            if (channel.getType() == ChannelType.OWNED && user.getId().equals(channel.getCreator().getId())) {
+                // remove Owned Channel from server after owner left
+                channelsListController.removeChannel(channel.getId());
+            }
+
             channel.removeUser(user.getId());
         }
     }
@@ -242,7 +265,45 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
     @Override
     public List<Channel> disconnectOwnedChannel(UserLite owner) {
-        return channelsListController.disconnectOwnedChannel(owner);
+        //Remove channels from owned Channel List in server
+        List <Channel> removedChannels = channelsListController.disconnectOwnedChannel(owner);
+
+        //Remove active users from channels that have been removed
+        for(Channel channel : removedChannels){
+            userListController.removeActiveUsersFromChannel(channel.getId());
+        }
+        return removedChannels;
+    }
+
+    @Override
+    public List<UUID> getChannelsWhereUser(UUID userID) {
+        return channelsListController.getChannelsWhereUser(userID);
+    }
+
+    @Override
+    public List<UUID> getChannelsWhereUserActive(UUID userID) {
+        return userListController.getChannelsWhereUserActive(userID);
+    }
+
+    @Override
+    public List<UserLite> getActiveUsersInChannel(UUID channelID) {
+        return userListController.getActiveUsersInChannel(channelID);
+    }
+
+
+    @Override
+    public void addOwnedChannelsToServerList(List<Channel> ownedChannels, UUID ownerID) {
+        for (Channel channel: ownedChannels) {
+            //Add channel to the server list of channels
+            channelsListController.addChannel(channel);
+
+            //Add active users for each ownedChannel when users are connected
+            for (UserLite user: channel.getJoinedPersons()) {
+                if(userListController.userIsConnected(user.getId())){
+                    userListController.addActiveUser(user.getId(),channel.getId());
+                }
+            }
+        }
     }
 
     /**

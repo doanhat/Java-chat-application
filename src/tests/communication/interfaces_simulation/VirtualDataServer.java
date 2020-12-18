@@ -22,7 +22,22 @@ public class VirtualDataServer implements IServerCommunicationToData {
 
     @Override
     public Channel requestChannelCreation(Channel channel, boolean isShared, boolean isPublic, UserLite owner) {
-        return null;
+        if (channel != null && owner != null) {
+            channels.put(channel.getId(), channel);
+
+            if (! mapUserChannels.containsKey(owner)) {
+                mapUserChannels.put(owner, new ArrayList<>());
+            }
+
+            List<UUID> visibleChannels = mapUserChannels.get(owner);
+            visibleChannels.add(channel.getId());
+
+            mapUserChannels.put(owner, visibleChannels);
+
+            System.err.println("Channel " + channel.getId() + " created");
+        }
+
+        return channel;
     }
 
     @Override
@@ -33,7 +48,7 @@ public class VirtualDataServer implements IServerCommunicationToData {
 
         Channel correctChannel = channels.get(channel);
 
-        if (correctChannel != null && correctChannel.getCreator().getId() == user.getId()) {
+        if (correctChannel != null && correctChannel.getCreator().getId().equals(user.getId())) {
             channels.remove(correctChannel.getId());
 
             return true;
@@ -41,32 +56,6 @@ public class VirtualDataServer implements IServerCommunicationToData {
 
         return false;
     }
-
-    /*
-    //Méthode supprimée confirmer si besoin de cette méthode, il a été remplacée par
-    // différentes méthodes de création
-
-    @Override
-    public List<Channel> requestChannelCreation(Channel channel, Boolean typeOwner, Boolean typePublic, UserLite user) {
-        if (channel != null && user != null) {
-            channels.put(channel.getId(), channel);
-
-            if (! mapUserChannels.containsKey(user)) {
-                mapUserChannels.put(user, new ArrayList<>());
-            }
-
-            List<UUID> visibleChannels = mapUserChannels.get(user);
-            visibleChannels.add(channel.getId());
-
-            mapUserChannels.put(user, visibleChannels);
-
-            System.err.println("Channel " + channel.getId() + " created");
-        }
-
-        return new ArrayList<>(channels.values());
-    }
-    */
-
 
     @Override
     public void updateChannel(UUID channelID, UUID userID, String name, String description, Visibility visibility) {
@@ -83,8 +72,13 @@ public class VirtualDataServer implements IServerCommunicationToData {
             return;
         }
 
-        correctChannel.addUser(user);
+        correctChannel.addJoinedUser(user);
         mapUserChannels.get(user).add(channel.getId());
+    }
+
+    @Override
+    public void quitChannel(UUID channelID, UserLite user) {
+
     }
 
     @Override
@@ -179,7 +173,7 @@ public class VirtualDataServer implements IServerCommunicationToData {
     @Override
     public void disconnectUser(UUID userID) {
         for (UserLite usr: users) {
-            if (usr.getId() == userID) {
+            if (usr.getId().equals(userID)) {
                 users.remove(usr);
             }
         }
@@ -226,7 +220,7 @@ public class VirtualDataServer implements IServerCommunicationToData {
             System.err.println("Cannot find channel");
         }
 
-        correctChannel.addUser(user);
+        correctChannel.addJoinedUser(user);
 
     }
 
@@ -262,6 +256,27 @@ public class VirtualDataServer implements IServerCommunicationToData {
     @Override
     public List<Channel> disconnectOwnedChannel(UserLite owner) {
         return null;
+    }
+
+    @Override
+    public List<UUID> getChannelsWhereUser(UUID userID) {
+        return null;
+    }
+
+    @Override
+    public List<UUID> getChannelsWhereUserActive(UUID userID) {
+        return null;
+    }
+
+    @Override
+    public List<UserLite> getActiveUsersInChannel(UUID channelID) {
+        return null;
+    }
+
+
+    @Override
+    public void addOwnedChannelsToServerList(List<Channel> ownedChannels, UUID ownerID) {
+
     }
 
     /**

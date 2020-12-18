@@ -3,10 +3,7 @@ package common.shared_data;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class Message implements Serializable {
 	public Message() {
@@ -105,6 +102,14 @@ public class Message implements Serializable {
 		return deletedByAdmin;
 	}
 
+	public void setDeletedByUser(boolean deletedByUser) {
+		this.deletedByUser = deletedByUser;
+	}
+
+	public void setDeletedByAdmin(boolean deletedByAdmin) {
+		this.deletedByAdmin = deletedByAdmin;
+	}
+
 	public UUID getParentMessageId() {
 		return parentMessageId;
 	}
@@ -141,4 +146,16 @@ public class Message implements Serializable {
 		}
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Message message = (Message) o;
+		return Objects.equals(id, message.id);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
 }

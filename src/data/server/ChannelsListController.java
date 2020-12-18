@@ -15,18 +15,18 @@ public class ChannelsListController {
     private List<Channel> ownedChannels;
     private FileHandle fileHandle;
 
-    /**
-     * SVP CREER LES FICHIER AVEC DES FONCTIONS
-     */
-
     public ChannelsListController() {
         this.fileHandle = new FileHandle<Channel>(LocationType.SERVER, FileType.CHANNEL);
         this.sharedChannels = createChannelListFromJSONFiles();
-        ownedChannels = new ArrayList<>();
+        this.ownedChannels = new ArrayList<>();
     }
 
     public List<Channel> createChannelListFromJSONFiles(){
-        return fileHandle.readAllJSONFilesToList(Channel.class);
+        List<Channel> list = fileHandle.readAllJSONFilesToList(Channel.class);
+        for( Channel c : list){
+            c.setJoinedPersons(new ArrayList<>()); //init pour éviter la liste null
+        }
+        return list;
     }
 
     public List<Channel> searchChannelByName(String nom) {
@@ -48,7 +48,13 @@ public class ChannelsListController {
     }
 
     public List<Message> getChannelMessages(UUID channelID){
-        return searchChannelById(channelID).getMessages();
+        Channel channel = searchChannelById(channelID);
+
+        if (channel == null) {
+            return null;
+        }
+
+        return channel.getMessages();
     }
 
     public List<Channel> searchChannelByDesc(String description) {
@@ -57,6 +63,19 @@ public class ChannelsListController {
 
     public List<Channel> searchChannelByUsers(List<String> users) {
         return null;
+    }
+
+    public List<UUID> getChannelsWhereUser(UUID userID){
+        ArrayList<UUID> res = new ArrayList<UUID>();
+        for (Channel channel: ownedChannels) {
+            if(channel.userIsAuthorized(userID))
+                res.add(channel.getId());
+        }
+        for (Channel channel: sharedChannels) {
+            if(channel.userIsAuthorized(userID))
+                res.add(channel.getId());
+        }
+        return res;
     }
 
     public void addChannel(Channel channel) {
@@ -90,28 +109,34 @@ public class ChannelsListController {
         return this.ownedChannels;
     }
 
+    public List<Channel> getOwnedChannelsForUser(UUID user){
+        List<Channel> list = new ArrayList<>();
+        for (Channel channel: ownedChannels) {
+            if(channel.getCreator().equals(user)){
+                list.add(channel);
+            }
+        }
+        return list;
+    }
+
     public void writeChannelDataToJSON(Channel channel){
         this.fileHandle.writeJSONToFile(channel.getId().toString(),channel);
     }
 
     public Channel readJSONToChannelData(UUID idChannel){
-        //TODO UPDATE (Espace)
         return (Channel) this.fileHandle.readJSONFileToObject(idChannel.toString(), Channel.class);
     }
 
     /**
      * Enregistre un message et son parent dans l'historique d'un channel.
      *
-     * @param channel le channel.
+     * @param channel   Le channel.
      * @param message   Le message à enregistrer.
-     * @param parent  Le parent du message, s'il existe.
+     * @param parent    Le parent du message, s'il existe.
      */
     public void writeMessageInChannel(Channel channel, Message message, Message parent){
-        //Channel channel = this.readJSONToChannelData(channelId);
-
         if (channel != null) {
             List<Message> messages = channel.getMessages();
-            messages.add(message);
 
             if (parent != null) {
                 for (Message msg : messages) {
@@ -126,6 +151,43 @@ public class ChannelsListController {
         }
     }
 
+    /**
+     * Sets a message as deleted.
+     *
+     * @param channel           Le channel.
+     * @param message           Le message à supprimer.
+     * @param deletedByCreator  L'utilisateur qui demande la suppression est l'auteur.
+     */
+    public void writeRemovalMessageInChannel(Channel channel, Message message, Boolean deletedByCreator) {
+        if (channel.getType() == ChannelType.SHARED) {
+            Channel c = this.searchChannelById(channel.getId());
+            List<Message> ms = c.getMessages();
+
+            for (Message m : ms) {
+                if (m.getId() == message.getId()) {
+                    m.setMessage("");
+                    m.delete(deletedByCreator);
+                    break;
+                }
+            }
+
+            this.writeChannelDataToJSON(c);
+        }
+    }
+
+    /**
+     * Enregistre un nouveau admin dans l'historique d'un channel.
+     *
+     * @param channel   Le channel.
+     * @param user      L'admin à ajouter.
+     */
+    public void writeNewAdminInChannel(Channel channel, UserLite user) {
+        if (channel.getType() == ChannelType.SHARED) {
+            channel.addAdmin(user);
+            this.writeChannelDataToJSON(channel);
+        }
+    }
+
     public List<Channel> disconnectOwnedChannel(UserLite owner) {
         List<Channel> userOwnedChannels = new ArrayList<>();
 
@@ -136,10 +198,10 @@ public class ChannelsListController {
         for (Channel channel: ownedChannels) {
             if (channel.getCreator().getId().equals(owner.getId())) {
                 userOwnedChannels.add(channel);
-                ownedChannels.remove(channel);
+
             }
         }
-
+        ownedChannels.removeIf(ch -> (ch.getCreator().getId().equals(owner.getId())));
         return userOwnedChannels;
     }
 }
