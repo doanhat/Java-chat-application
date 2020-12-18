@@ -1,5 +1,6 @@
 package IHMMain.controllers;
 
+import IHMMain.IHMMainController;
 import app.MainWindowController;
 import common.shared_data.Channel;
 import common.shared_data.UserLite;
@@ -12,21 +13,40 @@ import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class UserListViewController implements Initializable {
+
+    private IHMMainController ihmMainController;
+
+    private MainWindowController mainWindowController;
+
     @FXML
     private ListView<UserLite> connectedUsersListView;
     @FXML
     private TextField filteredInput;
     @FXML
     private CheckBox filtrerChannelCheckBox;
+    @FXML
+    private TextField firstNameField;
+    @FXML
+    private TextField lastNameField;
+    @FXML
+    private DatePicker birthDateField;
+
+    public void setIhmMainController(IHMMainController ihmMainController) {
+        this.ihmMainController = ihmMainController;
+    }
 
     public void setMainWindowController(MainWindowController mainWindowController) {
+        this.mainWindowController = mainWindowController;
+
         ObservableList<UserLite> connectedUsersObservableList ;
         ObservableList<Channel> visibleChannelsObservableList ;
 
@@ -93,6 +113,20 @@ public class UserListViewController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //Mettez ici le code qui s'execute avant l'apparition de la vue
+    }
 
+    @FXML
+    public void onSeDeconnecterButtonClick(){
+        try {
+            Stage primaryStage = mainWindowController.getPrimaryStage();
+            Platform.setImplicitExit(false);
+            primaryStage.setOnCloseRequest(event -> {});
+            ihmMainController.getIIHMMainToCommunication().disconnect();
+            ihmMainController.getIHMMainToData().disconnect();
+            ihmMainController.getMainWindowController().loadConnectionWindow();
+            ihmMainController.reset();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
