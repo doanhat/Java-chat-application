@@ -46,7 +46,7 @@ public class DataClientHandler {
      */
     public void notifyChat(ChannelOperation operation, InfoPackage infoPackage) {
         logger.log(Level.FINE, infoPackage.channelID + " a nouvelle notification de chat: " + operation);
-
+        System.out.println(infoPackage.channelID + " a nouvelle notification de chat: " + operation);
         switch (operation) {
             case SEND_MESSAGE:
                 dataClient.receiveMessage(infoPackage.message, infoPackage.channelID, infoPackage.messageResponseTo);

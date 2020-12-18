@@ -153,6 +153,10 @@ public class CommunicationToData implements ICommunicationToData {
         Channel ownedChannel = dataController.getChannelController().channelClient.getChannel(channelId);
         if (ownedChannel != null) {
             dataController.getMessageController().receiveMessage(message,ownedChannel,response);
+            System.out.println("data receive message from comm " + message.getMessage() + " response to " + response);
+        }
+        else {
+            System.out.println("channel is null");
         }
     }
 
