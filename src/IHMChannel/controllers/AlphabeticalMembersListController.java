@@ -121,12 +121,12 @@ public class AlphabeticalMembersListController {
         displayMembers();
     }
 
-    public void addMemberToList(UserLite user) {
+    public void addMemberToConnectedMembersList(UserLite user) {
         connectedMembersList.add(user);
         displayMembers();
     }
 
-    public void removeMemberFromList(UserLite user) {
+    public void removeMemberFromConnectedMembersList(UserLite user) {
         connectedMembersList.remove(user);
         displayMembers();
     }

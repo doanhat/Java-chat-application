@@ -363,7 +363,8 @@ public class ChannelController {
         System.err.println("Channel connected member list addConnectedUser 1: " + connectedMembersList);
         this.connectedMembersList.add(user);
         this.channelMessagesDisplay.getController().addMemberToObservableList(user);
-        this.channelMembersDisplay.getController().setConnectedMembersList(this.connectedMembersList);
+        this.channelMembersDisplay.getController().addMemberToObservableList(user);
+
         System.err.println("Channel connected member list addConnectedUser 2: " + connectedMembersList);
         try{
             this.addUser(user);
@@ -380,10 +381,7 @@ public class ChannelController {
     public void removeConnectedUser(UserLite user) {
         this.connectedMembersList.remove(user);
         this.channelMessagesDisplay.getController().removeMemberFromObservableList(user);
-        if(currentChannel.getVisibility().equals(Visibility.PUBLIC)){
-            this.channelMembersDisplay.getController().removeMemberFromObservableList(user);
-        }
-
+        this.channelMembersDisplay.getController().removeMemberFromObservableList(user);
     }
 
 

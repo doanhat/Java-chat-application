@@ -134,13 +134,13 @@ public class AdminMembersListController {
         displayMembers();
     }
 
-    public void addMemberToList(UserLite user) {
-        adminMembers.add(user);
+    public void addMemberToConnectedMembersList(UserLite user) {
+        connectedMembersList.add(user);
         displayMembers();
     }
 
-    public void removeMemberFromList(UserLite user) {
-        adminMembers.remove(user);
+    public void removeMemberFromConnectedMembersList(UserLite user) {
+        connectedMembersList.remove(user);
         displayMembers();
     }
 }

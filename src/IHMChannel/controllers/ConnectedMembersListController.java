@@ -137,12 +137,12 @@ public class ConnectedMembersListController {
         displayMembers();
     }
 
-    public void addMemberToList(UserLite user) {
+    public void addMemberToConnectedMembersList(UserLite user) {
         connectedMembersList.add(user);
         displayMembers();
     }
 
-    public void removeMemberFromList(UserLite user) {
+    public void removeMemberConnectedMembersFromList(UserLite user) {
         connectedMembersList.remove(user);
         displayMembers();
     }
