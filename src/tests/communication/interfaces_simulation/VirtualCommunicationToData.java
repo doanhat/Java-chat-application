@@ -171,7 +171,7 @@ public class VirtualCommunicationToData implements ICommunicationToData {
     }
 
     @Override
-    public void requestRemoveAdmin(UUID channelID, UUID adminID) {
+    public void requestRemoveAdmin(UUID channelID, UserLite adminID) {
 
     }
 

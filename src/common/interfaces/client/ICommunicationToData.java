@@ -235,11 +235,11 @@ public interface ICommunicationToData {
     void inviteUserToOwnedChannel(UserLite user, UUID channelId);
 
     /**
-     *  Méthode pour retirer les droits d'administrateur d'un utilisateur dans un channel
+     * Méthode pour retirer les droits d'administrateur d'un utilisateur dans un channel
      * @param channelID l'identificateur du channel
-     * @param adminID l'identificateur de l'admin du channel
+     * @param admin l'userlite de l'admin du channel
      *
      * */
-    void requestRemoveAdmin(UUID channelID, UUID adminID);
+    void requestRemoveAdmin(UUID channelID, UserLite admin);
 }
 

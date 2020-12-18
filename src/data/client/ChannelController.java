@@ -147,6 +147,19 @@ public class ChannelController extends Controller{
     }
 
     /**
+     * New admin.
+     *  @param user    the user
+     * @param channelId the channelId
+     */
+    public void removeAdmin(UserLite user, UUID channelId) {
+        try {
+            this.channelClient.removeAdmin(user, channelId);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * Remove channel from list.
      *
      * @param channelId     the channel

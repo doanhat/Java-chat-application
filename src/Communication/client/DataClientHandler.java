@@ -69,7 +69,7 @@ public class DataClientHandler {
                 dataClient.newAdmin(infoPackage.user, infoPackage.channelID);
                 break;
             case REMOVE_ADMIN:
-                dataClient.requestRemoveAdmin(infoPackage.channelID, infoPackage.user.getId());
+                dataClient.requestRemoveAdmin(infoPackage.channelID, infoPackage.user);
                 break;
             default:
                 logger.log(Level.WARNING, "ChatMessage: opetration inconnue");
@@ -164,7 +164,7 @@ public class DataClientHandler {
                 dataClient.saveNewAdminIntoHistory(infoPackage.user, infoPackage.channelID);
                 break;
             case REMOVE_ADMIN:
-                dataClient.requestRemoveAdmin(infoPackage.channelID, infoPackage.user.getId());
+                dataClient.requestRemoveAdmin(infoPackage.channelID, infoPackage.user);
                 break;
             default:
                 logger.log(Level.WARNING, "ChatMessage: opetration inconnue");
