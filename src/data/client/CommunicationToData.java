@@ -306,6 +306,7 @@ public class CommunicationToData implements ICommunicationToData {
                 }
             }
         });
+        //Platform.runLater(() -> dataController.getChannelController().newAdmin(user, channelId));
     }
 
 }

@@ -182,8 +182,8 @@ public class ChannelsListController {
      * @param user      L'admin à ajouter.
      */
     public void writeNewAdminInChannel(Channel channel, UserLite user) {
+        channel.addAdmin(user);
         if (channel.getType() == ChannelType.SHARED) {
-            channel.addAdmin(user);
             this.writeChannelDataToJSON(channel);
         }
     }
