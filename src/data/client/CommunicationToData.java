@@ -36,7 +36,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void userAddedToChannel(UserLite user, UUID channelId) {
-                dataController.getChannelController().userAddedToChannel(user, channelId);
+        dataController.getChannelController().userAddedToChannel(user, channelId);
     }
 
     /**
@@ -108,6 +108,7 @@ public class CommunicationToData implements ICommunicationToData {
 
     @Override
     public void removeUserFromAuthorizedUserChannel(UserLite user, UUID channelId, int duration, String explanation) {
+        dataController.getChannelController().removeUserFromAuthorizedUserChannel(user,channelId);
 
     }
 
@@ -247,7 +248,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void updateNickname(UserLite user, UUID channelId, String newNickname) {
-        throw new UnsupportedOperationException();
+        dataController.getChannelController().updateNickname(user,channelId,newNickname);
     }
 
     /**
@@ -259,7 +260,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void saveNicknameIntoHistory(UserLite user, UUID channelId, String newNickname) {
-        throw new UnsupportedOperationException();
+        dataController.getChannelController().saveNicknameIntoHistory(user,channelId,newNickname);
     }
 
     /**

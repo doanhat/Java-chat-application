@@ -212,7 +212,7 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
     @Override
     public void updateNickname(Channel ch, UserLite user, String newNickname) {
-        throw new UnsupportedOperationException("Unimplemented method updateNickname.");
+        userListController.updateNickname(ch, user, newNickname);
     }
 
     @Override

@@ -74,28 +74,6 @@ public class UserController extends Controller {
     }
 
     /**
-     * Update nickname.
-     *
-     * @param user        the user
-     * @param channel     the channel
-     * @param newNickname the new nickname
-     */
-    public void updateNickname(User user, Channel channel, String newNickname) {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Save nickname into history.
-     *
-     * @param user        the user
-     * @param channel     the channel
-     * @param newNickname the new nickname
-     */
-    public void saveNicknameIntoHistory(User user, Channel channel, String newNickname) {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
      * Add user to channel.
      *  @param user    the user
      * @param channelId the channel
