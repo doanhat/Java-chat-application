@@ -71,7 +71,6 @@ public class IHMMainWindowController implements Initializable{
     @FXML
     private TextField channelSearchTextField;
 
-
     public MainWindowController getMainWindowController() {
         return mainWindowController;
     }
@@ -278,7 +277,6 @@ public class IHMMainWindowController implements Initializable{
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     private void updateProfileImage(){
@@ -344,6 +342,7 @@ public class IHMMainWindowController implements Initializable{
             Parent parent = fxmlLoader.load(); //On recupère le noeud racine du fxml chargé
             UserListViewController userListViewController = fxmlLoader.getController(); //On récupère la classe controller liée au fxml
             userListViewController.setMainWindowController(this.mainWindowController); //On donne au controller fils une référence de son controller grand-parent
+            userListViewController.setIhmMainController(ihmMainController);
             this.mainArea.getChildren().addAll(parent); //On ajoute le noeud parent (fxml) au noeud racine de cette vue
             IHMTools.fitSizeToParent((Region)this.mainArea,(Region)parent);
         } catch (IOException exception) {
