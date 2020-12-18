@@ -221,7 +221,8 @@ public class ChannelController {
         this.setCurrentChannel(channel);
         channelName.setText(channel.getName());
         channelDescription.setText(channel.getDescription());
-        if (channel.getVisibility().equals(Visibility.PUBLIC)) {
+        UserLite localUser = ihmChannelController.getInterfaceToData().getLocalUser();
+        if (channel.getVisibility().equals(Visibility.PUBLIC) || channel.getCreator().getId().equals(localUser.getId())) {
             setLeavePossible(false);
         }
         iconsInit();

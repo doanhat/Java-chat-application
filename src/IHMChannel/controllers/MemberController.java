@@ -105,7 +105,7 @@ public class MemberController {
         if(isAdmin){
             isAdmin= false;
             // TODO Avoir une fonction removeAdmin();
-            //ihmChannelController.getInterfaceToCommunication().removeAdmin(userToDisplay, channel);
+            ihmChannelController.getInterfaceToCommunication().removeAdmin(userToDisplay, channel);
             System.out.println("Retrait d'un  admin. (TODO : Ajouter l'interface removeAdmin.)");
         }else{
             isAdmin = true;
