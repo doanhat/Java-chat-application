@@ -7,6 +7,7 @@ import common.shared_data.User;
 import common.shared_data.UserLite;
 import javafx.application.Platform;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -300,8 +301,15 @@ public class CommunicationToData implements ICommunicationToData {
                 Channel channel = dataController.getChannelController().searchChannelById(channelID);
                 if(channel!=null){
                     if(channel.userIsAdmin(adminID) && !channel.getCreator().getId().equals(adminID)){
+                        UserLite user = channel.getAdmin(adminID);
                         channel.removeAdmin(adminID);
                         dataController.getChannelController().saveRemoveAdminIntoHistory(channelID);
+
+                        try {
+                            dataController.getChannelController().getChannelClient().removeAdmin(user, channelID);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }

@@ -164,10 +164,20 @@ public class ChannelController {
 
     public void addNewAdmin(UserLite user) throws IOException {
         currentChannel.addAdmin(user);
-        System.out.printf("{} has this admin list : {}",
-                ihmChannelController.getInterfaceToData().getLocalUser(),
-                currentChannel.getAdministrators());
         channelMembersDisplay.getController().setCurrentChannel(currentChannel);
+        //channelMembersDisplay.getController().adminMembersListDisplay.adminMembersController.
+    }
+
+    public void removeAdmin(UserLite user) {
+        System.out.printf("Retrait d'un  admin. {}\n", user.toString());
+        currentChannel.removeAdmin(user.getId());
+        //channelMembersDisplay.channelMembersController.adminMembersListDisplay.adminMembersController.removeMemberFromList(user);
+        try {
+            channelMembersDisplay.getController().setCurrentChannel(currentChannel);
+            channelMembersDisplay.getController().adminMembersListDisplay.removeMemberFromList(user);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     /**
      * Méthode déclenchée au clic sur le bouton "voir les membres"
@@ -385,7 +395,5 @@ public class ChannelController {
         this.channelPageController = channelPageController;
     }
 
-    public void removeAdmin(UserLite user) {
-        channelMembersDisplay.channelMembersController.adminMembersListDisplay.adminMembersController.removeMemberFromList(user);
-    }
+
 }
