@@ -358,16 +358,13 @@ public class ChannelController {
 
         kickedMembersListPopUpController.getSaveBtn().setOnAction(new EventHandler<ActionEvent>() {
                                                             public void handle(ActionEvent e) {
-                                                               //TODO
+                                                                kickedMembersListPopUpController.getUnKickedList().forEach(userUnKicked ->{
+                                                                    //getIhmChannelController().
+                                                                    System.out.print("unkick :" + userUnKicked.getNickName());
+                                                                });
                                                                 popUpWindow.close();
                                                             }
                                                             });
-        //TODO
-        /*
-        1. Ouverture Popup
-        2. Creation liste users kicked
-
-         */
     }
 
     /**

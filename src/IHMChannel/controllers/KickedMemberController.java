@@ -63,7 +63,9 @@ public class KickedMemberController {
         kickIcon.setFitWidth(15);
         unKickBtn.setGraphic(kickIcon);
     }
-
+    public UserLite getUserToDisplay() {
+        return userToDisplay;
+    }
     public boolean isUnKicked() {
         return isUnKicked;
     }
