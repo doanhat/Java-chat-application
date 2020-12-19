@@ -4,24 +4,29 @@ import IHMChannel.ChannelMembersDisplay;
 import IHMChannel.ChannelMessagesDisplay;
 import IHMChannel.IHMChannelController;
 import common.IHMTools.IHMTools;
-import common.shared_data.Channel;
+import common.shared_data.*;
 import common.shared_data.ChannelType;
-import common.shared_data.Message;
-import common.shared_data.UserLite;
-import common.shared_data.ChannelType;
-import common.shared_data.Visibility;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
 import javafx.stage.Popup;
+import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 public class ChannelController {
     private Channel currentChannel; //channel à afficher dans l'interface
@@ -51,6 +56,8 @@ public class ChannelController {
     Button addMemberBtn;
     @FXML
     Button leaveChannelBtn;
+    @FXML
+    Button seeKickedMembersBtn;
 
     //Menu contextuel
     @FXML
@@ -143,6 +150,13 @@ public class ChannelController {
         contextMenuIcon.setFitHeight(15);
         contextMenuIcon.setFitWidth(15);
         contextMenuBtn.setGraphic(contextMenuIcon);
+
+        // Liste kickedMembers
+        Image kickedMembersImage = new Image("IHMChannel/icons/users-slash-solid.png");
+        ImageView kickedMembersIcon = new ImageView(kickedMembersImage);
+        kickedMembersIcon.setFitHeight(15);
+        kickedMembersIcon.setFitWidth(15);
+        seeKickedMembersBtn.setGraphic(kickedMembersIcon);
     }
 
     public void receiveMessage(Message receivedMessage, Message responseTo) {
@@ -312,7 +326,48 @@ public class ChannelController {
      * Clic sur "Liste des utilisateurs kickés" depuis le menu contextuel
      */
     public void seeKickedMembers() {
-        //TODO implémenter la méthode
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../views/KickedMembersListPopUp.fxml"));
+        Parent root = null;
+        try {
+            root = fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        KickedMembersListPopUpController kickedMembersListPopUpController = fxmlLoader.getController();
+
+        // DATA TEST en attendant integration.
+        Kick kick1 = new Kick(new UserLite(UUID.randomUUID(),"userK1",null),null,null,null);
+        Kick kick2 = new Kick(new UserLite(UUID.randomUUID(),"userK2",null),null,null,null);
+        Kick kick3 = new Kick(new UserLite(UUID.randomUUID(),"userK3",null),null,null,null);
+        List<Kick> dataTest = FXCollections.observableArrayList();
+        dataTest.add(kick1);
+        dataTest.add(kick2);
+        dataTest.add(kick3);
+        kickedMembersListPopUpController.setKickedMembers((ObservableList<Kick>) dataTest);
+
+        // A remettre pour l'integration => Remplace les dataTests
+        //kickedMembersListPopUpController.setKickedMembers((ObservableList<Kick>) currentChannel.getKicked());
+
+        Stage popUpWindow = new Stage();
+        popUpWindow.initModality(Modality.APPLICATION_MODAL);
+        popUpWindow.setTitle("Liste des utilisateurs kickés du channel");
+        popUpWindow.setScene(new Scene(root));
+        popUpWindow.setResizable(false);
+        popUpWindow.show();
+
+        kickedMembersListPopUpController.getSaveBtn().setOnAction(new EventHandler<ActionEvent>() {
+                                                            public void handle(ActionEvent e) {
+                                                               //TODO
+                                                                popUpWindow.close();
+                                                            }
+                                                            });
+        //TODO
+        /*
+        1. Ouverture Popup
+        2. Creation liste users kicked
+
+         */
     }
 
     /**

@@ -87,6 +87,7 @@ public class MemberController {
         // - bouton bloquer
 
         toggleAdminBtn.setMemberController(this);
+
         Image usersImage = new Image("IHMChannel/icons/ban.png");
         ImageView usersIcon = new ImageView(usersImage);
         usersIcon.setFitHeight(15);
