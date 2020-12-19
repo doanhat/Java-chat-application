@@ -76,6 +76,11 @@ public class CommunicationServerController extends CommunicationController {
 		return commInterface;
 	}
 
+	
+	public IServerCommunicationToData getDataServer() {
+		return dataServer;
+	}
+
 	/**
 	 * Deconnecter un client
 	 * @param userID ID du client a deconnecter

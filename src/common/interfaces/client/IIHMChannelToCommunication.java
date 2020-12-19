@@ -39,8 +39,9 @@ public interface IIHMChannelToCommunication
      * @param user Utilisateur a bannir
      * @param duration Durée du bannisement
      * @param explanation Chaine de caractere justifiant le ban
+     * @param channel canal duquel l'utilisateur doit être banni.
      **/
-    void banUserFromChannel(UserLite user, int duration, String explanation);
+    void banUserFromChannel(UserLite user, Channel channel, int duration, String explanation);
 
     /**
      * Envoie d'un message au serveur

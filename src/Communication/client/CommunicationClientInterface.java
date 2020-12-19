@@ -13,6 +13,7 @@ import Communication.messages.client_to_server.channel_modification.GetHistoryMe
 import Communication.messages.client_to_server.channel_access.SendInvitationMessage;
 import Communication.messages.client_to_server.channel_access.proprietary_channels.AskToJoinPropMessage;
 import Communication.messages.client_to_server.channel_access.shared_channels.AskToJoinSharedMessage;
+import Communication.messages.client_to_server.moderation.AskToBanUserMessage;
 
 import common.interfaces.client.*;
 import common.shared_data.Channel;
@@ -99,10 +100,17 @@ public class CommunicationClientInterface implements IDataToCommunication,
         //TODO Note Data : Appeler getAvatarPath(UserLite user) dans IServerCommunicationToData
         return null;
     }
+    
+    public UserLite getLocalUser() {
+		return localUser;
+	}
+    
 
     /* -------------------------- IIHMChannelToCommunication interface implementations -------------------------------*/
 
-    /**
+
+
+	/**
      * Transfert au serveur l'envoi d'un message d'invitation au serveur'envoi
      * d'une invitation a rejoindre un channel
      *
@@ -160,8 +168,8 @@ public class CommunicationClientInterface implements IDataToCommunication,
      * @param duration    Durée du bannisement
      * @param explanation Chaine de caractere justifiant le ban
      **/
-    public void banUserFromChannel(UserLite user, int duration, String explanation) {
-        // TODO V4
+    public void banUserFromChannel(UserLite user, Channel channel, int duration, String explaination) {
+        this.commController.sendMessage(new AskToBanUserMessage(getLocalUser(), user, channel, duration, explaination));
     }
 
     /**
