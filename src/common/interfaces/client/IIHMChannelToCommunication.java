@@ -121,4 +121,14 @@ public interface IIHMChannelToCommunication
      * @param channelID ID de l'objet à supprimer
      **/
     void deleteChannel(UUID channelID);
+
+    /**
+     * Transfert au serveur la demande de modification d'un channel
+     * @param channelID
+     * @param userID
+     * @param name
+     * @param description
+     * @param visibility
+     */
+    void updateChannel(UUID channelID, UUID userID, String name, String description, Visibility visibility);
 }

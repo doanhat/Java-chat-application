@@ -22,6 +22,7 @@ import common.shared_data.Channel;
 import common.shared_data.ChannelType;
 import common.shared_data.Message;
 import common.shared_data.UserLite;
+import common.shared_data.Visibility;
 
 import java.util.*;
 
@@ -353,5 +354,8 @@ public class CommunicationClientInterface implements IDataToCommunication,
         }
     }
 
-
+    @Override
+    public void updateChannel(UUID channelID, UUID userID, String name, String description, Visibility visibility) {
+        // TODO V4
+    }
 }
