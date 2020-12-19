@@ -4,7 +4,9 @@ import Communication.common.ChannelOperation;
 import Communication.common.InfoPackage;
 import Communication.common.Parameters;
 import Communication.messages.client_to_server.channel_access.proprietary_channels.LeavePropChannelMessage;
+import Communication.messages.client_to_server.channel_access.proprietary_channels.QuitPropChannelMessage;
 import Communication.messages.client_to_server.channel_access.shared_channels.LeaveSharedChannelMessage;
+import Communication.messages.client_to_server.channel_access.QuitChannelMessage;
 import Communication.messages.client_to_server.channel_modification.DeleteChannelMessage;
 import Communication.messages.client_to_server.channel_modification.GetChannelUsersMessage;
 import Communication.messages.client_to_server.channel_modification.proprietary_channels.SendProprietaryChannelsMessage;
@@ -20,6 +22,7 @@ import common.shared_data.Channel;
 import common.shared_data.ChannelType;
 import common.shared_data.Message;
 import common.shared_data.UserLite;
+import common.shared_data.Visibility;
 
 import java.util.*;
 
@@ -338,18 +341,21 @@ public class CommunicationClientInterface implements IDataToCommunication,
     }
 
     @Override
-    public void quitChannel(UUID channelID) {
+    public void quitChannel(Channel channel) {
+        if (channel.getType() == ChannelType.OWNED) {
+            if (channel.getCreator().getId().equals(localUser.getId())) {
+                commController.sendMessage(new DeleteChannelMessage(channel.getId(), localUser));
+            }
+            else {
+                commController.sendMessage(new QuitPropChannelMessage(localUser, channel.getId(), channel.getCreator()));
+            }
+        } else {
+            commController.sendMessage(new QuitChannelMessage(localUser, channel.getId()));
+        }
+    }
+
+    @Override
+    public void updateChannel(UUID channelID, UUID userID, String name, String description, Visibility visibility) {
         // TODO V4
     }
-
-    /**
-     * Demande la suppression du channel d'ID channelId.
-     *
-     * @param channelId
-     */
-    @Override
-    public void DeleteChannel(UUID channelId) {
-        // TODO intégration
-    }
-
 }

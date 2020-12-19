@@ -54,7 +54,7 @@ public class Message implements Serializable {
 		}
 
 		if(deletedByUser) {
-			return "(Supprmé par l'utilisateur)";
+			return "(Supprimé par l'utilisateur)";
 		}
 
 		return message;

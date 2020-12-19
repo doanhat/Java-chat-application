@@ -55,6 +55,15 @@ public class ChannelMembersController {
         return connectedMembersListDisplay;
     }
 
+    public boolean containsUser(List<UserLite> list, UserLite user){
+        for(UserLite u : list){
+            if(u.getId().equals(user.getId())){
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Tri des utilisateurs par ordre alphabétique
      * @throws IOException
@@ -67,7 +76,6 @@ public class ChannelMembersController {
      * Tri des membres selon leur rôle
      */
     public void adminSort() {
-        System.out.print("hello");
         listMembersDisplay.setCenter(adminMembersListDisplay.root);
     }
 
@@ -107,14 +115,14 @@ public class ChannelMembersController {
     }
 
     public void addMemberToObservableList(UserLite user) {
-        alphabeticalMembersListDisplay.addMemberToList(user);
-        adminMembersListDisplay.addMemberToList(user);
-        connectedMembersListDisplay.addMemberToList(user);
+        alphabeticalMembersListDisplay.addMemberToConnectedMembersList(user);
+        adminMembersListDisplay.addMemberToConnectedMembersList(user);
+        connectedMembersListDisplay.addMemberToConnectedMembersList(user);
     }
 
     public void removeMemberFromObservableList(UserLite user) {
-        alphabeticalMembersListDisplay.removeMemberFromList(user);
-        adminMembersListDisplay.removeMemberFromList(user);
-        connectedMembersListDisplay.removeMemberFromList(user);
+        alphabeticalMembersListDisplay.removeMemberFromConnectedMembersList(user);
+        adminMembersListDisplay.removeMemberFromConnectedMembersList(user);
+        connectedMembersListDisplay.removeMemberFromConnectedMembersList(user);
     }
 }

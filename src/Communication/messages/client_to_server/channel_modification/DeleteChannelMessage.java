@@ -33,10 +33,10 @@ public class DeleteChannelMessage extends ClientToServerMessage {
             }
 
             if (channel.getVisibility() == Visibility.PUBLIC) {
-                commController.sendBroadcast(new NewInvisibleChannelsMessage(channel.getId()), requester);
+                commController.sendBroadcast(new NewInvisibleChannelsMessage(channel.getId()), null);
             }
             else {
-                commController.sendMulticast(channel.getJoinedPersons(), new NewInvisibleChannelsMessage(channel.getId()));
+                commController.sendMulticast(channel.getAuthorizedPersons(), new NewInvisibleChannelsMessage(channel.getId()));
             }
         }
 

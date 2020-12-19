@@ -61,6 +61,15 @@ public class AdminMembersListController {
 
     }
 
+    private boolean containsUser(List<UserLite> list, UserLite user){
+        for(UserLite u : list){
+            if(u.getId().equals(user.getId())){
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Permet l'affichage de la liste des membres en faisant une conversion en Hbox.
      * @throws IOException
@@ -72,12 +81,12 @@ public class AdminMembersListController {
         creatorToDisplay.clear();
 
         for (UserLite usr : adminMembers){
-            adminsToDisplay.add((HBox) new MemberDisplay(usr,true,false,(connectedMembersList!=null && connectedMembersList.contains(usr)),isLocalUserAdmin ,  channel, ihmChannelController).root);
+            adminsToDisplay.add((HBox) new MemberDisplay(usr,true,false,(connectedMembersList!=null && containsUser(connectedMembersList, usr)),isLocalUserAdmin ,  channel, ihmChannelController).root);
         }
         for (UserLite usr : channelMembers){
-            membersToDisplay.add((HBox) new MemberDisplay(usr,false,false,(connectedMembersList!=null && connectedMembersList.contains(usr)),isLocalUserAdmin, channel, ihmChannelController).root);
+            membersToDisplay.add((HBox) new MemberDisplay(usr,false,false,(connectedMembersList!=null && containsUser(connectedMembersList, usr)),isLocalUserAdmin, channel, ihmChannelController).root);
         }
-        creatorToDisplay.add((HBox) new MemberDisplay(creator,true,true,(connectedMembersList!=null && connectedMembersList.contains(creator)),false, channel, ihmChannelController).root);
+        creatorToDisplay.add((HBox) new MemberDisplay(creator,true,true,(connectedMembersList!=null && containsUser(connectedMembersList, creator)),false, channel, ihmChannelController).root);
 
         adminList.setItems(adminsToDisplay);
         membersList.setItems(membersToDisplay);
@@ -125,12 +134,12 @@ public class AdminMembersListController {
         displayMembers();
     }
 
-    public void addMemberToList(UserLite user) {
+    public void addMemberToConnectedMembersList(UserLite user) {
         connectedMembersList.add(user);
         displayMembers();
     }
 
-    public void removeMemberFromList(UserLite user) {
+    public void removeMemberFromConnectedMembersList(UserLite user) {
         connectedMembersList.remove(user);
         displayMembers();
     }
