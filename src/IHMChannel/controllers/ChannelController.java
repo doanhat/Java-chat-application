@@ -346,10 +346,11 @@ public class ChannelController {
         dataTest.add(kick1);
         dataTest.add(kick2);
         dataTest.add(kick3);
-        kickedMembersListPopUpController.setKickedMembers((ObservableList<Kick>) dataTest);
+        currentChannel.setKicked(dataTest);
+        //kickedMembersListPopUpController.setKickedMembers((ObservableList<Kick>) dataTest);
 
         // A remettre pour l'integration => Remplace les dataTests
-        //kickedMembersListPopUpController.setKickedMembers((ObservableList<Kick>) currentChannel.getKicked());
+        kickedMembersListPopUpController.setKickedMembers((ObservableList<Kick>) currentChannel.getKicked());
 
         Stage popUpWindow = new Stage();
         popUpWindow.initModality(Modality.APPLICATION_MODAL);
@@ -431,4 +432,10 @@ public class ChannelController {
         channelMessagesDisplay.getController().getMessagesMap().get(message.getId()).replaceDeletedMessage(deletedByCreator);
     }
 
+    public void removeKick(Kick kick) {
+        //TODO Tester + faut il réajouter le user dans le channel?
+        List<Kick> kickList = currentChannel.getKicked();;
+        kickList.remove(kick);
+        currentChannel.setKicked(kickList);
+    }
 }
