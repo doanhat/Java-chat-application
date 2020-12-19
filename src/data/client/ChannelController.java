@@ -41,6 +41,8 @@ public class ChannelController extends Controller{
         return null;
     }
 
+
+
     /**
      * Load proprietary local channels own to a specific user
      * @param user The user concerned
@@ -140,6 +142,19 @@ public class ChannelController extends Controller{
     }
 
     /**
+     * New admin.
+     *  @param user    the user
+     * @param channelId the channelId
+     */
+    public void removeAdmin(UserLite user, UUID channelId) {
+        try {
+            this.channelClient.removeAdmin(user, channelId);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * Remove channel from list.
      *
      * @param channelId     the channel
@@ -210,6 +225,19 @@ public class ChannelController extends Controller{
                 fileHandler.writeJSONToFile(channelId.toString(), c);
                 break;
             }
+        }
+    }
+
+
+    /**
+     * Save remove admin into history.
+     * @param channelId the channelId
+     */
+    public void saveRemoveAdminIntoHistory(UUID channelId) {
+        FileHandle fileHandler = new FileHandle(LocationType.CLIENT, FileType.CHANNEL);
+        Channel ownedChannel = searchChannelById(channelId);
+        if (ownedChannel!=null) {
+            fileHandler.writeJSONToFile(ownedChannel.getId().toString(),ownedChannel);
         }
     }
 

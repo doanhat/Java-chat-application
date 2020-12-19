@@ -31,4 +31,10 @@ public interface IIHMMainToIHMChannel {
      * @return liste de UserLite des utilisateurs connectés
      */
     public List<UserLite> getConnectedUsers(UUID channelId);
+
+    /**
+     * Permet de quitter l'onglet d'un channel que l'utilisateur local a quitté.
+     * @param channelId id du channel a fermer
+     */
+    public void removeChannel(UUID channelId);
 }

@@ -22,6 +22,8 @@ public interface IDataToIHMChannel {
      */
     void addNewAdmin(UserLite user, UUID channelId) throws IOException;
 
+    void removeAdmin(UserLite user, UUID channelId) throws IOException;
+
     /**
      * Quand l'utilisateur se fait kické d'un channel, retire le channel en question de sa liste de channels.
      * Ce retrait peut, comme un kick, être temporaire.

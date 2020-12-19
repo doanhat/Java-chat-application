@@ -280,4 +280,12 @@ public interface IServerCommunicationToData {
      * @return
      */
     String getAvatarPath(UserLite user);
+
+    /**
+     *  Méthode pour retirer les droits d'administrateur d'un utilisateur dans un channel
+     * @param channelID l'identificateur du channel
+     * @param adminID l'identificateur de l'admin du channel
+     *
+     * */
+    void requestRemoveAdmin(UUID channelID, UUID adminID);
 }

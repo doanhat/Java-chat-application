@@ -34,6 +34,7 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     public boolean requestChannelRemoval(UUID channelID, UserLite user) {
         Channel channel = channelsListController.searchChannelById(channelID);
         if(channel!=null && channel.userIsAdmin(user.getId())){
+            channelsListController.saveDeletionIntoHistory(channelID);
             channelsListController.removeChannel(channelID);
             return true;
         }
@@ -330,6 +331,17 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     public String getAvatarPath(UserLite user) {
         FileHandle fileHandle = new FileHandle(LocationType.SERVER, FileType.AVATAR);
         return fileHandle.getAvatarPath(user.getId().toString());
+    }
+
+    @Override
+    public void requestRemoveAdmin(UUID channelID, UUID adminID) {
+        Channel channel = channelsListController.searchChannelById(channelID);
+        if(channel!=null){
+            if(channel.userIsAdmin(adminID) && !channel.getCreator().getId().equals(adminID)){
+                channel.removeAdmin(adminID);
+                channelsListController.writeRemoveAdminInChannel(channel);
+            }
+        }
     }
 
 }

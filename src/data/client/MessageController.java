@@ -134,6 +134,7 @@ public class MessageController extends Controller {
                 }
             }
             channel.setMessages(listMsg);
+            //fileHandler.deleteJSONFile(channel.getId().toString());
             fileHandler.writeJSONToFile(channel.getId().toString(), channel);
         }
     }
@@ -147,6 +148,9 @@ public class MessageController extends Controller {
      */
     public void deleteMessage(Message message, UUID channelID, boolean deletedByCreator) {
         //La ligne ci-dessous est commentée en attendant que IHM-Channel modifie l'interface IDataToIHMChannel
-        //channelClient.deleteMessage(message, channelID, deletedByCreator);
+        saveDeletionIntoHistory(message, channelID, deletedByCreator);
+
+        channelClient.deleteMessage(message, channelID, deletedByCreator);
+
     }
 }

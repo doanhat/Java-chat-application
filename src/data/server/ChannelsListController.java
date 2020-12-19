@@ -164,7 +164,7 @@ public class ChannelsListController {
             List<Message> ms = c.getMessages();
 
             for (Message m : ms) {
-                if (m.getId() == message.getId()) {
+                if (m.getId().equals(message.getId())) {
                     m.setMessage("");
                     m.delete(deletedByCreator);
                     break;
@@ -182,8 +182,8 @@ public class ChannelsListController {
      * @param user      L'admin à ajouter.
      */
     public void writeNewAdminInChannel(Channel channel, UserLite user) {
+        channel.addAdmin(user);
         if (channel.getType() == ChannelType.SHARED) {
-            channel.addAdmin(user);
             this.writeChannelDataToJSON(channel);
         }
     }
@@ -203,5 +203,35 @@ public class ChannelsListController {
         }
         ownedChannels.removeIf(ch -> (ch.getCreator().getId().equals(owner.getId())));
         return userOwnedChannels;
+    }
+
+
+    /**
+     * Save deletion into history.
+     *
+     * @param channelId  the channel ID
+     */
+    public void saveDeletionIntoHistory(UUID channelId) {
+        Channel channel = searchChannelById(channelId);
+        if(channel!=null) {
+            FileHandle fileHandler;
+            if (channel.getType().equals(ChannelType.OWNED))
+                fileHandler = new FileHandle<Channel>(LocationType.CLIENT, FileType.CHANNEL);
+            else
+                fileHandler = new FileHandle<Channel>(LocationType.SERVER, FileType.CHANNEL);
+
+            fileHandler.deleteJSONFile(channel.getId().toString());
+        }
+    }
+
+    /**
+     * Enregistre la suppression d'un admin dans l'historique d'un channel.
+     *
+     * @param channel   Le channel.
+     */
+    public void writeRemoveAdminInChannel(Channel channel) {
+        if (channel.getType() == ChannelType.SHARED) {
+            this.writeChannelDataToJSON(channel);
+        }
     }
 }

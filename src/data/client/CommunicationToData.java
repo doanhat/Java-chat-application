@@ -3,7 +3,6 @@ package data.client;
 import common.interfaces.client.ICommunicationToData;
 import common.shared_data.*;
 import javafx.application.Platform;
-
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -45,7 +44,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void saveNewAdminIntoHistory(UserLite user, UUID channelId) {
-        dataController.getChannelController().saveNewAdminIntoHistory(user,channelId);
+        dataController.getChannelController().saveNewAdminIntoHistory(user, channelId);
     }
 
     /**
@@ -89,7 +88,7 @@ public class CommunicationToData implements ICommunicationToData {
 
     @Override
     public void removeUserFromJoinedUserChannel(UserLite user, UUID channelId, int duration, String explanation) {
-        dataController.getChannelController().removeUserFromJoinedUserChannel(user,channelId);
+        dataController.getChannelController().removeUserFromJoinedUserChannel(user, channelId);
     }
 
     @Override
@@ -100,7 +99,12 @@ public class CommunicationToData implements ICommunicationToData {
     @Override
     public void removeUserFromAuthorizedUserChannel(UserLite user, UUID channelId, int duration, String explanation) {
         dataController.getChannelController().removeUserFromAuthorizedUserChannel(user,channelId);
+    }
 
+
+    @Override
+    public void removeUserFromAuthorizedUserChannel(UserLite user, UUID channelId) {
+        dataController.getChannelController().removeUserFromAuthorizedUserChannel(user, channelId);
     }
 
     /**
@@ -144,7 +148,7 @@ public class CommunicationToData implements ICommunicationToData {
     public void receiveMessage(Message message, UUID channelId, Message response) {
         Channel ownedChannel = dataController.getChannelController().channelClient.getChannel(channelId);
         if (ownedChannel != null) {
-            dataController.getMessageController().receiveMessage(message,ownedChannel,response);
+            dataController.getMessageController().receiveMessage(message, ownedChannel, response);
         }
     }
 
@@ -205,8 +209,8 @@ public class CommunicationToData implements ICommunicationToData {
     /**
      * Save deletion into history.
      *
-     * @param message the message
-     * @param channelId  the channel ID
+     * @param message          the message
+     * @param channelId        the channel ID
      * @param deletedByCreator the boolean that indicates if the message is deleted by its creator or not
      */
     @Override
@@ -271,18 +275,30 @@ public class CommunicationToData implements ICommunicationToData {
         Channel ownedChannel = dataController.getChannelController().searchChannelById(channelId);
         if (ownedChannel != null) {
             ownedChannel.addJoinedUser(user);
-            dataController.getUserController().unbannedUserTochannel(user,channelId);
+            dataController.getUserController().unbannedUserTochannel(user, channelId);
         }
     }
 
     @Override
     public void addUserToOwnedChannel(UserLite user, UUID channelId) {
-        dataController.getChannelController().addUserToOwnedChannel(user,channelId);
+        dataController.getChannelController().addUserToOwnedChannel(user, channelId);
     }
 
     @Override
     public void inviteUserToOwnedChannel(UserLite user, UUID channelId) {
-        dataController.getChannelController().userInvitedToChannel(user,channelId);
+        dataController.getChannelController().userInvitedToChannel(user, channelId);
+    }
+
+    @Override
+    public void requestRemoveAdmin(UUID channelID, UserLite admin) {
+        Channel ownedChannel = dataController.getChannelController().searchChannelById(channelID);
+        if (ownedChannel != null) {
+            if (ownedChannel.userIsAdmin(admin.getId()) && !ownedChannel.getCreator().getId().equals(admin.getId())) {
+                ownedChannel.removeAdmin(admin.getId());
+                dataController.getChannelController().saveRemoveAdminIntoHistory(channelID);
+            }
+        }
+        Platform.runLater(() -> dataController.getChannelController().removeAdmin(admin, channelID));
     }
 
     @Override
