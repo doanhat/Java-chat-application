@@ -2,10 +2,14 @@ package common.shared_data;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
-public class Kick {
+public class Kick implements Serializable {
+	public Kick() {
+	}
+
 	private UserLite user;
 	private UUID channelId;
 	private String reason;
