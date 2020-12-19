@@ -27,7 +27,7 @@ public interface IServerCommunicationToData {
      * @param description nouvelle description du channel, mettre à null si pas besoin de la changer
      * @param visibility nouvelle visibilité du channel, mettre à null si pas besoin de la changer
      * */
-    void updateChannel(UUID channelID, UUID userID, String name, String description, Visibility visibility);
+    Channel updateChannel(UUID channelID, UUID userID, String name, String description, Visibility visibility);
 
     /**
      * Méthode pour ajouter un administrateur à la liste des administrateurs d'un channel
@@ -288,4 +288,5 @@ public interface IServerCommunicationToData {
      *
      * */
     void requestRemoveAdmin(UUID channelID, UUID adminID);
+
 }
