@@ -129,4 +129,10 @@ public class DataToIHMChannel implements IDataToIHMChannel{
     public Channel getChannel(UUID id){
         return controller.getChannelPageController().getChannelController(id).getCurrentChannel();
     }
+
+    @Override
+    public void modifyChannel(Channel channel) {
+        controller.getChannelPageController().modifyChannel(channel);
+        controller.getInterfaceToIHMMain().setOpenedChannelsList(controller.getOpenedChannelsList());
+    }
 }

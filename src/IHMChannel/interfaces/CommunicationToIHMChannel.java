@@ -81,7 +81,8 @@ import java.util.UUID;
 
     }
 
-    private IHMChannelController controller;
+
+        private IHMChannelController controller;
 
     @Override
     public void addAuthorizedUser(UUID channel, UserLite user) {

@@ -3,6 +3,7 @@ package IHMChannel.controllers;
 import IHMChannel.ChannelMembersDisplay;
 import IHMChannel.ChannelMessagesDisplay;
 import IHMChannel.IHMChannelController;
+import IHMMain.controllers.CreationChannelPopupController;
 import common.IHMTools.IHMTools;
 import common.shared_data.Channel;
 import common.shared_data.ChannelType;
@@ -14,11 +15,15 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
 import javafx.stage.Popup;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.List;
@@ -73,7 +78,7 @@ public class ChannelController {
         return currentChannel;
     }
 
-    public void setCurrentChannel(Channel currentChannel) {
+    public void setCurrentChannel(Channel currentChannel){
         this.currentChannel = currentChannel;
     }
 
@@ -289,7 +294,39 @@ public class ChannelController {
      * Clic sur "Modifier les infos du channel" depuis le menu contextuel
      */
     public void modifyChannel() {
-        //TODO implémenter la méthode
+        /**
+         * Createur du channel seulement peut modifier le channel
+         */
+        Boolean canModify = false;
+        UserLite user = ihmChannelController.getInterfaceToData().getLocalUser();
+        if (currentChannel.getCreator().getId().equals(user.getId())) canModify = true;
+
+        Parent root;
+
+        if (canModify) {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../views/ModificationInfoChannelPopup.fxml"));
+                root = fxmlLoader.load();
+
+                ModificationInfoChannelPopup creationController = fxmlLoader.getController();
+                creationController.setParentController(this);
+
+                creationController.setChannel(currentChannel);
+                creationController.setUI();
+
+                Stage stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+
+                stage.setTitle("Modifier les infos du channel");
+                stage.setScene(new Scene(root, 600, 400));
+                stage.setResizable(false);
+
+                stage.show();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -364,4 +401,9 @@ public class ChannelController {
         channelMessagesDisplay.getController().getMessagesMap().get(message.getId()).replaceDeletedMessage(deletedByCreator);
     }
 
+    public void updateUI(Channel channel) {
+        channelName.setText(channel.getName());
+        channelDescription.setText(channel.getDescription());
+        iconsInit();
+    }
 }

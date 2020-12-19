@@ -81,4 +81,10 @@ public interface IDataToIHMChannel {
 
     Channel getChannel(UUID id);
 
+
+    /**
+     * Méthode permettant de mofidier les informations concernant un channel depuis le menu contextuel
+     */
+
+    void modifyChannel(Channel channel);
 }
