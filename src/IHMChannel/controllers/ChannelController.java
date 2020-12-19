@@ -24,9 +24,11 @@ import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import static common.IHMTools.IHMTools.informationPopup;
 
 public class ChannelController {
     private Channel currentChannel; //channel à afficher dans l'interface
@@ -358,10 +360,23 @@ public class ChannelController {
 
         kickedMembersListPopUpController.getSaveBtn().setOnAction(new EventHandler<ActionEvent>() {
                                                             public void handle(ActionEvent e) {
-                                                                kickedMembersListPopUpController.getUnKickedList().forEach(userUnKicked ->{
-                                                                    //getIhmChannelController().
-                                                                    System.out.print("unkick :" + userUnKicked.getNickName());
-                                                                });
+                                                                if(!kickedMembersListPopUpController.getUnKickedList().isEmpty()){
+                                                                    AtomicBoolean isLocalUserAdmin = new AtomicBoolean(false);
+                                                                    currentChannel.getAdministrators().forEach(userLite -> {
+                                                                        if(ihmChannelController.getInterfaceToData().getLocalUser().getId().equals(userLite.getId())){
+                                                                            isLocalUserAdmin.set(true);
+                                                                        }
+                                                                    });
+                                                                    if(isLocalUserAdmin.get()){
+                                                                        kickedMembersListPopUpController.getUnKickedList().forEach(userUnKicked ->{
+                                                                            // Ajouter appel interface quand possible.
+                                                                            //getIhmChannelController().getInterfaceToCommunication().banUserFromChannel();
+                                                                            System.out.print("unkick :" + userUnKicked.getNickName());
+                                                                        });
+                                                                    }else{
+                                                                        IHMTools.informationPopup("Vous n'avez pas les droits pour réaliser cette action.");
+                                                                    }
+                                                                }
                                                                 popUpWindow.close();
                                                             }
                                                             });
@@ -380,7 +395,7 @@ public class ChannelController {
                 this.getIhmChannelController().getInterfaceForData().openChannelDeleted(this.currentChannel.getId());
             }
         }else{
-            IHMTools.informationPopup("Vous n'avez pas les droits nécessaires pour effectuer cette action. Seul le créateur peut supprimer le channel.");
+            informationPopup("Vous n'avez pas les droits nécessaires pour effectuer cette action. Seul le créateur peut supprimer le channel.");
         }
     }
 

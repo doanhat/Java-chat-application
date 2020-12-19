@@ -173,7 +173,7 @@ public class MemberController {
                         Boolean isPermanent = kickPopUpController.getIsPermanent();
                         System.out.print("Ban de :" + userToDisplay.getNickName() + " Pour " + explanation + " jusqu'au " + kickDate + " , Ispermanent = " +isPermanent);
                         // Interface à ajouter
-                        //getIhmChannelController().getInterfaceToCommunication().banUserFromChannel(userToDisplay,kickDate,isPermanent,explanation);
+                        //getIhmChannelController().getInterfaceToCommunication().banUserFromChannel(userToDisplay,kickDate,isPermanent,explanation,channel.getId());
                         popUpWindow.close();
                     }
                 });
