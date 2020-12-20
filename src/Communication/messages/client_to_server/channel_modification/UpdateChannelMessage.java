@@ -1,8 +1,10 @@
 package Communication.messages.client_to_server.channel_modification;
 
 import Communication.messages.abstracts.ClientToServerMessage;
-import Communication.messages.abstracts.NetworkMessage;
+import Communication.messages.server_to_client.channel_modification.ChannelUpdatedMessage;
+import Communication.messages.server_to_client.channel_modification.NewInvisibleChannelsMessage;
 import Communication.server.CommunicationServerController;
+import common.shared_data.Channel;
 import common.shared_data.Visibility;
 
 import java.util.UUID;
@@ -26,5 +28,14 @@ public class UpdateChannelMessage extends ClientToServerMessage {
     @Override
     protected void  handle(CommunicationServerController commController){
         commController.requestUpdateChannel(channelID, userID, name, description, visibility);
+
+        Channel channel = commController.getChannel(channelID);
+
+        if (channel.getVisibility() == Visibility.PUBLIC || visibility == Visibility.PUBLIC) {
+            commController.sendBroadcast(new ChannelUpdatedMessage(channelID), null);
+        }
+        else {
+            commController.sendMulticast(channel.getJoinedPersons(), new ChannelUpdatedMessage(channelID));
+        }
     }
 }
