@@ -153,12 +153,6 @@ public class Message implements Serializable {
 		return this.likes.size();
 	}
 
-	public void like(UserLite user) {
-		if(!this.likes.contains(user)) {
-			this.likes.add(user);
-		}
-	}
-
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
