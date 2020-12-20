@@ -288,7 +288,7 @@ public class CommunicationServerController extends CommunicationController {
 		dataServer.requestAddUser(channel, guest);
 
 		if (channel.getType() == ChannelType.OWNED) {
-			// Tell owner uer invited
+			// Tell owner user invited
 			sendMessage(channel.getCreator().getId(), new TellOwnerUserInvitedMessage(guest, channel.getId()));
 		}
 	}
@@ -308,7 +308,7 @@ public class CommunicationServerController extends CommunicationController {
 	}
 
 	public void requestUpdateChannel(UUID channelID, UUID userID, String name, String description, Visibility visibility) {
-
+		dataServer.updateChannel(channelID, userID, name, description, visibility);
 	}
 
 
