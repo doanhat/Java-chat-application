@@ -56,9 +56,9 @@ public interface ICommunicationToData {
      *
      * @param user     utilisateur
      * @param channelId  l'id du channel
-     * @param end date de termination, si elle est null alors l'utilisateur est banni définitivement
+     * @param endDate date de termination, si elle est null alors l'utilisateur est banni définitivement
      */
-    void banUserIntoHistory(UserLite user, UUID channelId, Date end, String explanation);
+    void banUserIntoHistory(UserLite user, UUID channelId, Date endDate, Boolean isPermanent, String explanation);
 
     /**
      * Cancel ban of user into history.

@@ -54,7 +54,7 @@ public class VirtualCommunicationToData implements ICommunicationToData {
     }
 
     @Override
-    public void banUserIntoHistory(UserLite user, UUID channelId, Date end, String explanation) {
+    public void banUserIntoHistory(UserLite user, UUID channelId, Date endDate, Boolean isPermanent,String explanation) {
 
     }
 
