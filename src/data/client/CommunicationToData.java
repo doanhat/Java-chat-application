@@ -71,8 +71,8 @@ public class CommunicationToData implements ICommunicationToData {
     }
 
     @Override
-    public void banUserIntoHistory(UserLite user, UUID channelId, Date end, String explanation) {
-        dataController.getChannelController().banUserIntoHistory(user,channelId,end,explanation);
+    public void banUserIntoHistory(UserLite user, UUID channelId, Date endDate,Boolean isPermanent, String explanation) {
+        dataController.getChannelController().banUserIntoHistory(user,channelId,endDate,isPermanent,explanation);
     }
 
     /**
