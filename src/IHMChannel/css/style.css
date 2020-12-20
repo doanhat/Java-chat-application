@@ -139,7 +139,6 @@ input:checked + .slider:before {
     -fx-padding: 1em;
 }
 
-
 TextField {
     -fx-border: solid 1px #c4c4c4;
     -fx-margin: 2px;
@@ -209,13 +208,6 @@ TextField {
 .list-cell:odd { -fx-background-color: white; /* 1 */ }
 .list-cell:even { -fx-background-color: white; /* for information */ }
 
-.minor-info{
-    -fx-padding: 2px;
-    -fx-font-style: italic;
-    -fx-fill: #4e4848;
-}
-
-
 #banBtn {
     -fx-background-color: transparent;
     -fx-alignment: CENTER_RIGHT;
@@ -233,21 +225,12 @@ TextField {
     align-content: center;
 }
 
-/*
 #username {
     -fx-background-color: #ff00ff;
 }
- */
-
 
 #connectedMembersList {
     -fx-border-width : 1;
     -fx-border-style : solid;
     -fx-border-color : #c4c4c4;
-}
-
-TextField.user-name{
-    -fx-max-width: 100;
-    -fx-text-box-border: transparent;
-    -fx-background-color: transparent;
 }

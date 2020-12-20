@@ -25,7 +25,6 @@ public class ChannelController {
     private Channel currentChannel; //channel à afficher dans l'interface
     private IHMChannelController ihmChannelController;
     private List<UserLite> connectedMembersList;
-    private ChannelMessagesController channelMessagesController;
 
 
     /*
@@ -87,7 +86,6 @@ public class ChannelController {
 
         //Affichage de la partie "messages"
         channelMessagesDisplay = new ChannelMessagesDisplay();
-        channelMessagesController = channelMessagesDisplay.getController();
         //channelMessagesDisplay.setConnectedMembersList(connectedMembersList);
         pageToDisplay.setCenter(channelMessagesDisplay.root);
 
@@ -386,31 +384,9 @@ public class ChannelController {
         this.channelMembersDisplay.getController().removeMemberFromObservableList(user);
     }
 
-    public void likeMessage(Message message, UserLite user) {
-        channelMessagesController.likeMessage(message, user);
-    }
 
-
-    public void editMessage(Message message, Message newMessage) {
-        //màj copie locale
-        for(Message m : currentChannel.getMessages()){
-            if(message.getId()==message.getId()){
-                m.setMessage(newMessage.getMessage());
-                m.setEdited(true);
-            }
-        }
-        //màj interface
-        channelMessagesController.editMessage(message,newMessage);
-    }
-
-    public void changeNickname(UserLite user) {
-        currentChannel.getNickNames().replace(user.getId().toString(),user.getNickName());
-
-        //Transfert vue messages
-        channelMessagesController.changeNickname(user);
-
-        //Transfert vue members
-        channelMembersDisplay.getController().changeNickname(user);
+    public void deleteMessage(Message message, boolean deletedByCreator) {
+        channelMessagesDisplay.getController().getMessagesMap().get(message.getId()).replaceDeletedMessage(deletedByCreator);
     }
 
     public ChannelPageController getChannelPageController() {

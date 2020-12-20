@@ -1,21 +1,19 @@
 package IHMChannel.controllers;
 
 import common.IHMTools.IHMTools;
-import common.sharedData.Message;
-import common.sharedData.UserLite;
-import javafx.event.EventHandler;
+import common.shared_data.Message;
+import common.shared_data.UserLite;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 
-import java.text.SimpleDateFormat;
-
+import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Classe Contrôleur du contrôle (widget) "Message".
@@ -31,23 +29,17 @@ public class MessageController {
     @FXML
     Text author;
     @FXML
-    Text isEditedText;
-    @FXML
     TextArea content;
     @FXML
     Text time;
     @FXML
-    private
-    Button likeButton;
-    @FXML
-    Text likeCounter;
+    Button like;
     @FXML
     Button answer;
     @FXML
     Button edit;
     @FXML
     Button delete;
-
 
     /**
      * Setter pour fixer le message qui sera affiché par ce widget.
@@ -59,33 +51,6 @@ public class MessageController {
         this.messageToDisplay = messageToDisplay;
         author.setText(messageToDisplay.getAuthor().getNickName());
         content.setText(messageToDisplay.getMessage());
-
-        likeCounter.setText(String.valueOf(messageToDisplay.countLikes()));
-
-        //date formatting
-        String df = new SimpleDateFormat("dd/MM/yyyy HH:mm").format(messageToDisplay.getDate());
-        time.setText(df);
-
-        //Gestion de l'affichage des boutons
-        //bouton édition visible que c'est c'est notre message
-
-        //TODO à décommenter pour l'intégration
-        //Pour le moment, le getUser() est null
-        /*
-        if(this.channelMessagesController.getIhmChannelController().getInterfaceToData().getLocalUser().getId()==messageToDisplay.getAuthor().getId()){
-            edit.setVisible(true);
-        }
-        else{
-            edit.setVisible(false);
-        }
-         */
-
-        //TODO bouton suppression
-
-    }
-
-    public Text getIsEditedText() {
-        return isEditedText;
     }
 
     /**
@@ -94,6 +59,7 @@ public class MessageController {
      */
     public void initialize() {
         iconsInit();
+        time.setText("10:06");
         content.setEditable(false);
     }
 
@@ -112,7 +78,7 @@ public class MessageController {
         ImageView likeIcon = new ImageView(likeImage);
         likeIcon.setFitHeight(15);
         likeIcon.setFitWidth(15);
-        getLikeButton().setGraphic(likeIcon);
+        like.setGraphic(likeIcon);
 
         //Reply
         Image replyImage = new Image("IHMChannel/icons/reply-solid.png");
@@ -148,17 +114,8 @@ public class MessageController {
     /**
      * Méthode appelée au clic sur le bouton de like
      */
-    public void likeMessage(){
-        System.out.println("like du message "+this.content.getText());
-        channelMessagesController.getIhmChannelController().getInterfaceToCommunication().likeMessage(
-                channelMessagesController.channel,
-                messageToDisplay,
-                channelMessagesController.getIhmChannelController().getInterfaceToData().getLocalUser());
-        //TODO à enlever pour l'intégration, ne sert qu'aux tests
-        channelMessagesController.getIhmChannelController().getInterfaceForData().likeMessage(
-                channelMessagesController.channel,
-                messageToDisplay,
-                channelMessagesController.getIhmChannelController().getInterfaceToData().getLocalUser());
+    public void likeMessage() {
+        logger.log(Level.INFO, "like du message {}", this.content.getText());
     }
 
     /**
@@ -177,34 +134,8 @@ public class MessageController {
     /**
      * Méthode appelée au clic sur le bouton d'édition
      */
-    public void editMessage(){
-        //Zone de texte editable
-        this.content.setEditable(true);
-
-        //Handler pour valider la modification à l'appui sur entrée
-        content.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent keyEvent) {
-                if (keyEvent.getCode() == KeyCode.ENTER)  {
-                    Message newMsg = new Message();
-                    newMsg.setMessage(content.getText());
-                    channelMessagesController.getIhmChannelController().getInterfaceToCommunication().editMessage(
-                            messageToDisplay,
-                            newMsg,
-                            channelMessagesController.channel
-                    );
-
-                    content.setEditable(false);
-
-                    //TODO à enlever pour l'intégration, ne sert qu'aux tests
-                    channelMessagesController.getIhmChannelController().getInterfaceForData().editMessage(
-                            messageToDisplay,
-                            newMsg,
-                            channelMessagesController.channel
-                    );
-                }
-            }
-        });
+    public void editMessage() {
+        logger.log(Level.INFO, "édition du message {}", this.content.getText());
     }
 
     /**
@@ -253,19 +184,4 @@ public class MessageController {
         this.channelMessagesController = channelMessagesController;
     }
 
-    public Button getLikeButton() {
-        return likeButton;
-    }
-
-    public void setLikeButton(Button likeButton) {
-        this.likeButton = likeButton;
-    }
-
-    public TextArea getContent() {
-        return content;
-    }
-
-    public void setAuthorNickname(String nickName) {
-        author.setText(nickName);
-    }
 }

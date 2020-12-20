@@ -2,9 +2,8 @@ package IHMChannel.controllers;
 
 import IHMChannel.IHMChannelController;
 import IHMChannel.MemberDisplay;
-import common.sharedData.Channel;
-import common.sharedData.User;
-import common.sharedData.UserLite;
+import common.shared_data.Channel;
+import common.shared_data.UserLite;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -12,10 +11,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 
 import java.io.IOException;
-import java.lang.reflect.Member;
-import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 public class AdminMembersListController {
 
@@ -40,9 +36,6 @@ public class AdminMembersListController {
     ObservableList<HBox> creatorToDisplay;
     ObservableList<HBox> adminsToDisplay;
     ObservableList<HBox> membersToDisplay;
-
-    //Link Member's UUID and MemberController of the user's HBox
-    private HashMap<UUID, MemberController> mapMemberController = new HashMap<UUID, MemberController>();
 
     /**
      * Initialise la liste des membres contenus dans l'attribut channel de la classe
@@ -85,7 +78,7 @@ public class AdminMembersListController {
     private void displayMembers() {
         membersToDisplay.clear();
         adminsToDisplay.clear();
-        mapMemberController.clear();
+        creatorToDisplay.clear();
 
         for (UserLite usr : adminMembers){
             adminsToDisplay.add((HBox) new MemberDisplay(usr,true,false,(connectedMembersList!=null && containsUser(connectedMembersList, usr)),isLocalUserAdmin ,  channel, ihmChannelController).root);
@@ -149,9 +142,5 @@ public class AdminMembersListController {
     public void removeMemberFromConnectedMembersList(UserLite user) {
         connectedMembersList.remove(user);
         displayMembers();
-    }
-
-    public void changeNickname(UserLite user) {
-        mapMemberController.get(user.getId()).changeNickname(user.getNickName());
     }
 }

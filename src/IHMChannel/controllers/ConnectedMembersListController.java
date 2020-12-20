@@ -2,9 +2,8 @@ package IHMChannel.controllers;
 
 import IHMChannel.IHMChannelController;
 import IHMChannel.MemberDisplay;
-import common.sharedData.Channel;
-import common.sharedData.User;
-import common.sharedData.UserLite;
+import common.shared_data.Channel;
+import common.shared_data.UserLite;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -12,10 +11,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 
 import java.io.IOException;
-import java.lang.reflect.Member;
-import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 public class ConnectedMembersListController {
 
@@ -38,9 +34,6 @@ public class ConnectedMembersListController {
 
     ObservableList<HBox> connectedMembersToDisplay;
     ObservableList<HBox> disconnectedMembersToDisplay;
-
-    //Link Member's UUID and MemberController of the user's HBox
-    private HashMap<UUID, MemberController> mapMemberController = new HashMap<UUID, MemberController>();
 
     /**
      * Initialise la liste des membres contenus dans l'attribut channel de la classe
@@ -77,36 +70,23 @@ public class ConnectedMembersListController {
     private void displayMembers() {
         connectedMembersToDisplay.clear();
         disconnectedMembersToDisplay.clear();
-        mapMemberController.clear();
 
         for (UserLite usr : channelMembers){
             if(connectedMembersList!=null && containsUser(connectedMembersList, usr)){
                 if(usr.getId().equals(creator.getId())){
-                    MemberDisplay memberDisplay = new MemberDisplay(usr,true,true,true,false, channel, ihmChannelController);
-                    connectedMembersToDisplay.add((HBox) memberDisplay.root);
-                    mapMemberController.put(usr.getId(),memberDisplay.getController());
+                    connectedMembersToDisplay.add((HBox) new MemberDisplay(usr,true,true,true,false, channel, ihmChannelController).root);
                 }else if(adminMembers.contains(usr)){
-                    MemberDisplay memberDisplay = new MemberDisplay(usr, true,false,true,isLocalUserAdmin,  channel, ihmChannelController);
-                    connectedMembersToDisplay.add((HBox) memberDisplay.root);
-                    mapMemberController.put(usr.getId(),memberDisplay.getController());
+                    connectedMembersToDisplay.add((HBox) new MemberDisplay(usr, true,false,true,isLocalUserAdmin,  channel, ihmChannelController).root);
                 }else{
-                    MemberDisplay memberDisplay = new MemberDisplay(usr, false, false,true,isLocalUserAdmin, channel, ihmChannelController);
-                    connectedMembersToDisplay.add((HBox) memberDisplay.root);
-                    mapMemberController.put(usr.getId(),memberDisplay.getController());
+                    connectedMembersToDisplay.add((HBox) new MemberDisplay(usr, false, false,true,isLocalUserAdmin, channel, ihmChannelController).root);
                 }
             }else{
                 if(usr.getId().equals(creator.getId())){
-                    MemberDisplay memberDisplay = new MemberDisplay(usr,true,true,false,false, channel, ihmChannelController);
-                    disconnectedMembersToDisplay.add((HBox) memberDisplay.root);
-                    mapMemberController.put(usr.getId(),memberDisplay.getController());
+                    disconnectedMembersToDisplay.add((HBox) new MemberDisplay(usr,true,true,false,false, channel, ihmChannelController).root);
                 }else if(adminMembers.contains(usr)){
-                    MemberDisplay memberDisplay = new MemberDisplay(usr, true,false,false,isLocalUserAdmin,  channel, ihmChannelController);
-                    disconnectedMembersToDisplay.add((HBox) memberDisplay.root);
-                    mapMemberController.put(usr.getId(),memberDisplay.getController());
+                    disconnectedMembersToDisplay.add((HBox) new MemberDisplay(usr, true,false,false,isLocalUserAdmin,  channel, ihmChannelController).root);
                 }else{
-                    MemberDisplay memberDisplay = new MemberDisplay(usr, false, false,false,isLocalUserAdmin, channel, ihmChannelController);
-                    disconnectedMembersToDisplay.add((HBox) memberDisplay.root);
-                    mapMemberController.put(usr.getId(),memberDisplay.getController());
+                    disconnectedMembersToDisplay.add((HBox) new MemberDisplay(usr, false, false,false,isLocalUserAdmin, channel, ihmChannelController).root);
                 }
             }
         }
@@ -165,9 +145,5 @@ public class ConnectedMembersListController {
     public void removeMemberConnectedMembersFromList(UserLite user) {
         connectedMembersList.remove(user);
         displayMembers();
-    }
-
-    public void changeNickname(UserLite user) {
-        mapMemberController.get(user.getId()).changeNickname(user.getNickName());
     }
 }
