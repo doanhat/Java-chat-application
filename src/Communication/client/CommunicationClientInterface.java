@@ -1,36 +1,28 @@
 package Communication.client;
 
+import Communication.common.ChannelOperation;
+import Communication.common.InfoPackage;
 import Communication.common.Parameters;
 import Communication.messages.client_to_server.channel_access.proprietary_channels.LeavePropChannelMessage;
-import Communication.messages.client_to_server.channel_access.proprietary_channels.RemoveAdminPropMessage;
+import Communication.messages.client_to_server.channel_access.proprietary_channels.QuitPropChannelMessage;
 import Communication.messages.client_to_server.channel_access.shared_channels.LeaveSharedChannelMessage;
-import Communication.messages.client_to_server.channel_modification.ChangeNicknameMessage;
-import Communication.messages.client_to_server.channel_access.shared_channels.RemoveAdminSharedMessage;
+import Communication.messages.client_to_server.channel_access.QuitChannelMessage;
 import Communication.messages.client_to_server.channel_modification.DeleteChannelMessage;
-import Communication.messages.client_to_server.channel_modification.proprietary_channels.ChangeNicknamePropChannelMessage;
+import Communication.messages.client_to_server.channel_modification.GetChannelUsersMessage;
 import Communication.messages.client_to_server.channel_modification.proprietary_channels.SendProprietaryChannelsMessage;
 import Communication.messages.client_to_server.channel_modification.shared_channels.CreateSharedChannelMessage;
-import Communication.messages.client_to_server.chat_action.SendMessageMessage;
+import Communication.messages.client_to_server.chat_action.ChatMessage;
 import Communication.messages.client_to_server.channel_modification.GetHistoryMessage;
-import Communication.messages.client_to_server.channel_access.proprietary_channels.AddAdminPropMessage;
 import Communication.messages.client_to_server.channel_access.SendInvitationMessage;
-import Communication.messages.client_to_server.channel_access.shared_channels.AddAdminSharedMessage;
 import Communication.messages.client_to_server.channel_access.proprietary_channels.AskToJoinPropMessage;
 import Communication.messages.client_to_server.channel_access.shared_channels.AskToJoinSharedMessage;
 
-import Communication.messages.client_to_server.chat_action.proprietary_channels.DeleteMessagePropMessage;
-import Communication.messages.client_to_server.chat_action.proprietary_channels.EditMessagePropMessage;
-import Communication.messages.client_to_server.chat_action.shared_channels.EditMessageSharedMessage;
-import Communication.messages.client_to_server.chat_action.proprietary_channels.SaveLikeMessageProp;
-import Communication.messages.client_to_server.chat_action.shared_channels.DeleteMessageSharedMessage;
-import Communication.messages.client_to_server.chat_action.shared_channels.SaveLikeMessageShared;
 import common.interfaces.client.*;
 import common.shared_data.Channel;
 import common.shared_data.ChannelType;
 import common.shared_data.Message;
 import common.shared_data.UserLite;
 
-import java.io.IOException;
 import java.util.*;
 
 public class CommunicationClientInterface implements IDataToCommunication,
@@ -64,18 +56,38 @@ public class CommunicationClientInterface implements IDataToCommunication,
      * @implNote
      **/
     @Override
-    public void delete(UUID channelID) {
+    public void deleteChannel(UUID channelID) {
         commController.sendMessage(new DeleteChannelMessage(channelID, localUser));
     }
 
     /* ---------------------------- IIHMMainToCommunication interface implementations --------------------------------*/
+
+    @Override
+    public void setIP(String addressIP) {
+        Parameters.SERVER_IP = addressIP;
+    }
+
+    @Override
+    public void setPort(int port) {
+        Parameters.PORT = port;
+    }
+
+    @Override
+    public String getIP() {
+        return Parameters.SERVER_IP;
+    }
+
+    @Override
+    public int getPort() {
+        return Parameters.PORT;
+    }
 
     /**
      * Demande de deconnexion du client
      */
     public void disconnect() {
         commController.disconnect(localUser.getId());
-        // TODO maybe set localUser to null;
+        // TODO RECONNECTION APPLICATION maybe set localUser to null;
     }
 
     /**
@@ -88,6 +100,24 @@ public class CommunicationClientInterface implements IDataToCommunication,
      **/
     public void createChannel(Channel channel, Boolean isShared, Boolean isPublic, UserLite owner) {
         this.commController.sendMessage(new CreateSharedChannelMessage(owner, channel, isShared, isPublic));
+    }
+
+    @Override
+    public void saveAvatarToServer(UserLite user, String encodedString) {
+        //TODO Note Data : Appeler saveAvatarToServer(UserLite user, String avatarBase64) dans IServerCommunicationToData
+    }
+
+    @Override
+    public String getAvatarPath(UserLite user) {
+        //TODO Note Data : Appeler getAvatarPath(UserLite user) dans IServerCommunicationToData
+        return null;
+    }
+
+    @Override
+    public void getConnectedUsers(UUID channelID) {
+        if (channelID != null) {
+            commController.sendMessage(new GetChannelUsersMessage(channelID, localUser));
+        }
     }
 
     /* -------------------------- IIHMChannelToCommunication interface implementations -------------------------------*/
@@ -107,16 +137,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
 
         // check if local user has the right to invite
         if (localUser == channel.getCreator() || channel.userIsAdmin(localUser.getId())) {
-            // TODO: Verify if invitation only makes a private channel become visible or add user directly to channel
             commController.sendMessage(new SendInvitationMessage(guest, channel, message));
-        /*
-            if (channel.getType() == ChannelType.OWNED) {
-                commController.sendMessage(new AskToJoinPropMessage(channel.getId(), guest, channel.getCreator()));
-            }
-            else {
-                commController.sendMessage(new AskToJoinSharedMessage(channel.getId(), guest));
-            }
-        */
         }
     }
 
@@ -132,11 +153,11 @@ public class CommunicationClientInterface implements IDataToCommunication,
             return;
         }
 
-        if (channel.getType() == ChannelType.OWNED) {
-            commController.sendMessage(new AddAdminPropMessage(user, channel));
-        } else {
-            commController.sendMessage(new AddAdminSharedMessage(user, channel));
-        }
+        InfoPackage infoPackage = new InfoPackage();
+        infoPackage.user = user;
+        infoPackage.channelID = channel.getId();
+
+        this.commController.sendMessage(new ChatMessage(ChannelOperation.ADD_ADMIN, infoPackage));
     }
 
     @Override
@@ -145,12 +166,11 @@ public class CommunicationClientInterface implements IDataToCommunication,
             return;
         }
 
-        if (channel.getType() == ChannelType.OWNED) {
-            commController.sendMessage(new RemoveAdminPropMessage(user, channel));
-        }
-        else {
-            commController.sendMessage(new RemoveAdminSharedMessage(user, channel));
-        }
+        InfoPackage infoPackage = new InfoPackage();
+        infoPackage.user = user;
+        infoPackage.channelID = channel.getId();
+
+        this.commController.sendMessage(new ChatMessage(ChannelOperation.REMOVE_ADMIN, infoPackage));
     }
 
     /**
@@ -161,7 +181,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
      * @param explanation Chaine de caractere justifiant le ban
      **/
     public void banUserFromChannel(UserLite user, int duration, String explanation) {
-        // TODO V3
+        // TODO V4
     }
 
     /**
@@ -172,7 +192,17 @@ public class CommunicationClientInterface implements IDataToCommunication,
      * @param response Message auquel le nouveau message repond sinon null
      **/
     public void sendMessage(Message msg, Channel channel, Message response) {
-        this.commController.sendMessage(new SendMessageMessage(msg, channel.getId(), response));
+        if (msg == null || channel == null) {
+            return;
+        }
+
+        InfoPackage infoPackage = new InfoPackage();
+        infoPackage.user = localUser;
+        infoPackage.message = msg;
+        infoPackage.channelID = channel.getId();
+        infoPackage.messageResponseTo = response;
+
+        this.commController.sendMessage(new ChatMessage(ChannelOperation.SEND_MESSAGE, infoPackage));
     }
 
     /**
@@ -186,12 +216,14 @@ public class CommunicationClientInterface implements IDataToCommunication,
         if (msg == null || channel == null || newMsg == null) {
             return;
         }
-        if (channel.getType() == ChannelType.OWNED) {
-            this.commController.sendMessage(new EditMessagePropMessage(msg, newMsg, channel.getId(), channel.getCreator()));
-        }
-        else {
-            this.commController.sendMessage(new EditMessageSharedMessage(msg, newMsg, channel.getId()));
-        }
+
+        InfoPackage infoPackage = new InfoPackage();
+        infoPackage.user = localUser;
+        infoPackage.message = msg;
+        infoPackage.channelID = channel.getId();
+        infoPackage.editedMessage = newMsg;
+
+        this.commController.sendMessage(new ChatMessage(ChannelOperation.EDIT_MESSAGE, infoPackage));
     }
 
     /**
@@ -205,12 +237,13 @@ public class CommunicationClientInterface implements IDataToCommunication,
         if (msg == null || channel == null || user == null) {
             return;
         }
-        if (channel.getType() == ChannelType.OWNED) {
-            this.commController.sendMessage(new SaveLikeMessageProp(channel, msg, user));
-        }
-        else {
-            this.commController.sendMessage(new SaveLikeMessageShared(channel.getId(), msg, user));
-        }
+
+        InfoPackage infoPackage = new InfoPackage();
+        infoPackage.user = user;
+        infoPackage.message = msg;
+        infoPackage.channelID = channel.getId();
+
+        this.commController.sendMessage(new ChatMessage(ChannelOperation.LIKE_MESSAGE, infoPackage));
     }
 
     /**
@@ -225,12 +258,12 @@ public class CommunicationClientInterface implements IDataToCommunication,
             return;
         }
 
-        if (channel.getType() == ChannelType.OWNED) {
-            this.commController.sendMessage(new DeleteMessagePropMessage(channel, msg, user.getId().equals(msg.getAuthor().getId())));
-        }
-        else {
-            this.commController.sendMessage(new DeleteMessageSharedMessage(channel, msg, user.getId().equals(msg.getAuthor().getId())));
-        }
+        InfoPackage infoPackage = new InfoPackage();
+        infoPackage.user = user;
+        infoPackage.message = msg;
+        infoPackage.channelID = channel.getId();
+
+        this.commController.sendMessage(new ChatMessage(ChannelOperation.DELETE_MESSAGE, infoPackage));
     }
 
     /**
@@ -245,12 +278,12 @@ public class CommunicationClientInterface implements IDataToCommunication,
             return;
         }
 
-        if (channel.getType() == ChannelType.OWNED) {
-            commController.sendMessage(new ChangeNicknamePropChannelMessage(user, channel.getId(), newNickname, channel.getCreator()));
-        }
-        else {
-            commController.sendMessage(new ChangeNicknameMessage(user, channel, newNickname));
-        }
+        InfoPackage infoPackage = new InfoPackage();
+        infoPackage.user = user;
+        infoPackage.nickname = newNickname;
+        infoPackage.channelID = channel.getId();
+
+        this.commController.sendMessage(new ChatMessage(ChannelOperation.EDIT_MESSAGE, infoPackage));
     }
 
     /**
@@ -283,7 +316,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
 
         if (channel.getType() == ChannelType.OWNED) {
             if (channel.getCreator().getId().equals(localUser.getId())) {
-                sendProprietaryChannel(channel);
+                commController.sendMessage(new SendProprietaryChannelsMessage(localUser, Collections.singletonList(channel)));
             }
             else {
                 commController.sendMessage(new AskToJoinPropMessage(channel.getId(), localUser, channel.getCreator()));
@@ -307,22 +340,18 @@ public class CommunicationClientInterface implements IDataToCommunication,
     }
 
     @Override
-    public void quitChannel(UUID channelID) {
-
+    public void quitChannel(Channel channel) {
+        if (channel.getType() == ChannelType.OWNED) {
+            if (channel.getCreator().getId().equals(localUser.getId())) {
+                commController.sendMessage(new DeleteChannelMessage(channel.getId(), localUser));
+            }
+            else {
+                commController.sendMessage(new QuitPropChannelMessage(localUser, channel.getId(), channel.getCreator()));
+            }
+        } else {
+            commController.sendMessage(new QuitChannelMessage(localUser, channel.getId()));
+        }
     }
 
-    @Override
-    public void DeleteChannel(UUID channelId) {
 
-    }
-
-    @Override
-    public void sendProprietaryChannels(List<Channel> channels) {
-        commController.sendMessage(new SendProprietaryChannelsMessage(localUser, channels));
-    }
-
-    @Override
-    public void sendProprietaryChannel(Channel channel) {
-        commController.sendMessage(new SendProprietaryChannelsMessage(localUser, Collections.singletonList(channel)));
-    }
 }

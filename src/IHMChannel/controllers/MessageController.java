@@ -225,11 +225,11 @@ public class MessageController {
                         messageToDisplay,
                         channelMessagesController.channel,
                         channelMessagesController.getIhmChannelController().getInterfaceToData().getLocalUser());
-                //TODO enlever avant integration. Ne sert qu'aux tests
-                channelMessagesController.getIhmChannelController().getInterfaceForData().deleteMessage(
-                        messageToDisplay,
-                        channelMessagesController.channel.getId(),
-                        messageToDisplay.getAuthor().getId().equals(localUser.getId()));
+//                //TODO enlever avant integration. Ne sert qu'aux tests
+//                channelMessagesController.getIhmChannelController().getInterfaceForData().deleteMessage(
+//                        messageToDisplay,
+//                        channelMessagesController.channel.getId(),
+//                        messageToDisplay.getAuthor().getId().equals(localUser.getId()));
             }
 
         } else {

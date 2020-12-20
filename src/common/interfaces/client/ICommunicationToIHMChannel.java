@@ -17,9 +17,8 @@ public interface ICommunicationToIHMChannel {
     /**
      * Méthode permettant de changer le nickname d'un utilisateur
      * @param user l'utilisateur
-     * @param channel channel concerné par la mise à jour de nickname
      */
-    void changeNickname(UserLite user, UUID channel);
+    void changeNickname(User user);
 
     /**
      * Méthode permettant d'afficher l'historique des messages
@@ -58,8 +57,6 @@ public interface ICommunicationToIHMChannel {
      * @param user utilisateur supprimé
      */
     void removeAuthorizedUser(UUID channel, UserLite user);
-
-
 
     /**
      *Méthode permettant de signaler à tous les utilisateurs d'un channel qu'un membre a quitté le channel

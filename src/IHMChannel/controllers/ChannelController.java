@@ -5,10 +5,8 @@ import IHMChannel.ChannelMessagesDisplay;
 import IHMChannel.IHMChannelController;
 import common.IHMTools.IHMTools;
 import common.shared_data.Channel;
-import common.shared_data.ChannelType;
 import common.shared_data.Message;
 import common.shared_data.UserLite;
-import common.shared_data.ChannelType;
 import common.shared_data.Visibility;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -161,9 +159,27 @@ public class ChannelController {
         channelMembersDisplay.getController().setCurrentChannel(currentChannel);
     }
 
+    public void removeUserAuthorization(UserLite user) throws IOException {
+        currentChannel.removeUserAuthorization(user.getId());
+        channelMembersDisplay.getController().setCurrentChannel(currentChannel);
+    }
+
     public void addNewAdmin(UserLite user) throws IOException {
         currentChannel.addAdmin(user);
         channelMembersDisplay.getController().setCurrentChannel(currentChannel);
+        //channelMembersDisplay.getController().adminMembersListDisplay.adminMembersController.
+    }
+
+    public void removeAdmin(UserLite user) {
+        System.out.printf("Retrait d'un  admin. {}\n", user.toString());
+        currentChannel.removeAdmin(user.getId());
+        //channelMembersDisplay.channelMembersController.adminMembersListDisplay.adminMembersController.removeMemberFromList(user);
+        try {
+            channelMembersDisplay.getController().setCurrentChannel(currentChannel);
+            //channelMembersDisplay.getController().adminMembersListDisplay.removeMemberFromList(user);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     /**
      * Méthode déclenchée au clic sur le bouton "voir les membres"
@@ -217,7 +233,8 @@ public class ChannelController {
         this.setCurrentChannel(channel);
         channelName.setText(channel.getName());
         channelDescription.setText(channel.getDescription());
-        if (channel.getType().equals(ChannelType.SHARED)) {
+        UserLite localUser = ihmChannelController.getInterfaceToData().getLocalUser();
+        if (channel.getVisibility().equals(Visibility.PUBLIC) || channel.getCreator().getId().equals(localUser.getId())) {
             setLeavePossible(false);
         }
         iconsInit();
@@ -244,16 +261,17 @@ public class ChannelController {
     /**
      * Méthode déclenchée au clic sur le bouton "quitter le channel"
      */
-    public void leaveChannel() {
+    public void quitChannel() {
 
             boolean result = IHMTools.confirmationPopup("Voulez vous quitter le channel ?");
 
             if (result) {
                 UserLite localUser = ihmChannelController.getInterfaceToData().getLocalUser();
-                ihmChannelController.getInterfaceToCommunication().leaveChannel(getCurrentChannel());
+                ihmChannelController.getInterfaceToCommunication().quitChannel(getCurrentChannel());
+                //attendre le retour de comm
+                //getChannelPageController().leaveChannel(getCurrentChannel().getId(), localUser);
+                //ihmChannelController.getInterfaceToCommunication().leaveChannel(getCurrentChannel());
             }
-
-
 
     }
     
@@ -324,9 +342,9 @@ public class ChannelController {
         if(this.getIhmChannelController().getInterfaceToData().getLocalUser().getId().equals(currentChannel.getCreator().getId())){
             boolean result = IHMTools.confirmationPopup("Voulez vous supprimer le channel ?");
             if (result){
-                // this.getIhmChannelController().getInterfaceToCommunication().DeleteChannel(currentChannel.getId());
+                this.getIhmChannelController().getInterfaceToCommunication().deleteChannel(currentChannel.getId());
                 // Pour Tester le retour serveur avant intégration :
-                this.getIhmChannelController().getInterfaceForData().openChannelDeleted(this.currentChannel.getId());
+                // this.getIhmChannelController().getInterfaceForData().openChannelDeleted(this.currentChannel.getId());
             }
         }else{
             IHMTools.informationPopup("Vous n'avez pas les droits nécessaires pour effectuer cette action. Seul le créateur peut supprimer le channel.");
@@ -347,11 +365,19 @@ public class ChannelController {
         System.err.println("Channel connected member list addConnectedUser 1: " + connectedMembersList);
         this.connectedMembersList.add(user);
         this.channelMessagesDisplay.getController().addMemberToObservableList(user);
-        System.err.println("Channel connected member list addConnectedUser 2: " + connectedMembersList);
-        //this.channelMessagesDisplay.setConnectedMembersList(this.connectedMembersList);
-        this.channelMembersDisplay.getController().addMemberToObservableList(user); // TODO CHANNEL, ici l'utilisateur à l'air d'être ajouté plusieurs fois dans la liste connectedMembersList
+        this.channelMembersDisplay.getController().addMemberToObservableList(user);
 
-        System.err.println("Channel connected member list addConnectedUser: 3" + connectedMembersList);
+        System.err.println("Channel connected member list addConnectedUser 2: " + connectedMembersList);
+        try{
+            this.addUser(user);
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+
+        //this.channelMessagesDisplay.setConnectedMembersList(this.connectedMembersList);
+        //this.channelMembersDisplay.getController().addMemberToObservableList(user); // TODO CHANNEL, ici l'utilisateur à l'air d'être ajouté plusieurs fois dans la liste connectedMembersList
+
+        //System.err.println("Channel connected member list addConnectedUser: 3" + connectedMembersList);
     }
 
     public void removeConnectedUser(UserLite user) {
@@ -386,4 +412,14 @@ public class ChannelController {
         //Transfert vue members
         channelMembersDisplay.getController().changeNickname(user);
     }
+
+    public ChannelPageController getChannelPageController() {
+        return channelPageController;
+    }
+
+    public void setChannelPageController(ChannelPageController channelPageController) {
+        this.channelPageController = channelPageController;
+    }
+
+
 }

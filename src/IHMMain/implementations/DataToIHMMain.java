@@ -17,13 +17,14 @@ public class DataToIHMMain implements IDataToIHMMain {
     }
 
     @Override
-    public void removeChannel(Channel channel) {
-        Platform.runLater(() -> ihmMainController.getVisibleChannels().remove(channel));
-    }
-
-    @Override
     public void removeChannel(UUID channelID) {
-        Platform.runLater(() -> ihmMainController.getVisibleChannels().removeIf(channel -> channel.getId().equals(channelID)));
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                ihmMainController.getVisibleChannels().removeIf(channel -> channel.getId().equals(channelID));
+                ihmMainController.getIHMMainToIHMChannel().removeChannel(channelID);
+            }
+        });
     }
 
     @Override

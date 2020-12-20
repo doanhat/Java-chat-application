@@ -3,6 +3,7 @@ package common.interfaces.server;
 import common.shared_data.Channel;
 import common.shared_data.Message;
 import common.shared_data.UserLite;
+import common.shared_data.Visibility;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,9 +21,13 @@ public interface IServerCommunicationToData {
     /**
      * Méthode pour mettre à jour les informations d'un channel dans la liste des channels
      *
-     * @param channel le channel concerné avec les modifications déjà faites
+     * @param channelID l'identificateur du channel concerné
+     * @param userID l'identificateur qui veut faire les changes sur le channel
+     * @param name nouvel nom du channel, mettre à null si pas besoin de le changer
+     * @param description nouvelle description du channel, mettre à null si pas besoin de la changer
+     * @param visibility nouvelle visibilité du channel, mettre à null si pas besoin de la changer
      * */
-    List<UserLite> updateChannel(Channel channel);
+    void updateChannel(UUID channelID, UUID userID, String name, String description, Visibility visibility);
 
     /**
      * Méthode pour ajouter un administrateur à la liste des administrateurs d'un channel
@@ -229,4 +234,58 @@ public interface IServerCommunicationToData {
     Channel getChannel(UUID channelID);
 
     List<Channel> disconnectOwnedChannel(UserLite owner);
+
+    /**
+     * Méthode pour retourner la liste des identieurs des channels auxquels appartient un utilisateur
+     * @param userID l'identificateur de l'utilisateur
+     * */
+    List<UUID> getChannelsWhereUser(UUID userID);
+
+    /**
+     * Méthode pour retourner la liste des identieurs des channels dans lesquels un utilisateur est active
+     * (liste différente à la liste de la méthode getChannelsWhereUser car les channels proprietaires peuvent
+     * pas être actives)
+     * @param userID l'identificateur de l'utilisateur
+     * */
+    List<UUID> getChannelsWhereUserActive(UUID userID);
+
+
+    /**
+     * Méthode pour retourner la liste des utilisateurs actives dans un channel
+     * @param channelID l'identificateur du channel
+     * */
+    List<UserLite> getActiveUsersInChannel(UUID channelID);
+
+
+    /**
+     * Méthode pour ajouter la liste des channels proprietaires d'un utilisateur dans la liste des channels
+     * dans le serveur
+     * @param ownedChannels Liste des channels proprietaires à ajouter
+     * @param ownerID l'identificateur de l'utilisateur proprietaire des channels
+     * */
+    void addOwnedChannelsToServerList(List<Channel> ownedChannels, UUID ownerID);
+
+    /**
+     * Envoyer une image encodée en string Base64 au server pour stocker
+     *
+     * @param user          utilisateur ayant l'image comme avatar
+     * @param encodedString le string encodée en Base64
+     */
+    void saveAvatarToServer(UserLite user, String encodedString);
+
+    /**
+     * Récupérer le chemin vers l'avatar de l'utilisateur dans le serveur
+     *
+     * @param user utilisateur
+     * @return
+     */
+    String getAvatarPath(UserLite user);
+
+    /**
+     *  Méthode pour retirer les droits d'administrateur d'un utilisateur dans un channel
+     * @param channelID l'identificateur du channel
+     * @param adminID l'identificateur de l'admin du channel
+     *
+     * */
+    void requestRemoveAdmin(UUID channelID, UUID adminID);
 }

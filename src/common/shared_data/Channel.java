@@ -166,6 +166,20 @@ public class Channel implements Serializable {
 		}
 	}
 
+	public void removeAdmin(UUID adminID){
+		if (!creator.getId().equals(adminID)){
+			administrators.removeIf(user -> user.getId().equals(adminID));
+		}
+	}
+
+	public UserLite getAdmin(UUID adminID){
+		for(UserLite user : administrators){
+			if(user.getId().equals(adminID))
+				return user;
+		}
+		return null;
+	}
+
 	public void addAuthorizedUser(UserLite user) {
 		if (!userIsAuthorized(user.getId())) {
 			this.authorizedPersons.add(user);

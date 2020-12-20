@@ -68,6 +68,15 @@ public class AdminMembersListController {
 
     }
 
+    private boolean containsUser(List<UserLite> list, UserLite user){
+        for(UserLite u : list){
+            if(u.getId().equals(user.getId())){
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Permet l'affichage de la liste des membres en faisant une conversion en Hbox.
      * @throws IOException
@@ -79,19 +88,12 @@ public class AdminMembersListController {
         mapMemberController.clear();
 
         for (UserLite usr : adminMembers){
-            MemberDisplay memberDisplay = new MemberDisplay(usr,true,false,(connectedMembersList!=null && connectedMembersList.contains(usr)),isLocalUserAdmin ,  channel, ihmChannelController);
-            adminsToDisplay.add((HBox) memberDisplay.root);
-            mapMemberController.put(usr.getId(),memberDisplay.getController());
+            adminsToDisplay.add((HBox) new MemberDisplay(usr,true,false,(connectedMembersList!=null && containsUser(connectedMembersList, usr)),isLocalUserAdmin ,  channel, ihmChannelController).root);
         }
         for (UserLite usr : channelMembers){
-            MemberDisplay memberDisplay = new MemberDisplay(usr,false,false,(connectedMembersList!=null && connectedMembersList.contains(usr)),isLocalUserAdmin, channel, ihmChannelController);
-            membersToDisplay.add((HBox) memberDisplay.root);
-            mapMemberController.put(usr.getId(),memberDisplay.getController());
+            membersToDisplay.add((HBox) new MemberDisplay(usr,false,false,(connectedMembersList!=null && containsUser(connectedMembersList, usr)),isLocalUserAdmin, channel, ihmChannelController).root);
         }
-        //Creator
-        MemberDisplay memberDisplay = new MemberDisplay(creator,true,true,(connectedMembersList!=null && connectedMembersList.contains(creator)),false, channel, ihmChannelController);
-        creatorToDisplay.add((HBox) memberDisplay.root);
-        mapMemberController.put(creator.getId(),memberDisplay.getController());
+        creatorToDisplay.add((HBox) new MemberDisplay(creator,true,true,(connectedMembersList!=null && containsUser(connectedMembersList, creator)),false, channel, ihmChannelController).root);
 
         adminList.setItems(adminsToDisplay);
         membersList.setItems(membersToDisplay);
@@ -139,12 +141,12 @@ public class AdminMembersListController {
         displayMembers();
     }
 
-    public void addMemberToList(UserLite user) {
+    public void addMemberToConnectedMembersList(UserLite user) {
         connectedMembersList.add(user);
         displayMembers();
     }
 
-    public void removeMemberFromList(UserLite user) {
+    public void removeMemberFromConnectedMembersList(UserLite user) {
         connectedMembersList.remove(user);
         displayMembers();
     }

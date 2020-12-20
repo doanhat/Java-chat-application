@@ -25,9 +25,9 @@ public class Message implements Serializable {
 
 	public Message(String message, UserLite author) {
 		this.id = UUID.randomUUID();
-		this.answers = new ArrayList<Message>();
+		this.answers = new ArrayList<>();
 		this.date = new Date();
-		this.likes = new ArrayList<UserLite>();
+		this.likes = new ArrayList<>();
 		this.message = message;
 		this.author = author;
 	}
@@ -54,7 +54,7 @@ public class Message implements Serializable {
 		}
 
 		if(deletedByUser) {
-			return "(Supprmé par l'utilisateur)";
+			return "(Supprimé par l'utilisateur)";
 		}
 
 		return message;
@@ -100,6 +100,14 @@ public class Message implements Serializable {
 
 	public boolean isDeletedByAdmin() {
 		return deletedByAdmin;
+	}
+
+	public void setDeletedByUser(boolean deletedByUser) {
+		this.deletedByUser = deletedByUser;
+	}
+
+	public void setDeletedByAdmin(boolean deletedByAdmin) {
+		this.deletedByAdmin = deletedByAdmin;
 	}
 
 	public UUID getParentMessageId() {

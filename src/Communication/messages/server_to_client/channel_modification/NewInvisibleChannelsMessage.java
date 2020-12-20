@@ -22,6 +22,6 @@ public class NewInvisibleChannelsMessage extends ServerToClientMessage {
 
     @Override
     protected void handle(CommunicationClientController commClientController) {
-        commClientController.notifyInvisibleChannels(channelIDs);
+        commClientController.dataClientHandler().notifyInvisibleChannels(channelIDs);
     }
 }

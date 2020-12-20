@@ -18,6 +18,7 @@ public interface ICommunicationToData {
      */
     //void createChannel(Channel channel);
 
+    // TODO INTEGRATION V3: remove unused method, cet méthode est appelelé chez Channel, pas Data
     /**
      * User added to channel.
      *
@@ -90,7 +91,7 @@ public interface ICommunicationToData {
     void removeAllUserFromJoinedUserChannel(UUID channelId, int duration, String explanation);
 
     /**
-     * Delete user from Authorized users list of channel.
+     * Delete user from Authorized users list of channel after ban.
      *
      * @param user        the user
      * @param channelId     the channel
@@ -98,6 +99,13 @@ public interface ICommunicationToData {
      * @param explanation the explanation
      */
     void removeUserFromAuthorizedUserChannel(UserLite user, UUID channelId, int duration, String explanation);
+
+    /**
+     * Delete user from Authorized users list of channel.
+     * @param user user that left
+     * @param channelId id of the channel
+     */
+    void removeUserFromAuthorizedUserChannel(UserLite user, UUID channelId);
 
     /**
      * Gets history.
@@ -164,11 +172,11 @@ public interface ICommunicationToData {
     /**
      * Save deletion into history.
      *
-     * @param oldMessage the old message
-     * @param newMessage the new message
-     * @param channelId    the channel
+     * @param message the message
+     * @param channelId  the channel ID
+     * @param deletedByCreator the boolean that indicates if the message is deleted by its creator or not
      */
-    void saveDeletionIntoHistory(Message oldMessage, Message newMessage, UUID channelId);
+    void saveDeletionIntoHistory(Message message, UUID channelId, boolean deletedByCreator);
 
     /**
      * Delete message.
@@ -225,5 +233,13 @@ public interface ICommunicationToData {
      * @param channelId channel ID
      */
     void inviteUserToOwnedChannel(UserLite user, UUID channelId);
+
+    /**
+     * Méthode pour retirer les droits d'administrateur d'un utilisateur dans un channel
+     * @param channelID l'identificateur du channel
+     * @param admin l'userlite de l'admin du channel
+     *
+     * */
+    void requestRemoveAdmin(UUID channelID, UserLite admin);
 }
 
