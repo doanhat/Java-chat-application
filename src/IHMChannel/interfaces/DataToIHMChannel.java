@@ -2,6 +2,7 @@ package IHMChannel.interfaces;
 
 import IHMChannel.IHMChannelController;
 import IHMChannel.controllers.ChannelController;
+import com.sun.istack.internal.NotNull;
 import common.IHMTools.IHMTools;
 import common.interfaces.client.IDataToIHMChannel;
 import common.shared_data.*;
@@ -67,8 +68,16 @@ public class DataToIHMChannel implements IDataToIHMChannel{
     // un seul "Kick"
     @Override
     public void userBanNotification(UserLite user, UUID channelId, int duration, String explanation) {
-        controller.getInterfaceForCommunication().removeConnectedUser(channelId, user);
-        //controller.getChannelPageController().getChannelController(channelId).getCurrentChannel().getKicked().add(new Kick(user, channelId, explanation, duration))
+        if (user!=null){
+            controller.getInterfaceForCommunication().removeConnectedUser(channelId, user);
+            //controller.getChannelPageController().getChannelController(channelId).getCurrentChannel().getKicked().add(new Kick(user, channelId, explanation, duration))
+            try {
+                controller.getChannelPageController().getChannelController(channelId).removeUser(user);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     /**
