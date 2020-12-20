@@ -58,8 +58,8 @@ public class VirtualDataServer implements IServerCommunicationToData {
     }
 
     @Override
-    public void updateChannel(UUID channelID, UUID userID, String name, String description, Visibility visibility) {
-
+    public Channel updateChannel(UUID channelID, UUID userID, String name, String description, Visibility visibility) {
+        return null;
     }
 
     @Override
