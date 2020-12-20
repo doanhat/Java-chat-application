@@ -44,7 +44,7 @@ public class IHMMainController {
 
     private ObservableList<UserLite> connectedUsers = FXCollections.observableArrayList();
 
-    private ObservableList<Channel> visibleChannels = FXCollections.observableArrayList();
+    private ObservableList<Channel> visibleChannels = FXCollections.observableArrayList(Channel.extractor());
 
     private ObservableList<Channel> openedChannels = FXCollections.observableArrayList();
 
@@ -125,7 +125,7 @@ public class IHMMainController {
      */
     public void reset() {
         connectedUsers = FXCollections.observableArrayList();
-        visibleChannels = FXCollections.observableArrayList();
+        visibleChannels = FXCollections.observableArrayList(Channel.extractor());
         openedChannels = FXCollections.observableArrayList();
     }
 }

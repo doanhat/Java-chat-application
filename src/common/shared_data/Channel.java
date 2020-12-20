@@ -1,5 +1,11 @@
 package common.shared_data;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.util.Callback;
+
 import java.io.Serializable;
 import java.util.*;
 
@@ -20,12 +26,21 @@ public class Channel implements Serializable {
 	private List<Kick> kicked;
 	private List<Message> messages;
 
+	/**
+	 * Inside IHM-Main interface, we need Property to bind the property name and description.
+	 * And not only bind the instance of channel
+	 * Mark as transient so it will be exclude from serialization
+	 */
+	private transient StringProperty nameProperty;
+	private transient StringProperty descriptionProperty;
+	private transient ObjectProperty<Visibility> visibilityProperty;
+
 	public Channel(String name, UserLite creator, String description, Visibility visibility, ChannelType type) {
 		this.id = UUID.randomUUID();
-		this.name = name;
+		setName(name);
 		this.creator = creator;
-		this.description = description;
-		this.visibility = visibility;
+		setDescription(description);
+		setVisibility(visibility);
 		this.type = type;
 		this.administrators = new ArrayList<>();
 		this.administrators.add(creator);
@@ -47,12 +62,21 @@ public class Channel implements Serializable {
 		this.id = id;
 	}
 
+	private final StringProperty getNameProperty() {
+		if (nameProperty == null) {
+			nameProperty = new SimpleStringProperty();
+			nameProperty.set(name);
+		}
+		return nameProperty;
+	}
+
 	public String getName() {
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
+		getNameProperty().set(name);
 	}
 
 	public UserLite getCreator() {
@@ -71,12 +95,29 @@ public class Channel implements Serializable {
 			this.nickNames.put(creator.getId().toString(), creator.getNickName());
 		}
 	}
+
+	private final StringProperty getDescriptionProperty() {
+		if (descriptionProperty == null) {
+			descriptionProperty = new SimpleStringProperty();
+			descriptionProperty.set(description);
+		}
+		return descriptionProperty;
+	}
 	public String getDescription() {
 		return description;
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
+		getDescriptionProperty().set(description);
+	}
+
+	private final ObjectProperty<Visibility> getVisibilityProperty() {
+		if (visibilityProperty == null) {
+			visibilityProperty = new SimpleObjectProperty<>();
+			visibilityProperty.set(visibility);
+		}
+		return visibilityProperty;
 	}
 
 	public Visibility getVisibility() {
@@ -85,6 +126,7 @@ public class Channel implements Serializable {
 
 	public void setVisibility(Visibility visibility) {
 		this.visibility = visibility;
+		getVisibilityProperty().set(visibility);
 	}
 
 	public ChannelType getType() {
@@ -241,5 +283,9 @@ public class Channel implements Serializable {
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
+	}
+
+	public static Callback<Channel, javafx.beans.Observable[]> extractor() {
+		return (Channel c) -> new javafx.beans.Observable[]{c.getNameProperty(), c.getDescriptionProperty(), c.getVisibilityProperty()};
 	}
 }
