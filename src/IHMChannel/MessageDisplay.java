@@ -28,7 +28,7 @@ public class MessageDisplay {
         messageController = fxmlLoader.getController();
         messageController.setMessageToDisplay(msg);
         messageController.setChannelMessagesController(channelMessagesController);
-        channelMessagesController.getMessagesMap().put(msg.getId(), messageController);
+        channelMessagesController.getMapMessageController().put(msg.getId(), messageController);
     }
 
 }
