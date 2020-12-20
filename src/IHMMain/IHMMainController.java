@@ -1,14 +1,14 @@
 package IHMMain;
 
-import IHMChannel.interfaces.IHMMainToIHMChannel;
-import common.interfaces.client.*;
-import Data.client.IHMMainToData;
+import data.client.IHMMainToData;
 import IHMMain.implementations.CommunicationToIHMMain;
 import IHMMain.implementations.DataToIHMMain;
 import IHMMain.implementations.IHMChannelToIHMMain;
 import app.MainWindowController;
-import common.sharedData.Channel;
-import common.sharedData.UserLite;
+import common.interfaces.client.*;
+import common.shared_data.Channel;
+import common.shared_data.ConnectionStatus;
+import common.shared_data.UserLite;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -27,21 +27,20 @@ public class IHMMainController {
      */
     private IIHMMainToCommunication ihmMainToCommunication;
 
-    private IHMMainToIHMChannel ihmMainToIHMChannel;
+    private IIHMMainToIHMChannel ihmMainToIHMChannel;
 
     private IHMMainToData ihmMainToData;
 
     /**
      * Properties use inside IHM-Main module
      */
-
-
-
     private MainWindowController mainWindowController;
 
     private ObservableList<UserLite> connectedUsers = FXCollections.observableArrayList();
 
     private ObservableList<Channel> visibleChannels = FXCollections.observableArrayList();
+
+    private ObservableList<Channel> openedChannels = FXCollections.observableArrayList();
 
     public IHMMainController(){
         communicationToIHMMain = new CommunicationToIHMMain(this);
@@ -69,11 +68,10 @@ public class IHMMainController {
         return ihmMainToCommunication;
     }
 
-    public void setIhmMainToIHMChannel(IHMMainToIHMChannel ihmMainToIHMChannel) {
+    public void setIhmMainToIHMChannel(IIHMMainToIHMChannel ihmMainToIHMChannel) {
         this.ihmMainToIHMChannel = ihmMainToIHMChannel;
     }
-    public IHMMainToIHMChannel getIHMMainToIHMChannel() {
-
+    public IIHMMainToIHMChannel getIHMMainToIHMChannel() {
         return ihmMainToIHMChannel;
     }
 
@@ -99,5 +97,23 @@ public class IHMMainController {
 
     public ObservableList<Channel> getVisibleChannels() {
         return visibleChannels;
+    }
+
+    public ObservableList<Channel> getOpenedChannels() {
+        return openedChannels;
+    }
+    
+    public void loadIHMMainWindow(ConnectionStatus status) {
+        mainWindowController.getConnectionController().loadIHMMainWindow(status);
+    }
+
+    /**
+     * This method reset all the data
+     * Use to clear a previous session
+     */
+    public void reset() {
+        connectedUsers = FXCollections.observableArrayList();
+        visibleChannels = FXCollections.observableArrayList();
+        openedChannels = FXCollections.observableArrayList();
     }
 }

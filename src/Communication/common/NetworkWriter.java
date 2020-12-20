@@ -7,15 +7,26 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+/**
+ * Classe gérant l'écriture et l'envoi de messages sur le réseau depuis une Liste synchronisée de messages.
+ *
+ */
 public class NetworkWriter extends CyclicTask {
 
     private final List<DeliveryPacket> messagesQueue;
+    private static final transient Logger LOGGER = Logger.getLogger(NetworkWriter.class.getName());
 
     public NetworkWriter() {
         messagesQueue = Collections.synchronizedList(new ArrayList<>());
     }
 
+    /**
+     * Ajoute un Message à envoyer à la liste synchronisée de messages
+     * @param packet intance encapsulant le recepteur et le message reçu
+     */
     public void sendMessage(DeliveryPacket packet) {
         synchronized (messagesQueue) {
             messagesQueue.add(packet);
@@ -23,6 +34,9 @@ public class NetworkWriter extends CyclicTask {
         }
     }
 
+    /**
+     * Effectue l'envoi du dernier message de la liste d'attente.
+     */
     @Override
     public void action() {
         try {
@@ -41,6 +55,9 @@ public class NetworkWriter extends CyclicTask {
         }
     }
 
+    /**
+     * Cesse l'envoi de messages
+     */
     @Override
     public void stop() {
         super.stop();
@@ -50,6 +67,9 @@ public class NetworkWriter extends CyclicTask {
         }
     }
 
+    /**
+     * Vide la liste de messages
+     */
     @Override
     protected void cleanup() {
         synchronized (messagesQueue) {
@@ -69,9 +89,14 @@ public class NetworkWriter extends CyclicTask {
             this.message = message;
         }
 
+        /**
+         * Envoie le message en sur la socket en utilisant {@link ObjectOutputStream#writeObject(Object)} en lui passant le message à envoyer.
+         * @throws IOException si l'outputStream renvoie une IOException au moment du write
+         */
         public void send() throws IOException {
-            System.err.println("Send message " + message.getClass());
-
+            LOGGER.log(Level.FINE, "Send message {}", message.getClass());
+            //System.err.println("send msg " + message.getClass());
+            receiver.reset();
             receiver.writeObject(message);
         }
     }

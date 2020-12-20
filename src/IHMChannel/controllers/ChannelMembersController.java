@@ -1,8 +1,8 @@
 package IHMChannel.controllers;
 
 import IHMChannel.*;
-import common.sharedData.Channel;
-import common.sharedData.UserLite;
+import common.shared_data.Channel;
+import common.shared_data.UserLite;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -24,6 +24,8 @@ public class ChannelMembersController {
     ToggleGroup viewMode;
     @FXML
     RadioButton alphaBtn;
+    @FXML
+    RadioButton adminBtn;
     @FXML
     BorderPane listMembersDisplay;
 
@@ -47,6 +49,19 @@ public class ChannelMembersController {
         alphabeticalMembersListDisplay.getController().setCurrentChannel(channel);
         adminMembersListDisplay.getController().setCurrentChannel(channel);
         connectedMembersListDisplay.getController().setCurrentChannel(channel);
+    }
+
+    public ConnectedMembersListDisplay getConnectedMembersListDisplay() {
+        return connectedMembersListDisplay;
+    }
+
+    public boolean containsUser(List<UserLite> list, UserLite user){
+        for(UserLite u : list){
+            if(u.getId().equals(user.getId())){
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -100,14 +115,14 @@ public class ChannelMembersController {
     }
 
     public void addMemberToObservableList(UserLite user) {
-        alphabeticalMembersListDisplay.addMemberToList(user);
-        adminMembersListDisplay.addMemberToList(user);
-        connectedMembersListDisplay.addMemberToList(user);
+        alphabeticalMembersListDisplay.addMemberToConnectedMembersList(user);
+        adminMembersListDisplay.addMemberToConnectedMembersList(user);
+        connectedMembersListDisplay.addMemberToConnectedMembersList(user);
     }
 
     public void removeMemberFromObservableList(UserLite user) {
-        alphabeticalMembersListDisplay.removeMemberFromList(user);
-        adminMembersListDisplay.removeMemberFromList(user);
-        connectedMembersListDisplay.removeMemberFromList(user);
+        alphabeticalMembersListDisplay.removeMemberFromConnectedMembersList(user);
+        adminMembersListDisplay.removeMemberFromConnectedMembersList(user);
+        connectedMembersListDisplay.removeMemberFromConnectedMembersList(user);
     }
 }

@@ -1,7 +1,7 @@
 package IHMChannel;
 
 import IHMChannel.controllers.ConnectedMembersListController;
-import common.sharedData.UserLite;
+import common.shared_data.UserLite;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
@@ -31,10 +31,10 @@ public class ConnectedMembersListDisplay {
     public void setConnectedMembersList(List<UserLite> connectedMembersList){
         connectedMembersController.setConnectedMembersList(connectedMembersList);
     }
-    public void addMemberToList(UserLite user) {
-        connectedMembersController.addMemberToList(user);
+    public void addMemberToConnectedMembersList(UserLite user) {
+        connectedMembersController.addMemberToConnectedMembersList(user);
     }
-    public void removeMemberFromList(UserLite user) {
-        connectedMembersController.removeMemberFromList(user);
+    public void removeMemberFromConnectedMembersList(UserLite user) {
+        connectedMembersController.removeMemberConnectedMembersFromList(user);
     }
 }

@@ -1,7 +1,7 @@
 package IHMChannel;
 
 import IHMChannel.controllers.AlphabeticalMembersListController;
-import common.sharedData.UserLite;
+import common.shared_data.UserLite;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
@@ -32,10 +32,10 @@ public class AlphabeticalMembersListDisplay {
     public void setConnectedMembersList(List<UserLite> connectedMembersList){
         alphabeticalMembersController.setConnectedMembersList(connectedMembersList);
     }
-    public void addMemberToList(UserLite user) {
-        alphabeticalMembersController.addMemberToList(user);
+    public void addMemberToConnectedMembersList(UserLite user) {
+        alphabeticalMembersController.addMemberToConnectedMembersList(user);
     }
-    public void removeMemberFromList(UserLite user) {
-        alphabeticalMembersController.removeMemberFromList(user);
+    public void removeMemberFromConnectedMembersList(UserLite user) {
+        alphabeticalMembersController.removeMemberFromConnectedMembersList(user);
     }
 }

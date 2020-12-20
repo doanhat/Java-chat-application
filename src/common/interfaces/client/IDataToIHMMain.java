@@ -1,28 +1,29 @@
 package common.interfaces.client;
 
 import java.util.List;
-import common.sharedData.Channel;
+import java.util.UUID;
+
+import common.shared_data.Channel;
 
 /**
  * Interface fournie par le module IHMMain pour le module Data
  */
 public interface IDataToIHMMain {
     /**
-     * Supprime le channel de l'interface
-     * @param channel
+     * Supprime le channel de la liste des channels visibles
+     * @param channelID L'ID du channel à retirer
      */
-    public void removeChannel(Channel channel);
+    public void removeChannel(UUID channelID);
 
     /**
-     * Ajoute le channel à la liste des channels de l'interface
-     * @param channel
+     * Ajoute le channel à la liste des channels visibles
+     * @param channel Le channel à ajouter
      */
-    public void addChannelToList(Channel channel);
+    public void addChannel(Channel channel);
 
     /**
-     * Met à jour l'affichage de la liste des channels
-     * @param channelList
+     * Ajoute une liste de channels à la liste des channels visibles
+     * @param channels La liste à ajouter
      */
-    public void updateListChannel(List<Channel> channelList);
-
+    public void addAllChannels(List<Channel> channels);
 }

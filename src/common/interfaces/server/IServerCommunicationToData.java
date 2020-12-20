@@ -1,74 +1,33 @@
 package common.interfaces.server;
 
-import common.sharedData.Channel;
-import common.sharedData.Message;
-import common.sharedData.UserLite;
+import common.shared_data.Channel;
+import common.shared_data.Message;
+import common.shared_data.UserLite;
+import common.shared_data.Visibility;
 import java.util.List;
 import java.util.UUID;
 
 public interface IServerCommunicationToData {
-    /**
-     * NOTE: Suggestion de Comm: ajouter une méthode: 'Channel getChannel(int channelID)' pour retrouver un channel selon son ID
-     */
 
-
-    /**
-     * NOTE: Suggestion de Comm: utiliser seulement channelID pour diminuer la taille du paquet réseau,
-     * ou une classe supplémentaire qui contient seulement les méta-données d'un channel
-     * (un objet channel peut contient un objet de méta-données, et les contenues comme les message, user info, ...)
-     *
-     * Et cette méthode devrait retouner un boolean indiqué si le channel est bien supprimé
-     */
-
+    Channel requestChannelCreation(Channel channel,boolean isShared, boolean isPublic, UserLite owner);
     /**
      * Méthode pour faire la suppression d'un channel
      *
-     * @param channel le channel à être supprime
+     * @param channelID l'identificateur du channel à supprimer
      * @param user l'utilisateur qui fait la demande de suppression
      * */
-    List<Channel> requestChannelRemoval(Channel channel, UserLite user);
-
-    /**
-     * NOTE: Suggestion de Comm: utiliser seulement channelID pour diminuer la taille du paquet réseau,
-     * ou une classe supplémentaire qui contient seulement les méta-données d'un channel
-     * (un objet channel peut contient un objet de méta-données, et les contenues comme les message, user info, ...)
-     *
-     * Et cette méthode devrait retouner l'objet channel créé ou un objet null si le channel n'est pas créé
-     */
-
-    /**
-     * Méthode pour ajouter un channel à la liste des channels actifs du serveur
-     *
-     * @param channel le channel à être ajouté
-     * @param typeOwner indique si le channel est de type propriétaire
-     * @param typePublic indique si le channel est de type public
-     * @param user l'utilisateur qui fait la demande
-     * */
-    List<Channel> requestChannelCreation(Channel channel, Boolean typeOwner, Boolean typePublic, UserLite user);
-
-    /**
-     * NOTE: Suggestion de Comm: utiliser une classe supplémentaire qui contient seulement les méta-données d'un channel
-     * car c'est innécessaire d'envoyer tous les messages et utilisateurs d'un channel pour modifier seulement les parametres
-     */
+    boolean requestChannelRemoval(UUID channelID, UserLite user);
 
     /**
      * Méthode pour mettre à jour les informations d'un channel dans la liste des channels
      *
-     * @param channel le channel concerné avec les modifications déjà faites
+     * @param channelID l'identificateur du channel concerné
+     * @param userID l'identificateur qui veut faire les changes sur le channel
+     * @param name nouvel nom du channel, mettre à null si pas besoin de le changer
+     * @param description nouvelle description du channel, mettre à null si pas besoin de la changer
+     * @param visibility nouvelle visibilité du channel, mettre à null si pas besoin de la changer
      * */
-    List<UserLite> updateChannel(Channel channel);
-
-    /**
-     * NOTE: Suggestion de Comm: utiliser channelID et retouner un boolean pour indiqué succès ou échec
-     */
-
-    /**
-     * Méthode pour ajouter un utilisateur à la liste des utilisateurs abonnés d'un channel
-     *
-     * @param channel le channel dans lequel l'utilisateur va s'abonner
-     * @param user l'utilisateur à être ajouté à la liste
-     * */
-    void requestAddUser(Channel channel, UserLite user);
+    void updateChannel(UUID channelID, UUID userID, String name, String description, Visibility visibility);
 
     /**
      * Méthode pour ajouter un administrateur à la liste des administrateurs d'un channel
@@ -155,6 +114,24 @@ public interface IServerCommunicationToData {
     Channel createPublicSharedChannel(String name, UserLite creator, String description);
 
     /**
+     * Méthode pour créer un channel privé proprietaire
+     *
+     * @param name le nom du channel
+     * @param creator l'utilisateur créateur du channel
+     * @param description la description du channel
+     * */
+    Channel createPrivateOwnedChannel(String name, UserLite creator, String description);
+
+    /**
+     * Méthode pour créer un channel public proprietaire
+     *
+     * @param name le nom du channel
+     * @param creator l'utilisateur créateur du channel
+     * @param description la description du channel
+     * */
+    Channel createPublicOwnedChannel(String name, UserLite creator, String description);
+
+    /**
      * Méthode pour créer un channel privé partagé
      *
      * @param name le nom du channel
@@ -213,15 +190,31 @@ public interface IServerCommunicationToData {
      * @param channel le channel auquel l'utilisateur va s'abonner
      * @param user l'utilisateur qui va s'abonner au channel
      * */
-    List<UserLite> joinChannel(Channel channel, UserLite user);
+    void joinChannel(UUID channel, UserLite user);
 
     /**
-     * Méthode pour se désabonner d'un channel
+     * Méthode pour se désabonner d'un channel volontairement 
      *
-     * @param channel le channel duquel l'utilisateur va se désabonner
+     * @param channelID l'identificatuer du channel auquel l'utilisateur va se désabonner
      * @param user l'utilisateur qui va se désabonner
      * */
-    void leaveChannel(Channel channel, UserLite user);
+    void leaveChannel(UUID channelID, UserLite user);
+
+    /**
+     * Méthode pour ajouter un utilisateur à la liste des utilisateurs abonnés d'un channel
+     *
+     * @param channel le channel dans lequel l'utilisateur va s'abonner
+     * @param user l'utilisateur à être ajouté à la liste
+     * */
+    void requestAddUser(Channel channel, UserLite user);
+
+    /**
+     * Méthode pour se retirer de la liste des authaurizedUsers d'un channel volontairement
+     *
+     * @param channelID l'identificatuer du channel auquel l'utilisateur va se désabonner
+     * @param user l'utilisateur qui va se désabonner
+     * */
+    void quitChannel(UUID channelID, UserLite user);
 
     /**
      * Méthode qui renvoie l'adresse de l'utilisateur
@@ -238,5 +231,61 @@ public interface IServerCommunicationToData {
      * */
     Boolean checkAuthorization(Channel channel, UserLite user);
 
-     Channel getChannel(UUID channelID);
+    Channel getChannel(UUID channelID);
+
+    List<Channel> disconnectOwnedChannel(UserLite owner);
+
+    /**
+     * Méthode pour retourner la liste des identieurs des channels auxquels appartient un utilisateur
+     * @param userID l'identificateur de l'utilisateur
+     * */
+    List<UUID> getChannelsWhereUser(UUID userID);
+
+    /**
+     * Méthode pour retourner la liste des identieurs des channels dans lesquels un utilisateur est active
+     * (liste différente à la liste de la méthode getChannelsWhereUser car les channels proprietaires peuvent
+     * pas être actives)
+     * @param userID l'identificateur de l'utilisateur
+     * */
+    List<UUID> getChannelsWhereUserActive(UUID userID);
+
+
+    /**
+     * Méthode pour retourner la liste des utilisateurs actives dans un channel
+     * @param channelID l'identificateur du channel
+     * */
+    List<UserLite> getActiveUsersInChannel(UUID channelID);
+
+
+    /**
+     * Méthode pour ajouter la liste des channels proprietaires d'un utilisateur dans la liste des channels
+     * dans le serveur
+     * @param ownedChannels Liste des channels proprietaires à ajouter
+     * @param ownerID l'identificateur de l'utilisateur proprietaire des channels
+     * */
+    void addOwnedChannelsToServerList(List<Channel> ownedChannels, UUID ownerID);
+
+    /**
+     * Envoyer une image encodée en string Base64 au server pour stocker
+     *
+     * @param user          utilisateur ayant l'image comme avatar
+     * @param encodedString le string encodée en Base64
+     */
+    void saveAvatarToServer(UserLite user, String encodedString);
+
+    /**
+     * Récupérer le chemin vers l'avatar de l'utilisateur dans le serveur
+     *
+     * @param user utilisateur
+     * @return
+     */
+    String getAvatarPath(UserLite user);
+
+    /**
+     *  Méthode pour retirer les droits d'administrateur d'un utilisateur dans un channel
+     * @param channelID l'identificateur du channel
+     * @param adminID l'identificateur de l'admin du channel
+     *
+     * */
+    void requestRemoveAdmin(UUID channelID, UUID adminID);
 }

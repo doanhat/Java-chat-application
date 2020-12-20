@@ -1,9 +1,10 @@
 package tests.communication.interfaces_simulation;
 
 import common.interfaces.server.IServerCommunicationToData;
-import common.sharedData.Channel;
-import common.sharedData.Message;
-import common.sharedData.UserLite;
+import common.shared_data.Channel;
+import common.shared_data.Message;
+import common.shared_data.UserLite;
+import common.shared_data.Visibility;
 
 import java.util.*;
 
@@ -20,45 +21,45 @@ public class VirtualDataServer implements IServerCommunicationToData {
     }
 
     @Override
-    public List<Channel> requestChannelRemoval(Channel channel, UserLite user) {
-        if (channel == null || user == null) {
-            return null;
-        }
-
-        Channel correctChannel = channels.get(channel.getId());
-
-        if (correctChannel != null && correctChannel.getCreator().getId() == user.getId()) {
-            channels.remove(correctChannel.getId());
-
-            return new ArrayList<>(channels.values());
-        }
-
-        return null;
-    }
-
-    @Override
-    public List<Channel> requestChannelCreation(Channel channel, Boolean typeOwner, Boolean typePublic, UserLite user) {
-        if (channel != null && user != null) {
+    public Channel requestChannelCreation(Channel channel, boolean isShared, boolean isPublic, UserLite owner) {
+        if (channel != null && owner != null) {
             channels.put(channel.getId(), channel);
 
-            if (! mapUserChannels.containsKey(user)) {
-                mapUserChannels.put(user, new ArrayList<>());
+            if (! mapUserChannels.containsKey(owner)) {
+                mapUserChannels.put(owner, new ArrayList<>());
             }
 
-            List<UUID> visibleChannels = mapUserChannels.get(user);
+            List<UUID> visibleChannels = mapUserChannels.get(owner);
             visibleChannels.add(channel.getId());
 
-            mapUserChannels.put(user, visibleChannels);
+            mapUserChannels.put(owner, visibleChannels);
 
             System.err.println("Channel " + channel.getId() + " created");
         }
 
-        return new ArrayList<>(channels.values());
+        return channel;
     }
 
     @Override
-    public List<UserLite> updateChannel(Channel channel) {
-        return null;
+    public boolean requestChannelRemoval(UUID channel, UserLite user) {
+        if (channel == null || user == null) {
+            return false;
+        }
+
+        Channel correctChannel = channels.get(channel);
+
+        if (correctChannel != null && correctChannel.getCreator().getId().equals(user.getId())) {
+            channels.remove(correctChannel.getId());
+
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public void updateChannel(UUID channelID, UUID userID, String name, String description, Visibility visibility) {
+
     }
 
     @Override
@@ -71,8 +72,13 @@ public class VirtualDataServer implements IServerCommunicationToData {
             return;
         }
 
-        correctChannel.addUser(user);
+        correctChannel.addJoinedUser(user);
         mapUserChannels.get(user).add(channel.getId());
+    }
+
+    @Override
+    public void quitChannel(UUID channelID, UserLite user) {
+
     }
 
     @Override
@@ -148,7 +154,17 @@ public class VirtualDataServer implements IServerCommunicationToData {
     public Channel createPublicSharedChannel(String name, UserLite creator, String description) {
         return null;
     }
-    
+
+    @Override
+    public Channel createPrivateOwnedChannel(String name, UserLite creator, String description) {
+        return null;
+    }
+
+    @Override
+    public Channel createPublicOwnedChannel(String name, UserLite creator, String description) {
+        return null;
+    }
+
     @Override
     public Channel createPrivateSharedChannel(String name, UserLite creator, String description) {
         return null;
@@ -157,7 +173,7 @@ public class VirtualDataServer implements IServerCommunicationToData {
     @Override
     public void disconnectUser(UUID userID) {
         for (UserLite usr: users) {
-            if (usr.getId() == userID) {
+            if (usr.getId().equals(userID)) {
                 users.remove(usr);
             }
         }
@@ -196,23 +212,21 @@ public class VirtualDataServer implements IServerCommunicationToData {
     }
 
     @Override
-    public List<UserLite> joinChannel(Channel channel, UserLite user) {
-        Channel correctChannel = channels.get(channel.getId());
+    public void joinChannel(UUID channel, UserLite user) {
+        Channel correctChannel = channels.get(channel);
 
         if (correctChannel == null)
         {
             System.err.println("Cannot find channel");
-            return new ArrayList<>();
         }
 
-        correctChannel.addUser(user);
+        correctChannel.addJoinedUser(user);
 
-        return correctChannel.getAcceptedPersons();
     }
 
     @Override
-    public void leaveChannel(Channel channel, UserLite user) {
-        Channel correctChannel = channels.get(channel.getId());
+    public void leaveChannel(UUID channel, UserLite user) {
+        Channel correctChannel = channels.get(channel);
 
         if (correctChannel == null)
         {
@@ -237,5 +251,58 @@ public class VirtualDataServer implements IServerCommunicationToData {
     public Channel getChannel(UUID channelID){
         Channel ch = null;
         return ch;
+    }
+
+    @Override
+    public List<Channel> disconnectOwnedChannel(UserLite owner) {
+        return null;
+    }
+
+    @Override
+    public List<UUID> getChannelsWhereUser(UUID userID) {
+        return null;
+    }
+
+    @Override
+    public List<UUID> getChannelsWhereUserActive(UUID userID) {
+        return null;
+    }
+
+    @Override
+    public List<UserLite> getActiveUsersInChannel(UUID channelID) {
+        return null;
+    }
+
+
+    @Override
+    public void addOwnedChannelsToServerList(List<Channel> ownedChannels, UUID ownerID) {
+
+    }
+
+    /**
+     * Envoyer une image encodée en string Base64 au server pour stocker
+     *
+     * @param user          utilisateur ayant l'image comme avatar
+     * @param encodedString le string encodée en Base64
+     */
+    @Override
+    public void saveAvatarToServer(UserLite user, String encodedString) {
+
+    }
+
+    /**
+     * Récupérer le chemin vers l'avatar de l'utilisateur dans le serveur
+     *
+     * @param user utilisateur
+     * @return
+     */
+    @Override
+    public String getAvatarPath(UserLite user) {
+        return null;
+    }
+
+    @Override
+    public void requestRemoveAdmin(UUID channelID, UUID adminID) {
+
     }
 }

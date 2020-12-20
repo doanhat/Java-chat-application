@@ -2,8 +2,8 @@ package IHMChannel.controllers;
 
 import IHMChannel.IHMChannelController;
 import IHMChannel.MemberDisplay;
-import common.sharedData.Channel;
-import common.sharedData.UserLite;
+import common.shared_data.Channel;
+import common.shared_data.UserLite;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -11,6 +11,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.List;
 
 public class AlphabeticalMembersListController {
@@ -36,7 +37,7 @@ public class AlphabeticalMembersListController {
      */
     private void initMembersList() {
         channelMembers.clear();
-        for (UserLite usr : this.channel.getAcceptedPersons()){
+        for (UserLite usr : this.channel.getAuthorizedPersons()){
             channelMembers.add(usr);
         }
         adminMembers.clear();
@@ -49,20 +50,31 @@ public class AlphabeticalMembersListController {
         creator = this.channel.getCreator();
     }
 
+    private boolean containsUser(List<UserLite> list, UserLite user){
+        for(UserLite u : list){
+            if(u.getId().equals(user.getId())){
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Permet l'affichage de la liste des membres en faisant une conversion en Hbox.
      * @throws IOException
      */
 
-    private void displayMembers() throws IOException {
+    private void displayMembers() {
         membersToDisplay.clear();
+        //TODO : le tri fonctionne, mais il devrait y avoir moyen de faire cela automatiquement avec JavaFX (possiblement s'inspirer de la liste dans homepage)
+        channelMembers.sort(Comparator.comparing(UserLite::getNickName));
         for (UserLite usr : channelMembers){
             if(usr.getId().equals(creator.getId())){
-                membersToDisplay.add((HBox) new MemberDisplay(usr,true,true,(connectedMembersList!=null && connectedMembersList.contains(usr)),false, channel, ihmChannelController).root);
+                membersToDisplay.add((HBox) new MemberDisplay(usr,true,true,(connectedMembersList!=null && containsUser(connectedMembersList, usr)),false, channel, ihmChannelController).root);
             }else if(adminMembers.contains(usr)){
-                membersToDisplay.add((HBox) new MemberDisplay(usr, true,false,(connectedMembersList!=null && connectedMembersList.contains(usr)),isLocalUserAdmin,  channel, ihmChannelController).root);
+                membersToDisplay.add((HBox) new MemberDisplay(usr, true,false,(connectedMembersList!=null && containsUser(connectedMembersList, usr)),isLocalUserAdmin,  channel, ihmChannelController).root);
             }else{
-                membersToDisplay.add((HBox) new MemberDisplay(usr, false, false,(connectedMembersList!=null && connectedMembersList.contains(usr)),isLocalUserAdmin, channel, ihmChannelController).root);
+                membersToDisplay.add((HBox) new MemberDisplay(usr, false, false,(connectedMembersList!=null && containsUser(connectedMembersList, usr)),isLocalUserAdmin, channel, ihmChannelController).root);
             }
         }
         membersList.setItems(membersToDisplay);
@@ -73,14 +85,14 @@ public class AlphabeticalMembersListController {
      * Met à jour la liste des membres en conséquence
      * @param channel
      */
-    public void setCurrentChannel(Channel channel) throws IOException {
+    public void setCurrentChannel(Channel channel) {
         this.channel = channel;
         initMembersList();
         displayMembers();
     }
 
 
-    public void initialize() throws IOException {
+    public void initialize() {
         channelMembers = FXCollections.observableArrayList();
         adminMembers = FXCollections.observableArrayList();
         membersToDisplay = FXCollections.observableArrayList();
@@ -105,14 +117,17 @@ public class AlphabeticalMembersListController {
             this.connectedMembersList.clear();
         }
         this.connectedMembersList = updatedConnectedMembersList;
-        // this.initConnectedMembersList();
+
+        displayMembers();
     }
 
-    public void addMemberToList(UserLite user) {
+    public void addMemberToConnectedMembersList(UserLite user) {
         connectedMembersList.add(user);
+        displayMembers();
     }
 
-    public void removeMemberFromList(UserLite user) {
+    public void removeMemberFromConnectedMembersList(UserLite user) {
         connectedMembersList.remove(user);
+        displayMembers();
     }
 }

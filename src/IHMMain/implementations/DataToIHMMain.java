@@ -2,9 +2,11 @@ package IHMMain.implementations;
 
 import IHMMain.IHMMainController;
 import common.interfaces.client.IDataToIHMMain;
-import common.sharedData.Channel;
+import common.shared_data.Channel;
+import javafx.application.Platform;
 
 import java.util.List;
+import java.util.UUID;
 
 public class DataToIHMMain implements IDataToIHMMain {
 
@@ -15,17 +17,23 @@ public class DataToIHMMain implements IDataToIHMMain {
     }
 
     @Override
-    public void removeChannel(Channel channel) {
-        ihmMainController.getVisibleChannels().remove(channel);
+    public void removeChannel(UUID channelID) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                ihmMainController.getVisibleChannels().removeIf(channel -> channel.getId().equals(channelID));
+                ihmMainController.getIHMMainToIHMChannel().removeChannel(channelID);
+            }
+        });
     }
 
     @Override
-    public void addChannelToList(Channel channel) {
-        ihmMainController.getVisibleChannels().add(channel);
+    public void addChannel(Channel channel) {
+        Platform.runLater(() -> ihmMainController.getVisibleChannels().add(channel));
     }
 
     @Override
-    public void updateListChannel(List<Channel> channelList) {
-        ihmMainController.getVisibleChannels().setAll(channelList);
+    public void addAllChannels(List<Channel> channels) {
+        Platform.runLater(() -> ihmMainController.getVisibleChannels().addAll(channels));
     }
 }
