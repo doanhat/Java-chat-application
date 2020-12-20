@@ -1,7 +1,8 @@
 package Communication.client;
 
 import Communication.common.ChannelOperation;
-import Communication.common.InfoPackage;
+import Communication.common.info_packages.BanUserPackage;
+import Communication.common.info_packages.InfoPackage;
 import Communication.common.Parameters;
 import Communication.messages.client_to_server.channel_access.proprietary_channels.LeavePropChannelMessage;
 import Communication.messages.client_to_server.channel_access.proprietary_channels.QuitPropChannelMessage;
@@ -17,11 +18,11 @@ import Communication.messages.client_to_server.channel_modification.GetHistoryMe
 import Communication.messages.client_to_server.channel_access.SendInvitationMessage;
 import Communication.messages.client_to_server.channel_access.proprietary_channels.AskToJoinPropMessage;
 import Communication.messages.client_to_server.channel_access.shared_channels.AskToJoinSharedMessage;
-import Communication.messages.client_to_server.moderation.AskToBanUserMessage;
 
 import common.interfaces.client.*;
 import common.shared_data.*;
 
+import java.time.LocalDate;
 import java.util.*;
 
 public class CommunicationClientInterface implements IDataToCommunication,
@@ -182,12 +183,46 @@ public class CommunicationClientInterface implements IDataToCommunication,
     /**
      * Demande de bannir un utilisateur d'un channel
      *
-     * @param user        Utilisateur a bannir
-     * @param duration    Durée du bannisement
+     * @param userToKick Utilisateur a bannir
+     * @param endDate Fin du bannisement
+     * @param isPermanent bannisement définitif
      * @param explanation Chaine de caractere justifiant le ban
+     * @param channelID ID du canal duquel l'utilisateur doit être banni.
      **/
-    public void banUserFromChannel(UserLite user, Channel channel, int duration, String explaination) {
-        this.commController.sendMessage(new AskToBanUserMessage(getLocalUser(), user, channel, duration, explaination));
+    @Override
+    public void banUserFromChannel(UserLite userToKick, LocalDate endDate, boolean isPermanent, String explanation, UUID channelID) {
+        if (userToKick == null || channelID == null) {
+            return;
+        }
+
+        BanUserPackage banUserPackage = new BanUserPackage();
+        banUserPackage.user = localUser;
+        banUserPackage.userToBan = userToKick;
+        banUserPackage.channelID = channelID;
+        banUserPackage.endDate = endDate;
+        banUserPackage.isPermanent = isPermanent;
+        banUserPackage.explanation = explanation;
+
+        this.commController.sendMessage(new ChatMessage(ChannelOperation.BAN_USER, banUserPackage));
+    }
+
+    /**
+     * Annuler de bannir un utilisateur d'un channel
+     * @param unKickedUser
+     * @param channelID
+     */
+    @Override
+    public void cancelBanOfUserFromChannel(UserLite unKickedUser, UUID channelID) {
+        if (unKickedUser == null || channelID == null) {
+            return;
+        }
+
+        BanUserPackage banUserPackage = new BanUserPackage();
+        banUserPackage.user = localUser;
+        banUserPackage.userToBan = unKickedUser;
+        banUserPackage.channelID = channelID;
+
+        this.commController.sendMessage(new ChatMessage(ChannelOperation.UNBAN_USER, banUserPackage));
     }
 
     /**

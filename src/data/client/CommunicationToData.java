@@ -93,7 +93,7 @@ public class CommunicationToData implements ICommunicationToData {
      * @param channelId the channel
      */
     @Override
-    public void cancelBanOfUserIntoHistory(User user, UUID channelId) {
+    public void cancelBanOfUserIntoHistory(UserLite user, UUID channelId) {
         throw new UnsupportedOperationException();
     }
 

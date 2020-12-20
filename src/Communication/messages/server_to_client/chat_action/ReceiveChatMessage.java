@@ -2,7 +2,7 @@ package Communication.messages.server_to_client.chat_action;
 
 import Communication.client.CommunicationClientController;
 import Communication.common.ChannelOperation;
-import Communication.common.InfoPackage;
+import Communication.common.info_packages.InfoPackage;
 import Communication.messages.abstracts.ServerToClientMessage;
 
 

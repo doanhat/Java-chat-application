@@ -9,6 +9,8 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import Communication.common.*;
+import Communication.common.info_packages.BanUserPackage;
+import Communication.common.info_packages.InfoPackage;
 import Communication.messages.abstracts.NetworkMessage;
 import Communication.messages.server_to_client.channel_access.propietary_channels.TellOwnerUserInvitedMessage;
 import Communication.messages.server_to_client.channel_modification.NewInvisibleChannelsMessage;
@@ -74,11 +76,6 @@ public class CommunicationServerController extends CommunicationController {
 
 	public IServerDataToCommunication getDataToCommunication() {
 		return commInterface;
-	}
-
-	
-	public IServerCommunicationToData getDataServer() {
-		return dataServer;
 	}
 
 	/**
@@ -359,6 +356,24 @@ public class CommunicationServerController extends CommunicationController {
 				break;
 			case REMOVE_ADMIN:
 				dataServer.requestRemoveAdmin(channel.getId(), infoPackage.user.getId());
+				break;
+			case BAN_USER:
+				if (BanUserPackage.class.isInstance(infoPackage)) {
+					BanUserPackage castedPackage = BanUserPackage.class.cast(infoPackage);
+					// TODO INTEGRATION V4: Update interface of Data after request of IHM Channel
+					// dataServer.banUserFromChannel(channel, castedPackage.userToBan, castedPackage.endDate, castedPackage.isPermanent, castedPackage.explanation);
+				} else {
+					logger.log(Level.SEVERE, "ChatMessage: BAN_USER contient mauvais BanUserPackage");
+				}
+
+				break;
+			case UNBAN_USER:
+				if (BanUserPackage.class.isInstance(infoPackage)) {
+					BanUserPackage castedPackage = BanUserPackage.class.cast(infoPackage);
+					dataServer.cancelUsersBanFromChannel(channel, castedPackage.userToBan);
+				} else {
+					logger.log(Level.SEVERE, "ChatMessage: UNBAN_USER contient mauvais BanUserPackage");
+				}
 				break;
 			default:
 				logger.log(Level.WARNING, "ChatMessage: opetration inconnue");
