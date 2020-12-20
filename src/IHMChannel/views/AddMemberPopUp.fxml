@@ -20,7 +20,7 @@
                 <ListView fx:id="usersListView" styleClass="list-cell"/>
             </children>
             <stylesheets>
-                <URL value="file:src/IHMChannel/css/style.css"></URL>
+                <URL value="@../../IHMChannel/css/style.css"></URL>
             </stylesheets>
         </VBox>
     </children>

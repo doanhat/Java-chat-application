@@ -4,6 +4,7 @@ import Communication.client.CommunicationClientController;
 import Communication.messages.abstracts.ServerToClientMessage;
 import common.shared_data.UserLite;
 
+import java.io.IOException;
 import java.util.UUID;
 
 public class NewUserAuthorizeChannelMessage extends ServerToClientMessage {

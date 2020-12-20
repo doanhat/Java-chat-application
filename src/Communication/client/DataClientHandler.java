@@ -69,7 +69,7 @@ public class DataClientHandler {
                 dataClient.newAdmin(infoPackage.user, infoPackage.channelID);
                 break;
             case REMOVE_ADMIN:
-                // TODO INTEGRATION V3: tell Data to add method to receive admin removal notification
+                dataClient.requestRemoveAdmin(infoPackage.channelID, infoPackage.user);
                 break;
             default:
                 logger.log(Level.WARNING, "ChatMessage: opetration inconnue");
@@ -106,6 +106,15 @@ public class DataClientHandler {
      */
     public void requestLeaveChannel(UUID channelID, UserLite userLite) {
         dataClient.removeUserFromJoinedUserChannel(userLite, channelID, 0, "Leave");
+    }
+
+    /**
+     * Informer Channel proprietaire qu'un utilisateur vient de se quitter un channel
+     * @param channelID
+     * @param userLite
+     */
+    public void requestQuitChannel(UUID channelID, UserLite userLite) {
+        dataClient.removeUserFromAuthorizedUserChannel(userLite, channelID);
     }
 
     /**
@@ -155,7 +164,7 @@ public class DataClientHandler {
                 dataClient.saveNewAdminIntoHistory(infoPackage.user, infoPackage.channelID);
                 break;
             case REMOVE_ADMIN:
-                // TODO INTEGRATION V3: tell Data to add method to remove admin from proprietary channel
+                dataClient.requestRemoveAdmin(infoPackage.channelID, infoPackage.user);
                 break;
             default:
                 logger.log(Level.WARNING, "ChatMessage: opetration inconnue");
