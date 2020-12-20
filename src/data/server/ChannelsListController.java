@@ -218,6 +218,23 @@ public class ChannelsListController {
         }
     }
 
+    /**
+     * Enregistre le like d'un message dans l'historique d'un channel.
+     *
+     * @param channelId     L'identifiant du channel
+     * @param msg           Le message auquel on réagit
+     * @param user          L'utilisateur qui réagit
+     */
+    public void writeLikeIntoHistory(UUID channelId, Message msg, UserLite user) {
+        Channel channel = searchChannelById(channelId);
+        Message message = getMessageFromId(channel.getId(), msg.getId());
+
+        if (channel != null && message != null) {
+            message.addLike(user);
+            writeChannelDataToJSON(channel);
+        }
+    }
+
     public List<Channel> disconnectOwnedChannel(UserLite owner) {
         List<Channel> userOwnedChannels = new ArrayList<>();
 
