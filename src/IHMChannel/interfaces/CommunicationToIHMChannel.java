@@ -25,7 +25,7 @@ import java.util.UUID;
      */
     @Override
     public void changeNickname(User user) {
-        throw new UnsupportedOperationException("Not implemented yet");
+         controller.getChannelPageController().getChannelController(channel).changeNickname(user);
     }
 
     /**
@@ -118,3 +118,4 @@ import java.util.UUID;
     }
 
 }
+>>>>>>> src/IHMChannel/interfaces/CommunicationToIHMChannel.java

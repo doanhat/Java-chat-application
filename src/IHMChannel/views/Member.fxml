@@ -10,12 +10,14 @@
 
 <?import IHMChannel.switchButton.ToggleSwitch?>
 
+<?import javafx.scene.control.TextField?>
 <HBox alignment="CENTER_LEFT" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IHMChannel.controllers.MemberController">
         <ImageView fx:id="profilePic" />
         <ImageView fx:id="connectedIcon" />
-        <Text fx:id="username" styleClass="user-name"/>
+        <TextField fx:id="username" styleClass="user-name"/>
         <ImageView fx:id="creatorIcon"/>
-        <Text fx:id="isThatYouText"/>
+        <Text fx:id="isThatYouText" styleClass="minor-info"/>
+        <Button fx:id="editNicknameBtn" visible="false" styleClass="btn" onAction="#editNickname"/>
         <Pane HBox.hgrow="ALWAYS" />
         <ToggleSwitch fx:id="toggleAdminBtn" styleClass="btn, toggle-btn"/>
         <Button fx:id="banBtn" onAction="#banHandler" />

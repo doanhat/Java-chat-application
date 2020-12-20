@@ -1,12 +1,18 @@
 package IHMChannel.controllers;
 
 import IHMChannel.IHMChannelController;
-import common.shared_data.Channel;
-import common.shared_data.UserLite;
+import common.sharedData.Channel;
+import common.sharedData.Message;
+import common.sharedData.UserLite;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 import IHMChannel.switchButton.ToggleSwitch;
 
@@ -21,7 +27,8 @@ public class MemberController {
     @FXML
     ImageView connectedIcon;
     @FXML
-    Text username;
+    TextField username;
+
     @FXML
     ImageView creatorIcon;
     @FXML
@@ -30,6 +37,10 @@ public class MemberController {
     ToggleSwitch toggleAdminBtn;
     @FXML
     Button banBtn;
+
+    @FXML
+    Button editNicknameBtn;
+
 
     // TODO actionHandler: isThatYouText, toggleAdminBtn, banBtn
 
@@ -52,6 +63,8 @@ public class MemberController {
 
         if(ihmChannelController.getInterfaceToData().getLocalUser().getId().equals(userToDisplay.getId())){
             isThatYouText.setText(" (vous)");
+            editNicknameBtn.setVisible(true);
+
         }
 
         if(isAdmin){toggleAdminBtn.setMemberController(this); }
@@ -147,5 +160,38 @@ public class MemberController {
 
     public void setChannel(Channel channel) {
         this.channel = channel;
+    }
+
+    public void editNickname() {
+        username.setEditable(true);
+        username.requestFocus();
+
+        //Handler pour valider la modification à l'appui sur entrée
+        username.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if (keyEvent.getCode() == KeyCode.ENTER)  {
+
+                    ihmChannelController.getInterfaceToCommunication().changeNickname(
+                            ihmChannelController.getInterfaceToData().getLocalUser(),
+                            channel,
+                            username.getText()
+                    );
+                    
+                    username.setEditable(false);
+
+                    //TODO appel interface test
+
+                    //TODO à enlever pour l'intégration, ne sert qu'aux tests
+                    userToDisplay.setNickName(username.getText());
+                    ihmChannelController.getInterfaceForCommunication().changeNickname(userToDisplay,channel.getId());
+
+                }
+            }
+        });
+    }
+
+    public void changeNickname(String nickname) {
+        username.setText(nickname);
     }
 }
