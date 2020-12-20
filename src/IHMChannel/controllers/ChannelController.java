@@ -433,9 +433,13 @@ public class ChannelController {
     }
 
     public void removeKick(Kick kick) {
-        //TODO Tester + faut il réajouter le user dans le channel?
+        //TODO à ajuster en fonction des autres modules
         List<Kick> kickList = currentChannel.getKicked();;
         kickList.remove(kick);
         currentChannel.setKicked(kickList);
+        
+        if(currentChannel.getVisibility().equals(Visibility.PRIVATE)){
+            getIhmChannelController().getInterfaceToCommunication().sendInvite(kick.getUser(),currentChannel,"Votre bannissement a été annulé.");
+        }
     }
 }
