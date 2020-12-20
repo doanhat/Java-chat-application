@@ -109,7 +109,9 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
     @Override
     public void editMessage(Channel channel, Message ms) {
-        throw new UnsupportedOperationException("Unimplemented method editMessage.");
+        if (channel.getType() == ChannelType.SHARED) {
+            this.channelsListController.writeEditMessage(channel.getId(), ms);
+        }
     }
 
 
