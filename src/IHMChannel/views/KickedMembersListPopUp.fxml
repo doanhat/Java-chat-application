@@ -16,7 +16,9 @@
     <Pane VBox.vgrow="ALWAYS"/>
     <HBox styleClass="kick-popup-section">
         <Pane HBox.hgrow="ALWAYS" />
-        <Button fx:id="saveBtn" mnemonicParsing="false" text="Enregistrer" styleClass="primary-btn" />
+        <Button fx:id="saveBtn" mnemonicParsing="false" text="Enregistrer" styleClass="primary-btn">
+            <tooltip><Tooltip text="Enregistrer les modifications"/></tooltip>
+        </Button>
         <Pane HBox.hgrow="ALWAYS" />
     </HBox>
     <stylesheets>

@@ -14,8 +14,12 @@
     <ImageView fx:id="profilePic" />
     <Text fx:id="username" styleClass="user-name"/>
     <Pane HBox.hgrow="ALWAYS" />
-    <Button fx:id="unKickBtn" onAction="#unKickBtnHandler" styleClass="icon-bar-btn"/>
-    <Button fx:id="infoBtn" onAction="#infoBtnHandler" styleClass="icon-bar-btn"/>
+    <Button fx:id="unKickBtn" onAction="#unKickBtnHandler" styleClass="icon-bar-btn">
+        <tooltip><Tooltip text="Annuler le kick"/></tooltip>
+    </Button>
+    <Button fx:id="infoBtn" onAction="#infoBtnHandler" styleClass="icon-bar-btn">
+        <tooltip><Tooltip text="Informations"/></tooltip>
+    </Button>
     <stylesheets>
         <URL value="@../css/style.css" />
     </stylesheets>

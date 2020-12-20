@@ -19,7 +19,9 @@
         <ImageView fx:id="creatorIcon"/>
         <Text fx:id="isThatYouText"/>
         <ToggleSwitch fx:id="toggleAdminBtn" styleClass="btn, toggle-btn"/>
-        <Button fx:id="banBtn" text="ban"/>
+        <Button fx:id="banBtn" text="ban">
+                <tooltip><Tooltip text="Kick l'utilisateur"/></tooltip>
+        </Button>
 
         <stylesheets>
                 <URL value="@../css/style.css" />
