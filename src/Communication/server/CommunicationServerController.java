@@ -11,9 +11,11 @@ import java.util.stream.Collectors;
 import Communication.common.*;
 import Communication.common.info_packages.BanUserPackage;
 import Communication.common.info_packages.InfoPackage;
+import Communication.common.info_packages.UpdateChannelPackage;
 import Communication.messages.abstracts.NetworkMessage;
 import Communication.messages.server_to_client.channel_access.propietary_channels.TellOwnerUserInvitedMessage;
 import Communication.messages.server_to_client.channel_modification.NewInvisibleChannelsMessage;
+import Communication.messages.server_to_client.channel_modification.NewVisibleChannelMessage;
 import Communication.messages.server_to_client.chat_action.ReceiveChatMessage;
 import Communication.messages.server_to_client.connection.UserDisconnectedMessage;
 import Communication.messages.server_to_client.channel_access.UserLeftChannelMessage;
@@ -362,7 +364,8 @@ public class CommunicationServerController extends CommunicationController {
 					BanUserPackage castedPackage = BanUserPackage.class.cast(infoPackage);
 					// TODO INTEGRATION V4: Update interface of Data after request of IHM Channel
 					// dataServer.banUserFromChannel(channel, castedPackage.userToBan, castedPackage.endDate, castedPackage.isPermanent, castedPackage.explanation);
-				} else {
+				}
+				else {
 					logger.log(Level.SEVERE, "ChatMessage: BAN_USER contient mauvais BanUserPackage");
 				}
 
@@ -371,9 +374,40 @@ public class CommunicationServerController extends CommunicationController {
 				if (BanUserPackage.class.isInstance(infoPackage)) {
 					BanUserPackage castedPackage = BanUserPackage.class.cast(infoPackage);
 					dataServer.cancelUsersBanFromChannel(channel, castedPackage.userToBan);
-				} else {
+				}
+				else {
 					logger.log(Level.SEVERE, "ChatMessage: UNBAN_USER contient mauvais BanUserPackage");
 				}
+				break;
+			case UPDATE_CHANNEL:
+				if (UpdateChannelPackage.class.isInstance(infoPackage)) {
+					UpdateChannelPackage castedPackage = UpdateChannelPackage.class.cast(infoPackage);
+
+					Visibility oldVisibility = channel.getVisibility();
+
+					dataServer.updateChannel(castedPackage.channelID, castedPackage.user.getId(), castedPackage.name, castedPackage.description, castedPackage.visibility);
+
+					// TODO INTEGRATION V4: test use case of visibility update
+					if (castedPackage.visibility != null && oldVisibility != castedPackage.visibility) {
+						// informe les utilisateurs qui ne sont pas encore autorisés sur le changement sur la visibilité
+						List<UserLite> notAuthorizedUsers = new ArrayList<UserLite>(onlineUsers());
+
+						if (notAuthorizedUsers.removeAll(channel.getAuthorizedPersons())) {
+							if (castedPackage.visibility == Visibility.PUBLIC) {
+								// channel devient publique
+								sendMulticast(notAuthorizedUsers, new NewVisibleChannelMessage(getChannel(castedPackage.channelID)));
+							}
+							else {
+								// channel devient privé
+								sendMulticast(notAuthorizedUsers, new NewInvisibleChannelsMessage(castedPackage.channelID));
+							}
+						}
+					}
+				}
+				else {
+					logger.log(Level.SEVERE, "ChatMessage: UPDATE_CHANNEL contient mauvais UpdateChannelPackage");
+				}
+
 				break;
 			default:
 				logger.log(Level.WARNING, "ChatMessage: opetration inconnue");

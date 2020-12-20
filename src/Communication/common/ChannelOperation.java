@@ -10,4 +10,5 @@ public enum ChannelOperation {
     REMOVE_ADMIN,
     BAN_USER,
     UNBAN_USER,
+    UPDATE_CHANNEL,
 }

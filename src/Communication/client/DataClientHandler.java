@@ -3,10 +3,15 @@ package Communication.client;
 import Communication.common.ChannelOperation;
 import Communication.common.info_packages.BanUserPackage;
 import Communication.common.info_packages.InfoPackage;
+import Communication.common.info_packages.UpdateChannelPackage;
+import Communication.messages.server_to_client.channel_modification.NewInvisibleChannelsMessage;
+import Communication.messages.server_to_client.channel_modification.NewVisibleChannelMessage;
 import common.interfaces.client.ICommunicationToData;
 import common.shared_data.Message;
 import common.shared_data.UserLite;
+import common.shared_data.Visibility;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -77,7 +82,8 @@ public class DataClientHandler {
                     BanUserPackage castedPackage = BanUserPackage.class.cast(infoPackage);
                     // TODO INTEGRATION V4: Update interface of Data after request of IHM Channel
                     //dataClient.removeUserFromAuthorizedUserChannel(castedPackage.channelID, castedPackage.userToBan, castedPackage.endDate, castedPackage.isPermanent, castedPackage.explanation);
-                } else {
+                }
+                else {
                     logger.log(Level.SEVERE, "ChatMessage: BAN_USER contient mauvais BanUserPackage");
                 }
                 break;
@@ -85,8 +91,20 @@ public class DataClientHandler {
                 if (BanUserPackage.class.isInstance(infoPackage)) {
                     BanUserPackage castedPackage = BanUserPackage.class.cast(infoPackage);
                     dataClient.unbannedUserToChannel(castedPackage.userToBan, castedPackage.channelID);
-                } else {
+                }
+                else {
                     logger.log(Level.SEVERE, "ChatMessage: UNBAN_USER contient mauvais BanUserPackage");
+                }
+                break;
+            case UPDATE_CHANNEL:
+                if (UpdateChannelPackage.class.isInstance(infoPackage)) {
+                    UpdateChannelPackage castedPackage = UpdateChannelPackage.class.cast(infoPackage);
+
+                    // TODO INTEGRATION V4: call the right method in ICommunicationToData to notify channel updated
+                    //dataClient.updateChannel(castedPackage.channelID, castedPackage.user.getId(), castedPackage.name, castedPackage.description, castedPackage.visibility);
+                }
+                else {
+                    logger.log(Level.SEVERE, "ChatMessage: UPDATE_CHANNEL contient mauvais UpdateChannelPackage");
                 }
                 break;
             default:
@@ -189,7 +207,8 @@ public class DataClientHandler {
                     BanUserPackage castedPackage = BanUserPackage.class.cast(infoPackage);
                     // TODO INTEGRATION V4: Update interface of Data after request of IHM Channel
                     //dataClient.banUserIntoHistory(castedPackage.channelID, castedPackage.userToBan, castedPackage.endDate, castedPackage.isPermanent, castedPackage.explanation);
-                } else {
+                }
+                else {
                     logger.log(Level.SEVERE, "ChatMessage: BAN_USER contient mauvais BanUserPackage");
                 }
                 break;
@@ -197,8 +216,20 @@ public class DataClientHandler {
                 if (BanUserPackage.class.isInstance(infoPackage)) {
                     BanUserPackage castedPackage = BanUserPackage.class.cast(infoPackage);
                     dataClient.cancelBanOfUserIntoHistory(castedPackage.userToBan, castedPackage.channelID);
-                } else {
+                }
+                else {
                     logger.log(Level.SEVERE, "ChatMessage: UNBAN_USER contient mauvais BanUserPackage");
+                }
+                break;
+            case UPDATE_CHANNEL:
+                if (UpdateChannelPackage.class.isInstance(infoPackage)) {
+                    UpdateChannelPackage castedPackage = UpdateChannelPackage.class.cast(infoPackage);
+
+                    // TODO INTEGRATION V4: call the right method in ICommunicationToData to update proprietary channel
+                    //dataClient.updateChannelIntoHistory(castedPackage.channelID, castedPackage.user.getId(), castedPackage.name, castedPackage.description, castedPackage.visibility);
+                }
+                else {
+                    logger.log(Level.SEVERE, "ChatMessage: UPDATE_CHANNEL contient mauvais UpdateChannelPackage");
                 }
                 break;
             default:

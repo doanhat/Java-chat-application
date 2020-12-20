@@ -4,12 +4,12 @@ import Communication.common.ChannelOperation;
 import Communication.common.info_packages.BanUserPackage;
 import Communication.common.info_packages.InfoPackage;
 import Communication.common.Parameters;
+import Communication.common.info_packages.UpdateChannelPackage;
 import Communication.messages.client_to_server.channel_access.proprietary_channels.LeavePropChannelMessage;
 import Communication.messages.client_to_server.channel_access.proprietary_channels.QuitPropChannelMessage;
 import Communication.messages.client_to_server.channel_access.shared_channels.LeaveSharedChannelMessage;
 import Communication.messages.client_to_server.channel_access.QuitChannelMessage;
 import Communication.messages.client_to_server.channel_modification.DeleteChannelMessage;
-import Communication.messages.client_to_server.channel_modification.UpdateChannelMessage;
 import Communication.messages.client_to_server.channel_modification.GetChannelUsersMessage;
 import Communication.messages.client_to_server.channel_modification.proprietary_channels.SendProprietaryChannelsMessage;
 import Communication.messages.client_to_server.channel_modification.shared_channels.CreateSharedChannelMessage;
@@ -398,12 +398,21 @@ public class CommunicationClientInterface implements IDataToCommunication,
      * Demande de modification des caractériqtiques d'un channel
      *
      * @param channelID [UUID] ID du channel dont on demande la modification
-     * @param userID [UUID] ID de l'utilisateur qui demande la modification
      * @param name [String] Nouveau nom du channel
      * @param description [String] Nouvelle description du channel
      * @param visibility [Visibility] Nouvelle visibilité du channel (public / privé)
      */
-    public void updateChannel(UUID channelID, UUID userID, String name, String description, Visibility visibility) {
-        commController.sendMessage(new UpdateChannelMessage(channelID, userID, name, description, visibility));
+    public void updateChannel(UUID channelID, String name, String description, Visibility visibility) {
+        if (channelID == null) {
+            return;
+        }
+
+        UpdateChannelPackage updatePackage = new UpdateChannelPackage();
+        updatePackage.user = localUser;
+        updatePackage.name = name;
+        updatePackage.description = description;
+        updatePackage.visibility = visibility;
+
+        this.commController.sendMessage(new ChatMessage(ChannelOperation.UPDATE_CHANNEL, updatePackage));
     }
 }
