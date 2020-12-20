@@ -8,4 +8,6 @@ public enum ChannelOperation {
     EDIT_NICKNAME,
     ADD_ADMIN,
     REMOVE_ADMIN,
+    BAN_USER,
+    UNBAN_USER,
 }

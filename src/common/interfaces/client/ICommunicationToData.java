@@ -67,7 +67,7 @@ public interface ICommunicationToData {
      * @param user    the user
      * @param channelId the channel
      */
-    void cancelBanOfUserIntoHistory(User user, UUID channelId);
+    void cancelBanOfUserIntoHistory(UserLite user, UUID channelId);
 
 
     /**

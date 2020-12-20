@@ -1,7 +1,8 @@
 package Communication.client;
 
 import Communication.common.ChannelOperation;
-import Communication.common.InfoPackage;
+import Communication.common.info_packages.BanUserPackage;
+import Communication.common.info_packages.InfoPackage;
 import common.interfaces.client.ICommunicationToData;
 import common.shared_data.Message;
 import common.shared_data.UserLite;
@@ -70,6 +71,23 @@ public class DataClientHandler {
                 break;
             case REMOVE_ADMIN:
                 dataClient.requestRemoveAdmin(infoPackage.channelID, infoPackage.user);
+                break;
+            case BAN_USER:
+                if (BanUserPackage.class.isInstance(infoPackage)) {
+                    BanUserPackage castedPackage = BanUserPackage.class.cast(infoPackage);
+                    // TODO INTEGRATION V4: Update interface of Data after request of IHM Channel
+                    //dataClient.removeUserFromAuthorizedUserChannel(castedPackage.channelID, castedPackage.userToBan, castedPackage.endDate, castedPackage.isPermanent, castedPackage.explanation);
+                } else {
+                    logger.log(Level.SEVERE, "ChatMessage: BAN_USER contient mauvais BanUserPackage");
+                }
+                break;
+            case UNBAN_USER:
+                if (BanUserPackage.class.isInstance(infoPackage)) {
+                    BanUserPackage castedPackage = BanUserPackage.class.cast(infoPackage);
+                    dataClient.unbannedUserToChannel(castedPackage.userToBan, castedPackage.channelID);
+                } else {
+                    logger.log(Level.SEVERE, "ChatMessage: UNBAN_USER contient mauvais BanUserPackage");
+                }
                 break;
             default:
                 logger.log(Level.WARNING, "ChatMessage: opetration inconnue");
@@ -165,6 +183,23 @@ public class DataClientHandler {
                 break;
             case REMOVE_ADMIN:
                 dataClient.requestRemoveAdmin(infoPackage.channelID, infoPackage.user);
+                break;
+            case BAN_USER:
+                if (BanUserPackage.class.isInstance(infoPackage)) {
+                    BanUserPackage castedPackage = BanUserPackage.class.cast(infoPackage);
+                    // TODO INTEGRATION V4: Update interface of Data after request of IHM Channel
+                    //dataClient.banUserIntoHistory(castedPackage.channelID, castedPackage.userToBan, castedPackage.endDate, castedPackage.isPermanent, castedPackage.explanation);
+                } else {
+                    logger.log(Level.SEVERE, "ChatMessage: BAN_USER contient mauvais BanUserPackage");
+                }
+                break;
+            case UNBAN_USER:
+                if (BanUserPackage.class.isInstance(infoPackage)) {
+                    BanUserPackage castedPackage = BanUserPackage.class.cast(infoPackage);
+                    dataClient.cancelBanOfUserIntoHistory(castedPackage.userToBan, castedPackage.channelID);
+                } else {
+                    logger.log(Level.SEVERE, "ChatMessage: UNBAN_USER contient mauvais BanUserPackage");
+                }
                 break;
             default:
                 logger.log(Level.WARNING, "ChatMessage: opetration inconnue");

@@ -3,6 +3,7 @@ package common.interfaces.client;
 import common.shared_data.*;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.*;
 
 public interface IIHMChannelToCommunication
@@ -36,11 +37,20 @@ public interface IIHMChannelToCommunication
     /**
      * Demande de bannir un utilisateur d'un channel
      *
-     * @param user Utilisateur a bannir
-     * @param duration Durée du bannisement
+     * @param userToKick Utilisateur a bannir
+     * @param endDate Fin du bannisement
+     * @param isPermanent bannisement définitif
      * @param explanation Chaine de caractere justifiant le ban
+     * @param channelID ID du canal duquel l'utilisateur doit être banni.
      **/
-    void banUserFromChannel(UserLite user, int duration, String explanation);
+    void banUserFromChannel(UserLite userToKick, LocalDate endDate, boolean isPermanent, String explanation, UUID channelID);
+
+    /**
+     * Annuler de bannir un utilisateur d'un channel
+     * @param unKickedUser
+     * @param channelID
+     */
+    void cancelBanOfUserFromChannel(UserLite unKickedUser, UUID channelID);
 
     /**
      * Envoie d'un message au serveur

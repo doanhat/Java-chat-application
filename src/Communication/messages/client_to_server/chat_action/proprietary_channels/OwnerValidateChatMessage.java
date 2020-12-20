@@ -1,7 +1,7 @@
 package Communication.messages.client_to_server.chat_action.proprietary_channels;
 
 import Communication.common.ChannelOperation;
-import Communication.common.InfoPackage;
+import Communication.common.info_packages.InfoPackage;
 import Communication.messages.abstracts.ClientToServerMessage;
 import Communication.server.CommunicationServerController;
 
