@@ -74,30 +74,45 @@ import java.util.UUID;
         });
     }
 
-
-    private IHMChannelController controller;
-
     @Override
-    public void addAuthorizedUser(UUID channel, UserLite user){
+    public void leaveChannel(UUID channelID, UserLite user) {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                //on transmet l'utilisateur à la liste d'utilisateurs connectés au channel de la vue ConnectedMembersList
-                System.out.println("Utilisateur add : "+user.getNickName());
-                controller.getChannelPageController().getChannelController(channel).getChannelMembersDisplay().getController().getConnectedMembersListDisplay().getController().addMemberToList(user);
+                controller.getChannelPageController().leaveChannel(channelID, user);
+                controller.getInterfaceToIHMMain().setOpenedChannelsList(controller.getOpenedChannelsList());
             }
         });
     }
 
+
+        private IHMChannelController controller;
+
     @Override
-    public void removeAuthorizedUser(UUID channel, UserLite user){
+    public void addAuthorizedUser(UUID channel, UserLite user) {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                //on supprime l'utilisateur de la liste d'utilisateurs connectés au channel de la vue ConnectedMembersList
+                try {
+                    controller.getChannelPageController().getChannelController(channel).addUser(user);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
-                controller.getChannelPageController().getChannelController(channel).getChannelMembersDisplay().getController().getConnectedMembersListDisplay().getController().removeMemberFromList(user);
-                System.out.println("Utilisateur supp : "+user.getNickName());
+    }
+
+    @Override
+    public void removeAuthorizedUser(UUID channel, UserLite user) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    controller.getChannelPageController().getChannelController(channel).removeUserAuthorization(user);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }

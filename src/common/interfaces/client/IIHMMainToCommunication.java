@@ -2,6 +2,9 @@ package common.interfaces.client;
 
 import common.shared_data.*;
 
+import java.util.List;
+import java.util.UUID;
+
 /**
  * The interface Iihm main to communication.
  */
@@ -11,13 +14,23 @@ public interface IIHMMainToCommunication
      * Mettre adresse du serveur
      * @param addressIP
      */
-    public void setIP(String addressIP);
+    void setIP(String addressIP);
 
     /**
      * Mettre port du serveur
      * @param port
      */
-    public void setPort(int port);
+    void setPort(int port);
+
+    /**
+     * @return Adresse du serveur
+     */
+    String getIP();
+
+    /**
+     * @return Port du serveur
+     */
+    int getPort();
 
     /**
      * Déconnecter application
@@ -49,4 +62,6 @@ public interface IIHMMainToCommunication
      * @return
      */
     String getAvatarPath(UserLite user);
+
+    void getConnectedUsers(UUID channelID);
 }

@@ -30,10 +30,11 @@ public class AdminMembersListDisplay {
     public void setConnectedMembersList(List<UserLite> connectedMembersList){
         adminMembersController.setConnectedMembersList(connectedMembersList);
     }
-    public void addMemberToList(UserLite user) {
-        adminMembersController.addMemberToList(user);
+    public void addMemberToConnectedMembersList(UserLite user) {
+        adminMembersController.addMemberToConnectedMembersList(user);
     }
-    public void removeMemberFromList(UserLite user) {
-        adminMembersController.removeMemberFromList(user);
+
+    public void removeMemberFromConnectedMembersList(UserLite user) {
+        adminMembersController.removeMemberFromConnectedMembersList(user);
     }
 }

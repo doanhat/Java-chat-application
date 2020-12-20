@@ -40,6 +40,8 @@ public class ChannelController extends Controller{
         return null;
     }
 
+
+
     /**
      * Load proprietary local channels own to a specific user
      * @param user The user concerned
@@ -138,7 +140,20 @@ public class ChannelController extends Controller{
      */
     public void newAdmin(UserLite user, UUID channelId) {
         try {
-            this.channelClient.addNewAdmin(user,this.channelClient.getChannel(channelId));
+            this.channelClient.addNewAdmin(user, channelId);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * New admin.
+     *  @param user    the user
+     * @param channelId the channelId
+     */
+    public void removeAdmin(UserLite user, UUID channelId) {
+        try {
+            this.channelClient.removeAdmin(user, channelId);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -217,6 +232,19 @@ public class ChannelController extends Controller{
         }
     }
 
+
+    /**
+     * Save remove admin into history.
+     * @param channelId the channelId
+     */
+    public void saveRemoveAdminIntoHistory(UUID channelId) {
+        FileHandle fileHandler = new FileHandle(LocationType.CLIENT, FileType.CHANNEL);
+        Channel ownedChannel = searchChannelById(channelId);
+        if (ownedChannel!=null) {
+            fileHandler.writeJSONToFile(ownedChannel.getId().toString(),ownedChannel);
+        }
+    }
+
     public void removeUserFromJoinedUserChannel(UserLite user, UUID channelId) {
         List<Channel> channels = getChannelList();
         for (Channel c : channels) {
@@ -233,6 +261,17 @@ public class ChannelController extends Controller{
         for (Channel c : channels) {
             if(c.getId().equals(channelId)) {
                 c.removeAllUser();
+                new FileHandle<Channel>(LocationType.CLIENT, FileType.CHANNEL).writeJSONToFile(channelId.toString(), c);
+                break;
+            }
+        }
+    }
+
+    public void removeUserFromAuthorizationUserChannel(UserLite user, UUID channelId) {
+        List<Channel> channels = getChannelList();
+        for (Channel c : channels) {
+            if(c.getId().equals(channelId)) {
+                c.removeUserAuthorization(user.getId());
                 new FileHandle<Channel>(LocationType.CLIENT, FileType.CHANNEL).writeJSONToFile(channelId.toString(), c);
                 break;
             }

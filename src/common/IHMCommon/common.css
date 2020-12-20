@@ -92,6 +92,7 @@
 
 .btn-radio {
     -fx-color: #ffffff;
+    -fx-padding: 5;
 }
 
 .btn-radio:selected {
