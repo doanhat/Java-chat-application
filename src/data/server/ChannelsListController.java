@@ -188,6 +188,17 @@ public class ChannelsListController {
         }
     }
 
+    /**
+     * Enregistre un like dans l'historique du message d'un channel.
+     *
+     * @param channel   Le channel.
+     */
+    public void writeLikeInMessage(Channel channel) {
+        if (channel.getType() == ChannelType.SHARED) {
+            this.writeChannelDataToJSON(channel);
+        }
+    }
+
     public List<Channel> disconnectOwnedChannel(UserLite owner) {
         List<Channel> userOwnedChannels = new ArrayList<>();
 

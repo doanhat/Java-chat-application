@@ -114,9 +114,15 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
 
     @Override
-    public void saveLikeIntoHistory(Channel ch, Message ms, UserLite user) {
-        throw new UnsupportedOperationException("Unimplemented method saveLikeIntoHistory.");
+    public void saveLikeIntoHistory(Channel channel, Message ms, UserLite user) {
+        if(channel!=null && ms!=null && user!=null){
+            if(channel.userInChannel(user.getId()) && channel.messageInChannel(ms.getId())){
+                ms.addLike(user);
+                channelsListController.writeLikeInMessage(channel);
+            }
+        }
     }
+
 
 
     @Override

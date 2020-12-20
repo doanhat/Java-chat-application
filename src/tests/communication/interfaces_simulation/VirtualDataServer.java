@@ -111,6 +111,7 @@ public class VirtualDataServer implements IServerCommunicationToData {
 
     }
 
+
     @Override
     public void saveRemovalMessageIntoHistory(Channel channel, Message ms, Boolean deletedByCreator) {
 
