@@ -49,17 +49,6 @@ public class CommunicationClientInterface implements IDataToCommunication,
         this.commController.start(Parameters.SERVER_IP, Parameters.PORT, user);
     }
 
-    /**
-     * Transfere au serveur la demande de suppresion d'un channel
-     *
-     * @param channelID ID de l'objet à supprimer
-     * @implNote
-     **/
-    @Override
-    public void deleteChannel(UUID channelID) {
-        commController.sendMessage(new DeleteChannelMessage(channelID, localUser));
-    }
-
     /* ---------------------------- IIHMMainToCommunication interface implementations --------------------------------*/
 
     @Override
@@ -380,6 +369,17 @@ public class CommunicationClientInterface implements IDataToCommunication,
         }
     }
 
+    /**
+     * Transfere au serveur la demande de suppresion d'un channel
+     *
+     * @param channelID ID de l'objet à supprimer
+     * @implNote
+     **/
+    @Override
+    public void deleteChannel(UUID channelID) {
+        commController.sendMessage(new DeleteChannelMessage(channelID, localUser));
+    }
+
     @Override
     public void quitChannel(Channel channel) {
         if (channel.getType() == ChannelType.OWNED) {
@@ -389,7 +389,8 @@ public class CommunicationClientInterface implements IDataToCommunication,
             else {
                 commController.sendMessage(new QuitPropChannelMessage(localUser, channel.getId(), channel.getCreator()));
             }
-        } else {
+        }
+        else {
             commController.sendMessage(new QuitChannelMessage(localUser, channel.getId()));
         }
     }
