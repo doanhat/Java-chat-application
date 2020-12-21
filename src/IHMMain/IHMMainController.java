@@ -1,5 +1,6 @@
 package IHMMain;
 
+import common.shared_data.Visibility;
 import data.client.IHMMainToData;
 import IHMMain.implementations.CommunicationToIHMMain;
 import IHMMain.implementations.DataToIHMMain;
@@ -114,17 +115,18 @@ public class IHMMainController {
 
     /**
      * Update the value of a channel.
-     * Value updated are Name, Description, Visibility and Type.
-     * @param channel The channel containing last information
+     * @param channelID ID of Channel to update
+     * @param name New name of the channel
+     * @param description New description of the channel
+     * @param visibility New visibility of the channel
      */
-    public void modifyChannel(Channel channel) {
-        Optional<Channel> local = visibleChannels.stream().filter(c -> c.getId().equals(channel.getId())).findFirst();
-        if (local.isPresent()) {
-            Channel toUpdate = local.get();
-            toUpdate.setName(channel.getName());
-            toUpdate.setDescription(channel.getDescription());
-            toUpdate.setVisibility(channel.getVisibility());
-            toUpdate.setType(channel.getType());
+    public void modifyChannel(UUID channelID, String name, String description, Visibility visibility) {
+        Optional<Channel> channelLocal = visibleChannels.stream().filter(c -> c.getId().equals(channelID)).findFirst();
+        if (channelLocal.isPresent()) {
+            Channel channel = channelLocal.get();
+            channel.setName(name);
+            channel.setDescription(description);
+            channel.setVisibility(visibility);
         }
     }
     

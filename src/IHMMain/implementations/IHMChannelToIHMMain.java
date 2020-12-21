@@ -4,8 +4,10 @@ import IHMMain.IHMMainController;
 import common.interfaces.client.IIHMChannelToIHMMain;
 import common.shared_data.Channel;
 import common.shared_data.UserLite;
+import common.shared_data.Visibility;
 
 import java.util.List;
+import java.util.UUID;
 
 public class IHMChannelToIHMMain implements IIHMChannelToIHMMain {
 
@@ -41,7 +43,7 @@ public class IHMChannelToIHMMain implements IIHMChannelToIHMMain {
     }
 
     @Override
-    public void modifyChannel(Channel channel) {
-        ihmMainController.modifyChannel(channel);
+    public void modifyChannel(UUID channelID, String name, String description, Visibility visibility) {
+        ihmMainController.modifyChannel(channelID, name, description, visibility);
     }
 }
