@@ -29,6 +29,9 @@ public class TellOwnerAccessRequestMessage extends ServerToClientMessage {
             case LEAVE:
                 commClientController.dataClientHandler().requestLeaveChannel(channelID, user);
                 break;
+            case INVITE:
+                commClientController.dataClientHandler().inviteUserToProprietaryChannel(user, channelID);
+                break;
             default:
         }
 

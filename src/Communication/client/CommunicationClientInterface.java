@@ -15,7 +15,6 @@ import Communication.messages.client_to_server.channel_modification.proprietary_
 import Communication.messages.client_to_server.channel_modification.shared_channels.CreateSharedChannelMessage;
 import Communication.messages.client_to_server.channel_operation.ChannelOperationMessage;
 import Communication.messages.client_to_server.channel_modification.GetHistoryMessage;
-import Communication.messages.client_to_server.channel_access.SendInvitationMessage;
 import Communication.messages.client_to_server.channel_access.shared_channels.ChannelAccessRequestMessage;
 
 import Communication.messages.client_to_server.connection.AvatarMessage;
@@ -122,8 +121,6 @@ public class CommunicationClientInterface implements IDataToCommunication,
 
     /* -------------------------- IIHMChannelToCommunication interface implementations -------------------------------*/
 
-
-
 	/**
      * Transfert au serveur l'envoi d'un message d'invitation au serveur'envoi
      * d'une invitation a rejoindre un channel
@@ -139,7 +136,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
 
         // check if local user has the right to invite
         if (localUser == channel.getCreator() || channel.userIsAdmin(localUser.getId())) {
-            commController.sendMessage(new SendInvitationMessage(guest, channel, message));
+            commController.sendMessage(new ChannelAccessRequestMessage(ChannelAccessRequest.INVITE, channel.getId(), guest));
         }
     }
 

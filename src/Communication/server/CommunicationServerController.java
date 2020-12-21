@@ -15,8 +15,8 @@ import Communication.common.info_packages.InfoPackage;
 import Communication.common.info_packages.UpdateChannelPackage;
 import Communication.messages.abstracts.NetworkMessage;
 import Communication.messages.server_to_client.channel_access.NewUserJoinChannelMessage;
-import Communication.messages.server_to_client.channel_access.propietary_channels.TellOwnerUserInvitedMessage;
 import Communication.messages.server_to_client.channel_modification.NewInvisibleChannelsMessage;
+import Communication.messages.server_to_client.channel_modification.NewUserAuthorizeChannelMessage;
 import Communication.messages.server_to_client.channel_modification.NewVisibleChannelMessage;
 import Communication.messages.server_to_client.channel_modification.SendHistoryMessage;
 import Communication.messages.server_to_client.channel_operation.ReceiveChannelOperationMessage;
@@ -318,6 +318,9 @@ public class CommunicationServerController extends CommunicationController {
 			case LEAVE:
 				leaveChannel(channel.getId(), user);
 				break;
+			case INVITE:
+				requestInviteUserToChannel(channel, user);
+				break;
 			default:
 		}
 	}
@@ -337,13 +340,14 @@ public class CommunicationServerController extends CommunicationController {
 	 * @param guest invitateur
 	 * @param channel channel
 	 */
-	public void requestInviteUserToChannel(UserLite guest, Channel channel) {
+	public void requestInviteUserToChannel(Channel channel, UserLite guest) {
 		dataServer.requestAddUser(channel, guest);
 
-		if (channel.getType() == ChannelType.OWNED) {
-			// Tell owner user invited
-			sendMessage(channel.getCreator().getId(), new TellOwnerUserInvitedMessage(guest, channel.getId()));
-		}
+		// send Invitation to guest
+		sendMessage(guest.getId(), new NewVisibleChannelMessage(channel));
+
+		// Notifie les utilisateurs connectes au channel qu'un nouveau utilisateur à été authorisé
+		sendMulticast(channel.getJoinedPersons(), new NewUserAuthorizeChannelMessage(guest, channel.getId()));
 	}
 
 	public List<UserLite> channelConnectedUsers(Channel channel) {
