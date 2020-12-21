@@ -63,10 +63,11 @@ public class HomePageController implements Initializable {
 
         // Gestion des champs de modification du profil
         connectedUser = ihmMainController.getIHMMainToData().getUser();
-        String avatarPath = (ihmMainController.getIIHMMainToCommunication().getAvatarPath(connectedUser.getUserLite()) != null
-                ? ihmMainController.getIIHMMainToCommunication().getAvatarPath(connectedUser.getUserLite())
-                : "IHMMain/icons/willsmith.png");
-        //String avatarPath = "IHMMain/icons/willsmith.png";
+        // TODO fix this, due to change in the interface
+//        String avatarPath = (ihmMainController.getIIHMMainToCommunication().getAvatarPath(connectedUser.getUserLite()) != null
+//                ? ihmMainController.getIIHMMainToCommunication().getAvatarPath(connectedUser.getUserLite())
+//                : "IHMMain/icons/willsmith.png");
+        String avatarPath = "IHMMain/icons/willsmith.png";
         Image image = new Image(avatarPath);
         avatarUser.setImage(image);
 
