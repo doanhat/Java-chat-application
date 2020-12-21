@@ -49,7 +49,7 @@
                     <Button fx:id="sendBtn" onAction="#sendMessage" styleClass="icon-bar-btn">
                         <tooltip><Tooltip text="Envoyer le message"/></tooltip>
                     </Button>
-                    <Button fx:id="testReception" onAction="#receiveMessage" text="test reception" />
+
                 </HBox>
 
             </VBox>
