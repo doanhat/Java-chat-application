@@ -318,12 +318,15 @@ public class CommunicationToData implements ICommunicationToData {
 
     @Override
     public void updateChannel(UUID channelId, UUID userID, String name, String description, Visibility visibility) {
+        /**
+         * comment vlad : Methode qui ne semble servir a rien ?  (cf les test que j'ai fais sur le doc de test marche bien en
+         * commentant cette méthode) A VERIRIFER
+         * en plus searchChannelById(id) ne marche pas dans updateChannel en dessous
+         */
         dataController.getChannelController().updateChannel(channelId,userID,name,description,visibility);
+
+        Platform.runLater(() -> dataController.getChannelController().getChannelClient().modifyChannel(channelId, name, description, visibility));
     }
 
-    @Override
-    public void modifyChannel(Channel channel) {
-        dataController.getChannelController().channelClient.modifyChannel(channel);
-    }
 
 }

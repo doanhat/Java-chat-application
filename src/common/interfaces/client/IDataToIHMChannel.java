@@ -1,9 +1,6 @@
 package common.interfaces.client;
 
-import common.shared_data.Channel;
-import common.shared_data.Message;
-import common.shared_data.User;
-import common.shared_data.UserLite;
+import common.shared_data.*;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -88,5 +85,5 @@ public interface IDataToIHMChannel {
      * Méthode permettant de mofidier les informations concernant un channel depuis le menu contextuel
      */
 
-    void modifyChannel(Channel channel);
+    void modifyChannel(UUID channelId, String name, String description, Visibility visibility);
 }

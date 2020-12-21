@@ -399,6 +399,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
         updatePackage.name = name;
         updatePackage.description = description;
         updatePackage.visibility = visibility;
+        updatePackage.channelID = channelID;
 
         this.commController.sendMessage(new ChannelOperationMessage(ChannelOperation.UPDATE_CHANNEL, updatePackage));
     }

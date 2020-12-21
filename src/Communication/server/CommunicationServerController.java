@@ -15,10 +15,7 @@ import Communication.common.info_packages.InfoPackage;
 import Communication.common.info_packages.UpdateChannelPackage;
 import Communication.messages.abstracts.NetworkMessage;
 import Communication.messages.server_to_client.channel_access.*;
-import Communication.messages.server_to_client.channel_modification.NewInvisibleChannelsMessage;
-import Communication.messages.server_to_client.channel_modification.NewUserAuthorizeChannelMessage;
-import Communication.messages.server_to_client.channel_modification.NewVisibleChannelMessage;
-import Communication.messages.server_to_client.channel_modification.SendHistoryMessage;
+import Communication.messages.server_to_client.channel_modification.*;
 import Communication.messages.server_to_client.channel_operation.ReceiveChannelOperationMessage;
 import Communication.messages.server_to_client.connection.UserDisconnectedMessage;
 
@@ -459,6 +456,8 @@ public class CommunicationServerController extends CommunicationController {
 
 					Visibility oldVisibility = channel.getVisibility();
 
+
+
 					dataServer.updateChannel(castedPackage.channelID, castedPackage.user.getId(), castedPackage.name, castedPackage.description, castedPackage.visibility);
 
 					// TODO INTEGRATION V4: test use case of visibility update
@@ -467,7 +466,10 @@ public class CommunicationServerController extends CommunicationController {
 						List<UserLite> notAuthorizedUsers = new ArrayList<UserLite>(onlineUsers());
 
 						if (notAuthorizedUsers.removeAll(channel.getAuthorizedPersons())) {
+							//notify users that some channel's property has changed
+							sendMulticast(notAuthorizedUsers, new NewPropertyChannelsMessage(infoPackage, operation));
 							if (castedPackage.visibility == Visibility.PUBLIC) {
+
 								// channel devient publique
 								sendMulticast(notAuthorizedUsers, new NewVisibleChannelMessage(getChannel(castedPackage.channelID)));
 							}

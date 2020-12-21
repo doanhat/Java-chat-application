@@ -252,11 +252,6 @@ public interface ICommunicationToData {
      *
      * */
     void requestRemoveAdmin(UUID channelID, UserLite admin);
-
-    /**
-     * Méthode pour modifier un channel
-     * @param channel le channel
-     */
-    void modifyChannel(Channel channel);
+    
 }
 

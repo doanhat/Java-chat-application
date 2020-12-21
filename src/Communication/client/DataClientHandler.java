@@ -130,7 +130,8 @@ public class DataClientHandler {
                     UpdateChannelPackage castedPackage = UpdateChannelPackage.class.cast(infoPackage);
 
                     // TODO INTEGRATION V4: call the right method in ICommunicationToData to notify channel updated
-                    //dataClient.updateChannel(castedPackage.channelID, castedPackage.user.getId(), castedPackage.name, castedPackage.description, castedPackage.visibility);
+                    dataClient.updateChannel(castedPackage.channelID, castedPackage.user.getId(), castedPackage.name, castedPackage.description, castedPackage.visibility);
+
                 }
                 else {
                     logger.log(Level.SEVERE, "ChatMessage: UPDATE_CHANNEL contient mauvais UpdateChannelPackage");
@@ -283,6 +284,14 @@ public class DataClientHandler {
                     UpdateChannelPackage castedPackage = UpdateChannelPackage.class.cast(infoPackage);
 
                     // TODO INTEGRATION V4: call the right method in ICommunicationToData to update proprietary channel
+                    dataClient.updateChannel(castedPackage.channelID, castedPackage.user.getId(), castedPackage.name, castedPackage.description, castedPackage.visibility);
+
+                    /**
+                     * TODO: Remarque INTEG, jsp a quoi sert cette methode, elle est meme pas declaree, et je ne vois pas pq on
+                     * parle de channel proprietaire, on ne change
+                     * pas le type mais juste la visibilite
+                      */
+
                     //dataClient.updateChannelIntoHistory(castedPackage.channelID, castedPackage.user.getId(), castedPackage.name, castedPackage.description, castedPackage.visibility);
                 }
                 else {

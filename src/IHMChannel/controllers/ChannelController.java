@@ -524,9 +524,10 @@ public class ChannelController {
         //Transfert vue members
         channelMembersDisplay.getController().changeNickname(user);
     }
-    public void updateUI(Channel channel) {
-        channelName.setText(channel.getName());
-        channelDescription.setText(channel.getDescription());
+    public void updateUI(String name, String description) {
+        channelName.setText(name);
+        channelDescription.setText(description);
+
         iconsInit();
     }
     public void removeKick(Kick kick) {

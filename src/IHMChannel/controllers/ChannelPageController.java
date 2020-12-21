@@ -262,29 +262,28 @@ public class ChannelPageController {
     }
 
 
-    public void modifyChannel(Channel channel) {
+    public void modifyChannel(UUID channelId, String name, String description, Visibility visibility) {
 
         Tab tab = new Tab();
         for (Tab t : tabs.getTabs()) {
-            if(t.getId().equals(channel.getId().toString())){
+            if(t.getId().equals(channelId.toString())){
                 tab = t;
             }
         }
-        tab.setText(channel.getName());
+        tab.setText(name);
 
         for(Channel c: openedChannels) {
-            if (c.getId().equals(channel.getId()))
-                updateOppenedChannel(c,channel);
+            if (c.getId().equals(channelId))
+                updateOppenedChannel(c, name, description, visibility);
         }
 
 
-        channelMap.get(channel.getId()).updateUI(channel);
+        channelMap.get(channelId).updateUI(name, description);
     }
 
-    public void updateOppenedChannel(Channel old, Channel newChannel){
-        old.setName(newChannel.getName());
-        old.setDescription(newChannel.getDescription());
-        old.setVisibility(newChannel.getVisibility());
-        old.setType(newChannel.getType());
+    public void updateOppenedChannel(Channel c, String name, String desc, Visibility visibility){
+        c.setName(name);
+        c.setDescription(desc);
+        c.setVisibility(visibility);
     }
 }
