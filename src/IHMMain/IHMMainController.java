@@ -13,10 +13,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class IHMMainController {
     /**
@@ -113,6 +110,22 @@ public class IHMMainController {
 
     public Map<UUID, List<UserLite>> getConnectedUserByChannels() {
         return connectedUserByChannels;
+    }
+
+    /**
+     * Update the value of a channel.
+     * Value updated are Name, Description, Visibility and Type.
+     * @param channel The channel containing last information
+     */
+    public void modifyChannel(Channel channel) {
+        Optional<Channel> local = visibleChannels.stream().filter(c -> c.getId().equals(channel.getId())).findFirst();
+        if (local.isPresent()) {
+            Channel toUpdate = local.get();
+            toUpdate.setName(channel.getName());
+            toUpdate.setDescription(channel.getDescription());
+            toUpdate.setVisibility(channel.getVisibility());
+            toUpdate.setType(channel.getType());
+        }
     }
     
     public void loadIHMMainWindow(ConnectionStatus status) {

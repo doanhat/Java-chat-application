@@ -37,4 +37,11 @@ public interface IIHMChannelToIHMMain {
      * @return La liste des utilisateurs connectés. Renvoie une liste vide si aucun utilisateur n'est connecté
      */
     public List<UserLite> getConnectedUsersList();
+
+    /**
+     * Update the value of a channel.
+     * Value updated are Name, Description, Visibility and Type.
+     * @param channel The channel containing last information
+     */
+    public void modifyChannel(Channel channel);
 }

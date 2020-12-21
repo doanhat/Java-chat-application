@@ -39,4 +39,9 @@ public class IHMChannelToIHMMain implements IIHMChannelToIHMMain {
     public List<UserLite> getConnectedUsersList() {
         return ihmMainController.getConnectedUsers();
     }
+
+    @Override
+    public void modifyChannel(Channel channel) {
+        ihmMainController.modifyChannel(channel);
+    }
 }
