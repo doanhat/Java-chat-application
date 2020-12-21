@@ -105,8 +105,8 @@ public class DataToIHMChannel implements IDataToIHMChannel{
      * @param channelId    channel sur lequel le message a été modifié
      */
     @Override
-    public void editMessage(Message message, Message newMessage, Channel channel) {
-        controller.getChannelPageController().getChannelController(channel.getId()).editMessage(message, newMessage);
+    public void editMessage(Message message, Message newMessage, UUID channelId) {
+        controller.getChannelPageController().getChannelController(channelId).editMessage(message, newMessage);
     }
 
     /**
@@ -116,8 +116,8 @@ public class DataToIHMChannel implements IDataToIHMChannel{
      * @param user    utilisateur à l'origine du like
      */
     @Override
-    public void likeMessage(Channel channel, Message message, User user) {
-        controller.getChannelPageController().getChannelController(channel.getId()).likeMessage(message, user);
+    public void likeMessage(UUID channelId, Message message, User user) {
+        controller.getChannelPageController().getChannelController(channelId).likeMessage(message, user);
     }
 
     /**

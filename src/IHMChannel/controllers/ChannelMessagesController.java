@@ -25,7 +25,6 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -73,8 +72,6 @@ public class ChannelMessagesController{
     private ObservableList<Message> observableMessages;
 
     ListChangeListener<Message> messageListListener;
-
-    private HashMap<UUID, MessageController> mapMessageController = new HashMap<UUID, MessageController>();
 
     public void addMessageToObservableList(Message message){
         observableMessages.add(message);
@@ -325,7 +322,7 @@ public class ChannelMessagesController{
                     ImageView likeIcon = new ImageView(likeImage);
                     likeIcon.setFitHeight(15);
                     likeIcon.setFitWidth(15);
-                    mapMessageController.get(m.getId()).getLikeButton().setGraphic(likeIcon);
+                    messagesMap.get(m.getId()).getLikeButton().setGraphic(likeIcon);
                 }else{
                     likeList.add(user); //like
                     //update icon to red heart
@@ -333,20 +330,20 @@ public class ChannelMessagesController{
                     ImageView likeIcon = new ImageView(likeImage);
                     likeIcon.setFitHeight(15);
                     likeIcon.setFitWidth(15);
-                    mapMessageController.get(m.getId()).getLikeButton().setGraphic(likeIcon);
+                    messagesMap.get(m.getId()).getLikeButton().setGraphic(likeIcon);
                 }
-                mapMessageController.get(message.getId()).setMessageToDisplay(m); //mise à jour de l'affichage
+                messagesMap.get(message.getId()).setMessageToDisplay(m); //mise à jour de l'affichage
                 break;
             }
         }
     }
 
-    public HashMap<UUID, MessageController> getMapMessageController() {
-        return mapMessageController;
+    public HashMap<UUID, MessageController> getMessageMap() {
+        return messagesMap;
     }
 
-    public void setMapMessageController(HashMap<UUID, MessageController> mapMessageController) {
-        this.mapMessageController = mapMessageController;
+    public void setMessageMap(HashMap<UUID, MessageController> messageMap) {
+        this.messagesMap = messageMap;
     }
 
     public void editMessage(Message message, Message newMessage) {
@@ -354,8 +351,8 @@ public class ChannelMessagesController{
             if(m.getId().equals(message.getId())){
                 // pas besoin de màj le content ici car on l'a màj dans la copie locale du channel, ça se répercute automatiquement sur l'affichage
                 //affichage "message édité"
-                mapMessageController.get(m.getId()).getIsEditedText().setText("message édité");
-                mapMessageController.get(message.getId()).setMessageToDisplay(m); //mise à jour de l'affichage
+                messagesMap.get(m.getId()).getIsEditedText().setText("message édité");
+                messagesMap.get(message.getId()).setMessageToDisplay(m); //mise à jour de l'affichage
                 break;
             }
         }
@@ -364,7 +361,7 @@ public class ChannelMessagesController{
     public void changeNickname(UserLite user){
         for(Message m : observableMessages){
             if(m.getAuthor().getId().equals(user.getId())){
-                mapMessageController.get(m.getId()).setAuthorNickname(user.getNickName());
+                messagesMap.get(m.getId()).setAuthorNickname(user.getNickName());
             }
         }
     }

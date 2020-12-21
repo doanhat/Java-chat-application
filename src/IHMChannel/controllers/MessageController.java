@@ -158,7 +158,7 @@ public class MessageController {
                 channelMessagesController.getIhmChannelController().getInterfaceToData().getLocalUser());
         //TODO à enlever pour l'intégration, ne sert qu'aux tests
         channelMessagesController.getIhmChannelController().getInterfaceForData().likeMessage(
-                channelMessagesController.channel,
+                channelMessagesController.channel.getId(),
                 messageToDisplay,
                 channelMessagesController.getIhmChannelController().getInterfaceToData().getLocalUser());
     }
@@ -202,7 +202,7 @@ public class MessageController {
                     channelMessagesController.getIhmChannelController().getInterfaceForData().editMessage(
                             messageToDisplay,
                             newMsg,
-                            channelMessagesController.channel
+                            channelMessagesController.channel.getId()
                     );
                 }
             }
