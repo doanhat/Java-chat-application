@@ -206,14 +206,16 @@ public class HomePageController implements Initializable {
                 new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.jpeg", "*.png")
         );
         File selectedFile = fileChooser.showOpenDialog(thisStage);
-        ihmMainController.getIHMMainToData().editProfile(
-                connectedUser.getNickName(),
-                selectedFile.getName(),
-                connectedUser.getPassword(),
-                connectedUser.getLastName(),
-                connectedUser.getFirstName(),
-                connectedUser.getBirthDate(),
-                connectedUser);
-        ihmMainController.getMainWindowController().getIHMMainWindowController().loadHomePage();
+        if (selectedFile != null) {
+            ihmMainController.getIHMMainToData().editProfile(
+                    connectedUser.getNickName(),
+                    selectedFile.getName(),
+                    connectedUser.getPassword(),
+                    connectedUser.getLastName(),
+                    connectedUser.getFirstName(),
+                    connectedUser.getBirthDate(),
+                    connectedUser);
+            ihmMainController.getMainWindowController().getIHMMainWindowController().loadHomePage();
+        }
     }
 }
