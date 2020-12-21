@@ -70,7 +70,7 @@ public class HomePageController implements Initializable {
             String avatarPath = "IHMMain/icons/willsmith.png";
             image = new Image(avatarPath);
         } else {
-            String avatarPath = System.getProperty("user.dir") + System.getProperty("file.separator") +  connectedUser.getAvatar();
+            String avatarPath = ihmMainController.getIHMMainToData().getLocalAvatarDirectoryPath() + connectedUser.getAvatar();
             image = new Image(Paths.get(avatarPath).toUri().toString());
         }
         avatarUser.setImage(image);

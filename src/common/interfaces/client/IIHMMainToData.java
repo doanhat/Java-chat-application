@@ -99,4 +99,11 @@ public interface IIHMMainToData {
      * @return User matching the id
      */
     User getUserById(UUID userId);
+
+    /**
+     * Return path to the directory where avatar image are store locally
+     * End by file separator
+     * @return
+     */
+    String getLocalAvatarDirectoryPath();
 }

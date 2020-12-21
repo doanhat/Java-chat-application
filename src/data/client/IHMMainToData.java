@@ -127,4 +127,12 @@ public class IHMMainToData implements IIHMMainToData {
     public User getUserById(UUID userId) {
         return this.dataController.getUserController().searchUserById(userId);
     }
+
+    @Override
+    public String getLocalAvatarDirectoryPath() {
+        return System.getProperty("user.dir") +
+                System.getProperty("file.separator") + "resource" +
+                System.getProperty("file.separator") + "client" +
+                System.getProperty("file.separator") + "avatar" + System.getProperty("file.separator");
+    }
 }

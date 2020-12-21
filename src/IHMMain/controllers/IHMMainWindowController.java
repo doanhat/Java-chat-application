@@ -289,7 +289,7 @@ public class IHMMainWindowController implements Initializable{
             Image image = new Image(avatarPath);
             profileImage.setImage(image);
         } else {
-            String avatarPath = System.getProperty("user.dir") + "/" +  userL.getAvatar();
+            String avatarPath = ihmMainController.getIHMMainToData().getLocalAvatarDirectoryPath() +  userL.getAvatar();
             Image image = new Image(Paths.get(avatarPath).toUri().toString());
             profileImage.setImage(image);
         }
