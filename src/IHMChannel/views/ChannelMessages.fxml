@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.URL?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -15,56 +14,55 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.Tooltip?>
-<AnchorPane xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IHMChannel.controllers.ChannelMessagesController">
-    <GridPane>
-        <columnConstraints>
-            <ColumnConstraints percentWidth="95.0" />
-            <ColumnConstraints percentWidth="5.00" />
-        </columnConstraints>
-        <children>
-            <VBox prefWidth="1400">
-                <HBox prefWidth="1400">
-                    <ListView fx:id="listMessages" prefWidth="1200" />
-                    <BorderPane fx:id="connectedMembers" prefWidth="200" styleClass="connectedMembersList" />
-                </HBox>
-                <HBox fx:id="reponseArea" prefHeight="NaN" alignment="CENTER_LEFT" style="-fx-background-color: #B9E6FF;">
-                   <children>
-                      <Pane  prefWidth="50"/>
-                      <ImageView fx:id="imgReceiver"/>
-                      <Text fx:id="userNameReceiver" />
-                      <TextArea fx:id="messageReceiver" prefHeight="100"/>
-                      <Pane HBox.hgrow="ALWAYS"/>
-                      <Button fx:id="removeBtn" onAction="#removeReponse" style="-fx-background-color: transparent"/>
-                      <Pane HBox.hgrow="ALWAYS" />
-                   </children>
-                </HBox>
-
+<GridPane stylesheets="@../../common/IHMCommon/common.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IHMChannel.controllers.ChannelMessagesController">
+     <columnConstraints>
+         <ColumnConstraints percentWidth="100.0" prefWidth="1000.0" />
+     </columnConstraints>
+     <children>
+         <VBox>
+         <GridPane>
+           <columnConstraints>
+             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="85.0" />
+             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="15.0" prefWidth="100.0" />
+           </columnConstraints>
+           <rowConstraints>
+             <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+           </rowConstraints>
+            <children>
+                    <ListView fx:id="listMessages" />
+                    <BorderPane fx:id="connectedMembers" styleClass="connectedMembersList" GridPane.columnIndex="1" />
+            </children>
+         </GridPane>
+             <HBox fx:id="reponseArea" alignment="CENTER_LEFT" prefHeight="NaN" style="-fx-background-color: #B9E6FF;">
+                <children>
+                   <Pane prefHeight="37.0" prefWidth="25.0" />
+                   <ImageView fx:id="imgReceiver" />
+                   <Text fx:id="userNameReceiver" />
+                   <TextArea fx:id="messageReceiver" prefHeight="100" />
+                   <Pane HBox.hgrow="ALWAYS" />
+                   <Button fx:id="removeBtn" onAction="#removeReponse" style="-fx-background-color: transparent" />
+                   <Pane HBox.hgrow="ALWAYS" />
+                </children>
+             </HBox>
+   
                 <HBox alignment="BOTTOM_LEFT" prefHeight="-Infinity" styleClass="envoi-message">
-                    <Pane HBox.hgrow="ALWAYS" />
-                    <ImageView fx:id="profilePic" />
-                    <TextArea fx:id="typedText" prefWidth="1200" />
-                    <Button fx:id="sendBtn" onAction="#sendMessage" styleClass="icon-bar-btn">
-                        <tooltip><Tooltip text="Envoyer le message"/></tooltip>
-                    </Button>
-
+                 <ImageView fx:id="profilePic" />
+                 <TextArea fx:id="typedText" />
+                 <Button fx:id="sendBtn" onAction="#sendMessage" styleClass="icon-bar-btn">
+                     <tooltip>
+                  <Tooltip text="Envoyer le message" />
+               </tooltip>
+                 </Button>
+   
                 </HBox>
 
-            </VBox>
+         </VBox>
 
-        </children>
-      <rowConstraints>
-         <RowConstraints />
-      </rowConstraints>
-
-
-
-    </GridPane>
+     </children>
+   <rowConstraints>
+      <RowConstraints />
+   </rowConstraints>
 
 
-    <stylesheets>
-        <URL value="@../../common/IHMCommon/common.css" />
-    </stylesheets>
-</AnchorPane>
+
+ </GridPane>

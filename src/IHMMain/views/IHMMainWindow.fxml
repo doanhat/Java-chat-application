@@ -16,8 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="/IHMMain/style.css" xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="/IHMMain/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <columnConstraints>
@@ -84,7 +83,7 @@
                               </GridPane>
                            </children>
                         </StackPane>
-                         <VBox GridPane.rowIndex="1" styleClass="channel-list">
+                         <VBox styleClass="channel-list" GridPane.rowIndex="1">
                            <TextField fx:id="channelSearchTextField" promptText="Rechercher un channel (titre, description) ..." />
                              <HBox fx:id="privatePane" alignment="CENTER" styleClass="channel-list-header">
                                  <Label text="Canaux privés" />
@@ -93,7 +92,7 @@
                              </HBox>
                              <ListView fx:id="privateChannels" styleClass="list-view-channel" />
                          </VBox>
-                        <VBox GridPane.rowIndex="2" styleClass="channel-list">
+                        <VBox styleClass="channel-list" GridPane.rowIndex="2">
                            <children>
                                <HBox fx:id="publicPane" alignment="CENTER" styleClass="channel-list-header">
                                    <Label text="Canaux publiques" />
@@ -105,7 +104,7 @@
                         </VBox>
                      </children>
                   </GridPane>
-                  <StackPane fx:id="mainArea" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: lightgrey;" GridPane.columnIndex="1" />
+                  <StackPane fx:id="mainArea" style="-fx-background-color: lightgrey;" GridPane.columnIndex="1" />
                </children>
             </GridPane>
          </children>
