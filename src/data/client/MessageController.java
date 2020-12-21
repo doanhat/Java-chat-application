@@ -19,12 +19,12 @@ public class MessageController extends Controller {
         super(comClient, channelClient, mainClient);
     }
 
+    private FileHandle fileHandler = new FileHandle(LocationType.CLIENT, FileType.CHANNEL);
     public void saveMessageIntoHistory(Message message, Channel ownedChannel, Message response) {
         if (message.getId().toString().equals("")) {
             message.setId(UUID.randomUUID());
         }
         int responseAdded = 0;
-        FileHandle fileHandler = new FileHandle(LocationType.CLIENT, FileType.CHANNEL);
         if (ownedChannel != null) {
             List<Message> listMsg = ownedChannel.getMessages();
             if (response == null) {
@@ -62,10 +62,21 @@ public class MessageController extends Controller {
      *
      * @param oldMessage the old message
      * @param newMessage the new message
-     * @param channel    the channel
+     * @param channelId    the channel
      */
-    public void saveEditionIntoHistory(Message oldMessage, Message newMessage, Channel channel) {
-        throw new UnsupportedOperationException();
+    public void saveEditionIntoHistory(Message oldMessage, Message newMessage, UUID channelId) {
+        Channel channel = this.channelClient.getChannel(channelId);
+        if (channel != null) {
+            List<Message> listMsg = channel.getMessages();
+            for (Message msg : listMsg) {
+                if(msg.getId().equals(oldMessage.getId())) {
+                    msg.setEdited(true);
+                    msg.setMessage(newMessage.getMessage());
+                    break;
+                }
+            }
+            fileHandler.writeJSONToFile(channel.getId().toString(), channel);
+        }
     }
 
     /**
@@ -73,10 +84,11 @@ public class MessageController extends Controller {
      *
      * @param message    the message
      * @param newMessage the new message
-     * @param channel    the channel
+     * @param channelId    the channel ID
      */
-    public void editMessage(Message message, Message newMessage, Channel channel) {
-        throw new UnsupportedOperationException();
+    public void editMessage(Message message, Message newMessage, UUID channelId) {
+        //Commentaire à supprimer une fois le changement effectué dans IDataToIHMChannel
+        //channelClient.editMessage(message, newMessage, channelId);
     }
 
     /**
@@ -87,7 +99,6 @@ public class MessageController extends Controller {
      * @param user         the user
      */
     public void saveLikeIntoHistory(Channel ownedChannel, Message message, UserLite user) {
-        FileHandle<Channel> fileHandler = new FileHandle<>(LocationType.CLIENT, FileType.CHANNEL);
         if (ownedChannel != null) {
             List<Message> listMsg = ownedChannel.getMessages();
             for (Message msg : listMsg) {
@@ -107,7 +118,15 @@ public class MessageController extends Controller {
      * @param user    the user
      */
     public void likeMessage(Channel channel, Message message, User user) {
-        throw new UnsupportedOperationException();
+        if (channel != null) {
+            List<Message> listMsg = channel.getMessages();
+            for (Message msg : listMsg) {
+                if (msg.getId().toString().equals(message.getId().toString())) {
+                    msg.addLike(user);
+                }
+            }
+            fileHandler.writeJSONToFile(channel.getId().toString(), channel);
+        }
     }
 
     /**
@@ -118,7 +137,6 @@ public class MessageController extends Controller {
      * @param deletedByCreator the boolean that indicates if the message is deleted by its creator or not
      */
     public void saveDeletionIntoHistory(Message message, UUID channelId, boolean deletedByCreator) {
-        FileHandle fileHandler = new FileHandle(LocationType.CLIENT, FileType.CHANNEL);
         Channel channel = this.channelClient.getChannel(channelId);
 
         if (channel != null) {
