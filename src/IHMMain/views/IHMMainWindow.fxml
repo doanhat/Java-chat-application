@@ -16,7 +16,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="root" prefHeight="400.0" prefWidth="600.0" stylesheets="/IHMMain/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="/IHMMain/style.css" xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <columnConstraints>
@@ -68,7 +69,7 @@
                                     </HBox>
                                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2">
                                        <children>
-                                          <Button fx:id="homePageButton" mnemonicParsing="false" onAction="#loadUserListView">
+                                          <Button fx:id="homePageButton" mnemonicParsing="false" onAction="#loadHomePage">
                                              <HBox.margin>
                                                 <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
                                              </HBox.margin>

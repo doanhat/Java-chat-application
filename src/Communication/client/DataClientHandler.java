@@ -1,11 +1,18 @@
 package Communication.client;
 
-import Communication.common.ChatOperation;
-import Communication.common.ChatPackage;
+import Communication.common.ChannelOperation;
+import Communication.common.info_packages.BanUserPackage;
+import Communication.common.info_packages.ChatPackage;
+import Communication.common.info_packages.InfoPackage;
+import Communication.common.info_packages.UpdateChannelPackage;
+import Communication.messages.server_to_client.channel_modification.NewInvisibleChannelsMessage;
+import Communication.messages.server_to_client.channel_modification.NewVisibleChannelMessage;
 import common.interfaces.client.ICommunicationToData;
 import common.shared_data.Message;
 import common.shared_data.UserLite;
+import common.shared_data.Visibility;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -33,7 +40,7 @@ public class DataClientHandler {
      * @param channelIDs liste identifiant unique (UUID) des channels à supprimer
      */
     public void notifyInvisibleChannels(List<UUID> channelIDs) {
-        // TODO INTEGRATION V3: verify which method is for delete proprietary channel and which is for delete channel from visible list
+        // TODO INTEGRATION V4: verify which method is for delete proprietary channel and which is for delete channel from visible list
         for (UUID channelID: channelIDs) {
             dataClient.removeChannelFromList(channelID, 0, "Channel supprimé");
         }
@@ -42,56 +49,96 @@ public class DataClientHandler {
     /**
      * Notifier Data l'action de chat sur un channel
      * @param operation chat operation
-     * @param chatPackage package de chat
+     * @param infoPackage package de chat
      */
-    public void notifyChat(ChatOperation operation, ChatPackage chatPackage) {
-        logger.log(Level.FINE, chatPackage.channelID + " a nouvelle notification de chat: " + operation);
-
+    public void notifyChat(ChannelOperation operation, InfoPackage infoPackage) {
+        logger.log(Level.FINE, infoPackage.channelID + " a nouvelle notification de chat: " + operation);
+        System.out.println(infoPackage.channelID + " a nouvelle notification de chat: " + operation);
         switch (operation) {
             case SEND_MESSAGE:
-                dataClient.receiveMessage(chatPackage.message, chatPackage.channelID, chatPackage.messageResponseTo);
+                if (ChatPackage.class.isInstance(infoPackage)) {
+                    ChatPackage castedPackage = ChatPackage.class.cast(infoPackage);
+                    dataClient.receiveMessage(castedPackage.message, castedPackage.channelID, castedPackage.messageResponseTo);
+                }
+                else {
+                    logger.log(Level.SEVERE, "ChatMessage: SEND_MESSAGE contient mauvais ChatPackage");
+                }
+
                 break;
             case EDIT_MESSAGE:
-                dataClient.editMessage(chatPackage.message, chatPackage.editedMessage, chatPackage.channelID);
+                if (ChatPackage.class.isInstance(infoPackage)) {
+                    ChatPackage castedPackage = ChatPackage.class.cast(infoPackage);
+                    dataClient.editMessage(castedPackage.message, castedPackage.editedMessage, castedPackage.channelID);
+                }
+                else {
+                    logger.log(Level.SEVERE, "ChatMessage: EDIT_MESSAGE contient mauvais ChatPackage");
+                }
+
                 break;
             case LIKE_MESSAGE:
-                dataClient.likeMessage(chatPackage.channelID, chatPackage.message, chatPackage.sender);
+                if (ChatPackage.class.isInstance(infoPackage)) {
+                    ChatPackage castedPackage = ChatPackage.class.cast(infoPackage);
+                    dataClient.likeMessage(castedPackage.channelID, castedPackage.message, castedPackage.user);
+                }
+                else {
+                    logger.log(Level.SEVERE, "ChatMessage: LIKE_MESSAGE contient mauvais ChatPackage");
+                }
+
                 break;
             case DELETE_MESSAGE:
-                dataClient.deleteMessage(chatPackage.message,
-                                         chatPackage.channelID,
-                                         chatPackage.sender.getId().equals(chatPackage.message.getAuthor().getId()));
+                if (ChatPackage.class.isInstance(infoPackage)) {
+                    ChatPackage castedPackage = ChatPackage.class.cast(infoPackage);
+                    dataClient.deleteMessage(castedPackage.message,
+                            castedPackage.channelID,
+                            castedPackage.user.getId().equals(castedPackage.message.getAuthor().getId()));
+                }
+                else {
+                    logger.log(Level.SEVERE, "ChatMessage: DELETE_MESSAGE contient mauvais ChatPackage");
+                }
+
                 break;
             case EDIT_NICKNAME:
-                dataClient.updateNickname(chatPackage.sender, chatPackage.channelID, chatPackage.nickname);
+                dataClient.updateNickname(infoPackage.user, infoPackage.channelID, infoPackage.nickname);
+                break;
+            case ADD_ADMIN:
+                dataClient.newAdmin(infoPackage.user, infoPackage.channelID);
+                break;
+            case REMOVE_ADMIN:
+                dataClient.requestRemoveAdmin(infoPackage.channelID, infoPackage.user);
+                break;
+            case BAN_USER:
+                if (BanUserPackage.class.isInstance(infoPackage)) {
+                    BanUserPackage castedPackage = BanUserPackage.class.cast(infoPackage);
+                    // TODO INTEGRATION V4: Update interface of Data after request of IHM Channel
+                    //dataClient.removeUserFromAuthorizedUserChannel(castedPackage.channelID, castedPackage.userToBan, castedPackage.endDate, castedPackage.isPermanent, castedPackage.explanation);
+                }
+                else {
+                    logger.log(Level.SEVERE, "ChatMessage: BAN_USER contient mauvais BanUserPackage");
+                }
+                break;
+            case UNBAN_USER:
+                if (BanUserPackage.class.isInstance(infoPackage)) {
+                    BanUserPackage castedPackage = BanUserPackage.class.cast(infoPackage);
+                    dataClient.unbannedUserToChannel(castedPackage.userToBan, castedPackage.channelID);
+                }
+                else {
+                    logger.log(Level.SEVERE, "ChatMessage: UNBAN_USER contient mauvais BanUserPackage");
+                }
+                break;
+            case UPDATE_CHANNEL:
+                if (UpdateChannelPackage.class.isInstance(infoPackage)) {
+                    UpdateChannelPackage castedPackage = UpdateChannelPackage.class.cast(infoPackage);
+
+                    // TODO INTEGRATION V4: call the right method in ICommunicationToData to notify channel updated
+                    //dataClient.updateChannel(castedPackage.channelID, castedPackage.user.getId(), castedPackage.name, castedPackage.description, castedPackage.visibility);
+                }
+                else {
+                    logger.log(Level.SEVERE, "ChatMessage: UPDATE_CHANNEL contient mauvais UpdateChannelPackage");
+                }
                 break;
             default:
                 logger.log(Level.WARNING, "ChatMessage: opetration inconnue");
         }
-    }
-
-    /**
-     * Avertit Data de l'ajout d'un nouvel admin
-     *
-     * @param channelID [UUID] Channel ou un admin est ajoute
-     * @param user      [UserLite] Utilisateur devenant admin
-     */
-    public void notifyNewAdminAdded(UUID channelID, UserLite user) {
-        logger.log(Level.FINE, "new admin " + user.getNickName() + " added to channel " + channelID);
-
-        dataClient.newAdmin(user, channelID);
-    }
-
-    /**
-     * Avertit Data de retirer d'un nouvel admin
-     *
-     * @param channelID [UUID] Channel ou un admin est ajoute
-     * @param user      [UserLite] Utilisateur devenant admin
-     */
-    public void notifyAdminRemoved(UUID channelID, UserLite user) {
-        logger.log(Level.FINE, "removed admin " + user.getNickName() + " from channel " + channelID);
-
-        // TODO INTEGRATION V3: tell Data to add method to receive admin removal notification
     }
 
     /* ------------------------------------- Proprietary Channel handling ---------------------------------------*/
@@ -127,6 +174,15 @@ public class DataClientHandler {
     }
 
     /**
+     * Informer Channel proprietaire qu'un utilisateur vient de se quitter un channel
+     * @param channelID
+     * @param userLite
+     */
+    public void requestQuitChannel(UUID channelID, UserLite userLite) {
+        dataClient.removeUserFromAuthorizedUserChannel(userLite, channelID);
+    }
+
+    /**
      * Demande Data d'ajouter un utilisateur a la liste invitée un channel proprietaire
      *
      * @param user      Utilisateur qui a rejoint le channel
@@ -149,51 +205,92 @@ public class DataClientHandler {
     /**
      * Sauvegarde l'action de chat sur channel proprietaire
      * @param operation
-     * @param chatPackage
+     * @param infoPackage
      */
-    public void saveChat(ChatOperation operation, ChatPackage chatPackage) {
+    public void saveChat(ChannelOperation operation, InfoPackage infoPackage) {
         switch (operation) {
             case SEND_MESSAGE:
-                dataClient.saveMessageIntoHistory(chatPackage.message, chatPackage.channelID, chatPackage.messageResponseTo);
+                if (ChatPackage.class.isInstance(infoPackage)) {
+                    ChatPackage castedPackage = ChatPackage.class.cast(infoPackage);
+                    dataClient.saveMessageIntoHistory(castedPackage.message, castedPackage.channelID, castedPackage.messageResponseTo);
+                }
+                else {
+                    logger.log(Level.SEVERE, "ChatMessage: SEND_MESSAGE contient mauvais ChatPackage");
+                }
+
                 break;
             case EDIT_MESSAGE:
-                dataClient.saveEditionIntoHistory(chatPackage.message, chatPackage.editedMessage, chatPackage.channelID);
+                if (ChatPackage.class.isInstance(infoPackage)) {
+                    ChatPackage castedPackage = ChatPackage.class.cast(infoPackage);
+                    dataClient.saveEditionIntoHistory(castedPackage.message, castedPackage.editedMessage, castedPackage.channelID);
+                }
+                else {
+                    logger.log(Level.SEVERE, "ChatMessage: EDIT_MESSAGE contient mauvais ChatPackage");
+                }
+
                 break;
             case LIKE_MESSAGE:
-                dataClient.saveLikeIntoHistory(chatPackage.channelID, chatPackage.message, chatPackage.sender);
+                if (ChatPackage.class.isInstance(infoPackage)) {
+                    ChatPackage castedPackage = ChatPackage.class.cast(infoPackage);
+                    dataClient.saveLikeIntoHistory(castedPackage.channelID, castedPackage.message, castedPackage.user);
+                }
+                else {
+                    logger.log(Level.SEVERE, "ChatMessage: LIKE_MESSAGE contient mauvais ChatPackage");
+                }
+
                 break;
             case DELETE_MESSAGE:
-                dataClient.saveDeletionIntoHistory(chatPackage.message, null, chatPackage.channelID);
+                if (ChatPackage.class.isInstance(infoPackage)) {
+                    ChatPackage castedPackage = ChatPackage.class.cast(infoPackage);
+                    dataClient.saveDeletionIntoHistory(castedPackage.message, castedPackage.channelID,
+                            castedPackage.user.getId().equals(castedPackage.message.getAuthor().getId()));
+                }
+                else {
+                    logger.log(Level.SEVERE, "ChatMessage: DELETE_MESSAGE contient mauvais ChatPackage");
+                }
+
                 break;
             case EDIT_NICKNAME:
-                dataClient.saveNicknameIntoHistory(chatPackage.sender, chatPackage.channelID, chatPackage.nickname);
+                dataClient.saveNicknameIntoHistory(infoPackage.user, infoPackage.channelID, infoPackage.nickname);
+                break;
+            case ADD_ADMIN:
+                dataClient.saveNewAdminIntoHistory(infoPackage.user, infoPackage.channelID);
+                break;
+            case REMOVE_ADMIN:
+                dataClient.requestRemoveAdmin(infoPackage.channelID, infoPackage.user);
+                break;
+            case BAN_USER:
+                if (BanUserPackage.class.isInstance(infoPackage)) {
+                    BanUserPackage castedPackage = BanUserPackage.class.cast(infoPackage);
+                    // TODO INTEGRATION V4: Update interface of Data after request of IHM Channel
+                    //dataClient.banUserIntoHistory(castedPackage.channelID, castedPackage.userToBan, castedPackage.endDate, castedPackage.isPermanent, castedPackage.explanation);
+                }
+                else {
+                    logger.log(Level.SEVERE, "ChatMessage: BAN_USER contient mauvais BanUserPackage");
+                }
+                break;
+            case UNBAN_USER:
+                if (BanUserPackage.class.isInstance(infoPackage)) {
+                    BanUserPackage castedPackage = BanUserPackage.class.cast(infoPackage);
+                    dataClient.cancelBanOfUserIntoHistory(castedPackage.userToBan, castedPackage.channelID);
+                }
+                else {
+                    logger.log(Level.SEVERE, "ChatMessage: UNBAN_USER contient mauvais BanUserPackage");
+                }
+                break;
+            case UPDATE_CHANNEL:
+                if (UpdateChannelPackage.class.isInstance(infoPackage)) {
+                    UpdateChannelPackage castedPackage = UpdateChannelPackage.class.cast(infoPackage);
+
+                    // TODO INTEGRATION V4: call the right method in ICommunicationToData to update proprietary channel
+                    //dataClient.updateChannelIntoHistory(castedPackage.channelID, castedPackage.user.getId(), castedPackage.name, castedPackage.description, castedPackage.visibility);
+                }
+                else {
+                    logger.log(Level.SEVERE, "ChatMessage: UPDATE_CHANNEL contient mauvais UpdateChannelPackage");
+                }
                 break;
             default:
                 logger.log(Level.WARNING, "ChatMessage: opetration inconnue");
         }
-    }
-
-    /**
-     * Demande Owner d'ajouter un nouvel admin au channel proprietaire
-     *
-     * @param channelID [UUID] Channel ou un admin est ajoute
-     * @param user      [UserLite] Utilisateur devenant admin
-     */
-    public void addAdminToProprietaryChannel(UUID channelID, UserLite user) {
-        logger.log(Level.FINE, "request owner to add admin " + user.getNickName() + " to channel " + channelID);
-
-        dataClient.saveNewAdminIntoHistory(user, channelID);
-    }
-
-    /**
-     * Demande Owner d'ajouter un nouvel admin au channel proprietaire
-     *
-     * @param channelID [UUID] Channel ou un admin est ajoute
-     * @param user      [UserLite] Utilisateur devenant admin
-     */
-    public void removeAdminFromProprietaryChannel(UUID channelID, UserLite user) {
-        logger.log(Level.FINE, "request owner to add admin " + user.getNickName() + " to channel " + channelID);
-
-        // TODO INTEGRATION V3: tell Data to add method to remove admin from proprietary channel
     }
 }

@@ -12,8 +12,12 @@ import java.util.List;
  *  Classe "modèle" qui gère l'affichage  de la liste des membres du channel en fonction du statut (admin, créateur, simple membre) en appelant le FXML Loader
  */
 public class AdminMembersListDisplay {
-    public Parent root = null;
-    public AdminMembersListController adminMembersController;
+    public Parent getRoot() {
+        return root;
+    }
+
+    private Parent root = null;
+    private AdminMembersListController adminMembersController;
 
     public AdminMembersListController getController(){return this.adminMembersController;}
 
@@ -30,10 +34,11 @@ public class AdminMembersListDisplay {
     public void setConnectedMembersList(List<UserLite> connectedMembersList){
         adminMembersController.setConnectedMembersList(connectedMembersList);
     }
-    public void addMemberToList(UserLite user) {
-        adminMembersController.addMemberToList(user);
+    public void addMemberToConnectedMembersList(UserLite user) {
+        adminMembersController.addMemberToConnectedMembersList(user);
     }
-    public void removeMemberFromList(UserLite user) {
-        adminMembersController.removeMemberFromList(user);
+
+    public void removeMemberFromConnectedMembersList(UserLite user) {
+        adminMembersController.removeMemberFromConnectedMembersList(user);
     }
 }

@@ -10,6 +10,7 @@ import common.shared_data.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -17,15 +18,19 @@ import java.util.stream.Collectors;
 public class ChannelController extends Controller{
     private List<Channel> channelList;
     private Channel localChannel;
+    private final FileHandle<Channel> fileHandler = new FileHandle<>(LocationType.CLIENT, FileType.CHANNEL);
+
     public List<Channel> getChannelList() {
         return channelList;
     }
+    public Channel getLocalChannel() { return localChannel; }
 
     public void setChannelList(List<Channel> channelList) {
         this.channelList = channelList;
     }
     public ChannelController(IDataToCommunication comClient, IDataToIHMChannel channelClient, IDataToIHMMain mainClient) {
         super(comClient, channelClient, mainClient);
+        channelList = fileHandler.readAllJSONFilesToList(Channel.class);
     }
 
     public Channel searchChannelById(UUID id) {
@@ -36,13 +41,14 @@ public class ChannelController extends Controller{
         return null;
     }
 
+
+
     /**
      * Load proprietary local channels own to a specific user
      * @param user The user concerned
      */
     public void loadProprietaryChannels(UserLite user) {
-        FileHandle fileHandle = new FileHandle<Channel>(LocationType.client, FileType.channel);
-        List<Channel> localChannels = fileHandle.readAllJSONFilesToList(Channel.class);
+        List<Channel> localChannels = fileHandler.readAllJSONFilesToList(Channel.class);
         channelList = localChannels.stream().filter(ch -> ch.getCreator().getId().equals(user.getId()))
                 .collect(Collectors.toList());
         for( Channel c : channelList){
@@ -51,13 +57,9 @@ public class ChannelController extends Controller{
     }
 
     public void addChannelToLocalChannels(Channel channel){
-        for (Channel c : channelList){
-            if (c.getId().equals(channel.getId())){
-                channelList.remove(c);
-            }
-        }
+        channelList.removeIf(c -> c.getId().equals(channel.getId()));
         channelList.add(channel);
-        new FileHandle<Channel>(LocationType.client, FileType.channel).writeJSONToFile(channel.getId().toString(), channel);
+        new FileHandle<Channel>(LocationType.CLIENT, FileType.CHANNEL).writeJSONToFile(channel.getId().toString(),channel);
 
     }
     /**
@@ -82,7 +84,7 @@ public class ChannelController extends Controller{
             if(c.getId().equals(channelID)) {
                 c.addJoinedUser(user);
                 c.addAuthorizedUser(user);
-                new FileHandle<Channel>(LocationType.client, FileType.channel).writeJSONToFile(channelID.toString(), c);
+                fileHandler.writeJSONToFile(channelID.toString(), c);
                 break;
             }
         }
@@ -107,7 +109,7 @@ public class ChannelController extends Controller{
         for (Channel c : channels) {
             if(c.getId().equals(channelID)) {
                 c.addAuthorizedUser(user);
-                new FileHandle<Channel>(LocationType.client, FileType.channel).writeJSONToFile(channelID.toString(), c);
+                new FileHandle<Channel>(LocationType.CLIENT, FileType.CHANNEL).writeJSONToFile(channelID.toString(), c);
                 break;
             }
         }
@@ -119,7 +121,6 @@ public class ChannelController extends Controller{
      * @param channelId the channelId
      */
     public void saveNewAdminIntoHistory(UserLite user, UUID channelId) {
-        FileHandle fileHandler = new FileHandle(LocationType.client, FileType.channel);
         Channel ownedChannel = searchChannelById(channelId);
         if (ownedChannel!=null) {
             ownedChannel.addAdmin(user);
@@ -134,7 +135,20 @@ public class ChannelController extends Controller{
      */
     public void newAdmin(UserLite user, UUID channelId) {
         try {
-            this.channelClient.addNewAdmin(user,this.channelClient.getChannel(channelId));
+            this.channelClient.addNewAdmin(user, channelId);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * New admin.
+     *  @param user    the user
+     * @param channelId the channelId
+     */
+    public void removeAdmin(UserLite user, UUID channelId) {
+        try {
+            this.channelClient.removeAdmin(user, channelId);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -153,17 +167,6 @@ public class ChannelController extends Controller{
     }
 
     /**
-     * Ban user into history.
-     *
-     * @param user     the user
-     * @param channel  the channel
-     * @param duration the duration
-     */
-    public void banUserIntoHistory(User user, Channel channel, int duration) {
-
-    }
-
-    /**
      * Delete user from channel.
      *
      * @param user        the user
@@ -172,7 +175,18 @@ public class ChannelController extends Controller{
      * @param explanation the explanation
      */
     public void deleteUserFromChannel(User user, Channel channel, int duration, String explanation) {
-
+        for (Channel c : getChannelList()) {
+            if (c.getId().equals(channel.getId())) {
+                c.removeUser(user.getId());
+                if (duration >= 0) {
+                    Date now = new Date();
+                    now.setTime(now.getTime() + duration);
+                    c.kickUser(user, explanation, now);
+                } else {
+                    c.kickPermanentUser(user, explanation);
+                }
+            }
+        }
     }
 
     /**
@@ -187,18 +201,32 @@ public class ChannelController extends Controller{
                 return c.getMessages();
             }
         }
-        return null;
+        return new ArrayList<>();
     }
 
     public void addUserToOwnedChannel(UserLite user, UUID channelId) {
-        List<Channel> channels = getChannelList();
+        List<Channel> channels;
+        channels = getChannelList();
         for (Channel c : channels) {
             if(c.getId().equals(channelId)) {
                 c.addJoinedUser(user);
                 c.addAuthorizedUser(user);
-                new FileHandle<Channel>(LocationType.client, FileType.channel).writeJSONToFile(channelId.toString(), c);
+                fileHandler.writeJSONToFile(channelId.toString(), c);
                 break;
             }
+        }
+    }
+
+
+    /**
+     * Save remove admin into history.
+     * @param channelId the channelId
+     */
+    public void saveRemoveAdminIntoHistory(UUID channelId) {
+        FileHandle fileHandler = new FileHandle(LocationType.CLIENT, FileType.CHANNEL);
+        Channel ownedChannel = searchChannelById(channelId);
+        if (ownedChannel!=null) {
+            fileHandler.writeJSONToFile(ownedChannel.getId().toString(),ownedChannel);
         }
     }
 
@@ -207,7 +235,7 @@ public class ChannelController extends Controller{
         for (Channel c : channels) {
             if(c.getId().equals(channelId)) {
                 c.removeUser(user.getId());
-                new FileHandle<Channel>(LocationType.client, FileType.channel).writeJSONToFile(channelId.toString(), c);
+                fileHandler.writeJSONToFile(channelId.toString(), c);
                 break;
             }
         }
@@ -218,9 +246,64 @@ public class ChannelController extends Controller{
         for (Channel c : channels) {
             if(c.getId().equals(channelId)) {
                 c.removeAllUser();
-                new FileHandle<Channel>(LocationType.client, FileType.channel).writeJSONToFile(channelId.toString(), c);
+                fileHandler.writeJSONToFile(channelId.toString(), c);
                 break;
             }
         }
+    }
+
+    public void removeUserFromAuthorizedUserChannel(UserLite user, UUID channelId) {
+        List<Channel> channels = getChannelList();
+        for (Channel c : channels) {
+            if(c.getId().equals(channelId)) {
+                c.removeUserAuthorization(user.getId());
+                fileHandler.writeJSONToFile(channelId.toString(), c);
+                break;
+            }
+        }
+    }
+
+    public void updateNickname(UserLite user, UUID channelId, String newNickname) {
+        channelClient.getChannel(channelId).getNickNames().put(user.getId().toString(),newNickname);
+    }
+
+    public void saveNicknameIntoHistory(UserLite user, UUID channelId, String newNickname) {
+        Channel ownedChannel = searchChannelById(channelId);
+        if (ownedChannel!=null) {
+            ownedChannel.getNickNames().put(user.getId().toString(),newNickname);
+            fileHandler.writeJSONToFile(ownedChannel.getId().toString(),ownedChannel);
+        }
+    }
+
+    public void updateChannel(UUID channelId, UUID userID, String name, String description, Visibility visibility) {
+        Channel ownedChannel = searchChannelById(channelId);
+        if (ownedChannel!=null && ownedChannel.userIsAdmin(userID)) {
+            if (name!=null) ownedChannel.setName(name);
+            if(description!=null)ownedChannel.setDescription(description);
+            if (visibility!=null)ownedChannel.setVisibility(visibility);
+            fileHandler.writeJSONToFile(ownedChannel.getId().toString(),ownedChannel);
+        }
+    }
+
+    public void banUserIntoHistory(UserLite user, UUID channelId, Date end, Boolean isPermanent,String explanation) {
+        Channel ownedChannel = searchChannelById(channelId);
+        List<Kick> kicked = ownedChannel.getKicked();
+        if (ownedChannel!=null) {
+            kicked.removeIf(k -> k.getUser().getId().equals(user.getId()));
+            if (!isPermanent){
+                kicked.add(new Kick(user,channelId,explanation,end));
+            } else {
+                kicked.add(new Kick(user,channelId,explanation,true));
+            }
+            fileHandler.writeJSONToFile(ownedChannel.getId().toString(),ownedChannel);
+        }
+    }
+
+    public void cancelBanOfUserIntoHistory(UserLite user, UUID channelId) {
+        Channel ownedChannel = searchChannelById(channelId);
+        List<Kick> kicked = ownedChannel.getKicked();
+        kicked.removeIf(k -> k.getUser().getId().equals(user.getId()));
+        ownedChannel.addAuthorizedUser(user);
+        fileHandler.writeJSONToFile(ownedChannel.getId().toString(),ownedChannel);
     }
 }

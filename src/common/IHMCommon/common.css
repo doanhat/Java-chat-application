@@ -92,6 +92,7 @@
 
 .btn-radio {
     -fx-color: #ffffff;
+    -fx-padding: 5;
 }
 
 .btn-radio:selected {
@@ -302,7 +303,26 @@ TextField {
 .notification-popup{
   -fx-background-color: #6DF12F45;
   -fx-padding: 10 100 10 100;
-  -fx-font-size: 16;
   -fx-border-radius: 5;
 }
 
+.kick-popup{
+    -fx-background-color: #B9E6FF;
+    -fx-padding: 20 20 20 20;
+    -fx-text-fill: #03254f;
+}
+
+.kick-popup-section{
+    -fx-padding: 10;
+    -fx-alignment: BASELINE_LEFT;
+}
+.kick-popup-text{
+    -fx-text-fill: #023254;
+    -fx-font-size: 16;
+    -fx-font-weight: bold;
+}
+.kick-popup-title{
+    -fx-text-fill: #023254;
+    -fx-font-size: 24;
+    -fx-font-weight: bold;
+}

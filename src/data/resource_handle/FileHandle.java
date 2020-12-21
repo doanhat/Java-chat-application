@@ -1,17 +1,22 @@
 package data.resource_handle;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 
-import java.io.File;
-import java.io.FilenameFilter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 public class FileHandle<T> {
+    public static final String EXTENSION = ".json";
+    public static final String EXTENSION_IMAGE = ".jpg";
+
     ObjectMapper mapper = new ObjectMapper();
     private String path;
 
@@ -23,6 +28,7 @@ public class FileHandle<T> {
         String filePath = System.getProperty("user.dir") + "/resource/"+location+"/"+fileType+"/";
         if (!Paths.get(filePath).toFile().exists() || !Paths.get(filePath).toFile().isDirectory()) {
             Paths.get(filePath).toFile().mkdirs();
+            //System.out.println("Folder created");
         }
         this.path = filePath;
     }
@@ -31,14 +37,13 @@ public class FileHandle<T> {
     public List<T> readJSONFileToList(String fileName, Class<T> tClass){
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         CollectionType listType = mapper.getTypeFactory().constructCollectionType(ArrayList.class, tClass);
-        String sysPath = this.path + fileName + ".json";
+        String sysPath = this.path + fileName + EXTENSION;
         try {
-            List<T> ts = mapper.readValue(Paths.get(sysPath).toFile(), listType);
-            return ts;
+            return mapper.readValue(Paths.get(sysPath).toFile(), listType);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        return new ArrayList<>();
     }
 
     public List<T> readAllJSONFilesToList(Class<T> tClass){
@@ -48,16 +53,10 @@ public class FileHandle<T> {
             File directoryPath = new File(this.path);
             //List of all files and directories
 
-            File filesList[] = directoryPath.listFiles(new FilenameFilter() {
-                @Override
-                public boolean accept(File dir, String name) {
-                    if (name.toLowerCase().endsWith(".json")) return true;
-                    return false;
-                }
-            });
+            File[] filesList = directoryPath.listFiles((dir, name) -> (name.toLowerCase().endsWith(EXTENSION)));
             if(filesList != null) {
                 for (File file : filesList) {
-                    //System.out.println(Paths.get(file.getAbsolutePath()));
+                    // System.out.println(Paths.get(file.getAbsolutePath()));
                     T t = mapper.readValue(Paths.get(file.getAbsolutePath()).toFile(), tClass);
                     ts.add(t);
                 }
@@ -66,15 +65,14 @@ public class FileHandle<T> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        return new ArrayList<>();
     }
 
     public <T> T readJSONFileToObject(String fileName, Class<T> tClass){
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        String sysPath = this.path + fileName + ".json";
+        String sysPath = this.path + fileName + EXTENSION;
         try {
-            T t = mapper.readValue(Paths.get(sysPath).toFile(), tClass);
-            return t;
+            return mapper.readValue(Paths.get(sysPath).toFile(), tClass);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -82,14 +80,14 @@ public class FileHandle<T> {
     }
 
     public void writeJSONToFile(String fileName, Object object){
-        ObjectMapper mapper = new ObjectMapper();
-        String path = this.path + fileName + ".json";
         try {
-            mapper.writeValue(Paths.get(path).toFile(), object);
+            mapper.writeValue(Paths.get(this.path + fileName + EXTENSION).toFile(), object);
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
+
 
     public void addObjectToFile(String fileName, Object object, Class<T> tClass){
         List<T> list = readJSONFileToList(fileName,tClass);
@@ -98,18 +96,49 @@ public class FileHandle<T> {
     }
 
     public boolean deleteJSONFile(String fileName){
-        String sysPath = this.path + fileName + ".json";
-        System.out.println(sysPath);
+        String sysPath = this.path + fileName + EXTENSION;
         try {
-            File f = new File(sysPath);
-            if(f.delete())
-                return true;
+            Files.delete(Paths.get(sysPath));
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
     }
 
+    //Seulement JPG en ce moment
+    public String readAvatarAsBase64String(String userId) throws IOException {
+        String sysPath = this.path + userId + EXTENSION_IMAGE;
+        File image = Paths.get(sysPath).toFile();
+        byte[] bytes;
+        try (FileInputStream fileInputStreamReader = new FileInputStream(image)) {
+            bytes = new byte[(int) image.length()];
+            fileInputStreamReader.read(bytes);
+        }
+        return new String(Base64.getEncoder().encode(bytes), "UTF-8");
+    }
+
+    public String getAvatarPath(String userId) {
+        String sysPath = this.path + userId + EXTENSION_IMAGE;
+        if (Paths.get(sysPath).toFile().exists()){
+            return "/resource/"+location+"/"+fileType+"/"+userId + EXTENSION_IMAGE;
+        }
+        return null;
+    }
+
+    public void writeEncodedStringToFile(String encodedString, String fileName) throws IOException {
+        String sysPath = this.path + fileName + EXTENSION_IMAGE;
+        byte[] decodedBytes = Base64
+                .getDecoder()
+                .decode(encodedString);
+        try (FileOutputStream stream = new FileOutputStream(Paths.get(sysPath).toFile())) {
+            stream.write(decodedBytes);
+        }
+    }
+
+    public String serialize(Object object) throws JsonProcessingException {
+        return mapper.writeValueAsString(object);
+    }
     public void setPath(String path) {
         this.path = path;
     }

@@ -27,16 +27,13 @@ public class DeleteChannelMessage extends ClientToServerMessage {
         }
 
         if (commController.requestDeleteChannel(channel, requester)) {
-            // TODO INTEGRATION V3: verify sequence of delete proprietary channel
-            if (channel.getType() == ChannelType.OWNED) {
-                // TODO Send request delete channel to Owner
-            }
-
-            if (channel.getVisibility() == Visibility.PUBLIC) {
-                commController.sendBroadcast(new NewInvisibleChannelsMessage(channel.getId()), requester);
-            }
-            else {
-                commController.sendMulticast(channel.getJoinedPersons(), new NewInvisibleChannelsMessage(channel.getId()));
+            if (channel.getType() == ChannelType.SHARED) {
+                if (channel.getVisibility() == Visibility.PUBLIC) {
+                    commController.sendBroadcast(new NewInvisibleChannelsMessage(channel.getId()), null);
+                }
+                else {
+                    commController.sendMulticast(channel.getAuthorizedPersons(), new NewInvisibleChannelsMessage(channel.getId()));
+                }
             }
         }
 

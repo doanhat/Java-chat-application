@@ -12,11 +12,4 @@ public interface IDataToCommunication
      *
      **/
     void userConnect(UserLite user);
-
-    /**
-     * Transfert au serveur la demande de suppresion d'un channel
-     *
-     * @param channelID ID de l'objet à supprimer
-     **/
-    void deleteChannel(UUID channelID);
 }

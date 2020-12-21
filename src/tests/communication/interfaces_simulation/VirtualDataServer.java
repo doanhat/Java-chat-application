@@ -4,7 +4,9 @@ import common.interfaces.server.IServerCommunicationToData;
 import common.shared_data.Channel;
 import common.shared_data.Message;
 import common.shared_data.UserLite;
+import common.shared_data.Visibility;
 
+import java.time.LocalDate;
 import java.util.*;
 
 public class VirtualDataServer implements IServerCommunicationToData {
@@ -57,7 +59,7 @@ public class VirtualDataServer implements IServerCommunicationToData {
     }
 
     @Override
-    public List<UserLite> updateChannel(Channel channel) {
+    public Channel updateChannel(UUID channelID, UUID userID, String name, String description, Visibility visibility) {
         return null;
     }
 
@@ -86,13 +88,12 @@ public class VirtualDataServer implements IServerCommunicationToData {
     }
 
     @Override
-    public boolean banUserFromChannel(Channel channel, UserLite user, int duration, String reason) {
-        return false;
+    public void banUserFromChannel(UserLite user, LocalDate endDate, Boolean isPermanent, String explanation, UUID channelId) {
+
     }
 
     @Override
-    public boolean cancelUsersBanFromChannel(Channel channel, UserLite user) {
-        return false;
+    public void cancelUsersBanFromChannel(Channel channel, UserLite user) {
     }
 
     @Override
@@ -109,6 +110,7 @@ public class VirtualDataServer implements IServerCommunicationToData {
     public void saveLikeIntoHistory(Channel channel, Message ms, UserLite user) {
 
     }
+
 
     @Override
     public void saveRemovalMessageIntoHistory(Channel channel, Message ms, Boolean deletedByCreator) {
@@ -255,5 +257,53 @@ public class VirtualDataServer implements IServerCommunicationToData {
     @Override
     public List<Channel> disconnectOwnedChannel(UserLite owner) {
         return null;
+    }
+
+    @Override
+    public List<UUID> getChannelsWhereUser(UUID userID) {
+        return null;
+    }
+
+    @Override
+    public List<UUID> getChannelsWhereUserActive(UUID userID) {
+        return null;
+    }
+
+    @Override
+    public List<UserLite> getActiveUsersInChannel(UUID channelID) {
+        return null;
+    }
+
+
+    @Override
+    public void addOwnedChannelsToServerList(List<Channel> ownedChannels, UUID ownerID) {
+
+    }
+
+    /**
+     * Envoyer une image encodée en string Base64 au server pour stocker
+     *
+     * @param user          utilisateur ayant l'image comme avatar
+     * @param encodedString le string encodée en Base64
+     */
+    @Override
+    public void saveAvatarToServer(UserLite user, String encodedString) {
+
+    }
+
+    /**
+     * Récupérer le chemin vers l'avatar de l'utilisateur dans le serveur
+     *
+     * @param user utilisateur
+     * @return
+     */
+    @Override
+    public String getAvatarPath(UserLite user) {
+        return null;
+    }
+
+    @Override
+    public void requestRemoveAdmin(UUID channelID, UUID adminID) {
+
     }
 }

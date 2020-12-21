@@ -13,12 +13,16 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.ListCell;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import javax.management.RuntimeErrorException;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AddMemberCell extends ListCell<UserLite> {
 
@@ -32,6 +36,8 @@ public class AddMemberCell extends ListCell<UserLite> {
     UserLite user;
 
     ChannelController channelController;
+
+    private final Logger logger = Logger.getLogger(this.getClass().getName());
 
     /**
      * Constructeur
@@ -69,23 +75,15 @@ public class AddMemberCell extends ListCell<UserLite> {
             /**
              * Gestion du clic sur le bouton annuler
              */
-            sendInvitePopUpController.getCancelBtn().setOnAction(new EventHandler<ActionEvent>() {
-                public void handle(ActionEvent e)
-                {
-                    popUpWindow.close();
-                }
-            });
+            sendInvitePopUpController.getCancelBtn().setOnAction(e -> popUpWindow.close());
 
             /**
              * Gestion du clic sur le bouton confirmer
              */
-            sendInvitePopUpController.getSendInviteBtn().setOnAction(new EventHandler<ActionEvent>() {
-                public void handle(ActionEvent e)
-                {
-                    System.out.println("You have invited " + user.getNickName() + " to channel " + channel.getName()+".\nMessage : "+sendInvitePopUpController.getInvitationMessage());
-                    channelController.getIhmChannelController().getInterfaceToCommunication().sendInvite(user,channel, sendInvitePopUpController.getInvitationMessage());
-                    popUpWindow.close();
-                }
+            sendInvitePopUpController.getSendInviteBtn().setOnAction(e -> {
+                logger.log(Level.INFO, String.format("You have invited {} to channel {}\nMessage : {}", user.getNickName(), channel.getName(), sendInvitePopUpController.getInvitationMessage()));
+                channelController.getIhmChannelController().getInterfaceToCommunication().sendInvite(user,channel, sendInvitePopUpController.getInvitationMessage());
+                popUpWindow.close();
             });
         });
     }
@@ -122,7 +120,7 @@ public class AddMemberCell extends ListCell<UserLite> {
         }
         else {
             username.setText(item.getNickName());
-            //profilePicture.setImage(new Image(item.getAvatar()));
+            profilePicture.setImage(new Image(item.getAvatar()));
             setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         }
     }

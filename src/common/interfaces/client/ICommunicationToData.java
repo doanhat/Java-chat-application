@@ -1,9 +1,9 @@
 package common.interfaces.client;
 
-import common.shared_data.Message;
-import common.shared_data.User;
-import common.shared_data.UserLite;
+import common.shared_data.*;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -53,13 +53,13 @@ public interface ICommunicationToData {
     void removeChannelFromList(UUID channelId, int duration, String explanation);
 
     /**
-     * Ban user into history.
+     * Bannir un utilisateur et mettre à jour les données
      *
-     * @param user     the user
-     * @param channelId  the channel
-     * @param duration the duration
+     * @param user     utilisateur
+     * @param channelId  l'id du channel
+     * @param endDate date de termination, si elle est null alors l'utilisateur est banni définitivement
      */
-    void banUserIntoHistory(UserLite user, UUID channelId, int duration);
+    void banUserIntoHistory(UserLite user, LocalDate endDate, Boolean isPermanent, String explanation, UUID channelId);
 
     /**
      * Cancel ban of user into history.
@@ -67,7 +67,7 @@ public interface ICommunicationToData {
      * @param user    the user
      * @param channelId the channel
      */
-    void cancelBanOfUserIntoHistory(User user, UUID channelId);
+    void cancelBanOfUserIntoHistory(UserLite user, UUID channelId);
 
 
     /**
@@ -91,7 +91,7 @@ public interface ICommunicationToData {
     void removeAllUserFromJoinedUserChannel(UUID channelId, int duration, String explanation);
 
     /**
-     * Delete user from Authorized users list of channel.
+     * Delete user from Authorized users list of channel after ban.
      *
      * @param user        the user
      * @param channelId     the channel
@@ -99,6 +99,13 @@ public interface ICommunicationToData {
      * @param explanation the explanation
      */
     void removeUserFromAuthorizedUserChannel(UserLite user, UUID channelId, int duration, String explanation);
+
+    /**
+     * Delete user from Authorized users list of channel.
+     * @param user user that left
+     * @param channelId id of the channel
+     */
+    void removeUserFromAuthorizedUserChannel(UserLite user, UUID channelId);
 
     /**
      * Gets history.
@@ -165,11 +172,11 @@ public interface ICommunicationToData {
     /**
      * Save deletion into history.
      *
-     * @param oldMessage the old message
-     * @param newMessage the new message
-     * @param channelId    the channel
+     * @param message the message
+     * @param channelId  the channel ID
+     * @param deletedByCreator the boolean that indicates if the message is deleted by its creator or not
      */
-    void saveDeletionIntoHistory(Message oldMessage, Message newMessage, UUID channelId);
+    void saveDeletionIntoHistory(Message message, UUID channelId, boolean deletedByCreator);
 
     /**
      * Delete message.
@@ -226,5 +233,24 @@ public interface ICommunicationToData {
      * @param channelId channel ID
      */
     void inviteUserToOwnedChannel(UserLite user, UUID channelId);
+
+    /**
+     * Méthode pour mettre à jour les informations d'un channel dans la liste des channels
+     *
+     * @param channelID l'identificateur du channel concerné
+     * @param userID l'identificateur qui veut faire les changes sur le channel
+     * @param name nouvel nom du channel, mettre à null si pas besoin de le changer
+     * @param description nouvelle description du channel, mettre à null si pas besoin de la changer
+     * @param visibility nouvelle visibilité du channel, mettre à null si pas besoin de la changer
+     * */
+    void updateChannel(UUID channelID, UUID userID, String name, String description, Visibility visibility);
+
+    /**
+     * Méthode pour retirer les droits d'administrateur d'un utilisateur dans un channel
+     * @param channelID l'identificateur du channel
+     * @param admin l'userlite de l'admin du channel
+     *
+     * */
+    void requestRemoveAdmin(UUID channelID, UserLite admin);
 }
 

@@ -2,9 +2,11 @@ package common.interfaces.client;
 
 import common.shared_data.Channel;
 import common.shared_data.ConnectionStatus;
+import common.shared_data.User;
 import common.shared_data.UserLite;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Interface fournie par le module IHMMain pour le module Communication
@@ -54,4 +56,8 @@ public interface ICommunicationToIHMMain {
      * @param channels La liste à ajouter
      */
     public void channelAddedAll(List<Channel> channels);
+
+    void channelConnectedUsers(UUID channelID, List<UserLite> connectedUsers);
+
+    void setAvatarPath(UserLite user, String avatarPath);
 }

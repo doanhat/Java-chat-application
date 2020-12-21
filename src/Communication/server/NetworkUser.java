@@ -66,7 +66,7 @@ public class NetworkUser {
                  */
                 onlineUsers.add(this.userInfo);
 
-                commController.sendMessage(preparePacket(new AcceptationMessage(userChannels, onlineUsers)));
+                commController.sendMessage(preparePacket(new AcceptationMessage(this.userInfo, userChannels, onlineUsers)));
                 commController.sendBroadcast(new NewUserConnectedMessage(this.userInfo), this.userInfo);
             }
             else {

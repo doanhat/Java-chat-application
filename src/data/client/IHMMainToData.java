@@ -3,8 +3,10 @@ package data.client;
 import common.interfaces.client.IIHMMainToData;
 import common.shared_data.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 public class IHMMainToData implements IIHMMainToData {
 
@@ -48,7 +50,7 @@ public class IHMMainToData implements IIHMMainToData {
      * @param owner    the owner
      */
     @Override
-    public void createChannel(String name, String description, Boolean isShared, Boolean isPublic, UserLite owner) {
+    public void createChannel(String name, String description, boolean isShared, boolean isPublic, UserLite owner) {
         Channel channel;
         channel = new Channel(name, owner, description, isPublic ? Visibility.PUBLIC : Visibility.PRIVATE, isShared ? ChannelType.SHARED : ChannelType.OWNED);
         this.dataController.getChannelController().createChannel(channel);
@@ -64,7 +66,7 @@ public class IHMMainToData implements IIHMMainToData {
      */
     @Override
     public List<Channel> searchChannel(String name, UserLite creator, String description, Visibility visibility) {
-        return null;
+        return new ArrayList<>();
     }
 
     /**
@@ -80,7 +82,7 @@ public class IHMMainToData implements IIHMMainToData {
      */
     @Override
     public void editProfile(String nickName, String avatar, String password, String lastName, String firstName, Date birthDate, User user) {
-
+        dataController.getUserController().editProfile(user,nickName,avatar,password,lastName,firstName,birthDate);
     }
 
     /**
@@ -114,5 +116,15 @@ public class IHMMainToData implements IIHMMainToData {
     @Override
     public User getUser() {
         return dataController.getUserController().getUser();
+    }
+
+    @Override
+    public String exportUserProfile(UUID userId) {
+        return dataController.getUserController().exportUserProfile(userId);
+    }
+
+    @Override
+    public User getUserById(UUID userId) {
+        return this.dataController.getUserController().searchUserById(userId);
     }
 }

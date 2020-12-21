@@ -14,8 +14,16 @@ import java.util.List;
  */
 
 public class AlphabeticalMembersListDisplay {
-    public Parent root = null;
-    public AlphabeticalMembersListController alphabeticalMembersController;
+    public Parent getRoot() {
+        return root;
+    }
+
+    public void setRoot(Parent getRoot) {
+        this.root = getRoot;
+    }
+
+    private Parent root = null;
+    private AlphabeticalMembersListController alphabeticalMembersController;
 
     public AlphabeticalMembersListController getController(){return this.alphabeticalMembersController;}
 
@@ -32,10 +40,10 @@ public class AlphabeticalMembersListDisplay {
     public void setConnectedMembersList(List<UserLite> connectedMembersList){
         alphabeticalMembersController.setConnectedMembersList(connectedMembersList);
     }
-    public void addMemberToList(UserLite user) {
-        alphabeticalMembersController.addMemberToList(user);
+    public void addMemberToConnectedMembersList(UserLite user) {
+        alphabeticalMembersController.addMemberToConnectedMembersList(user);
     }
-    public void removeMemberFromList(UserLite user) {
-        alphabeticalMembersController.removeMemberFromList(user);
+    public void removeMemberFromConnectedMembersList(UserLite user) {
+        alphabeticalMembersController.removeMemberFromConnectedMembersList(user);
     }
 }

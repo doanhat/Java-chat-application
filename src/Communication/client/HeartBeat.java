@@ -3,6 +3,8 @@ package Communication.client;
 
 import Communication.common.Parameters;
 import Communication.messages.client_to_server.connection.ClientPulseMessage;
+import Communication.messages.client_to_server.connection.UserConnectionMessage;
+import common.shared_data.UserLite;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -20,7 +22,7 @@ public class HeartBeat {
     private final CommunicationClientController commController;
     private Timer timer;
     private boolean serverAlive = false;
-    private UUID userID;
+    private UserLite localUser;
     private final Logger logger = Logger.getLogger(this.getClass().getName());
 
     public HeartBeat(CommunicationClientController commController) {
@@ -28,39 +30,37 @@ public class HeartBeat {
     }
     /**
      * Démarrer le Hearthbeat en tant que l'utilisateur userID
-     * @param userID identifiant unique permettant d'être certain de l'utilisateur effectuant la validation keepalive
+     * @param localUser 'utilisateur effectuant la validation keepalive
      */
-    public void start(UUID userID) {
+    public void start(UserLite localUser) {
+        if (timer != null) {
+            stop();
+        }
+
         this.timer = new Timer();
         this.serverAlive = true;
-        this.userID = userID;
+        this.localUser = localUser;
 
         this.timer.schedule(new TimerTask(){
             @Override
             public void run() {
                 if (serverAlive) {
-                    commController.sendMessage(new ClientPulseMessage(userID));
+                    commController.sendMessage(new ClientPulseMessage(localUser.getId()));
                 }
                 else {
                     logger.log(Level.WARNING, "Server n'a pas répondu");
 
                     // Inform controller of disconnection
                     commController.mainHandler().notifyLostConnection();
-                    commController.stop();
+
+                    // Polling to Server to try to reconnect
+                    commController.sendMessage(new UserConnectionMessage(localUser));
                 }
 
                 // reset to false and wait for server reply
                 serverAlive = false;
             }
         }, Parameters.PULSE_INTERVAL, Parameters.PULSE_INTERVAL);
-    }
-
-    /**
-     * Redémare le fonctionnement du heathbeat en l'arrêtant puis le redémarant en utilisant les fonctions {@link stop()} et {@link start(userID)}
-     */
-    public void restart() {
-        stop();
-        start(userID);
     }
     
     /**

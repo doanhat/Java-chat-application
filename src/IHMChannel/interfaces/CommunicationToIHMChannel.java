@@ -2,10 +2,7 @@ package IHMChannel.interfaces;
 
 import IHMChannel.IHMChannelController;
 import common.interfaces.client.ICommunicationToIHMChannel;
-import common.shared_data.Channel;
-import common.shared_data.Message;
-import common.shared_data.User;
-import common.shared_data.UserLite;
+import common.shared_data.*;
 import javafx.application.Platform;
 
 import java.io.IOException;
@@ -24,8 +21,17 @@ import java.util.UUID;
      * @param user l'utilisateur
      */
     @Override
-    public void changeNickname(User user) {
-        throw new UnsupportedOperationException("Not implemented yet");
+    public void changeNickname(UserLite user, UUID channel) {
+        controller.getChannelPageController().getChannelController(channel).changeNickname(user);
+    }
+
+    /**
+     *  Méthode permettant d'annuler le ban d'un utilisateur d'un channel d'id channelID.
+     * @param kick Classe contenant les informations lié au kick
+     * @param channelID id du channel concerné
+     */
+    public void banOfUserCancelledNotification(Kick kick, UUID channelID){
+        controller.getChannelPageController().getChannelController(channelID).removeKick(kick);
     }
 
     /**
@@ -74,30 +80,45 @@ import java.util.UUID;
         });
     }
 
-
-    private IHMChannelController controller;
-
     @Override
-    public void addAuthorizedUser(UUID channel, UserLite user){
+    public void leaveChannel(UUID channelID, UserLite user) {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                //on transmet l'utilisateur à la liste d'utilisateurs connectés au channel de la vue ConnectedMembersList
-                System.out.println("Utilisateur add : "+user.getNickName());
-                controller.getChannelPageController().getChannelController(channel).getChannelMembersDisplay().getController().getConnectedMembersListDisplay().getController().addMemberToList(user);
+                controller.getChannelPageController().leaveChannel(channelID, user);
+                controller.getInterfaceToIHMMain().setOpenedChannelsList(controller.getOpenedChannelsList());
             }
         });
     }
 
+
+        private IHMChannelController controller;
+
     @Override
-    public void removeAuthorizedUser(UUID channel, UserLite user){
+    public void addAuthorizedUser(UUID channel, UserLite user) {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                //on supprime l'utilisateur de la liste d'utilisateurs connectés au channel de la vue ConnectedMembersList
+                try {
+                    controller.getChannelPageController().getChannelController(channel).addUser(user);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
-                controller.getChannelPageController().getChannelController(channel).getChannelMembersDisplay().getController().getConnectedMembersListDisplay().getController().removeMemberFromList(user);
-                System.out.println("Utilisateur supp : "+user.getNickName());
+    }
+
+    @Override
+    public void removeAuthorizedUser(UUID channel, UserLite user) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    controller.getChannelPageController().getChannelController(channel).removeUserAuthorization(user);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }

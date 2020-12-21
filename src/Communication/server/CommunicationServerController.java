@@ -9,14 +9,19 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import Communication.common.*;
+import Communication.common.info_packages.BanUserPackage;
+import Communication.common.info_packages.ChatPackage;
+import Communication.common.info_packages.InfoPackage;
+import Communication.common.info_packages.UpdateChannelPackage;
 import Communication.messages.abstracts.NetworkMessage;
-import Communication.messages.server_to_client.channel_access.propietary_channels.TellOwnerUserInvitedMessage;
+import Communication.messages.server_to_client.channel_access.*;
 import Communication.messages.server_to_client.channel_modification.NewInvisibleChannelsMessage;
-import Communication.messages.server_to_client.chat_action.ReceiveChatMessage;
+import Communication.messages.server_to_client.channel_modification.NewUserAuthorizeChannelMessage;
+import Communication.messages.server_to_client.channel_modification.NewVisibleChannelMessage;
+import Communication.messages.server_to_client.channel_modification.SendHistoryMessage;
+import Communication.messages.server_to_client.channel_operation.ReceiveChannelOperationMessage;
 import Communication.messages.server_to_client.connection.UserDisconnectedMessage;
-import Communication.messages.server_to_client.channel_access.UserLeftChannelMessage;
 
-import Communication.messages.server_to_client.channel_access.ValideUserLeftMessage;
 import common.interfaces.server.IServerCommunicationToData;
 import common.interfaces.server.IServerDataToCommunication;
 import common.shared_data.*;
@@ -220,6 +225,23 @@ public class CommunicationServerController extends CommunicationController {
 		return dataServer.getChannel(channelID);
 	}
 
+	/**
+	 * Passe avatar à Data Serveur
+	 * @param user
+	 * @param encodedString
+	 */
+	public void setAvatar(UserLite user, String encodedString) {
+		dataServer.saveAvatarToServer(user, encodedString);
+	}
+
+	/**
+	 * Recupère Chemin d'Avatar
+	 * @param user
+	 */
+	public String getAvatarPath(UserLite user) {
+		return dataServer.getAvatarPath(user);
+	}
+
 	/* -------------------------------------- Channel action Request handling ----------------------------------------*/
 
 	/**
@@ -252,6 +274,13 @@ public class CommunicationServerController extends CommunicationController {
 	 */
 	public void requestJoinChannel(Channel channel, UserLite user){
 		dataServer.joinChannel(channel.getId(), user);
+
+		// send Acceptation back to sender
+		sendMessage(user.getId(),
+				new SendHistoryMessage(channel, channelConnectedUsers(channel)));
+
+		// Notifie les utilisateurs connectes au channel qu'un nouveau utilisateur les rejoins
+		sendMulticast(channel.getJoinedPersons(), new NewUserJoinChannelMessage(user, channel.getId()), user);
 	}
 
 	/**
@@ -279,26 +308,35 @@ public class CommunicationServerController extends CommunicationController {
 		}
 	}
 
-	/**
-	 * Methode qui signale a Data d'ajouter un nouvel admin sur un channel
-	 * @param user Utilisateur devenant admin
-	 * @param channel Channel ou l'utilisateur devient admin
-	 */
-	public void saveNewAdmin(Channel channel, UserLite user) {
-		logger.log(Level.SEVERE, "new admin " + user.getNickName() + " added to channel " + channel.getId());
-
-		dataServer.saveNewAdminIntoHistory(channel, user);
+	public void changeChannelAccess(ChannelAccessRequest request, Channel channel, UserLite user) {
+		switch (request) {
+			case JOIN:
+				requestJoinChannel(channel, user);
+				break;
+			case LEAVE:
+				leaveChannel(channel.getId(), user);
+				break;
+			case INVITE:
+				requestInviteUserToChannel(channel, user);
+				break;
+			case QUIT:
+				quitChannel(channel, user);
+				break;
+			default:
+		}
 	}
 
 	/**
-	 * Methode qui signale a Data de retirer un admin sur un channel
-	 * @param user Utilisateur devenant admin
-	 * @param channel Channel ou l'utilisateur devient admin
+	 * Demande de retirer un utilisateur d'un channel sur ça liste d'autorisation et sur la liste des utilisateurs connectées
+	 * @param userLite utilisateur
+	 * @param channel channel
 	 */
-	public void removeAdmin(Channel channel, UserLite user) {
-		logger.log(Level.SEVERE, "removed admin " + user.getNickName() + " from channel " + channel.getId());
+	public void quitChannel(Channel channel, UserLite userLite) {
+		dataServer.quitChannel(channel.getId(), userLite);
+		dataServer.leaveChannel(channel.getId(), userLite);
 
-		// TODO INTEGRATION V3 Tell data server to remove admin
+		sendMessage(userLite.getId(), new ValideUserQuitMessage(channel.getId(), userLite));
+		sendMulticast(channel.getAuthorizedPersons(), new UserQuitedChannelMessage(channel.getId(), userLite), userLite);
 	}
 
 	/**
@@ -306,13 +344,14 @@ public class CommunicationServerController extends CommunicationController {
 	 * @param guest invitateur
 	 * @param channel channel
 	 */
-	public void requestInviteUserToChannel(UserLite guest, Channel channel) {
+	public void requestInviteUserToChannel(Channel channel, UserLite guest) {
 		dataServer.requestAddUser(channel, guest);
 
-		if (channel.getType() == ChannelType.OWNED) {
-			// Tell owner uer invited
-			sendMessage(channel.getCreator().getId(), new TellOwnerUserInvitedMessage(guest, channel.getId()));
-		}
+		// send Invitation to guest
+		sendMessage(guest.getId(), new NewVisibleChannelMessage(channel));
+
+		// Notifie les utilisateurs connectes au channel qu'un nouveau utilisateur à été authorisé
+		sendMulticast(channel.getJoinedPersons(), new NewUserAuthorizeChannelMessage(guest, channel.getId()));
 	}
 
 	public List<UserLite> channelConnectedUsers(Channel channel) {
@@ -329,37 +368,125 @@ public class CommunicationServerController extends CommunicationController {
 		return activeUsers;
 	}
 
+	public void requestUpdateChannel(UUID channelID, UUID userID, String name, String description, Visibility visibility) {
+		dataServer.updateChannel(channelID, userID, name, description, visibility);
+	}
+
+
 	/* ----------------------------------------- Chat action handling ------------------------------------------------*/
 
 
-	public void handleChat(ChatOperation operation, ChatPackage chatPackage) {
-		Channel channel = getChannel(chatPackage.channelID);
+	public void handleChat(ChannelOperation operation, InfoPackage infoPackage) {
+		Channel channel = getChannel(infoPackage.channelID);
 
-		logger.log(Level.INFO, "Chat action: " + operation + " on channel " + chatPackage.channelID);
+		logger.log(Level.INFO, "Chat action: " + operation + " on channel " + infoPackage.channelID);
 
 		// Tell data server to save message for both shared and proprietary channels, in order to update active Channel on server
 		switch (operation) {
 			case SEND_MESSAGE:
-				dataServer.saveMessageIntoHistory(channel, chatPackage.message, chatPackage.messageResponseTo);
+				if (ChatPackage.class.isInstance(infoPackage)) {
+					ChatPackage castedPackage = ChatPackage.class.cast(infoPackage);
+					dataServer.saveMessageIntoHistory(channel, castedPackage.message, castedPackage.messageResponseTo);
+				}
+				else {
+					logger.log(Level.SEVERE, "ChatMessage: SEND_MESSAGE contient mauvais ChatPackage");
+				}
+
 				break;
 			case EDIT_MESSAGE:
-				dataServer.editMessage(channel, chatPackage.editedMessage);
+				if (ChatPackage.class.isInstance(infoPackage)) {
+					ChatPackage castedPackage = ChatPackage.class.cast(infoPackage);
+					dataServer.editMessage(channel, castedPackage.editedMessage);
+				}
+				else {
+					logger.log(Level.SEVERE, "ChatMessage: EDIT_MESSAGE contient mauvais ChatPackage");
+				}
+
 				break;
 			case LIKE_MESSAGE:
-				dataServer.saveLikeIntoHistory(channel, chatPackage.message, chatPackage.sender);
+				if (ChatPackage.class.isInstance(infoPackage)) {
+					ChatPackage castedPackage = ChatPackage.class.cast(infoPackage);
+					dataServer.saveLikeIntoHistory(channel, castedPackage.message, castedPackage.user);
+				}
+				else {
+					logger.log(Level.SEVERE, "ChatMessage: LIKE_MESSAGE contient mauvais ChatPackage");
+				}
+
 				break;
 			case DELETE_MESSAGE:
-				dataServer.saveRemovalMessageIntoHistory(channel,
-														 chatPackage.message,
-														 chatPackage.sender.getId().equals(chatPackage.message.getAuthor().getId()));
+				if (ChatPackage.class.isInstance(infoPackage)) {
+					ChatPackage castedPackage = ChatPackage.class.cast(infoPackage);
+					dataServer.saveRemovalMessageIntoHistory(channel, castedPackage.message,
+							castedPackage.user.getId().equals(castedPackage.message.getAuthor().getId()));
+				}
+				else {
+					logger.log(Level.SEVERE, "ChatMessage: DELETE_MESSAGE contient mauvais ChatPackage");
+				}
+
 				break;
 			case EDIT_NICKNAME:
-				dataServer.updateNickname(channel, chatPackage.sender, chatPackage.nickname);
+				dataServer.updateNickname(channel, infoPackage.user, infoPackage.nickname);
+				break;
+			case ADD_ADMIN:
+				dataServer.saveNewAdminIntoHistory(channel, infoPackage.user);
+				break;
+			case REMOVE_ADMIN:
+				dataServer.requestRemoveAdmin(channel.getId(), infoPackage.user.getId());
+				break;
+			case BAN_USER:
+				if (BanUserPackage.class.isInstance(infoPackage)) {
+					BanUserPackage castedPackage = BanUserPackage.class.cast(infoPackage);
+					// TODO INTEGRATION V4: Update interface of Data after request of IHM Channel
+					// dataServer.banUserFromChannel(channel, castedPackage.userToBan, castedPackage.endDate, castedPackage.isPermanent, castedPackage.explanation);
+				}
+				else {
+					logger.log(Level.SEVERE, "ChatMessage: BAN_USER contient mauvais BanUserPackage");
+				}
+
+				break;
+			case UNBAN_USER:
+				if (BanUserPackage.class.isInstance(infoPackage)) {
+					BanUserPackage castedPackage = BanUserPackage.class.cast(infoPackage);
+					dataServer.cancelUsersBanFromChannel(channel, castedPackage.userToBan);
+				}
+				else {
+					logger.log(Level.SEVERE, "ChatMessage: UNBAN_USER contient mauvais BanUserPackage");
+				}
+				break;
+			case UPDATE_CHANNEL:
+				if (UpdateChannelPackage.class.isInstance(infoPackage)) {
+					UpdateChannelPackage castedPackage = UpdateChannelPackage.class.cast(infoPackage);
+
+					Visibility oldVisibility = channel.getVisibility();
+
+					dataServer.updateChannel(castedPackage.channelID, castedPackage.user.getId(), castedPackage.name, castedPackage.description, castedPackage.visibility);
+
+					// TODO INTEGRATION V4: test use case of visibility update
+					if (castedPackage.visibility != null && oldVisibility != castedPackage.visibility) {
+						// informe les utilisateurs qui ne sont pas encore autorisés sur le changement sur la visibilité
+						List<UserLite> notAuthorizedUsers = new ArrayList<UserLite>(onlineUsers());
+
+						if (notAuthorizedUsers.removeAll(channel.getAuthorizedPersons())) {
+							if (castedPackage.visibility == Visibility.PUBLIC) {
+								// channel devient publique
+								sendMulticast(notAuthorizedUsers, new NewVisibleChannelMessage(getChannel(castedPackage.channelID)));
+							}
+							else {
+								// channel devient privé
+								sendMulticast(notAuthorizedUsers, new NewInvisibleChannelsMessage(castedPackage.channelID));
+							}
+						}
+					}
+				}
+				else {
+					logger.log(Level.SEVERE, "ChatMessage: UPDATE_CHANNEL contient mauvais UpdateChannelPackage");
+				}
+
 				break;
 			default:
 				logger.log(Level.WARNING, "ChatMessage: opetration inconnue");
 		}
 
-		sendMulticast(channel.getJoinedPersons(), new ReceiveChatMessage(operation, chatPackage));
+		sendMulticast(channel.getJoinedPersons(), new ReceiveChannelOperationMessage(operation, infoPackage));
 	}
 }

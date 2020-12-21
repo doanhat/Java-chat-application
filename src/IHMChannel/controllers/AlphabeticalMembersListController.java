@@ -11,7 +11,11 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 
 import java.io.IOException;
+import java.lang.reflect.Member;
+import java.util.HashMap;
+import java.util.Comparator;
 import java.util.List;
+import java.util.UUID;
 
 public class AlphabeticalMembersListController {
     private IHMChannelController ihmChannelController;
@@ -31,6 +35,13 @@ public class AlphabeticalMembersListController {
 
     ObservableList<HBox> membersToDisplay;
 
+    //Link Member's UUID and MemberController of the user's HBox
+    private HashMap<UUID, MemberController> mapMemberController = new HashMap<>();
+
+    public HashMap<UUID, MemberController> getMapMemberController() {
+        return mapMemberController;
+    }
+
     /**
      * Initialise la liste des membres contenus dans l'attribut channel de la classe
      */
@@ -49,6 +60,15 @@ public class AlphabeticalMembersListController {
         creator = this.channel.getCreator();
     }
 
+    private boolean containsUser(List<UserLite> list, UserLite user){
+        for(UserLite u : list){
+            if(u.getId().equals(user.getId())){
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Permet l'affichage de la liste des membres en faisant une conversion en Hbox.
      * @throws IOException
@@ -56,13 +76,15 @@ public class AlphabeticalMembersListController {
 
     private void displayMembers() {
         membersToDisplay.clear();
+        //TODO : le tri fonctionne, mais il devrait y avoir moyen de faire cela automatiquement avec JavaFX (possiblement s'inspirer de la liste dans homepage)
+        channelMembers.sort(Comparator.comparing(UserLite::getNickName));
         for (UserLite usr : channelMembers){
             if(usr.getId().equals(creator.getId())){
-                membersToDisplay.add((HBox) new MemberDisplay(usr,true,true,(connectedMembersList!=null && connectedMembersList.contains(usr)),false, channel, ihmChannelController).root);
+                membersToDisplay.add((HBox) new MemberDisplay(usr,true,true,(connectedMembersList!=null && containsUser(connectedMembersList, usr)),false, channel, ihmChannelController).root);
             }else if(adminMembers.contains(usr)){
-                membersToDisplay.add((HBox) new MemberDisplay(usr, true,false,(connectedMembersList!=null && connectedMembersList.contains(usr)),isLocalUserAdmin,  channel, ihmChannelController).root);
+                membersToDisplay.add((HBox) new MemberDisplay(usr, true,false,(connectedMembersList!=null && containsUser(connectedMembersList, usr)),isLocalUserAdmin,  channel, ihmChannelController).root);
             }else{
-                membersToDisplay.add((HBox) new MemberDisplay(usr, false, false,(connectedMembersList!=null && connectedMembersList.contains(usr)),isLocalUserAdmin, channel, ihmChannelController).root);
+                membersToDisplay.add((HBox) new MemberDisplay(usr, false, false,(connectedMembersList!=null && containsUser(connectedMembersList, usr)),isLocalUserAdmin, channel, ihmChannelController).root);
             }
         }
         membersList.setItems(membersToDisplay);
@@ -105,16 +127,21 @@ public class AlphabeticalMembersListController {
             this.connectedMembersList.clear();
         }
         this.connectedMembersList = updatedConnectedMembersList;
-            displayMembers();
+
+        displayMembers();
     }
 
-    public void addMemberToList(UserLite user) {
+    public void addMemberToConnectedMembersList(UserLite user) {
         connectedMembersList.add(user);
         displayMembers();
     }
 
-    public void removeMemberFromList(UserLite user) {
+    public void removeMemberFromConnectedMembersList(UserLite user) {
         connectedMembersList.remove(user);
         displayMembers();
+    }
+
+    public void changeNickname(UserLite user) {
+        mapMemberController.get(user.getId()).changeNickname(user.getNickName());
     }
 }
