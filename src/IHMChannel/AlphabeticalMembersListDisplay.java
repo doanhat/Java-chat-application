@@ -14,8 +14,16 @@ import java.util.List;
  */
 
 public class AlphabeticalMembersListDisplay {
-    public Parent root = null;
-    public AlphabeticalMembersListController alphabeticalMembersController;
+    public Parent getRoot() {
+        return root;
+    }
+
+    public void setRoot(Parent getRoot) {
+        this.root = getRoot;
+    }
+
+    private Parent root = null;
+    private AlphabeticalMembersListController alphabeticalMembersController;
 
     public AlphabeticalMembersListController getController(){return this.alphabeticalMembersController;}
 
