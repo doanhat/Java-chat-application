@@ -2,12 +2,9 @@ package Communication.messages.server_to_client.channel_access;
 
 import Communication.client.CommunicationClientController;
 import Communication.messages.abstracts.ServerToClientMessage;
-import Communication.messages.client_to_server.channel_access.proprietary_channels.LeavePropChannelMessage;
 import common.shared_data.UserLite;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.UUID;
 
 /**

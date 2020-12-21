@@ -1,7 +1,6 @@
 package Communication.messages.client_to_server.channel_access.proprietary_channels;
 
 import Communication.messages.abstracts.ClientToServerMessage;
-import Communication.messages.server_to_client.channel_access.propietary_channels.TellOwnerUserLeftMessage;
 import Communication.messages.server_to_client.channel_access.propietary_channels.TellOwnerUserQuitMessage;
 import Communication.server.CommunicationServerController;
 import common.shared_data.UserLite;

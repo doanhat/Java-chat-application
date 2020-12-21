@@ -310,6 +310,18 @@ public class CommunicationServerController extends CommunicationController {
 		}
 	}
 
+	public void changeChannelAccess(ChannelAccessRequest request, Channel channel, UserLite user) {
+		switch (request) {
+			case JOIN:
+				requestJoinChannel(channel, user);
+				break;
+			case LEAVE:
+				leaveChannel(channel.getId(), user);
+				break;
+			default:
+		}
+	}
+
 	/**
 	 * Demande de retirer un utilisateur d'un channel sur ça liste d'autorisation et sur la liste des utilisateurs connectées
 	 * @param userLite utilisateur

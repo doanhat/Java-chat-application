@@ -1,14 +1,13 @@
 package Communication.client;
 
+import Communication.common.ChannelAccessRequest;
 import Communication.common.ChannelOperation;
 import Communication.common.info_packages.BanUserPackage;
 import Communication.common.info_packages.ChatPackage;
 import Communication.common.info_packages.InfoPackage;
 import Communication.common.Parameters;
 import Communication.common.info_packages.UpdateChannelPackage;
-import Communication.messages.client_to_server.channel_access.proprietary_channels.LeavePropChannelMessage;
 import Communication.messages.client_to_server.channel_access.proprietary_channels.QuitPropChannelMessage;
-import Communication.messages.client_to_server.channel_access.shared_channels.LeaveSharedChannelMessage;
 import Communication.messages.client_to_server.channel_access.QuitChannelMessage;
 import Communication.messages.client_to_server.channel_modification.DeleteChannelMessage;
 import Communication.messages.client_to_server.channel_modification.GetChannelUsersMessage;
@@ -17,8 +16,7 @@ import Communication.messages.client_to_server.channel_modification.shared_chann
 import Communication.messages.client_to_server.channel_operation.ChannelOperationMessage;
 import Communication.messages.client_to_server.channel_modification.GetHistoryMessage;
 import Communication.messages.client_to_server.channel_access.SendInvitationMessage;
-import Communication.messages.client_to_server.channel_access.proprietary_channels.AskToJoinPropMessage;
-import Communication.messages.client_to_server.channel_access.shared_channels.AskToJoinSharedMessage;
+import Communication.messages.client_to_server.channel_access.shared_channels.ChannelAccessRequestMessage;
 
 import Communication.messages.client_to_server.connection.AvatarMessage;
 import common.interfaces.client.*;
@@ -334,12 +332,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
             return;
         }
 
-        if (channel.getType() == ChannelType.OWNED) {
-            commController.sendMessage(new LeavePropChannelMessage(localUser, channel.getId(), channel.getCreator()));
-        }
-        else {
-            commController.sendMessage(new LeaveSharedChannelMessage(localUser, channel.getId()));
-        }
+        commController.sendMessage(new ChannelAccessRequestMessage(ChannelAccessRequest.LEAVE, channel.getId(), localUser));
     }
 
     /**
@@ -352,16 +345,11 @@ public class CommunicationClientInterface implements IDataToCommunication,
             return;
         }
 
-        if (channel.getType() == ChannelType.OWNED) {
-            if (channel.getCreator().getId().equals(localUser.getId())) {
-                commController.sendMessage(new SendProprietaryChannelsMessage(localUser, Collections.singletonList(channel)));
-            }
-            else {
-                commController.sendMessage(new AskToJoinPropMessage(channel.getId(), localUser, channel.getCreator()));
-            }
+        if (channel.getType() == ChannelType.OWNED && channel.getCreator().getId().equals(localUser.getId())) {
+            commController.sendMessage(new SendProprietaryChannelsMessage(localUser, Collections.singletonList(channel)));
         }
         else {
-            commController.sendMessage(new AskToJoinSharedMessage(channel.getId(), localUser));
+            commController.sendMessage(new ChannelAccessRequestMessage(ChannelAccessRequest.JOIN, channel.getId(), localUser));
         }
 
     }
