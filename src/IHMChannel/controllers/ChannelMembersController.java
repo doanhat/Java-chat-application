@@ -125,4 +125,11 @@ public class ChannelMembersController {
         adminMembersListDisplay.removeMemberFromConnectedMembersList(user);
         connectedMembersListDisplay.removeMemberFromConnectedMembersList(user);
     }
+
+    public void changeNickname(UserLite user) {
+        //Update all views
+        alphabeticalMembersListDisplay.getController().changeNickname(user);
+        connectedMembersListDisplay.getController().changeNickname(user);
+        adminMembersListDisplay.getController().changeNickname(user);
+    }
 }

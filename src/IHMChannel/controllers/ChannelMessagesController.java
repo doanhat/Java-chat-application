@@ -74,6 +74,8 @@ public class ChannelMessagesController{
 
     ListChangeListener<Message> messageListListener;
 
+    private HashMap<UUID, MessageController> mapMessageController = new HashMap<UUID, MessageController>();
+
     public void addMessageToObservableList(Message message){
         observableMessages.add(message);
     }
@@ -305,5 +307,65 @@ public class ChannelMessagesController{
 
     public void setMessagesMap(HashMap<UUID, MessageController> messagesMap) {
         this.messagesMap = messagesMap;
+    }
+
+    public void likeMessage(Message message, UserLite user) {
+        for(Message m : observableMessages){
+            if(m.getId().equals(message.getId())){
+                List<UserLite> likeList = m.getLikes();
+                if(likeList.contains(user)){
+                    likeList.remove(user); //dislike
+                    //update icon
+                    Image likeImage = null;
+                    if(likeList.size() > 0){ //other user still like the message
+                        likeImage = new Image("IHMChannel/icons/heart-solid.png");
+                    }else{
+                        likeImage = new Image("IHMChannel/icons/heart-regular.png");
+                    }
+                    ImageView likeIcon = new ImageView(likeImage);
+                    likeIcon.setFitHeight(15);
+                    likeIcon.setFitWidth(15);
+                    mapMessageController.get(m.getId()).getLikeButton().setGraphic(likeIcon);
+                }else{
+                    likeList.add(user); //like
+                    //update icon to red heart
+                    Image likeImage = new Image("IHMChannel/icons/heart-solid-red.png");
+                    ImageView likeIcon = new ImageView(likeImage);
+                    likeIcon.setFitHeight(15);
+                    likeIcon.setFitWidth(15);
+                    mapMessageController.get(m.getId()).getLikeButton().setGraphic(likeIcon);
+                }
+                mapMessageController.get(message.getId()).setMessageToDisplay(m); //mise à jour de l'affichage
+                break;
+            }
+        }
+    }
+
+    public HashMap<UUID, MessageController> getMapMessageController() {
+        return mapMessageController;
+    }
+
+    public void setMapMessageController(HashMap<UUID, MessageController> mapMessageController) {
+        this.mapMessageController = mapMessageController;
+    }
+
+    public void editMessage(Message message, Message newMessage) {
+        for(Message m : observableMessages){
+            if(m.getId().equals(message.getId())){
+                // pas besoin de màj le content ici car on l'a màj dans la copie locale du channel, ça se répercute automatiquement sur l'affichage
+                //affichage "message édité"
+                mapMessageController.get(m.getId()).getIsEditedText().setText("message édité");
+                mapMessageController.get(message.getId()).setMessageToDisplay(m); //mise à jour de l'affichage
+                break;
+            }
+        }
+    }
+
+    public void changeNickname(UserLite user){
+        for(Message m : observableMessages){
+            if(m.getAuthor().getId().equals(user.getId())){
+                mapMessageController.get(m.getId()).setAuthorNickname(user.getNickName());
+            }
+        }
     }
 }

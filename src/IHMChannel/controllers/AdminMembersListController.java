@@ -11,7 +11,10 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 
 import java.io.IOException;
+import java.lang.reflect.Member;
+import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public class AdminMembersListController {
 
@@ -36,6 +39,9 @@ public class AdminMembersListController {
     ObservableList<HBox> creatorToDisplay;
     ObservableList<HBox> adminsToDisplay;
     ObservableList<HBox> membersToDisplay;
+
+    //Link Member's UUID and MemberController of the user's HBox
+    private HashMap<UUID, MemberController> mapMemberController = new HashMap<UUID, MemberController>();
 
     /**
      * Initialise la liste des membres contenus dans l'attribut channel de la classe
@@ -142,5 +148,9 @@ public class AdminMembersListController {
     public void removeMemberFromConnectedMembersList(UserLite user) {
         connectedMembersList.remove(user);
         displayMembers();
+    }
+
+    public void changeNickname(UserLite user) {
+        mapMemberController.get(user.getId()).changeNickname(user.getNickName());
     }
 }
