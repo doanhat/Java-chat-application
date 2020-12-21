@@ -41,7 +41,7 @@ public class AdminMembersListController {
     ObservableList<HBox> membersToDisplay;
 
     //Link Member's UUID and MemberController of the user's HBox
-    private HashMap<UUID, MemberController> mapMemberController = new HashMap<UUID, MemberController>();
+    private HashMap<UUID, MemberController> mapMemberController = new HashMap<>();
 
     /**
      * Initialise la liste des membres contenus dans l'attribut channel de la classe
@@ -104,7 +104,7 @@ public class AdminMembersListController {
      * Met à jour la liste des membres en conséquence
      * @param channel
      */
-    public void setCurrentChannel(Channel channel) throws IOException {
+    public void setCurrentChannel(Channel channel){
         this.channel = channel;
         initMembersList();
         displayMembers();

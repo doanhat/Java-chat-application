@@ -1,7 +1,6 @@
 package IHMChannel.controllers;
 
 import IHMChannel.IHMChannelController;
-import common.IHMTools.IHMTools;
 import common.shared_data.*;
 import javafx.application.Platform;
 import javafx.collections.*;
@@ -11,8 +10,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.text.Text;
-
 import java.io.IOException;
 import java.util.*;
 
@@ -28,36 +25,11 @@ public class ChannelPageController {
     private IHMChannelController ihmChannelController;
 
     @FXML
-    Button back;
-    @FXML
-    Text channelName;
-    @FXML
-    Text channelDescription;
-    @FXML
-    Button seeMembersBtn;
-    @FXML
-    Button addMemberBtn;
-    @FXML
-    Button leaveChannelBtn;
-    @FXML
-    Button addUserBtn; //pour test
-    @FXML
-    Button removeUserBtn; //pour test
-
-    @FXML
-    private TextField canalText;
-
-    @FXML
-    private Button createCanalBtn;
-
-    @FXML
     BorderPane pageToDisplay;
 
     @FXML
     TabPane tabs;
 
-    //Pour tests
-    UserLite userTemp = new UserLite();
 
 
     public void addOpenedChannel(Channel channel) throws IOException {
@@ -124,17 +96,10 @@ public class ChannelPageController {
      * On y fait l'initialisation des données (et non pas de l'affichage)
      */
     public ChannelPageController() {
-        //tmp
-        // permet d'avoir un utilisateur temporaire pour l'affichage des messages
-        connectedUser = new UserLite("newUser", null);
-        connectedUser.setNickName("Léa");
-
         //initialisation de oppenedChannel
         openedChannels = FXCollections.observableSet();
         channelMap = new HashMap<>();
 
-        userTemp.setId(UUID.randomUUID());
-        userTemp.setNickName("Clément");
     }
 
     /**
@@ -185,68 +150,7 @@ public class ChannelPageController {
         return channelMap.get(channelId);
     }
 
-    @FXML
-        // Test method for dev
-    void createChannel() {
-        String channelName = canalText.getText();
-        int count = 0;
-        for (Channel c : openedChannels) {
-            if (c.getName().equals(channelName)) {
-                count = 1;
-                break;
-            }
-        }
-        if (count == 0) {
 
-            Channel c = new Channel(channelName, new UserLite("Léa", null), "channel pour l'UV " + channelName, Visibility.PUBLIC, ChannelType.OWNED);
-            //Membres connectés
-            List<String> nickName = new ArrayList<>();
-            nickName.add("Léa");
-            nickName.add("Aida");
-            nickName.add("Lucas");
-            nickName.add("Vladimir");
-            nickName.add("Jérôme");
-            nickName.add("Van-Triet");
-            List<UserLite> connectedUsers = new ArrayList<>();
-            for (int i = 0; i < nickName.size(); i++) {
-                UserLite u = new UserLite();
-                u.setNickName(nickName.get(i));
-                connectedUsers.add(u);
-            }
-            List<Message> history = new ArrayList<>();
-            for (int i = 0; i < 7; i++) {
-                Message m = new Message();
-                m.setAuthor(connectedUsers.get((i + 1) % connectedUsers.size()));
-                m.setMessage("hello " + connectedUsers.get((i + 2) % connectedUsers.size()).getNickName());
-                m.setDate(new Date());
-                history.add(m);
-            }
-            ihmChannelController.getInterfaceForCommunication().displayChannelHistory(c, history, connectedUsers);
-            //this.addOpenedChannel(c);
-        } else {
-            for (Tab c : tabs.getTabs()) {
-                if (c.getId().equals(channelName)) {
-                    tabs.getSelectionModel().select(c);
-                }
-            }
-        }
-    }
-
-    @FXML
-    /**
-     * Pour tester l'interface proposée à comm
-     */
-    public void addUser() {
-        ihmChannelController.getInterfaceForCommunication().addConnectedUser(currentChannel, userTemp);
-    }
-
-    @FXML
-    /**
-     * Pour tester l'interface proposée à comm
-     */
-    public void removeUser() {
-        ihmChannelController.getInterfaceForCommunication().removeConnectedUser(currentChannel, userTemp);
-    }
 
     public ObservableSet<Channel> getOpenedChannels() {
         return this.openedChannels;

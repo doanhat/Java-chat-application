@@ -63,8 +63,6 @@ public class ChannelMessagesController{
     @FXML
     Button sendBtn;
     @FXML
-    Button testReception; //utilisé pour test uniquement
-    @FXML
     BorderPane connectedMembers;
 
     //Liste de HBox (= contrôle message)
@@ -191,18 +189,6 @@ public class ChannelMessagesController{
             }
         }
         this.parentMessage = null; // D'après envoyer message, parent message devient nul
-    }
-
-    /**
-     * Méthode de test déclenchée à l'appui sur le bouton "test réception"
-     * Génère l'ajout d'un message dans la liste de messages du channel.
-     */
-    public void receiveMessage(){
-        // cet appel est juste pour les test
-        System.out.println("hello");
-       //Message message = new Message(2, "message reçu test", connectedUser);
-         getIhmChannelController().getInterfaceForData().receiveMessage(new Message("message reçu test", connectedUser),
-                          this.channel.getId(), null);
     }
 
     /**

@@ -36,7 +36,7 @@ public class AlphabeticalMembersListController {
     ObservableList<HBox> membersToDisplay;
 
     //Link Member's UUID and MemberController of the user's HBox
-    private HashMap<UUID, MemberController> mapMemberController = new HashMap<UUID, MemberController>();
+    private HashMap<UUID, MemberController> mapMemberController = new HashMap<>();
 
     public HashMap<UUID, MemberController> getMapMemberController() {
         return mapMemberController;
