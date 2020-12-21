@@ -19,11 +19,13 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.io.File;
+import java.io.*;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.Base64;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -63,12 +65,14 @@ public class HomePageController implements Initializable {
 
         // Gestion des champs de modification du profil
         connectedUser = ihmMainController.getIHMMainToData().getUser();
-        // TODO fix this, due to change in the interface
-//        String avatarPath = (ihmMainController.getIIHMMainToCommunication().getAvatarPath(connectedUser.getUserLite()) != null
-//                ? ihmMainController.getIIHMMainToCommunication().getAvatarPath(connectedUser.getUserLite())
-//                : "IHMMain/icons/willsmith.png");
-        String avatarPath = "IHMMain/icons/willsmith.png";
-        Image image = new Image(avatarPath);
+        Image image;
+        if (connectedUser.getAvatar().equals("")) {
+            String avatarPath = "IHMMain/icons/willsmith.png";
+            image = new Image(avatarPath);
+        } else {
+            String avatarPath = ihmMainController.getIHMMainToData().getLocalAvatarDirectoryPath() + connectedUser.getAvatar();
+            image = new Image(Paths.get(avatarPath).toUri().toString());
+        }
         avatarUser.setImage(image);
 
         userLoginLabel.setText(connectedUser.getNickName());
@@ -216,7 +220,22 @@ public class HomePageController implements Initializable {
                     connectedUser.getFirstName(),
                     connectedUser.getBirthDate(),
                     connectedUser);
+            sendAvatarToServer(selectedFile);
             ihmMainController.getMainWindowController().getIHMMainWindowController().loadHomePage();
+        }
+    }
+
+    private void sendAvatarToServer(File selectedFile) {
+        byte[] bytes;
+        try (FileInputStream fileInputStreamReader = new FileInputStream(selectedFile)) {
+            bytes = new byte[(int) selectedFile.length()];
+            fileInputStreamReader.read(bytes);
+            String avatarBase64 =  new String(Base64.getEncoder().encode(bytes), "UTF-8");
+            ihmMainController.getIIHMMainToCommunication().saveAvatarToServer(connectedUser, avatarBase64);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

@@ -21,8 +21,10 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -279,16 +281,13 @@ public class IHMMainWindowController implements Initializable{
     }
 
     private void updateProfileImage(){
-        if(!userL.getAvatar().equals("")){
-            /**
-             * Voir avec Data comment sont stockées les images sur le serveur,
-             * faire en sorte que getAvatar renvoie une image afin de ne pas stocker trop
-             * d'images en local
-             */
-
-            //String avatarPath = parentController.getIhmMainController().getIIHMMainToCommunication().getAvatarPath(u.getUserLite());
+        if(userL.getAvatar().equals("")){
             String avatarPath = "IHMMain/icons/willsmith.png";
             Image image = new Image(avatarPath);
+            profileImage.setImage(image);
+        } else {
+            String avatarPath = ihmMainController.getIHMMainToData().getLocalAvatarDirectoryPath() +  userL.getAvatar();
+            Image image = new Image(Paths.get(avatarPath).toUri().toString());
             profileImage.setImage(image);
         }
     }
