@@ -14,16 +14,14 @@ import Communication.common.info_packages.ChatPackage;
 import Communication.common.info_packages.InfoPackage;
 import Communication.common.info_packages.UpdateChannelPackage;
 import Communication.messages.abstracts.NetworkMessage;
-import Communication.messages.server_to_client.channel_access.NewUserJoinChannelMessage;
+import Communication.messages.server_to_client.channel_access.*;
 import Communication.messages.server_to_client.channel_modification.NewInvisibleChannelsMessage;
 import Communication.messages.server_to_client.channel_modification.NewUserAuthorizeChannelMessage;
 import Communication.messages.server_to_client.channel_modification.NewVisibleChannelMessage;
 import Communication.messages.server_to_client.channel_modification.SendHistoryMessage;
 import Communication.messages.server_to_client.channel_operation.ReceiveChannelOperationMessage;
 import Communication.messages.server_to_client.connection.UserDisconnectedMessage;
-import Communication.messages.server_to_client.channel_access.UserLeftChannelMessage;
 
-import Communication.messages.server_to_client.channel_access.ValideUserLeftMessage;
 import common.interfaces.server.IServerCommunicationToData;
 import common.interfaces.server.IServerDataToCommunication;
 import common.shared_data.*;
@@ -321,6 +319,9 @@ public class CommunicationServerController extends CommunicationController {
 			case INVITE:
 				requestInviteUserToChannel(channel, user);
 				break;
+			case QUIT:
+				quitChannel(channel, user);
+				break;
 			default:
 		}
 	}
@@ -330,9 +331,12 @@ public class CommunicationServerController extends CommunicationController {
 	 * @param userLite utilisateur
 	 * @param channel channel
 	 */
-	public void quitChannel(UUID channel, UserLite userLite) {
-		dataServer.quitChannel(channel, userLite);
-		dataServer.leaveChannel(channel, userLite);
+	public void quitChannel(Channel channel, UserLite userLite) {
+		dataServer.quitChannel(channel.getId(), userLite);
+		dataServer.leaveChannel(channel.getId(), userLite);
+
+		sendMessage(userLite.getId(), new ValideUserQuitMessage(channel.getId(), userLite));
+		sendMulticast(channel.getAuthorizedPersons(), new UserQuitedChannelMessage(channel.getId(), userLite), userLite);
 	}
 
 	/**

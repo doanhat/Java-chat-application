@@ -4,4 +4,5 @@ public enum ChannelAccessRequest {
     JOIN,
     LEAVE,
     INVITE,
+    QUIT,
 }

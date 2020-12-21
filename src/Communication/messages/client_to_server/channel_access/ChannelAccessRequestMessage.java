@@ -1,4 +1,4 @@
-package Communication.messages.client_to_server.channel_access.shared_channels;
+package Communication.messages.client_to_server.channel_access;
 
 import Communication.common.ChannelAccessRequest;
 import Communication.messages.abstracts.ClientToServerMessage;

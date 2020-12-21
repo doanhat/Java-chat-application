@@ -7,15 +7,13 @@ import Communication.common.info_packages.ChatPackage;
 import Communication.common.info_packages.InfoPackage;
 import Communication.common.Parameters;
 import Communication.common.info_packages.UpdateChannelPackage;
-import Communication.messages.client_to_server.channel_access.proprietary_channels.QuitPropChannelMessage;
-import Communication.messages.client_to_server.channel_access.QuitChannelMessage;
 import Communication.messages.client_to_server.channel_modification.DeleteChannelMessage;
 import Communication.messages.client_to_server.channel_modification.GetChannelUsersMessage;
 import Communication.messages.client_to_server.channel_modification.proprietary_channels.SendProprietaryChannelsMessage;
 import Communication.messages.client_to_server.channel_modification.shared_channels.CreateSharedChannelMessage;
 import Communication.messages.client_to_server.channel_operation.ChannelOperationMessage;
 import Communication.messages.client_to_server.channel_modification.GetHistoryMessage;
-import Communication.messages.client_to_server.channel_access.shared_channels.ChannelAccessRequestMessage;
+import Communication.messages.client_to_server.channel_access.ChannelAccessRequestMessage;
 
 import Communication.messages.client_to_server.connection.AvatarMessage;
 import common.interfaces.client.*;
@@ -375,16 +373,11 @@ public class CommunicationClientInterface implements IDataToCommunication,
 
     @Override
     public void quitChannel(Channel channel) {
-        if (channel.getType() == ChannelType.OWNED) {
-            if (channel.getCreator().getId().equals(localUser.getId())) {
-                commController.sendMessage(new DeleteChannelMessage(channel.getId(), localUser));
-            }
-            else {
-                commController.sendMessage(new QuitPropChannelMessage(localUser, channel.getId(), channel.getCreator()));
-            }
+        if (channel.getType() == ChannelType.OWNED && channel.getCreator().getId().equals(localUser.getId())) {
+            commController.sendMessage(new DeleteChannelMessage(channel.getId(), localUser));
         }
         else {
-            commController.sendMessage(new QuitChannelMessage(localUser, channel.getId()));
+            commController.sendMessage(new ChannelAccessRequestMessage(ChannelAccessRequest.QUIT, channel.getId(), localUser));
         }
     }
 
