@@ -180,6 +180,14 @@ public class Channel implements Serializable {
 		return null;
 	}
 
+	public boolean messageInChannel(UUID messageID){
+		for(Message message : messages){
+			if(message.getId().equals(messageID))
+				return true;
+		}
+		return false;
+	}
+
 	public void addAuthorizedUser(UserLite user) {
 		if (!userIsAuthorized(user.getId())) {
 			this.authorizedPersons.add(user);
@@ -196,6 +204,14 @@ public class Channel implements Serializable {
 
 	public boolean userIsAuthorized(UUID userID){
 		for (UserLite user : authorizedPersons) {
+			if(user.getId().equals(userID))
+				return true;
+		}
+		return false;
+	}
+
+	public boolean userInChannel(UUID userID){
+		for (UserLite user : joinedPersons) {
 			if(user.getId().equals(userID))
 				return true;
 		}
@@ -223,11 +239,11 @@ public class Channel implements Serializable {
 	}
 
 	public void kickPermanentUser(UserLite user, String reason) {
-		this.kicked.add(new Kick(user, this, reason, true));
+		this.kicked.add(new Kick(user, this.id, reason, true));
 	}
 
 	public void kickUser(UserLite user, String reason, Date end) {
-		this.kicked.add(new Kick(user, this, reason, end));
+		this.kicked.add(new Kick(user, this.id, reason, end));
 	}
 
 	@Override

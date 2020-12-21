@@ -1,11 +1,13 @@
 package data.resource_handle;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -118,8 +120,10 @@ public class FileHandle<T> {
 
     public String getAvatarPath(String userId) {
         String sysPath = this.path + userId + EXTENSION_IMAGE;
-        File image = Paths.get(sysPath).toFile();
-        return image.getPath();
+        if (Paths.get(sysPath).toFile().exists()){
+            return "/resource/"+location+"/"+fileType+"/"+userId + EXTENSION_IMAGE;
+        }
+        return null;
     }
 
     public void writeEncodedStringToFile(String encodedString, String fileName) throws IOException {
@@ -132,6 +136,9 @@ public class FileHandle<T> {
         }
     }
 
+    public String serialize(Object object) throws JsonProcessingException {
+        return mapper.writeValueAsString(object);
+    }
     public void setPath(String path) {
         this.path = path;
     }
