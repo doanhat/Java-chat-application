@@ -14,12 +14,13 @@ import Communication.messages.client_to_server.channel_modification.DeleteChanne
 import Communication.messages.client_to_server.channel_modification.GetChannelUsersMessage;
 import Communication.messages.client_to_server.channel_modification.proprietary_channels.SendProprietaryChannelsMessage;
 import Communication.messages.client_to_server.channel_modification.shared_channels.CreateSharedChannelMessage;
-import Communication.messages.client_to_server.chat_action.ChatMessage;
+import Communication.messages.client_to_server.channel_operation.ChannelOperationMessage;
 import Communication.messages.client_to_server.channel_modification.GetHistoryMessage;
 import Communication.messages.client_to_server.channel_access.SendInvitationMessage;
 import Communication.messages.client_to_server.channel_access.proprietary_channels.AskToJoinPropMessage;
 import Communication.messages.client_to_server.channel_access.shared_channels.AskToJoinSharedMessage;
 
+import Communication.messages.client_to_server.connection.AvatarMessage;
 import common.interfaces.client.*;
 import common.shared_data.*;
 
@@ -93,13 +94,20 @@ public class CommunicationClientInterface implements IDataToCommunication,
 
     @Override
     public void saveAvatarToServer(UserLite user, String encodedString) {
-        //TODO Note Data : Appeler saveAvatarToServer(UserLite user, String avatarBase64) dans IServerCommunicationToData
+        if (user == null || encodedString == null) {
+            return;
+        }
+
+        commController.sendMessage(new AvatarMessage(AvatarMessage.Operation.PUT, localUser, user, encodedString));
     }
 
     @Override
-    public String getAvatarPath(UserLite user) {
-        //TODO Note Data : Appeler getAvatarPath(UserLite user) dans IServerCommunicationToData
-        return null;
+    public void getAvatarPath(UserLite user) {
+        if (user == null) {
+            return;
+        }
+
+        commController.sendMessage(new AvatarMessage(AvatarMessage.Operation.GET, localUser, user));
     }
     
     public UserLite getLocalUser() {
@@ -153,7 +161,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
         infoPackage.user = user;
         infoPackage.channelID = channel.getId();
 
-        this.commController.sendMessage(new ChatMessage(ChannelOperation.ADD_ADMIN, infoPackage));
+        this.commController.sendMessage(new ChannelOperationMessage(ChannelOperation.ADD_ADMIN, infoPackage));
     }
 
     @Override
@@ -166,7 +174,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
         infoPackage.user = user;
         infoPackage.channelID = channel.getId();
 
-        this.commController.sendMessage(new ChatMessage(ChannelOperation.REMOVE_ADMIN, infoPackage));
+        this.commController.sendMessage(new ChannelOperationMessage(ChannelOperation.REMOVE_ADMIN, infoPackage));
     }
 
     /**
@@ -192,7 +200,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
         banUserPackage.isPermanent = isPermanent;
         banUserPackage.explanation = explanation;
 
-        this.commController.sendMessage(new ChatMessage(ChannelOperation.BAN_USER, banUserPackage));
+        this.commController.sendMessage(new ChannelOperationMessage(ChannelOperation.BAN_USER, banUserPackage));
     }
 
     /**
@@ -211,7 +219,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
         banUserPackage.userToBan = unKickedUser;
         banUserPackage.channelID = channelID;
 
-        this.commController.sendMessage(new ChatMessage(ChannelOperation.UNBAN_USER, banUserPackage));
+        this.commController.sendMessage(new ChannelOperationMessage(ChannelOperation.UNBAN_USER, banUserPackage));
     }
 
     /**
@@ -232,7 +240,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
         chatPackage.channelID = channel.getId();
         chatPackage.messageResponseTo = response;
 
-        this.commController.sendMessage(new ChatMessage(ChannelOperation.SEND_MESSAGE, chatPackage));
+        this.commController.sendMessage(new ChannelOperationMessage(ChannelOperation.SEND_MESSAGE, chatPackage));
     }
 
     /**
@@ -253,7 +261,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
         chatPackage.channelID = channel.getId();
         chatPackage.editedMessage = newMsg;
 
-        this.commController.sendMessage(new ChatMessage(ChannelOperation.EDIT_MESSAGE, chatPackage));
+        this.commController.sendMessage(new ChannelOperationMessage(ChannelOperation.EDIT_MESSAGE, chatPackage));
     }
 
     /**
@@ -273,7 +281,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
         chatPackage.message = msg;
         chatPackage.channelID = channel.getId();
 
-        this.commController.sendMessage(new ChatMessage(ChannelOperation.LIKE_MESSAGE, chatPackage));
+        this.commController.sendMessage(new ChannelOperationMessage(ChannelOperation.LIKE_MESSAGE, chatPackage));
     }
 
     /**
@@ -293,7 +301,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
         chatPackage.message = msg;
         chatPackage.channelID = channel.getId();
 
-        this.commController.sendMessage(new ChatMessage(ChannelOperation.DELETE_MESSAGE, chatPackage));
+        this.commController.sendMessage(new ChannelOperationMessage(ChannelOperation.DELETE_MESSAGE, chatPackage));
     }
 
     /**
@@ -313,7 +321,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
         infoPackage.nickname = newNickname;
         infoPackage.channelID = channel.getId();
 
-        this.commController.sendMessage(new ChatMessage(ChannelOperation.EDIT_MESSAGE, infoPackage));
+        this.commController.sendMessage(new ChannelOperationMessage(ChannelOperation.EDIT_MESSAGE, infoPackage));
     }
 
     /**
@@ -414,6 +422,6 @@ public class CommunicationClientInterface implements IDataToCommunication,
         updatePackage.description = description;
         updatePackage.visibility = visibility;
 
-        this.commController.sendMessage(new ChatMessage(ChannelOperation.UPDATE_CHANNEL, updatePackage));
+        this.commController.sendMessage(new ChannelOperationMessage(ChannelOperation.UPDATE_CHANNEL, updatePackage));
     }
 }

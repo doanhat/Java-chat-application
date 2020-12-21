@@ -56,12 +56,13 @@ public interface IIHMMainToCommunication
     void saveAvatarToServer(UserLite user, String encodedString);
 
     /**
-     * Récupérer le chemin vers l'avatar de l'utilisateur dans le serveur
+     * Demande de Récupérer le chemin vers l'avatar de l'utilisateur dans le serveur
      *
      * @param user utilisateur
      * @return
      */
-    String getAvatarPath(UserLite user);
+    // NOTE TO MAIN: implement etAvatarPath(UserLite user, String avatarPath); in ICommunicationToIHMMain to receive path from server
+    void getAvatarPath(UserLite user);
 
     void getConnectedUsers(UUID channelID);
 }

@@ -1,20 +1,20 @@
-package Communication.messages.client_to_server.chat_action;
+package Communication.messages.client_to_server.channel_operation;
 
 import Communication.common.ChannelOperation;
 import Communication.common.info_packages.InfoPackage;
 import Communication.messages.abstracts.ClientToServerMessage;
-import Communication.messages.server_to_client.chat_action.proprietary_channels.InformOwnerChatMessage;
+import Communication.messages.server_to_client.channel_operation.proprietary_channels.InformOwnerChannelOperationMessage;
 import Communication.server.CommunicationServerController;
 import common.shared_data.Channel;
 import common.shared_data.ChannelType;
 
-public class ChatMessage extends ClientToServerMessage {
+public class ChannelOperationMessage extends ClientToServerMessage {
 
     private static final long serialVersionUID = 165413248758221L;
     private final ChannelOperation operation;
     private final InfoPackage infoPackage;
 
-    public ChatMessage(ChannelOperation operation, InfoPackage infoPackage) {
+    public ChannelOperationMessage(ChannelOperation operation, InfoPackage infoPackage) {
         this.operation = operation;
         this.infoPackage = infoPackage;
     }
@@ -30,7 +30,7 @@ public class ChatMessage extends ClientToServerMessage {
 
         // Server serves as a proxy in case of proprietary Channel
         if (channel.getType() == ChannelType.OWNED) {
-            commController.sendMessage(channel.getCreator().getId(), new InformOwnerChatMessage(operation, infoPackage));
+            commController.sendMessage(channel.getCreator().getId(), new InformOwnerChannelOperationMessage(operation, infoPackage));
         }
         else {
             commController.handleChat(operation, infoPackage);

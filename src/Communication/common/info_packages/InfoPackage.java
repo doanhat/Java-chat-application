@@ -1,6 +1,5 @@
 package Communication.common.info_packages;
 
-import common.shared_data.Message;
 import common.shared_data.UserLite;
 
 import java.io.Serializable;

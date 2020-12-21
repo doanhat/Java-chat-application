@@ -17,7 +17,7 @@ import Communication.messages.abstracts.NetworkMessage;
 import Communication.messages.server_to_client.channel_access.propietary_channels.TellOwnerUserInvitedMessage;
 import Communication.messages.server_to_client.channel_modification.NewInvisibleChannelsMessage;
 import Communication.messages.server_to_client.channel_modification.NewVisibleChannelMessage;
-import Communication.messages.server_to_client.chat_action.ReceiveChatMessage;
+import Communication.messages.server_to_client.channel_operation.ReceiveChannelOperationMessage;
 import Communication.messages.server_to_client.connection.UserDisconnectedMessage;
 import Communication.messages.server_to_client.channel_access.UserLeftChannelMessage;
 
@@ -223,6 +223,23 @@ public class CommunicationServerController extends CommunicationController {
 	 */
 	public Channel getChannel(UUID channelID) {
 		return dataServer.getChannel(channelID);
+	}
+
+	/**
+	 * Passe avatar à Data Serveur
+	 * @param user
+	 * @param encodedString
+	 */
+	public void setAvatar(UserLite user, String encodedString) {
+		dataServer.saveAvatarToServer(user, encodedString);
+	}
+
+	/**
+	 * Recupère Chemin d'Avatar
+	 * @param user
+	 */
+	public String getAvatarPath(UserLite user) {
+		return dataServer.getAvatarPath(user);
 	}
 
 	/* -------------------------------------- Channel action Request handling ----------------------------------------*/
@@ -441,6 +458,6 @@ public class CommunicationServerController extends CommunicationController {
 				logger.log(Level.WARNING, "ChatMessage: opetration inconnue");
 		}
 
-		sendMulticast(channel.getJoinedPersons(), new ReceiveChatMessage(operation, infoPackage));
+		sendMulticast(channel.getJoinedPersons(), new ReceiveChannelOperationMessage(operation, infoPackage));
 	}
 }
