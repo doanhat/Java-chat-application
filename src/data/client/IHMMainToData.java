@@ -6,6 +6,7 @@ import common.shared_data.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 public class IHMMainToData implements IIHMMainToData {
 
@@ -115,5 +116,10 @@ public class IHMMainToData implements IIHMMainToData {
     @Override
     public User getUser() {
         return dataController.getUserController().getUser();
+    }
+
+    @Override
+    public String exportUserProfile(UUID userId) {
+        return dataController.getUserController().exportUserProfile(userId);
     }
 }

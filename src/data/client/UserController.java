@@ -1,5 +1,6 @@
 package data.client;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import data.resource_handle.FileHandle;
 import data.resource_handle.FileType;
 import data.resource_handle.LocationType;
@@ -123,5 +124,17 @@ public class UserController extends Controller {
         if (lastName!=null) Objects.requireNonNull(u).setLastName(lastName);
         if (firstName!=null) Objects.requireNonNull(u).setFirstName(firstName);
         if (birthDate!=null) Objects.requireNonNull(u).setBirthDate(birthDate);
+    }
+
+    public String exportUserProfile(UUID userId) {
+        User user = searchUserById(userId);
+        if (user!=null){
+            try {
+                return fileHandle.serialize(user);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 }

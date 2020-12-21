@@ -1,5 +1,6 @@
 package data.resource_handle;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
@@ -135,6 +136,9 @@ public class FileHandle<T> {
         }
     }
 
+    public String serialize(Object object) throws JsonProcessingException {
+        return mapper.writeValueAsString(object);
+    }
     public void setPath(String path) {
         this.path = path;
     }
