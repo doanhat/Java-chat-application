@@ -3,11 +3,13 @@ package IHMMain.controllers;
 import IHMMain.IHMMainController;
 import app.MainWindowController;
 import common.shared_data.ConnectionStatus;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.io.File;
@@ -46,6 +48,11 @@ public class ConnectionController implements Initializable{
     private Button showSubscriptionPasswordButton;
     @FXML
     private Button showConnectionPasswordButton;
+    @FXML
+    private TextField IPTextField;
+    @FXML
+    private TextField portTextField;
+
 
     // Variables pour gérer l'affichage du mot de passe (TextField ou PasswordField)
     private boolean isPasswordFieldSubscription = true;
@@ -65,6 +72,47 @@ public class ConnectionController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        //Affiche l'adresse IP à l'affichage
+        Platform.runLater(() -> {
+            IPTextField.setText(ihmMainController.getIIHMMainToCommunication().getIP());
+        });
+        //Gère le changement d'adresse IP
+        IPTextField.textProperty().addListener((observable,oldValue,newValue) -> {
+            try {
+                ihmMainController.getIIHMMainToCommunication().setIP(newValue);
+            }catch(Exception e){
+                e.printStackTrace();
+                try {
+                    throw new Exception("Erreur de saisie d'IP");
+                }catch(Exception ex){
+                    ex.printStackTrace();
+                }
+            }
+        });
+
+        //Affiche le port à l'affichage
+        Platform.runLater(() -> {
+            portTextField.setText(String.valueOf(ihmMainController.getIIHMMainToCommunication().getPort()));
+        });
+        //Gère le changement de port
+        portTextField.textProperty().addListener((observable,oldValue,newValue) -> {
+            try {
+                //Vérifie que l'on rentre bien un nombre
+                if (!newValue.matches("\\d*")) {
+                    portTextField.setText(newValue.replaceAll("[^\\d]", ""));
+                }else{
+                    ihmMainController.getIIHMMainToCommunication().setPort(Integer.parseInt(newValue));
+                }
+            }catch(Exception e){
+                e.printStackTrace();
+                try {
+                    throw new Exception("Erreur de saisie de port");
+                }catch(Exception ex){
+                    ex.printStackTrace();
+                }
+            }
+        });
+
         // Gestion de l'affichage du bouton d'affichage/masquage du mot de passe lors de l'inscription
         ImageView eyeButtonSubscription = new ImageView("IHMMain/icons/eye.png");
         eyeButtonSubscription.setFitHeight(18);
@@ -82,6 +130,13 @@ public class ConnectionController implements Initializable{
         uploadFileButton.setFitHeight(18);
         uploadFileButton.setFitWidth(18);
         chooseFileButton.setGraphic(uploadFileButton);
+
+        // Set event when Enter key is press on connection password field, onSeConnecterButtonClick is call
+        userConnectionPasswordPasswordField.setOnKeyPressed(event -> {
+            if (event.getCode().equals(KeyCode.ENTER)) {
+                onSeConnecterButtonClick();
+            }
+        });
     }
 
     @FXML

@@ -1,13 +1,12 @@
 package data.client;
 
 import common.interfaces.client.ICommunicationToData;
-import common.shared_data.Channel;
-import common.shared_data.Message;
-import common.shared_data.User;
-import common.shared_data.UserLite;
+import common.shared_data.*;
 import javafx.application.Platform;
 
-import java.io.IOException;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -74,16 +73,12 @@ public class CommunicationToData implements ICommunicationToData {
         Platform.runLater(() -> dataController.getChannelController().removeChannelFromList(channelId, duration, explanation));
     }
 
-    /**
-     * Ban user into history.
-     *
-     * @param user      the user
-     * @param channelId the channel
-     * @param duration  the duration
-     */
     @Override
-    public void banUserIntoHistory(UserLite user, UUID channelId, int duration) {
-        throw new UnsupportedOperationException();
+    public void banUserIntoHistory(UserLite user, LocalDate endDate, Boolean isPermanent, String explanation, UUID channelId) {
+        Date date = java.util.Date.from(endDate.atStartOfDay()
+                .atZone(ZoneId.systemDefault())
+                .toInstant());
+        dataController.getChannelController().banUserIntoHistory(user,channelId,date,isPermanent,explanation);
     }
 
     /**
@@ -94,7 +89,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void cancelBanOfUserIntoHistory(UserLite user, UUID channelId) {
-        throw new UnsupportedOperationException();
+        dataController.getChannelController().cancelBanOfUserIntoHistory(user,channelId);
     }
 
     @Override
@@ -109,12 +104,13 @@ public class CommunicationToData implements ICommunicationToData {
 
     @Override
     public void removeUserFromAuthorizedUserChannel(UserLite user, UUID channelId, int duration, String explanation) {
-        // TODO HERE
+        dataController.getChannelController().removeUserFromAuthorizedUserChannel(user,channelId);
     }
+
 
     @Override
     public void removeUserFromAuthorizedUserChannel(UserLite user, UUID channelId) {
-        dataController.getChannelController().removeUserFromAuthorizationUserChannel(user, channelId);
+        dataController.getChannelController().removeUserFromAuthorizedUserChannel(user, channelId);
     }
 
     /**
@@ -174,7 +170,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void saveEditionIntoHistory(Message oldMessage, Message newMessage, UUID channelId) {
-        throw new UnsupportedOperationException();
+        this.dataController.getMessageController().saveEditionIntoHistory(oldMessage, newMessage, channelId);
     }
 
     /**
@@ -186,7 +182,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void editMessage(Message message, Message newMessage, UUID channelId) {
-        throw new UnsupportedOperationException();
+        this.dataController.getMessageController().editMessage(message, newMessage, channelId);
     }
 
     /**
@@ -198,7 +194,13 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void saveLikeIntoHistory(UUID channelId, Message message, UserLite user) {
-        throw new UnsupportedOperationException();
+        Channel ownedChannel = dataController.getChannelController().searchChannelById(channelId);
+        if (ownedChannel != null) {
+            dataController.getMessageController().saveLikeIntoHistory(
+                    ownedChannel,
+                    message,
+                    user);
+        }
     }
 
     /**
@@ -210,7 +212,13 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void likeMessage(UUID channelId, Message message, UserLite user) {
-        throw new UnsupportedOperationException();
+        Channel channel = dataController.getChannelController().searchChannelById(channelId);
+        if(channel!=null && message!=null && user!=null){
+            if(channel.userInChannel(user.getId()) && channel.messageInChannel(message.getId())){
+                message.addLike(user);
+                saveLikeIntoHistory(channelId,message,user);
+            }
+        }
     }
 
     /**
@@ -256,7 +264,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void updateNickname(UserLite user, UUID channelId, String newNickname) {
-        throw new UnsupportedOperationException();
+        dataController.getChannelController().updateNickname(user,channelId,newNickname);
     }
 
     /**
@@ -268,7 +276,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void saveNicknameIntoHistory(UserLite user, UUID channelId, String newNickname) {
-        throw new UnsupportedOperationException();
+        dataController.getChannelController().saveNicknameIntoHistory(user,channelId,newNickname);
     }
 
     /**
@@ -306,6 +314,11 @@ public class CommunicationToData implements ICommunicationToData {
             }
         }
         Platform.runLater(() -> dataController.getChannelController().removeAdmin(admin, channelID));
+    }
+
+    @Override
+    public void updateChannel(UUID channelId, UUID userID, String name, String description, Visibility visibility) {
+        dataController.getChannelController().updateChannel(channelId,userID,name,description,visibility);
     }
 
 }

@@ -3,6 +3,7 @@ package tests.communication.interfaces_simulation;
 import common.interfaces.client.ICommunicationToData;
 import common.shared_data.*;
 
+import java.time.LocalDate;
 import java.util.*;
 
 public class VirtualCommunicationToData implements ICommunicationToData {
@@ -53,8 +54,8 @@ public class VirtualCommunicationToData implements ICommunicationToData {
 
     }
 
-    @Override
-    public void banUserIntoHistory(UserLite user, UUID channelId, int duration) {
+
+    public void banUserIntoHistory(UserLite user, LocalDate endDate, Boolean isPermanent, String explanation, UUID channelId) {
 
     }
 
@@ -170,6 +171,19 @@ public class VirtualCommunicationToData implements ICommunicationToData {
 
     }
 
+    /**
+     * Méthode pour mettre à jour les informations d'un channel dans la liste des channels
+     *
+     * @param channelID   l'identificateur du channel concerné
+     * @param userID      l'identificateur qui veut faire les changes sur le channel
+     * @param name        nouvel nom du channel, mettre à null si pas besoin de le changer
+     * @param description nouvelle description du channel, mettre à null si pas besoin de la changer
+     * @param visibility  nouvelle visibilité du channel, mettre à null si pas besoin de la changer
+     */
+    @Override
+    public void updateChannel(UUID channelID, UUID userID, String name, String description, Visibility visibility) {
+
+    }
     @Override
     public void requestRemoveAdmin(UUID channelID, UserLite adminID) {
 

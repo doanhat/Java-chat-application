@@ -6,7 +6,10 @@ import data.resource_handle.FileHandle;
 import data.resource_handle.FileType;
 import data.resource_handle.LocationType;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,21 +46,19 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
 
     @Override
-    public void updateChannel(UUID channelID, UUID userID, String name, String description, Visibility visibility) {
+    public Channel updateChannel(UUID channelID, UUID userID, String name, String description, Visibility visibility) {
         Channel channel = channelsListController.searchChannelById(channelID);
         if(channel != null){
             if(channel.userIsAdmin(userID)){
-                if (name!=null)
-                    channel.setName(name);
-                if(description!= null)
-                    channel.setDescription(description);
-                if(visibility!=null)
-                    channel.setVisibility(visibility);
+                if (name!=null) channel.setName(name);
+                if(description!=null)channel.setDescription(description);
+                if(visibility!=null) channel.setVisibility(visibility);
                 if(channel.getType().equals(ChannelType.SHARED)){
                     channelsListController.writeChannelDataToJSON(channel);
                 }
             }
         }
+        return channel;
     }
 
 
@@ -89,13 +90,19 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     }
 
     @Override
-    public boolean banUserFromChannel(Channel ch, UserLite user, int duration, String reason) {
-        return false;
+    public void banUserFromChannel(UserLite user, LocalDate endDate, Boolean isPermanent, String explanation, UUID channelId) {
+        Date date = java.util.Date.from(endDate.atStartOfDay()
+                .atZone(ZoneId.systemDefault())
+                .toInstant());
+        channelsListController.banUserFromChannel(user,channelId,date,isPermanent,explanation);
     }
 
     @Override
-    public boolean cancelUsersBanFromChannel(Channel ch, UserLite user) {
-        return false;
+    public void  cancelUsersBanFromChannel(Channel ch, UserLite user) {
+        List<Kick> kicked = ch.getKicked();
+        kicked.removeIf(k -> k.getUser().getId().equals(user.getId()));
+        ch.addAuthorizedUser(user);
+        channelsListController.writeChannelDataToJSON(ch);
     }
 
     @Override
@@ -111,14 +118,19 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
     @Override
     public void editMessage(Channel channel, Message ms) {
-        throw new UnsupportedOperationException("Unimplemented method editMessage.");
+        if (channel.getType() == ChannelType.SHARED) {
+            this.channelsListController.writeEditMessage(channel.getId(), ms);
+        }
     }
 
 
     @Override
     public void saveLikeIntoHistory(Channel ch, Message ms, UserLite user) {
-        throw new UnsupportedOperationException("Unimplemented method saveLikeIntoHistory.");
+        if (ch.getType() == ChannelType.SHARED && ch!=null && ms!=null && user!=null) {
+            this.channelsListController.writeLikeIntoHistory(ch.getId(), ms, user);
+        }
     }
+
 
 
     @Override
@@ -213,7 +225,7 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
     @Override
     public void updateNickname(Channel ch, UserLite user, String newNickname) {
-        throw new UnsupportedOperationException("Unimplemented method updateNickname.");
+        userListController.updateNickname(ch, user, newNickname);
     }
 
     @Override

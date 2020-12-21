@@ -11,8 +11,7 @@ public class Message implements Serializable {
 
 	private UUID id;
 	@JsonFormat
-		(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
-
+		(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy@HH:mm:ss")
 	private Date date;
 	private String message;
 	private boolean edited;
@@ -93,6 +92,20 @@ public class Message implements Serializable {
 		return deletedByUser;
 	}
 
+	public void addLike(UserLite userLite){
+		if (!likedByUser(userLite.getId())){
+			likes.add(userLite);
+		}
+	}
+
+	public boolean likedByUser(UUID userID){
+		for (UserLite user : likes) {
+			if(user.getId().equals(userID))
+				return true;
+		}
+		return false;
+	}
+
 	public void delete(boolean deletedByUser) {
 		this.deletedByUser = deletedByUser;
 		this.deletedByAdmin = !deletedByUser;
@@ -138,12 +151,6 @@ public class Message implements Serializable {
 
 	public int countLikes() {
 		return this.likes.size();
-	}
-
-	public void like(UserLite user) {
-		if(!this.likes.contains(user)) {
-			this.likes.add(user);
-		}
 	}
 
 	@Override

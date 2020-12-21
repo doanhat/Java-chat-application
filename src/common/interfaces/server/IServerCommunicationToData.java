@@ -4,6 +4,8 @@ import common.shared_data.Channel;
 import common.shared_data.Message;
 import common.shared_data.UserLite;
 import common.shared_data.Visibility;
+
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,7 +29,7 @@ public interface IServerCommunicationToData {
      * @param description nouvelle description du channel, mettre à null si pas besoin de la changer
      * @param visibility nouvelle visibilité du channel, mettre à null si pas besoin de la changer
      * */
-    void updateChannel(UUID channelID, UUID userID, String name, String description, Visibility visibility);
+    Channel updateChannel(UUID channelID, UUID userID, String name, String description, Visibility visibility);
 
     /**
      * Méthode pour ajouter un administrateur à la liste des administrateurs d'un channel
@@ -41,13 +43,14 @@ public interface IServerCommunicationToData {
      * Méthode pour kicker un utilisateur d'un channel. Ce méthode sera chargé de faire la création de l'objet
      * Kick correspondante et du traitement de l'utilisateur
      *
-     * @param channel le channel concerné
-     * @param user l'utilisateur qui sera kické du channel
-     * @param duration nombre de minutes que l'utilisateur sera kické du channel. La valeur 0 correspondra à un Kick
-     * permanent
-     * @param reason description de la raison pour laquelle l'utilisateur à été kické du channel
-     * */
-    boolean banUserFromChannel(Channel channel, UserLite user, int duration, String reason);
+     * @param user        l'utilisateur qui sera kické du channel
+     * @param endDate     the end date
+     * @param isPermanent the is permanent
+     * @param explanation the explanation
+     * @param channelId   the channel id
+     * @return the boolean
+     */
+    void banUserFromChannel(UserLite user, LocalDate endDate, Boolean isPermanent, String explanation, UUID channelId);
 
     /**
      * Méthode pour annuler un kick avant la fin de sa duration
@@ -55,7 +58,7 @@ public interface IServerCommunicationToData {
      * @param channel le channel dans lequel à été fait le kick
      * @param user l'utilisateur qui a été kické du group et pour lequel le kick sera annulé
      * */
-    boolean cancelUsersBanFromChannel(Channel channel, UserLite user);
+    void cancelUsersBanFromChannel(Channel channel, UserLite user);
 
     /**
      * Méthode pour poster un message dans un channel
@@ -75,12 +78,14 @@ public interface IServerCommunicationToData {
     void editMessage(Channel channel, Message ms);
 
     /**
-     * Méthode pour ajouter un utilisateur correspondante à un like pour un message
+     * Méthode pour sauvegarder le like d'un utilisateur dans l'objet JSON
      *
      * @param channel le channel auquel il appartient le message concerné
+     * @param ms le message
      * @param user l'utilisateur qui à liké le message
      * */
     void saveLikeIntoHistory(Channel channel, Message ms, UserLite user);
+
 
     /**
      * Méthode pour supprimer un message de la liste de messages postés dans un channel
@@ -288,4 +293,5 @@ public interface IServerCommunicationToData {
      *
      * */
     void requestRemoveAdmin(UUID channelID, UUID adminID);
+
 }
