@@ -3,6 +3,7 @@ package IHMMain.controllers;
 import IHMMain.IHMMainController;
 import app.MainWindowController;
 import common.shared_data.Channel;
+import common.shared_data.User;
 import common.shared_data.UserLite;
 import common.shared_data.Visibility;
 import javafx.application.Platform;
@@ -12,20 +13,27 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.net.URL;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.util.Date;
 import java.util.ResourceBundle;
 
-public class UserListViewController implements Initializable {
+public class HomePageController implements Initializable {
 
     private IHMMainController ihmMainController;
 
     private MainWindowController mainWindowController;
+
+    private User connectedUser;
 
     @FXML
     private ListView<UserLite> connectedUsersListView;
@@ -39,6 +47,12 @@ public class UserListViewController implements Initializable {
     private TextField lastNameField;
     @FXML
     private DatePicker birthDateField;
+    @FXML
+    private ImageView avatarUser;
+    @FXML
+    private Button changeAvatarButton;
+    @FXML
+    private Label userLoginLabel;
 
     public void setIhmMainController(IHMMainController ihmMainController) {
         this.ihmMainController = ihmMainController;
@@ -46,6 +60,26 @@ public class UserListViewController implements Initializable {
 
     public void setMainWindowController(MainWindowController mainWindowController) {
         this.mainWindowController = mainWindowController;
+
+        // Gestion des champs de modification du profil
+        connectedUser = ihmMainController.getIHMMainToData().getUser();
+        String avatarPath = (ihmMainController.getIIHMMainToCommunication().getAvatarPath(connectedUser.getUserLite()) != null
+                ? ihmMainController.getIIHMMainToCommunication().getAvatarPath(connectedUser.getUserLite())
+                : "IHMMain/icons/willsmith.png");
+        //String avatarPath = "IHMMain/icons/willsmith.png";
+        Image image = new Image(avatarPath);
+        avatarUser.setImage(image);
+
+        userLoginLabel.setText(connectedUser.getNickName());
+
+        firstNameField.setPromptText(connectedUser.getFirstName());
+        firstNameField.setText(connectedUser.getFirstName());
+        lastNameField.setPromptText(connectedUser.getLastName());
+        lastNameField.setText(connectedUser.getLastName());
+        if (connectedUser.getBirthDate() != null) {
+            birthDateField.setPromptText(connectedUser.getBirthDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)));
+            birthDateField.setValue(connectedUser.getBirthDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        }
 
         ObservableList<UserLite> connectedUsersObservableList ;
         ObservableList<Channel> visibleChannelsObservableList ;
@@ -113,6 +147,12 @@ public class UserListViewController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //Mettez ici le code qui s'execute avant l'apparition de la vue
+
+        // Bouton de changement d'avatar
+        ImageView changeAvatarImage = new ImageView("IHMMain/icons/exchange.png");
+        changeAvatarImage.setFitHeight(18);
+        changeAvatarImage.setFitWidth(18);
+        changeAvatarButton.setGraphic(changeAvatarImage);
     }
 
     @FXML
@@ -128,5 +168,52 @@ public class UserListViewController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    public void onEnregistrerButtonClick() {
+        try {
+            connectedUser = ihmMainController.getIHMMainToData().getUser();
+            String firstName = (firstNameField.getText().trim().isEmpty()
+                    ? connectedUser.getFirstName()
+                    : firstNameField.getText().trim());
+            String lastName = (lastNameField.getText().trim().isEmpty()
+                    ? connectedUser.getLastName()
+                    : lastNameField.getText().trim());
+            Date birthDate = (birthDateField.getValue() == null
+                    ? connectedUser.getBirthDate()
+                    : Date.from(birthDateField.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            ihmMainController.getIHMMainToData().editProfile(
+                    connectedUser.getNickName(),
+                    connectedUser.getAvatar(),
+                    connectedUser.getPassword(),
+                    lastName,
+                    firstName,
+                    birthDate,
+                    connectedUser);
+            ihmMainController.getMainWindowController().getIHMMainWindowController().loadHomePage();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void onChangeAvatarButtonClick() {
+        connectedUser = ihmMainController.getIHMMainToData().getUser();
+        Stage thisStage = (Stage) changeAvatarButton.getScene().getWindow();
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.jpeg", "*.png")
+        );
+        File selectedFile = fileChooser.showOpenDialog(thisStage);
+        ihmMainController.getIHMMainToData().editProfile(
+                connectedUser.getNickName(),
+                selectedFile.getName(),
+                connectedUser.getPassword(),
+                connectedUser.getLastName(),
+                connectedUser.getFirstName(),
+                connectedUser.getBirthDate(),
+                connectedUser);
+        ihmMainController.getMainWindowController().getIHMMainWindowController().loadHomePage();
     }
 }

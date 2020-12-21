@@ -17,7 +17,7 @@ public class IHMChannelToIHMMain implements IIHMChannelToIHMMain {
 
     @Override
     public void redirectToHomePage() {
-        ihmMainController.getMainWindowController().getIHMMainWindowController().loadUserListView();
+        ihmMainController.getMainWindowController().getIHMMainWindowController().loadHomePage();
     }
 
     @Override
