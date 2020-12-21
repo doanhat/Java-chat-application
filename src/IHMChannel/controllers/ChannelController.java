@@ -146,8 +146,14 @@ public class ChannelController {
     }
 
     public void receiveMessage(Message receivedMessage, Message responseTo) {
-        currentChannel.addMessage(receivedMessage);
-        channelMessagesDisplay.getController().addMessageToObservableList(receivedMessage);
+        if (responseTo == null) {
+            currentChannel.addMessage(receivedMessage);
+            channelMessagesDisplay.getController().addMessageToObservableList(receivedMessage);
+        }
+        else {
+            currentChannel.addMessage(receivedMessage);
+            channelMessagesDisplay.getController().addMessageToObservableList(receivedMessage);
+        }
     }
 
     public void addUser(UserLite user) throws IOException {

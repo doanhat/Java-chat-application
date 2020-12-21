@@ -119,10 +119,10 @@ public class ChannelMessagesController{
                             @Override
                             public void run() {
                                 try {
-                                    if (!isReponse) {
+                                    if (msgAdded.getParentMessageId() == null) {
                                         getMessagesToDisplay().add((HBox) new MessageDisplay(msgAdded, that).root);
                                     }
-                                    else {
+                                    if (msgAdded.getParentMessageId() != null){
                                         HBox rpArea = new HBox();
                                         Pane pn = new Pane();
                                         pn.setPrefWidth(50);
@@ -131,8 +131,15 @@ public class ChannelMessagesController{
                                         ImageView newImgReceiver = new ImageView();
                                         Text newUserNameReceiver = new Text();
                                         TextArea newMessageReceiver = new TextArea();
-                                        newUserNameReceiver.setText(userNameReceiver.getText());
-                                        newMessageReceiver.setText(messageReceiver.getText());
+                                        Message prtMessage = null;
+                                        for (Message prt : observableMessages) {
+                                            if (prt.getId().equals(msgAdded.getParentMessageId())) {
+                                                prtMessage = prt;
+                                                break;
+                                            }
+                                        }
+                                        newUserNameReceiver.setText(prtMessage.getAuthor().getNickName() + " a dit :     ");
+                                        newMessageReceiver.setText(prtMessage.getMessage());
                                         newMessageReceiver.setEditable(false);
                                         newMessageReceiver.setStyle("-fx-control-inner-background: #E5E5E5");
                                         rpArea.getChildren().addAll(pn, newImgReceiver, newUserNameReceiver, newMessageReceiver);
@@ -145,8 +152,8 @@ public class ChannelMessagesController{
                                         separator.setStyle("-fx-background-color: #B9E6FF;  -fx-background-radius: 2;");
                                         msg.getChildren().add(1, separator);
                                         getMessagesToDisplay().add(msg);
-                                        setIsReponse(false);
                                     }
+                                    setIsReponse(false);
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
@@ -215,6 +222,7 @@ public class ChannelMessagesController{
                         break;
                     }
                 }
+                System.out.println(prtMessage);
                 HBox rpArea = new HBox();
                 rpArea.setVisible(true);
                 rpArea.setPrefHeight(50);
