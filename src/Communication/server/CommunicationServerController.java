@@ -14,9 +14,11 @@ import Communication.common.info_packages.ChatPackage;
 import Communication.common.info_packages.InfoPackage;
 import Communication.common.info_packages.UpdateChannelPackage;
 import Communication.messages.abstracts.NetworkMessage;
+import Communication.messages.server_to_client.channel_access.NewUserJoinChannelMessage;
 import Communication.messages.server_to_client.channel_access.propietary_channels.TellOwnerUserInvitedMessage;
 import Communication.messages.server_to_client.channel_modification.NewInvisibleChannelsMessage;
 import Communication.messages.server_to_client.channel_modification.NewVisibleChannelMessage;
+import Communication.messages.server_to_client.channel_modification.SendHistoryMessage;
 import Communication.messages.server_to_client.channel_operation.ReceiveChannelOperationMessage;
 import Communication.messages.server_to_client.connection.UserDisconnectedMessage;
 import Communication.messages.server_to_client.channel_access.UserLeftChannelMessage;
@@ -274,6 +276,13 @@ public class CommunicationServerController extends CommunicationController {
 	 */
 	public void requestJoinChannel(Channel channel, UserLite user){
 		dataServer.joinChannel(channel.getId(), user);
+
+		// send Acceptation back to sender
+		sendMessage(user.getId(),
+				new SendHistoryMessage(channel, channelConnectedUsers(channel)));
+
+		// Notifie les utilisateurs connectes au channel qu'un nouveau utilisateur les rejoins
+		sendMulticast(channel.getJoinedPersons(), new NewUserJoinChannelMessage(user, channel.getId()), user);
 	}
 
 	/**

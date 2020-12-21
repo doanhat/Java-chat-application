@@ -28,12 +28,6 @@ public class UserJoinedConfirmationMessage extends ClientToServerMessage {
         {
             // Even to own channel, we add in join list inside server because it's need it send is message
             commController.requestJoinChannel(channel, user);
-            // send Acceptation back to sender
-            commController.sendMessage(user.getId(),
-                    new SendHistoryMessage(channel, commController.channelConnectedUsers(channel)));
-
-            // Notifie les utilisateurs connectes au channel qu'un nouveau utilisateur les rejoins
-            commController.sendMulticast(channel.getJoinedPersons(), new NewUserJoinChannelMessage(user, channel.getId()), user);
         }
     }
 }

@@ -31,13 +31,6 @@ public class AskToJoinSharedMessage extends ClientToServerMessage {
         if (channel != null)
         {
             commController.requestJoinChannel(channel, sender);
-
-            // send Acceptation back to sender
-            commController.sendMessage(sender.getId(),
-                    new SendHistoryMessage(channel, commController.channelConnectedUsers(channel)));
-
-            // Notifie les utilisateurs connectes au channel qu'un nouveau utilisateur les rejoins
-            commController.sendMulticast(channel.getJoinedPersons(), new NewUserJoinChannelMessage(sender, channelID), sender);
         }
     }
 }
