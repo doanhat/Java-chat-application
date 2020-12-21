@@ -64,4 +64,9 @@ public class CommunicationToIHMMain implements ICommunicationToIHMMain {
     public void channelConnectedUsers(UUID channelID, List<UserLite> connectedUsers) {
         // TODO: implement this method
     }
+
+    @Override
+    public void setAvatarPath(UserLite user, String avatarPath) {
+
+    }
 }

@@ -86,4 +86,9 @@ public class VirtualCommunicationToIHMMain implements ICommunicationToIHMMain {
     public void channelConnectedUsers(UUID channelID, List<UserLite> connectedUsers) {
 
     }
+
+    @Override
+    public void setAvatarPath(UserLite user, String avatarPath) {
+
+    }
 }

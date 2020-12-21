@@ -87,6 +87,10 @@ public class IHMMainHandler {
         mainClient.channelAddedAll(channels);
     }
 
+    public void receiveAvatarPath(UserLite user, String avatarPath) {
+        mainClient.setAvatarPath(user, avatarPath);
+    }
+
     /* -------------------------------- Channel actions notifications handling ---------------------------------------*/
 
     /**

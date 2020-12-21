@@ -24,12 +24,14 @@ public class QuitChannelMessage extends ClientToServerMessage {
 
     @Override
     protected void handle(CommunicationServerController commServerController) {
-        Channel ch = commServerController.getChannel(channelID);
-        if(ch == null) {
+        Channel channel = commServerController.getChannel(channelID);
+
+        if(channel == null) {
             return;
         }
+
         commServerController.quitChannel(channelID, userLite);
         commServerController.sendMessage(userLite.getId(), new ValideUserQuitMessage(channelID, userLite));
-        commServerController.sendMulticast(ch.getAuthorizedPersons(), new UserQuitedChannelMessage(channelID, userLite), userLite);
+        commServerController.sendMulticast(channel.getAuthorizedPersons(), new UserQuitedChannelMessage(channelID, userLite), userLite);
     }
 }

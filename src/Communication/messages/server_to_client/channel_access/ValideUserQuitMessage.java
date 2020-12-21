@@ -26,7 +26,7 @@ public class ValideUserQuitMessage extends ServerToClientMessage {
 
     @Override
     protected void handle(CommunicationClientController commClientController) {
-            commClientController.dataClientHandler().requestQuitChannel(channelID, user);
-            commClientController.dataClientHandler().notifyInvisibleChannels(Arrays.asList(channelID));
+        commClientController.dataClientHandler().requestQuitChannel(channelID, user);
+        commClientController.dataClientHandler().notifyInvisibleChannels(Arrays.asList(channelID));
     }
 }

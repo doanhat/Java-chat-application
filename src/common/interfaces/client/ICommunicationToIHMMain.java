@@ -58,4 +58,6 @@ public interface ICommunicationToIHMMain {
     public void channelAddedAll(List<Channel> channels);
 
     void channelConnectedUsers(UUID channelID, List<UserLite> connectedUsers);
+
+    void setAvatarPath(UserLite user, String avatarPath);
 }

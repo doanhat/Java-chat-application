@@ -1,6 +1,5 @@
-package Communication.common;
+package Communication.common.info_packages;
 
-import common.shared_data.Message;
 import common.shared_data.UserLite;
 
 import java.io.Serializable;
@@ -9,8 +8,5 @@ import java.util.UUID;
 public class InfoPackage implements Serializable {
     public UserLite user;
     public UUID channelID;
-    public Message message;
-    public Message messageResponseTo;
-    public Message editedMessage;
     public String nickname;
 }

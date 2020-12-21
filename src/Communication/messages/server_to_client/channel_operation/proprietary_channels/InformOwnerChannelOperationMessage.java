@@ -1,18 +1,18 @@
-package Communication.messages.server_to_client.chat_action.proprietary_channels;
+package Communication.messages.server_to_client.channel_operation.proprietary_channels;
 
 import Communication.client.CommunicationClientController;
 import Communication.common.ChannelOperation;
-import Communication.common.InfoPackage;
+import Communication.common.info_packages.InfoPackage;
 import Communication.messages.abstracts.ServerToClientMessage;
-import Communication.messages.client_to_server.chat_action.proprietary_channels.OwnerValidateChatMessage;
+import Communication.messages.client_to_server.channel_operation.proprietary_channels.OwnerValidateChannelOperationMessage;
 
-public class InformOwnerChatMessage extends ServerToClientMessage {
+public class InformOwnerChannelOperationMessage extends ServerToClientMessage {
 
     private static final long serialVersionUID = -287745780048758221L;
     private final ChannelOperation operation;
     private final InfoPackage infoPackage;
 
-    public InformOwnerChatMessage(ChannelOperation operation, InfoPackage infoPackage) {
+    public InformOwnerChannelOperationMessage(ChannelOperation operation, InfoPackage infoPackage) {
         this.operation = operation;
         this.infoPackage = infoPackage;
     }
@@ -22,6 +22,6 @@ public class InformOwnerChatMessage extends ServerToClientMessage {
         commController.dataClientHandler().saveChat(operation, infoPackage);
 
         // Send Confirmation back to Server
-        commController.sendMessage(new OwnerValidateChatMessage(operation, infoPackage));
+        commController.sendMessage(new OwnerValidateChannelOperationMessage(operation, infoPackage));
     }
 }
