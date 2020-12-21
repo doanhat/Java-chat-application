@@ -75,12 +75,14 @@ public interface IServerCommunicationToData {
     void editMessage(Channel channel, Message ms);
 
     /**
-     * Méthode pour ajouter un utilisateur correspondante à un like pour un message
+     * Méthode pour sauvegarder le like d'un utilisateur dans l'objet JSON
      *
      * @param channel le channel auquel il appartient le message concerné
+     * @param ms le message
      * @param user l'utilisateur qui à liké le message
      * */
     void saveLikeIntoHistory(Channel channel, Message ms, UserLite user);
+
 
     /**
      * Méthode pour supprimer un message de la liste de messages postés dans un channel

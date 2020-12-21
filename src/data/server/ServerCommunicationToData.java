@@ -117,10 +117,11 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
     @Override
     public void saveLikeIntoHistory(Channel ch, Message ms, UserLite user) {
-        if (ch.getType() == ChannelType.SHARED) {
+        if (ch.getType() == ChannelType.SHARED && ch!=null && ms!=null && user!=null) {
             this.channelsListController.writeLikeIntoHistory(ch.getId(), ms, user);
         }
     }
+
 
 
     @Override

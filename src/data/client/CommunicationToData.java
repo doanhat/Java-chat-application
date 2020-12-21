@@ -203,7 +203,13 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void likeMessage(UUID channelId, Message message, UserLite user) {
-        throw new UnsupportedOperationException();
+        Channel channel = dataController.getChannelController().searchChannelById(channelId);
+        if(channel!=null && message!=null && user!=null){
+            if(channel.userInChannel(user.getId()) && channel.messageInChannel(message.getId())){
+                message.addLike(user);
+                saveLikeIntoHistory(channelId,message,user);
+            }
+        }
     }
 
     /**
