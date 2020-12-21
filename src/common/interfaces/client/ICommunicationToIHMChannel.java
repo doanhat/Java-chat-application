@@ -67,4 +67,5 @@ public interface ICommunicationToIHMChannel {
      */
     void leaveChannel(UUID ChannelId, UserLite user);
 
+
 }

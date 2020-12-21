@@ -356,4 +356,31 @@ public class ChannelPageController {
         /* On notifie IHM-Main avec le nouveau currentOpenedChannel dans le handler de changement de tab */
 
     }
+
+
+    public void modifyChannel(Channel channel) {
+
+        Tab tab = new Tab();
+        for (Tab t : tabs.getTabs()) {
+            if(t.getId().equals(channel.getId().toString())){
+                tab = t;
+            }
+        }
+        tab.setText(channel.getName());
+
+        for(Channel c: openedChannels) {
+            if (c.getId().equals(channel.getId()))
+                updateOppenedChannel(c,channel);
+        }
+
+
+        channelMap.get(channel.getId()).updateUI(channel);
+    }
+
+    public void updateOppenedChannel(Channel old, Channel newChannel){
+        old.setName(newChannel.getName());
+        old.setDescription(newChannel.getDescription());
+        old.setVisibility(newChannel.getVisibility());
+        old.setType(newChannel.getType());
+    }
 }
