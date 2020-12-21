@@ -385,7 +385,7 @@ public class ChannelController {
      * Clic sur "Kicker un utilisateur" depuis le menu contextuel
      */
     public void kickMember() {
-        //TODO implémenter la méthode
+        seeMembers();
     }
 
     /**

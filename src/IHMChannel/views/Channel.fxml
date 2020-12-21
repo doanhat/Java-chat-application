@@ -56,7 +56,7 @@
                     <Button fx:id="seeKickedMembersBtn" onAction="#seeKickedMembers" styleClass="icon-bar-btn">
                         <tooltip><Tooltip text="Voir les utilisateurs kickés"/></tooltip>
                     </Button>
-                    <Button fx:id="leaveChannelBtn" onAction="#leaveChannel" styleClass="icon-bar-btn">
+                    <Button fx:id="leaveChannelBtn" onAction="#quitChannel" styleClass="icon-bar-btn">
                         <tooltip><Tooltip text="Quitter le channel"/></tooltip>
                     </Button>
                 </HBox>
