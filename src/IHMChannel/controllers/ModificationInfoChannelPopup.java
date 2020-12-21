@@ -78,14 +78,8 @@ public class ModificationInfoChannelPopup {
              * TODO: attendre methode de communication
              */
 
-            //parentController.getIhmChannelController().getInterfaceForData().modifyChannel(channel);
-//            try {
-//                //parentController.getIhmChannelController().getInterfaceToCommunication().
-//
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-
+            parentController.getIhmChannelController().getInterfaceToCommunication().updateChannel(channel.getId(), channel.getName(), channel.getDescription(), channel.getVisibility());
+            
             Stage stage = (Stage) ap.getScene().getWindow();
             stage.close();
         }

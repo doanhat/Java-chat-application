@@ -152,6 +152,6 @@ public class DataToIHMChannel implements IDataToIHMChannel{
     @Override
     public void modifyChannel(Channel channel) {
         controller.getChannelPageController().modifyChannel(channel);
-        controller.getInterfaceToIHMMain().setOpenedChannelsList(controller.getOpenedChannelsList());
+        controller.getInterfaceToIHMMain().modifyChannel(channel.getId(), channel.getName(), channel.getDescription(), channel.getVisibility());
     }
 }
