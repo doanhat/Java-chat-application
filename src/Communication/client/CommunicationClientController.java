@@ -9,6 +9,7 @@ import common.interfaces.client.*;
 import common.shared_data.*;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,7 +50,6 @@ public class CommunicationClientController extends CommunicationController {
             taskManager = new TaskManager();
             client.connect(ip, port);
             client.sendMessage(new UserConnectionMessage(user));
-            heart.start(user.getId());
 
             logger.log(Level.INFO, "Connexion au server...");
         }
@@ -85,6 +85,11 @@ public class CommunicationClientController extends CommunicationController {
         logger.log(Level.INFO, "Communication Controller déconnecté");
 
         stop();
+    }
+
+    public void connectionAccepted(UserLite localUser, List<UserLite> usersList, List<Channel> channelsList) {
+        heart.start(localUser);
+        mainHandler().notifyConnectionSuccess(usersList, channelsList);
     }
 
     /**
