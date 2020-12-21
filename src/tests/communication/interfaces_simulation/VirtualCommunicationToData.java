@@ -3,6 +3,7 @@ package tests.communication.interfaces_simulation;
 import common.interfaces.client.ICommunicationToData;
 import common.shared_data.*;
 
+import java.time.LocalDate;
 import java.util.*;
 
 public class VirtualCommunicationToData implements ICommunicationToData {
@@ -53,13 +54,13 @@ public class VirtualCommunicationToData implements ICommunicationToData {
 
     }
 
-    @Override
-    public void banUserIntoHistory(UserLite user, UUID channelId, Date endDate, Boolean isPermanent,String explanation) {
+
+    public void banUserIntoHistory(UserLite user, LocalDate endDate, Boolean isPermanent, String explanation, UUID channelId) {
 
     }
 
     @Override
-    public void cancelBanOfUserIntoHistory(User user, UUID channelId) {
+    public void cancelBanOfUserIntoHistory(UserLite user, UUID channelId) {
 
     }
 

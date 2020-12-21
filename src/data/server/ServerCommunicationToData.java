@@ -6,7 +6,10 @@ import data.resource_handle.FileHandle;
 import data.resource_handle.FileType;
 import data.resource_handle.LocationType;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -87,13 +90,19 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     }
 
     @Override
-    public boolean banUserFromChannel(Channel ch, UserLite user, int duration, String reason) {
-        return false;
+    public void banUserFromChannel(UserLite user, LocalDate endDate, Boolean isPermanent, String explanation, UUID channelId) {
+        Date date = java.util.Date.from(endDate.atStartOfDay()
+                .atZone(ZoneId.systemDefault())
+                .toInstant());
+        channelsListController.banUserFromChannel(user,channelId,date,isPermanent,explanation);
     }
 
     @Override
-    public boolean cancelUsersBanFromChannel(Channel ch, UserLite user) {
-        return false;
+    public void  cancelUsersBanFromChannel(Channel ch, UserLite user) {
+        List<Kick> kicked = ch.getKicked();
+        kicked.removeIf(k -> k.getUser().getId().equals(user.getId()));
+        ch.addAuthorizedUser(user);
+        channelsListController.writeChannelDataToJSON(ch);
     }
 
     @Override

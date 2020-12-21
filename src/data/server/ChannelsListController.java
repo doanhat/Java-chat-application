@@ -7,6 +7,7 @@ import common.shared_data.*;
 
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -279,6 +280,20 @@ public class ChannelsListController {
     public void writeRemoveAdminInChannel(Channel channel) {
         if (channel.getType() == ChannelType.SHARED) {
             this.writeChannelDataToJSON(channel);
+        }
+    }
+
+    public void banUserFromChannel(UserLite user, UUID channelId, Date date, Boolean isPermanent, String explanation) {
+        Channel channel = searchChannelById(channelId);
+        if(channel!=null && channel.getType().equals(ChannelType.SHARED)) {
+            List<Kick> kicked = channel.getKicked();
+            kicked.removeIf(k -> k.getUser().getId().equals(user.getId()));
+            if (!isPermanent){
+                kicked.add(new Kick(user,channelId,explanation,date));
+            } else {
+                kicked.add(new Kick(user,channelId,explanation,true));
+            }
+            writeChannelDataToJSON(channel);
         }
     }
 }

@@ -3,6 +3,9 @@ package data.client;
 import common.interfaces.client.ICommunicationToData;
 import common.shared_data.*;
 import javafx.application.Platform;
+
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -71,8 +74,11 @@ public class CommunicationToData implements ICommunicationToData {
     }
 
     @Override
-    public void banUserIntoHistory(UserLite user, UUID channelId, Date endDate,Boolean isPermanent, String explanation) {
-        dataController.getChannelController().banUserIntoHistory(user,channelId,endDate,isPermanent,explanation);
+    public void banUserIntoHistory(UserLite user, LocalDate endDate, Boolean isPermanent, String explanation, UUID channelId) {
+        Date date = java.util.Date.from(endDate.atStartOfDay()
+                .atZone(ZoneId.systemDefault())
+                .toInstant());
+        dataController.getChannelController().banUserIntoHistory(user,channelId,date,isPermanent,explanation);
     }
 
     /**
@@ -82,8 +88,8 @@ public class CommunicationToData implements ICommunicationToData {
      * @param channelId the channel
      */
     @Override
-    public void cancelBanOfUserIntoHistory(User user, UUID channelId) {
-        throw new UnsupportedOperationException();
+    public void cancelBanOfUserIntoHistory(UserLite user, UUID channelId) {
+        dataController.getChannelController().cancelBanOfUserIntoHistory(user,channelId);
     }
 
     @Override

@@ -6,6 +6,7 @@ import common.shared_data.Message;
 import common.shared_data.UserLite;
 import common.shared_data.Visibility;
 
+import java.time.LocalDate;
 import java.util.*;
 
 public class VirtualDataServer implements IServerCommunicationToData {
@@ -87,13 +88,12 @@ public class VirtualDataServer implements IServerCommunicationToData {
     }
 
     @Override
-    public boolean banUserFromChannel(Channel channel, UserLite user, int duration, String reason) {
-        return false;
+    public void banUserFromChannel(UserLite user, LocalDate endDate, Boolean isPermanent, String explanation, UUID channelId) {
+
     }
 
     @Override
-    public boolean cancelUsersBanFromChannel(Channel channel, UserLite user) {
-        return false;
+    public void cancelUsersBanFromChannel(Channel channel, UserLite user) {
     }
 
     @Override
