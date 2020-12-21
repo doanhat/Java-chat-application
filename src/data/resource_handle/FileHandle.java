@@ -25,7 +25,7 @@ public class FileHandle<T> {
     private FileType fileType;
 
     public FileHandle(LocationType location,FileType fileType) {
-        String filePath = System.getProperty("user.dir") + "/resource/"+location+"/"+fileType+"/";
+        String filePath = System.getProperty("user.dir") + System.getProperty("file.separator") + "resource" + System.getProperty("file.separator") + location + System.getProperty("file.separator") + fileType + System.getProperty("file.separator");
         if (!Paths.get(filePath).toFile().exists() || !Paths.get(filePath).toFile().isDirectory()) {
             Paths.get(filePath).toFile().mkdirs();
             //System.out.println("Folder created");
@@ -121,7 +121,7 @@ public class FileHandle<T> {
     public String getAvatarPath(String userId) {
         String sysPath = this.path + userId + EXTENSION_IMAGE;
         if (Paths.get(sysPath).toFile().exists()){
-            return "/resource/"+location+"/"+fileType+"/"+userId + EXTENSION_IMAGE;
+            return System.getProperty("file.separator") + "resource" + System.getProperty("file.separator") + location+ System.getProperty("file.separator") + fileType + System.getProperty("file.separator") + userId + EXTENSION_IMAGE;
         }
         return null;
     }
