@@ -92,4 +92,11 @@ public interface IIHMMainToData {
     User getUser();
 
     String exportUserProfile(UUID userId);
+
+    /**
+     * Get user by id
+     * @param userId id user
+     * @return User matching the id
+     */
+    User getUserById(UUID userId);
 }

@@ -122,4 +122,9 @@ public class IHMMainToData implements IIHMMainToData {
     public String exportUserProfile(UUID userId) {
         return dataController.getUserController().exportUserProfile(userId);
     }
+
+    @Override
+    public User getUserById(UUID userId) {
+        return this.dataController.getUserController().searchUserById(userId);
+    }
 }

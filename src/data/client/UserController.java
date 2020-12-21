@@ -108,7 +108,7 @@ public class UserController extends Controller {
         localUserList.add(user);
     }
 
-    private User searchUserById(UUID userId){
+    public User searchUserById(UUID userId){
         for (User u : localUserList){
             if (u.getId().equals(userId)){
                 return u;
