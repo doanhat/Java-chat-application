@@ -69,14 +69,14 @@ public class ChannelMembersController {
      * @throws IOException
      */
     public void alphabeticSort(){
-        listMembersDisplay.setCenter(alphabeticalMembersListDisplay.root);
+        listMembersDisplay.setCenter(alphabeticalMembersListDisplay.getRoot());
     }
 
     /**
      * Tri des membres selon leur rôle
      */
     public void adminSort() {
-        listMembersDisplay.setCenter(adminMembersListDisplay.root);
+        listMembersDisplay.setCenter(adminMembersListDisplay.getRoot());
     }
 
     /**
@@ -124,5 +124,12 @@ public class ChannelMembersController {
         alphabeticalMembersListDisplay.removeMemberFromConnectedMembersList(user);
         adminMembersListDisplay.removeMemberFromConnectedMembersList(user);
         connectedMembersListDisplay.removeMemberFromConnectedMembersList(user);
+    }
+
+    public void changeNickname(UserLite user) {
+        //Update all views
+        alphabeticalMembersListDisplay.getController().changeNickname(user);
+        connectedMembersListDisplay.getController().changeNickname(user);
+        adminMembersListDisplay.getController().changeNickname(user);
     }
 }

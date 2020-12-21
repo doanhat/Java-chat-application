@@ -25,7 +25,6 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -63,8 +62,6 @@ public class ChannelMessagesController{
     TextArea typedText;
     @FXML
     Button sendBtn;
-    @FXML
-    Button testReception; //utilisé pour test uniquement
     @FXML
     BorderPane connectedMembers;
 
@@ -120,10 +117,10 @@ public class ChannelMessagesController{
                             @Override
                             public void run() {
                                 try {
-                                    if (!isReponse) {
+                                    if (msgAdded.getParentMessageId() == null) {
                                         getMessagesToDisplay().add((HBox) new MessageDisplay(msgAdded, that).root);
                                     }
-                                    else {
+                                    if (msgAdded.getParentMessageId() != null){
                                         HBox rpArea = new HBox();
                                         Pane pn = new Pane();
                                         pn.setPrefWidth(50);
@@ -132,8 +129,15 @@ public class ChannelMessagesController{
                                         ImageView newImgReceiver = new ImageView();
                                         Text newUserNameReceiver = new Text();
                                         TextArea newMessageReceiver = new TextArea();
-                                        newUserNameReceiver.setText(userNameReceiver.getText());
-                                        newMessageReceiver.setText(messageReceiver.getText());
+                                        Message prtMessage = null;
+                                        for (Message prt : observableMessages) {
+                                            if (prt.getId().equals(msgAdded.getParentMessageId())) {
+                                                prtMessage = prt;
+                                                break;
+                                            }
+                                        }
+                                        newUserNameReceiver.setText(prtMessage.getAuthor().getNickName() + " a dit :     ");
+                                        newMessageReceiver.setText(prtMessage.getMessage());
                                         newMessageReceiver.setEditable(false);
                                         newMessageReceiver.setStyle("-fx-control-inner-background: #E5E5E5");
                                         rpArea.getChildren().addAll(pn, newImgReceiver, newUserNameReceiver, newMessageReceiver);
@@ -146,8 +150,8 @@ public class ChannelMessagesController{
                                         separator.setStyle("-fx-background-color: #B9E6FF;  -fx-background-radius: 2;");
                                         msg.getChildren().add(1, separator);
                                         getMessagesToDisplay().add(msg);
-                                        setIsReponse(false);
                                     }
+                                    setIsReponse(false);
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
@@ -188,18 +192,6 @@ public class ChannelMessagesController{
     }
 
     /**
-     * Méthode de test déclenchée à l'appui sur le bouton "test réception"
-     * Génère l'ajout d'un message dans la liste de messages du channel.
-     */
-    public void receiveMessage(){
-        // cet appel est juste pour les test
-        System.out.println("hello");
-       //Message message = new Message(2, "message reçu test", connectedUser);
-         getIhmChannelController().getInterfaceForData().receiveMessage(new Message("message reçu test", connectedUser),
-                          this.channel.getId(), null);
-    }
-
-    /**
      * Initialise l'affichage de la liste des messages contenus dans l'attribut channel de la classe
      */
     private void displayMessagesList() throws IOException {
@@ -216,6 +208,7 @@ public class ChannelMessagesController{
                         break;
                     }
                 }
+                System.out.println(prtMessage);
                 HBox rpArea = new HBox();
                 rpArea.setVisible(true);
                 rpArea.setPrefHeight(50);
@@ -305,5 +298,65 @@ public class ChannelMessagesController{
 
     public void setMessagesMap(HashMap<UUID, MessageController> messagesMap) {
         this.messagesMap = messagesMap;
+    }
+
+    public void likeMessage(Message message, UserLite user) {
+        for(Message m : observableMessages){
+            if(m.getId().equals(message.getId())){
+                List<UserLite> likeList = m.getLikes();
+                if(likeList.contains(user)){
+                    likeList.remove(user); //dislike
+                    //update icon
+                    Image likeImage = null;
+                    if(likeList.size() > 0){ //other user still like the message
+                        likeImage = new Image("IHMChannel/icons/heart-solid.png");
+                    }else{
+                        likeImage = new Image("IHMChannel/icons/heart-regular.png");
+                    }
+                    ImageView likeIcon = new ImageView(likeImage);
+                    likeIcon.setFitHeight(15);
+                    likeIcon.setFitWidth(15);
+                    messagesMap.get(m.getId()).getLikeButton().setGraphic(likeIcon);
+                }else{
+                    likeList.add(user); //like
+                    //update icon to red heart
+                    Image likeImage = new Image("IHMChannel/icons/heart-solid-red.png");
+                    ImageView likeIcon = new ImageView(likeImage);
+                    likeIcon.setFitHeight(15);
+                    likeIcon.setFitWidth(15);
+                    messagesMap.get(m.getId()).getLikeButton().setGraphic(likeIcon);
+                }
+                messagesMap.get(message.getId()).setMessageToDisplay(m); //mise à jour de l'affichage
+                break;
+            }
+        }
+    }
+
+    public HashMap<UUID, MessageController> getMessageMap() {
+        return messagesMap;
+    }
+
+    public void setMessageMap(HashMap<UUID, MessageController> messageMap) {
+        this.messagesMap = messageMap;
+    }
+
+    public void editMessage(Message message, Message newMessage) {
+        for(Message m : observableMessages){
+            if(m.getId().equals(message.getId())){
+                // pas besoin de màj le content ici car on l'a màj dans la copie locale du channel, ça se répercute automatiquement sur l'affichage
+                //affichage "message édité"
+                messagesMap.get(m.getId()).getIsEditedText().setText("message édité");
+                messagesMap.get(message.getId()).setMessageToDisplay(m); //mise à jour de l'affichage
+                break;
+            }
+        }
+    }
+
+    public void changeNickname(UserLite user){
+        for(Message m : observableMessages){
+            if(m.getAuthor().getId().equals(user.getId())){
+                messagesMap.get(m.getId()).setAuthorNickname(user.getNickName());
+            }
+        }
     }
 }
