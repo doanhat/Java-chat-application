@@ -47,9 +47,18 @@
                     <Label fx:id="channelDescription" styleClass="channel-description"/>
                 </VBox>
                 <HBox GridPane.columnIndex="1" alignment="CENTER_RIGHT">
-                    <Button fx:id="addMemberBtn" onAction="#addUserToChannel" styleClass="icon-bar-btn" visible="false"/>
-                    <Button fx:id="seeMembersBtn" onAction="#seeMembers" styleClass="icon-bar-btn"/>
-                    <Button fx:id="leaveChannelBtn" onAction="#quitChannel" styleClass="icon-bar-btn"/>
+                    <Button fx:id="addMemberBtn" onAction="#addUserToChannel" styleClass="icon-bar-btn" visible="false">
+                        <tooltip><Tooltip text="Ajouter un utilisateur"/></tooltip>
+                    </Button>
+                    <Button fx:id="seeMembersBtn" onAction="#seeMembers" styleClass="icon-bar-btn">
+                        <tooltip><Tooltip text="Voir les utilisateurs"/></tooltip>
+                    </Button>
+                    <Button fx:id="seeKickedMembersBtn" onAction="#seeKickedMembers" styleClass="icon-bar-btn">
+                        <tooltip><Tooltip text="Voir les utilisateurs kickés"/></tooltip>
+                    </Button>
+                    <Button fx:id="leaveChannelBtn" onAction="#leaveChannel" styleClass="icon-bar-btn">
+                        <tooltip><Tooltip text="Quitter le channel"/></tooltip>
+                    </Button>
                 </HBox>
             </children>
         </GridPane>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import java.net.URL?>
+<?import IHMChannel.switchButton.ToggleSwitch?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.image.ImageView?>
+<HBox alignment="CENTER_LEFT" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IHMChannel.controllers.KickedMemberController">
+    <ImageView fx:id="profilePic" />
+    <Text fx:id="username" styleClass="user-name"/>
+    <Pane HBox.hgrow="ALWAYS" />
+    <Button fx:id="unKickBtn" onAction="#unKickBtnHandler" styleClass="icon-bar-btn">
+        <tooltip><Tooltip text="Annuler le kick"/></tooltip>
+    </Button>
+    <Button fx:id="infoBtn" onAction="#infoBtnHandler" styleClass="icon-bar-btn">
+        <tooltip><Tooltip text="Informations"/></tooltip>
+    </Button>
+    <stylesheets>
+        <URL value="@../css/style.css" />
+    </stylesheets>
+</HBox>

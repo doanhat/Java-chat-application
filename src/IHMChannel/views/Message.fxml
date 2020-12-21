@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.Pane?>
 
 <?import java.net.URL?>
+<?import javafx.scene.control.Tooltip?>
 <HBox fx:controller="IHMChannel.controllers.MessageController"
       xmlns:fx="http://javafx.com/fxml" spacing="20">
     <Pane HBox.hgrow="NEVER"></Pane>
@@ -26,13 +27,20 @@
     <HBox fx:id="Details" alignment="CENTER_RIGHT" spacing="20">
         <Text fx:id="time"/>
         <VBox alignment="CENTER">
-            <Button fx:id="likeButton" onAction="#likeMessage" styleClass="message-button"/>
+            <Button fx:id="likeButton" onAction="#likeMessage" styleClass="message-button">
+                <tooltip><Tooltip text="Aimer le message"/></tooltip>
+            </Button>
             <Text fx:id="likeCounter" textAlignment="CENTER"></Text>
         </VBox>
-
-        <Button fx:id="answer" onAction="#answerMessage" styleClass="message-button"/>
-        <Button fx:id="edit" onAction="#editMessage" styleClass="message-button"/>
-        <Button fx:id="delete" onAction="#deleteMessage" styleClass="message-button"/>
+        <Button fx:id="answer" onAction="#answerMessage" styleClass="message-button">
+            <tooltip><Tooltip text="Répondre au message"/></tooltip>
+        </Button>
+        <Button fx:id="edit" onAction="#editMessage" styleClass="message-button">
+            <tooltip><Tooltip text="Editer le message"/></tooltip>
+        </Button>
+        <Button fx:id="delete" onAction="#deleteMessage" styleClass="message-button">
+            <tooltip><Tooltip text="Supprimer le message"/></tooltip>
+        </Button>        
     </HBox>
 
     <stylesheets>

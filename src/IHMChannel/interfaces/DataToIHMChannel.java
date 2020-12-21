@@ -2,11 +2,10 @@ package IHMChannel.interfaces;
 
 import IHMChannel.IHMChannelController;
 import IHMChannel.controllers.ChannelController;
+import com.sun.istack.internal.NotNull;
+import common.IHMTools.IHMTools;
 import common.interfaces.client.IDataToIHMChannel;
-import common.shared_data.Channel;
-import common.shared_data.Message;
-import common.shared_data.User;
-import common.shared_data.UserLite;
+import common.shared_data.*;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -58,6 +57,9 @@ public class DataToIHMChannel implements IDataToIHMChannel{
      */
     @Override
     public void removeChannelFromList(UUID channelID, int duration, String explanation) {
+
+        IHMTools.informationPopup(String.format("Vous avez été banni pendant %d secondes pour la raison suivante : %s", duration, explanation));
+
         controller.getChannelPageController().removeTab(channelID);
     }
 
@@ -68,9 +70,20 @@ public class DataToIHMChannel implements IDataToIHMChannel{
      * @param duration    durée du kick
      * @param explanation motif du kick
      */
+    //TODO Intégration décommenter en mettant le bon constructeur ou en remplacement les attributs de la méthode par
+    // un seul "Kick"
     @Override
     public void userBanNotification(UserLite user, UUID channelId, int duration, String explanation) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (user!=null){
+            controller.getInterfaceForCommunication().removeConnectedUser(channelId, user);
+            //controller.getChannelPageController().getChannelController(channelId).getCurrentChannel().getKicked().add(new Kick(user, channelId, explanation, duration))
+            try {
+                controller.getChannelPageController().getChannelController(channelId).removeUser(user);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     /**

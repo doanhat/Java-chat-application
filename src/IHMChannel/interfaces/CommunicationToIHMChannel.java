@@ -2,10 +2,7 @@ package IHMChannel.interfaces;
 
 import IHMChannel.IHMChannelController;
 import common.interfaces.client.ICommunicationToIHMChannel;
-import common.shared_data.Channel;
-import common.shared_data.Message;
-import common.shared_data.User;
-import common.shared_data.UserLite;
+import common.shared_data.*;
 import javafx.application.Platform;
 
 import java.io.IOException;
@@ -26,6 +23,15 @@ import java.util.UUID;
     @Override
     public void changeNickname(UserLite user, UUID channel) {
         controller.getChannelPageController().getChannelController(channel).changeNickname(user);
+    }
+
+    /**
+     *  Méthode permettant d'annuler le ban d'un utilisateur d'un channel d'id channelID.
+     * @param kick Classe contenant les informations lié au kick
+     * @param channelID id du channel concerné
+     */
+    public void banOfUserCancelledNotification(Kick kick, UUID channelID){
+        controller.getChannelPageController().getChannelController(channelID).removeKick(kick);
     }
 
     /**
