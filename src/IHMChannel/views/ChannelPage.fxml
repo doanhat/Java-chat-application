@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.*?>
 <?import java.net.URL?>
-<AnchorPane xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IHMChannel.controllers.ChannelPageController" style="-fx-background-color: white">
-    <VBox fx:id="channelPage" >
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
 
-        <TabPane fx:id="tabs" prefWidth="1400"/><!---->
-        <BorderPane fx:id="pageToDisplay" prefWidth="1400"/><!---->
+<AnchorPane style="-fx-background-color: white" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IHMChannel.controllers.ChannelPageController">
+    <VBox fx:id="channelPage">
+
+        <TabPane fx:id="tabs" tabMaxHeight="100.0" tabMaxWidth="200.0" /><!---->
+        <BorderPane fx:id="pageToDisplay" /><!---->
     </VBox>
     <stylesheets>
-        <URL value="@../../common/IHMCommon/common.css"></URL>
-        <URL value="@../../common/IHMCommon/dialog.css"></URL>
+        <URL value="@../../common/IHMCommon/common.css" />
+        <URL value="@../../common/IHMCommon/dialog.css" />
     </stylesheets>
 </AnchorPane>

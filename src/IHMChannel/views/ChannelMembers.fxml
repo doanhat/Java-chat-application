@@ -1,27 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import java.net.URL?>
-<?import javafx.scene.control.Label?>
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="IHMChannel.controllers.ChannelMembersController">
-    <VBox prefWidth="1400">
-        <HBox fx:id="channelMember" prefWidth="1400"  alignment="CENTER" >
-            <Label fx:id="Tri" styleClass="TextField" text="Trier par ordre : "/>
+
+<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IHMChannel.controllers.ChannelMembersController">
+    <VBox>
+        <HBox fx:id="channelMember" alignment="CENTER">
+            <Label fx:id="Tri" styleClass="TextField" text="Trier par ordre : " />
+            <RadioButton fx:id="alphaBtn" onAction="#alphabeticSort" styleClass="btn-radio" text="Alphabétique">
+            <toggleGroup>
+               <ToggleGroup fx:id="viewMode" />
+            </toggleGroup></RadioButton>
+            <RadioButton fx:id="adminBtn" onAction="#adminSort" styleClass="btn-radio" text="Autorisations" toggleGroup="$viewMode" />
+            <RadioButton fx:id="onlineBtn" onAction="#onlineUserSort" styleClass="btn-radio" text="Utilisateurs connectés" toggleGroup="$viewMode" />
             <fx:define>
                 <ToggleGroup fx:id="viewMode" />
             </fx:define>
-            <RadioButton fx:id="alphaBtn" text="Alphabétique" toggleGroup="$viewMode" onAction="#alphabeticSort" styleClass="btn-radio" />
-            <RadioButton fx:id="adminBtn" text="Autorisations" toggleGroup="$viewMode" onAction="#adminSort" styleClass="btn-radio" />
-            <RadioButton fx:id="onlineBtn" text="Utilisateurs connectés" toggleGroup="$viewMode" onAction="#onlineUserSort" styleClass="btn-radio" />
         </HBox>
-        <BorderPane fx:id="listMembersDisplay" prefWidth="1400"/>
+        <BorderPane fx:id="listMembersDisplay" />
     </VBox>
     <stylesheets>
         <URL value="@../css/style.css" />

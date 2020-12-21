@@ -1,26 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
-<?import javafx.scene.text.Text?>
 <?import java.net.URL?>
-<?import javafx.geometry.Insets?>
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="IHMChannel.controllers.ChannelController"
-            prefWidth="1400.0">
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckMenuItem?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
-    <VBox fx:id="channelPage" prefWidth="1400">
+<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IHMChannel.controllers.ChannelController">
+
+    <VBox fx:id="channelPage">
         <!--<HBox alignment="CENTER_LEFT" style="-fx-background-color: #B9E6FF" prefWidth="1400">-->
         <!--La barre à retourner vers Main -->
         <GridPane fx:id="menuBar" style="-fx-background-color: #B9E6FF">
             <columnConstraints>
-                <ColumnConstraints fillWidth="false" prefWidth="1300"></ColumnConstraints>
-                <ColumnConstraints halignment="CENTER" prefWidth="100"></ColumnConstraints>
+                <ColumnConstraints fillWidth="false" />
+                <ColumnConstraints halignment="CENTER" />
             </columnConstraints>
             <children>
                 <VBox GridPane.columnIndex="0">
@@ -29,38 +32,40 @@
                             <contextMenu>
                                 <ContextMenu fx:id="channelContextMenu">
                                     <items>
-                                        <MenuItem text="Modifier les infos du channel" onAction="#modifyChannel"/>
-                                        <CheckMenuItem fx:id="seeMembersMenuCheck" text="Voir la liste des utilisateurs"
-                                                       onAction="#seeMembers"/>
-                                        <MenuItem text="Changer les droits" onAction="#changeRights"/>
-                                        <MenuItem text="Kicker un utilisateur" onAction="#kickMember"/>
-                                        <MenuItem text="Liste des utilisateurs kickés" onAction="#seeKickedMembers"/>
-                                        <MenuItem text="Supprimer channel" onAction="#deleteChannel"/>
+                                        <MenuItem onAction="#modifyChannel" text="Modifier les infos du channel" />
+                                        <CheckMenuItem fx:id="seeMembersMenuCheck" onAction="#seeMembers" text="Voir la liste des utilisateurs" />
+                                        <MenuItem onAction="#changeRights" text="Changer les droits" />
+                                        <MenuItem onAction="#kickMember" text="Kicker un utilisateur" />
+                                        <MenuItem onAction="#seeKickedMembers" text="Liste des utilisateurs kickés" />
+                                        <MenuItem onAction="#deleteChannel" text="Supprimer channel" />
                                     </items>
                                 </ContextMenu>
                             </contextMenu>
                         </Label>
-                        <Button fx:id="contextMenuBtn" onAction="#openChannelContextMenu" styleClass="icon-bar-btn"/>
+                        <Button fx:id="contextMenuBtn" onAction="#openChannelContextMenu" styleClass="icon-bar-btn" />
                     </HBox>
 
 
-                    <Label fx:id="channelDescription" styleClass="channel-description"/>
+                    <Label fx:id="channelDescription" styleClass="channel-description" />
                 </VBox>
-                <HBox GridPane.columnIndex="1" alignment="CENTER_RIGHT">
+                <HBox alignment="CENTER_RIGHT" GridPane.columnIndex="1">
                     <Button fx:id="addMemberBtn" onAction="#addUserToChannel" styleClass="icon-bar-btn" visible="false">
-                        <tooltip><Tooltip text="Ajouter un utilisateur"/></tooltip>
+                        <tooltip><Tooltip text="Ajouter un utilisateur" /></tooltip>
                     </Button>
                     <Button fx:id="seeMembersBtn" onAction="#seeMembers" styleClass="icon-bar-btn">
-                        <tooltip><Tooltip text="Voir les utilisateurs"/></tooltip>
+                        <tooltip><Tooltip text="Voir les utilisateurs" /></tooltip>
                     </Button>
                     <Button fx:id="seeKickedMembersBtn" onAction="#seeKickedMembers" styleClass="icon-bar-btn">
-                        <tooltip><Tooltip text="Voir les utilisateurs kickés"/></tooltip>
+                        <tooltip><Tooltip text="Voir les utilisateurs kickés" /></tooltip>
                     </Button>
                     <Button fx:id="leaveChannelBtn" onAction="#quitChannel" styleClass="icon-bar-btn">
-                        <tooltip><Tooltip text="Quitter le channel"/></tooltip>
+                        <tooltip><Tooltip text="Quitter le channel" /></tooltip>
                     </Button>
                 </HBox>
             </children>
+         <rowConstraints>
+            <RowConstraints />
+         </rowConstraints>
         </GridPane>
 
         <!-- <Pane prefWidth="1200"/> -->
@@ -68,7 +73,7 @@
         <!--  </HBox> -->
 
 
-        <BorderPane fx:id="pageToDisplay"/>
+        <BorderPane fx:id="pageToDisplay" />
         <!--
         MOVED TO ChannelMessages.fxml
         <ListView fx:id="listMessages">
@@ -83,6 +88,6 @@
         <BorderPane fx:id="pageToDisplay"/>-->
     </VBox>
     <stylesheets>
-        <URL value="@../../common/IHMCommon/common.css"></URL>
+        <URL value="@../../common/IHMCommon/common.css" />
     </stylesheets>
 </AnchorPane>
