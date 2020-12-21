@@ -68,12 +68,12 @@
          </rowConstraints>
         </GridPane>
 
-        <!-- <Pane prefWidth="1200"/> -->
+              <!-- <Pane prefWidth="1200"/> -->
 
-        <!--  </HBox> -->
+              <!--  </HBox> -->
 
-
-        <BorderPane fx:id="pageToDisplay" />
+      
+              <BorderPane fx:id="pageToDisplay" />
         <!--
         MOVED TO ChannelMessages.fxml
         <ListView fx:id="listMessages">

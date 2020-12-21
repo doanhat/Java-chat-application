@@ -1,6 +1,7 @@
 package IHMChannel.controllers;
 
 import IHMChannel.IHMChannelController;
+import com.sun.prism.paint.Color;
 import common.IHMTools.IHMTools;
 import common.shared_data.*;
 import javafx.application.Platform;
@@ -87,6 +88,7 @@ public class ChannelPageController {
         tabs.getTabs().add(tab);
         tab.setContent((Node) root);
         tabs.getSelectionModel().select(tab);
+
         //tab1.setGraphic(root);
 
         Region r = (Region) root;

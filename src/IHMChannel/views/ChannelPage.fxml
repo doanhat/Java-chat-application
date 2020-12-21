@@ -2,18 +2,16 @@
 
 <?import java.net.URL?>
 <?import javafx.scene.control.TabPane?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.StackPane?>
 
-<AnchorPane style="-fx-background-color: white" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IHMChannel.controllers.ChannelPageController">
-    <VBox fx:id="channelPage">
 
-        <TabPane fx:id="tabs" tabMaxHeight="100.0" tabMaxWidth="200.0" /><!---->
-        <BorderPane fx:id="pageToDisplay" /><!---->
-    </VBox>
-    <stylesheets>
-        <URL value="@../../common/IHMCommon/common.css" />
-        <URL value="@../../common/IHMCommon/dialog.css" />
-    </stylesheets>
-</AnchorPane>
+<StackPane fx:id="channelPage" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IHMChannel.controllers.ChannelPageController">
+   <children>
+   
+                                   <TabPane fx:id="tabs" style="-fx-background-color: #08244E;" tabMaxHeight="100.0" tabMaxWidth="300.0" />
+   </children>
+   <stylesheets>
+      <URL value="@../../common/IHMCommon/common.css" />
+      <URL value="@../../common/IHMCommon/dialog.css" />
+   </stylesheets>
+</StackPane>

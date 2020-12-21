@@ -10,6 +10,7 @@ import common.shared_data.Message;
 import common.shared_data.UserLite;
 import common.shared_data.Visibility;
 import common.shared_data.*;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -21,6 +22,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Region;
 import javafx.stage.Modality;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
@@ -105,6 +107,10 @@ public class ChannelController {
         channelMessagesDisplay = new ChannelMessagesDisplay();
         channelMessagesController = channelMessagesDisplay.getController();
         pageToDisplay.setCenter(channelMessagesDisplay.root);
+
+        Platform.runLater(() -> {
+            IHMTools.fitSizeToParent((Region)ihmChannelController.getRoot(),(Region)channelMessagesDisplay.root);
+        });
 
         //Chargement de la liste des utilisateurs
         channelMembersDisplay = new ChannelMembersDisplay();
