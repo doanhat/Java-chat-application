@@ -204,7 +204,7 @@ public class ChannelsListController {
      * Enregistre les modifications d'un message dans l'historique.
      *
      * @param channelId     (UUID) L'identifiant du channel.
-     * @param editedMSg     Le message contenant le texte edité.
+     * @param editedMsg     Le message contenant le texte edité.
      */
     public void writeEditMessage(UUID channelId, Message editedMsg) {
         Channel channel = searchChannelById(channelId);
