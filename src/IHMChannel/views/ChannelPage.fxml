@@ -4,11 +4,10 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.StackPane?>
 
-
 <StackPane fx:id="channelPage" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IHMChannel.controllers.ChannelPageController">
    <children>
    
-                                   <TabPane fx:id="tabs" style="-fx-background-color: #08244E;" tabMaxHeight="100.0" tabMaxWidth="300.0" />
+                                   <TabPane fx:id="tabs" style="-fx-background-color: #B9E6FF;" tabMaxHeight="100.0" tabMaxWidth="300.0" />
    </children>
    <stylesheets>
       <URL value="@../../common/IHMCommon/common.css" />

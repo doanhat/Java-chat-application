@@ -14,8 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-
- <GridPane stylesheets="@../../common/IHMCommon/common.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IHMChannel.controllers.ChannelMessagesController">
+<GridPane stylesheets="@../../common/IHMCommon/common.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IHMChannel.controllers.ChannelMessagesController">
      <columnConstraints>
          <ColumnConstraints percentWidth="100.0" prefWidth="1000.0" />
      </columnConstraints>
@@ -23,8 +22,8 @@
          <VBox>
          <GridPane>
            <columnConstraints>
-             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="75.0" />
-             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="25.0" prefWidth="100.0" />
+             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="85.0" />
+             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="15.0" prefWidth="100.0" />
            </columnConstraints>
            <rowConstraints>
              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
@@ -36,7 +35,7 @@
          </GridPane>
              <HBox fx:id="reponseArea" alignment="CENTER_LEFT" prefHeight="NaN" style="-fx-background-color: #B9E6FF;">
                 <children>
-                   <Pane prefWidth="50" />
+                   <Pane prefHeight="37.0" prefWidth="25.0" />
                    <ImageView fx:id="imgReceiver" />
                    <Text fx:id="userNameReceiver" />
                    <TextArea fx:id="messageReceiver" prefHeight="100" />
@@ -45,9 +44,8 @@
                    <Pane HBox.hgrow="ALWAYS" />
                 </children>
              </HBox>
-
-             <HBox alignment="BOTTOM_LEFT" prefHeight="-Infinity" styleClass="envoi-message">
-                 <Pane HBox.hgrow="ALWAYS" />
+   
+                <HBox alignment="BOTTOM_LEFT" prefHeight="-Infinity" styleClass="envoi-message">
                  <ImageView fx:id="profilePic" />
                  <TextArea fx:id="typedText" />
                  <Button fx:id="sendBtn" onAction="#sendMessage" styleClass="icon-bar-btn">
@@ -55,8 +53,8 @@
                   <Tooltip text="Envoyer le message" />
                </tooltip>
                  </Button>
-
-             </HBox>
+   
+                </HBox>
 
          </VBox>
 
