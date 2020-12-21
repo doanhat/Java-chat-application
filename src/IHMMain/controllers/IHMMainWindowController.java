@@ -21,7 +21,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Paths;
@@ -349,33 +348,9 @@ public class IHMMainWindowController implements Initializable{
     }
 
     @FXML
-    private void loadUserInfosPopup() throws IOException {
-        // TODO Il faut arriver à récupérer l'utilisateur depuis la vue, je ne sais pas comment faire...
+    private void loadUserInfosPopup() {
         User u = getIhmMainController().getIHMMainToData().getUser();
-
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../views/UserInfos.fxml"));
-            Parent root = fxmlLoader.load();
-
-            UserInfosController userInfosController = fxmlLoader.getController();
-            try {
-                userInfosController.setParentController(this, u);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
-
-            stage.setTitle("Informations Utilisateur");
-            stage.setScene(new Scene(root, 600, 400));
-            stage.setResizable(false);
-
-            stage.show();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+        ihmMainController.loadUserInfosPopup(true, u, ihmMainController.getVisibleChannels());
     }
 
 

@@ -301,6 +301,11 @@ public class Channel implements Serializable {
 		return Objects.hash(id);
 	}
 
+	@Override
+	public String toString() {
+		return name;
+	}
+
 	public static Callback<Channel, javafx.beans.Observable[]> extractor() {
 		return (Channel c) -> new javafx.beans.Observable[]{c.getNameProperty(), c.getDescriptionProperty(), c.getVisibilityProperty()};
 	}

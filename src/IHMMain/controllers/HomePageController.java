@@ -22,6 +22,7 @@ import javafx.stage.Stage;
 import java.io.*;
 import java.net.URL;
 import java.nio.file.Paths;
+import java.text.ParseException;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
@@ -129,6 +130,24 @@ public class HomePageController implements Initializable {
             }
         });
         connectedUsersListView.setItems(filteredData.sorted());
+        connectedUsersListView.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    if (newValue != null) {
+                        ihmMainController.userIdToLoad = newValue.getId();
+                        ihmMainController.loadUserValue = null;
+                        ihmMainController.loadAvatarValue = null;
+                        // TODO remove when getUSers by id exist
+                        try {
+                            User user = new User(newValue.getNickName(), newValue.getAvatar(), "", "lastname", "firstname", "04-03-1999");
+                            user.setId(newValue.getId());
+                            ihmMainController.addUser(user);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        ihmMainController.getIIHMMainToCommunication().getAvatarPath(newValue);
+                    }
+                }
+        );
 
         //Reset la liste des channels si déselectionne la checkbox
         filtrerChannelCheckBox.selectedProperty().addListener(new ChangeListener<Boolean>() {

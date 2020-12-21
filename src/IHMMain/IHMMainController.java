@@ -1,19 +1,22 @@
 package IHMMain;
 
-import common.shared_data.Visibility;
+import IHMMain.controllers.UserInfosController;
+import common.shared_data.*;
 import data.client.IHMMainToData;
 import IHMMain.implementations.CommunicationToIHMMain;
 import IHMMain.implementations.DataToIHMMain;
 import IHMMain.implementations.IHMChannelToIHMMain;
 import app.MainWindowController;
 import common.interfaces.client.*;
-import common.shared_data.Channel;
-import common.shared_data.ConnectionStatus;
-import common.shared_data.UserLite;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.*;
 
 public class IHMMainController {
@@ -46,7 +49,13 @@ public class IHMMainController {
 
     private ObservableList<Channel> openedChannels = FXCollections.observableArrayList();
 
-    private Map<UUID, List<UserLite>> connectedUserByChannels= new HashMap<UUID, List<UserLite>>();
+    private Map<UUID, List<UserLite>> connectedUserByChannels = new HashMap<UUID, List<UserLite>>();
+
+    public User loadUserValue;
+
+    public String loadAvatarValue;
+
+    public UUID userIdToLoad;
 
     public IHMMainController(){
         communicationToIHMMain = new CommunicationToIHMMain(this);
@@ -134,6 +143,49 @@ public class IHMMainController {
         mainWindowController.getConnectionController().loadIHMMainWindow(status);
     }
 
+    public void loadUserInfosPopup(boolean isLocal, User user, ObservableList<Channel> channels) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("views/UserInfos.fxml"));
+            Parent root = fxmlLoader.load();
+
+            UserInfosController userInfosController = fxmlLoader.getController();
+
+            userInfosController.setIhmMainController(this, user, channels, isLocal);
+
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+
+            stage.setTitle("Informations Utilisateur");
+            stage.setScene(new Scene(root, 600, 400));
+            stage.setResizable(false);
+
+            stage.show();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addAvatarPath(UserLite userLite, String avatarPath) {
+        if (userIdToLoad.equals(userLite.getId())) {
+            loadAvatarValue = avatarPath;
+            if (loadUserValue != null) {
+                loadUserValue.setAvatar(avatarPath);
+                loadUserInfosPopup(false, loadUserValue, null);
+            }
+        }
+    }
+
+    public void addUser(User user) {
+        if (userIdToLoad.equals(user.getId())) {
+            loadUserValue = user;
+            if (loadAvatarValue != null) {
+                loadUserValue.setAvatar(loadAvatarValue);
+                loadUserInfosPopup(false, loadUserValue, null);
+            }
+        }
+    }
+
     /**
      * This method reset all the data
      * Use to clear a previous session
@@ -142,5 +194,6 @@ public class IHMMainController {
         connectedUsers = FXCollections.observableArrayList();
         visibleChannels = FXCollections.observableArrayList(Channel.extractor());
         openedChannels = FXCollections.observableArrayList();
+        connectedUserByChannels = new HashMap<UUID, List<UserLite>>();
     }
 }

@@ -1,20 +1,22 @@
 package IHMMain.controllers;
 
 
+import IHMMain.IHMMainController;
 import common.shared_data.Channel;
 import common.shared_data.User;
-import common.shared_data.UserLite;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
+import java.io.ByteArrayInputStream;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 
 public class UserInfosController {
     @FXML
@@ -28,72 +30,49 @@ public class UserInfosController {
     @FXML
     private Text birthDateUser;
     @FXML
-    private ChoiceBox<String> listChannelsUser;
-    private IHMMainWindowController parentController;
+    private ChoiceBox<Channel> listChannelsUser;
 
-    @FXML
-    public void loadUserInfos(User u){
-        boolean isCurrentUser = (u.getId().equals(parentController.getIhmMainController().getIHMMainToData().getUser().getId()));
+    private IHMMainController ihmMainController;
 
-        //test if the user selected is the current user or a remote user
-        if(isCurrentUser) {
-            //TODO décommenter et virer will smith à l'intégration
-            try {
-                //String avatarPath = parentController.getIhmMainController().getIIHMMainToCommunication().getAvatarPath(u.getUserLite());
-                String avatarPath = "IHMMain/icons/willsmith.png";
-                Image image = new Image(avatarPath);
-                avatarUser.setImage(image);
-
-                nicknameUser.setText(u.getNickName());
-                surnameUser.setText(u.getFirstName());
-                nameUser.setText(u.getLastName());
-
-                DateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
-                birthDateUser.setText(dateFormat.format(u.getBirthDate()));
-
-                //populate listView
-                ObservableList<Channel> listChannels = parentController.getIhmMainController().getVisibleChannels();
-                ObservableList<String> listNamesChannels = FXCollections.observableArrayList();
-                listChannels.forEach(channel -> listNamesChannels.add(channel.getName()));
-                listChannelsUser.setItems(listNamesChannels);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        else {
+    public void loadUserInfos(User u, ObservableList<Channel> channels, boolean isLocal){
+        try {
             //String avatarPath = parentController.getIhmMainController().getIIHMMainToCommunication().getAvatarPath(u.getUserLite());
-            String avatarPath = "IHMMain/icons/willsmith.png";
-            Image image = new Image(avatarPath);
+            Image image;
+            if (u.getAvatar().equals("")) {
+                String avatarPath = "IHMMain/icons/willsmith.png";
+                image = new Image(avatarPath);
+            } else {
+                if (isLocal) {
+                    String avatarPath = ihmMainController.getIHMMainToData().getLocalAvatarDirectoryPath() + u.getAvatar();
+                    image = new Image(Paths.get(avatarPath).toUri().toString());
+                } else {
+                    // set from base64
+                    byte[] decodedBytes = Base64
+                            .getDecoder()
+                            .decode(u.getAvatar());
+                    ByteArrayInputStream is=new ByteArrayInputStream(decodedBytes);
+                    image = new Image(is);
+                }
+            }
             avatarUser.setImage(image);
 
             nicknameUser.setText(u.getNickName());
             surnameUser.setText(u.getFirstName());
             nameUser.setText(u.getLastName());
 
-            DateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
+            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
             birthDateUser.setText(dateFormat.format(u.getBirthDate()));
 
-            ObservableList<UserLite> connectedUsersObservableList;
-/**
-            connectedUsersObservableList= parentController.getIhmMainController().getConnectedUsers();
-            FilteredList<UserLite> filteredData = new FilteredList<>(connectedUsersObservableList, b-> true);
-            filteredInput.textProperty().addListener((observable,oldValue,newValue) -> {
-                filteredData.setPredicate(userLite -> {
-                    if (newValue == null || newValue.isEmpty()) {
-                        return true;
-                    }
-                    String lowerCaseFilter = newValue.toLowerCase();
-                    return (userLite.getNickName().toLowerCase().indexOf(lowerCaseFilter) != -1);});
-            });
-        }
- **/
+            //populate listView
+            listChannelsUser.setItems(channels != null ? channels : FXCollections.observableArrayList());
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
-    public void setParentController(IHMMainWindowController parentController, User u){
-        this.parentController = parentController;
-        this.loadUserInfos(u);
-        //this.loadUserInfos(parentController.getIhmMainController().getIHMMainToData().getUser());
+    public void setIhmMainController(IHMMainController ihmMainController, User u, ObservableList<Channel> channels, boolean isLocal){
+        this.ihmMainController = ihmMainController;
+        this.loadUserInfos(u, channels, isLocal);
     }
 }

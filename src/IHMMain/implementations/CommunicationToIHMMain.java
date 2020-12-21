@@ -67,6 +67,6 @@ public class CommunicationToIHMMain implements ICommunicationToIHMMain {
 
     @Override
     public void setAvatarPath(UserLite user, String avatarPath) {
-
+        Platform.runLater(() -> ihmMainController.addAvatarPath(user, avatarPath));
     }
 }
