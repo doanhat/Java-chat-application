@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 import Communication.common.*;
 import Communication.common.info_packages.BanUserPackage;
+import Communication.common.info_packages.ChatPackage;
 import Communication.common.info_packages.InfoPackage;
 import Communication.common.info_packages.UpdateChannelPackage;
 import Communication.messages.abstracts.NetworkMessage;
@@ -337,18 +338,45 @@ public class CommunicationServerController extends CommunicationController {
 		// Tell data server to save message for both shared and proprietary channels, in order to update active Channel on server
 		switch (operation) {
 			case SEND_MESSAGE:
-				dataServer.saveMessageIntoHistory(channel, infoPackage.message, infoPackage.messageResponseTo);
+				if (ChatPackage.class.isInstance(infoPackage)) {
+					ChatPackage castedPackage = ChatPackage.class.cast(infoPackage);
+					dataServer.saveMessageIntoHistory(channel, castedPackage.message, castedPackage.messageResponseTo);
+				}
+				else {
+					logger.log(Level.SEVERE, "ChatMessage: SEND_MESSAGE contient mauvais ChatPackage");
+				}
+
 				break;
 			case EDIT_MESSAGE:
-				dataServer.editMessage(channel, infoPackage.editedMessage);
+				if (ChatPackage.class.isInstance(infoPackage)) {
+					ChatPackage castedPackage = ChatPackage.class.cast(infoPackage);
+					dataServer.editMessage(channel, castedPackage.editedMessage);
+				}
+				else {
+					logger.log(Level.SEVERE, "ChatMessage: EDIT_MESSAGE contient mauvais ChatPackage");
+				}
+
 				break;
 			case LIKE_MESSAGE:
-				dataServer.saveLikeIntoHistory(channel, infoPackage.message, infoPackage.user);
+				if (ChatPackage.class.isInstance(infoPackage)) {
+					ChatPackage castedPackage = ChatPackage.class.cast(infoPackage);
+					dataServer.saveLikeIntoHistory(channel, castedPackage.message, castedPackage.user);
+				}
+				else {
+					logger.log(Level.SEVERE, "ChatMessage: LIKE_MESSAGE contient mauvais ChatPackage");
+				}
+
 				break;
 			case DELETE_MESSAGE:
-				dataServer.saveRemovalMessageIntoHistory(channel,
-														 infoPackage.message,
-														 infoPackage.user.getId().equals(infoPackage.message.getAuthor().getId()));
+				if (ChatPackage.class.isInstance(infoPackage)) {
+					ChatPackage castedPackage = ChatPackage.class.cast(infoPackage);
+					dataServer.saveRemovalMessageIntoHistory(channel, castedPackage.message,
+							castedPackage.user.getId().equals(castedPackage.message.getAuthor().getId()));
+				}
+				else {
+					logger.log(Level.SEVERE, "ChatMessage: DELETE_MESSAGE contient mauvais ChatPackage");
+				}
+
 				break;
 			case EDIT_NICKNAME:
 				dataServer.updateNickname(channel, infoPackage.user, infoPackage.nickname);

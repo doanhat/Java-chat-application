@@ -9,8 +9,5 @@ import java.util.UUID;
 public class InfoPackage implements Serializable {
     public UserLite user;
     public UUID channelID;
-    public Message message;
-    public Message messageResponseTo;
-    public Message editedMessage;
     public String nickname;
 }
