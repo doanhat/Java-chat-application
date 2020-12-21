@@ -321,4 +321,9 @@ public class CommunicationToData implements ICommunicationToData {
         dataController.getChannelController().updateChannel(channelId,userID,name,description,visibility);
     }
 
+    @Override
+    public void modifyChannel(Channel channel) {
+        dataController.getChannelController().channelClient.modifyChannel(channel);
+    }
+
 }
