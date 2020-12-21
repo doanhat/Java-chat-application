@@ -35,6 +35,7 @@ public class UserInfosController {
     public void loadUserInfos(User u){
         boolean isCurrentUser = (u.getId().equals(parentController.getIhmMainController().getIHMMainToData().getUser().getId()));
 
+        //test if the user selected is the current user or a remote user
         if(isCurrentUser) {
             //TODO décommenter et virer will smith à l'intégration
             try {

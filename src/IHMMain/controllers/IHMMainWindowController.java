@@ -345,7 +345,10 @@ public class IHMMainWindowController implements Initializable{
     }
 
     @FXML
-    private void loadUserInfosPopup(User u) throws IOException {
+    private void loadUserInfosPopup() throws IOException {
+        // TODO Il faut arriver à récupérer l'utilisateur depuis la vue, je ne sais pas comment faire...
+        User u = getIhmMainController().getIHMMainToData().getUser();
+
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../views/UserInfos.fxml"));
             Parent root = fxmlLoader.load();
