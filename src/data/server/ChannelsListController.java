@@ -57,6 +57,18 @@ public class ChannelsListController {
         return channel.getMessages();
     }
 
+    public Message getMessageFromId(UUID channelId, UUID messageId) {
+        List<Message> messages = getChannelMessages(channelId);
+
+        for (Message msg : messages) {
+            if (msg.getId().equals(messageId)) {
+                return msg;
+            }
+        }
+
+        return null;
+    }
+
     public List<Channel> searchChannelByDesc(String description) {
         return null;
     }
@@ -185,6 +197,41 @@ public class ChannelsListController {
         channel.addAdmin(user);
         if (channel.getType() == ChannelType.SHARED) {
             this.writeChannelDataToJSON(channel);
+        }
+    }
+
+    /**
+     * Enregistre les modifications d'un message dans l'historique.
+     *
+     * @param channelId     (UUID) L'identifiant du channel.
+     * @param editedMSg     Le message contenant le texte edité.
+     */
+    public void writeEditMessage(UUID channelId, Message editedMsg) {
+        Channel channel = searchChannelById(channelId);
+        Message originalMsg = getMessageFromId(channel.getId(), editedMsg.getId());
+
+        if (channel != null && originalMsg != null) {
+            originalMsg.setMessage(editedMsg.getMessage());
+            originalMsg.setEdited(true);
+
+            writeChannelDataToJSON(channel);
+        }
+    }
+
+    /**
+     * Enregistre le like d'un message dans l'historique d'un channel.
+     *
+     * @param channelId     L'identifiant du channel
+     * @param msg           Le message auquel on réagit
+     * @param user          L'utilisateur qui réagit
+     */
+    public void writeLikeIntoHistory(UUID channelId, Message msg, UserLite user) {
+        Channel channel = searchChannelById(channelId);
+        Message message = getMessageFromId(channel.getId(), msg.getId());
+
+        if (channel != null && message != null) {
+            message.addLike(user);
+            writeChannelDataToJSON(channel);
         }
     }
 
