@@ -88,7 +88,7 @@ public class MessageController extends Controller {
      */
     public void editMessage(Message message, Message newMessage, UUID channelId) {
         //Commentaire à supprimer une fois le changement effectué dans IDataToIHMChannel
-        //channelClient.editMessage(message, newMessage, channelId);
+        channelClient.editMessage(message, newMessage, channelId);
     }
 
     /**

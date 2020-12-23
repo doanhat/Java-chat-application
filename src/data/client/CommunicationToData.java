@@ -323,8 +323,8 @@ public class CommunicationToData implements ICommunicationToData {
          * commentant cette méthode) A VERIRIFER
          * en plus searchChannelById(id) ne marche pas dans updateChannel en dessous
          */
-        dataController.getChannelController().updateChannel(channelId,userID,name,description,visibility);
-
+        //dataController.getChannelController().updateChannel(channelId,userID,name,description,visibility);
+        
         Platform.runLater(() -> dataController.getChannelController().getChannelClient().modifyChannel(channelId, name, description, visibility));
     }
 

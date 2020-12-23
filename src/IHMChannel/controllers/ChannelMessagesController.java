@@ -2,6 +2,7 @@ package IHMChannel.controllers;
 
 import IHMChannel.IHMChannelController;
 import IHMChannel.MessageDisplay;
+import common.IHMTools.IHMTools;
 import common.shared_data.Channel;
 import common.shared_data.Message;
 import common.shared_data.UserLite;
@@ -341,14 +342,18 @@ public class ChannelMessagesController{
     }
 
     public void editMessage(Message message, Message newMessage) {
-        for(Message m : observableMessages){
-            if(m.getId().equals(message.getId())){
-                // pas besoin de màj le content ici car on l'a màj dans la copie locale du channel, ça se répercute automatiquement sur l'affichage
-                //affichage "message édité"
-                messagesMap.get(m.getId()).getIsEditedText().setText("message édité");
-                messagesMap.get(message.getId()).setMessageToDisplay(m); //mise à jour de l'affichage
-                break;
+        if(message.getAuthor().getId().equals(ihmChannelController.getInterfaceToData().getLocalUser().getId())){
+            for(Message m : observableMessages){
+                if(m.getId().equals(message.getId())){
+                    // pas besoin de màj le content ici car on l'a màj dans la copie locale du channel, ça se répercute automatiquement sur l'affichage
+                    //affichage "message édité"
+                    messagesMap.get(m.getId()).getIsEditedText().setText("message édité");
+                    messagesMap.get(message.getId()).setMessageToDisplay(m); //mise à jour de l'affichage
+                    break;
+                }
             }
+        }else {
+            IHMTools.informationPopup("Vous ne pouvez pas éditer ce message");
         }
     }
 
