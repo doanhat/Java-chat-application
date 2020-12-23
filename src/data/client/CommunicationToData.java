@@ -79,6 +79,8 @@ public class CommunicationToData implements ICommunicationToData {
                 .atZone(ZoneId.systemDefault())
                 .toInstant());
         dataController.getChannelController().banUserIntoHistory(user,channelId,date,isPermanent,explanation);
+
+        Platform.runLater(() -> dataController.getChannelController().getChannelClient().userBanNotification(user,channelId, endDate, explanation));
     }
 
     /**
@@ -219,6 +221,7 @@ public class CommunicationToData implements ICommunicationToData {
                 saveLikeIntoHistory(channelId,message,user);
             }
         }
+        dataController.getChannelController().getChannelClient().likeMessage(channelId, message, user);
     }
 
     /**

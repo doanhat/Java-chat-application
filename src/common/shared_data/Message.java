@@ -95,6 +95,8 @@ public class Message implements Serializable {
 	public void addLike(UserLite userLite){
 		if (!likedByUser(userLite.getId())){
 			likes.add(userLite);
+		}else{
+			likes.removeIf(user -> user.getId().equals(userLite.getId()));
 		}
 	}
 

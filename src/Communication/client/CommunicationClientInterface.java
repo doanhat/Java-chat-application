@@ -314,7 +314,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
         infoPackage.nickname = newNickname;
         infoPackage.channelID = channel.getId();
 
-        this.commController.sendMessage(new ChannelOperationMessage(ChannelOperation.EDIT_MESSAGE, infoPackage));
+        this.commController.sendMessage(new ChannelOperationMessage(ChannelOperation.EDIT_NICKNAME, infoPackage));
     }
 
     /**

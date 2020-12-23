@@ -19,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import java.text.SimpleDateFormat;
+
 /**
  * Classe Contrôleur du contrôle (widget) "Message".
  */
@@ -61,6 +62,14 @@ public class MessageController {
         this.messageToDisplay = messageToDisplay;
         author.setText(messageToDisplay.getAuthor().getNickName());
         content.setText(messageToDisplay.getMessage());
+        if (messageToDisplay.isEdited()) {
+            if(messageToDisplay.isDeletedByAdmin() || messageToDisplay.isDeletedByUser()){
+                isEditedText.setVisible(false);
+            }else{
+                isEditedText.setText(" message édité");
+            }
+
+        }
 
         likeCounter.setText(String.valueOf(messageToDisplay.countLikes()));
 
@@ -95,19 +104,22 @@ public class MessageController {
      * C'est la méthode dans laquelle on initialise les affichages.
      */
     public void initialize() {
-        iconsInit();
+        //iconsInit();
         content.setEditable(false);
     }
 
     public void iconsInit() {
+        UUID localUser = channelMessagesController.getIhmChannelController().getInterfaceToData().getLocalUser().getId();
         //Edit
-
-        Image editImage = new Image("IHMChannel/icons/edit-solid.png");
-        ImageView editIcon = new ImageView(editImage);
-        editIcon.setFitHeight(15);
-        editIcon.setFitWidth(15);
-        edit.setGraphic(editIcon);
-
+        if (localUser.equals(messageToDisplay.getAuthor().getId())) {
+            Image editImage = new Image("IHMChannel/icons/edit-solid.png");
+            ImageView editIcon = new ImageView(editImage);
+            editIcon.setFitHeight(15);
+            editIcon.setFitWidth(15);
+            edit.setGraphic(editIcon);
+        }else{
+            edit.setVisible(false);
+        }
 
         //Like
         Image likeImage = new Image("IHMChannel/icons/heart-regular.png");
@@ -124,11 +136,16 @@ public class MessageController {
         answer.setGraphic(replyIcon);
 
         //Delete
-        Image deleteImage = new Image("IHMChannel/icons/trash-solid.png");
-        ImageView deleteIcon = new ImageView(deleteImage);
-        deleteIcon.setFitHeight(15);
-        deleteIcon.setFitWidth(15);
-        delete.setGraphic(deleteIcon);
+        if (localUser.equals(messageToDisplay.getAuthor().getId()) || channelMessagesController.channel.userIsAdmin(localUser)) {
+            Image deleteImage = new Image("IHMChannel/icons/trash-solid.png");
+            ImageView deleteIcon = new ImageView(deleteImage);
+            deleteIcon.setFitHeight(15);
+            deleteIcon.setFitWidth(15);
+            delete.setGraphic(deleteIcon);
+        }else{
+            delete.setVisible(false);
+        }
+
     }
 
     /**
@@ -150,17 +167,17 @@ public class MessageController {
     /**
      * Méthode appelée au clic sur le bouton de like
      */
-    public void likeMessage(){
-        System.out.println("like du message "+this.content.getText());
+    public void likeMessage() {
+        System.out.println("like du message " + this.content.getText());
         channelMessagesController.getIhmChannelController().getInterfaceToCommunication().likeMessage(
                 channelMessagesController.channel,
                 messageToDisplay,
                 channelMessagesController.getIhmChannelController().getInterfaceToData().getLocalUser());
-        //TODO à enlever pour l'intégration, ne sert qu'aux tests
-        channelMessagesController.getIhmChannelController().getInterfaceForData().likeMessage(
-                channelMessagesController.channel.getId(),
-                messageToDisplay,
-                channelMessagesController.getIhmChannelController().getInterfaceToData().getLocalUser());
+//        //TODO à enlever pour l'intégration, ne sert qu'aux tests
+//        channelMessagesController.getIhmChannelController().getInterfaceForData().likeMessage(
+//                channelMessagesController.channel.getId(),
+//                messageToDisplay,
+//                channelMessagesController.getIhmChannelController().getInterfaceToData().getLocalUser());
     }
 
     /**
@@ -179,7 +196,7 @@ public class MessageController {
     /**
      * Méthode appelée au clic sur le bouton d'édition
      */
-    public void editMessage(){
+    public void editMessage() {
         //Zone de texte editable
         this.content.setEditable(true);
 
@@ -187,9 +204,19 @@ public class MessageController {
         content.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
-                if (keyEvent.getCode() == KeyCode.ENTER)  {
+
+                if (keyEvent.getCode() == KeyCode.ENTER) {
                     Message newMsg = new Message();
                     newMsg.setMessage(content.getText());
+                    newMsg.setId(messageToDisplay.getId());
+                    newMsg.setAuthor(messageToDisplay.getAuthor());
+                    newMsg.setAnswers(messageToDisplay.getAnswers());
+                    newMsg.setDate(messageToDisplay.getDate());
+                    newMsg.setDeletedByAdmin(messageToDisplay.isDeletedByAdmin());
+                    newMsg.setDeletedByUser(messageToDisplay.isDeletedByUser());
+                    newMsg.setEdited(messageToDisplay.isEdited());
+                    newMsg.setLikes(messageToDisplay.getLikes());
+                    newMsg.setParentMessageId(messageToDisplay.getParentMessageId());
                     channelMessagesController.getIhmChannelController().getInterfaceToCommunication().editMessage(
                             messageToDisplay,
                             newMsg,
@@ -197,13 +224,6 @@ public class MessageController {
                     );
 
                     content.setEditable(false);
-
-                    //TODO à enlever pour l'intégration, ne sert qu'aux tests
-                    channelMessagesController.getIhmChannelController().getInterfaceForData().editMessage(
-                            messageToDisplay,
-                            newMsg,
-                            channelMessagesController.channel.getId()
-                    );
                 }
             }
         });
@@ -227,11 +247,6 @@ public class MessageController {
                         messageToDisplay,
                         channelMessagesController.channel,
                         channelMessagesController.getIhmChannelController().getInterfaceToData().getLocalUser());
-//                //TODO enlever avant integration. Ne sert qu'aux tests
-//                channelMessagesController.getIhmChannelController().getInterfaceForData().deleteMessage(
-//                        messageToDisplay,
-//                        channelMessagesController.channel.getId(),
-//                        messageToDisplay.getAuthor().getId().equals(localUser.getId()));
             }
 
         } else {
@@ -248,7 +263,8 @@ public class MessageController {
 
         messageToDisplay.delete(deletedByCreator);
         this.content.setText(messageToDisplay.getMessage());
-        
+        isEditedText.setVisible(false);
+
     }
 
     public void setChannelMessagesController(ChannelMessagesController channelMessagesController) {

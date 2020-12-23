@@ -3,6 +3,7 @@ package common.interfaces.client;
 import common.shared_data.*;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.UUID;
 
 public interface IDataToIHMChannel {
@@ -37,7 +38,7 @@ public interface IDataToIHMChannel {
      * @param duration durée du kick
      * @param explanation motif du kick
      */
-    void userBanNotification(UserLite user, UUID channelId, int duration, String explanation);
+    void userBanNotification(UserLite user, UUID channelId, LocalDate duration, String explanation);
 
     /**
      * Notifie d'un retour d'un utilisateur précédemment kické.
@@ -68,7 +69,7 @@ public interface IDataToIHMChannel {
      * @param message message liké
      * @param user utilisateur à l'origine du like
      */
-    void likeMessage(UUID channelId, Message message, User user);
+    void likeMessage(UUID channelId, Message message, UserLite user);
 
     /**
      * Permet la suppression d'un message.

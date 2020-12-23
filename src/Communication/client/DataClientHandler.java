@@ -110,7 +110,9 @@ public class DataClientHandler {
                 if (BanUserPackage.class.isInstance(infoPackage)) {
                     BanUserPackage castedPackage = BanUserPackage.class.cast(infoPackage);
                     // TODO INTEGRATION V4: Update interface of Data after request of IHM Channel
-                    //dataClient.removeUserFromAuthorizedUserChannel(castedPackage.channelID, castedPackage.userToBan, castedPackage.endDate, castedPackage.isPermanent, castedPackage.explanation);
+                    dataClient.removeUserFromAuthorizedUserChannel(castedPackage.userToBan, castedPackage.channelID);
+                    dataClient.banUserIntoHistory(castedPackage.userToBan, castedPackage.endDate,
+                            castedPackage.isPermanent, castedPackage.explanation, castedPackage.channelID);
                 }
                 else {
                     logger.log(Level.SEVERE, "ChatMessage: BAN_USER contient mauvais BanUserPackage");

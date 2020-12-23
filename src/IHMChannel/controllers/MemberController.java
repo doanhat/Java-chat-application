@@ -181,9 +181,9 @@ public class MemberController {
                         String explanation = kickPopUpController.getExplanationMessage();
                         LocalDate kickDate = kickPopUpController.getDatePick();
                         Boolean isPermanent = kickPopUpController.getIsPermanent();
-                        System.out.print("Ban de :" + userToDisplay.getNickName() + " Pour " + explanation + " jusqu'au " + kickDate + " , Ispermanent = " +isPermanent);
+                        System.out.print("Ban de :" + userToDisplay.getNickName() + " Pour " + explanation + " jusqu'au " + kickDate + " , Ispermanent = " +isPermanent + "\n");
                         // Interface à ajouter
-                        //getIhmChannelController().getInterfaceToCommunication().banUserFromChannel(userToDisplay,kickDate,isPermanent,explanation,channel.getId());
+                        getIhmChannelController().getInterfaceToCommunication().banUserFromChannel(userToDisplay,kickDate,isPermanent,explanation,channel.getId());
                         popUpWindow.close();
                     }
                 });

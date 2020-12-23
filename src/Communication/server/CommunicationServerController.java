@@ -434,7 +434,7 @@ public class CommunicationServerController extends CommunicationController {
 				if (BanUserPackage.class.isInstance(infoPackage)) {
 					BanUserPackage castedPackage = BanUserPackage.class.cast(infoPackage);
 					// TODO INTEGRATION V4: Update interface of Data after request of IHM Channel
-					// dataServer.banUserFromChannel(channel, castedPackage.userToBan, castedPackage.endDate, castedPackage.isPermanent, castedPackage.explanation);
+					dataServer.banUserFromChannel(castedPackage.userToBan , castedPackage.endDate, castedPackage.isPermanent, castedPackage.explanation, channel.getId());
 				}
 				else {
 					logger.log(Level.SEVERE, "ChatMessage: BAN_USER contient mauvais BanUserPackage");

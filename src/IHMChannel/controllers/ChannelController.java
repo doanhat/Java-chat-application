@@ -176,8 +176,15 @@ public class ChannelController {
         currentChannel.addAuthorizedUser(user);
         channelMembersDisplay.getController().setCurrentChannel(currentChannel);
     }
+
+    /**
+     * Appelé pour enlever un utilisateur de la liste globale lorsqu'il est ban.
+     * @param user UserLite
+     * @throws IOException
+     */
     public void removeUser(UserLite user) throws IOException {
         currentChannel.removeUser(user.getId());
+        currentChannel.getAuthorizedPersons().removeIf(person ->(person.getId().equals(user.getId())));
         channelMembersDisplay.getController().setCurrentChannel(currentChannel);
     }
 
@@ -397,18 +404,22 @@ public class ChannelController {
         KickedMembersListPopUpController kickedMembersListPopUpController = fxmlLoader.getController();
 
         // DATA TEST en attendant integration.
-        Kick kick1 = new Kick(new UserLite(UUID.randomUUID(),"userK1",null),null,null,null);
-        Kick kick2 = new Kick(new UserLite(UUID.randomUUID(),"userK2",null),null,null,null);
-        Kick kick3 = new Kick(new UserLite(UUID.randomUUID(),"userK3",null),null,null,null);
-        List<Kick> dataTest = FXCollections.observableArrayList();
-        dataTest.add(kick1);
-        dataTest.add(kick2);
-        dataTest.add(kick3);
-        currentChannel.setKicked(dataTest);
+//        Kick kick1 = new Kick(new UserLite(UUID.randomUUID(),"userK1",null),null,null,null);
+//        Kick kick2 = new Kick(new UserLite(UUID.randomUUID(),"userK2",null),null,null,null);
+//        Kick kick3 = new Kick(new UserLite(UUID.randomUUID(),"userK3",null),null,null,null);
+//        List<Kick> dataTest = FXCollections.observableArrayList();
+//        dataTest.add(kick1);
+//        dataTest.add(kick2);
+//        dataTest.add(kick3);
+        //currentChannel.setKicked(dataTest);
         //kickedMembersListPopUpController.setKickedMembers((ObservableList<Kick>) dataTest);
 
         // A remettre pour l'integration => Remplace les dataTests
-        kickedMembersListPopUpController.setKickedMembers((ObservableList<Kick>) currentChannel.getKicked());
+        ObservableList<Kick> kickedObservableList = FXCollections.observableArrayList();
+        for(Kick k : currentChannel.getKicked()){
+            kickedObservableList.add(k);
+        }
+        kickedMembersListPopUpController.setKickedMembers(kickedObservableList);
 
         Stage popUpWindow = new Stage();
         popUpWindow.initModality(Modality.APPLICATION_MODAL);

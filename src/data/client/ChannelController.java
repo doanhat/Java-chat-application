@@ -290,12 +290,12 @@ public class ChannelController extends Controller{
         List<Kick> kicked = ownedChannel.getKicked();
         if (ownedChannel!=null) {
             kicked.removeIf(k -> k.getUser().getId().equals(user.getId()));
-            if (!isPermanent){
-                kicked.add(new Kick(user,channelId,explanation,end));
+            if (!isPermanent) {
+                kicked.add(new Kick(user, channelId, explanation, end));
             } else {
-                kicked.add(new Kick(user,channelId,explanation,true));
+                kicked.add(new Kick(user, channelId, explanation, true));
             }
-            fileHandler.writeJSONToFile(ownedChannel.getId().toString(),ownedChannel);
+            fileHandler.writeJSONToFile(ownedChannel.getId().toString(), ownedChannel);
         }
     }
 

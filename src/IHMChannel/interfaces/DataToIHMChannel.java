@@ -2,12 +2,15 @@ package IHMChannel.interfaces;
 
 import IHMChannel.IHMChannelController;
 import IHMChannel.controllers.ChannelController;
-import com.sun.istack.internal.NotNull;
 import common.IHMTools.IHMTools;
 import common.interfaces.client.IDataToIHMChannel;
 import common.shared_data.*;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 public class DataToIHMChannel implements IDataToIHMChannel{
@@ -73,10 +76,16 @@ public class DataToIHMChannel implements IDataToIHMChannel{
     //TODO Intégration décommenter en mettant le bon constructeur ou en remplacement les attributs de la méthode par
     // un seul "Kick"
     @Override
-    public void userBanNotification(UserLite user, UUID channelId, int duration, String explanation) {
+    public void userBanNotification(UserLite user, UUID channelId, LocalDate duration, String explanation) {
         if (user!=null){
             controller.getInterfaceForCommunication().removeConnectedUser(channelId, user);
-            //controller.getChannelPageController().getChannelController(channelId).getCurrentChannel().getKicked().add(new Kick(user, channelId, explanation, duration))
+            ZoneId defaultZoneId = ZoneId.systemDefault();
+            Date end = null;
+            if(duration != null){
+                end = Date.from(duration.atStartOfDay(defaultZoneId).toInstant());
+            }
+            List<Kick> userList = controller.getChannelPageController().getChannelController(channelId).getCurrentChannel().getKicked();
+            userList.add(new Kick(user, channelId, explanation, end));
             try {
                 controller.getChannelPageController().getChannelController(channelId).removeUser(user);
             } catch (Exception e) {
@@ -124,12 +133,12 @@ public class DataToIHMChannel implements IDataToIHMChannel{
 
     /**
      * Permet de liker un message.
-     *  @param channelId channel du message
+     * @param channelId channel du message
      * @param message message liké
      * @param user    utilisateur à l'origine du like
      */
     @Override
-    public void likeMessage(UUID channelId, Message message, User user) {
+    public void likeMessage(UUID channelId, Message message, UserLite user) {
         controller.getChannelPageController().getChannelController(channelId).likeMessage(message, user);
     }
 
