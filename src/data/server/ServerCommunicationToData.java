@@ -91,9 +91,15 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
     @Override
     public void banUserFromChannel(UserLite user, LocalDate endDate, Boolean isPermanent, String explanation, UUID channelId) {
-        Date date = java.util.Date.from(endDate.atStartOfDay()
-                .atZone(ZoneId.systemDefault())
-                .toInstant());
+        Date date = null;
+
+        if (endDate != null) {
+            // NOTE if isPermanent is set to true => enddate will be bull
+             date = java.util.Date.from(endDate.atStartOfDay()
+                    .atZone(ZoneId.systemDefault())
+                    .toInstant());
+        }
+
         channelsListController.banUserFromChannel(user,channelId,date,isPermanent,explanation);
     }
 

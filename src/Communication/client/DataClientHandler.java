@@ -40,7 +40,6 @@ public class DataClientHandler {
      * @param channelIDs liste identifiant unique (UUID) des channels à supprimer
      */
     public void notifyInvisibleChannels(List<UUID> channelIDs) {
-        // TODO INTEGRATION V4: verify which method is for delete proprietary channel and which is for delete channel from visible list
         for (UUID channelID: channelIDs) {
             dataClient.removeChannelFromList(channelID, 0, "Channel supprimé");
         }
@@ -109,10 +108,8 @@ public class DataClientHandler {
             case BAN_USER:
                 if (BanUserPackage.class.isInstance(infoPackage)) {
                     BanUserPackage castedPackage = BanUserPackage.class.cast(infoPackage);
-                    // TODO INTEGRATION V4: Update interface of Data after request of IHM Channel
+
                     dataClient.removeUserFromAuthorizedUserChannel(castedPackage.userToBan, castedPackage.channelID);
-                    dataClient.banUserIntoHistory(castedPackage.userToBan, castedPackage.endDate,
-                            castedPackage.isPermanent, castedPackage.explanation, castedPackage.channelID);
                 }
                 else {
                     logger.log(Level.SEVERE, "ChatMessage: BAN_USER contient mauvais BanUserPackage");
@@ -131,7 +128,6 @@ public class DataClientHandler {
                 if (UpdateChannelPackage.class.isInstance(infoPackage)) {
                     UpdateChannelPackage castedPackage = UpdateChannelPackage.class.cast(infoPackage);
 
-                    // TODO INTEGRATION V4: call the right method in ICommunicationToData to notify channel updated
                     dataClient.updateChannel(castedPackage.channelID, castedPackage.user.getId(), castedPackage.name, castedPackage.description, castedPackage.visibility);
 
                 }
@@ -265,8 +261,8 @@ public class DataClientHandler {
             case BAN_USER:
                 if (BanUserPackage.class.isInstance(infoPackage)) {
                     BanUserPackage castedPackage = BanUserPackage.class.cast(infoPackage);
-                    // TODO INTEGRATION V4: Update interface of Data after request of IHM Channel
-                    //dataClient.banUserIntoHistory(castedPackage.channelID, castedPackage.userToBan, castedPackage.endDate, castedPackage.isPermanent, castedPackage.explanation);
+                    dataClient.banUserIntoHistory(castedPackage.userToBan, castedPackage.endDate,
+                            castedPackage.isPermanent, castedPackage.explanation, castedPackage.channelID);
                 }
                 else {
                     logger.log(Level.SEVERE, "ChatMessage: BAN_USER contient mauvais BanUserPackage");
@@ -285,16 +281,7 @@ public class DataClientHandler {
                 if (UpdateChannelPackage.class.isInstance(infoPackage)) {
                     UpdateChannelPackage castedPackage = UpdateChannelPackage.class.cast(infoPackage);
 
-                    // TODO INTEGRATION V4: call the right method in ICommunicationToData to update proprietary channel
-                    dataClient.updateChannel(castedPackage.channelID, castedPackage.user.getId(), castedPackage.name, castedPackage.description, castedPackage.visibility);
-
-                    /**
-                     * TODO: Remarque INTEG, jsp a quoi sert cette methode, elle est meme pas declaree, et je ne vois pas pq on
-                     * parle de channel proprietaire, on ne change
-                     * pas le type mais juste la visibilite
-                      */
-
-                    //dataClient.updateChannelIntoHistory(castedPackage.channelID, castedPackage.user.getId(), castedPackage.name, castedPackage.description, castedPackage.visibility);
+                    dataClient.updateChannelIntoHistory(castedPackage.channelID, castedPackage.user.getId(), castedPackage.name, castedPackage.description, castedPackage.visibility);
                 }
                 else {
                     logger.log(Level.SEVERE, "ChatMessage: UPDATE_CHANNEL contient mauvais UpdateChannelPackage");
