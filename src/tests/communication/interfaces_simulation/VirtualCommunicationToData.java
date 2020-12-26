@@ -18,27 +18,6 @@ public class VirtualCommunicationToData implements ICommunicationToData {
         this.channels = channels;
     }
 
-    /*@Override
-    public void createChannel(Channel channel) { //TO-DO : Remplacer l'UUID par l'objet Channel
-        System.err.println("New visible channel " + channel.getId());
-
-        *//*Channel newChannel = new Channel("channel", localUser, "test", Visibility.PUBLIC,ChannelType.SHARED);
-        newChannel.setId(channelId);*//*
-
-        channels.put(channel.getId(), channel);
-    }*/
-
-    @Override
-    public void userAddedToChannel(UserLite user, UUID channelId) {
-        System.err.println("Join channel " + channelId + "successfully");
-
-        Channel channel = channels.get(channelId);
-
-        if (channel != null) {
-            channel.addJoinedUser(user);
-        }
-    }
-
     @Override
     public void saveNewAdminIntoHistory(UserLite user, UUID channelId) {
 

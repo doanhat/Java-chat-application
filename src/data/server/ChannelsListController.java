@@ -1,20 +1,27 @@
 package data.server;
 
+import Communication.common.Parameters;
+import Communication.messages.client_to_server.connection.ClientPulseMessage;
+import Communication.messages.client_to_server.connection.UserConnectionMessage;
+import common.interfaces.server.IServerDataToCommunication;
 import data.resource_handle.FileHandle;
 import data.resource_handle.FileType;
 import data.resource_handle.LocationType;
 import common.shared_data.*;
 
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.*;
+import java.util.logging.Level;
 
 public class ChannelsListController {
     private List<Channel> sharedChannels;
     private List<Channel> ownedChannels;
     private FileHandle fileHandle;
+    private Timer timer;
+    private IServerDataToCommunication commIface;
 
     public ChannelsListController() {
         this.fileHandle = new FileHandle<Channel>(LocationType.SERVER, FileType.CHANNEL);
@@ -30,8 +37,34 @@ public class ChannelsListController {
         return list;
     }
 
-    public List<Channel> searchChannelByName(String nom) {
-        return null;
+    public void setIServerDataToCommunication(IServerDataToCommunication commIface) {
+        this.commIface = commIface;
+
+        // NOTE: refreshKicks utilise commIface, donc on initialise le timer ici afin d'éviter null référence de commIface
+        if (this.timer != null) {
+            this.timer.cancel();
+            this.timer.purge();
+        }
+
+        // interval de rafraîchir de 30s pour enlever le ban qui se dépasse le endDate
+        this.timer = new Timer();
+
+        this.timer.schedule(new TimerTask(){
+            @Override
+            public void run() {
+                Date currentDate = java.util.Date.from(LocalDate.now().atStartOfDay()
+                        .atZone(ZoneId.systemDefault())
+                        .toInstant());
+
+                for (Channel channel: sharedChannels) {
+                    refreshKicks(channel, currentDate);
+                }
+
+                for (Channel channel: ownedChannels) {
+                    refreshKicks(channel, currentDate);
+                }
+            }
+        }, 30000, 30000);
     }
 
     public Channel searchChannelById(UUID id) {
@@ -307,5 +340,20 @@ public class ChannelsListController {
         }
 
         // TODO INTEGRATION V4: Remarque à Data: faire la gestion des bans temporaires (un polling pour enlever le ban après la dépasse de délai défini par endBan)
+    }
+
+    private void refreshKicks(Channel channel, Date currentDate) {
+        List<Kick> kicks = channel.getKicked();
+
+        for (Kick kick: kicks) {
+            if (!kick.isPermanentKick() && currentDate.after(kick.getEndKick())) {
+                kicks.remove(kick);
+                channel.addAuthorizedUser(kick.getUser());
+
+                commIface.informUsersBanRemoved(channel, kick.getUser());
+
+                writeChannelDataToJSON(channel);
+            }
+        }
     }
 }

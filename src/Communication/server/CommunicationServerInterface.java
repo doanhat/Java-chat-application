@@ -2,6 +2,8 @@ package Communication.server;
 
 import Communication.common.Parameters;
 import common.interfaces.server.IServerDataToCommunication;
+import common.shared_data.Channel;
+import common.shared_data.UserLite;
 
 public class CommunicationServerInterface implements IServerDataToCommunication {
 
@@ -22,6 +24,16 @@ public class CommunicationServerInterface implements IServerDataToCommunication 
     }
 
     @Override
+    public String getIP() {
+        return Parameters.SERVER_IP;
+    }
+
+    @Override
+    public int getPort() {
+        return Parameters.PORT;
+    }
+
+    @Override
     public void start() {
         commController.start();
     }
@@ -29,5 +41,10 @@ public class CommunicationServerInterface implements IServerDataToCommunication 
     @Override
     public void stop() {
         commController.stop();
+    }
+
+    @Override
+    public void informUsersBanRemoved(Channel channel, UserLite bannedUser) {
+
     }
 }
