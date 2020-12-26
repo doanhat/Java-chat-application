@@ -41,7 +41,7 @@ public class ChannelsListController {
             this.timer.purge();
         }
 
-        // interval de rafraîchir de 30s pour enlever le ban qui se dépasse le endDate
+        // interval de rafraîchir à chaque jour pour enlever le ban qui se dépasse le endDate
         this.timer = new Timer();
 
         this.timer.schedule(new TimerTask(){
@@ -59,7 +59,7 @@ public class ChannelsListController {
                     refreshKicks(channel, currentDate);
                 }
             }
-        }, 30000, 30000);
+        }, 1000L, 1000L * 60L * 60L * 24L);
     }
 
     public Channel searchChannelById(UUID id) {

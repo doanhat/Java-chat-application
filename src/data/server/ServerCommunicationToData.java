@@ -101,7 +101,7 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
         Date date = null;
 
         if (endDate != null) {
-            // NOTE if isPermanent is set to true => enddate will be bull
+            // NOTE if isPermanent is set to true => enddate will be null
              date = java.util.Date.from(endDate.atStartOfDay()
                     .atZone(ZoneId.systemDefault())
                     .toInstant());
