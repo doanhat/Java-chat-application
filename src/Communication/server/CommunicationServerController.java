@@ -438,6 +438,7 @@ public class CommunicationServerController extends CommunicationController {
 					dataServer.banUserFromChannel(castedPackage.userToBan, castedPackage.endDate,
 							castedPackage.isPermanent, castedPackage.explanation, channel.getId());
 
+					// Force banned user to quit channel
 					quitChannel(channel, castedPackage.userToBan);
 				}
 				else {
@@ -449,6 +450,8 @@ public class CommunicationServerController extends CommunicationController {
 				if (BanUserPackage.class.isInstance(infoPackage)) {
 					BanUserPackage castedPackage = BanUserPackage.class.cast(infoPackage);
 					dataServer.cancelUsersBanFromChannel(channel, castedPackage.userToBan);
+
+					requestInviteUserToChannel(channel, castedPackage.userToBan);
 				}
 				else {
 					logger.log(Level.SEVERE, "ChatMessage: UNBAN_USER contient mauvais BanUserPackage");

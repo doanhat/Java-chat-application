@@ -98,10 +98,16 @@ public class DataToIHMChannel implements IDataToIHMChannel{
     /**
      * Notifie d'un retour d'un utilisateur précédemment kické.
      *  @param user    user revenu sur le channel
-     * @param channel channel sur lequel user est revenu*/
+     * @param channelId id du channel sur lequel user est revenu*/
     @Override
-    public void userBanCancelledNotification(UserLite user, Channel channel) {
-        throw new UnsupportedOperationException("Not implemented yet");
+    public void userBanCancelledNotification(UserLite user, UUID channelId) {
+        if (user!=null){
+            List<Kick> userList = controller.getChannelPageController().getChannelController(channelId).getCurrentChannel().getKicked();
+            userList.removeIf(k -> k.getUser().getId().equals(user.getId()));
+            //ch.addAuthorizedUser(user);
+        }
+
+        // throw new UnsupportedOperationException("Not implemented yet");
     }
 
     /**

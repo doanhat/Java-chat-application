@@ -43,9 +43,9 @@ public interface IDataToIHMChannel {
     /**
      * Notifie d'un retour d'un utilisateur précédemment kické.
      * @param user user revenu sur le channel
-     * @param channel channel sur lequel user est revenu
+     * @param channelId id du channel sur lequel user est revenu
      */
-    void userBanCancelledNotification(UserLite user, Channel channel);
+    void userBanCancelledNotification(UserLite user, UUID channelId);
 
     /**
      * Permet la réception d'un message sur un channel.
