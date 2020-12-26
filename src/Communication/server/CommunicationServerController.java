@@ -435,8 +435,10 @@ public class CommunicationServerController extends CommunicationController {
 			case BAN_USER:
 				if (BanUserPackage.class.isInstance(infoPackage)) {
 					BanUserPackage castedPackage = BanUserPackage.class.cast(infoPackage);
-					dataServer.banUserFromChannel(castedPackage.userToBan , castedPackage.endDate,
+					dataServer.banUserFromChannel(castedPackage.userToBan, castedPackage.endDate,
 							castedPackage.isPermanent, castedPackage.explanation, channel.getId());
+
+					quitChannel(channel, castedPackage.userToBan);
 				}
 				else {
 					logger.log(Level.SEVERE, "ChatMessage: BAN_USER contient mauvais BanUserPackage");
