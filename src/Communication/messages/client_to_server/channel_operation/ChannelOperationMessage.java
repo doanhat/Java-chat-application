@@ -33,7 +33,7 @@ public class ChannelOperationMessage extends ClientToServerMessage {
             commController.sendMessage(channel.getCreator().getId(), new InformOwnerChannelOperationMessage(operation, infoPackage));
         }
         else {
-            commController.handleChat(operation, infoPackage);
+            commController.handleChannelOperation(operation, infoPackage);
         }
     }
 }

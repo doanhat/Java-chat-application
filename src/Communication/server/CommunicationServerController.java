@@ -270,14 +270,14 @@ public class CommunicationServerController extends CommunicationController {
 	 * @param user utilisateur qui demande a rejoindre
 	 */
 	public void requestJoinChannel(Channel channel, UserLite user){
-		dataServer.joinChannel(channel.getId(), user);
+		if (dataServer.joinChannel(channel.getId(), user)) {
+			// send Acceptation back to sender
+			sendMessage(user.getId(),
+					new SendHistoryMessage(channel, channelConnectedUsers(channel)));
 
-		// send Acceptation back to sender
-		sendMessage(user.getId(),
-				new SendHistoryMessage(channel, channelConnectedUsers(channel)));
-
-		// Notifie les utilisateurs connectes au channel qu'un nouveau utilisateur les rejoins
-		sendMulticast(channel.getJoinedPersons(), new NewUserJoinChannelMessage(user, channel.getId()), user);
+			// Notifie les utilisateurs connectes au channel qu'un nouveau utilisateur les rejoins
+			sendMulticast(channel.getJoinedPersons(), new NewUserJoinChannelMessage(user, channel.getId()), user);
+		}
 	}
 
 	/**
@@ -342,13 +342,13 @@ public class CommunicationServerController extends CommunicationController {
 	 * @param channel channel
 	 */
 	public void requestInviteUserToChannel(Channel channel, UserLite guest) {
-		dataServer.requestAddUser(channel, guest);
+		if (dataServer.requestAddUser(channel, guest)) {
+			// send Invitation to guest
+			sendMessage(guest.getId(), new NewVisibleChannelMessage(channel));
 
-		// send Invitation to guest
-		sendMessage(guest.getId(), new NewVisibleChannelMessage(channel));
-
-		// Notifie les utilisateurs connectes au channel qu'un nouveau utilisateur à été authorisé
-		sendMulticast(channel.getJoinedPersons(), new NewUserAuthorizeChannelMessage(guest, channel.getId()));
+			// Notifie les utilisateurs connectes au channel qu'un nouveau utilisateur à été authorisé
+			sendMulticast(channel.getJoinedPersons(), new NewUserAuthorizeChannelMessage(guest, channel.getId()));
+		}
 	}
 
 	public List<UserLite> channelConnectedUsers(Channel channel) {
@@ -365,24 +365,26 @@ public class CommunicationServerController extends CommunicationController {
 		return activeUsers;
 	}
 
-	public void requestUpdateChannel(UUID channelID, UUID userID, String name, String description, Visibility visibility) {
-		dataServer.updateChannel(channelID, userID, name, description, visibility);
-	}
-
-
 	/* ----------------------------------------- Chat action handling ------------------------------------------------*/
 
 
-	public void handleChat(ChannelOperation operation, InfoPackage infoPackage) {
+	public void handleChannelOperation(ChannelOperation operation, InfoPackage infoPackage) {
 		Channel channel = getChannel(infoPackage.channelID);
 
 		logger.log(Level.INFO, "Chat action: " + operation + " on channel " + infoPackage.channelID);
+
+		if (!dataServer.checkAuthorization(channel, infoPackage.user)) {
+			logger.log(Level.WARNING, "Chat action: User n'est pas autorisé");
+
+			return;
+		}
 
 		// Tell data server to save message for both shared and proprietary channels, in order to update active Channel on server
 		switch (operation) {
 			case SEND_MESSAGE:
 				if (ChatPackage.class.isInstance(infoPackage)) {
 					ChatPackage castedPackage = ChatPackage.class.cast(infoPackage);
+
 					dataServer.saveMessageIntoHistory(channel, castedPackage.message, castedPackage.messageResponseTo);
 				}
 				else {
@@ -433,8 +435,8 @@ public class CommunicationServerController extends CommunicationController {
 			case BAN_USER:
 				if (BanUserPackage.class.isInstance(infoPackage)) {
 					BanUserPackage castedPackage = BanUserPackage.class.cast(infoPackage);
-					// TODO INTEGRATION V4: Update interface of Data after request of IHM Channel
-					dataServer.banUserFromChannel(castedPackage.userToBan , castedPackage.endDate, castedPackage.isPermanent, castedPackage.explanation, channel.getId());
+					dataServer.banUserFromChannel(castedPackage.userToBan , castedPackage.endDate,
+							castedPackage.isPermanent, castedPackage.explanation, channel.getId());
 				}
 				else {
 					logger.log(Level.SEVERE, "ChatMessage: BAN_USER contient mauvais BanUserPackage");
@@ -455,8 +457,6 @@ public class CommunicationServerController extends CommunicationController {
 					UpdateChannelPackage castedPackage = UpdateChannelPackage.class.cast(infoPackage);
 
 					Visibility oldVisibility = channel.getVisibility();
-
-
 
 					dataServer.updateChannel(castedPackage.channelID, castedPackage.user.getId(), castedPackage.name, castedPackage.description, castedPackage.visibility);
 

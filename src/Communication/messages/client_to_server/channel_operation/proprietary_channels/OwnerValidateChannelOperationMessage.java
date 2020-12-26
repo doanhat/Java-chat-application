@@ -18,6 +18,6 @@ public class OwnerValidateChannelOperationMessage extends ClientToServerMessage 
 
     @Override
     protected void handle(CommunicationServerController commController) {
-        commController.handleChat(operation, infoPackage);
+        commController.handleChannelOperation(operation, infoPackage);
     }
 }
