@@ -11,21 +11,6 @@ import java.util.UUID;
  * The interface Communication to data.
  */
 public interface ICommunicationToData {
-    /**
-     * Add visible channel.
-     *
-     * @param channel the channel
-     */
-    //void createChannel(Channel channel);
-
-    // TODO INTEGRATION V3: remove unused method, cet méthode est appelelé chez Channel, pas Data
-    /**
-     * User added to channel.
-     *
-     * @param user    the user
-     * @param channelId the channel
-     */
-    void userAddedToChannel(UserLite user, UUID channelId);
 
     /**
      * Save new admin into history.

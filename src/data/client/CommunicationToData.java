@@ -19,27 +19,6 @@ public class CommunicationToData implements ICommunicationToData {
     }
 
     /**
-     * Add visible channel.
-     *
-     * @param channel the channel
-     */
-    /*@Override
-    public void createChannel(Channel channel) {
-        dataController.getChannelController().mainClient.addChannelToList(channel);
-    }*/
-
-    /**
-     * User added to channel.
-     *
-     * @param user      the user
-     * @param channelId the channel
-     */
-    @Override
-    public void userAddedToChannel(UserLite user, UUID channelId) {
-        dataController.getChannelController().userAddedToChannel(user, channelId);
-    }
-
-    /**
      * Save new admin into history.
      *
      * @param user      the user
