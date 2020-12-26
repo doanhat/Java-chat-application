@@ -20,6 +20,7 @@ import common.interfaces.client.*;
 import common.shared_data.*;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 
 public class CommunicationClientInterface implements IDataToCommunication,

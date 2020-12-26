@@ -9,6 +9,8 @@ import common.interfaces.client.IDataToIHMMain;
 import common.shared_data.*;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,14 +25,27 @@ public class ChannelController extends Controller{
     public List<Channel> getChannelList() {
         return channelList;
     }
-    public Channel getLocalChannel() { return localChannel; }
 
-    public void setChannelList(List<Channel> channelList) {
-        this.channelList = channelList;
-    }
     public ChannelController(IDataToCommunication comClient, IDataToIHMChannel channelClient, IDataToIHMMain mainClient) {
         super(comClient, channelClient, mainClient);
         channelList = fileHandler.readAllJSONFilesToList(Channel.class);
+
+        // Control ban list after reload
+        Date currentDate = java.util.Date.from(LocalDate.now().atStartOfDay()
+                .atZone(ZoneId.systemDefault())
+                .toInstant());
+
+        for (Channel channel: channelList) {
+            List<Kick> kicks = channel.getKicked();
+
+            for (Kick kick: kicks) {
+                if (!kick.isPermanentKick() && currentDate.after(kick.getEndKick())) {
+                    kicks.remove(kick);
+                    channel.addAuthorizedUser(kick.getUser());
+                    fileHandler.writeJSONToFile(channel.getId().toString(),channel);
+                }
+            }
+        }
     }
 
     public Channel searchChannelById(UUID id) {
@@ -40,8 +55,6 @@ public class ChannelController extends Controller{
         }
         return null;
     }
-
-
 
     /**
      * Load proprietary local channels own to a specific user
