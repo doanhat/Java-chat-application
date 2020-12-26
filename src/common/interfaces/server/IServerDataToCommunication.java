@@ -17,5 +17,5 @@ public interface IServerDataToCommunication {
 
     void stop();
 
-    void informUsersBanRemoved(Channel channel, UserLite bannedUser);
+    void unbanUser(Channel channel, UserLite bannedUser);
 }

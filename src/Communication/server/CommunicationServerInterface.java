@@ -49,7 +49,7 @@ public class CommunicationServerInterface implements IServerDataToCommunication 
     }
 
     @Override
-    public void informUsersBanRemoved(Channel channel, UserLite unbannedUser) {
+    public void unbanUser(Channel channel, UserLite unbannedUser) {
         if (channel == null || unbannedUser == null) {
             return;
         }

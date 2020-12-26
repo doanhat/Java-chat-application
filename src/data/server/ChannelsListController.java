@@ -1,8 +1,5 @@
 package data.server;
 
-import Communication.common.Parameters;
-import Communication.messages.client_to_server.connection.ClientPulseMessage;
-import Communication.messages.client_to_server.connection.UserConnectionMessage;
 import common.interfaces.server.IServerDataToCommunication;
 import data.resource_handle.FileHandle;
 import data.resource_handle.FileType;
@@ -11,10 +8,8 @@ import common.shared_data.*;
 
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
-import java.util.logging.Level;
 
 public class ChannelsListController {
     private List<Channel> sharedChannels;
@@ -346,7 +341,7 @@ public class ChannelsListController {
         for (Kick kick: kicks) {
             if (!kick.isPermanentKick() && currentDate.after(kick.getEndKick())) {
                 // Init unban sequence by simulate an UNBAN message
-                commIface.informUsersBanRemoved(channel, kick.getUser());
+                commIface.unbanUser(channel, kick.getUser());
             }
         }
     }
