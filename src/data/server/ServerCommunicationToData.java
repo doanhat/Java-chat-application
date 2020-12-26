@@ -63,11 +63,15 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
 
     @Override
-    public void requestAddUser(Channel ch, UserLite user) {
+    public boolean requestAddUser(Channel ch, UserLite user) {
         Channel channel = channelsListController.searchChannelById(ch.getId());
-        if(channel!=null){
+        if(channel != null && !channel.userIsBanned(user.getId())) {
             channel.addAuthorizedUser(user);
+
+            return true;
         }
+
+        return false;
     }
 
     @Override
@@ -86,7 +90,10 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     @Override
     public void saveNewAdminIntoHistory(Channel ch, UserLite user) {
         Channel channel = this.channelsListController.searchChannelById(ch.getId());
-        this.channelsListController.writeNewAdminInChannel(channel, user);
+
+        if (channel != null) {
+            this.channelsListController.writeNewAdminInChannel(channel, user);
+        }
     }
 
     @Override
@@ -104,7 +111,7 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     }
 
     @Override
-    public void  cancelUsersBanFromChannel(Channel ch, UserLite user) {
+    public void cancelUsersBanFromChannel(Channel ch, UserLite user) {
         List<Kick> kicked = ch.getKicked();
         kicked.removeIf(k -> k.getUser().getId().equals(user.getId()));
         ch.addAuthorizedUser(user);
@@ -158,55 +165,21 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
         for (Channel channel: sharedChannels) {
             if ((channel.getVisibility() == Visibility.PUBLIC) || (channel.userIsAuthorized(user.getId()))) {
-                visibleChannels.add(channel);
+                if (!channel.userIsBanned(user.getId())) {
+                    visibleChannels.add(channel);
+                }
             }
         }
 
         for (Channel channel: ownedChannels) {
             if ((channel.getVisibility() == Visibility.PUBLIC) || (channel.userIsAuthorized(user.getId()))) {
-                visibleChannels.add(channel);
+                if (!channel.userIsBanned(user.getId())) {
+                    visibleChannels.add(channel);
+                }
             }
         }
 
         return visibleChannels;
-    }
-
-    @Override
-    public Channel createPublicSharedChannel(String name, UserLite creator, String description) {
-        Visibility channelVisibility = Visibility.PUBLIC;
-        ChannelType type = ChannelType.SHARED;
-        Channel sChannel = new Channel(name,creator,description,channelVisibility,type);
-        channelsListController.writeChannelDataToJSON(sChannel);
-        channelsListController.addChannel(sChannel);
-        return sChannel;
-    }
-
-    @Override
-    public Channel createPrivateOwnedChannel(String name, UserLite creator, String description) {
-        Visibility channelVisibility = Visibility.PRIVATE;
-        ChannelType type = ChannelType.OWNED;
-        Channel oChannel = new Channel(name,creator,description,channelVisibility,type);
-        channelsListController.addChannel(oChannel);
-        return oChannel;
-    }
-
-    @Override
-    public Channel createPublicOwnedChannel(String name, UserLite creator, String description) {
-        Visibility channelVisibility = Visibility.PUBLIC;
-        ChannelType type = ChannelType.OWNED;
-        Channel oChannel = new Channel(name,creator,description,channelVisibility,type);
-        channelsListController.addChannel(oChannel);
-        return oChannel;
-    }
-
-    @Override
-    public Channel createPrivateSharedChannel(String name, UserLite creator, String description) {
-        Visibility channelVisibility = Visibility.PRIVATE;
-        ChannelType type = ChannelType.SHARED;
-        Channel sChannel= new Channel(name,creator,description,channelVisibility,type);
-        channelsListController.writeChannelDataToJSON(sChannel);
-        channelsListController.addChannel(sChannel);
-        return sChannel;
     }
 
     @Override
@@ -235,22 +208,21 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     }
 
     @Override
-    public void sendChannelInvitation(UserLite sender, UserLite receiver, String message) {
-        throw new UnsupportedOperationException("Unimplemented method sendChannelInvitation.");
-    }
-
-    @Override
     public List<Message> getChannelMessages(UUID channelID) {
         return channelsListController.getChannelMessages(channelID);
     }
 
     @Override
-    public void joinChannel(UUID ch, UserLite user) {
+    public boolean joinChannel(UUID ch, UserLite user) {
         Channel channel = channelsListController.searchChannelById(ch);
-        if(channel!=null){
+        if(channel!=null && !channel.userIsBanned(user.getId())){
             channel.addJoinedUser(user);
             channel.addAuthorizedUser(user);
+
+            return true;
         }
+
+        return false;
     }
 
     @Override
@@ -267,13 +239,16 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     }
 
     @Override
-    public Object getUserAddress(UserLite user) {
-        return null;
-    }
-
-    @Override
     public Boolean checkAuthorization(Channel ch, UserLite user) {
-        return null;
+        if (ch.userIsBanned(user.getId())) {
+            return false;
+        }
+
+        if (ch.getVisibility() == Visibility.PRIVATE && !ch.userIsAuthorized(user.getId())) {
+            return false;
+        }
+
+        return true;
     }
 
     @Override

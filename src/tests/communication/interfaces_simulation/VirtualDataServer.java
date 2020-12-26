@@ -64,17 +64,19 @@ public class VirtualDataServer implements IServerCommunicationToData {
     }
 
     @Override
-    public void requestAddUser(Channel channel, UserLite user) {
+    public boolean requestAddUser(Channel channel, UserLite user) {
         Channel correctChannel = channels.get(channel.getId());
 
         if (correctChannel == null)
         {
             System.err.println("Cannot find channel");
-            return;
+            return false;
         }
 
         correctChannel.addJoinedUser(user);
         mapUserChannels.get(user).add(channel.getId());
+
+        return true;
     }
 
     @Override
@@ -152,26 +154,6 @@ public class VirtualDataServer implements IServerCommunicationToData {
     }
 
     @Override
-    public Channel createPublicSharedChannel(String name, UserLite creator, String description) {
-        return null;
-    }
-
-    @Override
-    public Channel createPrivateOwnedChannel(String name, UserLite creator, String description) {
-        return null;
-    }
-
-    @Override
-    public Channel createPublicOwnedChannel(String name, UserLite creator, String description) {
-        return null;
-    }
-
-    @Override
-    public Channel createPrivateSharedChannel(String name, UserLite creator, String description) {
-        return null;
-    }
-
-    @Override
     public void disconnectUser(UUID userID) {
         for (UserLite usr: users) {
             if (usr.getId().equals(userID)) {
@@ -197,11 +179,6 @@ public class VirtualDataServer implements IServerCommunicationToData {
     }
 
     @Override
-    public void sendChannelInvitation(UserLite sender, UserLite receiver, String message) {
-
-    }
-
-    @Override
     public List<Message> getChannelMessages(UUID channelID) {
         Channel channel = channels.get(channelID);
 
@@ -213,16 +190,19 @@ public class VirtualDataServer implements IServerCommunicationToData {
     }
 
     @Override
-    public void joinChannel(UUID channel, UserLite user) {
+    public boolean joinChannel(UUID channel, UserLite user) {
         Channel correctChannel = channels.get(channel);
 
         if (correctChannel == null)
         {
             System.err.println("Cannot find channel");
+
+            return false;
         }
 
         correctChannel.addJoinedUser(user);
 
+        return true;
     }
 
     @Override
@@ -236,11 +216,6 @@ public class VirtualDataServer implements IServerCommunicationToData {
         }
 
         correctChannel.kickUser(user, "No reason", null);
-    }
-
-    @Override
-    public Object getUserAddress(UserLite user) {
-        return null;
     }
 
     @Override

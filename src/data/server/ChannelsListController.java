@@ -285,6 +285,7 @@ public class ChannelsListController {
 
     public void banUserFromChannel(UserLite user, UUID channelId, Date date, Boolean isPermanent, String explanation) {
         Channel channel = searchChannelById(channelId);
+
         if(channel!=null && channel.getType().equals(ChannelType.SHARED)) {
             List<Kick> kicked = channel.getKicked();
             kicked.removeIf(k -> k.getUser().getId().equals(user.getId()));
@@ -293,7 +294,18 @@ public class ChannelsListController {
             } else {
                 kicked.add(new Kick(user,channelId,explanation,true));
             }
+
+            channel.removeUserAuthorization(user.getId());
+            channel.removeUser(user.getId());
+
+            if (channel.userIsAdmin(user.getId())) {
+                // Note remove admin if admin is banned
+                channel.removeAdmin(user.getId());
+            }
+
             writeChannelDataToJSON(channel);
         }
+
+        // TODO INTEGRATION V4: Remarque à Data: faire la gestion des bans temporaires (un polling pour enlever le ban après la dépasse de délai défini par endBan)
     }
 }

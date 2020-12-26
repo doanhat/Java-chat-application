@@ -268,6 +268,14 @@ public class Channel implements Serializable {
 		return false;
 	}
 
+	public boolean userIsBanned(UUID userID){
+		for (Kick kick : kicked) {
+			if(kick.getUser().getId().equals(userID))
+				return true;
+		}
+		return false;
+	}
+
 	public void removeUser(UUID idUser){
 		this.joinedPersons.removeIf(person ->(person.getId().equals(idUser)));
 	}
