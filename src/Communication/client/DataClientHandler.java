@@ -109,7 +109,8 @@ public class DataClientHandler {
                 if (BanUserPackage.class.isInstance(infoPackage)) {
                     BanUserPackage castedPackage = BanUserPackage.class.cast(infoPackage);
 
-                    dataClient.removeUserFromAuthorizedUserChannel(castedPackage.userToBan, castedPackage.channelID);
+                    dataClient.banUser(castedPackage.userToBan, castedPackage.endDate,
+                            castedPackage.isPermanent, castedPackage.explanation, castedPackage.channelID);
                 }
                 else {
                     logger.log(Level.SEVERE, "ChatMessage: BAN_USER contient mauvais BanUserPackage");

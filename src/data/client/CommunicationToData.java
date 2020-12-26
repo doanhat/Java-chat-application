@@ -75,12 +75,15 @@ public class CommunicationToData implements ICommunicationToData {
 
     @Override
     public void banUserIntoHistory(UserLite user, LocalDate endDate, Boolean isPermanent, String explanation, UUID channelId) {
-        Date date = java.util.Date.from(endDate.atStartOfDay()
-                .atZone(ZoneId.systemDefault())
-                .toInstant());
-        dataController.getChannelController().banUserIntoHistory(user,channelId,date,isPermanent,explanation);
+        Date date = null;
 
-        Platform.runLater(() -> dataController.getChannelController().getChannelClient().userBanNotification(user,channelId, endDate, explanation));
+        if (endDate != null) {
+            date = java.util.Date.from(endDate.atStartOfDay()
+                    .atZone(ZoneId.systemDefault())
+                    .toInstant());
+        }
+
+        dataController.getChannelController().banUserIntoHistory(user,channelId,date,isPermanent,explanation);
     }
 
     /**
@@ -105,8 +108,9 @@ public class CommunicationToData implements ICommunicationToData {
     }
 
     @Override
-    public void removeUserFromAuthorizedUserChannel(UserLite user, UUID channelId, int duration, String explanation) {
+    public void banUser(UserLite user, LocalDate endDate, Boolean isPermanent, String explanation, UUID channelId) {
         dataController.getChannelController().removeUserFromAuthorizedUserChannel(user,channelId);
+        Platform.runLater(() -> dataController.getChannelController().getChannelClient().userBanNotification(user,channelId, endDate, explanation));
     }
 
 
@@ -290,11 +294,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void unbannedUserToChannel(UserLite user, UUID channelId) {
-        Channel ownedChannel = dataController.getChannelController().searchChannelById(channelId);
-        if (ownedChannel != null) {
-            ownedChannel.addJoinedUser(user);
-            dataController.getUserController().unbannedUserTochannel(user, channelId);
-        }
+        dataController.getUserController().unbannedUserTochannel(user, channelId);
     }
 
     @Override

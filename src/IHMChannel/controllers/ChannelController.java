@@ -438,8 +438,7 @@ public class ChannelController {
                 });
                 if(isLocalUserAdmin.get()){
                     kickedMembersListPopUpController.getUnKickedList().forEach(userUnKicked ->{
-                        // Ajouter appel interface quand possible.
-                        //getIhmChannelController().getInterfaceToCommunication().banUserFromChannel();
+                        getIhmChannelController().getInterfaceToCommunication().cancelBanOfUserFromChannel(userUnKicked, currentChannel.getId());
                         System.out.print("unkick :" + userUnKicked.getNickName());
                     });
                 }else{

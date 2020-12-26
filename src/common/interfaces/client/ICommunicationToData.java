@@ -93,12 +93,11 @@ public interface ICommunicationToData {
     /**
      * Delete user from Authorized users list of channel after ban.
      *
-     * @param user        the user
-     * @param channelId     the channel
-     * @param duration    the duration
-     * @param explanation the explanation
+     * @param user     utilisateur
+     * @param channelId  l'id du channel
+     * @param endDate date de termination, si elle est null alors l'utilisateur est banni définitivement
      */
-    void removeUserFromAuthorizedUserChannel(UserLite user, UUID channelId, int duration, String explanation);
+    void banUser(UserLite user, LocalDate endDate, Boolean isPermanent, String explanation, UUID channelId);
 
     /**
      * Delete user from Authorized users list of channel.

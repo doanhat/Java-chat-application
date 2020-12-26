@@ -75,7 +75,7 @@ public class VirtualCommunicationToData implements ICommunicationToData {
     }
 
     @Override
-    public void removeUserFromAuthorizedUserChannel(UserLite user, UUID channelId, int duration, String explanation) {
+    public void banUser(UserLite user, LocalDate endDate, Boolean isPermanent, String explanation, UUID channelId) {
 
     }
 
