@@ -338,8 +338,6 @@ public class ChannelsListController {
 
             writeChannelDataToJSON(channel);
         }
-
-        // TODO INTEGRATION V4: Remarque à Data: faire la gestion des bans temporaires (un polling pour enlever le ban après la dépasse de délai défini par endBan)
     }
 
     private void refreshKicks(Channel channel, Date currentDate) {
@@ -347,12 +345,8 @@ public class ChannelsListController {
 
         for (Kick kick: kicks) {
             if (!kick.isPermanentKick() && currentDate.after(kick.getEndKick())) {
-                kicks.remove(kick);
-                channel.addAuthorizedUser(kick.getUser());
-
+                // Init unban sequence by simulate an UNBAN message
                 commIface.informUsersBanRemoved(channel, kick.getUser());
-
-                writeChannelDataToJSON(channel);
             }
         }
     }
