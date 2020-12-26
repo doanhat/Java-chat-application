@@ -48,7 +48,7 @@ public class HeartBeat {
                     commController.sendMessage(new ClientPulseMessage(localUser.getId()));
                 }
                 else {
-                    logger.log(Level.WARNING, "Server n'a pas répondu");
+                    logger.log(Level.WARNING, "Server n'a pas répondu, tenter à reconnecter...");
 
                     // Inform controller of disconnection
                     commController.mainHandler().notifyLostConnection();

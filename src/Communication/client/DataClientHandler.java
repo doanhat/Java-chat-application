@@ -129,8 +129,10 @@ public class DataClientHandler {
                 if (UpdateChannelPackage.class.isInstance(infoPackage)) {
                     UpdateChannelPackage castedPackage = UpdateChannelPackage.class.cast(infoPackage);
 
-                    dataClient.updateChannel(castedPackage.channelID, castedPackage.user.getId(), castedPackage.name, castedPackage.description, castedPackage.visibility);
+                    logger.log(Level.INFO, "UPDATE_CHANNEL: " + castedPackage);
 
+                    dataClient.updateChannel(castedPackage.channelID, castedPackage.user.getId(),
+                            castedPackage.name, castedPackage.description, castedPackage.visibility);
                 }
                 else {
                     logger.log(Level.SEVERE, "ChatMessage: UPDATE_CHANNEL contient mauvais UpdateChannelPackage");

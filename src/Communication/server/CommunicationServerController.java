@@ -367,7 +367,6 @@ public class CommunicationServerController extends CommunicationController {
 
 	/* ----------------------------------------- Chat action handling ------------------------------------------------*/
 
-
 	public void handleChannelOperation(ChannelOperation operation, InfoPackage infoPackage) {
 		Channel channel = getChannel(infoPackage.channelID);
 
@@ -461,29 +460,9 @@ public class CommunicationServerController extends CommunicationController {
 				if (UpdateChannelPackage.class.isInstance(infoPackage)) {
 					UpdateChannelPackage castedPackage = UpdateChannelPackage.class.cast(infoPackage);
 
-					Visibility oldVisibility = channel.getVisibility();
+					updateChannel(channel, castedPackage);
 
-					dataServer.updateChannel(castedPackage.channelID, castedPackage.user.getId(), castedPackage.name, castedPackage.description, castedPackage.visibility);
-
-					// TODO INTEGRATION V4: test use case of visibility update
-					if (castedPackage.visibility != null && oldVisibility != castedPackage.visibility) {
-						// informe les utilisateurs qui ne sont pas encore autorisés sur le changement sur la visibilité
-						List<UserLite> notAuthorizedUsers = new ArrayList<UserLite>(onlineUsers());
-
-						if (notAuthorizedUsers.removeAll(channel.getAuthorizedPersons())) {
-							//notify users that some channel's property has changed
-							sendMulticast(notAuthorizedUsers, new NewPropertyChannelsMessage(infoPackage, operation));
-							if (castedPackage.visibility == Visibility.PUBLIC) {
-
-								// channel devient publique
-								sendMulticast(notAuthorizedUsers, new NewVisibleChannelMessage(getChannel(castedPackage.channelID)));
-							}
-							else {
-								// channel devient privé
-								sendMulticast(notAuthorizedUsers, new NewInvisibleChannelsMessage(castedPackage.channelID));
-							}
-						}
-					}
+					return;
 				}
 				else {
 					logger.log(Level.SEVERE, "ChatMessage: UPDATE_CHANNEL contient mauvais UpdateChannelPackage");
@@ -495,5 +474,34 @@ public class CommunicationServerController extends CommunicationController {
 		}
 
 		sendMulticast(channel.getJoinedPersons(), new ReceiveChannelOperationMessage(operation, infoPackage));
+	}
+
+	private void updateChannel(Channel channel, UpdateChannelPackage packet) {
+		Visibility oldVisibility = channel.getVisibility();
+
+		dataServer.updateChannel(packet.channelID, packet.user.getId(), packet.name, packet.description, packet.visibility);
+
+		if (packet.visibility != null && oldVisibility != packet.visibility) {
+			// informe les utilisateurs qui ne sont pas encore autorisés sur le changement sur la visibilité
+			List<UserLite> notAuthorizedUsers = new ArrayList<UserLite>(onlineUsers());
+
+			if (notAuthorizedUsers.removeAll(channel.getAuthorizedPersons())) {
+				if (packet.visibility == Visibility.PUBLIC) {
+					// channel devient publique
+					sendMulticast(notAuthorizedUsers, new NewVisibleChannelMessage(getChannel(packet.channelID)));
+				}
+				else {
+					// channel devient privé
+					sendMulticast(notAuthorizedUsers, new NewInvisibleChannelsMessage(packet.channelID));
+				}
+			}
+		}
+
+		if(getChannel(packet.channelID).getVisibility()  == Visibility.PUBLIC) {
+			sendBroadcast(new ReceiveChannelOperationMessage(ChannelOperation.UPDATE_CHANNEL, packet), null);
+		}
+		else {
+			sendMulticast(channel.getAuthorizedPersons(), new ReceiveChannelOperationMessage(ChannelOperation.UPDATE_CHANNEL, packet));
+		}
 	}
 }

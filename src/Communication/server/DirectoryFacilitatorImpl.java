@@ -66,7 +66,7 @@ public class DirectoryFacilitatorImpl implements DirectoryFacilitator {
 
             connections.put(client.uuid(), client);
 
-            logger.log(Level.INFO, "DirectoryFacilitator enrefistre un nouveau client avec ID: {}" , client.uuid());
+            logger.log(Level.INFO, "DirectoryFacilitator enrefistre un nouveau client avec ID: " + client.uuid());
             return true;
         }
         else {
