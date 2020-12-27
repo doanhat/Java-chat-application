@@ -59,7 +59,7 @@ public class ChannelsListController {
                     refreshKicks(channel, currentDate);
                 }
             }
-        }, 1000L, 1000L * 60L * 60L * 24L);
+        }, 60000L, 1000L * 60L * 60L * 24L);
     }
 
     public Channel searchChannelById(UUID id) {

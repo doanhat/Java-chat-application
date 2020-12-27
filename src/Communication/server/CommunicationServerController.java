@@ -372,7 +372,7 @@ public class CommunicationServerController extends CommunicationController {
 
 		logger.log(Level.INFO, "Chat action: " + operation + " on channel " + infoPackage.channelID);
 
-		if (!dataServer.checkAuthorization(channel, infoPackage.user)) {
+		if (channel == null || !dataServer.checkAuthorization(channel, infoPackage.user)) {
 			logger.log(Level.WARNING, "Chat action: User n'est pas autorisé");
 
 			return;
