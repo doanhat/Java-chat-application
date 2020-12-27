@@ -11,10 +11,7 @@ import common.shared_data.*;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ChannelController extends Controller{
@@ -38,11 +35,16 @@ public class ChannelController extends Controller{
         for (Channel channel: channelList) {
             List<Kick> kicks = channel.getKicked();
 
-            for (Kick kick: kicks) {
+            ListIterator<Kick> kickIter = kicks.listIterator();
+            while (kickIter.hasNext()) {
+                Kick kick = kickIter.next();
+
                 if (!kick.isPermanentKick() && currentDate.after(kick.getEndKick())) {
-                    kicks.remove(kick);
                     channel.addAuthorizedUser(kick.getUser());
+
                     fileHandler.writeJSONToFile(channel.getId().toString(),channel);
+
+                    kickIter.remove();
                 }
             }
         }
