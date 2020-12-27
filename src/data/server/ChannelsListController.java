@@ -161,7 +161,10 @@ public class ChannelsListController {
     }
 
     public void writeChannelDataToJSON(Channel channel){
-        this.fileHandle.writeJSONToFile(channel.getId().toString(),channel);
+        // NOTE Server only saves Shared channels
+        if (channel.getType() == ChannelType.SHARED) {
+            this.fileHandle.writeJSONToFile(channel.getId().toString(),channel);
+        }
     }
 
     public Channel readJSONToChannelData(UUID idChannel){
