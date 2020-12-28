@@ -20,7 +20,6 @@ import common.interfaces.client.*;
 import common.shared_data.*;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.*;
 
 public class CommunicationClientInterface implements IDataToCommunication,
@@ -188,11 +187,11 @@ public class CommunicationClientInterface implements IDataToCommunication,
 
         BanUserPackage banUserPackage = new BanUserPackage();
         banUserPackage.user = localUser;
-        banUserPackage.userToBan = userToKick;
+        banUserPackage.setUserToBan(userToKick);
         banUserPackage.channelID = channelID;
-        banUserPackage.endDate = endDate;
-        banUserPackage.isPermanent = isPermanent;
-        banUserPackage.explanation = explanation;
+        banUserPackage.setEndDate(endDate);
+        banUserPackage.setPermanent(isPermanent);
+        banUserPackage.setExplanation(explanation);
 
         this.commController.sendMessage(new ChannelOperationMessage(ChannelOperation.BAN_USER, banUserPackage));
     }
@@ -210,7 +209,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
 
         BanUserPackage banUserPackage = new BanUserPackage();
         banUserPackage.user = localUser;
-        banUserPackage.userToBan = unKickedUser;
+        banUserPackage.setUserToBan(unKickedUser);
         banUserPackage.channelID = channelID;
 
         this.commController.sendMessage(new ChannelOperationMessage(ChannelOperation.UNBAN_USER, banUserPackage));

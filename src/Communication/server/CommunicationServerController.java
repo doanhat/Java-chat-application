@@ -372,7 +372,7 @@ public class CommunicationServerController extends CommunicationController {
 
 		logger.log(Level.INFO, "Chat action: " + operation + " on channel " + infoPackage.channelID);
 
-		if (channel == null || !dataServer.checkAuthorization(channel, infoPackage.user)) {
+		if (channel == null || !dataServer.checkAuthorization(channel, infoPackage.user)){
 			logger.log(Level.WARNING, "Chat action: User n'est pas autorisé");
 
 			return;
@@ -434,11 +434,11 @@ public class CommunicationServerController extends CommunicationController {
 			case BAN_USER:
 				if (BanUserPackage.class.isInstance(infoPackage)) {
 					BanUserPackage castedPackage = BanUserPackage.class.cast(infoPackage);
-					dataServer.banUserFromChannel(castedPackage.userToBan, castedPackage.endDate,
-							castedPackage.isPermanent, castedPackage.explanation, channel.getId());
+					dataServer.banUserFromChannel(castedPackage.getUserToBan(), castedPackage.getEndDate(),
+							castedPackage.isPermanent(), castedPackage.getExplanation(), channel.getId());
 
 					// Force banned user to quit channel
-					quitChannel(channel, castedPackage.userToBan);
+					quitChannel(channel, castedPackage.getUserToBan());
 				}
 				else {
 					logger.log(Level.SEVERE, "ChatMessage: BAN_USER contient mauvais BanUserPackage");
@@ -448,9 +448,9 @@ public class CommunicationServerController extends CommunicationController {
 			case UNBAN_USER:
 				if (BanUserPackage.class.isInstance(infoPackage)) {
 					BanUserPackage castedPackage = BanUserPackage.class.cast(infoPackage);
-					dataServer.cancelUsersBanFromChannel(channel, castedPackage.userToBan);
+					dataServer.cancelUsersBanFromChannel(channel, castedPackage.getUserToBan());
 
-					requestInviteUserToChannel(channel, castedPackage.userToBan);
+					requestInviteUserToChannel(channel, castedPackage.getUserToBan());
 				}
 				else {
 					logger.log(Level.SEVERE, "ChatMessage: UNBAN_USER contient mauvais BanUserPackage");

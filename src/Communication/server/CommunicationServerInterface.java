@@ -3,7 +3,6 @@ package Communication.server;
 import Communication.common.ChannelOperation;
 import Communication.common.Parameters;
 import Communication.common.info_packages.BanUserPackage;
-import Communication.messages.client_to_server.channel_operation.ChannelOperationMessage;
 import Communication.messages.server_to_client.channel_operation.proprietary_channels.InformOwnerChannelOperationMessage;
 import common.interfaces.server.IServerDataToCommunication;
 import common.shared_data.Channel;
@@ -56,7 +55,7 @@ public class CommunicationServerInterface implements IServerDataToCommunication 
 
         // init unban sequence
         BanUserPackage banUserPackage = new BanUserPackage();
-        banUserPackage.userToBan = unbannedUser;
+        banUserPackage.setUserToBan(unbannedUser);
         banUserPackage.channelID = channel.getId();
 
         if (channel.getType() == ChannelType.OWNED) {
