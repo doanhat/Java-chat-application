@@ -120,7 +120,12 @@ public class AddMemberCell extends ListCell<UserLite> {
         }
         else {
             username.setText(item.getNickName());
-            profilePicture.setImage(new Image(item.getAvatar()));
+            if(!item.getAvatar().equals("")){
+                profilePicture.setImage(new Image(item.getAvatar()));
+            }else{ //picture by default
+                profilePicture.setImage(new Image("IHMChannel/tools/AddMemberCellFactory/avatar.jpg", 30, 30, true, false));
+            }
+
             setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         }
     }

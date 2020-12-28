@@ -5,14 +5,10 @@ import Communication.common.info_packages.BanUserPackage;
 import Communication.common.info_packages.ChatPackage;
 import Communication.common.info_packages.InfoPackage;
 import Communication.common.info_packages.UpdateChannelPackage;
-import Communication.messages.server_to_client.channel_modification.NewInvisibleChannelsMessage;
-import Communication.messages.server_to_client.channel_modification.NewVisibleChannelMessage;
 import common.interfaces.client.ICommunicationToData;
 import common.shared_data.Message;
 import common.shared_data.UserLite;
-import common.shared_data.Visibility;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -112,8 +108,8 @@ public class DataClientHandler {
                 if (BanUserPackage.class.isInstance(infoPackage)) {
                     BanUserPackage castedPackage = BanUserPackage.class.cast(infoPackage);
 
-                    dataClient.banUser(castedPackage.userToBan, castedPackage.endDate,
-                            castedPackage.isPermanent, castedPackage.explanation, castedPackage.channelID);
+                    dataClient.banUser(castedPackage.getUserToBan(), castedPackage.getEndDate(),
+                            castedPackage.isPermanent(), castedPackage.getExplanation(), castedPackage.channelID);
                 }
                 else {
                     logger.log(Level.SEVERE, "ChatMessage: BAN_USER contient mauvais BanUserPackage");
@@ -122,7 +118,7 @@ public class DataClientHandler {
             case UNBAN_USER:
                 if (BanUserPackage.class.isInstance(infoPackage)) {
                     BanUserPackage castedPackage = BanUserPackage.class.cast(infoPackage);
-                    dataClient.unbannedUserToChannel(castedPackage.userToBan, castedPackage.channelID);
+                    dataClient.unbannedUserToChannel(castedPackage.getUserToBan(), castedPackage.channelID);
                 }
                 else {
                     logger.log(Level.SEVERE, "ChatMessage: UNBAN_USER contient mauvais BanUserPackage");
@@ -267,8 +263,8 @@ public class DataClientHandler {
             case BAN_USER:
                 if (BanUserPackage.class.isInstance(infoPackage)) {
                     BanUserPackage castedPackage = BanUserPackage.class.cast(infoPackage);
-                    dataClient.banUserIntoHistory(castedPackage.userToBan, castedPackage.endDate,
-                            castedPackage.isPermanent, castedPackage.explanation, castedPackage.channelID);
+                    dataClient.banUserIntoHistory(castedPackage.getUserToBan(), castedPackage.getEndDate(),
+                            castedPackage.isPermanent(), castedPackage.getExplanation(), castedPackage.channelID);
                 }
                 else {
                     logger.log(Level.SEVERE, "ChatMessage: BAN_USER contient mauvais BanUserPackage");
@@ -277,7 +273,7 @@ public class DataClientHandler {
             case UNBAN_USER:
                 if (BanUserPackage.class.isInstance(infoPackage)) {
                     BanUserPackage castedPackage = BanUserPackage.class.cast(infoPackage);
-                    dataClient.cancelBanOfUserIntoHistory(castedPackage.userToBan, castedPackage.channelID);
+                    dataClient.cancelBanOfUserIntoHistory(castedPackage.getUserToBan(), castedPackage.channelID);
                 }
                 else {
                     logger.log(Level.SEVERE, "ChatMessage: UNBAN_USER contient mauvais BanUserPackage");
