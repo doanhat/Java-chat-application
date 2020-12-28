@@ -17,7 +17,6 @@ public class BanUserPackage extends InfoPackage {
 
     public void setUserToBan(UserLite userToBan) {
         this.userToBan = userToBan;
-        super.user = userToBan;
     }
 
     public LocalDate getEndDate() {
