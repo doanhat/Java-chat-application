@@ -357,6 +357,7 @@ public class ChannelMessagesController{
         }
     }
 
+
     public void changeNickname(UserLite user) throws IOException {
         displayMessagesList();
     }

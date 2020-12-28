@@ -180,4 +180,14 @@ public class DataToIHMChannel implements IDataToIHMChannel{
         controller.getChannelPageController().modifyChannel(channelId, name, description, visibility);
         controller.getInterfaceToIHMMain().modifyChannel(channelId, name, description, visibility);
     }
+
+    /**
+     * Méthode permettant de changer le nickname d'un utilisateur
+     *
+     * @param user l'utilisateur
+     */
+    @Override
+    public void changeNickname(UserLite user, UUID channel, String newNickname) {
+        controller.getChannelPageController().getChannelController(channel).changeNickname(user, newNickname);
+    }
 }

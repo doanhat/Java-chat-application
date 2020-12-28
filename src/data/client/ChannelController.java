@@ -279,7 +279,7 @@ public class ChannelController extends Controller{
     }
 
     public void updateNickname(UserLite user, UUID channelId, String newNickname) {
-        channelClient.getChannel(channelId).getNickNames().put(user.getId().toString(),newNickname);
+        channelClient.changeNickname(user, channelId, newNickname);
     }
 
     public void saveNicknameIntoHistory(UserLite user, UUID channelId, String newNickname) {

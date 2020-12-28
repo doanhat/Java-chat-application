@@ -16,16 +16,6 @@ import java.util.UUID;
     }
 
     /**
-     * Méthode permettant de changer le nickname d'un utilisateur
-     *
-     * @param user l'utilisateur
-     */
-    @Override
-    public void changeNickname(UserLite user, UUID channel) {
-        controller.getChannelPageController().getChannelController(channel).changeNickname(user);
-    }
-
-    /**
      *  Méthode permettant d'annuler le ban d'un utilisateur d'un channel d'id channelID.
      * @param kick Classe contenant les informations lié au kick
      * @param channelID id du channel concerné

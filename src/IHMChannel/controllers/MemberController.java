@@ -176,14 +176,11 @@ public class MemberController {
                 popUpWindow.setResizable(false);
                 popUpWindow.show();
 
-                kickPopUpController.getCancelBtn().setOnAction(new EventHandler<ActionEvent>() {
-                    public void handle(ActionEvent e){
+                kickPopUpController.getCancelBtn().setOnAction((ActionEvent e) -> {
                         popUpWindow.close();
-                    }
                 });
 
-                kickPopUpController.getConfirmBtn().setOnAction(new EventHandler<ActionEvent>() {
-                    public void handle(ActionEvent e) {
+                kickPopUpController.getConfirmBtn().setOnAction((ActionEvent e) -> {
                         String explanation = kickPopUpController.getExplanationMessage();
                         LocalDate kickDate = kickPopUpController.getDatePick();
                         Boolean isPermanent = kickPopUpController.getIsPermanent();
@@ -191,7 +188,6 @@ public class MemberController {
                         // Interface à ajouter
                         getIhmChannelController().getInterfaceToCommunication().banUserFromChannel(userToDisplay,kickDate,isPermanent,explanation,channel.getId());
                         popUpWindow.close();
-                    }
                 });
             }else{
                 IHMTools.informationPopup("Vous ne pouvez pas kicker le créateur.");
@@ -218,9 +214,7 @@ public class MemberController {
         username.requestFocus();
 
         //Handler pour valider la modification à l'appui sur entrée
-        username.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent keyEvent) {
+        username.setOnKeyPressed((KeyEvent keyEvent) -> {
                 if (keyEvent.getCode() == KeyCode.ENTER)  {
 
                     ihmChannelController.getInterfaceToCommunication().changeNickname(
@@ -231,10 +225,7 @@ public class MemberController {
                     
                     username.setEditable(false);
 
-
-
                 }
-            }
         });
     }
 
