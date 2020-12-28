@@ -2,6 +2,7 @@ package IHMChannel.interfaces;
 
 import IHMChannel.IHMChannelController;
 import IHMChannel.controllers.ChannelController;
+import IHMChannel.controllers.ChannelPageController;
 import common.IHMTools.IHMTools;
 import common.interfaces.client.IDataToIHMChannel;
 import common.shared_data.*;
@@ -40,8 +41,15 @@ public class DataToIHMChannel implements IDataToIHMChannel{
      */
     @Override
     public void addNewAdmin(UserLite user, UUID channelId) throws IOException {
-        ChannelController channelController = controller.getChannelPageController().getChannelController(channelId);
-        channelController.addNewAdmin(user);
+        ChannelPageController channelPageController = controller.getChannelPageController();
+        if(channelPageController != null){ // channelPageController sera null si un des clients n'a encore ouvert aucun channel
+            ChannelController channelController = channelPageController.getChannelController(channelId);
+            if(channelController != null){
+                channelController.addNewAdmin(user);
+            }
+
+        }
+
     }
 
     @Override
