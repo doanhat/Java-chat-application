@@ -18,13 +18,16 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Classe qui gère les intéractions de module Communication à module Data
+ */
 public class DataClientHandler {
 
     private final Logger logger = Logger.getLogger(this.getClass().getName());
     private ICommunicationToData dataClient;
 
     /**
-     * Installer l'interfaces de Data
+     * Installer l'interfaces de Communication à Data
      *
      * @param dataIface interface de Data
      */

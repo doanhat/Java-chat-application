@@ -20,7 +20,6 @@ import common.interfaces.client.*;
 import common.shared_data.*;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.*;
 
 public class CommunicationClientInterface implements IDataToCommunication,
@@ -365,13 +364,16 @@ public class CommunicationClientInterface implements IDataToCommunication,
      * Transfere au serveur la demande de suppresion d'un channel
      *
      * @param channelID ID de l'objet à supprimer
-     * @implNote
      **/
     @Override
     public void deleteChannel(UUID channelID) {
         commController.sendMessage(new DeleteChannelMessage(channelID, localUser));
     }
 
+    /**
+     * Demande de de quitter définitivement d'un channel
+     * @param channel [Channel] channel dont on quitte
+     */
     @Override
     public void quitChannel(Channel channel) {
         if (channel.getType() == ChannelType.OWNED && channel.getCreator().getId().equals(localUser.getId())) {

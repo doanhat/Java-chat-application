@@ -8,7 +8,7 @@ import java.util.UUID;
 public interface IDataToCommunication
 {
     /**
-     * Connection utilisateur local
+     * Connection utilisateur local au serveur
      *
      **/
     void userConnect(UserLite user);

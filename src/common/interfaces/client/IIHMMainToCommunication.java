@@ -12,13 +12,13 @@ public interface IIHMMainToCommunication
 {
     /**
      * Mettre adresse du serveur
-     * @param addressIP
+     * @param addressIP [String] IP du serveur sous format texte
      */
     void setIP(String addressIP);
 
     /**
      * Mettre port du serveur
-     * @param port
+     * @param port [int] numéro du port à connecter
      */
     void setPort(int port);
 
@@ -50,19 +50,21 @@ public interface IIHMMainToCommunication
     /**
      * Envoyer une image encodée en string Base64 au server pour stocker
      *
-     * @param user          utilisateur ayant l'image comme avatar
-     * @param encodedString le string encodée en Base64
+     * @param user          [UserLite] utilisateur ayant l'image comme avatar
+     * @param encodedString [String] le string encodée en Base64
      */
     void saveAvatarToServer(UserLite user, String encodedString);
 
     /**
      * Demande de Récupérer le chemin vers l'avatar de l'utilisateur dans le serveur
      *
-     * @param user utilisateur
-     * @return
+     * @param user [UserLite] utilisateur de qui on cherche l'avatar
      */
-    // NOTE TO MAIN: implement etAvatarPath(UserLite user, String avatarPath); in ICommunicationToIHMMain to receive path from server
     void getAvatarPath(UserLite user);
 
+    /**
+     * Demande de recupèrer la liste des utilisateurs connectés sur un channel
+     * @param channelID [UUID] ID du channel
+     */
     void getConnectedUsers(UUID channelID);
 }
