@@ -38,9 +38,9 @@ public class DataClientHandler {
      *
      * @param channelIDs liste identifiant unique (UUID) des channels à supprimer
      */
-    public void notifyInvisibleChannels(List<UUID> channelIDs) {
+    public void notifyInvisibleChannels(List<UUID> channelIDs, String explanation) {
         for (UUID channelID: channelIDs) {
-            dataClient.removeChannelFromList(channelID, 0, "Channel supprimé");
+            dataClient.removeChannelFromList(channelID, 0, explanation);
         }
     }
 

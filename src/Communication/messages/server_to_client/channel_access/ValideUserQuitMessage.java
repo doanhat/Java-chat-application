@@ -15,15 +15,17 @@ public class ValideUserQuitMessage extends ServerToClientMessage {
     private static final long serialVersionUID = -85202337043190892L;
     private final UUID channelID;
     private final UserLite user;
+    private final String explanation;
 
-    public ValideUserQuitMessage(UUID channelID, UserLite user) {
+    public ValideUserQuitMessage(UUID channelID, UserLite user, String explanation) {
         this.channelID = channelID;
         this.user = user;
+        this.explanation = explanation;
     }
 
     @Override
     protected void handle(CommunicationClientController commClientController) {
         commClientController.dataClientHandler().requestQuitChannel(channelID, user);
-        commClientController.dataClientHandler().notifyInvisibleChannels(Arrays.asList(channelID));
+        commClientController.dataClientHandler().notifyInvisibleChannels(Arrays.asList(channelID), explanation);
     }
 }

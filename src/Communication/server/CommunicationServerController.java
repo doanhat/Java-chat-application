@@ -110,7 +110,7 @@ public class CommunicationServerController extends CommunicationController {
 					}
 
 					// broadcast invisible channel
-					sendBroadcast(new NewInvisibleChannelsMessage(channelsID), userInfo);
+					sendBroadcast(new NewInvisibleChannelsMessage(channelsID, "Propriétaire a quitté du channel"), userInfo);
 				}
 			}
 			else {
@@ -297,10 +297,10 @@ public class CommunicationServerController extends CommunicationController {
 		if (channel.getType() == ChannelType.OWNED && channel.getCreator().getId().equals(userLite.getId())) {
 			// when owner leaves, channel become invisible
 			if (channel.getVisibility() == Visibility.PUBLIC) {
-				sendBroadcast(new NewInvisibleChannelsMessage(channel.getId()), userLite);
+				sendBroadcast(new NewInvisibleChannelsMessage(channel.getId(), "Proprietaire a quitté"), userLite);
 			}
 			else {
-				sendMulticast(channel.getAuthorizedPersons(), new NewInvisibleChannelsMessage(channel.getId()), userLite);
+				sendMulticast(channel.getAuthorizedPersons(), new NewInvisibleChannelsMessage(channel.getId(), "Proprietaire a quitté"), userLite);
 			}
 		}
 	}
@@ -317,7 +317,7 @@ public class CommunicationServerController extends CommunicationController {
 				requestInviteUserToChannel(channel, user);
 				break;
 			case QUIT:
-				quitChannel(channel, user);
+				quitChannel(channel, user, "Quittant du channel");
 				break;
 			default:
 		}
@@ -328,11 +328,11 @@ public class CommunicationServerController extends CommunicationController {
 	 * @param userLite utilisateur
 	 * @param channel channel
 	 */
-	public void quitChannel(Channel channel, UserLite userLite) {
+	public void quitChannel(Channel channel, UserLite userLite, String explanation) {
 		dataServer.quitChannel(channel.getId(), userLite);
 		dataServer.leaveChannel(channel.getId(), userLite);
 
-		sendMessage(userLite.getId(), new ValideUserQuitMessage(channel.getId(), userLite));
+		sendMessage(userLite.getId(), new ValideUserQuitMessage(channel.getId(), userLite, explanation));
 		sendMulticast(channel.getAuthorizedPersons(), new UserQuitedChannelMessage(channel.getId(), userLite), userLite);
 	}
 
@@ -438,7 +438,7 @@ public class CommunicationServerController extends CommunicationController {
 							castedPackage.isPermanent(), castedPackage.getExplanation(), channel.getId());
 
 					// Force banned user to quit channel
-					quitChannel(channel, castedPackage.getUserToBan());
+					quitChannel(channel, castedPackage.getUserToBan(), "Vous etes banni au channel");
 				}
 				else {
 					logger.log(Level.SEVERE, "ChatMessage: BAN_USER contient mauvais BanUserPackage");
@@ -492,7 +492,7 @@ public class CommunicationServerController extends CommunicationController {
 				}
 				else {
 					// channel devient privé
-					sendMulticast(notAuthorizedUsers, new NewInvisibleChannelsMessage(packet.channelID));
+					sendMulticast(notAuthorizedUsers, new NewInvisibleChannelsMessage(packet.channelID, "Channel devient privé"));
 				}
 			}
 		}

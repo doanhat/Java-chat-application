@@ -69,7 +69,7 @@ public class DataToIHMChannel implements IDataToIHMChannel{
     @Override
     public void removeChannelFromList(UUID channelID, int duration, String explanation) {
 
-        IHMTools.informationPopup(String.format("Vous avez été banni pendant %d secondes pour la raison suivante : %s", duration, explanation));
+        IHMTools.informationPopup(String.format("Vous ne pouvez plus accéder au channel pour la raison suivante : %s", explanation));
 
         controller.getChannelPageController().removeTab(channelID);
     }
