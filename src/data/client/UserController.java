@@ -46,8 +46,7 @@ public class UserController extends Controller {
     public boolean verificationAccount(String nickName, String password){
 
         try {
-            List<User> listUserLogin = new FileHandle<User>(LocationType.CLIENT, FileType.USER).readJSONFileToList(FILENAME,User.class);
-            for (User user : listUserLogin){
+            for (User user : localUserList){
                 if (user.getNickName().equals(nickName) & user.getPassword().equals(password)){
                     this.localUser = user;
                     this.comClient.userConnect(user.getUserLite());
@@ -117,14 +116,13 @@ public class UserController extends Controller {
         return null;
     }
     public void editProfile(User user, String nickName, String avatar, String password, String lastName, String firstName, Date birthDate) {
-        User u = searchUserById(user.getId());
-        if (nickName!=null) Objects.requireNonNull(u).setNickName(nickName);
-        if (avatar!=null) Objects.requireNonNull(u).setAvatar(avatar);
-        if (password!=null) Objects.requireNonNull(u).setPassword(nickName);
-        if (lastName!=null) Objects.requireNonNull(u).setLastName(lastName);
-        if (firstName!=null) Objects.requireNonNull(u).setFirstName(firstName);
-        if (birthDate!=null) Objects.requireNonNull(u).setBirthDate(birthDate);
-        fileHandleClient.writeJSONToFile(FILENAME,localUserList);
+        if (nickName!=null) Objects.requireNonNull(user).setNickName(nickName);
+        if (avatar!=null) Objects.requireNonNull(user).setAvatar(avatar);
+        if (password!=null) Objects.requireNonNull(user).setPassword(nickName);
+        if (lastName!=null) Objects.requireNonNull(user).setLastName(lastName);
+        if (firstName!=null) Objects.requireNonNull(user).setFirstName(firstName);
+        if (birthDate!=null) Objects.requireNonNull(user).setBirthDate(birthDate);
+        fileHandleClient.writeJSONToFile(FILENAME, localUserList);
     }
 
     public String exportUserProfile(UUID userId) {
