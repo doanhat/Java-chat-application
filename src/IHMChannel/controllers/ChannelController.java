@@ -226,6 +226,7 @@ public class ChannelController {
         }
     }
 
+
     /**
      * Méthode déclenchée au clic sur le bouton "ajouter un membre"
      * Affiche la pop-up de sélection d'utilisateur
@@ -242,7 +243,7 @@ public class ChannelController {
 
             List<UserLite> usersToInvite = FXCollections.observableArrayList();
             this.getIhmChannelController().getInterfaceToIHMMain().getConnectedUsersList().forEach(userLite -> {
-                if(!currentChannel.getAuthorizedPersons().contains(userLite)){
+                if(!currentChannel.userIsAuthorized(userLite.getId()) && !currentChannel.userIsBanned(userLite.getId())){
                     usersToInvite.add(userLite);
                 }
             });

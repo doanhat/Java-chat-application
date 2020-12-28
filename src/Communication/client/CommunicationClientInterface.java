@@ -133,7 +133,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
         }
 
         // check if local user has the right to invite
-        if (localUser == channel.getCreator() || channel.userIsAdmin(localUser.getId())) {
+        if (localUser.getId().equals(channel.getCreator().getId()) || channel.userIsAdmin(localUser.getId())) {
             commController.sendMessage(new ChannelAccessRequestMessage(ChannelAccessRequest.INVITE, channel.getId(), guest));
         }
     }

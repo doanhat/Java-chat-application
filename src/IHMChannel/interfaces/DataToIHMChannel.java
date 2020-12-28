@@ -6,6 +6,7 @@ import IHMChannel.controllers.ChannelPageController;
 import common.IHMTools.IHMTools;
 import common.interfaces.client.IDataToIHMChannel;
 import common.shared_data.*;
+import javafx.application.Platform;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -153,7 +154,9 @@ public class DataToIHMChannel implements IDataToIHMChannel{
      */
     @Override
     public void likeMessage(UUID channelId, Message message, UserLite user) {
-        controller.getChannelPageController().getChannelController(channelId).likeMessage(message, user);
+        Platform.runLater(() -> {
+            controller.getChannelPageController().getChannelController(channelId).likeMessage(message, user);
+        });
     }
 
     /**

@@ -49,6 +49,7 @@ public class AddMemberCell extends ListCell<UserLite> {
     }
 
     public void initialize(){
+
         //Action sur le bouton
         addBtn.setOnAction((ActionEvent event) -> {
             FXMLLoader fxmlLoader =
@@ -121,7 +122,7 @@ public class AddMemberCell extends ListCell<UserLite> {
         else {
             username.setText(item.getNickName());
             if(!item.getAvatar().equals("")){
-                profilePicture.setImage(new Image(item.getAvatar()));
+                profilePicture.setImage(new Image(item.getAvatar(), 30, 30, true, false));
             }else{ //picture by default
                 profilePicture.setImage(new Image("IHMChannel/tools/AddMemberCellFactory/avatar.jpg", 30, 30, true, false));
             }
