@@ -56,6 +56,7 @@ public class CommunicationServerInterface implements IServerDataToCommunication 
         // init unban sequence
         BanUserPackage banUserPackage = new BanUserPackage();
         banUserPackage.setUserToBan(unbannedUser);
+        banUserPackage.user = channel.getCreator();
         banUserPackage.channelID = channel.getId();
 
         if (channel.getType() == ChannelType.OWNED) {
