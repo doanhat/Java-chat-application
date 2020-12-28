@@ -62,7 +62,12 @@ public class MemberController {
 
     public void setUserToDisplay(UserLite userToDisplay,boolean isAdmin, boolean isCreator, boolean isConnected, boolean toogleDisplay) {
         this.userToDisplay = userToDisplay;
-        this.username.setText(userToDisplay.getNickName());
+        String nickname = channel.getNickNames().get(userToDisplay.getId().toString());
+        if(nickname != null){
+            this.username.setText(nickname);
+        }else{
+            this.username.setText(userToDisplay.getNickName());
+        }
 
         this.isAdmin = isAdmin;
         this.isCreator = isCreator;
@@ -74,6 +79,7 @@ public class MemberController {
         if(ihmChannelController.getInterfaceToData().getLocalUser().getId().equals(userToDisplay.getId())){
             isThatYouText.setText(" (vous)");
             editNicknameBtn.setVisible(true);
+            editNicknameBtn.setGraphic(new ImageView(new Image("IHMChannel/icons/edit-solid.png", 30, 30, true, false)));
 
         }
 
@@ -225,11 +231,7 @@ public class MemberController {
                     
                     username.setEditable(false);
 
-                    //TODO appel interface test
 
-                    //TODO à enlever pour l'intégration, ne sert qu'aux tests
-                    userToDisplay.setNickName(username.getText());
-                    ihmChannelController.getInterfaceForCommunication().changeNickname(userToDisplay,channel.getId());
 
                 }
             }

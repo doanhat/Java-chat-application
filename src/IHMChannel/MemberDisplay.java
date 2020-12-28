@@ -29,8 +29,9 @@ public class MemberDisplay {
         }
         memberController = fxmlLoader.getController();
         memberController.setIhmChannelController(ihmChannelController);
-        memberController.setUserToDisplay(userToDisplay,isAdmin, isCreator,isConnected,toggleDisplay);
         memberController.setChannel(channel);
+        memberController.setUserToDisplay(userToDisplay,isAdmin, isCreator,isConnected,toggleDisplay);
+
     }
 
 }

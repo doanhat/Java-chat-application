@@ -44,9 +44,7 @@ import java.util.UUID;
     @Override
     public void displayChannelHistory(Channel channel, List<Message> history, List<UserLite> connectedUsers) {
         channel.setMessages(history);
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
+        Platform.runLater(() -> {
                 try {
                     controller.getChannelPageController().addOpenedChannel(channel);
                 } catch (IOException e) {
@@ -54,40 +52,30 @@ import java.util.UUID;
                 }
                 controller.getChannelPageController().getChannelController(channel.getId()).setConnectedMembersList(connectedUsers);
                 controller.getInterfaceToIHMMain().setOpenedChannelsList(controller.getOpenedChannelsList());
-            }
-        });
+            });
     }
 
     @Override
     public void addConnectedUser(UUID channelId, UserLite user) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
+        Platform.runLater(() -> {
                 controller.getChannelPageController().getChannelController(channelId).addConnectedUser(user);
                 controller.getInterfaceToIHMMain().setOpenedChannelsList(controller.getOpenedChannelsList());
-            }
-        });
+            });
     }
 
     @Override
     public void removeConnectedUser(UUID channelId, UserLite user) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
+        Platform.runLater(() -> {
                 controller.getChannelPageController().getChannelController(channelId).removeConnectedUser(user);
                 controller.getInterfaceToIHMMain().setOpenedChannelsList(controller.getOpenedChannelsList());
-            }
-        });
+            });
     }
 
     @Override
     public void leaveChannel(UUID channelID, UserLite user) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
+        Platform.runLater(() -> {
                 controller.getChannelPageController().leaveChannel(channelID, user);
                 controller.getInterfaceToIHMMain().setOpenedChannelsList(controller.getOpenedChannelsList());
-            }
         });
     }
 
@@ -96,30 +84,23 @@ import java.util.UUID;
 
     @Override
     public void addAuthorizedUser(UUID channel, UserLite user) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
+        Platform.runLater(() -> {
                 try {
                     controller.getChannelPageController().getChannelController(channel).addUser(user);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
-        });
-
+            });
     }
 
     @Override
     public void removeAuthorizedUser(UUID channel, UserLite user) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
+        Platform.runLater(() -> {
                 try {
                     controller.getChannelPageController().getChannelController(channel).removeUserAuthorization(user);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
         });
     }
 

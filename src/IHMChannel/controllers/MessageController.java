@@ -60,7 +60,12 @@ public class MessageController {
      */
     public void setMessageToDisplay(Message messageToDisplay) {
         this.messageToDisplay = messageToDisplay;
-        author.setText(messageToDisplay.getAuthor().getNickName());
+        String nickname = channelMessagesController.channel.getNickNames().get(messageToDisplay.getAuthor().getId().toString());
+        if(nickname != null){
+            this.author.setText(nickname);
+        }else{
+            this.author.setText(messageToDisplay.getAuthor().getNickName());
+        }
         content.setText(messageToDisplay.getMessage());
         if (messageToDisplay.isEdited()) {
             if(messageToDisplay.isDeletedByAdmin() || messageToDisplay.isDeletedByUser()){
