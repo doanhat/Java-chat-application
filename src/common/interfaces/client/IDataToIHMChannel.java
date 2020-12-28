@@ -87,4 +87,11 @@ public interface IDataToIHMChannel {
      */
 
     void modifyChannel(UUID channelId, String name, String description, Visibility visibility);
+
+    /**
+     * Méthode permettant de changer le nickname d'un utilisateur
+     * @param user l'utilisateur
+     * @param channel channel concerné par la mise à jour de nickname
+     */
+    void changeNickname(UserLite user, UUID channel, String newNickname);
 }

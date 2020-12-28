@@ -229,7 +229,7 @@ public class MemberController {
 
                     //TODO à enlever pour l'intégration, ne sert qu'aux tests
                     userToDisplay.setNickName(username.getText());
-                    ihmChannelController.getInterfaceForCommunication().changeNickname(userToDisplay,channel.getId());
+                    //ihmChannelController.getInterfaceForCommunication().changeNickname(userToDisplay,channel.getId());
 
                 }
             }

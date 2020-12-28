@@ -7,10 +7,6 @@ import java.util.List;
 import java.util.UUID;
 
 public class VirtualCommunicationToIHMChannel implements ICommunicationToIHMChannel {
-    @Override
-    public void changeNickname(UserLite user, UUID channel) {
-
-    }
 
     @Override
     public void displayChannelHistory(Channel channel, List<Message> history, List<UserLite> connectedUsers) {

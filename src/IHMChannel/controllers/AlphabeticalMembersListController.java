@@ -141,7 +141,10 @@ public class AlphabeticalMembersListController {
         displayMembers();
     }
 
-    public void changeNickname(UserLite user) {
-        mapMemberController.get(user.getId()).changeNickname(user.getNickName());
+    public void changeNickname(UserLite user, String newNickname) {
+        // TODO: Fix mapMemberController n'est jamais rempli
+        System.out.println("changeNickname: Membercontroller keys" + mapMemberController.keySet());
+
+        mapMemberController.get(user.getId()).changeNickname(newNickname);
     }
 }

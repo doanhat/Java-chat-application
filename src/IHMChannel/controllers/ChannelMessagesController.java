@@ -357,10 +357,10 @@ public class ChannelMessagesController{
         }
     }
 
-    public void changeNickname(UserLite user){
+    public void changeNickname(UserLite user, String newNickname){
         for(Message m : observableMessages){
             if(m.getAuthor().getId().equals(user.getId())){
-                messagesMap.get(m.getId()).setAuthorNickname(user.getNickName());
+                messagesMap.get(m.getId()).setAuthorNickname(newNickname);
             }
         }
     }

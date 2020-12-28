@@ -126,10 +126,12 @@ public class ChannelMembersController {
         connectedMembersListDisplay.removeMemberFromConnectedMembersList(user);
     }
 
-    public void changeNickname(UserLite user) {
+    public void changeNickname(UserLite user, String newNickname) {
+        System.out.println("change nick for user " + user.getId());
+
         //Update all views
-        alphabeticalMembersListDisplay.getController().changeNickname(user);
-        connectedMembersListDisplay.getController().changeNickname(user);
-        adminMembersListDisplay.getController().changeNickname(user);
+        alphabeticalMembersListDisplay.getController().changeNickname(user, newNickname);
+        connectedMembersListDisplay.getController().changeNickname(user, newNickname);
+        adminMembersListDisplay.getController().changeNickname(user, newNickname);
     }
 }

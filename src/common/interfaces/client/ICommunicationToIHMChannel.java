@@ -12,13 +12,6 @@ import java.util.UUID;
 public interface ICommunicationToIHMChannel {
 
     /**
-     * Méthode permettant de changer le nickname d'un utilisateur
-     * @param user l'utilisateur
-     * @param channel channel concerné par la mise à jour de nickname
-     */
-    void changeNickname(UserLite user, UUID channel);
-
-    /**
      * Méthode permettant d'afficher l'historique des messages
      * @param channel le channel concerné
      * @param history la liste des messages

@@ -150,7 +150,7 @@ public class AdminMembersListController {
         displayMembers();
     }
 
-    public void changeNickname(UserLite user) {
-        mapMemberController.get(user.getId()).changeNickname(user.getNickName());
+    public void changeNickname(UserLite user, String newNickname) {
+        mapMemberController.get(user.getId()).changeNickname(newNickname);
     }
 }
