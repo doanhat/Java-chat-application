@@ -73,6 +73,7 @@ public class MessageController {
 
         likeCounter.setText(String.valueOf(messageToDisplay.countLikes()));
 
+
         //date formatting
         String df = new SimpleDateFormat("dd/MM/yyyy HH:mm").format(messageToDisplay.getDate());
         time.setText(df);
@@ -122,11 +123,28 @@ public class MessageController {
         }
 
         //Like
-        Image likeImage = new Image("IHMChannel/icons/heart-regular.png");
-        ImageView likeIcon = new ImageView(likeImage);
-        likeIcon.setFitHeight(15);
-        likeIcon.setFitWidth(15);
-        getLikeButton().setGraphic(likeIcon);
+        List<UserLite> likeList = messageToDisplay.getLikes();
+        if(!likeList.contains(localUser)){
+            //update icon
+            Image likeImage = null;
+            if(likeList.size() > 0){ //other user still like the message
+                likeImage = new Image("IHMChannel/icons/heart-solid.png");
+            }else{
+                likeImage = new Image("IHMChannel/icons/heart-regular.png");
+            }
+            ImageView likeIcon = new ImageView(likeImage);
+            likeIcon.setFitHeight(15);
+            likeIcon.setFitWidth(15);
+            likeButton.setGraphic(likeIcon);
+        }else{
+
+            //update icon to red heart
+            Image likeImage = new Image("IHMChannel/icons/heart-solid-red.png");
+            ImageView likeIcon = new ImageView(likeImage);
+            likeIcon.setFitHeight(15);
+            likeIcon.setFitWidth(15);
+            likeButton.setGraphic(likeIcon);
+        }
 
         //Reply
         Image replyImage = new Image("IHMChannel/icons/reply-solid.png");
