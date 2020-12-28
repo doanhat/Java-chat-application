@@ -49,4 +49,9 @@ public interface IIHMChannelToIHMMain {
      * @param visibility New visibility of the channel
      */
     public void modifyChannel(UUID channelID, String name, String description, Visibility visibility);
+
+    /**
+     * Update the channel ListView in IHM-Main.
+     */
+    public void updateIHMMainChannelListView();
 }

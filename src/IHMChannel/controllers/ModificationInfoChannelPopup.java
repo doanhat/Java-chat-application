@@ -6,6 +6,7 @@ import common.shared_data.Channel;
 import common.shared_data.ChannelType;
 import common.shared_data.UserLite;
 import common.shared_data.Visibility;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
@@ -79,7 +80,7 @@ public class ModificationInfoChannelPopup {
              */
 
             parentController.getIhmChannelController().getInterfaceToCommunication().updateChannel(channel.getId(), channel.getName(), channel.getDescription(), channel.getVisibility());
-            
+
             Stage stage = (Stage) ap.getScene().getWindow();
             stage.close();
         }

@@ -193,6 +193,14 @@ public class IHMMainWindowController implements Initializable{
         );
     }
 
+    public void updateChannelListView(){
+        ObservableList<Channel> visibleChannelsObservableList ;
+        visibleChannelsObservableList = mainWindowController.getIhmMainController().getVisibleChannels();
+        FilteredList<Channel> filteredChannels = new FilteredList<>(visibleChannelsObservableList, b-> true);
+        privateChannels.setItems(filteredChannels.filtered(channel -> channel.getVisibility() == Visibility.PRIVATE));
+        publicChannels.setItems(filteredChannels.filtered(channel -> channel.getVisibility() == Visibility.PUBLIC));
+    }
+
     /**
      * Unselect the selected item from the ListView if it exist
      * @param listChannels ListView to unselect
