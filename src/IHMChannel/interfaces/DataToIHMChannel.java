@@ -188,6 +188,8 @@ public class DataToIHMChannel implements IDataToIHMChannel{
      */
     @Override
     public void changeNickname(UserLite user, UUID channel, String newNickname) {
-        controller.getChannelPageController().getChannelController(channel).changeNickname(user, newNickname);
+        Platform.runLater(() -> {
+            controller.getChannelPageController().getChannelController(channel).changeNickname(user, newNickname);
+        });
     }
 }

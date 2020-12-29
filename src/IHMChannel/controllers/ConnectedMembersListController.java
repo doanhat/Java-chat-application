@@ -167,6 +167,6 @@ public class ConnectedMembersListController {
     }
 
     public void changeNickname(UserLite user, String newNickname) {
-        mapMemberController.get(user.getId()).changeNickname(newNickname);
+        displayMembers();
     }
 }

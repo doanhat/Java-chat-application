@@ -127,7 +127,7 @@ public class ChannelMembersController {
     }
 
     public void changeNickname(UserLite user, String newNickname) {
-        System.out.println("change nick for user " + user.getId());
+        System.out.println("change nick for user " + user.getId() + " " + user.getNickName());
 
         //Update all views
         alphabeticalMembersListDisplay.getController().changeNickname(user, newNickname);

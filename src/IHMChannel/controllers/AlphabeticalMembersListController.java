@@ -1,5 +1,6 @@
 package IHMChannel.controllers;
 
+import IHMChannel.AlphabeticalMembersListDisplay;
 import IHMChannel.IHMChannelController;
 import IHMChannel.MemberDisplay;
 import common.shared_data.Channel;
@@ -145,6 +146,6 @@ public class AlphabeticalMembersListController {
         // TODO: Fix mapMemberController n'est jamais rempli
         System.out.println("changeNickname: Membercontroller keys" + mapMemberController.keySet());
 
-        mapMemberController.get(user.getId()).changeNickname(newNickname);
+        displayMembers();
     }
 }

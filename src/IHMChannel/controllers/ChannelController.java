@@ -534,19 +534,14 @@ public class ChannelController {
 
     public void changeNickname(UserLite user, String newNickname) {
         currentChannel.getNickNames().replace(user.getId().toString(), newNickname);
-
-        //Transfert vue messages
         try {
+            //Transfert vue messages
             channelMessagesController.changeNickname(user);
             //Transfert vue members
             channelMembersDisplay.getController().changeNickname(user, newNickname);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
-        //Transfert vue members
-        channelMembersDisplay.getController().changeNickname(user, newNickname);
     }
 
     public void updateUI(String name, String description) {
