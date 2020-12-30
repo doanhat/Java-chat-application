@@ -9,18 +9,18 @@ import java.util.UUID;
 
 /**
  * Classe gérant la communication la lecture des information reçues sur le socket réseau
- *
  */
 public class NetworkReader extends CyclicTask {
 
     private final CommunicationController commController;
-    private final ObjectInputStream socketIn;
-    private UUID userID;
+    private final ObjectInputStream       socketIn;
+    private       UUID                    userID;
 
     /**
      * Constructeur du Lecteur.
+     *
      * @param commController Controlleur de communication
-     * @param socketIn Socket sur lequel on recois les objets.
+     * @param socketIn       Socket sur lequel on recois les objets.
      */
     public NetworkReader(CommunicationController commController, ObjectInputStream socketIn) {
         this.commController = commController;
@@ -30,19 +30,21 @@ public class NetworkReader extends CyclicTask {
 
     /**
      * Setter de l'identifiant unique d'utilisateur
+     *
      * @param userID UUID de l'utilisateur
      */
     public void setUserID(UUID userID) {
         this.userID = userID;
     }
-    
+
     /**
      * Récupère le message reçu sur le réseau et le transforme en objet de type {@link Communication.messages.abstracts.NetworkMessage} en utilisant
      * {@link ObjectInputStream#readObject()}
-     * @see ObjectInputStream#readObject()
+     *
      * @return {@link NetworkMessage} NetworkMessage reçu
      * @throws IOException
      * @throws ClassNotFoundException
+     * @see ObjectInputStream#readObject()
      */
     public UUID getUser() {
         return userID;
@@ -68,13 +70,10 @@ public class NetworkReader extends CyclicTask {
         catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        catch(EOFException e) {
+        catch (EOFException e) {
             //eof - no error in this case
         }
         catch (IOException e) {
-            //e.printStackTrace();
-
-            //commController.disconnect(userID);
             cancel = true;
         }
     }

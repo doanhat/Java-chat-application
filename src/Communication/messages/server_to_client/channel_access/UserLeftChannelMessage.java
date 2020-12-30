@@ -11,13 +11,13 @@ import java.util.UUID;
  */
 
 public class UserLeftChannelMessage extends ServerToClientMessage {
-    private static final long serialVersionUID = -8520233704392L;
-    private final UUID channelID;
-    private final  UserLite userLite;
+    private static final long     serialVersionUID = -8520233704392L;
+    private final        UUID     channelID;
+    private final        UserLite userLite;
 
     public UserLeftChannelMessage(UUID channelID, UserLite userLite) {
         this.channelID = channelID;
-        this.userLite = userLite;
+        this.userLite  = userLite;
     }
 
     @Override

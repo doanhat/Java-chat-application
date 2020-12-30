@@ -8,28 +8,28 @@ import common.shared_data.UserLite;
 
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
 /**
  * Classe servant à gérer un keepalive entre le client et le serveur et d'informer le client en cas de rupture de communication avec le serveur
- *
  */
 public class HeartBeat {
 
     private final CommunicationClientController commController;
-    private Timer timer;
-    private boolean serverAlive = false;
-    private UserLite localUser;
-    private final Logger logger = Logger.getLogger(this.getClass().getName());
+    private final Logger                        logger      = Logger.getLogger(this.getClass().getName());
+    private       Timer                         timer;
+    private       boolean                       serverAlive = false;
+    private       UserLite                      localUser;
 
     public HeartBeat(CommunicationClientController commController) {
         this.commController = commController;
     }
+
     /**
      * Démarrer le Hearthbeat en tant que l'utilisateur userID
+     *
      * @param localUser 'utilisateur effectuant la validation keepalive
      */
     public void start(UserLite localUser) {
@@ -37,11 +37,11 @@ public class HeartBeat {
             stop();
         }
 
-        this.timer = new Timer();
+        this.timer       = new Timer();
         this.serverAlive = true;
-        this.localUser = localUser;
+        this.localUser   = localUser;
 
-        this.timer.schedule(new TimerTask(){
+        this.timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 if (serverAlive) {
@@ -62,9 +62,9 @@ public class HeartBeat {
             }
         }, Parameters.PULSE_INTERVAL, Parameters.PULSE_INTERVAL);
     }
-    
+
     /**
-     * Arrête le keepalive en utilisant les fonctions {@link Timer.cancel()} et {@link Timer.purge()}
+     * Arrête le keepalive
      */
     public void stop() {
         timer.cancel();
@@ -76,6 +76,7 @@ public class HeartBeat {
      */
     public void handleServerReply() {
         logger.log(Level.FINE, "HeartBeat recoit réponse du serveur");
+
         serverAlive = true;
     }
 }

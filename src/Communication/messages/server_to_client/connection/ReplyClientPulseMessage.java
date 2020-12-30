@@ -6,12 +6,11 @@ import Communication.messages.client_to_server.connection.ClientPulseMessage;
 
 /**
  * Classe de message de réponse du serveur au client à ses demandes de keepalive via {@link ClientPulseMessage}
- *
  */
 public class ReplyClientPulseMessage extends ServerToClientMessage {
     private static final long serialVersionUID = 4397161634935162347L;
 
-	@Override
+    @Override
     protected void handle(CommunicationClientController commController) {
         commController.receiveServerHeartBeat();
     }

@@ -16,14 +16,14 @@ import java.util.logging.Logger;
 public class NetworkServer {
 
     private final CommunicationServerController commController;
-    private final DirectoryFacilitator directoryFacilitator;
-    private ServerSocket serverSocket;
-    private NetworkWriter msgSender;
-    private final Logger logger = Logger.getLogger(this.getClass().getName());
+    private final DirectoryFacilitator          directoryFacilitator;
+    private final Logger                        logger = Logger.getLogger(this.getClass().getName());
+    private       ServerSocket                  serverSocket;
+    private       NetworkWriter                 msgSender;
 
     public NetworkServer(CommunicationServerController commController) {
-        this.commController         = commController;
-        this.directoryFacilitator   = new DirectoryFacilitatorImpl(commController);
+        this.commController       = commController;
+        this.directoryFacilitator = new DirectoryFacilitatorImpl(commController);
     }
 
     /**
@@ -46,6 +46,7 @@ public class NetworkServer {
 
     /**
      * Arrête le serveur
+     *
      * @throws IOException si le socket entraîne une IOException lors de sa fermeture
      */
     public void close() throws IOException {
@@ -54,12 +55,13 @@ public class NetworkServer {
         if (!serverSocket.isClosed()) {
             serverSocket.close();
 
-            logger.log(Level.INFO,"Serveur socket fermé");
+            logger.log(Level.INFO, "Serveur socket fermé");
         }
     }
 
     /**
      * Envoie le message passé en paramètre.
+     *
      * @param packet encapsulation d'un message contenant les informations nécessaires
      */
     public void sendMessage(NetworkWriter.DeliveryPacket packet) {
@@ -72,7 +74,6 @@ public class NetworkServer {
 
     /**
      * Classe dont le rôle est d'être une tache periodique dont le rôle est d'accepter les nouveaux clients sur le serveur.
-     *
      */
     private static class ClientAcceptor extends CyclicTask {
 

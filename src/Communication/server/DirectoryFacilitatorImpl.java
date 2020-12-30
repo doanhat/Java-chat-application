@@ -3,39 +3,33 @@ package Communication.server;
 import Communication.common.Parameters;
 import Communication.messages.server_to_client.connection.ReplyClientPulseMessage;
 import common.shared_data.UserLite;
+
 import java.io.IOException;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.UUID;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DirectoryFacilitatorImpl implements DirectoryFacilitator {
 
     private final CommunicationServerController commController;
-    private final Map<UUID, NetworkUser> connections;
-    private final Timer timer;
-    private final Logger logger = Logger.getLogger(this.getClass().getName());
+    private final Map<UUID, NetworkUser>        connections;
+    private final Timer                         timer;
+    private final Logger                        logger = Logger.getLogger(this.getClass().getName());
 
     public DirectoryFacilitatorImpl(CommunicationServerController commController) {
         this.commController = commController;
-        this.connections = new HashMap<>();
+        this.connections    = new HashMap<>();
 
         // Setup periodic users health check
         this.timer = new Timer();
 
-        this.timer.schedule(new TimerTask(){
+        this.timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 Collection<UUID> userIDs = connections.keySet();
                 // Check pulse of all NetworkUsers
-                for (UUID userID: userIDs) {
+                for (UUID userID : userIDs) {
                     NetworkUser user = connections.get(userID);
 
                     if (user != null) {
@@ -57,26 +51,26 @@ public class DirectoryFacilitatorImpl implements DirectoryFacilitator {
 
     /**
      * Register nouveau client au Annuaire
+     *
      * @param clientSocket socket du client
      */
     @Override
-    public boolean registerClient(Socket clientSocket) {
+    public void registerClient(Socket clientSocket) {
         if (clientSocket != null) {
             NetworkUser client = new NetworkUser(commController, clientSocket);
 
             connections.put(client.uuid(), client);
 
             logger.log(Level.INFO, "DirectoryFacilitator enrefistre un nouveau client avec ID: " + client.uuid());
-            return true;
         }
         else {
             logger.log(Level.SEVERE, "DirectoryFacilitator.registerClients : Socket est NULL");
-            return false;
         }
     }
 
     /**
      * Deregister nouveau client au Annuaire
+     *
      * @param clientID ID du client
      */
     @Override
@@ -99,6 +93,7 @@ public class DirectoryFacilitatorImpl implements DirectoryFacilitator {
 
     /**
      * Cherche NetworkUser selon clientID
+     *
      * @param clientID ID du client
      * @return handler du client socket
      */
@@ -109,13 +104,14 @@ public class DirectoryFacilitatorImpl implements DirectoryFacilitator {
 
     /**
      * Retourne la liste des clients en-lignes
+     *
      * @return liste des clients enlignes
      */
     @Override
     public List<UserLite> onlineUsers() {
         List<UserLite> userList = new ArrayList<>();
 
-        for (NetworkUser user: connections.values()) {
+        for (NetworkUser user : connections.values()) {
             userList.add(user.userInfo());
         }
 
@@ -124,6 +120,7 @@ public class DirectoryFacilitatorImpl implements DirectoryFacilitator {
 
     /**
      * Cherche la liste des NetworkUser selon User Id
+     *
      * @param users liste de clients
      * @return listes des handlers du client socket actives
      */
@@ -131,7 +128,7 @@ public class DirectoryFacilitatorImpl implements DirectoryFacilitator {
     public List<NetworkUser> getConnections(List<UserLite> users) {
         List<NetworkUser> connections = new ArrayList<>();
 
-        for (UserLite usr: users) {
+        for (UserLite usr : users) {
             NetworkUser user = getConnection(usr.getId());
 
             if (user != null) {
@@ -151,7 +148,8 @@ public class DirectoryFacilitatorImpl implements DirectoryFacilitator {
             if (user != null) {
                 try {
                     user.stop();
-                } catch (IOException e) {
+                }
+                catch (IOException e) {
                     e.printStackTrace();
                 }
             }
@@ -162,6 +160,7 @@ public class DirectoryFacilitatorImpl implements DirectoryFacilitator {
 
     /**
      * Recevoir l'impulsion d'un client
+     *
      * @param clientID ID du client
      */
     @Override
@@ -169,7 +168,7 @@ public class DirectoryFacilitatorImpl implements DirectoryFacilitator {
         NetworkUser user = getConnection(clientID);
 
         if (user != null) {
-            logger.log(Level.FINE, "Server reçoit impulse du client {}" , clientID);
+            logger.log(Level.FINE, "Server reçoit impulse du client {}", clientID);
             user.active(true);
         }
     }

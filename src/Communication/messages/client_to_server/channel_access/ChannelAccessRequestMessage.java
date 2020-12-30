@@ -12,14 +12,14 @@ import java.util.UUID;
 
 public class ChannelAccessRequestMessage extends ClientToServerMessage {
 
-    private static final long serialVersionUID = -1923313673314704993L;
-    private final ChannelAccessRequest request;
-    private final UserLite sender;
-    private final UUID channelID;
+    private static final long                 serialVersionUID = -1923313673314704993L;
+    private final        ChannelAccessRequest request;
+    private final        UserLite             sender;
+    private final        UUID                 channelID;
 
     public ChannelAccessRequestMessage(ChannelAccessRequest request, UUID channelID, UserLite requester) {
-        this.request = request;
-        this.sender = requester;
+        this.request   = request;
+        this.sender    = requester;
         this.channelID = channelID;
     }
 
@@ -27,10 +27,10 @@ public class ChannelAccessRequestMessage extends ClientToServerMessage {
     protected void handle(CommunicationServerController commController) {
         Channel channel = commController.getChannel(channelID);
 
-        if (channel != null)
-        {
+        if (channel != null) {
             if (channel.getType() == ChannelType.OWNED && !channel.getCreator().getId().equals(sender.getId())) {
-                commController.sendMessage(channel.getCreator().getId(), new TellOwnerAccessRequestMessage(request, sender, channelID));
+                commController.sendMessage(channel.getCreator().getId(),
+                                           new TellOwnerAccessRequestMessage(request, sender, channelID));
             }
             else {
                 commController.changeChannelAccess(request, channel, sender);

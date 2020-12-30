@@ -12,8 +12,8 @@ import java.util.logging.Logger;
 
 public class IHMMainHandler {
 
-    private final Logger logger = Logger.getLogger(this.getClass().getName());
-    private ICommunicationToIHMMain mainClient;
+    private final Logger                  logger = Logger.getLogger(this.getClass().getName());
+    private       ICommunicationToIHMMain mainClient;
 
     /**
      * Installer l'interfaces de IHM Main
@@ -57,6 +57,7 @@ public class IHMMainHandler {
      */
     public void notifyUserConnected(UserLite newUser) {
         logger.log(Level.FINE, "Communication --> IHM Main: new user connected: " + newUser.getNickName());
+
         mainClient.addConnectedUser(newUser);
     }
 
@@ -96,17 +97,17 @@ public class IHMMainHandler {
     /**
      * Notifier IHM Main que l'action de création d'un channel a été accepté ou réfusé par serveur
      *
-     * @param channel channel à notifier à passer à la notification
+     * @param channel   channel à notifier à passer à la notification
      * @param isCreated indique si le channel a été bien créé.
      */
     public void notifyChannelCreationResponse(Channel channel, boolean isCreated) {
         if (isCreated) {
             logger.log(Level.FINE, "Creation channel {} est accepté", channel.getId());
+
             mainClient.channelCreated(channel);
         }
         else {
             logger.log(Level.FINE, "Creation channel {} est refusé", channel.getId());
-            //mainClient.channelCreationRefused(channel);
         }
     }
 

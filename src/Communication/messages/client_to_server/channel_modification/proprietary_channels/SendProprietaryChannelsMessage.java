@@ -3,7 +3,6 @@ package Communication.messages.client_to_server.channel_modification.proprietary
 import Communication.messages.abstracts.ClientToServerMessage;
 import Communication.messages.abstracts.NetworkMessage;
 import Communication.messages.server_to_client.channel_modification.NewVisibleChannelMessage;
-import Communication.messages.server_to_client.channel_modification.SendHistoryMessage;
 import Communication.server.CommunicationServerController;
 import common.shared_data.Channel;
 import common.shared_data.Kick;
@@ -15,12 +14,12 @@ import java.util.List;
 
 public class SendProprietaryChannelsMessage extends ClientToServerMessage {
 
-    private static final long serialVersionUID = 7561720469207475665L;
-    private final UserLite owner;
-    private final List<Channel> proprietaryChannels;
+    private static final long          serialVersionUID = 7561720469207475665L;
+    private final        UserLite      owner;
+    private final        List<Channel> proprietaryChannels;
 
     public SendProprietaryChannelsMessage(UserLite owner, List<Channel> proprietaryChannels) {
-        this.owner = owner;
+        this.owner               = owner;
         this.proprietaryChannels = proprietaryChannels;
     }
 
@@ -28,11 +27,10 @@ public class SendProprietaryChannelsMessage extends ClientToServerMessage {
     protected void handle(CommunicationServerController commController) {
         // NOTE: Same method requestCreateChannel() for shared and proprietary channels to be registered by Server
         for (Channel channel : proprietaryChannels) {
-            boolean isPublicChannel = channel.getVisibility() == Visibility.PUBLIC;
+            boolean isPublicChannel   = channel.getVisibility() == Visibility.PUBLIC;
             Channel registeredChannel = commController.requestCreateChannel(channel, false, isPublicChannel, owner);
 
-            if (registeredChannel != null)
-            {
+            if (registeredChannel != null) {
                 // Even to own channel, we add to join list inside server because it's need it send is message
                 commController.requestJoinChannel(registeredChannel, owner);
 
@@ -47,7 +45,7 @@ public class SendProprietaryChannelsMessage extends ClientToServerMessage {
                     connectedUsers = new ArrayList<>(channel.getAuthorizedPersons());
                 }
 
-                for (Kick kick: channel.getKicked()) {
+                for (Kick kick : channel.getKicked()) {
                     connectedUsers.removeIf(u -> u.getId().equals(kick.getUser().getId()));
                 }
 

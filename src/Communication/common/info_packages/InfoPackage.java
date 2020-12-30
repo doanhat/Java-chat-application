@@ -7,6 +7,6 @@ import java.util.UUID;
 
 public class InfoPackage implements Serializable {
     public UserLite user;
-    public UUID channelID;
-    public String nickname;
+    public UUID     channelID;
+    public String   nickname;
 }

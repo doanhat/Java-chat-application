@@ -12,15 +12,15 @@ import java.util.List;
  */
 public class AcceptationMessage extends ServerToClientMessage {
 
-    private static final long serialVersionUID = -2723562845245870330L;
-    private final UserLite user;
-    private final List<Channel> channelsList;
-    private final List<UserLite> usersList;
+    private static final long           serialVersionUID = -2723562845245870330L;
+    private final        UserLite       user;
+    private final        List<Channel>  channelsList;
+    private final        List<UserLite> usersList;
 
     public AcceptationMessage(UserLite sender, List<Channel> channelsList, List<UserLite> usersList) {
-        this.user = sender;
+        this.user         = sender;
         this.channelsList = channelsList;
-        this.usersList = usersList;
+        this.usersList    = usersList;
     }
 
     @Override

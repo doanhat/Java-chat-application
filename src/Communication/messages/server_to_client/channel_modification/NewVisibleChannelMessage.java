@@ -6,14 +6,13 @@ import common.shared_data.Channel;
 
 /**
  * Cette classe indique au client qu'un nouveau canal vient d'être créé
- *
  */
 public class NewVisibleChannelMessage extends ServerToClientMessage {
 
-	private static final long serialVersionUID = 4145865987516690680L;
-	private final Channel channel;
+    private static final long    serialVersionUID = 4145865987516690680L;
+    private final        Channel channel;
 
-    public NewVisibleChannelMessage(Channel channel){
+    public NewVisibleChannelMessage(Channel channel) {
         this.channel = channel;
     }
 

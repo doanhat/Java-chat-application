@@ -12,14 +12,14 @@ import java.util.UUID;
  */
 
 public class ValideUserQuitMessage extends ServerToClientMessage {
-    private static final long serialVersionUID = -85202337043190892L;
-    private final UUID channelID;
-    private final UserLite user;
-    private final String explanation;
+    private static final long     serialVersionUID = -85202337043190892L;
+    private final        UUID     channelID;
+    private final        UserLite user;
+    private final        String   explanation;
 
     public ValideUserQuitMessage(UUID channelID, UserLite user, String explanation) {
-        this.channelID = channelID;
-        this.user = user;
+        this.channelID   = channelID;
+        this.user        = user;
         this.explanation = explanation;
     }
 

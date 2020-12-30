@@ -10,12 +10,12 @@ import common.shared_data.ChannelType;
 
 public class ChannelOperationMessage extends ClientToServerMessage {
 
-    private static final long serialVersionUID = 165413248758221L;
-    private final ChannelOperation operation;
-    private final InfoPackage infoPackage;
+    private static final long             serialVersionUID = 165413248758221L;
+    private final        ChannelOperation operation;
+    private final        InfoPackage      infoPackage;
 
     public ChannelOperationMessage(ChannelOperation operation, InfoPackage infoPackage) {
-        this.operation = operation;
+        this.operation   = operation;
         this.infoPackage = infoPackage;
     }
 
@@ -30,7 +30,8 @@ public class ChannelOperationMessage extends ClientToServerMessage {
 
         // Server serves as a proxy in case of proprietary Channel
         if (channel.getType() == ChannelType.OWNED) {
-            commController.sendMessage(channel.getCreator().getId(), new InformOwnerChannelOperationMessage(operation, infoPackage));
+            commController.sendMessage(channel.getCreator().getId(),
+                                       new InformOwnerChannelOperationMessage(operation, infoPackage));
         }
         else {
             commController.handleChannelOperation(operation, infoPackage);

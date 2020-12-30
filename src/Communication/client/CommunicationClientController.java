@@ -6,7 +6,8 @@ import Communication.messages.abstracts.NetworkMessage;
 import Communication.messages.client_to_server.connection.UserConnectionMessage;
 import Communication.messages.client_to_server.connection.UserDisconnectionMessage;
 import common.interfaces.client.*;
-import common.shared_data.*;
+import common.shared_data.Channel;
+import common.shared_data.UserLite;
 
 import java.io.IOException;
 import java.util.List;
@@ -16,23 +17,23 @@ import java.util.logging.Logger;
 
 public class CommunicationClientController extends CommunicationController {
 
-    private final NetworkClient client;
-    private final HeartBeat heart;
-    private final Logger logger = Logger.getLogger(this.getClass().getName());
-    private final DataClientHandler dataIfaceHandler;
-    private final IHMMainHandler mainIfaceHandler;
-    private final IHMChannelHandler channelIfaceHandler;
+    private final NetworkClient                client;
+    private final HeartBeat                    heart;
+    private final Logger                       logger = Logger.getLogger(this.getClass().getName());
+    private final DataClientHandler            dataIfaceHandler;
+    private final IHMMainHandler               mainIfaceHandler;
+    private final IHMChannelHandler            channelIfaceHandler;
     private final CommunicationClientInterface commInterface;
 
 
     public CommunicationClientController() {
         super();
-        client = new NetworkClient(this);
-        heart = new HeartBeat(this);
-        dataIfaceHandler = new DataClientHandler();
-        mainIfaceHandler = new IHMMainHandler();
+        client              = new NetworkClient(this);
+        heart               = new HeartBeat(this);
+        dataIfaceHandler    = new DataClientHandler();
+        mainIfaceHandler    = new IHMMainHandler();
         channelIfaceHandler = new IHMChannelHandler();
-        commInterface = new CommunicationClientInterface(this);
+        commInterface       = new CommunicationClientInterface(this);
     }
 
 
@@ -41,7 +42,7 @@ public class CommunicationClientController extends CommunicationController {
     /**
      * Démarrer Communication Client Controller par se connecter au serveur
      *
-     * @param ip adresse ID du serveur
+     * @param ip   adresse ID du serveur
      * @param port port du serveur
      * @param user local user
      */
@@ -68,7 +69,8 @@ public class CommunicationClientController extends CommunicationController {
 
         try {
             client.close();
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -113,13 +115,13 @@ public class CommunicationClientController extends CommunicationController {
     /**
      * Installer les interfaces de Data, IHM Main et IHM Channel
      *
-     * @param dataIface interface de Data
-     * @param mainIface interface de Main
+     * @param dataIface    interface de Data
+     * @param mainIface    interface de Main
      * @param channelIface interface de Channel
      */
     public void setupInterfaces(ICommunicationToData dataIface,
-                                   ICommunicationToIHMMain mainIface,
-                                   ICommunicationToIHMChannel channelIface) {
+                                ICommunicationToIHMMain mainIface,
+                                ICommunicationToIHMChannel channelIface) {
         setICommunicationToData(dataIface);
         setICommunicationToIHMMain(mainIface);
         setICommunicationToIHMChannel(channelIface);

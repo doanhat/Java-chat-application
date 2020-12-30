@@ -6,7 +6,6 @@ import common.shared_data.UserLite;
 
 /**
  * Cette classe permet d'indiquer au client l'arrivée d'un autre client sur le serveur
- *
  */
 public class NewUserConnectedMessage extends ServerToClientMessage {
 

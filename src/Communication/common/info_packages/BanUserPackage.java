@@ -5,10 +5,10 @@ import common.shared_data.UserLite;
 import java.time.LocalDate;
 
 public class BanUserPackage extends InfoPackage {
-    private UserLite userToBan;
+    private UserLite  userToBan;
     private LocalDate endDate;
-    private boolean isPermanent;
-    private String explanation;
+    private boolean   isPermanent;
+    private String    explanation;
 
 
     public UserLite getUserToBan() {

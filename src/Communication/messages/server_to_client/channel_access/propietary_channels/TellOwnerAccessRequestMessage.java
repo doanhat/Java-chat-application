@@ -9,14 +9,14 @@ import common.shared_data.UserLite;
 import java.util.UUID;
 
 public class TellOwnerAccessRequestMessage extends ServerToClientMessage {
-    private static final long serialVersionUID = -8527233704319089062L;
-    private final ChannelAccessRequest request;
-    private final UserLite user;
-    private final UUID channelID;
+    private static final long                 serialVersionUID = -8527233704319089062L;
+    private final        ChannelAccessRequest request;
+    private final        UserLite             user;
+    private final        UUID                 channelID;
 
     public TellOwnerAccessRequestMessage(ChannelAccessRequest request, UserLite newUser, UUID channelID) {
-        this.request = request;
-        this.user = newUser;
+        this.request   = request;
+        this.user      = newUser;
         this.channelID = channelID;
     }
 
