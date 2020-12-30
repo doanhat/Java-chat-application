@@ -52,6 +52,14 @@ public class MessageController {
     Button delete;
 
 
+    private boolean containsUser(List<UserLite> list, UserLite user){
+        for(UserLite u : list){
+            if(u.getId().equals(user.getId())){
+                return true;
+            }
+        }
+        return false;
+    }
     /**
      * Setter pour fixer le message qui sera affiché par ce widget.
      * Met à jour l'affichage
@@ -61,22 +69,49 @@ public class MessageController {
     public void setMessageToDisplay(Message messageToDisplay) {
         this.messageToDisplay = messageToDisplay;
         String nickname = channelMessagesController.channel.getNickNames().get(messageToDisplay.getAuthor().getId().toString());
-        if(nickname != null){
+        if (nickname != null) {
             this.author.setText(nickname);
-        }else{
+        } else {
             this.author.setText(messageToDisplay.getAuthor().getNickName());
         }
         content.setText(messageToDisplay.getMessage());
         if (messageToDisplay.isEdited()) {
-            if(messageToDisplay.isDeletedByAdmin() || messageToDisplay.isDeletedByUser()){
+            if (messageToDisplay.isDeletedByAdmin() || messageToDisplay.isDeletedByUser()) {
                 isEditedText.setVisible(false);
-            }else{
+            } else {
                 isEditedText.setText(" message édité");
             }
 
         }
 
         likeCounter.setText(String.valueOf(messageToDisplay.countLikes()));
+
+
+        List<UserLite> likeList = messageToDisplay.getLikes();
+        UserLite user = channelMessagesController.getIhmChannelController().getInterfaceToData().getLocalUser();
+        if (!containsUser(likeList, user)) {
+            //likeList.remove(user); //dislike
+            //update icon
+            Image likeImage = null;
+            if (likeList.size() > 0) { //other user still like the message
+                likeImage = new Image("IHMChannel/icons/heart-solid.png");
+            } else {
+                likeImage = new Image("IHMChannel/icons/heart-regular.png");
+            }
+            ImageView likeIcon = new ImageView(likeImage);
+            likeIcon.setFitHeight(15);
+            likeIcon.setFitWidth(15);
+            likeButton.setGraphic(likeIcon);
+        } else {
+            //likeList.add(user); //like
+            //update icon to red heart
+            Image likeImage = new Image("IHMChannel/icons/heart-solid-red.png");
+            ImageView likeIcon = new ImageView(likeImage);
+            likeIcon.setFitHeight(15);
+            likeIcon.setFitWidth(15);
+            likeButton.setGraphic(likeIcon);
+        }
+
 
 
         //date formatting
@@ -123,33 +158,33 @@ public class MessageController {
             editIcon.setFitHeight(15);
             editIcon.setFitWidth(15);
             edit.setGraphic(editIcon);
-        }else{
+        } else {
             edit.setVisible(false);
         }
 
-        //Like
-        List<UserLite> likeList = messageToDisplay.getLikes();
-        if(!likeList.contains(localUser)){
-            //update icon
-            Image likeImage = null;
-            if(likeList.size() > 0){ //other user still like the message
-                likeImage = new Image("IHMChannel/icons/heart-solid.png");
-            }else{
-                likeImage = new Image("IHMChannel/icons/heart-regular.png");
-            }
-            ImageView likeIcon = new ImageView(likeImage);
-            likeIcon.setFitHeight(15);
-            likeIcon.setFitWidth(15);
-            likeButton.setGraphic(likeIcon);
-        }else{
-
-            //update icon to red heart
-            Image likeImage = new Image("IHMChannel/icons/heart-solid-red.png");
-            ImageView likeIcon = new ImageView(likeImage);
-            likeIcon.setFitHeight(15);
-            likeIcon.setFitWidth(15);
-            likeButton.setGraphic(likeIcon);
-        }
+//        //Like
+//        List<UserLite> likeList = messageToDisplay.getLikes();
+//        if (!likeList.contains(localUser)) {
+//            //update icon
+//            Image likeImage = null;
+//            if (likeList.size() > 0) { //other user still like the message
+//                likeImage = new Image("IHMChannel/icons/heart-solid.png");
+//            } else {
+//                likeImage = new Image("IHMChannel/icons/heart-regular.png");
+//            }
+//            ImageView likeIcon = new ImageView(likeImage);
+//            likeIcon.setFitHeight(15);
+//            likeIcon.setFitWidth(15);
+//            likeButton.setGraphic(likeIcon);
+//        } else {
+//
+//            //update icon to red heart
+//            Image likeImage = new Image("IHMChannel/icons/heart-solid-red.png");
+//            ImageView likeIcon = new ImageView(likeImage);
+//            likeIcon.setFitHeight(15);
+//            likeIcon.setFitWidth(15);
+//            likeButton.setGraphic(likeIcon);
+//        }
 
         //Reply
         Image replyImage = new Image("IHMChannel/icons/reply-solid.png");
@@ -165,7 +200,7 @@ public class MessageController {
             deleteIcon.setFitHeight(15);
             deleteIcon.setFitWidth(15);
             delete.setGraphic(deleteIcon);
-        }else{
+        } else {
             delete.setVisible(false);
         }
 

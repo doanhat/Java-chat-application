@@ -301,32 +301,28 @@ public class ChannelMessagesController{
         this.messagesMap = messagesMap;
     }
 
+    private boolean containsUser(List<UserLite> list, UserLite user){
+        for(UserLite u : list){
+            if(u.getId().equals(user.getId())){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void likeMessage(Message message, UserLite user) {
         for(Message m : observableMessages){
             if(m.getId().equals(message.getId())){
                 List<UserLite> likeList = m.getLikes();
-                if(likeList.contains(user)){
-                    likeList.remove(user); //dislike
-                    //update icon
-                    Image likeImage = null;
-                    if(likeList.size() > 0){ //other user still like the message
-                        likeImage = new Image("IHMChannel/icons/heart-solid.png");
-                    }else{
-                        likeImage = new Image("IHMChannel/icons/heart-regular.png");
-                    }
-                    ImageView likeIcon = new ImageView(likeImage);
-                    likeIcon.setFitHeight(15);
-                    likeIcon.setFitWidth(15);
-                    messagesMap.get(m.getId()).getLikeButton().setGraphic(likeIcon);
+                if(containsUser(likeList, user)){
+                    likeList.removeIf((UserLite u) -> u.getId().equals(user.getId())); //dislike
+                    m.setLikes(likeList);
+
                 }else{
                     likeList.add(user); //like
-                    //update icon to red heart
-                    Image likeImage = new Image("IHMChannel/icons/heart-solid-red.png");
-                    ImageView likeIcon = new ImageView(likeImage);
-                    likeIcon.setFitHeight(15);
-                    likeIcon.setFitWidth(15);
-                    messagesMap.get(m.getId()).getLikeButton().setGraphic(likeIcon);
+                    m.setLikes(likeList);
                 }
+                //TODO inspecter liste likes transmise
                 messagesMap.get(message.getId()).setMessageToDisplay(m); //mise à jour de l'affichage
                 break;
             }
@@ -358,7 +354,7 @@ public class ChannelMessagesController{
     }
 
 
-    public void changeNickname(UserLite user) throws IOException {
+    public void changeNickname() throws IOException {
         displayMessagesList();
     }
 }

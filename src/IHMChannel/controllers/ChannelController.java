@@ -167,7 +167,7 @@ public class ChannelController {
         seeKickedMembersBtn.setGraphic(kickedMembersIcon);
     }
 
-    public void receiveMessage(Message receivedMessage, Message responseTo) {
+    public void receiveMessage(Message receivedMessage) {
         currentChannel.addMessage(receivedMessage);
         channelMessagesDisplay.getController().addMessageToObservableList(receivedMessage);
     }
@@ -404,18 +404,6 @@ public class ChannelController {
 
         KickedMembersListPopUpController kickedMembersListPopUpController = fxmlLoader.getController();
 
-        // DATA TEST en attendant integration.
-//        Kick kick1 = new Kick(new UserLite(UUID.randomUUID(),"userK1",null),null,null,null);
-//        Kick kick2 = new Kick(new UserLite(UUID.randomUUID(),"userK2",null),null,null,null);
-//        Kick kick3 = new Kick(new UserLite(UUID.randomUUID(),"userK3",null),null,null,null);
-//        List<Kick> dataTest = FXCollections.observableArrayList();
-//        dataTest.add(kick1);
-//        dataTest.add(kick2);
-//        dataTest.add(kick3);
-        //currentChannel.setKicked(dataTest);
-        //kickedMembersListPopUpController.setKickedMembers((ObservableList<Kick>) dataTest);
-
-        // A remettre pour l'integration => Remplace les dataTests
         ObservableList<Kick> kickedObservableList = FXCollections.observableArrayList();
         for(Kick k : currentChannel.getKicked()){
             kickedObservableList.add(k);
@@ -536,7 +524,7 @@ public class ChannelController {
         currentChannel.getNickNames().replace(user.getId().toString(), newNickname);
         try {
             //Transfert vue messages
-            channelMessagesController.changeNickname(user);
+            channelMessagesController.changeNickname();
             //Transfert vue members
             channelMembersDisplay.getController().changeNickname(user, newNickname);
         } catch (IOException e) {
