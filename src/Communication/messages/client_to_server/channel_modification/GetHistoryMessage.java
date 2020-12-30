@@ -10,13 +10,13 @@ import java.util.UUID;
 
 public class GetHistoryMessage extends ClientToServerMessage {
 
-    private static final long serialVersionUID = 74269207475665L;
-    private final UUID channelID;
-    private final UserLite sender;
+    private static final long     serialVersionUID = 74269207475665L;
+    private final        UUID     channelID;
+    private final        UserLite sender;
 
-    public GetHistoryMessage(UUID channelID, UserLite user){
+    public GetHistoryMessage(UUID channelID, UserLite user) {
         this.channelID = channelID;
-        this.sender = user;
+        this.sender    = user;
     }
 
     @Override
@@ -25,8 +25,9 @@ public class GetHistoryMessage extends ClientToServerMessage {
         // NOTE : Server should have the list of all active channels, proprietary and shared
         Channel channel = commController.getChannel(channelID);
 
-        if(channel != null) {
-            commController.sendMessage(sender.getId(), new SendHistoryMessage(channel, commController.channelConnectedUsers(channel)));
+        if (channel != null) {
+            commController.sendMessage(sender.getId(),
+                                       new SendHistoryMessage(channel, commController.channelConnectedUsers(channel)));
         }
     }
 }

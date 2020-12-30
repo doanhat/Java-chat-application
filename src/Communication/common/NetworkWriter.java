@@ -12,12 +12,11 @@ import java.util.logging.Logger;
 
 /**
  * Classe gérant l'écriture et l'envoi de messages sur le réseau depuis une Liste synchronisée de messages.
- *
  */
 public class NetworkWriter extends CyclicTask {
 
-    private final List<DeliveryPacket> messagesQueue;
-    private static final transient Logger LOGGER = Logger.getLogger(NetworkWriter.class.getName());
+    private static final transient Logger               LOGGER = Logger.getLogger(NetworkWriter.class.getName());
+    private final                  List<DeliveryPacket> messagesQueue;
 
     public NetworkWriter() {
         messagesQueue = Collections.synchronizedList(new ArrayList<>());
@@ -25,6 +24,7 @@ public class NetworkWriter extends CyclicTask {
 
     /**
      * Ajoute un Message à envoyer à la liste synchronisée de messages
+     *
      * @param packet intance encapsulant le recepteur et le message reçu
      */
     public void sendMessage(DeliveryPacket packet) {
@@ -81,21 +81,22 @@ public class NetworkWriter extends CyclicTask {
      * Classe embarqué encapsule message et recepteur
      */
     public static class DeliveryPacket {
-        private ObjectOutputStream receiver;
-        private NetworkMessage message;
+        private final ObjectOutputStream receiver;
+        private final NetworkMessage     message;
 
         public DeliveryPacket(ObjectOutputStream receiver, NetworkMessage message) {
             this.receiver = receiver;
-            this.message = message;
+            this.message  = message;
         }
 
         /**
          * Envoie le message en sur la socket en utilisant {@link ObjectOutputStream#writeObject(Object)} en lui passant le message à envoyer.
+         *
          * @throws IOException si l'outputStream renvoie une IOException au moment du write
          */
         public void send() throws IOException {
             LOGGER.log(Level.FINE, "Send message {}", message.getClass());
-            //System.err.println("send msg " + message.getClass());
+
             receiver.reset();
             receiver.writeObject(message);
         }

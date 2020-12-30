@@ -6,23 +6,23 @@ import Communication.server.CommunicationServerController;
 import common.shared_data.UserLite;
 
 public class AvatarMessage extends ClientToServerMessage {
-    private static final long serialVersionUID = -19653314074993L;
-    private final Operation operation;
-    private final UserLite sender;
-    private final UserLite user;
-    private String encodedString;
+    private static final long      serialVersionUID = -19653314074993L;
+    private final        Operation operation;
+    private final        UserLite  sender;
+    private final        UserLite  user;
+    private              String    encodedString;
 
     public AvatarMessage(Operation operation, UserLite user, UserLite sender, String encodedString) {
-        this.operation = operation;
-        this.sender = sender;
-        this.user = user;
+        this.operation     = operation;
+        this.sender        = sender;
+        this.user          = user;
         this.encodedString = encodedString;
     }
 
     public AvatarMessage(Operation operation, UserLite sender, UserLite user) {
         this.operation = operation;
-        this.sender = sender;
-        this.user = user;
+        this.sender    = sender;
+        this.user      = user;
     }
 
     @Override
@@ -32,7 +32,8 @@ public class AvatarMessage extends ClientToServerMessage {
                 commController.setAvatar(user, encodedString);
                 break;
             case GET:
-                commController.sendMessage(sender.getId(), new AvatarPathMessage(user, commController.getAvatarPath(user)));
+                commController.sendMessage(sender.getId(),
+                                           new AvatarPathMessage(user, commController.getAvatarPath(user)));
         }
     }
 

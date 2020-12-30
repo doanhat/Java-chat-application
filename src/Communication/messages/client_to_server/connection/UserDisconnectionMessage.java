@@ -1,13 +1,14 @@
 package Communication.messages.client_to_server.connection;
-import java.util.UUID;
 
 import Communication.messages.abstracts.ClientToServerMessage;
 import Communication.server.CommunicationServerController;
 
+import java.util.UUID;
+
 public class UserDisconnectionMessage extends ClientToServerMessage {
 
-	private static final long serialVersionUID = 2970712372437347267L;
-	private final UUID userID;
+    private static final long serialVersionUID = 2970712372437347267L;
+    private final        UUID userID;
 
     public UserDisconnectionMessage(UUID userID) {
         this.userID = userID;

@@ -18,23 +18,23 @@ public class CommunicationServerInterface implements IServerDataToCommunication 
     }
 
     @Override
-    public void setIP(String addressIP) {
-        Parameters.SERVER_IP = addressIP;
-    }
-
-    @Override
-    public void setPort(int port) {
-        Parameters.PORT = port;
-    }
-
-    @Override
     public String getIP() {
         return Parameters.SERVER_IP;
     }
 
     @Override
+    public void setIP(String addressIP) {
+        Parameters.SERVER_IP = addressIP;
+    }
+
+    @Override
     public int getPort() {
         return Parameters.PORT;
+    }
+
+    @Override
+    public void setPort(int port) {
+        Parameters.PORT = port;
     }
 
     @Override
@@ -56,11 +56,12 @@ public class CommunicationServerInterface implements IServerDataToCommunication 
         // init unban sequence
         BanUserPackage banUserPackage = new BanUserPackage();
         banUserPackage.setUserToBan(unbannedUser);
-        banUserPackage.user = channel.getCreator();
+        banUserPackage.user      = channel.getCreator();
         banUserPackage.channelID = channel.getId();
 
         if (channel.getType() == ChannelType.OWNED) {
-            commController.sendMessage(channel.getCreator().getId(), new InformOwnerChannelOperationMessage(ChannelOperation.UNBAN_USER, banUserPackage));
+            commController.sendMessage(channel.getCreator().getId(),
+                                       new InformOwnerChannelOperationMessage(ChannelOperation.UNBAN_USER, banUserPackage));
         }
         else {
             commController.handleChannelOperation(ChannelOperation.UNBAN_USER, banUserPackage);

@@ -2,32 +2,34 @@ package Communication.client;
 
 import Communication.common.ChannelAccessRequest;
 import Communication.common.ChannelOperation;
+import Communication.common.Parameters;
 import Communication.common.info_packages.BanUserPackage;
 import Communication.common.info_packages.ChatPackage;
 import Communication.common.info_packages.InfoPackage;
-import Communication.common.Parameters;
 import Communication.common.info_packages.UpdateChannelPackage;
+import Communication.messages.client_to_server.channel_access.ChannelAccessRequestMessage;
 import Communication.messages.client_to_server.channel_modification.DeleteChannelMessage;
 import Communication.messages.client_to_server.channel_modification.GetChannelUsersMessage;
+import Communication.messages.client_to_server.channel_modification.GetHistoryMessage;
 import Communication.messages.client_to_server.channel_modification.proprietary_channels.SendProprietaryChannelsMessage;
 import Communication.messages.client_to_server.channel_modification.shared_channels.CreateSharedChannelMessage;
 import Communication.messages.client_to_server.channel_operation.ChannelOperationMessage;
-import Communication.messages.client_to_server.channel_modification.GetHistoryMessage;
-import Communication.messages.client_to_server.channel_access.ChannelAccessRequestMessage;
-
 import Communication.messages.client_to_server.connection.AvatarMessage;
-import common.interfaces.client.*;
+import common.interfaces.client.IDataToCommunication;
+import common.interfaces.client.IIHMChannelToCommunication;
+import common.interfaces.client.IIHMMainToCommunication;
 import common.shared_data.*;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Collections;
+import java.util.UUID;
 
 public class CommunicationClientInterface implements IDataToCommunication,
                                                      IIHMMainToCommunication,
                                                      IIHMChannelToCommunication {
 
     private final CommunicationClientController commController;
-    private UserLite localUser;
+    private       UserLite                      localUser;
 
     public CommunicationClientInterface(CommunicationClientController communicationClientController) {
         this.commController = communicationClientController;
@@ -49,23 +51,23 @@ public class CommunicationClientInterface implements IDataToCommunication,
     /* ---------------------------- IIHMMainToCommunication interface implementations --------------------------------*/
 
     @Override
-    public void setIP(String addressIP) {
-        Parameters.SERVER_IP = addressIP;
-    }
-
-    @Override
-    public void setPort(int port) {
-        Parameters.PORT = port;
-    }
-
-    @Override
     public String getIP() {
         return Parameters.SERVER_IP;
     }
 
     @Override
+    public void setIP(String addressIP) {
+        Parameters.SERVER_IP = addressIP;
+    }
+
+    @Override
     public int getPort() {
         return Parameters.PORT;
+    }
+
+    @Override
+    public void setPort(int port) {
+        Parameters.PORT = port;
     }
 
     /**
@@ -104,11 +106,11 @@ public class CommunicationClientInterface implements IDataToCommunication,
 
         commController.sendMessage(new AvatarMessage(AvatarMessage.Operation.GET, localUser, user));
     }
-    
+
     public UserLite getLocalUser() {
-		return localUser;
-	}
-    
+        return localUser;
+    }
+
 
     @Override
     public void getConnectedUsers(UUID channelID) {
@@ -119,11 +121,11 @@ public class CommunicationClientInterface implements IDataToCommunication,
 
     /* -------------------------- IIHMChannelToCommunication interface implementations -------------------------------*/
 
-	/**
+    /**
      * Transfert au serveur l'envoi d'un message d'invitation au serveur'envoi
      * d'une invitation a rejoindre un channel
      *
-     * @param guest [UserLite] Utilisateur invité au channel
+     * @param guest   [UserLite] Utilisateur invité au channel
      * @param channel [Channel] Channel auquel guest est invité
      * @param message [String] Message d'invitation
      **/
@@ -134,7 +136,9 @@ public class CommunicationClientInterface implements IDataToCommunication,
 
         // check if local user has the right to invite
         if (localUser.getId().equals(channel.getCreator().getId()) || channel.userIsAdmin(localUser.getId())) {
-            commController.sendMessage(new ChannelAccessRequestMessage(ChannelAccessRequest.INVITE, channel.getId(), guest));
+            commController.sendMessage(new ChannelAccessRequestMessage(ChannelAccessRequest.INVITE,
+                                                                       channel.getId(),
+                                                                       guest));
         }
     }
 
@@ -151,8 +155,9 @@ public class CommunicationClientInterface implements IDataToCommunication,
         }
 
         InfoPackage infoPackage = new InfoPackage();
-        infoPackage.user = user;
-        infoPackage.channelID = channel.getId();
+
+        infoPackage.user        = user;
+        infoPackage.channelID   = channel.getId();
 
         this.commController.sendMessage(new ChannelOperationMessage(ChannelOperation.ADD_ADMIN, infoPackage));
     }
@@ -164,8 +169,9 @@ public class CommunicationClientInterface implements IDataToCommunication,
         }
 
         InfoPackage infoPackage = new InfoPackage();
-        infoPackage.user = user;
-        infoPackage.channelID = channel.getId();
+
+        infoPackage.user        = user;
+        infoPackage.channelID   = channel.getId();
 
         this.commController.sendMessage(new ChannelOperationMessage(ChannelOperation.REMOVE_ADMIN, infoPackage));
     }
@@ -173,19 +179,24 @@ public class CommunicationClientInterface implements IDataToCommunication,
     /**
      * Demande de bannir un utilisateur d'un channel
      *
-     * @param userToKick Utilisateur a bannir
-     * @param endDate Fin du bannisement
+     * @param userToKick  Utilisateur a bannir
+     * @param endDate     Fin du bannisement
      * @param isPermanent bannisement définitif
      * @param explanation Chaine de caractere justifiant le ban
-     * @param channelID ID du canal duquel l'utilisateur doit être banni.
+     * @param channelID   ID du canal duquel l'utilisateur doit être banni.
      **/
     @Override
-    public void banUserFromChannel(UserLite userToKick, LocalDate endDate, boolean isPermanent, String explanation, UUID channelID) {
+    public void banUserFromChannel(UserLite userToKick,
+                                   LocalDate endDate,
+                                   boolean isPermanent,
+                                   String explanation,
+                                   UUID channelID) {
         if (userToKick == null || channelID == null) {
             return;
         }
 
         BanUserPackage banUserPackage = new BanUserPackage();
+
         banUserPackage.user = localUser;
         banUserPackage.setUserToBan(userToKick);
         banUserPackage.channelID = channelID;
@@ -198,8 +209,9 @@ public class CommunicationClientInterface implements IDataToCommunication,
 
     /**
      * Annuler de bannir un utilisateur d'un channel
-     * @param unKickedUser
-     * @param channelID
+     *
+     * @param unKickedUser User à annuler le bannir
+     * @param channelID ID du channel
      */
     @Override
     public void cancelBanOfUserFromChannel(UserLite unKickedUser, UUID channelID) {
@@ -208,6 +220,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
         }
 
         BanUserPackage banUserPackage = new BanUserPackage();
+
         banUserPackage.user = localUser;
         banUserPackage.setUserToBan(unKickedUser);
         banUserPackage.channelID = channelID;
@@ -227,10 +240,11 @@ public class CommunicationClientInterface implements IDataToCommunication,
             return;
         }
 
-        ChatPackage chatPackage = new ChatPackage();
-        chatPackage.user = localUser;
-        chatPackage.message = msg;
-        chatPackage.channelID = channel.getId();
+        ChatPackage chatPackage       = new ChatPackage();
+
+        chatPackage.user              = localUser;
+        chatPackage.message           = msg;
+        chatPackage.channelID         = channel.getId();
         chatPackage.messageResponseTo = response;
 
         this.commController.sendMessage(new ChannelOperationMessage(ChannelOperation.SEND_MESSAGE, chatPackage));
@@ -240,7 +254,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
      * Envoie une demande d'édite au serveur
      *
      * @param msg     [Message] Message d'origine
-     * @param newMsg [Message] Message modifier
+     * @param newMsg  [Message] Message modifier
      * @param channel [Channel] Channel du message a modifier
      **/
     public void editMessage(Message msg, Message newMsg, Channel channel) {
@@ -248,10 +262,11 @@ public class CommunicationClientInterface implements IDataToCommunication,
             return;
         }
 
-        ChatPackage chatPackage = new ChatPackage();
-        chatPackage.user = localUser;
-        chatPackage.message = msg;
-        chatPackage.channelID = channel.getId();
+        ChatPackage chatPackage   = new ChatPackage();
+
+        chatPackage.user          = localUser;
+        chatPackage.message       = msg;
+        chatPackage.channelID     = channel.getId();
         chatPackage.editedMessage = newMsg;
 
         this.commController.sendMessage(new ChannelOperationMessage(ChannelOperation.EDIT_MESSAGE, chatPackage));
@@ -270,9 +285,10 @@ public class CommunicationClientInterface implements IDataToCommunication,
         }
 
         ChatPackage chatPackage = new ChatPackage();
-        chatPackage.user = user;
-        chatPackage.message = msg;
-        chatPackage.channelID = channel.getId();
+
+        chatPackage.user        = user;
+        chatPackage.message     = msg;
+        chatPackage.channelID   = channel.getId();
 
         this.commController.sendMessage(new ChannelOperationMessage(ChannelOperation.LIKE_MESSAGE, chatPackage));
     }
@@ -290,9 +306,10 @@ public class CommunicationClientInterface implements IDataToCommunication,
         }
 
         ChatPackage chatPackage = new ChatPackage();
-        chatPackage.user = user;
-        chatPackage.message = msg;
-        chatPackage.channelID = channel.getId();
+
+        chatPackage.user        = user;
+        chatPackage.message     = msg;
+        chatPackage.channelID   = channel.getId();
 
         this.commController.sendMessage(new ChannelOperationMessage(ChannelOperation.DELETE_MESSAGE, chatPackage));
     }
@@ -310,9 +327,10 @@ public class CommunicationClientInterface implements IDataToCommunication,
         }
 
         InfoPackage infoPackage = new InfoPackage();
-        infoPackage.user = user;
-        infoPackage.nickname = newNickname;
-        infoPackage.channelID = channel.getId();
+
+        infoPackage.user        = user;
+        infoPackage.nickname    = newNickname;
+        infoPackage.channelID   = channel.getId();
 
         this.commController.sendMessage(new ChannelOperationMessage(ChannelOperation.EDIT_NICKNAME, infoPackage));
     }
@@ -327,7 +345,9 @@ public class CommunicationClientInterface implements IDataToCommunication,
             return;
         }
 
-        commController.sendMessage(new ChannelAccessRequestMessage(ChannelAccessRequest.LEAVE, channel.getId(), localUser));
+        commController.sendMessage(new ChannelAccessRequestMessage(ChannelAccessRequest.LEAVE,
+                                                                   channel.getId(),
+                                                                   localUser));
     }
 
     /**
@@ -341,10 +361,13 @@ public class CommunicationClientInterface implements IDataToCommunication,
         }
 
         if (channel.getType() == ChannelType.OWNED && channel.getCreator().getId().equals(localUser.getId())) {
-            commController.sendMessage(new SendProprietaryChannelsMessage(localUser, Collections.singletonList(channel)));
+            commController.sendMessage(new SendProprietaryChannelsMessage(localUser,
+                                                                          Collections.singletonList(channel)));
         }
         else {
-            commController.sendMessage(new ChannelAccessRequestMessage(ChannelAccessRequest.JOIN, channel.getId(), localUser));
+            commController.sendMessage(new ChannelAccessRequestMessage(ChannelAccessRequest.JOIN,
+                                                                       channel.getId(),
+                                                                       localUser));
         }
 
     }
@@ -372,6 +395,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
 
     /**
      * Demande de de quitter définitivement d'un channel
+     *
      * @param channel [Channel] channel dont on quitte
      */
     @Override
@@ -380,17 +404,19 @@ public class CommunicationClientInterface implements IDataToCommunication,
             commController.sendMessage(new DeleteChannelMessage(channel.getId(), localUser));
         }
         else {
-            commController.sendMessage(new ChannelAccessRequestMessage(ChannelAccessRequest.QUIT, channel.getId(), localUser));
+            commController.sendMessage(new ChannelAccessRequestMessage(ChannelAccessRequest.QUIT,
+                                                                       channel.getId(),
+                                                                       localUser));
         }
     }
 
     /**
      * Demande de modification des caractériqtiques d'un channel
      *
-     * @param channelID [UUID] ID du channel dont on demande la modification
-     * @param name [String] Nouveau nom du channel
+     * @param channelID   [UUID] ID du channel dont on demande la modification
+     * @param name        [String] Nouveau nom du channel
      * @param description [String] Nouvelle description du channel
-     * @param visibility [Visibility] Nouvelle visibilité du channel (public / privé)
+     * @param visibility  [Visibility] Nouvelle visibilité du channel (public / privé)
      */
     public void updateChannel(UUID channelID, String name, String description, Visibility visibility) {
         if (channelID == null) {
@@ -398,11 +424,12 @@ public class CommunicationClientInterface implements IDataToCommunication,
         }
 
         UpdateChannelPackage updatePackage = new UpdateChannelPackage();
-        updatePackage.user = localUser;
-        updatePackage.name = name;
+
+        updatePackage.user        = localUser;
+        updatePackage.name        = name;
         updatePackage.description = description;
-        updatePackage.visibility = visibility;
-        updatePackage.channelID = channelID;
+        updatePackage.visibility  = visibility;
+        updatePackage.channelID   = channelID;
 
         this.commController.sendMessage(new ChannelOperationMessage(ChannelOperation.UPDATE_CHANNEL, updatePackage));
     }

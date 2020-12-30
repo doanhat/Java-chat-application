@@ -5,9 +5,9 @@ import Communication.messages.abstracts.ServerToClientMessage;
 import common.shared_data.UserLite;
 
 public class AvatarPathMessage extends ServerToClientMessage {
-    private static final long serialVersionUID = 1612256794569567L;
-    private final UserLite user;
-    private final String path;
+    private static final long     serialVersionUID = 1612256794569567L;
+    private final        UserLite user;
+    private final        String   path;
 
     public AvatarPathMessage(UserLite user, String path) {
         this.user = user;

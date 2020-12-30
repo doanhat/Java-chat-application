@@ -7,12 +7,12 @@ import Communication.server.CommunicationServerController;
 
 public class OwnerValidateChannelOperationMessage extends ClientToServerMessage {
 
-    private static final long serialVersionUID = 5135287100487841L;
-    private final ChannelOperation operation;
-    private final InfoPackage infoPackage;
+    private static final long             serialVersionUID = 5135287100487841L;
+    private final        ChannelOperation operation;
+    private final        InfoPackage      infoPackage;
 
     public OwnerValidateChannelOperationMessage(ChannelOperation operation, InfoPackage infoPackage) {
-        this.operation = operation;
+        this.operation   = operation;
         this.infoPackage = infoPackage;
     }
 

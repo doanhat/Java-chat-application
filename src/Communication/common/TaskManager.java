@@ -1,25 +1,24 @@
 package Communication.common;
 
-import static java.util.concurrent.Executors.newCachedThreadPool;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static java.util.concurrent.Executors.newCachedThreadPool;
+
 /**
  * Class gérant l'execution de taches cycliques et Uniques avec un thread pool permettant une execution d'une multitudes d'actions avec un pool de thread limité.
- *
  */
 public class TaskManager {
 
-    private final ExecutorService pool;
+    private final ExecutorService  pool;
     private final List<CyclicTask> cyclicTasks;
-    private final Logger logger = Logger.getLogger(this.getClass().getName());
+    private final Logger           logger = Logger.getLogger(this.getClass().getName());
 
     public TaskManager() {
-        pool = newCachedThreadPool();
+        pool        = newCachedThreadPool();
         cyclicTasks = new ArrayList<>();
     }
 
@@ -46,7 +45,8 @@ public class TaskManager {
      * Arrête tous les threads et stop le pool de threads.
      */
     public void shutdown() {
-        logger.log(Level.WARNING, "Task manager doit être arreté, annulant {} taches", cyclicTasks.size());
+        logger.log(Level.WARNING, "Task manager doit être arreté, annulant {0} taches", cyclicTasks.size());
+
         for (CyclicTask t : cyclicTasks) {
             t.stop();
         }

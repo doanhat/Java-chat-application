@@ -6,8 +6,8 @@ import common.shared_data.UserLite;
 
 public class UserConnectionMessage extends ClientToServerMessage {
 
-    private static final long serialVersionUID = -4369939063238047930L;
-    private final UserLite user;
+    private static final long     serialVersionUID = -4369939063238047930L;
+    private final        UserLite user;
 
     public UserConnectionMessage(UserLite user) {
         this.user = user;

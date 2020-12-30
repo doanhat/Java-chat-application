@@ -8,12 +8,12 @@ import Communication.messages.client_to_server.channel_operation.proprietary_cha
 
 public class InformOwnerChannelOperationMessage extends ServerToClientMessage {
 
-    private static final long serialVersionUID = -287745780048758221L;
-    private final ChannelOperation operation;
-    private final InfoPackage infoPackage;
+    private static final long             serialVersionUID = -287745780048758221L;
+    private final        ChannelOperation operation;
+    private final        InfoPackage      infoPackage;
 
     public InformOwnerChannelOperationMessage(ChannelOperation operation, InfoPackage infoPackage) {
-        this.operation = operation;
+        this.operation   = operation;
         this.infoPackage = infoPackage;
     }
 

@@ -9,12 +9,12 @@ import java.util.List;
 
 public class SendHistoryMessage extends ServerToClientMessage {
 
-    private static final long serialVersionUID = -1351564319089062L;
-    private final Channel channel;
-    private final List<UserLite> activeUsers;
+    private static final long           serialVersionUID = -1351564319089062L;
+    private final        Channel        channel;
+    private final        List<UserLite> activeUsers;
 
-    public SendHistoryMessage(Channel channel, List<UserLite> activeUsers){
-        this.channel = channel;
+    public SendHistoryMessage(Channel channel, List<UserLite> activeUsers) {
+        this.channel     = channel;
         this.activeUsers = activeUsers;
     }
 

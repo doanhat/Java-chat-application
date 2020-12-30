@@ -9,12 +9,12 @@ import java.util.UUID;
 
 public class SendChannelUsersMessage extends ServerToClientMessage {
 
-    private static final long serialVersionUID = -164319089062L;
-    private final UUID channelID;
-    private final List<UserLite> activeUsers;
+    private static final long           serialVersionUID = -164319089062L;
+    private final        UUID           channelID;
+    private final        List<UserLite> activeUsers;
 
-    public SendChannelUsersMessage(UUID channelID, List<UserLite> activeUsers){
-        this.channelID = channelID;
+    public SendChannelUsersMessage(UUID channelID, List<UserLite> activeUsers) {
+        this.channelID   = channelID;
         this.activeUsers = activeUsers;
     }
 

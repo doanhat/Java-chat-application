@@ -10,13 +10,13 @@ import java.util.UUID;
 
 public class GetChannelUsersMessage extends ClientToServerMessage {
 
-    private static final long serialVersionUID = 769207475665L;
-    private final UUID channelID;
-    private final UserLite sender;
+    private static final long     serialVersionUID = 769207475665L;
+    private final        UUID     channelID;
+    private final        UserLite sender;
 
     public GetChannelUsersMessage(UUID channelID, UserLite sender) {
         this.channelID = channelID;
-        this.sender = sender;
+        this.sender    = sender;
     }
 
     @Override
@@ -25,8 +25,10 @@ public class GetChannelUsersMessage extends ClientToServerMessage {
         // NOTE : Server should have the list of all active channels, proprietary and shared
         Channel channel = commController.getChannel(channelID);
 
-        if(channel != null) {
-            commController.sendMessage(sender.getId(), new SendChannelUsersMessage(channelID, commController.channelConnectedUsers(channel)));
+        if (channel != null) {
+            commController.sendMessage(sender.getId(),
+                                       new SendChannelUsersMessage(channelID,
+                                                                   commController.channelConnectedUsers(channel)));
         }
     }
 }

@@ -3,26 +3,23 @@ package Communication.messages.abstracts;
 import Communication.common.CommunicationController;
 
 import java.io.Serializable;
-import java.util.logging.Logger;
 
 /**
  * Classe abstraite des messages transitant sur le réseau.
- *
  */
 public abstract class NetworkMessage implements Serializable {
-	private static final long serialVersionUID = -7165721578275332325L;
 
-	public abstract void handle(CommunicationController commController);
+    public abstract void handle(CommunicationController commController);
 
     /**
      * Class embarqué pour associe handle fonction avec un Runnable
      */
     public static class Handler implements Runnable {
-        private NetworkMessage message;
-        private CommunicationController commController;
+        private final NetworkMessage          message;
+        private final CommunicationController commController;
 
         public Handler(NetworkMessage message, CommunicationController commController) {
-            this.message = message;
+            this.message        = message;
             this.commController = commController;
         }
 
