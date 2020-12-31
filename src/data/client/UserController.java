@@ -118,7 +118,7 @@ public class UserController extends Controller {
     public void editProfile(User user, String nickName, String avatar, String password, String lastName, String firstName, Date birthDate) {
         if (nickName!=null) Objects.requireNonNull(user).setNickName(nickName);
         if (avatar!=null) Objects.requireNonNull(user).setAvatar(avatar);
-        if (password!=null) Objects.requireNonNull(user).setPassword(nickName);
+        if (password!=null) Objects.requireNonNull(user).setPassword(password);
         if (lastName!=null) Objects.requireNonNull(user).setLastName(lastName);
         if (firstName!=null) Objects.requireNonNull(user).setFirstName(firstName);
         if (birthDate!=null) Objects.requireNonNull(user).setBirthDate(birthDate);
