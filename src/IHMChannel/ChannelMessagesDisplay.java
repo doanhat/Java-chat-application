@@ -37,4 +37,15 @@ public class ChannelMessagesDisplay {
         controller.setIhmChannelController(ihmChannelController);
     }
 
+    /**
+     * Fais une mise à jour des nicknames dans la liste des membres connectés à droite.
+     */
+    public void changeNickname(){
+        try {
+            controller.changeNickname();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

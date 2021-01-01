@@ -467,6 +467,10 @@ public class ChannelController {
 
     public void addConnectedUser(UserLite user) {
         logger.log(Level.INFO, String.format("Channel connected member list addConnectedUser 1:  {} \n", connectedMembersList));
+        String nickname = getCurrentChannel().getNickNames().get(user.getId().toString());
+        if(nickname != null){
+            user.setNickName(nickname);
+        }
         this.connectedMembersList.add(user);
         this.channelMessagesDisplay.getController().addMemberToObservableList(user);
         this.channelMembersDisplay.getController().addMemberToObservableList(user);
@@ -527,6 +531,7 @@ public class ChannelController {
             channelMessagesController.changeNickname();
             //Transfert vue members
             channelMembersDisplay.getController().changeNickname(user, newNickname);
+
         } catch (IOException e) {
             e.printStackTrace();
         }

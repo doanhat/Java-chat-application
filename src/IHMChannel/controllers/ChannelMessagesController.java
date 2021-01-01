@@ -166,6 +166,7 @@ public class ChannelMessagesController{
         Parent root = fxmlLoader.load();
         connectedMembers.setRight(root);
         connectedMembersController = fxmlLoader.getController();
+        connectedMembersController.setChannel(channel);
     }
 
     /**
@@ -355,6 +356,9 @@ public class ChannelMessagesController{
 
 
     public void changeNickname() throws IOException {
+        //vue des membres connectés à droite]
+        connectedMembersController.changeNickname(channel);
+        //vue des messages à gauche
         displayMessagesList();
     }
 }

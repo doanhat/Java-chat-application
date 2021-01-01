@@ -80,6 +80,7 @@ public class ConnectedMembersListController {
 
         for (UserLite usr : channelMembers){
             if(connectedMembersList!=null && containsUser(connectedMembersList, usr)){
+
                 if(usr.getId().equals(creator.getId())){
                     MemberDisplay memberDisplay = new MemberDisplay(usr,true,true,true,false, channel, ihmChannelController);
                     connectedMembersToDisplay.add((HBox) memberDisplay.root);
@@ -149,6 +150,8 @@ public class ConnectedMembersListController {
         return connectedMembersList;
     }
     public void setConnectedMembersList(List<UserLite> updatedConnectedMembersList) {
+
+
         if(this.connectedMembersList != null){
             this.connectedMembersList.clear();
         }

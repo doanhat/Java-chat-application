@@ -5,6 +5,7 @@ import common.interfaces.client.ICommunicationToIHMChannel;
 import common.shared_data.*;
 import javafx.application.Platform;
 
+import javax.jws.soap.SOAPBinding;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
@@ -39,6 +40,12 @@ import java.util.UUID;
                     controller.getChannelPageController().addOpenedChannel(channel);
                 } catch (IOException e) {
                     e.printStackTrace();
+                }
+                for(UserLite user : connectedUsers){
+                    String nickname = channel.getNickNames().get(user.getId().toString());
+                    if(nickname != null){
+                        user.setNickName(nickname);
+                    }
                 }
                 controller.getChannelPageController().getChannelController(channel.getId()).setConnectedMembersList(connectedUsers);
                 controller.getInterfaceToIHMMain().setOpenedChannelsList(controller.getOpenedChannelsList());
