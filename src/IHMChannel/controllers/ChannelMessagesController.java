@@ -346,10 +346,22 @@ public class ChannelMessagesController{
         //if(message.getAuthor().getId().equals(ihmChannelController.getInterfaceToData().getLocalUser().getId())){
             for(Message m : observableMessages){
                 if(m.getId().equals(message.getId())){
-                    // pas besoin de màj le content ici car on l'a màj dans la copie locale du channel, ça se répercute automatiquement sur l'affichage
-                    //affichage "message édité"
-                    messagesMap.get(m.getId()).getIsEditedText().setText("message édité");
-                    messagesMap.get(message.getId()).setMessageToDisplay(m); //mise à jour de l'affichage
+                    List<Message> answers = m.getAnswers();
+                    //on remet tout l'affichage à jour si il y a des réponses qui ont déjà été faites à ce message
+                    if(answers.size() > 0){
+                        try {
+                            displayMessagesList();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }else{ //juste le message original à mettre à jour
+                        // pas besoin de màj le content ici car on l'a màj dans la copie locale du channel, ça se répercute automatiquement sur l'affichage
+                        //affichage "message édité"
+                        messagesMap.get(m.getId()).getIsEditedText().setText("message édité");
+                        messagesMap.get(message.getId()).setMessageToDisplay(m); //mise à jour de l'affichage
+                    }
+
+
                     break;
                 }
             }
