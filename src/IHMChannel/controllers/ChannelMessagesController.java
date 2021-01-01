@@ -219,6 +219,10 @@ public class ChannelMessagesController{
                 ImageView newImgReceiver = new ImageView();
                 Text newUserNameReceiver = new Text();
                 TextArea newMessageReceiver = new TextArea();
+                String nickname = channel.getNickNames().get(prtMessage.getAuthor().getId().toString());
+                if(nickname != null){
+                    prtMessage.getAuthor().setNickName(nickname);
+                }
                 newUserNameReceiver.setText(prtMessage.getAuthor().getNickName() + " a dit :     ");
                 newMessageReceiver.setText(prtMessage.getMessage());
                 newMessageReceiver.setEditable(false);
@@ -356,7 +360,7 @@ public class ChannelMessagesController{
 
 
     public void changeNickname() throws IOException {
-        //vue des membres connectés à droite]
+        //vue des membres connectés à droite
         connectedMembersController.changeNickname(channel);
         //vue des messages à gauche
         displayMessagesList();

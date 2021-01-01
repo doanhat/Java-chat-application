@@ -162,30 +162,6 @@ public class MessageController {
             edit.setVisible(false);
         }
 
-//        //Like
-//        List<UserLite> likeList = messageToDisplay.getLikes();
-//        if (!likeList.contains(localUser)) {
-//            //update icon
-//            Image likeImage = null;
-//            if (likeList.size() > 0) { //other user still like the message
-//                likeImage = new Image("IHMChannel/icons/heart-solid.png");
-//            } else {
-//                likeImage = new Image("IHMChannel/icons/heart-regular.png");
-//            }
-//            ImageView likeIcon = new ImageView(likeImage);
-//            likeIcon.setFitHeight(15);
-//            likeIcon.setFitWidth(15);
-//            likeButton.setGraphic(likeIcon);
-//        } else {
-//
-//            //update icon to red heart
-//            Image likeImage = new Image("IHMChannel/icons/heart-solid-red.png");
-//            ImageView likeIcon = new ImageView(likeImage);
-//            likeIcon.setFitHeight(15);
-//            likeIcon.setFitWidth(15);
-//            likeButton.setGraphic(likeIcon);
-//        }
-
         //Reply
         Image replyImage = new Image("IHMChannel/icons/reply-solid.png");
         ImageView replyIcon = new ImageView(replyImage);
@@ -231,20 +207,12 @@ public class MessageController {
                 channelMessagesController.channel,
                 messageToDisplay,
                 channelMessagesController.getIhmChannelController().getInterfaceToData().getLocalUser());
-//        //TODO à enlever pour l'intégration, ne sert qu'aux tests
-//        channelMessagesController.getIhmChannelController().getInterfaceForData().likeMessage(
-//                channelMessagesController.channel.getId(),
-//                messageToDisplay,
-//                channelMessagesController.getIhmChannelController().getInterfaceToData().getLocalUser());
     }
 
     /**
      * Méthode appelée au clic sur le bouton de réponse
      */
     public void answerMessage() {
-        // TODO: préparer l'edit de la réponse : dire à ChannelMessageController d'afficher le message parent au dessus de la barre de saisie
-        // getChannelMessagesController.setParentMessage(messageToDisplay);
-        // getChannelMessagesController.setResponseView();
         this.channelMessagesController.setIsReponse(true);
         this.channelMessagesController.userNameReceiver.setText(messageToDisplay.getAuthor().getNickName() + " a dit :     ");
         this.channelMessagesController.messageReceiver.setText(messageToDisplay.getMessage());
