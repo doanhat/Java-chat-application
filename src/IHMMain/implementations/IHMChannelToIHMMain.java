@@ -45,8 +45,10 @@ public class IHMChannelToIHMMain implements IIHMChannelToIHMMain {
 
     @Override
     public void modifyChannel(UUID channelID, String name, String description, Visibility visibility) {
-        ihmMainController.modifyChannel(channelID, name, description, visibility);
-        ihmMainController.getMainWindowController().getIHMMainWindowController().updateChannelListView();
+
+            ihmMainController.modifyChannel(channelID, name, description, visibility);
+            ihmMainController.getMainWindowController().getIHMMainWindowController().updateChannelListView();
+
     }
 
     @Override

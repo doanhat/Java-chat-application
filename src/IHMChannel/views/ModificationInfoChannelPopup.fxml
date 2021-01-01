@@ -73,7 +73,7 @@
                         <Label styleClass="form-label" text="Channel propriétaire" textAlignment="CENTER" GridPane.columnIndex="3" />
                         <Label styleClass="form-label" text="Channel public" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <Label styleClass="form-label" text="Channel privé" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                        <RadioButton fx:id="sharedChannelButton" mnemonicParsing="false" selected="true" styleClass="btn-radio" GridPane.columnIndex="2">
+                        <RadioButton fx:id="sharedChannelButton" mnemonicParsing="false" selected="true" styleClass="btn-radio" GridPane.columnIndex="2" disable="true">
                             <toggleGroup>
                                 <ToggleGroup fx:id="TypeHostChannel" />
                             </toggleGroup>
@@ -83,7 +83,7 @@
                                 <ToggleGroup fx:id="TypeVisibilityChannel" />
                             </toggleGroup>
                         </RadioButton>
-                        <RadioButton fx:id="ownedChannelButton" mnemonicParsing="false" styleClass="btn-radio" toggleGroup="$TypeHostChannel" GridPane.columnIndex="4" />
+                        <RadioButton fx:id="ownedChannelButton" mnemonicParsing="false" styleClass="btn-radio" toggleGroup="$TypeHostChannel" GridPane.columnIndex="4" disable="true"/>
                         <RadioButton fx:id="privateChannelButton" mnemonicParsing="false" styleClass="btn-radio" toggleGroup="$TypeVisibilityChannel" GridPane.columnIndex="4" GridPane.rowIndex="1" />
                         <Label styleClass="form-label" text="Type de host" />
                         <Label styleClass="form-label" text="Visibilité du channel" GridPane.rowIndex="1" />

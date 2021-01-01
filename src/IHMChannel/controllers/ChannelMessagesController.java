@@ -338,7 +338,7 @@ public class ChannelMessagesController{
     }
 
     public void editMessage(Message message, Message newMessage) {
-        if(message.getAuthor().getId().equals(ihmChannelController.getInterfaceToData().getLocalUser().getId())){
+        //if(message.getAuthor().getId().equals(ihmChannelController.getInterfaceToData().getLocalUser().getId())){
             for(Message m : observableMessages){
                 if(m.getId().equals(message.getId())){
                     // pas besoin de màj le content ici car on l'a màj dans la copie locale du channel, ça se répercute automatiquement sur l'affichage
@@ -348,9 +348,9 @@ public class ChannelMessagesController{
                     break;
                 }
             }
-        }else {
-            IHMTools.informationPopup("Vous ne pouvez pas éditer ce message");
-        }
+//        }else {
+//            IHMTools.informationPopup("Vous ne pouvez pas éditer ce message");
+//        }
     }
 
 

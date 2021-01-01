@@ -152,7 +152,7 @@ public class MessageController {
     public void iconsInit() {
         UUID localUser = channelMessagesController.getIhmChannelController().getInterfaceToData().getLocalUser().getId();
         //Edit
-        if (localUser.equals(messageToDisplay.getAuthor().getId())) {
+        if (localUser.equals(messageToDisplay.getAuthor().getId()) && !(messageToDisplay.isDeletedByUser() || messageToDisplay.isDeletedByAdmin())) {
             Image editImage = new Image("IHMChannel/icons/edit-solid.png");
             ImageView editIcon = new ImageView(editImage);
             editIcon.setFitHeight(15);
