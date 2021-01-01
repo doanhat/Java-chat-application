@@ -73,7 +73,7 @@
               <!--  </HBox> -->
 
       
-              <BorderPane fx:id="pageToDisplay" />
+              <BorderPane fx:id="pageToDisplay"/>
         <!--
         MOVED TO ChannelMessages.fxml
         <ListView fx:id="listMessages">

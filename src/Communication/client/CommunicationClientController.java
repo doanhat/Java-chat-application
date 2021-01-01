@@ -56,6 +56,7 @@ public class CommunicationClientController extends CommunicationController {
         }
         catch (IOException e) {
             logger.log(Level.SEVERE, "Echec de connexion au server!");
+            e.printStackTrace();
             disconnect(null);
         }
     }

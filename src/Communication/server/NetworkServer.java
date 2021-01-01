@@ -37,7 +37,8 @@ public class NetworkServer {
             commController.taskManager.appendCyclicTask(new ClientAcceptor(this));
             commController.taskManager.appendCyclicTask(msgSender);
 
-            logger.log(Level.INFO, "Serveur en écoute sur le port {}", Parameters.PORT);
+            logger.log(Level.INFO, "Serveur en écoute sur le port {0}", Parameters.PORT);
+            logger.log(Level.INFO, "Serveur en écoute sur le IP {0}",Parameters.SERVER_IP);
         }
         catch (IOException e) {
             e.printStackTrace();

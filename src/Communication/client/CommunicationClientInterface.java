@@ -45,6 +45,7 @@ public class CommunicationClientInterface implements IDataToCommunication,
     @Override
     public void userConnect(UserLite user) {
         this.localUser = user;
+        System.out.printf("Connection to : {} {}", Parameters.SERVER_IP, Parameters.PORT, user);
         this.commController.start(Parameters.SERVER_IP, Parameters.PORT, user);
     }
 
