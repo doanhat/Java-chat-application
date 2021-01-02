@@ -35,8 +35,6 @@ public class IHMMainWindowController implements Initializable{
 
     private MainWindowController mainWindowController;
 
-    private HomePageController homePageController;
-
     private UserLite userL;
     
     // Is true if it's home page currently display, false otherwise
@@ -59,7 +57,10 @@ public class IHMMainWindowController implements Initializable{
     private StackPane mainArea;
 
     @FXML
-    private ImageView profileImage, avatarUser;
+    private ImageView profileImage;
+
+    @FXML
+    private ImageView avatarUser;
 
     @FXML
     private Text nickname;
@@ -347,6 +348,8 @@ public class IHMMainWindowController implements Initializable{
 
         //On charge la vue UserListView
         try {
+            HomePageController homePageController;
+
             FXMLLoader fxmlLoader = new
                     FXMLLoader(getClass().getResource("../views/HomePage.fxml"));
             Parent parent = fxmlLoader.load(); //On recupère le noeud racine du fxml chargé

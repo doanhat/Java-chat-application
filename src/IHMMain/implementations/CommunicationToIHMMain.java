@@ -4,7 +4,6 @@ import IHMMain.IHMMainController;
 import common.interfaces.client.ICommunicationToIHMMain;
 import common.shared_data.Channel;
 import common.shared_data.ConnectionStatus;
-import common.shared_data.User;
 import common.shared_data.UserLite;
 import javafx.application.Platform;
 
@@ -67,6 +66,6 @@ public class CommunicationToIHMMain implements ICommunicationToIHMMain {
 
     @Override
     public void setAvatarPath(UserLite user, String avatarPath) {
-
+        //TO-DO
     }
 }

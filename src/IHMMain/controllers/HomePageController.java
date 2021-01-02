@@ -7,8 +7,6 @@ import common.shared_data.User;
 import common.shared_data.UserLite;
 import common.shared_data.Visibility;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
@@ -127,19 +125,16 @@ public class HomePageController implements Initializable {
         connectedUsersListView.setItems(filteredData.sorted());
 
         //Reset la liste des channels si déselectionne la checkbox
-        filtrerChannelCheckBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue) {
-                    mainWindowController.getIHMMainWindowController().getPrivateChannels().setItems(visibleChannelsObservableList.filtered(channel -> channel.getVisibility() == Visibility.PRIVATE));
-                    mainWindowController.getIHMMainWindowController().getPublicChannels().setItems(visibleChannelsObservableList.filtered(channel -> channel.getVisibility() == Visibility.PUBLIC));
-                    for(Channel c: mainWindowController.getIhmMainController().getVisibleChannels()){
-                        mainWindowController.getIhmMainController().getIIHMMainToCommunication().getConnectedUsers(c.getId());
-                    }
-                    filteredInput.setText("");
-                }else{
-                    filteredInput.setText("");
+        filtrerChannelCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if(Boolean.FALSE.equals(newValue)) {
+                mainWindowController.getIHMMainWindowController().getPrivateChannels().setItems(visibleChannelsObservableList.filtered(channel -> channel.getVisibility() == Visibility.PRIVATE));
+                mainWindowController.getIHMMainWindowController().getPublicChannels().setItems(visibleChannelsObservableList.filtered(channel -> channel.getVisibility() == Visibility.PUBLIC));
+                for(Channel c: mainWindowController.getIhmMainController().getVisibleChannels()){
+                    mainWindowController.getIhmMainController().getIIHMMainToCommunication().getConnectedUsers(c.getId());
                 }
+                filteredInput.setText("");
+            } else{
+                filteredInput.setText("");
             }
         });
     }

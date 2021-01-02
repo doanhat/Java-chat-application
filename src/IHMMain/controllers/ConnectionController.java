@@ -49,7 +49,7 @@ public class ConnectionController implements Initializable{
     @FXML
     private Button showConnectionPasswordButton;
     @FXML
-    private TextField IPTextField;
+    private TextField ipTextField;
     @FXML
     private TextField portTextField;
 
@@ -73,11 +73,9 @@ public class ConnectionController implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
 
         //Affiche l'adresse IP à l'affichage
-        Platform.runLater(() -> {
-            IPTextField.setText(ihmMainController.getIIHMMainToCommunication().getIP());
-        });
+        Platform.runLater(() -> ipTextField.setText(ihmMainController.getIIHMMainToCommunication().getIP()));
         //Gère le changement d'adresse IP
-        IPTextField.textProperty().addListener((observable,oldValue,newValue) -> {
+        ipTextField.textProperty().addListener((observable,oldValue,newValue) -> {
             try {
                 ihmMainController.getIIHMMainToCommunication().setIP(newValue);
             }catch(Exception e){
@@ -91,9 +89,7 @@ public class ConnectionController implements Initializable{
         });
 
         //Affiche le port à l'affichage
-        Platform.runLater(() -> {
-            portTextField.setText(String.valueOf(ihmMainController.getIIHMMainToCommunication().getPort()));
-        });
+        Platform.runLater(() -> portTextField.setText(String.valueOf(ihmMainController.getIIHMMainToCommunication().getPort())));
         //Gère le changement de port
         portTextField.textProperty().addListener((observable,oldValue,newValue) -> {
             try {
