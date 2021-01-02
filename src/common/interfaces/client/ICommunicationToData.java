@@ -246,6 +246,5 @@ public interface ICommunicationToData {
      *
      * */
     void requestRemoveAdmin(UUID channelID, UserLite admin);
-
 }
 

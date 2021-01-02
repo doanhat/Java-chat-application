@@ -49,6 +49,13 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void removeChannelFromList(UUID channelId, int duration, String explanation) {
+        Channel ownedChannel = dataController.getChannelController().searchChannelById(channelId);
+
+        if (ownedChannel != null &&
+            ownedChannel.getCreator().getId().equals(dataController.getUserController().getLocalUser().getId())) {
+            dataController.getChannelController().removeChannel(channelId);
+        }
+
         Platform.runLater(() -> dataController.getChannelController().removeChannelFromList(channelId, duration, explanation));
     }
 

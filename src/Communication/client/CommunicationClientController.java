@@ -1,6 +1,7 @@
 package Communication.client;
 
 import Communication.common.CommunicationController;
+import Communication.common.Parameters;
 import Communication.common.TaskManager;
 import Communication.messages.abstracts.NetworkMessage;
 import Communication.messages.client_to_server.connection.UserConnectionMessage;
@@ -52,7 +53,7 @@ public class CommunicationClientController extends CommunicationController {
             client.connect(ip, port);
             client.sendMessage(new UserConnectionMessage(user));
 
-            logger.log(Level.INFO, "Connexion au server...");
+            logger.log(Level.INFO, "Connection to : " + Parameters.SERVER_IP + ":" + Parameters.PORT);
         }
         catch (IOException e) {
             logger.log(Level.SEVERE, "Echec de connexion au server!");

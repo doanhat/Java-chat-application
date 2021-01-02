@@ -27,7 +27,7 @@ public class SendProprietaryChannelsMessage extends ClientToServerMessage {
     protected void handle(CommunicationServerController commController) {
         // NOTE: Same method requestCreateChannel() for shared and proprietary channels to be registered by Server
         for (Channel channel : proprietaryChannels) {
-            boolean isPublicChannel   = channel.getVisibility() == Visibility.PUBLIC;
+            boolean isPublicChannel   = channel.getVisibility().equals(Visibility.PUBLIC);
             Channel registeredChannel = commController.requestCreateChannel(channel, false, isPublicChannel, owner);
 
             if (registeredChannel != null) {
@@ -48,6 +48,8 @@ public class SendProprietaryChannelsMessage extends ClientToServerMessage {
                 for (Kick kick : channel.getKicked()) {
                     connectedUsers.removeIf(u -> u.getId().equals(kick.getUser().getId()));
                 }
+
+                System.out.println("Broadcast proprietary channel to " + connectedUsers);
 
                 commController.sendMulticast(channel.getAuthorizedPersons(), newChannelNotification, owner);
             }

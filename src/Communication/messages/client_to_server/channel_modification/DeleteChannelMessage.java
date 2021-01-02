@@ -30,17 +30,16 @@ public class DeleteChannelMessage extends ClientToServerMessage {
         }
 
         if (commController.requestDeleteChannel(channel, requester)) {
-            if (channel.getType() == ChannelType.SHARED) {
-                if (channel.getVisibility() == Visibility.PUBLIC) {
-                    commController.sendBroadcast(new NewInvisibleChannelsMessage(channel.getId(),
-                                                                                 "Channel a été supprimé"), null);
-                }
-                else {
-                    commController.sendMulticast(channel.getAuthorizedPersons(),
-                                                 new NewInvisibleChannelsMessage(channel.getId(),
-                                                                                 "Channel a été supprimé"));
-                }
+            if (channel.getVisibility() == Visibility.PUBLIC) {
+                commController.sendBroadcast(new NewInvisibleChannelsMessage(channel.getId(), "Channel a été supprimé"), null);
             }
+            else {
+                commController.sendMulticast(channel.getAuthorizedPersons(),
+                                             new NewInvisibleChannelsMessage(channel.getId(), "Channel a été supprimé"));
+            }
+        }
+        else {
+            System.err.println("Channel is not deleted");
         }
 
     }

@@ -173,5 +173,4 @@ public class VirtualCommunicationToData implements ICommunicationToData {
     public void requestRemoveAdmin(UUID channelID, UserLite adminID) {
 
     }
-
 }

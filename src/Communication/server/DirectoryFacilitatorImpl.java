@@ -27,7 +27,7 @@ public class DirectoryFacilitatorImpl implements DirectoryFacilitator {
         this.timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                Collection<UUID> userIDs = connections.keySet();
+                Collection<UUID> userIDs = new ArrayList<>(connections.keySet());
                 // Check pulse of all NetworkUsers
                 for (UUID userID : userIDs) {
                     NetworkUser user = connections.get(userID);

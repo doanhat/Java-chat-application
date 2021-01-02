@@ -321,4 +321,15 @@ public class ChannelController extends Controller{
         ownedChannel.addAuthorizedUser(user);
         fileHandler.writeJSONToFile(ownedChannel.getId().toString(),ownedChannel);
     }
+
+    public void removeChannel(UUID channelID) {
+        Channel ownedChannel = searchChannelById(channelID);
+
+        if (ownedChannel == null) {
+            return;
+        }
+
+        channelList.remove(ownedChannel);
+        fileHandler.deleteJSONFile(channelID.toString());
+    }
 }
