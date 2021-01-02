@@ -91,7 +91,7 @@ public class MessageController {
             //likeList.remove(user); //dislike
             //update icon
             Image likeImage = null;
-            if (likeList.isEmpty()) { //other user still like the message
+            if (!likeList.isEmpty()) { //other user still like the message
                 likeImage = new Image("IHMChannel/icons/heart-solid.png");
             } else {
                 likeImage = new Image("IHMChannel/icons/heart-regular.png");
