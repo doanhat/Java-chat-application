@@ -48,10 +48,8 @@ public class SendProprietaryChannelsMessage extends ClientToServerMessage {
                 for (Kick kick : channel.getKicked()) {
                     connectedUsers.removeIf(u -> u.getId().equals(kick.getUser().getId()));
                 }
-
-                System.out.println("Broadcast proprietary channel to " + connectedUsers);
-
-                commController.sendMulticast(channel.getAuthorizedPersons(), newChannelNotification, owner);
+                
+                commController.sendMulticast(connectedUsers, newChannelNotification, owner);
             }
         }
     }
