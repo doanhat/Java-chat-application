@@ -5,7 +5,6 @@ import IHMChannel.controllers.SendInvitePopUpController;
 import common.shared_data.Channel;
 import common.shared_data.UserLite;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,8 +17,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
-import javax.management.RuntimeErrorException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -82,7 +79,7 @@ public class AddMemberCell extends ListCell<UserLite> {
              * Gestion du clic sur le bouton confirmer
              */
             sendInvitePopUpController.getSendInviteBtn().setOnAction(e -> {
-                logger.log(Level.INFO, String.format("You have invited {} to channel {}\nMessage : {}", user.getNickName(), channel.getName(), sendInvitePopUpController.getInvitationMessage()));
+                logger.log(Level.INFO, String.format("You have invited %s to channel %s%nMessage : %s", user.getNickName(), channel.getName(), sendInvitePopUpController.getInvitationMessage()));
                 channelController.getIhmChannelController().getInterfaceToCommunication().sendInvite(user,channel, sendInvitePopUpController.getInvitationMessage());
                 popUpWindow.close();
             });
@@ -121,12 +118,7 @@ public class AddMemberCell extends ListCell<UserLite> {
         }
         else {
             username.setText(item.getNickName());
-            //TODO trouver une solution pour les avatars
-//            if(!item.getAvatar().equals("")){
-//                profilePicture.setImage(new Image(item.getAvatar(), 30, 30, true, false));
-//            }else{ //picture by default
-                profilePicture.setImage(new Image("IHMChannel/tools/AddMemberCellFactory/avatar.jpg", 30, 30, true, false));
-//            }
+            profilePicture.setImage(new Image("IHMChannel/tools/AddMemberCellFactory/avatar.jpg", 30, 30, true, false));
 
             setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         }

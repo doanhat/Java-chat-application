@@ -60,10 +60,6 @@ public class IHMChannelControlMessageController implements Initializable {
         }
     }
 
-    @FXML
-    void replyMessage() {
-
-    }
     private MainWindowController mainWindowController;
     private IHMMainWindowController ihmMainWindowController;
 
@@ -76,12 +72,10 @@ public class IHMChannelControlMessageController implements Initializable {
     }
 
     public void setMessage(TextArea mes) {
-        // this.messageSend = new TextArea();
         this.messageSend.setText(mes.getText());
     }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        //Mettez ici le code qui s'execute avant l'apparition de la vue
     }
 
     public void uneditabled(){

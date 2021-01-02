@@ -88,12 +88,7 @@ public class IHMTools {
         popup.setAutoHide(true);
         popup.setHideOnEscape(true);
         Label label = new Label(message);
-        label.setOnMouseReleased(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent e) {
-                popup.hide();
-            }
-        });
+        label.setOnMouseReleased(e -> popup.hide());
         String url = IHMTools.class.getResource("../../common/IHMCommon/common.css").toExternalForm();
         label.getStylesheets().add(url);
         label.getStyleClass().add("notification-popup");
@@ -103,12 +98,9 @@ public class IHMTools {
 
     public static void showPopupMessage(final String message, final Window window) {
         final Popup popup = createPopup(message);
-        popup.setOnShown(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent e) {
-                popup.setX(window.getX() + window.getWidth() / 2 - popup.getWidth() / 2);
-                popup.setY(window.getY() + window.getHeight() / 6 - popup.getHeight() / 2);
-            }
+        popup.setOnShown(e -> {
+            popup.setX(window.getX() + window.getWidth() / 2 - popup.getWidth() / 2);
+            popup.setY(window.getY() + window.getHeight() / 6 - popup.getHeight() / 2);
         });
         popup.show(window);
     }

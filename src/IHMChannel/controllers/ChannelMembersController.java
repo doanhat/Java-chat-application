@@ -44,7 +44,7 @@ public class ChannelMembersController {
      *
      * @param channel
      */
-    public void setCurrentChannel(Channel channel) throws IOException {
+    public void setCurrentChannel(Channel channel){
         this.channel = channel;
         alphabeticalMembersListDisplay.getController().setCurrentChannel(channel);
         adminMembersListDisplay.getController().setCurrentChannel(channel);
@@ -126,12 +126,11 @@ public class ChannelMembersController {
         connectedMembersListDisplay.removeMemberFromConnectedMembersList(user);
     }
 
-    public void changeNickname(UserLite user, String newNickname) {
-        System.out.println("change nick for user " + user.getId() + " " + user.getNickName());
+    public void changeNickname() {
 
         //Update all views
-        alphabeticalMembersListDisplay.getController().changeNickname(user, newNickname);
-        connectedMembersListDisplay.getController().changeNickname(user, newNickname);
-        adminMembersListDisplay.getController().changeNickname(user, newNickname);
+        alphabeticalMembersListDisplay.getController().changeNickname();
+        connectedMembersListDisplay.getController().changeNickname();
+        adminMembersListDisplay.getController().changeNickname();
     }
 }

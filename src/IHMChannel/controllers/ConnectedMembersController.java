@@ -26,7 +26,6 @@ public class ConnectedMembersController {
 
     @FXML
     ListView connectedMembersListView;
-    private List<ConnectedMemberDisplay> connectedMembersDisplayed = new ArrayList<>();
 
 
     /**
@@ -53,7 +52,6 @@ public class ConnectedMembersController {
                 for(UserLite userAdded : changed.getAddedSubList()){
                     try {
                         ConnectedMemberDisplay c = new ConnectedMemberDisplay(userAdded);
-                        //this.connectedMembersDisplayed.add(c);
                         this.connectedMembersToDisplay.add((HBox) c.root);
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -70,7 +68,6 @@ public class ConnectedMembersController {
                 }
             }
         };
-        /*initConnectedMembersList();*/
     }
 
     public IHMChannelController getIhmChannelController() {
@@ -89,7 +86,6 @@ public class ConnectedMembersController {
         if(this.connectedMembersList != null){
             this.connectedMembersList.clear();
         }
-        //this.connectedMembersList = new ArrayList<>(updatedConnectedMembersList);
         this.connectedMembersList = updatedConnectedMembersList;
         observableUsers = FXCollections.observableArrayList(updatedConnectedMembersList);
         observableUsers.addListener(membersListListener);

@@ -1,18 +1,13 @@
 package IHMChannel.controllers;
 
-import IHMChannel.IHMChannelController;
-import IHMMain.controllers.IHMMainWindowController;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import common.shared_data.Channel;
 import common.shared_data.ChannelType;
-import common.shared_data.UserLite;
 import common.shared_data.Visibility;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public class ModificationInfoChannelPopup {
 
@@ -61,7 +56,6 @@ public class ModificationInfoChannelPopup {
     @FXML
     private void confirmModification(){
         if (channelName.getText().isEmpty()) {
-            System.out.println("Il faut ajouter un nom de channel");
             errorLabel.setText("Il faut ajouter un nom de channel");
         } else {
             Boolean isShared = sharedChannelButton.isSelected();
@@ -74,10 +68,6 @@ public class ModificationInfoChannelPopup {
             channel.setDescription(channelDescription.getText());
             channel.setVisibility(channelVisibility);
             channel.setType(type);
-
-            /**
-             * TODO: attendre methode de communication
-             */
 
             parentController.getIhmChannelController().getInterfaceToCommunication().updateChannel(channel.getId(), channel.getName(), channel.getDescription(), channel.getVisibility());
 
@@ -96,15 +86,15 @@ public class ModificationInfoChannelPopup {
     public void setUI(){
         channelDescription.setText(channel.getDescription());
         channelName.setText(channel.getName());
-        Boolean shared = channel.getType().equals(ChannelType.SHARED) ? true : false;
-        Boolean visible = channel.getVisibility().equals(Visibility.PUBLIC) ? true : false;
+        Boolean shared = channel.getType().equals(ChannelType.SHARED);
+        Boolean visible = channel.getVisibility().equals(Visibility.PUBLIC);
 
-        if (shared) {
+        if (Boolean.TRUE.equals(shared)) {
             sharedChannelButton.setSelected(true);
         }else{
             ownedChannelButton.setSelected(true);
         }
-        if(visible) {
+        if(Boolean.TRUE.equals(visible)) {
             publicChannelButton.setSelected(true);
         }else {
             privateChannelButton.setSelected(true);

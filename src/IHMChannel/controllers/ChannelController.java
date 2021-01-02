@@ -3,7 +3,6 @@ package IHMChannel.controllers;
 import IHMChannel.ChannelMembersDisplay;
 import IHMChannel.ChannelMessagesDisplay;
 import IHMChannel.IHMChannelController;
-import IHMMain.controllers.CreationChannelPopupController;
 import common.IHMTools.IHMTools;
 import common.shared_data.Channel;
 import common.shared_data.Message;
@@ -29,7 +28,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -108,9 +106,9 @@ public class ChannelController {
         channelMessagesController = channelMessagesDisplay.getController();
         pageToDisplay.setCenter(channelMessagesDisplay.root);
 
-        Platform.runLater(() -> {
-            IHMTools.fitSizeToParent((Region)ihmChannelController.getRoot(),(Region)channelMessagesDisplay.root);
-        });
+        Platform.runLater(() ->
+            IHMTools.fitSizeToParent((Region)ihmChannelController.getRoot(),(Region)channelMessagesDisplay.root)
+        );
 
         //Chargement de la liste des utilisateurs
         channelMembersDisplay = new ChannelMembersDisplay();
@@ -200,16 +198,8 @@ public class ChannelController {
     }
 
     public void removeAdmin(UserLite user) {
-
-        logger.log(Level.INFO, String.format("Retrait d'un  admin. {} \n", user.toString()));
         currentChannel.removeAdmin(user.getId());
-        //channelMembersDisplay.channelMembersController.adminMembersListDisplay.adminMembersController.removeMemberFromList(user);
-        try {
-            channelMembersDisplay.getController().setCurrentChannel(currentChannel);
-            //channelMembersDisplay.getController().adminMembersListDisplay.removeMemberFromList(user);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        channelMembersDisplay.getController().setCurrentChannel(currentChannel);
     }
     /**
      * Méthode déclenchée au clic sur le bouton "voir les membres"
@@ -272,8 +262,6 @@ public class ChannelController {
 
         //Restrictions sur l'affichage du bouton d'invitation
         //Visible si channel privé + utilisateur connecté = admin
-        System.out.println("Visibility = "+currentChannel.getVisibility());
-        System.out.println("Admin ? = "+currentChannel.userIsAdmin(ihmChannelController.getInterfaceToData().getLocalUser().getId()));
         if(currentChannel.getVisibility()== Visibility.PRIVATE && currentChannel.userIsAdmin(ihmChannelController.getInterfaceToData().getLocalUser().getId())){
             addMemberBtn.setVisible(true);
         }
@@ -297,11 +285,7 @@ public class ChannelController {
             boolean result = IHMTools.confirmationPopup("Voulez vous quitter le channel ?");
 
             if (result) {
-                UserLite localUser = ihmChannelController.getInterfaceToData().getLocalUser();
                 ihmChannelController.getInterfaceToCommunication().quitChannel(getCurrentChannel());
-                //attendre le retour de comm
-                //getChannelPageController().leaveChannel(getCurrentChannel().getId(), localUser);
-                //ihmChannelController.getInterfaceToCommunication().leaveChannel(getCurrentChannel());
             }
 
     }
@@ -428,7 +412,6 @@ public class ChannelController {
                 if(isLocalUserAdmin.get()){
                     kickedMembersListPopUpController.getUnKickedList().forEach(userUnKicked ->{
                         getIhmChannelController().getInterfaceToCommunication().cancelBanOfUserFromChannel(userUnKicked, currentChannel.getId());
-                        System.out.print("unkick :" + userUnKicked.getNickName());
                     });
                 }else{
                     IHMTools.informationPopup("Vous n'avez pas les droits pour réaliser cette action.");
@@ -447,8 +430,6 @@ public class ChannelController {
             boolean result = IHMTools.confirmationPopup("Voulez vous supprimer le channel ?");
             if (result){
                 this.getIhmChannelController().getInterfaceToCommunication().deleteChannel(currentChannel.getId());
-                // Pour Tester le retour serveur avant intégration :
-                // this.getIhmChannelController().getInterfaceForData().openChannelDeleted(this.currentChannel.getId());
             }
         }else{
             informationPopup("Vous n'avez pas les droits nécessaires pour effectuer cette action. Seul le créateur peut supprimer le channel.");
@@ -466,7 +447,6 @@ public class ChannelController {
     }
 
     public void addConnectedUser(UserLite user) {
-        logger.log(Level.INFO, String.format("Channel connected member list addConnectedUser 1:  {} \n", connectedMembersList));
         String nickname = getCurrentChannel().getNickNames().get(user.getId().toString());
         if(nickname != null){
             user.setNickName(nickname);
@@ -475,17 +455,11 @@ public class ChannelController {
         this.channelMessagesDisplay.getController().addMemberToObservableList(user);
         this.channelMembersDisplay.getController().addMemberToObservableList(user);
 
-        logger.log(Level.INFO, String.format("Channel connected member list addConnectedUser 2:  {} \n", connectedMembersList));
-
         try{
             this.addUser(user);
         }catch(IOException e){
             e.printStackTrace();
         }
-
-        //this.channelMessagesDisplay.setConnectedMembersList(this.connectedMembersList);
-        //this.channelMembersDisplay.getController().addMemberToObservableList(user); // TODO CHANNEL, ici l'utilisateur à l'air d'être ajouté plusieurs fois dans la liste connectedMembersList
-
     }
 
     public void removeConnectedUser(UserLite user) {
@@ -521,7 +495,7 @@ public class ChannelController {
             }
         }
         //màj interface
-        channelMessagesController.editMessage(message,newMessage);
+        channelMessagesController.editMessage(message);
     }
 
     public void changeNickname(UserLite user, String newNickname) {
@@ -530,7 +504,7 @@ public class ChannelController {
             //Transfert vue messages
             channelMessagesController.changeNickname();
             //Transfert vue members
-            channelMembersDisplay.getController().changeNickname(user, newNickname);
+            channelMembersDisplay.getController().changeNickname();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -544,7 +518,6 @@ public class ChannelController {
         iconsInit();
     }
     public void removeKick(Kick kick) {
-        //TODO à ajuster en fonction des autres modules
         List<Kick> kickList = currentChannel.getKicked();
         kickList.remove(kick);
         currentChannel.setKicked(kickList);

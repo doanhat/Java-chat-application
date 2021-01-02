@@ -30,8 +30,6 @@ public class ChannelPageDisplay {
         ihmChannelController.setRoot(root);
         ihmChannelController.setChannelPageController(fxmlLoader.getController());
         getChannelPageController().setIhmChannelController(ihmChannelController);
-        //getChannelPageController().addOpenedChannel(channel);
-        //<ChannelPageController> fxmlLoader.getController().addOpenedChannel();
 
     }
 

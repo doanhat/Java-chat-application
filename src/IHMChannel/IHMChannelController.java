@@ -118,9 +118,6 @@ public class IHMChannelController {
 
 
     public ChannelPageController getChannelPageController() {
-        if (channelPageController == null) {
-            System.out.println("IHMChannelController: channelPageController is null");
-        }
 
         return channelPageController;
     }

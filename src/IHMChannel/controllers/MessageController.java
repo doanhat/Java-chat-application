@@ -3,14 +3,12 @@ package IHMChannel.controllers;
 import common.IHMTools.IHMTools;
 import common.shared_data.Message;
 import common.shared_data.UserLite;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 
 import java.util.List;
@@ -93,7 +91,7 @@ public class MessageController {
             //likeList.remove(user); //dislike
             //update icon
             Image likeImage = null;
-            if (likeList.size() > 0) { //other user still like the message
+            if (likeList.isEmpty()) { //other user still like the message
                 likeImage = new Image("IHMChannel/icons/heart-solid.png");
             } else {
                 likeImage = new Image("IHMChannel/icons/heart-regular.png");
@@ -112,28 +110,9 @@ public class MessageController {
             likeButton.setGraphic(likeIcon);
         }
 
-
-
         //date formatting
         String df = new SimpleDateFormat("dd/MM/yyyy HH:mm").format(messageToDisplay.getDate());
         time.setText(df);
-
-        //Gestion de l'affichage des boutons
-        //bouton édition visible que c'est c'est notre message
-
-        //TODO à décommenter pour l'intégration
-        //Pour le moment, le getUser() est null
-        /*
-        if(this.channelMessagesController.getIhmChannelController().getInterfaceToData().getLocalUser().getId()==messageToDisplay.getAuthor().getId()){
-            edit.setVisible(true);
-        }
-        else{
-            edit.setVisible(false);
-        }
-         */
-
-        //TODO bouton suppression
-
     }
 
     public Text getIsEditedText() {
@@ -145,7 +124,6 @@ public class MessageController {
      * C'est la méthode dans laquelle on initialise les affichages.
      */
     public void initialize() {
-        //iconsInit();
         content.setEditable(false);
     }
 
@@ -202,7 +180,6 @@ public class MessageController {
      * Méthode appelée au clic sur le bouton de like
      */
     public void likeMessage() {
-        System.out.println("like du message " + this.content.getText());
         channelMessagesController.getIhmChannelController().getInterfaceToCommunication().likeMessage(
                 channelMessagesController.channel,
                 messageToDisplay,
@@ -227,30 +204,27 @@ public class MessageController {
         this.content.setEditable(true);
 
         //Handler pour valider la modification à l'appui sur entrée
-        content.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent keyEvent) {
+        content.setOnKeyPressed(keyEvent -> {
 
-                if (keyEvent.getCode() == KeyCode.ENTER) {
-                    Message newMsg = new Message();
-                    newMsg.setMessage(content.getText());
-                    newMsg.setId(messageToDisplay.getId());
-                    newMsg.setAuthor(messageToDisplay.getAuthor());
-                    newMsg.setAnswers(messageToDisplay.getAnswers());
-                    newMsg.setDate(messageToDisplay.getDate());
-                    newMsg.setDeletedByAdmin(messageToDisplay.isDeletedByAdmin());
-                    newMsg.setDeletedByUser(messageToDisplay.isDeletedByUser());
-                    newMsg.setEdited(messageToDisplay.isEdited());
-                    newMsg.setLikes(messageToDisplay.getLikes());
-                    newMsg.setParentMessageId(messageToDisplay.getParentMessageId());
-                    channelMessagesController.getIhmChannelController().getInterfaceToCommunication().editMessage(
-                            messageToDisplay,
-                            newMsg,
-                            channelMessagesController.channel
-                    );
+            if (keyEvent.getCode() == KeyCode.ENTER) {
+                Message newMsg = new Message();
+                newMsg.setMessage(content.getText());
+                newMsg.setId(messageToDisplay.getId());
+                newMsg.setAuthor(messageToDisplay.getAuthor());
+                newMsg.setAnswers(messageToDisplay.getAnswers());
+                newMsg.setDate(messageToDisplay.getDate());
+                newMsg.setDeletedByAdmin(messageToDisplay.isDeletedByAdmin());
+                newMsg.setDeletedByUser(messageToDisplay.isDeletedByUser());
+                newMsg.setEdited(messageToDisplay.isEdited());
+                newMsg.setLikes(messageToDisplay.getLikes());
+                newMsg.setParentMessageId(messageToDisplay.getParentMessageId());
+                channelMessagesController.getIhmChannelController().getInterfaceToCommunication().editMessage(
+                        messageToDisplay,
+                        newMsg,
+                        channelMessagesController.channel
+                );
 
-                    content.setEditable(false);
-                }
+                content.setEditable(false);
             }
         });
     }

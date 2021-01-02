@@ -71,7 +71,7 @@ public class KickedMemberController {
     }
 
     public void unKickBtnHandler() {
-        if(isUnKicked){
+        if(Boolean.TRUE.equals(isUnKicked)){
             isUnKicked =false;
             iconLock();
         }else{
@@ -81,7 +81,6 @@ public class KickedMemberController {
     }
 
     public void infoBtnHandler() {
-        //TODO
     }
 
 
