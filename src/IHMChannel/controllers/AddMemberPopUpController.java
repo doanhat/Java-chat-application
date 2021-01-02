@@ -11,7 +11,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -61,7 +60,7 @@ public class AddMemberPopUpController {
 
         searchBar.textProperty().addListener((obs,oldValue,newValue)->{
             if (!newValue.equals("") && !newValue.trim().isEmpty()) {
-                logger.log(Level.INFO, String.format("{} changed to {} \n", oldValue, newValue));
+                logger.log(Level.INFO, String.format("%s changed to %s %n", oldValue, newValue));
                 ObservableList<UserLite> containList = usersObservableList.filtered(t -> t.getNickName().toLowerCase().substring(0, newValue.length()).contains(newValue.toLowerCase()));
                 logger.log(Level.INFO, containList.toString());
                 usersListView.setItems(containList);

@@ -5,7 +5,6 @@ import common.IHMTools.IHMTools;
 import common.shared_data.Channel;
 import common.shared_data.UserLite;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -23,7 +22,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MemberController {
@@ -50,9 +48,6 @@ public class MemberController {
 
     @FXML
     Button editNicknameBtn;
-
-
-    // TODO actionHandler: isThatYouText, toggleAdminBtn, banBtn
 
     UserLite userToDisplay;
 
@@ -100,10 +95,6 @@ public class MemberController {
      * Méthode d'initialisation des icônes du contrôle, appelée à l'initialisation
      */
     private void iconsInit(){
-        //TODO initialisation des icônes:
-        // - utilisateur en ligne
-        // - bouton bloquer
-
         toggleAdminBtn.setMemberController(this);
 
         Image usersImage = new Image("IHMChannel/icons/ban.png");
@@ -176,15 +167,14 @@ public class MemberController {
                 popUpWindow.setResizable(false);
                 popUpWindow.show();
 
-                kickPopUpController.getCancelBtn().setOnAction((ActionEvent e) -> {
-                        popUpWindow.close();
-                });
+                kickPopUpController.getCancelBtn().setOnAction((ActionEvent e) ->
+                        popUpWindow.close()
+                );
 
                 kickPopUpController.getConfirmBtn().setOnAction((ActionEvent e) -> {
                         String explanation = kickPopUpController.getExplanationMessage();
                         LocalDate kickDate = kickPopUpController.getDatePick();
                         Boolean isPermanent = kickPopUpController.getIsPermanent();
-                        System.out.print("Ban de :" + userToDisplay.getNickName() + " Pour " + explanation + " jusqu'au " + kickDate + " , Ispermanent = " +isPermanent + "\n");
                         // Interface à ajouter
                         getIhmChannelController().getInterfaceToCommunication().banUserFromChannel(userToDisplay,kickDate,isPermanent,explanation,channel.getId());
                         popUpWindow.close();

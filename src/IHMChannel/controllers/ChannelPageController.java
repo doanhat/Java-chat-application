@@ -1,8 +1,6 @@
 package IHMChannel.controllers;
 
 import IHMChannel.IHMChannelController;
-import com.sun.prism.paint.Color;
-import common.IHMTools.IHMTools;
 import common.shared_data.*;
 import javafx.application.Platform;
 import javafx.collections.*;
@@ -19,7 +17,6 @@ import java.util.*;
 
 /**
  * Contrôleur de la partie Channel de l'interface.
- * TODO ajouter les interfaces
  */
 public class ChannelPageController {
     UUID currentChannel; //channel à afficher dans l'interface
@@ -39,7 +36,7 @@ public class ChannelPageController {
     public void addOpenedChannel(Channel channel) throws IOException {
 
         openedChannels.add(channel);
-        currentChannel = channel.getId(); //TODO mieux gérer la mise à jour de cette valeur
+        currentChannel = channel.getId();
         ihmChannelController.getInterfaceToIHMMain().setCurrentVisibleChannel(channel);
 
         //Création du nouvel onglet pour le channel ajouté
@@ -49,7 +46,6 @@ public class ChannelPageController {
         Parent root = fxmlLoader.load();
 
         ChannelController ctrl = fxmlLoader.getController();
-        //ctrl.setChannel(channel);
         ctrl.setIhmChannelController(ihmChannelController);
         ctrl.getIhmChannelController().setChannelPageController(this);
         ctrl.configureMessageDisplay(ihmChannelController);
@@ -78,8 +74,6 @@ public class ChannelPageController {
                 {
                     if (tab.isSelected()) {
                         handleChangeTab(channel);
-                    } else {
-                        System.out.println("Unselected");
                     }
                 }
         );
@@ -88,8 +82,6 @@ public class ChannelPageController {
         tabs.getTabs().add(tab);
         tab.setContent((Node) root);
         tabs.getSelectionModel().select(tab);
-
-        //tab1.setGraphic(root);
 
         Region r = (Region) root;
 
@@ -127,28 +119,6 @@ public class ChannelPageController {
     }
 
 
-    /**
-     * Méthode déclenchée au clic sur le bouton "voir les membres"
-     */
-    public void seeMembers() {
-//        channelMap.get(currentChannel).seeMembers();
-    }
-
-    /**
-     * Méthode déclenchée au clic sur le bouton "ajouter un membre"
-     */
-    public void addUserToChannel() {
-
-    }
-
-    /**
-     * Méthode de test déclenchée à l'appui sur le bouton "test réception"
-     * Génère l'ajout d'un message dans la liste de messages du channel.
-     */
-    public void receiveMessage() {
-        //channelMap.get(currentChannel).receiveMessage();
-    }
-
 
     public IHMChannelController getIhmChannelController() {
         return ihmChannelController;
@@ -170,7 +140,6 @@ public class ChannelPageController {
 
     public void leaveChannel(UUID channelID, UserLite u) {
         /**
-         * TODO: Vérifier si cela fonctionne
          * Si il y'a une pool exeception rajouter Platform.RunLater(new Runnable() { .... })
          */
         Channel channel = null;
@@ -260,12 +229,7 @@ public class ChannelPageController {
     }
 
     public void quitChannel(UUID channelId) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                removeChannel(channelId);
-            }
-        });
+        Platform.runLater(() -> removeChannel(channelId));
 
         /* On notifie IHM-Main avec la nouvelle liste de channels ouverts */
         ihmChannelController.getInterfaceToIHMMain().setOpenedChannelsList(ihmChannelController.getOpenedChannelsList());

@@ -39,7 +39,7 @@ public class ConnectedMembersListController {
     ObservableList<HBox> disconnectedMembersToDisplay;
 
     //Link Member's UUID and MemberController of the user's HBox
-    private HashMap<UUID, MemberController> mapMemberController = new HashMap<UUID, MemberController>();
+    private HashMap<UUID, MemberController> mapMemberController = new HashMap<>();
 
     /**
      * Initialise la liste des membres contenus dans l'attribut channel de la classe
@@ -125,10 +125,6 @@ public class ConnectedMembersListController {
         displayMembers();
     }
 
-    public ConnectedMembersListController(){
-
-    };
-
     public void initialize() {
         channelMembers = FXCollections.observableArrayList();
         adminMembers = FXCollections.observableArrayList();
@@ -169,7 +165,7 @@ public class ConnectedMembersListController {
         displayMembers();
     }
 
-    public void changeNickname(UserLite user, String newNickname) {
+    public void changeNickname() {
         displayMembers();
     }
 }

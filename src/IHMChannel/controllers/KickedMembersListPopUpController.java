@@ -10,8 +10,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 
-import java.util.UUID;
-
 public class KickedMembersListPopUpController {
     @FXML
     ListView kickedMembersList;
@@ -20,14 +18,14 @@ public class KickedMembersListPopUpController {
     Button saveBtn;
 
     ObservableList<Kick> kickList ;
-    ObservableList<UserLite> UnKickedList ;
+    ObservableList<UserLite> unKickedList;
     ObservableList<UserLite> kickedMembers ;
     ObservableList<KickedMemberController> kickedMembersControllers;
     ObservableList<HBox> kickedMembersToDisplay;
 
     public void initialize() {
         kickList = FXCollections.observableArrayList();
-        UnKickedList = FXCollections.observableArrayList();
+        unKickedList = FXCollections.observableArrayList();
         kickedMembers = FXCollections.observableArrayList();
         kickedMembersControllers = FXCollections.observableArrayList();
         kickedMembersToDisplay = FXCollections.observableArrayList();
@@ -35,20 +33,20 @@ public class KickedMembersListPopUpController {
 
     public  Button getSaveBtn() { return saveBtn;    }
     public  ObservableList<UserLite> getUnKickedList() {
-        UnKickedList.clear();
+        unKickedList.clear();
         kickedMembersControllers.forEach(kickedMemberController -> {
             if(kickedMemberController.isUnKicked()){
-                UnKickedList.add(kickedMemberController.getUserToDisplay());
+                unKickedList.add(kickedMemberController.getUserToDisplay());
             }
         });
-        return UnKickedList;
+        return unKickedList;
     }
 
     public void setKickedMembers(ObservableList<Kick> kickList) {
         this.kickList = kickList;
-        kickList.forEach(kick->{
-            kickedMembers.add(kick.getUser());
-        });
+        kickList.forEach(kick->
+            kickedMembers.add(kick.getUser())
+        );
         displayMembers();
     }
 

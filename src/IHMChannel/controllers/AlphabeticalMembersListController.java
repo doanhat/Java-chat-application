@@ -1,6 +1,5 @@
 package IHMChannel.controllers;
 
-import IHMChannel.AlphabeticalMembersListDisplay;
 import IHMChannel.IHMChannelController;
 import IHMChannel.MemberDisplay;
 import common.shared_data.Channel;
@@ -12,7 +11,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 
 import java.io.IOException;
-import java.lang.reflect.Member;
 import java.util.HashMap;
 import java.util.Comparator;
 import java.util.List;
@@ -142,10 +140,7 @@ public class AlphabeticalMembersListController {
         displayMembers();
     }
 
-    public void changeNickname(UserLite user, String newNickname) {
-        // TODO: Fix mapMemberController n'est jamais rempli
-        System.out.println("changeNickname: Membercontroller keys" + mapMemberController.keySet());
-
+    public void changeNickname() {
         displayMembers();
     }
 }

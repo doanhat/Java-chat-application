@@ -12,8 +12,6 @@ import javafx.scene.shape.Rectangle;
 public class ToggleSwitch extends StackPane {
     private final Rectangle back = new Rectangle(30, 17, Color.RED);
     private final Button button = new Button();
-//    private String buttonStyleOff = "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 0.2, 0.0, 0.0, 2); -fx-background-color: WHITE;";
-//    private String buttonStyleOn = "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 0.2, 0.0, 0.0, 2); -fx-background-color: #00893d;";
     private String buttonStyleOff = "-fx-background-color: WHITE;";
     private String buttonStyleOn = "-fx-background-color: #00893d;";
     private String currentRole;
@@ -60,24 +58,21 @@ public class ToggleSwitch extends StackPane {
 
     public ToggleSwitch() {
         init();
-        EventHandler<Event> click = new EventHandler<Event>() {
-            @Override
-            public void handle(Event e) {
-                if (state) {
-                    button.setStyle(buttonStyleOff);
-                    back.setFill(Color.valueOf("#ced5da"));
-                    setAlignment(button, Pos.CENTER_LEFT);
-                    state = false;
-                    currentRole = "member";
-                    memberController.toggleAdmin();
-                } else {
-                    button.setStyle(buttonStyleOn);
-                    back.setFill(Color.valueOf("#80C49E"));
-                    setAlignment(button, Pos.CENTER_RIGHT);
-                    state = true;
-                    currentRole = "admin";
-                    memberController.toggleAdmin();
-                }
+        EventHandler<Event> click = e -> {
+            if (state) {
+                button.setStyle(buttonStyleOff);
+                back.setFill(Color.valueOf("#ced5da"));
+                setAlignment(button, Pos.CENTER_LEFT);
+                state = false;
+                currentRole = "member";
+                memberController.toggleAdmin();
+            } else {
+                button.setStyle(buttonStyleOn);
+                back.setFill(Color.valueOf("#80C49E"));
+                setAlignment(button, Pos.CENTER_RIGHT);
+                state = true;
+                currentRole = "admin";
+                memberController.toggleAdmin();
             }
         };
 
