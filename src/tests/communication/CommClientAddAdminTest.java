@@ -1,7 +1,7 @@
 package tests.communication;
 
-import Communication.client.CommunicationClientController;
-import Communication.client.CommunicationClientInterface;
+import communication.client.CommunicationClientController;
+import communication.client.CommunicationClientInterface;
 import common.interfaces.client.ICommunicationToData;
 import common.interfaces.client.ICommunicationToIHMChannel;
 import common.interfaces.client.ICommunicationToIHMMain;

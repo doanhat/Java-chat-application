@@ -1,6 +1,6 @@
 package tests.communication;
 
-import Communication.server.CommunicationServerController;
+import communication.server.CommunicationServerController;
 import common.interfaces.server.IServerCommunicationToData;
 import common.shared_data.Channel;
 import common.shared_data.UserLite;

@@ -1,7 +1,7 @@
 package app;
 import common.interfaces.server.IServerDataToCommunication;
 import data.server.DataServerController;
-import Communication.server.CommunicationServerController;
+import communication.server.CommunicationServerController;
 
 public class MainServer {
 
