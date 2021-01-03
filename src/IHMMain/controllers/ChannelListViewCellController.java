@@ -50,7 +50,7 @@ public class ChannelListViewCellController extends ListCell<Channel> {
                 setGraphic(null);
             } else {
                 if (fxmlLoader == null) {
-                    fxmlLoader = new FXMLLoader(getClass().getResource("../views/ChannelListViewCell.fxml"));
+                    fxmlLoader = new FXMLLoader(getClass().getResource("/IHMMain/views/ChannelListViewCell.fxml"));
                     fxmlLoader.setController(this);
 
                     try {

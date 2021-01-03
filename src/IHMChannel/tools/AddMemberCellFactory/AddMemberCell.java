@@ -50,7 +50,7 @@ public class AddMemberCell extends ListCell<UserLite> {
         //Action sur le bouton
         addBtn.setOnAction((ActionEvent event) -> {
             FXMLLoader fxmlLoader =
-                    new FXMLLoader(getClass().getResource("../../views/SendInvitePopUp.fxml"));
+                    new FXMLLoader(getClass().getResource("/IHMChannel/views/SendInvitePopUp.fxml"));
             Parent root = null;
             try {
                 root = fxmlLoader.load();

@@ -228,7 +228,7 @@ public class ChannelController {
         //En JavaFX, pop-up = fenêtre transparente sans aucun style.
         Popup popup = new Popup();
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../views/AddMemberPopUp.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/IHMChannel/views/AddMemberPopUp.fxml"));
             popup.getContent().add(fxmlLoader.load());
             AddMemberPopUpController addMemberPopUpController = fxmlLoader.getController();
             addMemberPopUpController.setChannelController(this);
@@ -336,7 +336,7 @@ public class ChannelController {
 
         if (Boolean.TRUE.equals(canModify)) {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../views/ModificationInfoChannelPopup.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/IHMChannel/views/ModificationInfoChannelPopup.fxml"));
                 root = fxmlLoader.load();
 
                 ModificationInfoChannelPopup creationController = fxmlLoader.getController();
@@ -380,7 +380,7 @@ public class ChannelController {
      * Clic sur "Liste des utilisateurs kickés" depuis le menu contextuel
      */
     public void seeKickedMembers() {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../views/KickedMembersListPopUp.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/IHMChannel/views/KickedMembersListPopUp.fxml"));
         Parent root = null;
         try {
             root = fxmlLoader.load();
