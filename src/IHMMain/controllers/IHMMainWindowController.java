@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.UUID;
 
 public class IHMMainWindowController implements Initializable{
 
@@ -246,6 +247,12 @@ public class IHMMainWindowController implements Initializable{
             }
             isViewChangeSelectedChannel = false;
         }
+    }
+
+    public void removeChannelFromList(UUID channelID) {
+        isViewChangeSelectedChannel = true;
+        ihmMainController.getVisibleChannels().removeIf(channel -> channel.getId().equals(channelID));
+        isViewChangeSelectedChannel = false;
     }
 
     public void loadIHMChannelWindow(){
