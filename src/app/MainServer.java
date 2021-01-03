@@ -16,7 +16,14 @@ public class MainServer {
 
         // Setup IP:port for server
         commInterface.setIP("0.0.0.0");
-        commInterface.setPort(commInterface.getPort());
+        int port;
+        try {
+            port = Integer.parseInt(argv[0]);
+        }
+        catch(NumberFormatException e){
+            port = 8080;
+        }
+        commInterface.setPort(port);
 
         commInterface.start(); //lancement du server
     }
