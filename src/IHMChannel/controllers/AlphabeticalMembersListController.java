@@ -46,6 +46,9 @@ public class AlphabeticalMembersListController {
      */
     private void initMembersList() {
         channelMembers.clear();
+        creator = this.channel.getCreator();
+
+        isLocalUserAdmin = false;
         for (UserLite usr : this.channel.getAuthorizedPersons()){
             channelMembers.add(usr);
         }
@@ -56,7 +59,7 @@ public class AlphabeticalMembersListController {
                 isLocalUserAdmin = true;
             }
         }
-        creator = this.channel.getCreator();
+
     }
 
     private boolean containsUser(List<UserLite> list, UserLite user){

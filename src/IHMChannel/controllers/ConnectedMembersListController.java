@@ -47,6 +47,9 @@ public class ConnectedMembersListController {
     private void initMembersList() {
         channelMembers.clear();
         adminMembers.clear();
+        creator = this.channel.getCreator();
+
+        isLocalUserAdmin = false;
         for (UserLite usr : this.channel.getAuthorizedPersons()){
             channelMembers.add(usr);
         }
@@ -56,7 +59,7 @@ public class ConnectedMembersListController {
                 isLocalUserAdmin = true;
             }
         }
-        creator = this.channel.getCreator();
+
     }
 
     private boolean containsUser(List<UserLite> list, UserLite user){
