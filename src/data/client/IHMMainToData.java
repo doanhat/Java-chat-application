@@ -18,7 +18,7 @@ public class IHMMainToData implements IIHMMainToData {
 
     @Override
     public void disconnect() {
-
+        // Nothing to do
     }
 
     /**
@@ -112,7 +112,6 @@ public class IHMMainToData implements IIHMMainToData {
         return dataController.getUserController().createAccount(nickName,avatar,password,lastName,firstName,birthDate);
     }
 
-    // TODO UPGRATE
     @Override
     public User getUser() {
         return dataController.getUserController().getUser();

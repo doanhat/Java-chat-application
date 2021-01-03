@@ -205,11 +205,9 @@ public class CommunicationToData implements ICommunicationToData {
     @Override
     public void likeMessage(UUID channelId, Message message, UserLite user) {
         Channel channel = dataController.getChannelController().searchChannelById(channelId);
-        if(channel!=null && message!=null && user!=null){
-            if(channel.userInChannel(user.getId()) && channel.messageInChannel(message.getId())){
-                message.addLike(user);
-                saveLikeIntoHistory(channelId,message,user);
-            }
+        if(channel!=null && message!=null && user!=null && channel.userInChannel(user.getId()) && channel.messageInChannel(message.getId())){
+            message.addLike(user);
+            saveLikeIntoHistory(channelId,message,user);
         }
         dataController.getChannelController().getChannelClient().likeMessage(channelId, message, user);
     }
@@ -296,11 +294,9 @@ public class CommunicationToData implements ICommunicationToData {
     @Override
     public void requestRemoveAdmin(UUID channelID, UserLite admin) {
         Channel ownedChannel = dataController.getChannelController().searchChannelById(channelID);
-        if (ownedChannel != null) {
-            if (ownedChannel.userIsAdmin(admin.getId()) && !ownedChannel.getCreator().getId().equals(admin.getId())) {
-                ownedChannel.removeAdmin(admin.getId());
-                dataController.getChannelController().saveRemoveAdminIntoHistory(channelID);
-            }
+        if (ownedChannel != null && ownedChannel.userIsAdmin(admin.getId()) && !ownedChannel.getCreator().getId().equals(admin.getId())) {
+            ownedChannel.removeAdmin(admin.getId());
+            dataController.getChannelController().saveRemoveAdminIntoHistory(channelID);
         }
         Platform.runLater(() -> dataController.getChannelController().removeAdmin(admin, channelID));
     }

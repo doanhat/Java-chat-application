@@ -13,7 +13,7 @@ public class Message implements Serializable {
 	@JsonFormat
 		(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy@HH:mm:ss")
 	private Date date;
-	private String message;
+	private String content;
 	private boolean edited;
 	private UserLite author;
 	private List<UserLite> likes;
@@ -27,7 +27,7 @@ public class Message implements Serializable {
 		this.answers = new ArrayList<>();
 		this.date = new Date();
 		this.likes = new ArrayList<>();
-		this.message = message;
+		this.content = message;
 		this.author = author;
 	}
 
@@ -56,11 +56,11 @@ public class Message implements Serializable {
 			return "(Supprimé par l'utilisateur)";
 		}
 
-		return message;
+		return content;
 	}
 
 	public void setMessage(String message) {
-		this.message = message;
+		this.content = message;
 		this.edited = true;
 	}
 
@@ -159,8 +159,8 @@ public class Message implements Serializable {
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
-		Message message = (Message) o;
-		return Objects.equals(id, message.id);
+		Message m = (Message) o;
+		return Objects.equals(id, m.id);
 	}
 
 	@Override

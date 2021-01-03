@@ -23,7 +23,7 @@ public class UserController extends Controller {
     public UserController(IDataToCommunication comClient, IDataToIHMChannel channelClient, IDataToIHMMain mainClient, DataClientController controller) {
         super(comClient, channelClient, mainClient);
         dataController = controller;
-        fileHandleClient = new FileHandle<User>(LocationType.CLIENT, FileType.USER);
+        fileHandleClient = new FileHandle<>(LocationType.CLIENT, FileType.USER);
         localUserList = fileHandleClient.readJSONFileToList(FILENAME,User.class);
     }
 
@@ -86,13 +86,7 @@ public class UserController extends Controller {
      * @return List<UserLite> connected users
      */
     public List<UserLite> getConnectedUsers() {
-        List<UserLite> users = new ArrayList<>();
-
-        // TODO : get real data
-        /*for (int i = 1 ; i <= 5 ; i++) {
-            users.add(new UserLite("user " + i, "avatar"));
-        }*/
-        return users;
+        return new ArrayList<>();
     }
 
     public boolean createAccount(String nickName, String avatar, String password, String lastName, String firstName, Date birthDate) {

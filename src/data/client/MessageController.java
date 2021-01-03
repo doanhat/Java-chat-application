@@ -152,7 +152,6 @@ public class MessageController extends Controller {
                 }
             }
             channel.setMessages(listMsg);
-            //fileHandler.deleteJSONFile(channel.getId().toString());
             fileHandler.writeJSONToFile(channel.getId().toString(), channel);
         }
     }
