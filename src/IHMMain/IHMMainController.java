@@ -12,7 +12,6 @@ import common.shared_data.ConnectionStatus;
 import common.shared_data.UserLite;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
 
 import java.util.*;
 
@@ -46,7 +45,7 @@ public class IHMMainController {
 
     private ObservableList<Channel> openedChannels = FXCollections.observableArrayList();
 
-    private Map<UUID, List<UserLite>> connectedUserByChannels= new HashMap<UUID, List<UserLite>>();
+    private Map<UUID, List<UserLite>> connectedUserByChannels= new HashMap<>();
 
     public IHMMainController(){
         communicationToIHMMain = new CommunicationToIHMMain(this);

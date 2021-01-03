@@ -53,8 +53,6 @@ public class IHMChannelToIHMMain implements IIHMChannelToIHMMain {
 
     @Override
     public void updateIHMMainChannelListView(){
-        Platform.runLater(() -> {
-            ihmMainController.getMainWindowController().getIHMMainWindowController().updateChannelListView();
-        });
+        Platform.runLater(() -> ihmMainController.getMainWindowController().getIHMMainWindowController().updateChannelListView());
     }
 }
