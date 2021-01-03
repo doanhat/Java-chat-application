@@ -83,7 +83,10 @@ public class DataToIHMChannel implements IDataToIHMChannel {
     public void removeChannelFromList(UUID channelID, int duration, String explanation) {
 //        Platform.runLater(() -> {
 
-            IHMTools.informationPopup(String.format("Vous ne pouvez plus accéder au channel pour la raison suivante : %s", explanation));
+            if(controller.getChannelPageController().getChannelController(channelID) != null){
+                IHMTools.informationPopup(String.format("Vous ne pouvez plus accéder au channel pour la raison suivante : %s", explanation));
+
+            }
 
             controller.getChannelPageController().removeTab(channelID);
 //        });
