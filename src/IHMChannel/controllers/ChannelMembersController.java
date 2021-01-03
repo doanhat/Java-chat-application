@@ -133,4 +133,5 @@ public class ChannelMembersController {
         connectedMembersListDisplay.getController().changeNickname();
         adminMembersListDisplay.getController().changeNickname();
     }
+
 }

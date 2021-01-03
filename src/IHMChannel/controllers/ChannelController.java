@@ -194,12 +194,14 @@ public class ChannelController {
     public void addNewAdmin(UserLite user) throws IOException {
         currentChannel.addAdmin(user);
         channelMembersDisplay.getController().setCurrentChannel(currentChannel);
+        channelMessagesController.setCurrentChannel(currentChannel);
         //channelMembersDisplay.getController().adminMembersListDisplay.adminMembersController.
     }
 
     public void removeAdmin(UserLite user) {
         currentChannel.removeAdmin(user.getId());
         channelMembersDisplay.getController().setCurrentChannel(currentChannel);
+        channelMessagesController.setCurrentChannel(currentChannel);
     }
     /**
      * Méthode déclenchée au clic sur le bouton "voir les membres"

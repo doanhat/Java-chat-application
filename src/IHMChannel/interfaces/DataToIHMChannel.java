@@ -64,7 +64,9 @@ public class DataToIHMChannel implements IDataToIHMChannel {
     public void removeAdmin(UserLite user, UUID channelId) throws IOException {
         Platform.runLater(() -> {
             ChannelController channelController = controller.getChannelPageController().getChannelController(channelId);
-            channelController.removeAdmin(user);
+            if(channelController != null){
+                channelController.removeAdmin(user);
+            }
         });
     }
 
