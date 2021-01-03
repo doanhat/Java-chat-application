@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 
 public class ChannelController extends Controller{
     private List<Channel> channelList;
-    private Channel localChannel;
     private final FileHandle<Channel> fileHandler = new FileHandle<>(LocationType.CLIENT, FileType.CHANNEL);
 
     public List<Channel> getChannelList() {
@@ -103,14 +102,6 @@ public class ChannelController extends Controller{
                 break;
             }
         }
-        /**
-         *  TODO integration V2 disable this line
-         *  Ici channels ne contient pas tout les channels visible pour l'utilisateur,
-         *  seulement ceux qui sont dans le dossier resource/client/channel
-         *  Donc cet appel "écrase" la vrai liste des channels visible pour l'utilisateur
-         *  Voir donc si cela ne pose pas de problème ailleur
-         */
-        //this.mainClient.updateListChannel(channels);
     }
 
     /**
@@ -238,10 +229,10 @@ public class ChannelController extends Controller{
      * @param channelId the channelId
      */
     public void saveRemoveAdminIntoHistory(UUID channelId) {
-        FileHandle fileHandler = new FileHandle(LocationType.CLIENT, FileType.CHANNEL);
+        FileHandle fh = new FileHandle(LocationType.CLIENT, FileType.CHANNEL);
         Channel ownedChannel = searchChannelById(channelId);
         if (ownedChannel!=null) {
-            fileHandler.writeJSONToFile(ownedChannel.getId().toString(),ownedChannel);
+            fh.writeJSONToFile(ownedChannel.getId().toString(),ownedChannel);
         }
     }
 
@@ -302,8 +293,8 @@ public class ChannelController extends Controller{
 
     public void banUserIntoHistory(UserLite user, UUID channelId, Date end, Boolean isPermanent,String explanation) {
         Channel ownedChannel = searchChannelById(channelId);
-        List<Kick> kicked = ownedChannel.getKicked();
         if (ownedChannel!=null) {
+            List<Kick> kicked = ownedChannel.getKicked();
             kicked.removeIf(k -> k.getUser().getId().equals(user.getId()));
             if (!isPermanent) {
                 kicked.add(new Kick(user, channelId, explanation, end));

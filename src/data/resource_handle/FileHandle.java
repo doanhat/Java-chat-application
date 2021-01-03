@@ -6,8 +6,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -28,7 +28,6 @@ public class FileHandle<T> {
         String filePath = System.getProperty("user.dir") + System.getProperty("file.separator") + "resource" + System.getProperty("file.separator") + location + System.getProperty("file.separator") + fileType + System.getProperty("file.separator");
         if (!Paths.get(filePath).toFile().exists() || !Paths.get(filePath).toFile().isDirectory()) {
             Paths.get(filePath).toFile().mkdirs();
-            //System.out.println("Folder created");
         }
         this.path = filePath;
     }
@@ -56,7 +55,6 @@ public class FileHandle<T> {
             File[] filesList = directoryPath.listFiles((dir, name) -> (name.toLowerCase().endsWith(EXTENSION)));
             if(filesList != null) {
                 for (File file : filesList) {
-                    // System.out.println(Paths.get(file.getAbsolutePath()));
                     T t = mapper.readValue(Paths.get(file.getAbsolutePath()).toFile(), tClass);
                     ts.add(t);
                 }
@@ -115,7 +113,7 @@ public class FileHandle<T> {
             bytes = new byte[(int) image.length()];
             fileInputStreamReader.read(bytes);
         }
-        return new String(Base64.getEncoder().encode(bytes), "UTF-8");
+        return new String(Base64.getEncoder().encode(bytes), StandardCharsets.UTF_8);
     }
 
     public String getAvatarPath(String userId) {

@@ -80,7 +80,7 @@ public class ChannelsListController {
         Channel channel = searchChannelById(channelID);
 
         if (channel == null) {
-            return null;
+            return new ArrayList<>();
         }
 
         return channel.getMessages();
@@ -98,16 +98,8 @@ public class ChannelsListController {
         return null;
     }
 
-    public List<Channel> searchChannelByDesc(String description) {
-        return null;
-    }
-
-    public List<Channel> searchChannelByUsers(List<String> users) {
-        return null;
-    }
-
     public List<UUID> getChannelsWhereUser(UUID userID){
-        ArrayList<UUID> res = new ArrayList<UUID>();
+        ArrayList<UUID> res = new ArrayList<>();
         for (Channel channel: ownedChannels) {
             if(channel.userIsAuthorized(userID))
                 res.add(channel.getId());
@@ -240,12 +232,12 @@ public class ChannelsListController {
      */
     public void writeEditMessage(UUID channelId, Message editedMsg) {
         Channel channel = searchChannelById(channelId);
-        Message originalMsg = getMessageFromId(channel.getId(), editedMsg.getId());
-
-        if (channel != null && originalMsg != null) {
-            originalMsg.setMessage(editedMsg.getMessage());
-            originalMsg.setEdited(true);
-
+        if (channel != null) {
+            Message originalMsg = getMessageFromId(channel.getId(), editedMsg.getId());
+            if (originalMsg != null) {
+                originalMsg.setMessage(editedMsg.getMessage());
+                originalMsg.setEdited(true);
+            }
             writeChannelDataToJSON(channel);
         }
     }
@@ -259,10 +251,11 @@ public class ChannelsListController {
      */
     public void writeLikeIntoHistory(UUID channelId, Message msg, UserLite user) {
         Channel channel = searchChannelById(channelId);
-        Message message = getMessageFromId(channel.getId(), msg.getId());
-
-        if (channel != null && message != null) {
-            message.addLike(user);
+        if (channel != null) {
+            Message message = getMessageFromId(channel.getId(), msg.getId());
+            if (message != null) {
+                message.addLike(user);
+            }
             writeChannelDataToJSON(channel);
         }
     }
@@ -271,7 +264,7 @@ public class ChannelsListController {
         List<Channel> userOwnedChannels = new ArrayList<>();
 
         if (ownedChannels == null) {
-            return null;
+            return new ArrayList<>();
         }
 
         for (Channel channel: ownedChannels) {

@@ -48,14 +48,12 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     @Override
     public Channel updateChannel(UUID channelID, UUID userID, String name, String description, Visibility visibility) {
         Channel channel = channelsListController.searchChannelById(channelID);
-        if(channel != null){
-            if(channel.userIsAdmin(userID)){
-                if (name!=null) channel.setName(name);
-                if(description!=null)channel.setDescription(description);
-                if(visibility!=null) channel.setVisibility(visibility);
-                if(channel.getType().equals(ChannelType.SHARED)){
-                    channelsListController.writeChannelDataToJSON(channel);
-                }
+        if(channel != null && channel.userIsAdmin(userID)){
+            if (name!=null) channel.setName(name);
+            if(description!=null)channel.setDescription(description);
+            if(visibility!=null) channel.setVisibility(visibility);
+            if(channel.getType().equals(ChannelType.SHARED)){
+                channelsListController.writeChannelDataToJSON(channel);
             }
         }
         return channel;
@@ -79,7 +77,6 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
         Channel channel = channelsListController.searchChannelById(channelID);
         if(channel!=null){
             if (channel.getType() == ChannelType.OWNED && user.getId().equals(channel.getCreator().getId())) {
-                // TODO verify proprietary quit channel
                 channelsListController.removeChannel(channel.getId());
             }
 
@@ -139,7 +136,7 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
 
     @Override
     public void saveLikeIntoHistory(Channel ch, Message ms, UserLite user) {
-        if (ch.getType() == ChannelType.SHARED && ch!=null && ms!=null && user!=null) {
+        if (ch != null && ch.getType() == ChannelType.SHARED && ms!=null && user!=null) {
             this.channelsListController.writeLikeIntoHistory(ch.getId(), ms, user);
         }
     }
@@ -164,18 +161,14 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
         List<Channel> ownedChannels = channelsListController.getOwnedChannels();
 
         for (Channel channel: sharedChannels) {
-            if ((channel.getVisibility() == Visibility.PUBLIC) || (channel.userIsAuthorized(user.getId()))) {
-                if (!channel.userIsBanned(user.getId())) {
-                    visibleChannels.add(channel);
-                }
+            if (((channel.getVisibility() == Visibility.PUBLIC) || (channel.userIsAuthorized(user.getId()))) && !channel.userIsBanned(user.getId())) {
+                visibleChannels.add(channel);
             }
         }
 
         for (Channel channel: ownedChannels) {
-            if ((channel.getVisibility() == Visibility.PUBLIC) || (channel.userIsAuthorized(user.getId()))) {
-                if (!channel.userIsBanned(user.getId())) {
-                    visibleChannels.add(channel);
-                }
+            if (((channel.getVisibility() == Visibility.PUBLIC) || (channel.userIsAuthorized(user.getId()))) && !channel.userIsBanned(user.getId())) {
+                visibleChannels.add(channel);
             }
         }
 
@@ -244,11 +237,7 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
             return false;
         }
 
-        if (ch.getVisibility() == Visibility.PRIVATE && !ch.userIsAuthorized(user.getId())) {
-            return false;
-        }
-
-        return true;
+        return !(ch.getVisibility() == Visibility.PRIVATE && !ch.userIsAuthorized(user.getId()));
     }
 
     @Override
@@ -332,11 +321,9 @@ public class ServerCommunicationToData implements IServerCommunicationToData {
     @Override
     public void requestRemoveAdmin(UUID channelID, UUID adminID) {
         Channel channel = channelsListController.searchChannelById(channelID);
-        if(channel!=null){
-            if(channel.userIsAdmin(adminID) && !channel.getCreator().getId().equals(adminID)){
-                channel.removeAdmin(adminID);
-                channelsListController.writeRemoveAdminInChannel(channel);
-            }
+        if(channel!=null && channel.userIsAdmin(adminID) && !channel.getCreator().getId().equals(adminID)){
+            channel.removeAdmin(adminID);
+            channelsListController.writeRemoveAdminInChannel(channel);
         }
     }
 
