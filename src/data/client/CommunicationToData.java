@@ -1,13 +1,12 @@
 package data.client;
 
 import common.interfaces.client.ICommunicationToData;
-import common.shared_data.Channel;
-import common.shared_data.Message;
-import common.shared_data.User;
-import common.shared_data.UserLite;
+import common.shared_data.*;
 import javafx.application.Platform;
 
-import java.io.IOException;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -17,27 +16,6 @@ public class CommunicationToData implements ICommunicationToData {
 
     public CommunicationToData(DataClientController dataClientController) {
         this.dataController = dataClientController;
-    }
-
-    /**
-     * Add visible channel.
-     *
-     * @param channel the channel
-     */
-    /*@Override
-    public void createChannel(Channel channel) {
-        dataController.getChannelController().mainClient.addChannelToList(channel);
-    }*/
-
-    /**
-     * User added to channel.
-     *
-     * @param user      the user
-     * @param channelId the channel
-     */
-    @Override
-    public void userAddedToChannel(UserLite user, UUID channelId) {
-        dataController.getChannelController().userAddedToChannel(user, channelId);
     }
 
     /**
@@ -71,19 +49,27 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void removeChannelFromList(UUID channelId, int duration, String explanation) {
+        Channel ownedChannel = dataController.getChannelController().searchChannelById(channelId);
+
+        if (ownedChannel != null &&
+            ownedChannel.getCreator().getId().equals(dataController.getUserController().getLocalUser().getId())) {
+            dataController.getChannelController().removeChannel(channelId);
+        }
+
         Platform.runLater(() -> dataController.getChannelController().removeChannelFromList(channelId, duration, explanation));
     }
 
-    /**
-     * Ban user into history.
-     *
-     * @param user      the user
-     * @param channelId the channel
-     * @param duration  the duration
-     */
     @Override
-    public void banUserIntoHistory(UserLite user, UUID channelId, int duration) {
-        throw new UnsupportedOperationException();
+    public void banUserIntoHistory(UserLite user, LocalDate endDate, Boolean isPermanent, String explanation, UUID channelId) {
+        Date date = null;
+
+        if (endDate != null) {
+            date = java.util.Date.from(endDate.atStartOfDay()
+                    .atZone(ZoneId.systemDefault())
+                    .toInstant());
+        }
+
+        dataController.getChannelController().banUserIntoHistory(user,channelId,date,isPermanent,explanation);
     }
 
     /**
@@ -93,8 +79,8 @@ public class CommunicationToData implements ICommunicationToData {
      * @param channelId the channel
      */
     @Override
-    public void cancelBanOfUserIntoHistory(User user, UUID channelId) {
-        throw new UnsupportedOperationException();
+    public void cancelBanOfUserIntoHistory(UserLite user, UUID channelId) {
+        dataController.getChannelController().cancelBanOfUserIntoHistory(user,channelId);
     }
 
     @Override
@@ -108,13 +94,15 @@ public class CommunicationToData implements ICommunicationToData {
     }
 
     @Override
-    public void removeUserFromAuthorizedUserChannel(UserLite user, UUID channelId, int duration, String explanation) {
-        // TODO HERE
+    public void banUser(UserLite user, LocalDate endDate, Boolean isPermanent, String explanation, UUID channelId) {
+        dataController.getChannelController().removeUserFromAuthorizedUserChannel(user,channelId);
+        Platform.runLater(() -> dataController.getChannelController().getChannelClient().userBanNotification(user,channelId, endDate, explanation));
     }
+
 
     @Override
     public void removeUserFromAuthorizedUserChannel(UserLite user, UUID channelId) {
-        dataController.getChannelController().removeUserFromAuthorizationUserChannel(user, channelId);
+        dataController.getChannelController().removeUserFromAuthorizedUserChannel(user, channelId);
     }
 
     /**
@@ -160,6 +148,9 @@ public class CommunicationToData implements ICommunicationToData {
         if (ownedChannel != null) {
             dataController.getMessageController().receiveMessage(message, ownedChannel, response);
         }
+        else {
+            System.out.println("channel is null");
+        }
     }
 
     /**
@@ -171,7 +162,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void saveEditionIntoHistory(Message oldMessage, Message newMessage, UUID channelId) {
-        throw new UnsupportedOperationException();
+        this.dataController.getMessageController().saveEditionIntoHistory(oldMessage, newMessage, channelId);
     }
 
     /**
@@ -183,7 +174,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void editMessage(Message message, Message newMessage, UUID channelId) {
-        throw new UnsupportedOperationException();
+        this.dataController.getMessageController().editMessage(message, newMessage, channelId);
     }
 
     /**
@@ -195,7 +186,13 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void saveLikeIntoHistory(UUID channelId, Message message, UserLite user) {
-        throw new UnsupportedOperationException();
+        Channel ownedChannel = dataController.getChannelController().searchChannelById(channelId);
+        if (ownedChannel != null) {
+            dataController.getMessageController().saveLikeIntoHistory(
+                    ownedChannel,
+                    message,
+                    user);
+        }
     }
 
     /**
@@ -207,7 +204,12 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void likeMessage(UUID channelId, Message message, UserLite user) {
-        throw new UnsupportedOperationException();
+        Channel channel = dataController.getChannelController().searchChannelById(channelId);
+        if(channel!=null && message!=null && user!=null && channel.userInChannel(user.getId()) && channel.messageInChannel(message.getId())){
+            message.addLike(user);
+            saveLikeIntoHistory(channelId,message,user);
+        }
+        dataController.getChannelController().getChannelClient().likeMessage(channelId, message, user);
     }
 
     /**
@@ -253,7 +255,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void updateNickname(UserLite user, UUID channelId, String newNickname) {
-        throw new UnsupportedOperationException();
+        dataController.getChannelController().updateNickname(user,channelId,newNickname);
     }
 
     /**
@@ -265,7 +267,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void saveNicknameIntoHistory(UserLite user, UUID channelId, String newNickname) {
-        throw new UnsupportedOperationException();
+        dataController.getChannelController().saveNicknameIntoHistory(user,channelId,newNickname);
     }
 
     /**
@@ -276,11 +278,7 @@ public class CommunicationToData implements ICommunicationToData {
      */
     @Override
     public void unbannedUserToChannel(UserLite user, UUID channelId) {
-        Channel ownedChannel = dataController.getChannelController().searchChannelById(channelId);
-        if (ownedChannel != null) {
-            ownedChannel.addJoinedUser(user);
-            dataController.getUserController().unbannedUserTochannel(user, channelId);
-        }
+        dataController.getUserController().unbannedUserTochannel(user, channelId);
     }
 
     @Override
@@ -296,13 +294,22 @@ public class CommunicationToData implements ICommunicationToData {
     @Override
     public void requestRemoveAdmin(UUID channelID, UserLite admin) {
         Channel ownedChannel = dataController.getChannelController().searchChannelById(channelID);
-        if (ownedChannel != null) {
-            if (ownedChannel.userIsAdmin(admin.getId()) && !ownedChannel.getCreator().getId().equals(admin.getId())) {
-                ownedChannel.removeAdmin(admin.getId());
-                dataController.getChannelController().saveRemoveAdminIntoHistory(channelID);
-            }
+        if (ownedChannel != null && ownedChannel.userIsAdmin(admin.getId()) && !ownedChannel.getCreator().getId().equals(admin.getId())) {
+            ownedChannel.removeAdmin(admin.getId());
+            dataController.getChannelController().saveRemoveAdminIntoHistory(channelID);
         }
         Platform.runLater(() -> dataController.getChannelController().removeAdmin(admin, channelID));
     }
+
+    @Override
+    public void updateChannel(UUID channelId, UUID userID, String name, String description, Visibility visibility) {
+        Platform.runLater(() -> dataController.getChannelController().getChannelClient().modifyChannel(channelId, name, description, visibility));
+    }
+
+    @Override
+    public void updateChannelIntoHistory(UUID channelID, UUID userID, String name, String description, Visibility visibility) {
+        dataController.getChannelController().updateChannel(channelID, userID, name, description, visibility);
+    }
+
 
 }

@@ -11,10 +11,9 @@ public class Message implements Serializable {
 
 	private UUID id;
 	@JsonFormat
-		(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
-
+		(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy@HH:mm:ss")
 	private Date date;
-	private String message;
+	private String content;
 	private boolean edited;
 	private UserLite author;
 	private List<UserLite> likes;
@@ -28,7 +27,7 @@ public class Message implements Serializable {
 		this.answers = new ArrayList<>();
 		this.date = new Date();
 		this.likes = new ArrayList<>();
-		this.message = message;
+		this.content = message;
 		this.author = author;
 	}
 
@@ -57,11 +56,11 @@ public class Message implements Serializable {
 			return "(Supprimé par l'utilisateur)";
 		}
 
-		return message;
+		return content;
 	}
 
 	public void setMessage(String message) {
-		this.message = message;
+		this.content = message;
 		this.edited = true;
 	}
 
@@ -91,6 +90,22 @@ public class Message implements Serializable {
 
 	public boolean isDeletedByUser() {
 		return deletedByUser;
+	}
+
+	public void addLike(UserLite userLite){
+		if (!likedByUser(userLite.getId())){
+			likes.add(userLite);
+		}else{
+			likes.removeIf(user -> user.getId().equals(userLite.getId()));
+		}
+	}
+
+	public boolean likedByUser(UUID userID){
+		for (UserLite user : likes) {
+			if(user.getId().equals(userID))
+				return true;
+		}
+		return false;
 	}
 
 	public void delete(boolean deletedByUser) {
@@ -140,18 +155,12 @@ public class Message implements Serializable {
 		return this.likes.size();
 	}
 
-	public void like(UserLite user) {
-		if(!this.likes.contains(user)) {
-			this.likes.add(user);
-		}
-	}
-
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
-		Message message = (Message) o;
-		return Objects.equals(id, message.id);
+		Message m = (Message) o;
+		return Objects.equals(id, m.id);
 	}
 
 	@Override

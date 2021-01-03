@@ -1,24 +1,33 @@
 package common.shared_data;
 
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
-public class Kick {
+import java.io.Serializable;
+import java.util.Date;
+import java.util.UUID;
+
+public class Kick implements Serializable {
+	public Kick() {
+	}
+
 	private UserLite user;
-	private Channel channel;
+	private UUID channelId;
 	private String reason;
 	private boolean permanentKick;
+	@JsonFormat
+		(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
 	private Date endKick;
 	
-	public Kick(UserLite user, Channel channel, String reason, boolean permanent) {
+	public Kick(UserLite user, UUID channelId, String reason, boolean permanent) {
 		this.user = user;
-		this.channel = channel;
+		this.channelId = channelId;
 		this.reason = reason;
 		this.permanentKick = permanent;
 	}
 	
-	public Kick(UserLite user, Channel channel, String reason, Date end) {
+	public Kick(UserLite user, UUID channelId, String reason, Date end) {
 		this.user = user;
-		this.channel = channel;
+		this.channelId = channelId;
 		this.reason = reason;
 		this.permanentKick = false;
 		this.endKick = end;
@@ -32,12 +41,12 @@ public class Kick {
 		this.user = user;
 	}
 	
-	public Channel getChannel() {
-		return channel;
+	public UUID getChannelId() {
+		return channelId;
 	}
 	
-	public void setChannel(Channel channel) {
-		this.channel = channel;
+	public void setChannelId(UUID channelId) {
+		this.channelId = channelId;
 	}
 	
 	public String getReason() {

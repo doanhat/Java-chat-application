@@ -11,8 +11,10 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Comparator;
 import java.util.List;
+import java.util.UUID;
 
 public class AlphabeticalMembersListController {
     private IHMChannelController ihmChannelController;
@@ -32,11 +34,21 @@ public class AlphabeticalMembersListController {
 
     ObservableList<HBox> membersToDisplay;
 
+    //Link Member's UUID and MemberController of the user's HBox
+    private HashMap<UUID, MemberController> mapMemberController = new HashMap<>();
+
+    public HashMap<UUID, MemberController> getMapMemberController() {
+        return mapMemberController;
+    }
+
     /**
      * Initialise la liste des membres contenus dans l'attribut channel de la classe
      */
     private void initMembersList() {
         channelMembers.clear();
+        creator = this.channel.getCreator();
+
+        isLocalUserAdmin = false;
         for (UserLite usr : this.channel.getAuthorizedPersons()){
             channelMembers.add(usr);
         }
@@ -47,7 +59,7 @@ public class AlphabeticalMembersListController {
                 isLocalUserAdmin = true;
             }
         }
-        creator = this.channel.getCreator();
+
     }
 
     private boolean containsUser(List<UserLite> list, UserLite user){
@@ -128,6 +140,10 @@ public class AlphabeticalMembersListController {
 
     public void removeMemberFromConnectedMembersList(UserLite user) {
         connectedMembersList.remove(user);
+        displayMembers();
+    }
+
+    public void changeNickname() {
         displayMembers();
     }
 }

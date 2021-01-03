@@ -1,6 +1,6 @@
 package app;
 
-import Communication.client.CommunicationClientController;
+import communication.client.CommunicationClientController;
 import data.client.DataClientController;
 import IHMChannel.IHMChannelController;
 import IHMMain.IHMMainController;

@@ -1,19 +1,12 @@
 package tests.communication.interfaces_simulation;
 
 import common.interfaces.client.ICommunicationToIHMChannel;
-import common.shared_data.Channel;
-import common.shared_data.Message;
-import common.shared_data.User;
-import common.shared_data.UserLite;
+import common.shared_data.*;
 
 import java.util.List;
 import java.util.UUID;
 
 public class VirtualCommunicationToIHMChannel implements ICommunicationToIHMChannel {
-    @Override
-    public void changeNickname(User user) {
-
-    }
 
     @Override
     public void displayChannelHistory(Channel channel, List<Message> history, List<UserLite> connectedUsers) {
@@ -41,6 +34,11 @@ public class VirtualCommunicationToIHMChannel implements ICommunicationToIHMChan
     }
     @Override
     public void leaveChannel(UUID channelID, UserLite user) {
+
+    }
+
+    @Override
+    public void banOfUserCancelledNotification(Kick kick, UUID channelID) {
 
     }
 }

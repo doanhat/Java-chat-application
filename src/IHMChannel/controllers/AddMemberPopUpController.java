@@ -11,8 +11,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AddMemberPopUpController {
     @FXML
@@ -26,35 +27,25 @@ public class AddMemberPopUpController {
 
     ObservableList<UserLite> usersObservableList;
 
+    private final Logger logger = Logger.getLogger(this.getClass().getName());
+
+    public ChannelController getChannelController() {
+        return channelController;
+    }
+
+    private ChannelController channelController;
+
     public void setUsersObservableList(List<UserLite> usersObservableList) {
         this.usersObservableList = FXCollections.observableArrayList(usersObservableList);
 
         usersListView.setItems(this.usersObservableList);
     }
 
-    private ChannelController channelController;
 
     public void setChannelController(ChannelController channelController) {
         this.channelController = channelController;
         usersListView.setCellFactory(list-> new AddMemberCell(channelController));
     }
-
-    /**
-     * Utilisé seulement pour les données de test
-     */
-    public AddMemberPopUpController(){
-        //TEST DATA
-        List<UserLite> tmp = new ArrayList();
-        UserLite usr = new UserLite("TOTO","IHMChannel/icons/heart-solid.png");
-        tmp.add(usr);
-        UserLite usr2 = new UserLite("TITI","IHMChannel/icons/heart-solid.png");
-        tmp.add(usr2);
-        UserLite usr3 = new UserLite("TATA","IHMChannel/icons/heart-solid.png");
-        tmp.add(usr3);
-
-        this.usersObservableList = FXCollections.observableList(tmp);
-    }
-
 
     public void initialize(){
         ImageView editIcon = new ImageView(new Image("IHMChannel/icons/search_icon.jpg"));
@@ -68,10 +59,10 @@ public class AddMemberPopUpController {
         //On n'applique pas encore la cell factory. On le fait une fois qu'on aura une référence sur le channelController, càd dans le call du setChannelController
 
         searchBar.textProperty().addListener((obs,oldValue,newValue)->{
-            if (newValue != "" && !newValue.trim().isEmpty()) {
-                System.out.println("(" + oldValue + "Changed to  " + newValue + ")\n");
+            if (!newValue.equals("") && !newValue.trim().isEmpty()) {
+                logger.log(Level.INFO, String.format("%s changed to %s %n", oldValue, newValue));
                 ObservableList<UserLite> containList = usersObservableList.filtered(t -> t.getNickName().toLowerCase().substring(0, newValue.length()).contains(newValue.toLowerCase()));
-                System.out.println(containList);
+                logger.log(Level.INFO, containList.toString());
                 usersListView.setItems(containList);
             }
             else {

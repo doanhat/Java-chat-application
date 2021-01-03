@@ -44,7 +44,7 @@ public class ChannelMembersController {
      *
      * @param channel
      */
-    public void setCurrentChannel(Channel channel) throws IOException {
+    public void setCurrentChannel(Channel channel){
         this.channel = channel;
         alphabeticalMembersListDisplay.getController().setCurrentChannel(channel);
         adminMembersListDisplay.getController().setCurrentChannel(channel);
@@ -69,14 +69,14 @@ public class ChannelMembersController {
      * @throws IOException
      */
     public void alphabeticSort(){
-        listMembersDisplay.setCenter(alphabeticalMembersListDisplay.root);
+        listMembersDisplay.setCenter(alphabeticalMembersListDisplay.getRoot());
     }
 
     /**
      * Tri des membres selon leur rôle
      */
     public void adminSort() {
-        listMembersDisplay.setCenter(adminMembersListDisplay.root);
+        listMembersDisplay.setCenter(adminMembersListDisplay.getRoot());
     }
 
     /**
@@ -125,4 +125,13 @@ public class ChannelMembersController {
         adminMembersListDisplay.removeMemberFromConnectedMembersList(user);
         connectedMembersListDisplay.removeMemberFromConnectedMembersList(user);
     }
+
+    public void changeNickname() {
+
+        //Update all views
+        alphabeticalMembersListDisplay.getController().changeNickname();
+        connectedMembersListDisplay.getController().changeNickname();
+        adminMembersListDisplay.getController().changeNickname();
+    }
+
 }

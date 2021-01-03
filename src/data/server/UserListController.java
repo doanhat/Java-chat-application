@@ -1,5 +1,6 @@
 package data.server;
 
+import common.shared_data.Channel;
 import common.shared_data.UserLite;
 
 import java.util.ArrayList;
@@ -80,5 +81,12 @@ public class UserListController {
 
     public void removeActiveUsersFromChannel(UUID channelID){
         activeUserList.removeIf(au ->(au.getChannelID()).equals(channelID));
+    }
+
+    public void updateNickname(Channel channel, UserLite user, String newNickname) {
+        if (channel != null) {
+            channel.getNickNames().put(user.getId().toString(),newNickname);
+            this.channelsListController.writeChannelDataToJSON(channel);
+        }
     }
 }

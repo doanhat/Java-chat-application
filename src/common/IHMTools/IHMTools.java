@@ -34,10 +34,10 @@ public class IHMTools {
 
         //récupération du CSS
         DialogPane dialogPane = alert.getDialogPane();
-        String url = IHMTools.class.getResource("../../common/IHMCommon/dialog.css").toExternalForm();
+        String url = IHMTools.class.getResource("/common/IHMCommon/dialog.css").toExternalForm();
         dialogPane.getStylesheets().add(url);
 
-        url = IHMTools.class.getResource("../../common/IHMCommon/common.css").toExternalForm();
+        url = IHMTools.class.getResource("/common/IHMCommon/common.css").toExternalForm();
         dialogPane.getStylesheets().add(url);
 
         dialogPane.getStyleClass().add("myDialog");
@@ -63,10 +63,10 @@ public class IHMTools {
 
         //récupération du CSS
         DialogPane dialogPane = alert.getDialogPane();
-        String url = IHMTools.class.getResource("../../common/IHMCommon/dialog.css").toExternalForm();
+        String url = IHMTools.class.getResource("/common/IHMCommon/dialog.css").toExternalForm();
         dialogPane.getStylesheets().add(url);
 
-        url = IHMTools.class.getResource("../../common/IHMCommon/common.css").toExternalForm();
+        url = IHMTools.class.getResource("/common/IHMCommon/common.css").toExternalForm();
         dialogPane.getStylesheets().add(url);
 
         dialogPane.getStyleClass().add("myDialog");
@@ -88,13 +88,8 @@ public class IHMTools {
         popup.setAutoHide(true);
         popup.setHideOnEscape(true);
         Label label = new Label(message);
-        label.setOnMouseReleased(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent e) {
-                popup.hide();
-            }
-        });
-        String url = IHMTools.class.getResource("../../common/IHMCommon/common.css").toExternalForm();
+        label.setOnMouseReleased(e -> popup.hide());
+        String url = IHMTools.class.getResource("/common/IHMCommon/common.css").toExternalForm();
         label.getStylesheets().add(url);
         label.getStyleClass().add("notification-popup");
         popup.getContent().add(label);
@@ -103,12 +98,9 @@ public class IHMTools {
 
     public static void showPopupMessage(final String message, final Window window) {
         final Popup popup = createPopup(message);
-        popup.setOnShown(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent e) {
-                popup.setX(window.getX() + window.getWidth() / 2 - popup.getWidth() / 2);
-                popup.setY(window.getY() + window.getHeight() / 6 - popup.getHeight() / 2);
-            }
+        popup.setOnShown(e -> {
+            popup.setX(window.getX() + window.getWidth() / 2 - popup.getWidth() / 2);
+            popup.setY(window.getY() + window.getHeight() / 6 - popup.getHeight() / 2);
         });
         popup.show(window);
     }

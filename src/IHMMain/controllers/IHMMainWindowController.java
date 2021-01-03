@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.UUID;
 
 public class IHMMainWindowController implements Initializable{
 
@@ -57,7 +58,10 @@ public class IHMMainWindowController implements Initializable{
     private StackPane mainArea;
 
     @FXML
-    private ImageView profileImage, avatarUser;
+    private ImageView profileImage;
+
+    @FXML
+    private ImageView avatarUser;
 
     @FXML
     private Text nickname;
@@ -71,7 +75,6 @@ public class IHMMainWindowController implements Initializable{
     @FXML
     private TextField channelSearchTextField;
 
-
     public MainWindowController getMainWindowController() {
         return mainWindowController;
     }
@@ -83,7 +86,7 @@ public class IHMMainWindowController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //Mettez ici le code qui s'execute avant l'apparition de la vue
-        loadUserListView();
+        loadHomePage();
         userL = ihmMainController.getIHMMainToData().getUser().getUserLite();
         updateProfileImage();
         nickname.setText(userL.getNickName());
@@ -136,14 +139,18 @@ public class IHMMainWindowController implements Initializable{
 
         visibleChannelsObservableList = mainWindowController.getIhmMainController().getVisibleChannels();
         FilteredList<Channel> filteredChannels = new FilteredList<>(visibleChannelsObservableList, b-> true);
-        channelSearchTextField.textProperty().addListener((observable,oldValue,newValue) -> filteredChannels.setPredicate(channel -> {
-            if (newValue == null || newValue.isEmpty()) {
-                return true;
-            }
-            String lowerCaseFilter = newValue.toLowerCase();
-            return (channel.getName().toLowerCase().indexOf(lowerCaseFilter) != -1
-                    || channel.getDescription().toLowerCase().indexOf(lowerCaseFilter) != -1);
-        }));
+        channelSearchTextField.textProperty().addListener((observable,oldValue,newValue) -> {
+            filteredChannels.setPredicate(channel -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                String lowerCaseFilter = newValue.toLowerCase();
+                return (channel.getName().toLowerCase().indexOf(lowerCaseFilter) != -1
+                        || channel.getDescription().toLowerCase().indexOf(lowerCaseFilter) != -1);
+            });
+            privateChannels.setItems(filteredChannels.filtered(channel -> channel.getVisibility() == Visibility.PRIVATE));
+            publicChannels.setItems(filteredChannels.filtered(channel -> channel.getVisibility() == Visibility.PUBLIC));
+        });
 
         /**
          * Bind the ListView with the list of private channels.
@@ -186,6 +193,14 @@ public class IHMMainWindowController implements Initializable{
                     }
                 }
         );
+    }
+
+    public void updateChannelListView(){
+        ObservableList<Channel> visibleChannelsObservableList ;
+        visibleChannelsObservableList = mainWindowController.getIhmMainController().getVisibleChannels();
+        FilteredList<Channel> filteredChannels = new FilteredList<>(visibleChannelsObservableList, b-> true);
+        privateChannels.setItems(filteredChannels.filtered(channel -> channel.getVisibility() == Visibility.PRIVATE));
+        publicChannels.setItems(filteredChannels.filtered(channel -> channel.getVisibility() == Visibility.PUBLIC));
     }
 
     /**
@@ -234,6 +249,12 @@ public class IHMMainWindowController implements Initializable{
         }
     }
 
+    public void removeChannelFromList(UUID channelID) {
+        isViewChangeSelectedChannel = true;
+        ihmMainController.getVisibleChannels().removeIf(channel -> channel.getId().equals(channelID));
+        isViewChangeSelectedChannel = false;
+    }
+
     public void loadIHMChannelWindow(){
         Platform.runLater(() -> {
             mainArea.getChildren().clear(); //On efface les noeuds fils
@@ -264,6 +285,9 @@ public class IHMMainWindowController implements Initializable{
     @FXML
     public void onSeDeconnecterButtonClick(){
         try {
+            Stage primaryStage = mainWindowController.getPrimaryStage();
+            Platform.setImplicitExit(false);
+            primaryStage.setOnCloseRequest(event -> {});
             ihmMainController.getIIHMMainToCommunication().disconnect();
             ihmMainController.getIHMMainToData().disconnect();
             ihmMainController.getMainWindowController().loadConnectionWindow();
@@ -271,7 +295,6 @@ public class IHMMainWindowController implements Initializable{
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     private void updateProfileImage(){
@@ -292,7 +315,7 @@ public class IHMMainWindowController implements Initializable{
     private void loadCreationChannelPopup(Visibility type) throws IOException {
         Parent root;
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../views/CreationChannelPopup.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/IHMMain/views/CreationChannelPopup.fxml"));
             root = fxmlLoader.load();
 
             CreationChannelPopupController creationController = fxmlLoader.getController();
@@ -322,7 +345,7 @@ public class IHMMainWindowController implements Initializable{
     }
 
     @FXML
-    public void loadUserListView(){
+    public void loadHomePage() {
         this.mainArea.getChildren().clear(); //On efface les noeuds fils
         this.isHomePage = true;
 
@@ -332,11 +355,14 @@ public class IHMMainWindowController implements Initializable{
 
         //On charge la vue UserListView
         try {
+            HomePageController homePageController;
+
             FXMLLoader fxmlLoader = new
-                    FXMLLoader(getClass().getResource("../views/UserListView.fxml"));
+                    FXMLLoader(getClass().getResource("/IHMMain/views/HomePage.fxml"));
             Parent parent = fxmlLoader.load(); //On recupère le noeud racine du fxml chargé
-            UserListViewController userListViewController = fxmlLoader.getController(); //On récupère la classe controller liée au fxml
-            userListViewController.setMainWindowController(this.mainWindowController); //On donne au controller fils une référence de son controller grand-parent
+            homePageController = fxmlLoader.getController(); //On récupère la classe controller liée au fxml
+            homePageController.setIhmMainController(ihmMainController);
+            homePageController.setMainWindowController(this.mainWindowController); //On donne au controller fils une référence de son controller grand-parent
             this.mainArea.getChildren().addAll(parent); //On ajoute le noeud parent (fxml) au noeud racine de cette vue
             IHMTools.fitSizeToParent((Region)this.mainArea,(Region)parent);
         } catch (IOException exception) {
@@ -347,7 +373,7 @@ public class IHMMainWindowController implements Initializable{
     @FXML
     private void loadUserInfosPopup() throws IOException {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../views/UserInfos.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/IHMMain/views/UserInfos.fxml"));
             Parent root = fxmlLoader.load();
 
             UserInfosController userInfosController = fxmlLoader.getController();

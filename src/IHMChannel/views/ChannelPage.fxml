@@ -1,45 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.*?>
 <?import java.net.URL?>
-<AnchorPane xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IHMChannel.controllers.ChannelPageController" style="-fx-background-color: white">
-    <VBox fx:id="channelPage" >
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.StackPane?>
 
-
-        <HBox>
-            <children>
-                <TextField fx:id="canalText"/>
-                <Button fx:id="createCanalBtn" mnemonicParsing="false" onAction="#createChannel" text="Join"/>
-                <Button fx:id="addUserBtn" mnemonicParsing="false" onAction="#addUser" text="Add user test"/>
-                <Button fx:id="removeUserBtn" mnemonicParsing="false" onAction="#removeUser" text="Remove user test"/>
-            </children>
-        </HBox>
-<!--        <HBox style="-fx-background-color: #B9E6FF">-->
-<!--            <Pane HBox.hgrow="ALWAYS" />-->
-<!--            <Button fx:id="back" styleClass="icon-bar-btn"/>-->
-<!--        </HBox>-->
-
-        <TabPane fx:id="tabs" prefWidth="1400"/><!---->
-        <BorderPane fx:id="pageToDisplay" prefWidth="1400"/><!---->
-
-
-        <!--
-        MOVED TO ChannelMessages.fxml
-        <ListView fx:id="listMessages">
-
-        </ListView>
-
-        <HBox>
-            <ImageView fx:id="profilePic"/>
-            <TextArea fx:id="typedText"/>
-            <Button fx:id="sendBtn" onAction="#sendMessage"/>
-        </HBox>
-        -->
-    </VBox>
-    <stylesheets>
-        <URL value="@../../common/IHMCommon/common.css"></URL>
-    </stylesheets>
-</AnchorPane>
+<StackPane fx:id="channelPage" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IHMChannel.controllers.ChannelPageController">
+   <children>
+   
+                                   <TabPane fx:id="tabs" style="-fx-background-color: #B9E6FF;" tabMaxHeight="100.0" tabMaxWidth="300.0" />
+   </children>
+   <stylesheets>
+      <URL value="@../../common/IHMCommon/common.css" />
+      <URL value="@../../common/IHMCommon/dialog.css" />
+   </stylesheets>
+</StackPane>

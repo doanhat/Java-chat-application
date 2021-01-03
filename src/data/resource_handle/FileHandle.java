@@ -1,10 +1,12 @@
 package data.resource_handle;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -23,10 +25,9 @@ public class FileHandle<T> {
     private FileType fileType;
 
     public FileHandle(LocationType location,FileType fileType) {
-        String filePath = System.getProperty("user.dir") + "/resource/"+location+"/"+fileType+"/";
+        String filePath = System.getProperty("user.dir") + System.getProperty("file.separator") + "resource" + System.getProperty("file.separator") + location + System.getProperty("file.separator") + fileType + System.getProperty("file.separator");
         if (!Paths.get(filePath).toFile().exists() || !Paths.get(filePath).toFile().isDirectory()) {
             Paths.get(filePath).toFile().mkdirs();
-            //System.out.println("Folder created");
         }
         this.path = filePath;
     }
@@ -54,7 +55,6 @@ public class FileHandle<T> {
             File[] filesList = directoryPath.listFiles((dir, name) -> (name.toLowerCase().endsWith(EXTENSION)));
             if(filesList != null) {
                 for (File file : filesList) {
-                    // System.out.println(Paths.get(file.getAbsolutePath()));
                     T t = mapper.readValue(Paths.get(file.getAbsolutePath()).toFile(), tClass);
                     ts.add(t);
                 }
@@ -113,13 +113,15 @@ public class FileHandle<T> {
             bytes = new byte[(int) image.length()];
             fileInputStreamReader.read(bytes);
         }
-        return new String(Base64.getEncoder().encode(bytes), "UTF-8");
+        return new String(Base64.getEncoder().encode(bytes), StandardCharsets.UTF_8);
     }
 
     public String getAvatarPath(String userId) {
         String sysPath = this.path + userId + EXTENSION_IMAGE;
-        File image = Paths.get(sysPath).toFile();
-        return image.getPath();
+        if (Paths.get(sysPath).toFile().exists()){
+            return System.getProperty("file.separator") + "resource" + System.getProperty("file.separator") + location+ System.getProperty("file.separator") + fileType + System.getProperty("file.separator") + userId + EXTENSION_IMAGE;
+        }
+        return null;
     }
 
     public void writeEncodedStringToFile(String encodedString, String fileName) throws IOException {
@@ -132,6 +134,9 @@ public class FileHandle<T> {
         }
     }
 
+    public String serialize(Object object) throws JsonProcessingException {
+        return mapper.writeValueAsString(object);
+    }
     public void setPath(String path) {
         this.path = path;
     }

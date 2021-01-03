@@ -21,7 +21,7 @@ public class MemberDisplay {
      */
     public MemberDisplay(UserLite userToDisplay, boolean isAdmin, boolean isCreator,boolean isConnected,boolean toggleDisplay, Channel channel, IHMChannelController ihmChannelController)  {
         FXMLLoader fxmlLoader =
-                new FXMLLoader(getClass().getResource("views/Member.fxml"));
+                new FXMLLoader(getClass().getResource("/IHMChannel/views/Member.fxml"));
         try {
             root = fxmlLoader.load();
         } catch (IOException e) {
@@ -29,8 +29,9 @@ public class MemberDisplay {
         }
         memberController = fxmlLoader.getController();
         memberController.setIhmChannelController(ihmChannelController);
-        memberController.setUserToDisplay(userToDisplay,isAdmin, isCreator,isConnected,toggleDisplay);
         memberController.setChannel(channel);
+        memberController.setUserToDisplay(userToDisplay,isAdmin, isCreator,isConnected,toggleDisplay);
+
     }
 
 }

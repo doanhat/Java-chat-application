@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Text?>
+<?import java.net.URL?>
+
+<VBox xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IHMChannel.controllers.KickPopUpController" styleClass="kick-popup">
+    <HBox styleClass="kick-popup-section">
+        <Text fx:id="informationText" strokeType="OUTSIDE" strokeWidth="0.0" text="Voulez vous kicker cet utilisateur ?"  styleClass="kick-popup-title"/>
+    </HBox>
+    <HBox styleClass="kick-popup-section">
+        <Text fx:id="durationText" strokeType="OUTSIDE" strokeWidth="0.0" text="Durée : " styleClass="kick-popup-text" />
+        <DatePicker fx:id="datePick" />
+    </HBox>
+    <HBox alignment="BASELINE_LEFT" styleClass="kick-popup-section">
+        <CheckBox fx:id="PermanentBox" onAction="#permanentBoxHandler"/>
+        <Text fx:id="permanentText" strokeType="OUTSIDE" strokeWidth="0.0" text=" Permanent" styleClass="kick-popup-text" />
+    </HBox>
+    <VBox styleClass="kick-popup-section">
+        <Text  strokeType="OUTSIDE" strokeWidth="0.0" text="Motif : " styleClass="kick-popup-text" />
+        <TextField  fx:id="explanationText" />
+    </VBox>
+    <Pane VBox.vgrow="ALWAYS"/>
+    <HBox styleClass="kick-popup-section">
+        <Pane HBox.hgrow="ALWAYS" />
+        <Button fx:id="confirmBtn" mnemonicParsing="false" text="Confirmer" styleClass="primary-btn" />
+        <Pane HBox.hgrow="ALWAYS" />
+        <Button fx:id="cancelBtn" mnemonicParsing="false" text="Annuler"  styleClass="critical-btn" />
+        <Pane HBox.hgrow="ALWAYS" />
+    </HBox>
+    <stylesheets>
+        <URL value="@../../common/IHMCommon/common.css"/>
+    </stylesheets>
+</VBox>

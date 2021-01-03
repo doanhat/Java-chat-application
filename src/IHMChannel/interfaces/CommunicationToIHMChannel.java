@@ -2,12 +2,10 @@ package IHMChannel.interfaces;
 
 import IHMChannel.IHMChannelController;
 import common.interfaces.client.ICommunicationToIHMChannel;
-import common.shared_data.Channel;
-import common.shared_data.Message;
-import common.shared_data.User;
-import common.shared_data.UserLite;
+import common.shared_data.*;
 import javafx.application.Platform;
 
+import javax.jws.soap.SOAPBinding;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
@@ -19,13 +17,12 @@ import java.util.UUID;
     }
 
     /**
-     * Méthode permettant de changer le nickname d'un utilisateur
-     *
-     * @param user l'utilisateur
+     *  Méthode permettant d'annuler le ban d'un utilisateur d'un channel d'id channelID.
+     * @param kick Classe contenant les informations lié au kick
+     * @param channelID id du channel concerné
      */
-    @Override
-    public void changeNickname(User user) {
-        throw new UnsupportedOperationException("Not implemented yet");
+    public void banOfUserCancelledNotification(Kick kick, UUID channelID){
+        controller.getChannelPageController().getChannelController(channelID).removeKick(kick);
     }
 
     /**
@@ -38,50 +35,44 @@ import java.util.UUID;
     @Override
     public void displayChannelHistory(Channel channel, List<Message> history, List<UserLite> connectedUsers) {
         channel.setMessages(history);
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
+        Platform.runLater(() -> {
                 try {
                     controller.getChannelPageController().addOpenedChannel(channel);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                for(UserLite user : connectedUsers){
+                    String nickname = channel.getNickNames().get(user.getId().toString());
+                    if(nickname != null){
+                        user.setNickName(nickname);
+                    }
+                }
                 controller.getChannelPageController().getChannelController(channel.getId()).setConnectedMembersList(connectedUsers);
                 controller.getInterfaceToIHMMain().setOpenedChannelsList(controller.getOpenedChannelsList());
-            }
-        });
+            });
     }
 
     @Override
     public void addConnectedUser(UUID channelId, UserLite user) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
+        Platform.runLater(() -> {
                 controller.getChannelPageController().getChannelController(channelId).addConnectedUser(user);
                 controller.getInterfaceToIHMMain().setOpenedChannelsList(controller.getOpenedChannelsList());
-            }
-        });
+            });
     }
 
     @Override
     public void removeConnectedUser(UUID channelId, UserLite user) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
+        Platform.runLater(() -> {
                 controller.getChannelPageController().getChannelController(channelId).removeConnectedUser(user);
                 controller.getInterfaceToIHMMain().setOpenedChannelsList(controller.getOpenedChannelsList());
-            }
-        });
+            });
     }
 
     @Override
     public void leaveChannel(UUID channelID, UserLite user) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
+        Platform.runLater(() -> {
                 controller.getChannelPageController().leaveChannel(channelID, user);
                 controller.getInterfaceToIHMMain().setOpenedChannelsList(controller.getOpenedChannelsList());
-            }
         });
     }
 
@@ -90,30 +81,23 @@ import java.util.UUID;
 
     @Override
     public void addAuthorizedUser(UUID channel, UserLite user) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
+        Platform.runLater(() -> {
                 try {
                     controller.getChannelPageController().getChannelController(channel).addUser(user);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
-        });
-
+            });
     }
 
     @Override
     public void removeAuthorizedUser(UUID channel, UserLite user) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
+        Platform.runLater(() -> {
                 try {
                     controller.getChannelPageController().getChannelController(channel).removeUserAuthorization(user);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
         });
     }
 

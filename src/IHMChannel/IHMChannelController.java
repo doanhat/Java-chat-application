@@ -118,6 +118,7 @@ public class IHMChannelController {
 
 
     public ChannelPageController getChannelPageController() {
+
         return channelPageController;
     }
 

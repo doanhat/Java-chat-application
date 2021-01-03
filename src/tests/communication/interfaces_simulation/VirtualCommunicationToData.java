@@ -3,6 +3,7 @@ package tests.communication.interfaces_simulation;
 import common.interfaces.client.ICommunicationToData;
 import common.shared_data.*;
 
+import java.time.LocalDate;
 import java.util.*;
 
 public class VirtualCommunicationToData implements ICommunicationToData {
@@ -15,27 +16,6 @@ public class VirtualCommunicationToData implements ICommunicationToData {
         this.localUser = localUser;
         this.otherUsers = otherUsers;
         this.channels = channels;
-    }
-
-    /*@Override
-    public void createChannel(Channel channel) { //TO-DO : Remplacer l'UUID par l'objet Channel
-        System.err.println("New visible channel " + channel.getId());
-
-        *//*Channel newChannel = new Channel("channel", localUser, "test", Visibility.PUBLIC,ChannelType.SHARED);
-        newChannel.setId(channelId);*//*
-
-        channels.put(channel.getId(), channel);
-    }*/
-
-    @Override
-    public void userAddedToChannel(UserLite user, UUID channelId) {
-        System.err.println("Join channel " + channelId + "successfully");
-
-        Channel channel = channels.get(channelId);
-
-        if (channel != null) {
-            channel.addJoinedUser(user);
-        }
     }
 
     @Override
@@ -53,13 +33,13 @@ public class VirtualCommunicationToData implements ICommunicationToData {
 
     }
 
-    @Override
-    public void banUserIntoHistory(UserLite user, UUID channelId, int duration) {
+
+    public void banUserIntoHistory(UserLite user, LocalDate endDate, Boolean isPermanent, String explanation, UUID channelId) {
 
     }
 
     @Override
-    public void cancelBanOfUserIntoHistory(User user, UUID channelId) {
+    public void cancelBanOfUserIntoHistory(UserLite user, UUID channelId) {
 
     }
 
@@ -74,7 +54,7 @@ public class VirtualCommunicationToData implements ICommunicationToData {
     }
 
     @Override
-    public void removeUserFromAuthorizedUserChannel(UserLite user, UUID channelId, int duration, String explanation) {
+    public void banUser(UserLite user, LocalDate endDate, Boolean isPermanent, String explanation, UUID channelId) {
 
     }
 
@@ -170,9 +150,27 @@ public class VirtualCommunicationToData implements ICommunicationToData {
 
     }
 
+    /**
+     * Méthode pour mettre à jour les informations d'un channel dans la liste des channels
+     *
+     * @param channelID   l'identificateur du channel concerné
+     * @param userID      l'identificateur qui veut faire les changes sur le channel
+     * @param name        nouvel nom du channel, mettre à null si pas besoin de le changer
+     * @param description nouvelle description du channel, mettre à null si pas besoin de la changer
+     * @param visibility  nouvelle visibilité du channel, mettre à null si pas besoin de la changer
+     */
+    @Override
+    public void updateChannel(UUID channelID, UUID userID, String name, String description, Visibility visibility) {
+
+    }
+
+    @Override
+    public void updateChannelIntoHistory(UUID channelID, UUID userID, String name, String description, Visibility visibility) {
+
+    }
+
     @Override
     public void requestRemoveAdmin(UUID channelID, UserLite adminID) {
 
     }
-
 }

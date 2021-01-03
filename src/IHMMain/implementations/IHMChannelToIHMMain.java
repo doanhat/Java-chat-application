@@ -4,8 +4,11 @@ import IHMMain.IHMMainController;
 import common.interfaces.client.IIHMChannelToIHMMain;
 import common.shared_data.Channel;
 import common.shared_data.UserLite;
+import common.shared_data.Visibility;
+import javafx.application.Platform;
 
 import java.util.List;
+import java.util.UUID;
 
 public class IHMChannelToIHMMain implements IIHMChannelToIHMMain {
 
@@ -17,7 +20,7 @@ public class IHMChannelToIHMMain implements IIHMChannelToIHMMain {
 
     @Override
     public void redirectToHomePage() {
-        ihmMainController.getMainWindowController().getIHMMainWindowController().loadUserListView();
+        ihmMainController.getMainWindowController().getIHMMainWindowController().loadHomePage();
     }
 
     @Override
@@ -38,5 +41,18 @@ public class IHMChannelToIHMMain implements IIHMChannelToIHMMain {
     @Override
     public List<UserLite> getConnectedUsersList() {
         return ihmMainController.getConnectedUsers();
+    }
+
+    @Override
+    public void modifyChannel(UUID channelID, String name, String description, Visibility visibility) {
+
+            ihmMainController.modifyChannel(channelID, name, description, visibility);
+            ihmMainController.getMainWindowController().getIHMMainWindowController().updateChannelListView();
+
+    }
+
+    @Override
+    public void updateIHMMainChannelListView(){
+        Platform.runLater(() -> ihmMainController.getMainWindowController().getIHMMainWindowController().updateChannelListView());
     }
 }

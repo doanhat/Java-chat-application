@@ -1,11 +1,9 @@
 package common.interfaces.client;
 
-import common.shared_data.Channel;
-import common.shared_data.Message;
-import common.shared_data.User;
-import common.shared_data.UserLite;
+import common.shared_data.*;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.UUID;
 
 public interface IDataToIHMChannel {
@@ -40,14 +38,14 @@ public interface IDataToIHMChannel {
      * @param duration durée du kick
      * @param explanation motif du kick
      */
-    void userBanNotification(UserLite user, UUID channelId, int duration, String explanation);
+    void userBanNotification(UserLite user, UUID channelId, LocalDate duration, String explanation);
 
     /**
      * Notifie d'un retour d'un utilisateur précédemment kické.
      * @param user user revenu sur le channel
-     * @param channel channel sur lequel user est revenu
+     * @param channelId id du channel sur lequel user est revenu
      */
-    void userBanCancelledNotification(UserLite user, Channel channel);
+    void userBanCancelledNotification(UserLite user, UUID channelId);
 
     /**
      * Permet la réception d'un message sur un channel.
@@ -71,7 +69,7 @@ public interface IDataToIHMChannel {
      * @param message message liké
      * @param user utilisateur à l'origine du like
      */
-    void likeMessage(UUID channelId, Message message, User user);
+    void likeMessage(UUID channelId, Message message, UserLite user);
 
     /**
      * Permet la suppression d'un message.
@@ -83,4 +81,17 @@ public interface IDataToIHMChannel {
 
     Channel getChannel(UUID id);
 
+
+    /**
+     * Méthode permettant de mofidier les informations concernant un channel depuis le menu contextuel
+     */
+
+    void modifyChannel(UUID channelId, String name, String description, Visibility visibility);
+
+    /**
+     * Méthode permettant de changer le nickname d'un utilisateur
+     * @param user l'utilisateur
+     * @param channel channel concerné par la mise à jour de nickname
+     */
+    void changeNickname(UserLite user, UUID channel, String newNickname);
 }

@@ -12,14 +12,18 @@ import java.util.List;
  *  Classe "modèle" qui gère l'affichage  de la liste des membres du channel en fonction du statut (admin, créateur, simple membre) en appelant le FXML Loader
  */
 public class AdminMembersListDisplay {
-    public Parent root = null;
-    public AdminMembersListController adminMembersController;
+    public Parent getRoot() {
+        return root;
+    }
+
+    private Parent root = null;
+    private AdminMembersListController adminMembersController;
 
     public AdminMembersListController getController(){return this.adminMembersController;}
 
     public AdminMembersListDisplay() throws IOException {
         FXMLLoader fxmlLoader =
-                new FXMLLoader(getClass().getResource("views/AdminMembersList.fxml"));
+                new FXMLLoader(getClass().getResource("/IHMChannel/views/AdminMembersList.fxml"));
         root = fxmlLoader.load();
         adminMembersController = fxmlLoader.getController();
     }

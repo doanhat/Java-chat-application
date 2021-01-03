@@ -5,7 +5,6 @@ import IHMChannel.controllers.SendInvitePopUpController;
 import common.shared_data.Channel;
 import common.shared_data.UserLite;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,12 +12,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.ListCell;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AddMemberCell extends ListCell<UserLite> {
 
@@ -33,6 +34,8 @@ public class AddMemberCell extends ListCell<UserLite> {
 
     ChannelController channelController;
 
+    private final Logger logger = Logger.getLogger(this.getClass().getName());
+
     /**
      * Constructeur
      * Appelé par la CellFactory
@@ -43,10 +46,11 @@ public class AddMemberCell extends ListCell<UserLite> {
     }
 
     public void initialize(){
+
         //Action sur le bouton
         addBtn.setOnAction((ActionEvent event) -> {
             FXMLLoader fxmlLoader =
-                    new FXMLLoader(getClass().getResource("../../views/SendInvitePopUp.fxml"));
+                    new FXMLLoader(getClass().getResource("/IHMChannel/views/SendInvitePopUp.fxml"));
             Parent root = null;
             try {
                 root = fxmlLoader.load();
@@ -69,23 +73,15 @@ public class AddMemberCell extends ListCell<UserLite> {
             /**
              * Gestion du clic sur le bouton annuler
              */
-            sendInvitePopUpController.getCancelBtn().setOnAction(new EventHandler<ActionEvent>() {
-                public void handle(ActionEvent e)
-                {
-                    popUpWindow.close();
-                }
-            });
+            sendInvitePopUpController.getCancelBtn().setOnAction(e -> popUpWindow.close());
 
             /**
              * Gestion du clic sur le bouton confirmer
              */
-            sendInvitePopUpController.getSendInviteBtn().setOnAction(new EventHandler<ActionEvent>() {
-                public void handle(ActionEvent e)
-                {
-                    System.out.println("You have invited " + user.getNickName() + " to channel " + channel.getName()+".\nMessage : "+sendInvitePopUpController.getInvitationMessage());
-                    channelController.getIhmChannelController().getInterfaceToCommunication().sendInvite(user,channel, sendInvitePopUpController.getInvitationMessage());
-                    popUpWindow.close();
-                }
+            sendInvitePopUpController.getSendInviteBtn().setOnAction(e -> {
+                logger.log(Level.INFO, String.format("You have invited %s to channel %s%nMessage : %s", user.getNickName(), channel.getName(), sendInvitePopUpController.getInvitationMessage()));
+                channelController.getIhmChannelController().getInterfaceToCommunication().sendInvite(user,channel, sendInvitePopUpController.getInvitationMessage());
+                popUpWindow.close();
             });
         });
     }
@@ -122,7 +118,8 @@ public class AddMemberCell extends ListCell<UserLite> {
         }
         else {
             username.setText(item.getNickName());
-            //profilePicture.setImage(new Image(item.getAvatar()));
+            profilePicture.setImage(new Image("IHMChannel/tools/AddMemberCellFactory/avatar.jpg", 30, 30, true, false));
+
             setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         }
     }

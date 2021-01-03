@@ -1,9 +1,9 @@
 package common.interfaces.client;
 
-import common.shared_data.Message;
-import common.shared_data.User;
-import common.shared_data.UserLite;
+import common.shared_data.*;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -11,21 +11,6 @@ import java.util.UUID;
  * The interface Communication to data.
  */
 public interface ICommunicationToData {
-    /**
-     * Add visible channel.
-     *
-     * @param channel the channel
-     */
-    //void createChannel(Channel channel);
-
-    // TODO INTEGRATION V3: remove unused method, cet méthode est appelelé chez Channel, pas Data
-    /**
-     * User added to channel.
-     *
-     * @param user    the user
-     * @param channelId the channel
-     */
-    void userAddedToChannel(UserLite user, UUID channelId);
 
     /**
      * Save new admin into history.
@@ -53,13 +38,13 @@ public interface ICommunicationToData {
     void removeChannelFromList(UUID channelId, int duration, String explanation);
 
     /**
-     * Ban user into history.
+     * Bannir un utilisateur et mettre à jour les données
      *
-     * @param user     the user
-     * @param channelId  the channel
-     * @param duration the duration
+     * @param user     utilisateur
+     * @param channelId  l'id du channel
+     * @param endDate date de termination, si elle est null alors l'utilisateur est banni définitivement
      */
-    void banUserIntoHistory(UserLite user, UUID channelId, int duration);
+    void banUserIntoHistory(UserLite user, LocalDate endDate, Boolean isPermanent, String explanation, UUID channelId);
 
     /**
      * Cancel ban of user into history.
@@ -67,7 +52,7 @@ public interface ICommunicationToData {
      * @param user    the user
      * @param channelId the channel
      */
-    void cancelBanOfUserIntoHistory(User user, UUID channelId);
+    void cancelBanOfUserIntoHistory(UserLite user, UUID channelId);
 
 
     /**
@@ -93,12 +78,11 @@ public interface ICommunicationToData {
     /**
      * Delete user from Authorized users list of channel after ban.
      *
-     * @param user        the user
-     * @param channelId     the channel
-     * @param duration    the duration
-     * @param explanation the explanation
+     * @param user     utilisateur
+     * @param channelId  l'id du channel
+     * @param endDate date de termination, si elle est null alors l'utilisateur est banni définitivement
      */
-    void removeUserFromAuthorizedUserChannel(UserLite user, UUID channelId, int duration, String explanation);
+    void banUser(UserLite user, LocalDate endDate, Boolean isPermanent, String explanation, UUID channelId);
 
     /**
      * Delete user from Authorized users list of channel.
@@ -233,6 +217,27 @@ public interface ICommunicationToData {
      * @param channelId channel ID
      */
     void inviteUserToOwnedChannel(UserLite user, UUID channelId);
+
+    /**
+     * Méthode pour mettre à jour les informations d'un channel dans la liste des channels
+     *
+     * @param channelID l'identificateur du channel concerné
+     * @param userID l'identificateur qui veut faire les changes sur le channel
+     * @param name nouvel nom du channel, mettre à null si pas besoin de le changer
+     * @param description nouvelle description du channel, mettre à null si pas besoin de la changer
+     * @param visibility nouvelle visibilité du channel, mettre à null si pas besoin de la changer
+     * */
+    void updateChannel(UUID channelID, UUID userID, String name, String description, Visibility visibility);
+
+    /**
+     * Méthode pour mettre à jour les informations d'un channel propriétaires
+     * @param channelID l'identificateur du channel concerné
+     * @param userID l'identificateur qui veut faire les changes sur le channel
+     * @param name nouvel nom du channel, mettre à null si pas besoin de le changer
+     * @param description nouvelle description du channel, mettre à null si pas besoin de la changer
+     * @param visibility nouvelle visibilité du channel, mettre à null si pas besoin de la changer
+     */
+    void updateChannelIntoHistory(UUID channelID, UUID userID, String name, String description, Visibility visibility);
 
     /**
      * Méthode pour retirer les droits d'administrateur d'un utilisateur dans un channel

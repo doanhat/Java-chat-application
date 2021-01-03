@@ -6,6 +6,7 @@ import common.shared_data.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 public class IHMMainToData implements IIHMMainToData {
 
@@ -17,7 +18,7 @@ public class IHMMainToData implements IIHMMainToData {
 
     @Override
     public void disconnect() {
-
+        // Nothing to do
     }
 
     /**
@@ -81,7 +82,7 @@ public class IHMMainToData implements IIHMMainToData {
      */
     @Override
     public void editProfile(String nickName, String avatar, String password, String lastName, String firstName, Date birthDate, User user) {
-        throw new UnsupportedOperationException();
+        dataController.getUserController().editProfile(user,nickName,avatar,password,lastName,firstName,birthDate);
     }
 
     /**
@@ -111,9 +112,18 @@ public class IHMMainToData implements IIHMMainToData {
         return dataController.getUserController().createAccount(nickName,avatar,password,lastName,firstName,birthDate);
     }
 
-    // TODO UPGRATE
     @Override
     public User getUser() {
         return dataController.getUserController().getUser();
+    }
+
+    @Override
+    public String exportUserProfile(UUID userId) {
+        return dataController.getUserController().exportUserProfile(userId);
+    }
+
+    @Override
+    public User getUserById(UUID userId) {
+        return this.dataController.getUserController().searchUserById(userId);
     }
 }

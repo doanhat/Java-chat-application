@@ -1,6 +1,7 @@
 package data.server;
 
 import common.interfaces.server.IServerCommunicationToData;
+import common.interfaces.server.IServerDataToCommunication;
 
 public class DataServerController {
     private ChannelsListController channelsListController;
@@ -24,5 +25,9 @@ public class DataServerController {
 
     public IServerCommunicationToData getIServerCommunicationToData() {
         return iServerCommunicationToData;
+    }
+
+    public void setIServerDataToCommunication(IServerDataToCommunication commIface) {
+        channelsListController.setIServerDataToCommunication(commIface);
     }
 }

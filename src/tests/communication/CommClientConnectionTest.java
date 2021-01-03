@@ -1,7 +1,7 @@
 package tests.communication;
 
-import Communication.client.CommunicationClientController;
-import Communication.common.Parameters;
+import communication.client.CommunicationClientController;
+import communication.common.Parameters;
 import common.shared_data.UserLite;
 
 import java.util.Scanner;

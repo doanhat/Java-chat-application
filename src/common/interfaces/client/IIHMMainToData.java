@@ -7,6 +7,7 @@ import common.shared_data.Visibility;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * The interface Iihm main to data.
@@ -89,4 +90,13 @@ public interface IIHMMainToData {
      * Get connected User.
      */
     User getUser();
+
+    String exportUserProfile(UUID userId);
+
+    /**
+     * Get user by id
+     * @param userId id user
+     * @return User matching the id
+     */
+    User getUserById(UUID userId);
 }

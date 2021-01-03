@@ -8,23 +8,37 @@ import common.shared_data.Channel;
 import common.shared_data.Message;
 import common.shared_data.UserLite;
 import common.shared_data.Visibility;
+import common.shared_data.*;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Region;
+import javafx.stage.Modality;
 import javafx.stage.Popup;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static common.IHMTools.IHMTools.informationPopup;
 
 public class ChannelController {
     private Channel currentChannel; //channel à afficher dans l'interface
     private IHMChannelController ihmChannelController;
     private List<UserLite> connectedMembersList;
+    private ChannelMessagesController channelMessagesController;
 
 
     /*
@@ -49,6 +63,8 @@ public class ChannelController {
     Button addMemberBtn;
     @FXML
     Button leaveChannelBtn;
+    @FXML
+    Button seeKickedMembersBtn;
 
     //Menu contextuel
     @FXML
@@ -58,6 +74,7 @@ public class ChannelController {
     @FXML
     Button contextMenuBtn;
 
+    private final Logger logger = Logger.getLogger(this.getClass().getName());
 
     ChannelMessagesDisplay channelMessagesDisplay;
 
@@ -71,7 +88,7 @@ public class ChannelController {
         return currentChannel;
     }
 
-    public void setCurrentChannel(Channel currentChannel) {
+    public void setCurrentChannel(Channel currentChannel){
         this.currentChannel = currentChannel;
     }
 
@@ -86,8 +103,12 @@ public class ChannelController {
 
         //Affichage de la partie "messages"
         channelMessagesDisplay = new ChannelMessagesDisplay();
-        //channelMessagesDisplay.setConnectedMembersList(connectedMembersList);
+        channelMessagesController = channelMessagesDisplay.getController();
         pageToDisplay.setCenter(channelMessagesDisplay.root);
+
+        Platform.runLater(() ->
+            IHMTools.fitSizeToParent((Region)ihmChannelController.getRoot(),(Region)channelMessagesDisplay.root)
+        );
 
         //Chargement de la liste des utilisateurs
         channelMembersDisplay = new ChannelMembersDisplay();
@@ -103,12 +124,6 @@ public class ChannelController {
     }
 
     private void iconsInit() {
-        // Home
-        /*Image homeImage = new Image("IHMChannel/icons/home-solid.png");
-        ImageView homeIcon = new ImageView(homeImage);
-        homeIcon.setFitHeight(15);
-        homeIcon.setFitWidth(15);
-        homeBtn.setGraphic(homeIcon);*/
 
         //Liste membres
         Image usersImage = new Image("IHMChannel/icons/users-solid.png");
@@ -124,7 +139,7 @@ public class ChannelController {
         addUserIcon.setFitWidth(15);
         addMemberBtn.setGraphic(addUserIcon);
 
-        if (leavePossible) {
+        if (Boolean.TRUE.equals(leavePossible)) {
             //Quitter
             Image exitImage = new Image("IHMChannel/icons/exit.png");
             ImageView exitIcon = new ImageView(exitImage);
@@ -141,9 +156,16 @@ public class ChannelController {
         contextMenuIcon.setFitHeight(15);
         contextMenuIcon.setFitWidth(15);
         contextMenuBtn.setGraphic(contextMenuIcon);
+
+        // Liste kickedMembers
+        Image kickedMembersImage = new Image("IHMChannel/icons/users-slash-solid.png");
+        ImageView kickedMembersIcon = new ImageView(kickedMembersImage);
+        kickedMembersIcon.setFitHeight(15);
+        kickedMembersIcon.setFitWidth(15);
+        seeKickedMembersBtn.setGraphic(kickedMembersIcon);
     }
 
-    public void receiveMessage(Message receivedMessage, Message responseTo) {
+    public void receiveMessage(Message receivedMessage) {
         currentChannel.addMessage(receivedMessage);
         channelMessagesDisplay.getController().addMessageToObservableList(receivedMessage);
     }
@@ -152,8 +174,15 @@ public class ChannelController {
         currentChannel.addAuthorizedUser(user);
         channelMembersDisplay.getController().setCurrentChannel(currentChannel);
     }
+
+    /**
+     * Appelé pour enlever un utilisateur de la liste globale lorsqu'il est ban.
+     * @param user UserLite
+     * @throws IOException
+     */
     public void removeUser(UserLite user) throws IOException {
         currentChannel.removeUser(user.getId());
+        currentChannel.getAuthorizedPersons().removeIf(person ->(person.getId().equals(user.getId())));
         channelMembersDisplay.getController().setCurrentChannel(currentChannel);
     }
 
@@ -165,19 +194,14 @@ public class ChannelController {
     public void addNewAdmin(UserLite user) throws IOException {
         currentChannel.addAdmin(user);
         channelMembersDisplay.getController().setCurrentChannel(currentChannel);
+        channelMessagesController.setCurrentChannel(currentChannel);
         //channelMembersDisplay.getController().adminMembersListDisplay.adminMembersController.
     }
 
     public void removeAdmin(UserLite user) {
-        System.out.printf("Retrait d'un  admin. {}\n", user.toString());
         currentChannel.removeAdmin(user.getId());
-        //channelMembersDisplay.channelMembersController.adminMembersListDisplay.adminMembersController.removeMemberFromList(user);
-        try {
-            channelMembersDisplay.getController().setCurrentChannel(currentChannel);
-            //channelMembersDisplay.getController().adminMembersListDisplay.removeMemberFromList(user);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        channelMembersDisplay.getController().setCurrentChannel(currentChannel);
+        channelMessagesController.setCurrentChannel(currentChannel);
     }
     /**
      * Méthode déclenchée au clic sur le bouton "voir les membres"
@@ -194,6 +218,7 @@ public class ChannelController {
         }
     }
 
+
     /**
      * Méthode déclenchée au clic sur le bouton "ajouter un membre"
      * Affiche la pop-up de sélection d'utilisateur
@@ -203,14 +228,14 @@ public class ChannelController {
         //En JavaFX, pop-up = fenêtre transparente sans aucun style.
         Popup popup = new Popup();
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../views/AddMemberPopUp.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/IHMChannel/views/AddMemberPopUp.fxml"));
             popup.getContent().add(fxmlLoader.load());
             AddMemberPopUpController addMemberPopUpController = fxmlLoader.getController();
             addMemberPopUpController.setChannelController(this);
 
             List<UserLite> usersToInvite = FXCollections.observableArrayList();
             this.getIhmChannelController().getInterfaceToIHMMain().getConnectedUsersList().forEach(userLite -> {
-                if(!currentChannel.getAuthorizedPersons().contains(userLite)){
+                if(!currentChannel.userIsAuthorized(userLite.getId()) && !currentChannel.userIsBanned(userLite.getId())){
                     usersToInvite.add(userLite);
                 }
             });
@@ -239,8 +264,6 @@ public class ChannelController {
 
         //Restrictions sur l'affichage du bouton d'invitation
         //Visible si channel privé + utilisateur connecté = admin
-        System.out.println("Visibility = "+currentChannel.getVisibility());
-        System.out.println("Admin ? = "+currentChannel.userIsAdmin(ihmChannelController.getInterfaceToData().getLocalUser().getId()));
         if(currentChannel.getVisibility()== Visibility.PRIVATE && currentChannel.userIsAdmin(ihmChannelController.getInterfaceToData().getLocalUser().getId())){
             addMemberBtn.setVisible(true);
         }
@@ -264,11 +287,7 @@ public class ChannelController {
             boolean result = IHMTools.confirmationPopup("Voulez vous quitter le channel ?");
 
             if (result) {
-                UserLite localUser = ihmChannelController.getInterfaceToData().getLocalUser();
                 ihmChannelController.getInterfaceToCommunication().quitChannel(getCurrentChannel());
-                //attendre le retour de comm
-                //getChannelPageController().leaveChannel(getCurrentChannel().getId(), localUser);
-                //ihmChannelController.getInterfaceToCommunication().leaveChannel(getCurrentChannel());
             }
 
     }
@@ -306,7 +325,39 @@ public class ChannelController {
      * Clic sur "Modifier les infos du channel" depuis le menu contextuel
      */
     public void modifyChannel() {
-        //TODO implémenter la méthode
+        /**
+         * Createur du channel seulement peut modifier le channel
+         */
+        Boolean canModify = false;
+        UserLite user = ihmChannelController.getInterfaceToData().getLocalUser();
+        if (currentChannel.getCreator().getId().equals(user.getId())) canModify = true;
+
+        Parent root;
+
+        if (Boolean.TRUE.equals(canModify)) {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/IHMChannel/views/ModificationInfoChannelPopup.fxml"));
+                root = fxmlLoader.load();
+
+                ModificationInfoChannelPopup creationController = fxmlLoader.getController();
+                creationController.setParentController(this);
+
+                creationController.setChannel(currentChannel);
+                creationController.setUI();
+
+                Stage stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+
+                stage.setTitle("Modifier les infos du channel");
+                stage.setScene(new Scene(root, 600, 400));
+                stage.setResizable(false);
+
+                stage.show();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -322,14 +373,54 @@ public class ChannelController {
      * Clic sur "Kicker un utilisateur" depuis le menu contextuel
      */
     public void kickMember() {
-        //TODO implémenter la méthode
+        seeMembers();
     }
 
     /**
      * Clic sur "Liste des utilisateurs kickés" depuis le menu contextuel
      */
     public void seeKickedMembers() {
-        //TODO implémenter la méthode
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/IHMChannel/views/KickedMembersListPopUp.fxml"));
+        Parent root = null;
+        try {
+            root = fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        KickedMembersListPopUpController kickedMembersListPopUpController = fxmlLoader.getController();
+
+        ObservableList<Kick> kickedObservableList = FXCollections.observableArrayList();
+        for(Kick k : currentChannel.getKicked()){
+            kickedObservableList.add(k);
+        }
+        kickedMembersListPopUpController.setKickedMembers(kickedObservableList);
+
+        Stage popUpWindow = new Stage();
+        popUpWindow.initModality(Modality.APPLICATION_MODAL);
+        popUpWindow.setTitle("Liste des utilisateurs kickés du channel");
+        popUpWindow.setScene(new Scene(root));
+        popUpWindow.setResizable(false);
+        popUpWindow.show();
+
+        kickedMembersListPopUpController.getSaveBtn().setOnAction(e -> {
+            if(!kickedMembersListPopUpController.getUnKickedList().isEmpty()){
+                AtomicBoolean isLocalUserAdmin = new AtomicBoolean(false);
+                currentChannel.getAdministrators().forEach(userLite -> {
+                    if(ihmChannelController.getInterfaceToData().getLocalUser().getId().equals(userLite.getId())){
+                        isLocalUserAdmin.set(true);
+                    }
+                });
+                if(isLocalUserAdmin.get()){
+                    kickedMembersListPopUpController.getUnKickedList().forEach(userUnKicked ->{
+                        getIhmChannelController().getInterfaceToCommunication().cancelBanOfUserFromChannel(userUnKicked, currentChannel.getId());
+                    });
+                }else{
+                    IHMTools.informationPopup("Vous n'avez pas les droits pour réaliser cette action.");
+                }
+            }
+            popUpWindow.close();
+        });
     }
 
     /**
@@ -341,11 +432,9 @@ public class ChannelController {
             boolean result = IHMTools.confirmationPopup("Voulez vous supprimer le channel ?");
             if (result){
                 this.getIhmChannelController().getInterfaceToCommunication().deleteChannel(currentChannel.getId());
-                // Pour Tester le retour serveur avant intégration :
-                // this.getIhmChannelController().getInterfaceForData().openChannelDeleted(this.currentChannel.getId());
             }
         }else{
-            IHMTools.informationPopup("Vous n'avez pas les droits nécessaires pour effectuer cette action. Seul le créateur peut supprimer le channel.");
+            informationPopup("Vous n'avez pas les droits nécessaires pour effectuer cette action. Seul le créateur peut supprimer le channel.");
         }
     }
 
@@ -360,22 +449,19 @@ public class ChannelController {
     }
 
     public void addConnectedUser(UserLite user) {
-        System.err.println("Channel connected member list addConnectedUser 1: " + connectedMembersList);
+        String nickname = getCurrentChannel().getNickNames().get(user.getId().toString());
+        if(nickname != null){
+            user.setNickName(nickname);
+        }
         this.connectedMembersList.add(user);
         this.channelMessagesDisplay.getController().addMemberToObservableList(user);
         this.channelMembersDisplay.getController().addMemberToObservableList(user);
 
-        System.err.println("Channel connected member list addConnectedUser 2: " + connectedMembersList);
         try{
             this.addUser(user);
         }catch(IOException e){
             e.printStackTrace();
         }
-
-        //this.channelMessagesDisplay.setConnectedMembersList(this.connectedMembersList);
-        //this.channelMembersDisplay.getController().addMemberToObservableList(user); // TODO CHANNEL, ici l'utilisateur à l'air d'être ajouté plusieurs fois dans la liste connectedMembersList
-
-        //System.err.println("Channel connected member list addConnectedUser: 3" + connectedMembersList);
     }
 
     public void removeConnectedUser(UserLite user) {
@@ -384,6 +470,9 @@ public class ChannelController {
         this.channelMembersDisplay.getController().removeMemberFromObservableList(user);
     }
 
+    public void likeMessage(Message message, UserLite user) {
+        channelMessagesController.likeMessage(message, user);
+    }
 
     public void deleteMessage(Message message, boolean deletedByCreator) {
         channelMessagesDisplay.getController().getMessagesMap().get(message.getId()).replaceDeletedMessage(deletedByCreator);
@@ -398,4 +487,45 @@ public class ChannelController {
     }
 
 
+
+    public void editMessage(Message message, Message newMessage) {
+        //màj copie locale
+        for(Message m : currentChannel.getMessages()){
+            if(m.getId().equals(message.getId())){
+                m.setMessage(newMessage.getMessage());
+                m.setEdited(true);
+            }
+        }
+        //màj interface
+        channelMessagesController.editMessage(message);
+    }
+
+    public void changeNickname(UserLite user, String newNickname) {
+        currentChannel.getNickNames().replace(user.getId().toString(), newNickname);
+        try {
+            //Transfert vue messages
+            channelMessagesController.changeNickname();
+            //Transfert vue members
+            channelMembersDisplay.getController().changeNickname();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateUI(String name, String description) {
+        channelName.setText(name);
+        channelDescription.setText(description);
+
+        iconsInit();
+    }
+    public void removeKick(Kick kick) {
+        List<Kick> kickList = currentChannel.getKicked();
+        kickList.remove(kick);
+        currentChannel.setKicked(kickList);
+        
+        if(currentChannel.getVisibility().equals(Visibility.PRIVATE)){
+            getIhmChannelController().getInterfaceToCommunication().sendInvite(kick.getUser(),currentChannel,"Votre bannissement a été annulé.");
+        }
+    }
 }

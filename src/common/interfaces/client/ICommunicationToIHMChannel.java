@@ -1,10 +1,7 @@
 package common.interfaces.client;
 
 
-import common.shared_data.Channel;
-import common.shared_data.Message;
-import common.shared_data.User;
-import common.shared_data.UserLite;
+import common.shared_data.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -13,12 +10,6 @@ import java.util.UUID;
  * Interface que IHM Channel fournit à Communication
  */
 public interface ICommunicationToIHMChannel {
-
-    /**
-     * Méthode permettant de changer le nickname d'un utilisateur
-     * @param user l'utilisateur
-     */
-    void changeNickname(User user);
 
     /**
      * Méthode permettant d'afficher l'historique des messages
@@ -66,4 +57,10 @@ public interface ICommunicationToIHMChannel {
      */
     void leaveChannel(UUID ChannelId, UserLite user);
 
+    /**
+     *  Méthode permettant d'annuler le ban d'un utilisateur d'un channel d'id channelID.
+     * @param kick Classe contenant les informations lié au kick
+     * @param channelID id du channel concerné
+     */
+    void banOfUserCancelledNotification(Kick kick, UUID channelID);
 }

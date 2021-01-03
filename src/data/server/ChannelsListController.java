@@ -1,19 +1,22 @@
 package data.server;
 
+import common.interfaces.server.IServerDataToCommunication;
 import data.resource_handle.FileHandle;
 import data.resource_handle.FileType;
 import data.resource_handle.LocationType;
 import common.shared_data.*;
 
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.*;
 
 public class ChannelsListController {
     private List<Channel> sharedChannels;
     private List<Channel> ownedChannels;
     private FileHandle fileHandle;
+    private Timer timer;
+    private IServerDataToCommunication commIface;
 
     public ChannelsListController() {
         this.fileHandle = new FileHandle<Channel>(LocationType.SERVER, FileType.CHANNEL);
@@ -29,8 +32,34 @@ public class ChannelsListController {
         return list;
     }
 
-    public List<Channel> searchChannelByName(String nom) {
-        return null;
+    public void setIServerDataToCommunication(IServerDataToCommunication commIface) {
+        this.commIface = commIface;
+
+        // NOTE: refreshKicks utilise commIface, donc on initialise le timer ici afin d'éviter null référence de commIface
+        if (this.timer != null) {
+            this.timer.cancel();
+            this.timer.purge();
+        }
+
+        // interval de rafraîchir à chaque jour pour enlever le ban qui se dépasse le endDate
+        this.timer = new Timer();
+
+        this.timer.schedule(new TimerTask(){
+            @Override
+            public void run() {
+                Date currentDate = java.util.Date.from(LocalDate.now().atStartOfDay()
+                        .atZone(ZoneId.systemDefault())
+                        .toInstant());
+
+                for (Channel channel: sharedChannels) {
+                    refreshKicks(channel, currentDate);
+                }
+
+                for (Channel channel: ownedChannels) {
+                    refreshKicks(channel, currentDate);
+                }
+            }
+        }, 60000L, 1000L * 60L * 60L * 24L);
     }
 
     public Channel searchChannelById(UUID id) {
@@ -51,22 +80,26 @@ public class ChannelsListController {
         Channel channel = searchChannelById(channelID);
 
         if (channel == null) {
-            return null;
+            return new ArrayList<>();
         }
 
         return channel.getMessages();
     }
 
-    public List<Channel> searchChannelByDesc(String description) {
-        return null;
-    }
+    public Message getMessageFromId(UUID channelId, UUID messageId) {
+        List<Message> messages = getChannelMessages(channelId);
 
-    public List<Channel> searchChannelByUsers(List<String> users) {
+        for (Message msg : messages) {
+            if (msg.getId().equals(messageId)) {
+                return msg;
+            }
+        }
+
         return null;
     }
 
     public List<UUID> getChannelsWhereUser(UUID userID){
-        ArrayList<UUID> res = new ArrayList<UUID>();
+        ArrayList<UUID> res = new ArrayList<>();
         for (Channel channel: ownedChannels) {
             if(channel.userIsAuthorized(userID))
                 res.add(channel.getId());
@@ -120,7 +153,10 @@ public class ChannelsListController {
     }
 
     public void writeChannelDataToJSON(Channel channel){
-        this.fileHandle.writeJSONToFile(channel.getId().toString(),channel);
+        // NOTE Server only saves Shared channels
+        if (channel.getType() == ChannelType.SHARED) {
+            this.fileHandle.writeJSONToFile(channel.getId().toString(),channel);
+        }
     }
 
     public Channel readJSONToChannelData(UUID idChannel){
@@ -188,11 +224,47 @@ public class ChannelsListController {
         }
     }
 
+    /**
+     * Enregistre les modifications d'un message dans l'historique.
+     *
+     * @param channelId     (UUID) L'identifiant du channel.
+     * @param editedMsg     Le message contenant le texte edité.
+     */
+    public void writeEditMessage(UUID channelId, Message editedMsg) {
+        Channel channel = searchChannelById(channelId);
+        if (channel != null) {
+            Message originalMsg = getMessageFromId(channel.getId(), editedMsg.getId());
+            if (originalMsg != null) {
+                originalMsg.setMessage(editedMsg.getMessage());
+                originalMsg.setEdited(true);
+            }
+            writeChannelDataToJSON(channel);
+        }
+    }
+
+    /**
+     * Enregistre le like d'un message dans l'historique d'un channel.
+     *
+     * @param channelId     L'identifiant du channel
+     * @param msg           Le message auquel on réagit
+     * @param user          L'utilisateur qui réagit
+     */
+    public void writeLikeIntoHistory(UUID channelId, Message msg, UserLite user) {
+        Channel channel = searchChannelById(channelId);
+        if (channel != null) {
+            Message message = getMessageFromId(channel.getId(), msg.getId());
+            if (message != null) {
+                message.addLike(user);
+            }
+            writeChannelDataToJSON(channel);
+        }
+    }
+
     public List<Channel> disconnectOwnedChannel(UserLite owner) {
         List<Channel> userOwnedChannels = new ArrayList<>();
 
         if (ownedChannels == null) {
-            return null;
+            return new ArrayList<>();
         }
 
         for (Channel channel: ownedChannels) {
@@ -232,6 +304,41 @@ public class ChannelsListController {
     public void writeRemoveAdminInChannel(Channel channel) {
         if (channel.getType() == ChannelType.SHARED) {
             this.writeChannelDataToJSON(channel);
+        }
+    }
+
+    public void banUserFromChannel(UserLite user, UUID channelId, Date date, Boolean isPermanent, String explanation) {
+        Channel channel = searchChannelById(channelId);
+
+        if(channel!=null && channel.getType().equals(ChannelType.SHARED)) {
+            List<Kick> kicked = channel.getKicked();
+            kicked.removeIf(k -> k.getUser().getId().equals(user.getId()));
+            if (!isPermanent){
+                kicked.add(new Kick(user,channelId,explanation,date));
+            } else {
+                kicked.add(new Kick(user,channelId,explanation,true));
+            }
+
+            channel.removeUserAuthorization(user.getId());
+            channel.removeUser(user.getId());
+
+            if (channel.userIsAdmin(user.getId())) {
+                // Note remove admin if admin is banned
+                channel.removeAdmin(user.getId());
+            }
+
+            writeChannelDataToJSON(channel);
+        }
+    }
+
+    private void refreshKicks(Channel channel, Date currentDate) {
+        List<Kick> kicks = channel.getKicked();
+
+        for (Kick kick: kicks) {
+            if (!kick.isPermanentKick() && currentDate.after(kick.getEndKick())) {
+                // Init unban sequence by simulate an UNBAN message
+                commIface.unbanUser(channel, kick.getUser());
+            }
         }
     }
 }

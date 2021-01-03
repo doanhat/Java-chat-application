@@ -3,13 +3,13 @@ package common.interfaces.client;
 import common.shared_data.*;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.*;
 
 public interface IIHMChannelToCommunication
 {
     /**
-     * Transfert au serveur l'envoi d'un message d'invitation au serveur'envoi
-     * d'une invitation a rejoindre un channel
+     * Transfert au serveur l'envoi d'un message d'invitation à un autre utilisateur a rejoindre un channel
      *
      * @param guest [UserLite] Utilisateur invité au channel
      * @param channel [Channel] Channel auquel guest est invité
@@ -27,23 +27,32 @@ public interface IIHMChannelToCommunication
     void giveAdmin(UserLite user, Channel channel);
 
     /**
-     * Permet de retirer un administrateur pour un channel.
+     * Demande l'envoie d'un message qui permet de retirer un administrateur pour un channel.
      * @param user [UserLite] Utilisateur qui n'est plus un admin
      * @param channel [Channel] channel pour lequel on a retiré un admin
      */
     void removeAdmin(UserLite user, Channel channel);
 
     /**
-     * Demande de bannir un utilisateur d'un channel
+     * Demande l'envoie d'un message de bannir un utilisateur d'un channel
      *
-     * @param user Utilisateur a bannir
-     * @param duration Durée du bannisement
+     * @param userToKick Utilisateur a bannir
+     * @param endDate Fin du bannisement
+     * @param isPermanent bannisement définitif
      * @param explanation Chaine de caractere justifiant le ban
+     * @param channelID ID du canal duquel l'utilisateur doit être banni.
      **/
-    void banUserFromChannel(UserLite user, int duration, String explanation);
+    void banUserFromChannel(UserLite userToKick, LocalDate endDate, boolean isPermanent, String explanation, UUID channelID);
 
     /**
-     * Envoie d'un message au serveur
+     * Demande l'envoie d'un message d'annuler de bannir un utilisateur d'un channel
+     * @param unKickedUser
+     * @param channelID
+     */
+    void cancelBanOfUserFromChannel(UserLite unKickedUser, UUID channelID);
+
+    /**
+     * Demande l'envoie d'un message de discussion au serveur
      *
      * @param msg Nouveau messsage a envoyer
      * @param channel Channel sur lequel ont veut envoyer le message
@@ -52,7 +61,7 @@ public interface IIHMChannelToCommunication
     void sendMessage(Message msg, Channel channel, Message reponse);
 
     /**
-     * Envoie une demande d'édite au serveur
+     * Demande l'envoie d'un message d'éditer un message de discussion au serveur
      *
      * @param msg [Message] Message d'origine
      * @param newMsg [Message] Message modifier
@@ -61,7 +70,7 @@ public interface IIHMChannelToCommunication
     void editMessage(Message msg, Message newMsg, Channel channel);
 
     /**
-     * Envoie une demande de like d'un message au serveur
+     * Demande l'envoie d'un message de like d'un message de discussion au serveur
      *
      * @param chan [Channel] Channel du message a like
      * @param msg [Message] Message à like
@@ -70,7 +79,7 @@ public interface IIHMChannelToCommunication
     void likeMessage(Channel chan, Message msg, UserLite us);
 
     /**
-     * Envoie une demande de suppression de message au serveur
+     * Demande l'envoie d'un message de demande de suppression de message de discussion au serveur
      *
      * @param msg [Message] Message a supprimer
      * @param channel [Channel] Channel du message a supprimer
@@ -79,7 +88,7 @@ public interface IIHMChannelToCommunication
     void suppMessage(Message msg, Channel channel, UserLite user);
 
     /**
-     * Envoie l'information d'un changement de pseudo au serveur
+     * Demande l'envoie d'un message de demande d'un changement de pseudo au serveur
      *
      * @param user [UserLite] Utilisateur concerné
      * @param channel [Channel] Channel ou le changement de pseudo à lieu
@@ -103,22 +112,32 @@ public interface IIHMChannelToCommunication
 
 
     /**
-     * Recupere l'histoique d'un serveur donnée
+     * Demande de recupere l'histoique d'un serveur donnée
      *
      * @param channel [Channel] Channel dont on demande l'historique
      **/
     void getHistory(Channel channel);
 
     /**
-     * Remove user from authorized user list in Channel
-     * @param channel
+     * Demande de de quitter définitivement d'un channel
+     * @param channel [Channel] channel dont on quitte
      */
     void quitChannel(Channel channel);
 
     /**
-     * Transfert au serveur la demande de suppresion d'un channel
+     * Demande l'envoie d'un message de demande de suppresion d'un channel
      *
-     * @param channelID ID de l'objet à supprimer
+     * @param channelID [UUID] ID de l'objet à supprimer
      **/
     void deleteChannel(UUID channelID);
+
+    /**
+     * Demande l'envoie d'un message de modification des caractéristiques d'un channel
+     *
+     * @param channelID [UUID] ID du channel dont on demande la modification
+     * @param name [String] Nouveau nom du channel
+     * @param description [String] Nouvelle description du channel
+     * @param visibility [Visibility] Nouvelle visibilité du channel (public / privé)
+     */
+    void updateChannel(UUID channelID, String name, String description, Visibility visibility);
 }

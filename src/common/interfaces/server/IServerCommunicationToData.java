@@ -4,6 +4,8 @@ import common.shared_data.Channel;
 import common.shared_data.Message;
 import common.shared_data.UserLite;
 import common.shared_data.Visibility;
+
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,7 +29,7 @@ public interface IServerCommunicationToData {
      * @param description nouvelle description du channel, mettre à null si pas besoin de la changer
      * @param visibility nouvelle visibilité du channel, mettre à null si pas besoin de la changer
      * */
-    void updateChannel(UUID channelID, UUID userID, String name, String description, Visibility visibility);
+    Channel updateChannel(UUID channelID, UUID userID, String name, String description, Visibility visibility);
 
     /**
      * Méthode pour ajouter un administrateur à la liste des administrateurs d'un channel
@@ -41,13 +43,14 @@ public interface IServerCommunicationToData {
      * Méthode pour kicker un utilisateur d'un channel. Ce méthode sera chargé de faire la création de l'objet
      * Kick correspondante et du traitement de l'utilisateur
      *
-     * @param channel le channel concerné
-     * @param user l'utilisateur qui sera kické du channel
-     * @param duration nombre de minutes que l'utilisateur sera kické du channel. La valeur 0 correspondra à un Kick
-     * permanent
-     * @param reason description de la raison pour laquelle l'utilisateur à été kické du channel
-     * */
-    boolean banUserFromChannel(Channel channel, UserLite user, int duration, String reason);
+     * @param user        l'utilisateur qui sera kické du channel
+     * @param endDate     the end date
+     * @param isPermanent the is permanent
+     * @param explanation the explanation
+     * @param channelId   the channel id
+     * @return the boolean
+     */
+    void banUserFromChannel(UserLite user, LocalDate endDate, Boolean isPermanent, String explanation, UUID channelId);
 
     /**
      * Méthode pour annuler un kick avant la fin de sa duration
@@ -55,7 +58,7 @@ public interface IServerCommunicationToData {
      * @param channel le channel dans lequel à été fait le kick
      * @param user l'utilisateur qui a été kické du group et pour lequel le kick sera annulé
      * */
-    boolean cancelUsersBanFromChannel(Channel channel, UserLite user);
+    void cancelUsersBanFromChannel(Channel channel, UserLite user);
 
     /**
      * Méthode pour poster un message dans un channel
@@ -75,12 +78,14 @@ public interface IServerCommunicationToData {
     void editMessage(Channel channel, Message ms);
 
     /**
-     * Méthode pour ajouter un utilisateur correspondante à un like pour un message
+     * Méthode pour sauvegarder le like d'un utilisateur dans l'objet JSON
      *
      * @param channel le channel auquel il appartient le message concerné
+     * @param ms le message
      * @param user l'utilisateur qui à liké le message
      * */
     void saveLikeIntoHistory(Channel channel, Message ms, UserLite user);
+
 
     /**
      * Méthode pour supprimer un message de la liste de messages postés dans un channel
@@ -103,42 +108,6 @@ public interface IServerCommunicationToData {
      * @param user l'utilisateur pour lequel on va retourner les channels visibles
      * */
     List<Channel> getVisibleChannels(UserLite user);
-
-    /**
-     * Méthode pour créer un channel public partagé
-     *
-     * @param name le nom du channel
-     * @param creator l'utilisateur créateur du channel
-     * @param description la description du channel
-     * */
-    Channel createPublicSharedChannel(String name, UserLite creator, String description);
-
-    /**
-     * Méthode pour créer un channel privé proprietaire
-     *
-     * @param name le nom du channel
-     * @param creator l'utilisateur créateur du channel
-     * @param description la description du channel
-     * */
-    Channel createPrivateOwnedChannel(String name, UserLite creator, String description);
-
-    /**
-     * Méthode pour créer un channel public proprietaire
-     *
-     * @param name le nom du channel
-     * @param creator l'utilisateur créateur du channel
-     * @param description la description du channel
-     * */
-    Channel createPublicOwnedChannel(String name, UserLite creator, String description);
-
-    /**
-     * Méthode pour créer un channel privé partagé
-     *
-     * @param name le nom du channel
-     * @param creator l'utilisateur créateur du channel
-     * @param description la description du channel
-     * */
-    Channel createPrivateSharedChannel(String name, UserLite creator, String description);
 
     /**
      * Méthode pour faire la déconnexion d'un utilisateur
@@ -169,15 +138,6 @@ public interface IServerCommunicationToData {
     void updateNickname(Channel channel, UserLite user, String newNickname);
 
     /**
-     * Méthode pour envoyer une invitation d'abonnement à un channel
-     *
-     * @param sender l'utilisateur qui envoie l'invitation
-     * @param receiver l'utilisateur auquel sera envoyé l'invitation
-     * @param message le message d'invitation
-     * */
-    void sendChannelInvitation(UserLite sender, UserLite receiver, String message);
-
-    /**
      *  Méthode pour renvoyer la liste des messages d'un channel
      *
      * @param channelID l'identifiant du channel concerné
@@ -190,7 +150,7 @@ public interface IServerCommunicationToData {
      * @param channel le channel auquel l'utilisateur va s'abonner
      * @param user l'utilisateur qui va s'abonner au channel
      * */
-    void joinChannel(UUID channel, UserLite user);
+    boolean joinChannel(UUID channel, UserLite user);
 
     /**
      * Méthode pour se désabonner d'un channel volontairement 
@@ -206,7 +166,7 @@ public interface IServerCommunicationToData {
      * @param channel le channel dans lequel l'utilisateur va s'abonner
      * @param user l'utilisateur à être ajouté à la liste
      * */
-    void requestAddUser(Channel channel, UserLite user);
+    boolean requestAddUser(Channel channel, UserLite user);
 
     /**
      * Méthode pour se retirer de la liste des authaurizedUsers d'un channel volontairement
@@ -215,13 +175,6 @@ public interface IServerCommunicationToData {
      * @param user l'utilisateur qui va se désabonner
      * */
     void quitChannel(UUID channelID, UserLite user);
-
-    /**
-     * Méthode qui renvoie l'adresse de l'utilisateur
-     *
-     * @param user l'utilisateur dont l'adresse doit être transmise
-     * */
-    Object getUserAddress(UserLite user);
 
     /**
      * Méthode pour vérifier les droits d'un utilisateur dans un channel
@@ -288,4 +241,5 @@ public interface IServerCommunicationToData {
      *
      * */
     void requestRemoveAdmin(UUID channelID, UUID adminID);
+
 }

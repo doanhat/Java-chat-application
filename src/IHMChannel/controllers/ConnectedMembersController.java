@@ -2,6 +2,7 @@ package IHMChannel.controllers;
 
 import IHMChannel.ConnectedMemberDisplay;
 import IHMChannel.IHMChannelController;
+import common.shared_data.Channel;
 import common.shared_data.UserLite;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -17,6 +18,7 @@ import java.util.List;
 public class ConnectedMembersController {
     private IHMChannelController ihmChannelController;
     private List<UserLite> connectedMembersList;
+    private Channel channel;
 
     ObservableList<HBox> connectedMembersToDisplay = FXCollections.observableArrayList();
     ListChangeListener<UserLite> membersListListener;
@@ -24,7 +26,6 @@ public class ConnectedMembersController {
 
     @FXML
     ListView connectedMembersListView;
-    private List<ConnectedMemberDisplay> connectedMembersDisplayed = new ArrayList<>();
 
 
     /**
@@ -51,7 +52,6 @@ public class ConnectedMembersController {
                 for(UserLite userAdded : changed.getAddedSubList()){
                     try {
                         ConnectedMemberDisplay c = new ConnectedMemberDisplay(userAdded);
-                        //this.connectedMembersDisplayed.add(c);
                         this.connectedMembersToDisplay.add((HBox) c.root);
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -61,10 +61,13 @@ public class ConnectedMembersController {
                 if(changed.wasRemoved()){
                     this.connectedMembersToDisplay.remove(changed.getFrom(), changed.getTo()+1);
 
+                }else{
+                    if(changed.wasUpdated()){
+                        initConnectedMembersList();
+                    }
                 }
             }
         };
-        /*initConnectedMembersList();*/
     }
 
     public IHMChannelController getIhmChannelController() {
@@ -83,7 +86,6 @@ public class ConnectedMembersController {
         if(this.connectedMembersList != null){
             this.connectedMembersList.clear();
         }
-        //this.connectedMembersList = new ArrayList<>(updatedConnectedMembersList);
         this.connectedMembersList = updatedConnectedMembersList;
         observableUsers = FXCollections.observableArrayList(updatedConnectedMembersList);
         observableUsers.addListener(membersListListener);
@@ -96,5 +98,29 @@ public class ConnectedMembersController {
 
     public void removeMemberFromObservableList(UserLite user) {
         observableUsers.remove(user);
+    }
+
+    public Channel getChannel() {
+        return channel;
+    }
+
+    public void setChannel(Channel channel) {
+        this.channel = channel;
+    }
+
+    public void changeNickname(Channel channel) {
+        for(UserLite user : observableUsers){
+            String nickname = channel.getNickNames().get(user.getId().toString());
+            if(nickname != null){
+                user.setNickName(nickname);
+            }
+        }
+        for(UserLite user : connectedMembersList){
+            String nickname = channel.getNickNames().get(user.getId().toString());
+            if(nickname != null){
+                user.setNickName(nickname);
+            }
+        }
+        initConnectedMembersList();
     }
 }

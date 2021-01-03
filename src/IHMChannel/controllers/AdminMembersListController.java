@@ -98,7 +98,7 @@ public class AdminMembersListController {
      * Met à jour la liste des membres en conséquence
      * @param channel
      */
-    public void setCurrentChannel(Channel channel) throws IOException {
+    public void setCurrentChannel(Channel channel){
         this.channel = channel;
         initMembersList();
         displayMembers();
@@ -141,6 +141,10 @@ public class AdminMembersListController {
 
     public void removeMemberFromConnectedMembersList(UserLite user) {
         connectedMembersList.remove(user);
+        displayMembers();
+    }
+
+    public void changeNickname() {
         displayMembers();
     }
 }

@@ -25,7 +25,6 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -64,8 +63,6 @@ public class ChannelMessagesController{
     @FXML
     Button sendBtn;
     @FXML
-    Button testReception; //utilisé pour test uniquement
-    @FXML
     BorderPane connectedMembers;
 
     //Liste de HBox (= contrôle message)
@@ -86,14 +83,10 @@ public class ChannelMessagesController{
             displayMessagesList();
         }
         catch (Exception e){
-            System.out.println("Problème lors de l'affichage des messages");
             e.printStackTrace();
         }
     }
 
-    public ChannelMessagesController(){
-
-    }
     public void initialize() throws IOException {
         //Icone envoyer
         Image sendImage = new Image("IHMChannel/icons/paper-plane-solid.png");
@@ -116,87 +109,69 @@ public class ChannelMessagesController{
             if(changed.wasAdded()){
                 for(Message msgAdded : changed.getAddedSubList()){
                         ChannelMessagesController that = this;
-                        Platform.runLater(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    if (!isReponse) {
-                                        getMessagesToDisplay().add((HBox) new MessageDisplay(msgAdded, that).root);
-                                    }
-                                    else {
-                                        HBox rpArea = new HBox();
-                                        Pane pn = new Pane();
-                                        pn.setPrefWidth(50);
-                                        rpArea.setPrefHeight(50);
-                                        rpArea.setVisible(true);
-                                        ImageView newImgReceiver = new ImageView();
-                                        Text newUserNameReceiver = new Text();
-                                        TextArea newMessageReceiver = new TextArea();
-                                        newUserNameReceiver.setText(userNameReceiver.getText());
-                                        newMessageReceiver.setText(messageReceiver.getText());
-                                        newMessageReceiver.setEditable(false);
-                                        newMessageReceiver.setStyle("-fx-control-inner-background: #E5E5E5");
-                                        rpArea.getChildren().addAll(pn, newImgReceiver, newUserNameReceiver, newMessageReceiver);
-                                        rpArea.setAlignment(Pos.CENTER_LEFT);
-                                        getMessagesToDisplay().add(rpArea);
-                                        HBox msg = (HBox) new MessageDisplay(msgAdded, that).root;
-                                        HBox.setHgrow(msg.getChildren().get(0), Priority.ALWAYS);
-                                        Separator separator = new Separator();
-                                        separator.setOrientation(Orientation.VERTICAL);
-                                        separator.setStyle("-fx-background-color: #B9E6FF;  -fx-background-radius: 2;");
-                                        msg.getChildren().add(1, separator);
-                                        getMessagesToDisplay().add(msg);
-                                        setIsReponse(false);
-                                    }
-                                } catch (IOException e) {
-                                    e.printStackTrace();
+                        Platform.runLater(() -> {
+                            try {
+                                if (msgAdded.getParentMessageId() == null) {
+                                    getMessagesToDisplay().add((HBox) new MessageDisplay(msgAdded, that).root);
                                 }
+                                if (msgAdded.getParentMessageId() != null){
+                                    HBox rpArea = new HBox();
+                                    Pane pn = new Pane();
+                                    pn.setPrefWidth(50);
+                                    rpArea.setPrefHeight(50);
+                                    rpArea.setVisible(true);
+                                    ImageView newImgReceiver = new ImageView();
+                                    Text newUserNameReceiver = new Text();
+                                    TextArea newMessageReceiver = new TextArea();
+                                    Message prtMessage = null;
+                                    for (Message prt : observableMessages) {
+                                        if (prt.getId().equals(msgAdded.getParentMessageId())) {
+                                            prtMessage = prt;
+                                            break;
+                                        }
+                                    }
+                                    newUserNameReceiver.setText(prtMessage.getAuthor().getNickName() + " a dit :     ");
+                                    newMessageReceiver.setText(prtMessage.getMessage());
+                                    newMessageReceiver.setEditable(false);
+                                    newMessageReceiver.setStyle("-fx-control-inner-background: #E5E5E5");
+                                    rpArea.getChildren().addAll(pn, newImgReceiver, newUserNameReceiver, newMessageReceiver);
+                                    rpArea.setAlignment(Pos.CENTER_LEFT);
+                                    getMessagesToDisplay().add(rpArea);
+                                    HBox msg = (HBox) new MessageDisplay(msgAdded, that).root;
+                                    HBox.setHgrow(msg.getChildren().get(0), Priority.ALWAYS);
+                                    Separator separator = new Separator();
+                                    separator.setOrientation(Orientation.VERTICAL);
+                                    separator.setStyle("-fx-background-color: #B9E6FF;  -fx-background-radius: 2;");
+                                    msg.getChildren().add(1, separator);
+                                    getMessagesToDisplay().add(msg);
+                                }
+                                setIsReponse(false);
+                            } catch (IOException e) {
+                                e.printStackTrace();
                             }
                         });
 
                 }
             }
         };
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../views/ConnectedMembers.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/IHMChannel/views/ConnectedMembers.fxml"));
         Parent root = fxmlLoader.load();
         connectedMembers.setRight(root);
         connectedMembersController = fxmlLoader.getController();
+        connectedMembersController.setChannel(channel);
     }
 
     /**
      * Méthode déclenchée au clic sur le bouton d'envoi de message.
      */
     public void sendMessage(){
-        if (!isReponse) {
-            if (!typedText.getText().isEmpty()) {
-                //ATTENTION l'id du message est écrit en dur, on ne sait pas comment il est généré pour le moment.
-                // Ne paraît pas logique qu'il soit généré par IHM Channel, donc penser à un constructeur sans id
-                Message newMsg = new Message(typedText.getText(), ihmChannelController.getInterfaceToData().getLocalUser().getUserLite());
-                ihmChannelController.getInterfaceToCommunication().sendMessage(newMsg, channel, parentMessage);
-                //messagesToDisplay.add((HBox)new MessageDisplay(new Message(1,typedText.getText(),connectedUser)).root);
-                typedText.setText("");
-            }
-        }
-        else {
-            if(!typedText.getText().isEmpty()) {
-                Message newMsg = new Message(typedText.getText(), ihmChannelController.getInterfaceToData().getLocalUser().getUserLite());
-                ihmChannelController.getInterfaceToCommunication().sendMessage(newMsg, channel, parentMessage);
-                typedText.setText("");
-            }
+        if (!typedText.getText().isEmpty()) {
+            //ATTENTION l'id du message est écrit en dur, on ne sait pas comment il est généré pour le moment.
+            // Ne paraît pas logique qu'il soit généré par IHM Channel, donc penser à un constructeur sans id
+            Message newMsg = new Message(typedText.getText(), ihmChannelController.getInterfaceToData().getLocalUser().getUserLite());
+            ihmChannelController.getInterfaceToCommunication().sendMessage(newMsg, channel, parentMessage);typedText.setText("");
         }
         this.parentMessage = null; // D'après envoyer message, parent message devient nul
-    }
-
-    /**
-     * Méthode de test déclenchée à l'appui sur le bouton "test réception"
-     * Génère l'ajout d'un message dans la liste de messages du channel.
-     */
-    public void receiveMessage(){
-        // cet appel est juste pour les test
-        System.out.println("hello");
-       //Message message = new Message(2, "message reçu test", connectedUser);
-         getIhmChannelController().getInterfaceForData().receiveMessage(new Message("message reçu test", connectedUser),
-                          this.channel.getId(), null);
     }
 
     /**
@@ -224,6 +199,10 @@ public class ChannelMessagesController{
                 ImageView newImgReceiver = new ImageView();
                 Text newUserNameReceiver = new Text();
                 TextArea newMessageReceiver = new TextArea();
+                String nickname = channel.getNickNames().get(prtMessage.getAuthor().getId().toString());
+                if(nickname != null){
+                    prtMessage.getAuthor().setNickName(nickname);
+                }
                 newUserNameReceiver.setText(prtMessage.getAuthor().getNickName() + " a dit :     ");
                 newMessageReceiver.setText(prtMessage.getMessage());
                 newMessageReceiver.setEditable(false);
@@ -305,5 +284,72 @@ public class ChannelMessagesController{
 
     public void setMessagesMap(HashMap<UUID, MessageController> messagesMap) {
         this.messagesMap = messagesMap;
+    }
+
+    private boolean containsUser(List<UserLite> list, UserLite user){
+        for(UserLite u : list){
+            if(u.getId().equals(user.getId())){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void likeMessage(Message message, UserLite user) {
+        for(Message m : observableMessages){
+            if(m.getId().equals(message.getId())){
+                List<UserLite> likeList = m.getLikes();
+                if(containsUser(likeList, user)){
+                    likeList.removeIf((UserLite u) -> u.getId().equals(user.getId())); //dislike
+                    m.setLikes(likeList);
+
+                }else{
+                    likeList.add(user); //like
+                    m.setLikes(likeList);
+                }
+                messagesMap.get(message.getId()).setMessageToDisplay(m); //mise à jour de l'affichage
+                break;
+            }
+        }
+    }
+
+    public HashMap<UUID, MessageController> getMessageMap() {
+        return messagesMap;
+    }
+
+    public void setMessageMap(HashMap<UUID, MessageController> messageMap) {
+        this.messagesMap = messageMap;
+    }
+
+    public void editMessage(Message message) {
+            for(Message m : observableMessages){
+                if(m.getId().equals(message.getId())){
+                    List<Message> answers = m.getAnswers();
+                    //on remet tout l'affichage à jour si il y a des réponses qui ont déjà été faites à ce message
+                    if(answers.isEmpty()){
+                        try {
+                            displayMessagesList();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }else{ //juste le message original à mettre à jour
+                        // pas besoin de màj le content ici car on l'a màj dans la copie locale du channel, ça se répercute automatiquement sur l'affichage
+                        //affichage "message édité"
+                        messagesMap.get(m.getId()).getIsEditedText().setText("message édité");
+                        messagesMap.get(message.getId()).setMessageToDisplay(m); //mise à jour de l'affichage
+                    }
+
+
+                    break;
+                }
+            }
+    }
+
+
+    public void changeNickname() throws IOException {
+        //vue des membres connectés à droite
+        connectedMembersController.changeNickname(channel);
+        //vue des messages à gauche
+        displayMessagesList();
     }
 }

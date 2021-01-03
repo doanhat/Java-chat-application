@@ -2,7 +2,6 @@ package common.interfaces.client;
 
 import common.shared_data.Channel;
 import common.shared_data.ConnectionStatus;
-import common.shared_data.User;
 import common.shared_data.UserLite;
 
 import java.util.List;
@@ -58,4 +57,6 @@ public interface ICommunicationToIHMMain {
     public void channelAddedAll(List<Channel> channels);
 
     void channelConnectedUsers(UUID channelID, List<UserLite> connectedUsers);
+
+    void setAvatarPath(UserLite user, String avatarPath);
 }

@@ -5,7 +5,7 @@
 
 - IHMChannel : Lucas Mudinger et Vladimir Tchekovy
 - IHMMain : Louis Josselin et Stéphane Hiernard
-- Communication : Nghia Duong et Mathis Lefebvre
+- communication : Nghia Duong et Mathis Lefebvre
 - data : Nhat-Minh DOAN et Thibault Cothenet
 
 

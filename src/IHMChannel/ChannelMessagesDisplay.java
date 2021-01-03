@@ -24,7 +24,7 @@ public class ChannelMessagesDisplay {
 
     public ChannelMessagesDisplay() throws IOException {
         FXMLLoader fxmlLoader =
-                new FXMLLoader(getClass().getResource("views/ChannelMessages.fxml"));
+                new FXMLLoader(getClass().getResource("/IHMChannel/views/ChannelMessages.fxml"));
         root = fxmlLoader.load();
         controller = fxmlLoader.getController();
     }
@@ -35,6 +35,17 @@ public class ChannelMessagesDisplay {
 
     public void configureMessageController(IHMChannelController ihmChannelController){
         controller.setIhmChannelController(ihmChannelController);
+    }
+
+    /**
+     * Fais une mise à jour des nicknames dans la liste des membres connectés à droite.
+     */
+    public void changeNickname(){
+        try {
+            controller.changeNickname();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
