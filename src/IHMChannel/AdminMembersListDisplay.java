@@ -23,7 +23,7 @@ public class AdminMembersListDisplay {
 
     public AdminMembersListDisplay() throws IOException {
         FXMLLoader fxmlLoader =
-                new FXMLLoader(getClass().getResource("views/AdminMembersList.fxml"));
+                new FXMLLoader(getClass().getResource("/IHMChannel/views/AdminMembersList.fxml"));
         root = fxmlLoader.load();
         adminMembersController = fxmlLoader.getController();
     }

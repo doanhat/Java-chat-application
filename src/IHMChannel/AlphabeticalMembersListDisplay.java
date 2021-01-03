@@ -29,7 +29,7 @@ public class AlphabeticalMembersListDisplay {
 
     public AlphabeticalMembersListDisplay() throws IOException {
         FXMLLoader fxmlLoader =
-                new FXMLLoader(getClass().getResource("views/AlphabeticalMembersList.fxml"));
+                new FXMLLoader(getClass().getResource("/IHMChannel/views/AlphabeticalMembersList.fxml"));
         root = fxmlLoader.load();
         alphabeticalMembersController = fxmlLoader.getController();
     }

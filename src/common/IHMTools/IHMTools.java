@@ -34,10 +34,10 @@ public class IHMTools {
 
         //récupération du CSS
         DialogPane dialogPane = alert.getDialogPane();
-        String url = IHMTools.class.getResource("../../common/IHMCommon/dialog.css").toExternalForm();
+        String url = IHMTools.class.getResource("/common/IHMCommon/dialog.css").toExternalForm();
         dialogPane.getStylesheets().add(url);
 
-        url = IHMTools.class.getResource("../../common/IHMCommon/common.css").toExternalForm();
+        url = IHMTools.class.getResource("/common/IHMCommon/common.css").toExternalForm();
         dialogPane.getStylesheets().add(url);
 
         dialogPane.getStyleClass().add("myDialog");
@@ -63,10 +63,10 @@ public class IHMTools {
 
         //récupération du CSS
         DialogPane dialogPane = alert.getDialogPane();
-        String url = IHMTools.class.getResource("../../common/IHMCommon/dialog.css").toExternalForm();
+        String url = IHMTools.class.getResource("/common/IHMCommon/dialog.css").toExternalForm();
         dialogPane.getStylesheets().add(url);
 
-        url = IHMTools.class.getResource("../../common/IHMCommon/common.css").toExternalForm();
+        url = IHMTools.class.getResource("/common/IHMCommon/common.css").toExternalForm();
         dialogPane.getStylesheets().add(url);
 
         dialogPane.getStyleClass().add("myDialog");
@@ -89,7 +89,7 @@ public class IHMTools {
         popup.setHideOnEscape(true);
         Label label = new Label(message);
         label.setOnMouseReleased(e -> popup.hide());
-        String url = IHMTools.class.getResource("../../common/IHMCommon/common.css").toExternalForm();
+        String url = IHMTools.class.getResource("/common/IHMCommon/common.css").toExternalForm();
         label.getStylesheets().add(url);
         label.getStyleClass().add("notification-popup");
         popup.getContent().add(label);

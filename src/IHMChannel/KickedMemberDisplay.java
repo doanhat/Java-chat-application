@@ -17,7 +17,7 @@ public class KickedMemberDisplay {
      */
     public KickedMemberDisplay(UserLite userToDisplay)  {
         FXMLLoader fxmlLoader =
-                new FXMLLoader(getClass().getResource("views/KickedMember.fxml"));
+                new FXMLLoader(getClass().getResource("/IHMChannel/views/KickedMember.fxml"));
         try {
             root = fxmlLoader.load();
         } catch (IOException e) {

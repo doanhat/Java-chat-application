@@ -21,7 +21,7 @@ public class ChannelMembersDisplay {
 
     public ChannelMembersDisplay() throws IOException {
         FXMLLoader fxmlLoader =
-                new FXMLLoader(getClass().getResource("views/ChannelMembers.fxml"));
+                new FXMLLoader(getClass().getResource("/IHMChannel/views/ChannelMembers.fxml"));
         root = fxmlLoader.load();
         channelMembersController = fxmlLoader.getController();
     }

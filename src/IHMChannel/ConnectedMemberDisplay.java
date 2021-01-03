@@ -20,7 +20,7 @@ public class ConnectedMemberDisplay {
      */
     public ConnectedMemberDisplay(UserLite userToDisplay) throws IOException {
         FXMLLoader fxmlLoader =
-                new FXMLLoader(getClass().getResource("views/ConnectedMember.fxml"));
+                new FXMLLoader(getClass().getResource("/IHMChannel/views/ConnectedMember.fxml"));
         root = fxmlLoader.load();
         connectedMemberController = fxmlLoader.getController();
         connectedMemberController.setUserToDisplay(userToDisplay);

@@ -149,7 +149,7 @@ public class MemberController {
         if(isLocalUserAdmin.get()){
             if(!channel.getCreator().getId().equals(userToDisplay.getId())){
 
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../views/KickPopUp.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/IHMChannel/views/KickPopUp.fxml"));
                 Parent root = null;
                 try {
                     root = fxmlLoader.load();

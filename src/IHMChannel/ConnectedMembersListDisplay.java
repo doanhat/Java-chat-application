@@ -19,7 +19,7 @@ public class ConnectedMembersListDisplay {
 
     public ConnectedMembersListDisplay() throws IOException {
         FXMLLoader fxmlLoader =
-                new FXMLLoader(getClass().getResource("views/ConnectedMembersList.fxml"));
+                new FXMLLoader(getClass().getResource("/IHMChannel/views/ConnectedMembersList.fxml"));
         root = fxmlLoader.load();
         connectedMembersController = fxmlLoader.getController();
     }

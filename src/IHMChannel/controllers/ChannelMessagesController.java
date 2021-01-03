@@ -154,7 +154,7 @@ public class ChannelMessagesController{
                 }
             }
         };
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../views/ConnectedMembers.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/IHMChannel/views/ConnectedMembers.fxml"));
         Parent root = fxmlLoader.load();
         connectedMembers.setRight(root);
         connectedMembersController = fxmlLoader.getController();

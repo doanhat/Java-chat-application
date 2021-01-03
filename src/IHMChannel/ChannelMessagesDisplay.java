@@ -24,7 +24,7 @@ public class ChannelMessagesDisplay {
 
     public ChannelMessagesDisplay() throws IOException {
         FXMLLoader fxmlLoader =
-                new FXMLLoader(getClass().getResource("views/ChannelMessages.fxml"));
+                new FXMLLoader(getClass().getResource("/IHMChannel/views/ChannelMessages.fxml"));
         root = fxmlLoader.load();
         controller = fxmlLoader.getController();
     }

@@ -315,7 +315,7 @@ public class IHMMainWindowController implements Initializable{
     private void loadCreationChannelPopup(Visibility type) throws IOException {
         Parent root;
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../views/CreationChannelPopup.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/IHMMain/views/CreationChannelPopup.fxml"));
             root = fxmlLoader.load();
 
             CreationChannelPopupController creationController = fxmlLoader.getController();
@@ -358,7 +358,7 @@ public class IHMMainWindowController implements Initializable{
             HomePageController homePageController;
 
             FXMLLoader fxmlLoader = new
-                    FXMLLoader(getClass().getResource("../views/HomePage.fxml"));
+                    FXMLLoader(getClass().getResource("/IHMMain/views/HomePage.fxml"));
             Parent parent = fxmlLoader.load(); //On recupère le noeud racine du fxml chargé
             homePageController = fxmlLoader.getController(); //On récupère la classe controller liée au fxml
             homePageController.setIhmMainController(ihmMainController);
@@ -373,7 +373,7 @@ public class IHMMainWindowController implements Initializable{
     @FXML
     private void loadUserInfosPopup() throws IOException {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../views/UserInfos.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/IHMMain/views/UserInfos.fxml"));
             Parent root = fxmlLoader.load();
 
             UserInfosController userInfosController = fxmlLoader.getController();

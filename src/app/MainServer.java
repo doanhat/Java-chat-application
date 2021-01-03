@@ -15,7 +15,7 @@ public class MainServer {
         dataServerController.setIServerDataToCommunication(commInterface);
 
         // Setup IP:port for server
-        commInterface.setIP("127.0.0.1");
+        commInterface.setIP("0.0.0.0");
         commInterface.setPort(commInterface.getPort());
 
         commInterface.start(); //lancement du server
